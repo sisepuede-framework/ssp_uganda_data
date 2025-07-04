@@ -32,3 +32,42 @@ class EDAUtils:
             plt.suptitle(title)
         plt.tight_layout(rect=[0, 0, 1, 0.95] if title else None)
         plt.show()
+
+
+class TransportUtils:
+
+    @staticmethod
+    def compute_passenger_km(
+        domestic_arrivals: dict,
+        domestic_departures: dict,
+        international_departures: dict,
+        factor_domestic: int = 300,
+        factor_international: int = 2500
+    ) -> dict:
+        """
+        Computes total passenger-kilometers (pkm) for aviation, applying separate distance factors
+        for domestic and international passengers.
+
+        Args:
+            domestic_arrivals (dict): {year: count}
+            domestic_departures (dict): {year: count}
+            international_departures (dict): {year: count}
+            factor_domestic (int): Distance multiplier for domestic trips (default: 300 km)
+            factor_international (int): Distance multiplier for international trips (default: 2500 km)
+
+        Returns:
+            dict: {year: total_passenger_km}
+        """
+        years = set(domestic_arrivals) | set(domestic_departures) | set(international_departures)
+        result = {}
+        for year in sorted(years):
+            dom_arr = domestic_arrivals.get(year, 0)
+            dom_dep = domestic_departures.get(year, 0)
+            intl_dep = international_departures.get(year, 0)
+
+            domestic_pkm = (dom_arr + dom_dep) * factor_domestic
+            international_pkm = intl_dep * factor_international
+
+            result[year] = domestic_pkm + international_pkm
+        return result
+    
