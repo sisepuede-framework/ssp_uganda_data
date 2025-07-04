@@ -71,3 +71,35 @@ class TransportUtils:
             result[year] = domestic_pkm + international_pkm
         return result
     
+    @staticmethod
+    def compute_freight_mtkm(
+        domestic_cargo: dict,
+        international_exports: dict,
+        factor_domestic: int = 300,
+        factor_international: int = 2500
+    ) -> dict:
+        """
+        Computes total freight in million tonne-kilometers (mtkm) for aviation,
+        using separate distance factors for domestic and international cargo.
+
+        Args:
+            domestic_cargo (dict): {year: tonnes of domestic cargo}
+            international_exports (dict): {year: tonnes of international exports}
+            factor_domestic (int): Avg distance in km for domestic cargo (default: 300 km)
+            factor_international (int): Avg distance in km for international exports (default: 2500 km)
+
+        Returns:
+            dict: {year: total_freight_mtkm}
+        """
+        years = set(domestic_cargo) | set(international_exports)
+        result = {}
+        for year in sorted(years):
+            dom_tonnes = domestic_cargo.get(year, 0)
+            intl_tonnes = international_exports.get(year, 0)
+
+            dom_mtkm = (dom_tonnes * factor_domestic) / 1_000_000
+            intl_mtkm = (intl_tonnes * factor_international) / 1_000_000
+
+            result[year] = dom_mtkm + intl_mtkm
+        return result
+
