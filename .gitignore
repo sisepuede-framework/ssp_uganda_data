@@ -3,6 +3,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# ignore the DS store
+.DS_Store
+*/.DS_Store
+*/**.DS_Store
+
 # C extensions
 *.so
 
@@ -192,6 +197,5 @@ cython_debug/
 #  refer to https://docs.cursor.com/context/ignore-files
 .cursorignore
 .cursorindexingignore
-
 # MacOS files
 .DS_Store
