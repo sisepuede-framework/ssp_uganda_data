@@ -1,0 +1,7 @@
+INSTALLED CAPACITY STATISTICS
+-----------------------------
+FILE:
+20240604_STA_InstalledGenerationCapacity2000_Todate.xlsx
+
+SOURCE:
+https://www.era.go.ug/installed-capacity/
