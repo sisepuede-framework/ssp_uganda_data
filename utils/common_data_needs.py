@@ -62,6 +62,23 @@ def get_raw_ssp_inputs(
     return df
 
 
+
+def _read_output_csv(
+    nm: str,
+    **kwargs,
+) -> Union[pd.DataFrame, None]:
+    """Read an output CSV file quickly. **kwargs are passed to 
+        pd.read_csv()
+    """
+    path_try = pathlib.Path(_PATH_OUTPUTS.joinpath(f"{nm}.csv"))
+    if not path_try.is_file():
+        return None
+
+    df_out = pd.read_csv(path_try, **kwargs, )
+    
+    return df_out
+    
+        
     
 def _setup_sisepuede_elements(
 ) -> Dict:
