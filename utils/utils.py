@@ -33,6 +33,31 @@ class EDAUtils:
         plt.tight_layout(rect=[0, 0, 1, 0.95] if title else None)
         plt.show()
 
+class GeneralUtils:
+
+    @staticmethod
+    def extend_projection(df, start_year, end_year):
+        """
+        Extend a dataframe by repeating the last row's values for future years.
+
+        Parameters:
+            df (pd.DataFrame): Input dataframe with a 'year' column.
+            start_year (int): The first year to extend (inclusive).
+            end_year (int): The last year to extend (inclusive).
+
+        Returns:
+            pd.DataFrame: Extended dataframe.
+        """
+        last_values = df.iloc[-1, 1:]
+        future_years = range(start_year, end_year + 1)
+        future_rows = pd.DataFrame({'year': future_years})
+        for col in last_values.index:
+            future_rows[col] = last_values[col]
+        df_extended = pd.concat([df, future_rows], ignore_index=True)
+        df_extended = df_extended.sort_values('year').reset_index(drop=True)
+        return df_extended
+
+
 
 class TransportUtils:
 
@@ -102,4 +127,5 @@ class TransportUtils:
 
             result[year] = dom_mtkm + intl_mtkm
         return result
+    
 
