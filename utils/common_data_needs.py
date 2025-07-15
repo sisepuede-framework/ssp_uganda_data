@@ -196,6 +196,23 @@ def _setup_sisepuede_elements(
 
 
 
+def spawn_years_space_df(
+    year_range: Tuple[int, int],
+) -> pd.DataFrame:
+    """Shortcut to spawn a dataframe of years
+    """
+    # build a dataframe with the universe of years
+    df_space_years = pd.DataFrame(
+        {
+            _SISEPUEDE_TIME_PERIODS.field_year: range(*year_range),
+        }
+    )
+
+    return df_space_years
+
+
+
+
 
 
 
