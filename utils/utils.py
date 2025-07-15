@@ -56,7 +56,50 @@ class GeneralUtils:
         df_extended = pd.concat([df, future_rows], ignore_index=True)
         df_extended = df_extended.sort_values('year').reset_index(drop=True)
         return df_extended
+    
+    @staticmethod
+    def extend_years_backward(df, year_col, template_year, new_years):
+        """
+        Extend a DataFrame by prepending rows for new_years using the values from template_year.
+        Args:
+            df (pd.DataFrame): The DataFrame to extend.
+            year_col (str): The name of the year column.
+            template_year (int): The year to use as a template for new rows.
+            new_years (list): List of years (int) to add.
+        Returns:
+            pd.DataFrame: Extended DataFrame with new years prepended and sorted.
+        """
+        df[year_col] = df[year_col].astype(int)
+        row_template = df[df[year_col] == template_year].iloc[0]
+        new_rows = []
+        for year in new_years:
+            new_row = row_template.copy()
+            new_row[year_col] = int(year)
+            new_rows.append(new_row)
+        df_extended = pd.concat([pd.DataFrame(new_rows), df], ignore_index=True)
+        df_extended[year_col] = df_extended[year_col].astype(int)
+        df_extended = df_extended.sort_values(by=year_col).reset_index(drop=True)
+        return df_extended
+    
+    @staticmethod
+    def check_row_sums_to_one(df, exclude_columns=["year"], tol=1e-6):
+        """
+        Checks whether each row in the DataFrame sums to 1, excluding specified columns.
 
+        Parameters:
+        - df (pd.DataFrame): The DataFrame to check.
+        - exclude_columns (list): List of column names to exclude from the sum.
+        - tol (float): Tolerance for floating point comparison.
+
+        Returns:
+        - pd.Series: Boolean Series indicating if each row sums to 1 within the tolerance.
+        - bool: Whether all rows pass the check.
+        """
+        cols_to_check = df.columns.difference(exclude_columns)
+        row_sums = df[cols_to_check].sum(axis=1)
+        is_valid = np.isclose(row_sums, 1.0, atol=tol)
+        all_valid = is_valid.all()
+        return is_valid, all_valid
 
 
 class TransportUtils:
