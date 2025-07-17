@@ -1,6 +1,7 @@
 import os
 import unittest
 import pandas as pd
+import numpy as np
 
 class TestCSVFiles(unittest.TestCase):
     SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -81,6 +82,31 @@ class TestCSVFiles(unittest.TestCase):
                     has_null or has_blank,
                     msg=f"Missing (NaN/blank) values found in: {file}"
                 )
+    
+    def test_frac_files_rows_sum_to_one(self):
+        # Only process files whose names start with "frac_"
+        frac_files = [f for f in self.csv_files if os.path.basename(f).startswith("frac_")]
+        if not frac_files:
+            self.skipTest("No files starting with 'frac_' found.")
+
+        for file in frac_files:
+            with self.subTest(file=file):
+                df = self.load_csv(file)
+                self.assertIn('year', df.columns, msg=f"Missing 'year' column in: {file}")
+                # Select numeric columns only, drop "year"
+                cols = [col for col in df.columns if col != 'year']
+                try:
+                    vals = df[cols].astype(float)
+                except Exception as e:
+                    self.fail(f"Non-numeric values in {file} (excluding 'year'): {e}")
+
+                row_sums = vals.sum(axis=1)
+                # Use np.isclose for floating point safety
+                not_one = ~np.isclose(row_sums, 1.0)
+                if not_one.any():
+                    bad_rows = df.index[not_one].tolist()
+                    self.fail(f"Rows in {file} with sum != 1: {bad_rows}")
+
 
 
 if __name__ == "__main__":
