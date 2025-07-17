@@ -100,6 +100,22 @@ class GeneralUtils:
         is_valid = np.isclose(row_sums, 1.0, atol=tol)
         all_valid = is_valid.all()
         return is_valid, all_valid
+    
+    @staticmethod
+    def check_duplicates(df, year_col='year'):
+        # Check for duplicated years
+        if df[year_col].duplicated().any():
+            print("Duplicated years found in the DataFrame.")
+            print(df[df[year_col].duplicated()])
+        else:
+            print("No duplicated years found in the DataFrame.")
+
+        # Check for duplicated rows
+        if df.duplicated().any():
+            print("Duplicated rows found in the DataFrame.")
+            print(df[df.duplicated()])
+        else:
+            print("No duplicated rows found in the DataFrame.")
 
 
 class TransportUtils:
