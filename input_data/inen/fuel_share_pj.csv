@@ -1,0 +1,10 @@
+Sector,Year,Oil,Coal,Natural_gas,Electricity,Bioenergy_and_waste
+Industry,2021,35,5,0,10,100
+Industry,2030,47,15,15,50,60
+Industry,2050,40,25,35,215,60
+Residential,2021,0.1,0,0,1,430
+Residential,2030,60,0,0,50,120
+Residential,2050,70,0,0,187,33
+Services,2021,0,0,0,0.5,40
+Services,2030,15,0,0,20,40
+Services,2050,25,0,0,140,20

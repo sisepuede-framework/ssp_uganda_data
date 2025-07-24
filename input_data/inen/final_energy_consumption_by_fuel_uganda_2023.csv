@@ -1,18 +1,18 @@
-Sector,LPG,Gasoline,Jet Kerosene,Other Kerosene,Gas/Diesel Oil,Fuel oil,Wood fuel,Bagasse,Rice husks,Other vegetal waste,Animal waste,Biomass briquettes,Charcoal,Biogas,Hydro,Solar PV,Electricity,Total
-Iron and steel,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,193,193
-Chemical (including petrochemical),0,0,0,32,0,0,0,0,0,0,0,0,0,0,0,0,0,32
-Non-metallic minerals,0,0,0,0,0,0,545,0,0,0,0,0,0,0,0,0,0,545
-Machinery,0,97,0,0,297,0,0,0,0,0,0,0,0,0,0,0,0,394
-"Food, beverages and tobacco",0,0,0,0,0,0,293,0,0,0,0,0,392,0,0,0,52,737
-Road,0,729,0,0,554,0,0,0,0,0,0,0,0,0,0,0,0,1283
-Rail,0,0,0,0,40,0,0,0,0,0,0,0,0,0,0,0,0,40
-Domestic navigation,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Domestic aviation,0,49,14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,63
-Households,25,0,0,8,0,0,4608,0,211,1130,0,198,1714,53,0,0,84,8031
-Commercial and Public Services,15,0,0,0,0,0,2933,0,173,992,0,50,343,299,0,0,44,4849
-"Agriculture, Forestry and Fishing",0,97,0,0,99,0,0,0,0,0,0,0,0,0,0,0,0,196
-"Non-specified (HH, Com. & PS., Agri.)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Non-energy use,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Industry - Total,0,97,0,32,297,0,838,0,0,0,0,0,392,0,0,0,245,1901
-Transport - Total,0,778,14,0,594,0,0,0,0,0,0,0,0,0,0,0,0,1386
-Final consumption,40,972,14,40,990,0,8379,0,384,2122,0,248,2449,352,0,0,373,16363
+Sector,Oil Products Total,LPG,Gasoline,Jet Kerosene,Other Kerosene,Gas/Diesel Oil,Fuel oil,Solid Biofuels Total,Wood fuel,Bagasse,Rice husks,Other vegetal waste,Animal waste,Biomass briquettes,Charcoal,Biogas,Electricity Total,Hydro,Solar PV,Electricity,Total
+Iron and steel,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,193,0,0,193,193
+Chemical (including petrochemical),32,0,0,0,32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,32
+Non-metallic minerals,0,0,0,0,0,0,0,545,545,0,0,0,0,0,0,0,0,0,0,0,545
+Machinery,394,0,97,0,0,297,0,0,0,0,0,0,0,0,0,0,0,0,0,0,394
+"Food, beverages and tobacco",0,0,0,0,0,0,0,685,293,0,0,0,0,0,392,0,52,0,0,52,737
+Road,1283,0,729,0,0,554,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1283
+Rail,40,0,0,0,0,40,0,0,0,0,0,0,0,0,0,0,0,0,0,0,40
+Domestic navigation,49,0,49,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Domestic aviation,14,0,0,14,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,63
+Households,33,25,0,0,8,0,0,7861,4608,0,211,1130,0,198,1714,53,84,0,0,84,8031
+Commercial and Public Services,15,15,0,0,0,0,0,4491,2933,0,173,992,0,50,343,299,44,0,0,44,4849
+"Agriculture, Forestry and Fishing",196,0,97,0,0,99,0,0,0,0,0,0,0,0,0,0,0,0,0,0,196
+"Non-specified (HH, Com. & PS., Agri.)",0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Non-energy use,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Industry - Total,426,0,97,0,32,297,0,1230,838,0,0,0,0,0,392,0,245,0,0,245,1901
+Transport - Total,1386,0,778,14,0,594,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1386
+Final consumption,2056,40,972,14,40,990,0,13582,8379,0,384,2122,0,248,2449,352,373,0,0,373,16363
