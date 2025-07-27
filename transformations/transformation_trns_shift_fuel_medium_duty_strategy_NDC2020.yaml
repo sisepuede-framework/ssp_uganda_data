@@ -1,0 +1,19 @@
+citations: null
+description: None
+identifiers:
+  transformation_code: TX:TRNS:SHIFT_FUEL_MEDIUM_DUTY_STRATEGY_NDC2020
+  transformation_name: 'Scaled Default Max Parameters by 0.5 - TRNS: Fuel switch medium
+    duty road transport with year starting in 2020 to reflect NDC 2.0'
+parameters:
+  categories:
+  - road_heavy_freight
+  - road_heavy_regional
+  - public
+  dict_allocation_fuels_target: null
+  fuels_source:
+  - fuel_diesel
+  - fuel_gasoline
+  magnitude: 0.35
+  vec_implementation_ramp:
+    tp_0_ramp: 5
+transformer: TFR:TRNS:SHIFT_FUEL_MEDIUM_DUTY

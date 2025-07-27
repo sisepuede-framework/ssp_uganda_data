@@ -1,0 +1,11 @@
+citations: null
+description: None
+identifiers:
+  transformation_code: TX:IPPU:DEC_DEMAND_STRATEGY_NDC2020
+  transformation_name: 'Scaled Default Max Parameters by 1.0 - IPPU: Demand management
+    with year starting in 2020 to reflect NDC 2.0'
+parameters:
+  magnitude: 0.3
+  vec_implementation_ramp:
+    tp_0_ramp: 5
+transformer: TFR:IPPU:DEC_DEMAND
