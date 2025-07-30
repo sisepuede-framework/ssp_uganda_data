@@ -28,7 +28,9 @@ def get_file_structure(
         with new years.
     """
     # setup some SISEPUEDE variables and update time period
-    file_struct = sfs.SISEPUEDEFileStructure()
+    file_struct = sfs.SISEPUEDEFileStructure(
+        initialize_directories = False,
+    )
 
     # get some keys
     key_time_period = file_struct.model_attributes.dim_time_period
