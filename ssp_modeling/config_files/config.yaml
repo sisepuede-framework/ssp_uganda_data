@@ -1,0 +1,5 @@
+country_name: "uganda"
+ssp_input_file_name:
+ssp_transformation_cw:
+set_lndu_reallocation_factor_to_zero: true
+energy_model_flag: true
