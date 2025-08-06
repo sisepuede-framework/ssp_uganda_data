@@ -2,4 +2,4 @@ country_name: "uganda"
 ssp_input_file_name:
 ssp_transformation_cw: ssp_uganda_transformation_cw_bau.xlsx
 set_lndu_reallocation_factor_to_zero: true
-energy_model_flag: false
+energy_model_flag: true
