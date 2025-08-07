@@ -199,3 +199,6 @@ cython_debug/
 .cursorindexingignore
 # MacOS files
 .DS_Store
+
+# templates transformations dir
+ssp_modeling/transformations/templates
