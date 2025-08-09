@@ -1,4 +1,4 @@
-citations: null
+citations:
 description: Halt deforestation of primary and secondary forests
 identifiers:
   transformation_code: "TX:LNDU:DEC_DEFORESTATION_STRATEGY_NDC_2"
@@ -6,7 +6,6 @@ identifiers:
 parameters:
   magnitude: 0.99999
   vec_implementation_ramp:
-    n_tp_ramp: 20
     tp_0_ramp: 5
-
+    n_tp_ramp: 10
 transformer: "TFR:LNDU:DEC_DEFORESTATION"

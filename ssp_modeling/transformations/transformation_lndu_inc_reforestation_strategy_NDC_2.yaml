@@ -1,4 +1,4 @@
-citations: null
+citations:
 description: 'Increases probability of input land use classes being converted to secondary
   forests. This transformation can be defined for specific land use classes--e.g.,
   converting only shrublands and croplands to '
@@ -11,6 +11,6 @@ parameters:
   - other
   magnitude: 0.2
   vec_implementation_ramp:
-    n_tp_ramp: 20
     tp_0_ramp: 5
+    n_tp_ramp: 10
 transformer: "TFR:LNDU:INC_REFORESTATION"
