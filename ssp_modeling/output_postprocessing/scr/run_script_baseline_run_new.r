@@ -2,10 +2,10 @@
 # This script runs the intertemporal decomposition for the baseline run
 ################################################################################
 
-te_all<-read.csv("ssp_modeling/output_postprocessing/data/emission_targets_bulgaria.csv")
+te_all<-read.csv(paste0("ssp_modeling/output_postprocessing/data/emission_targets_",region,".csv"))
 # filter to keep only the subsectors of interest
 #te_all <- subset(te_all,Subsector%in%c( "lvst","lsmm","agrc","ippu","waso","trww","frst","lndu","soil"))
-target_country <- "BGR" # Bulgaria
+target_country <- iso_code3
 te_all<-te_all[,c("Subsector","Gas","Vars","Edgar_Class",target_country)]
 te_all[,"tvalue"] <- te_all[,target_country]
 te_all[,target_country] <- NULL

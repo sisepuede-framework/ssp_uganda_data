@@ -1,10 +1,10 @@
 # Data preparation for drivers data
 dir.data <- paste0(dir.output)
-file.name <-"bulgaria.csv"
+file.name <-"uganda.csv"
 
-#load bulgaria data  
+#load uganda data  
 data <- read.csv(paste0(dir.data,file.name)) 
-data <- subset(data,region=="bulgaria")
+data <- subset(data,region=="uganda")
 
 # temporal correction baseline condition BaU
 table(data$primary_id)
@@ -81,8 +81,8 @@ table(test2$strategy_id)
 
 test2$Units <- "NA"
 test2$Data_Type <- "sisepuede simulation"
-test2$iso_code3<-"BGR"
-test2$Country <- "Bulgaria"
+test2$iso_code3<-"UGA"
+test2$Country <- "Uganda"
 test2$region <- NULL
 test2$subsector_total_field <- NULL
 #test2$model_variable <- NULL
@@ -154,7 +154,7 @@ test2$value_new <- NULL
 
 #write file 
 dir.tableau <- paste0("ssp_modeling/Tableau/data/")
-file.name <- paste0("drivers_bulgaria_",output.file)
+file.name <- paste0("drivers_uganda_",output.file)
 
 write.csv(test2,paste0(dir.tableau,file.name),row.names=FALSE)
 
