@@ -4,6 +4,7 @@ import pandas as pd
 import pathlib
 import sisepuede.core.attribute_table as att
 import sisepuede.core.support_classes as sc
+import sisepuede.manager.sisepuede_examples as sxl
 import sisepuede.manager.sisepuede_file_structure as sfs
 import sisepuede.manager.sisepuede_models as sm
 import sisepuede.utilities._toolbox as sf
@@ -77,6 +78,7 @@ _PATH_OUTPUTS = _PATH_PROJ.joinpath("output_data")
 _PATH_BASE_RAW_DATA = _PATH_INPUTS.joinpath("sisepuede_raw_global_inputs_uganda.csv")
 
 # model attributes and associated support classes
+_SISEPUEDE_EXAMPLES = sxl.SISEPUEDEExamples()
 _SISEPUEDE_FILE_STRUCTURE, _ATTRIBUTE_TABLE_TIME_PERIOD = get_file_structure()
 _SISEPUEDE_MODEL_ATTRIBUTES = _SISEPUEDE_FILE_STRUCTURE.model_attributes
 _SISEPUEDE_REGIONS = sc.Regions(_SISEPUEDE_MODEL_ATTRIBUTES, )
@@ -109,6 +111,7 @@ def _build_from_outputs(
     years_required: tuple, 
     extension_read: str = "csv",
     fns_exclude: Union[List[str], None] = None,
+    force_complete_build: bool = False,
     merge_type: str = "outer",
     path_csvs: pathlib.Path = _PATH_OUTPUTS,
     print_info: bool = False,
@@ -130,6 +133,8 @@ def _build_from_outputs(
         Default extension to read
     fns_exclude : Union[List[str], None]
         Optional list of file names to exclude
+    force_complete_build : bool
+        If any fields are missing, pull from examples df?
     merge_type : str
         Merge type to pass to pd.merge as 'how = merge_type'
     path_csvs : pathlib.Path
@@ -151,8 +156,39 @@ def _build_from_outputs(
     _PATHS_ITER = []
     
     # get raw inputs
+    df_examples = _SISEPUEDE_EXAMPLES("input_data_frame")
     df_base = get_raw_ssp_inputs()
 
+    
+    ##  DEAL WITH MISSING FIELDS
+    
+    fields_missing = [
+        x for x in _SISEPUEDE_MODEL_ATTRIBUTES.all_variable_fields_input
+        if x not in df_base.columns
+    ]
+
+    if len(fields_missing) > 0:
+        if not force_complete_build:
+            fields_missing = sf.format_print_list(fields_missing, )
+            raise RuntimeError(f"Cannot proceed: fields {fields_missing} not found.")
+
+        # add in values from examples
+        df_base = (
+            pd.merge(
+                df_base,
+                df_examples
+                .get(
+                    [_SISEPUEDE_MODEL_ATTRIBUTES.dim_time_period] + fields_missing
+                ),
+                how = "left",
+            )
+            .interpolate()
+            .bfill()
+            .reset_index(drop = True)
+        )
+        
+
+    
     shp = None
 
     # check for available files
@@ -256,11 +292,13 @@ def get_raw_ssp_inputs(
         which are composed of the V0 database. 
     """
     df = pd.read_csv(_PATH_BASE_RAW_DATA, )
-    df = (
-        _SISEPUEDE_TIME_PERIODS
-        .tps_to_years(df, )
-        .drop(columns = _SISEPUEDE_TIME_PERIODS.field_time_period, )
-    )
+
+    if _SISEPUEDE_TIME_PERIODS.field_year not in df.columns:
+        df = (
+            _SISEPUEDE_TIME_PERIODS
+            .tps_to_years(df, )
+            .drop(columns = _SISEPUEDE_TIME_PERIODS.field_time_period, )
+        )
     
     return df
 
