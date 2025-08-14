@@ -9,6 +9,5 @@ parameters:
     aviation: 0.1
     road_light: 0.2
   dict_categories_target: null
-  vec_implementation_ramp:
-    tp_0_ramp: 12
+  vec_implementation_ramp: null
 transformer: "TFR:TRNS:SHIFT_MODE_REGIONAL"

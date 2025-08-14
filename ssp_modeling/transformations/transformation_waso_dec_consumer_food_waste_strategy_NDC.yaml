@@ -6,6 +6,5 @@ identifiers:
     \ waste reduction"
 parameters:
   magnitude: 0.3
-  vec_implementation_ramp:
-    tp_0_ramp: 12
+  vec_implementation_ramp: null
 transformer: "TFR:WASO:DEC_CONSUMER_FOOD_WASTE"

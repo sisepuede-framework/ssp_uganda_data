@@ -7,6 +7,5 @@ identifiers:
     \ capture at anaerobic decomposition facilities"
 parameters:
   magnitude: 0.9450000000000001
-  vec_implementation_ramp:
-    tp_0_ramp: 12
+  vec_implementation_ramp: null
 transformer: "TFR:LSMM:INC_CAPTURE_BIOGAS"

@@ -9,6 +9,5 @@ parameters:
   - road_light
   dict_fuel_allocation: null
   magnitude: 0.7
-  vec_implementation_ramp:
-    tp_0_ramp: 12
+  vec_implementation_ramp: null
 transformer: "TFR:TRNS:SHIFT_FUEL_LIGHT_DUTY"

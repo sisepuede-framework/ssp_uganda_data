@@ -6,6 +6,5 @@ identifiers:
 parameters:
   magnitude: 0.5
   magnitude_type: baseline_scalar
-  vec_implementation_ramp:
-    tp_0_ramp: 12
+  vec_implementation_ramp: null
 transformer: "TFR:AGRC:DEC_EXPORTS"

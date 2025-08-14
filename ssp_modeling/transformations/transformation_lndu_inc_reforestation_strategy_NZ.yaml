@@ -10,6 +10,5 @@ parameters:
   - croplands
   - other
   magnitude: 0.4
-  vec_implementation_ramp:
-    tp_0_ramp: 12
+  vec_implementation_ramp: null
 transformer: "TFR:LNDU:INC_REFORESTATION"

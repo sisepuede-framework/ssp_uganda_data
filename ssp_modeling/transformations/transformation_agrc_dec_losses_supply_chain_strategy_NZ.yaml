@@ -6,6 +6,5 @@ identifiers:
     \ chain losses"
 parameters:
   magnitude: 0.3
-  vec_implementation_ramp:
-    tp_0_ramp: 12
+  vec_implementation_ramp: null
 transformer: "TFR:AGRC:DEC_LOSSES_SUPPLY_CHAIN"

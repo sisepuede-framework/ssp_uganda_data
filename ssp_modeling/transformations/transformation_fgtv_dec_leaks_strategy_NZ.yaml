@@ -5,6 +5,5 @@ identifiers:
   transformation_name: "Scaled Default Max Parameters by 1.0 - FGTV: Minimize leaks"
 parameters:
   magnitude: 0.8
-  vec_implementation_ramp:
-    tp_0_ramp: 12
+  vec_implementation_ramp: null
 transformer: "TFR:FGTV:DEC_LEAKS"

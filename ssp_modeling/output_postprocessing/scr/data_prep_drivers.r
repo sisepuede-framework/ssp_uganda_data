@@ -1,10 +1,13 @@
-# Data preparation for drivers data
-dir.data <- paste0(dir.output)
-file.name <-"bulgaria.csv"
+#load packages
+library(data.table)
 
-#load bulgaria data  
+output.folder <- dir.output
+dir.data <- paste0(output.folder)
+file.name <- output.file
+
+#load turkey data  
 data <- read.csv(paste0(dir.data,file.name)) 
-data <- subset(data,region=="bulgaria")
+data <- subset(data,region==region)
 
 # temporal correction baseline condition BaU
 table(data$primary_id)
@@ -59,7 +62,7 @@ test2$time_period <- NULL
 test2 <- subset (test2,Year>=2023)
 
 #read attribute primary
-att <- read.csv(paste0(dir.output,"ATTRIBUTE_PRIMARY.csv"))
+att <- read.csv(paste0(output.folder,"ATTRIBUTE_PRIMARY.csv"))
 head(att)
 
 #merge 
@@ -69,7 +72,7 @@ dim(test2)
 
 
 #merge stratgy atts 
-atts <- read.csv(paste0(dir.output,"ATTRIBUTE_STRATEGY.csv"))
+atts <- read.csv(paste0(output.folder,"ATTRIBUTE_STRATEGY.csv"))
 
 #merge 
 dim(test2)
@@ -81,8 +84,8 @@ table(test2$strategy_id)
 
 test2$Units <- "NA"
 test2$Data_Type <- "sisepuede simulation"
-test2$iso_code3<-"BGR"
-test2$Country <- "Bulgaria"
+test2$iso_code3<- iso_code3
+test2$Country <- region
 test2$region <- NULL
 test2$subsector_total_field <- NULL
 #test2$model_variable <- NULL
@@ -116,33 +119,33 @@ for (i in 1:length(ids_all))
 {
 if (grepl("prod_ippu_glass_tonne:IPPU",ids_all[i])==TRUE)
 {
- pivot <-subset(test2,ids==ids_all[i] & test2$Year%in%c(2022:2030,2050))[,c("value","Year")]
+ pivot <-subset(test2,ids==ids_all[i] & test2$Year%in%c(2022:2030,2070))[,c("value","Year")]
  pivot$value[pivot$Year==2050] <- pivot$value[pivot$Year==2030]*1.5
- pivot <- subset(pivot,Year%in%c(2022:2025,2050))
+ pivot <- subset(pivot,Year%in%c(2022:2025,2070))
  inter_fun <- approxfun(x=as.numeric(pivot$Year), y=as.numeric(pivot$value), rule = 2:1)
  test2[test2$ids==ids_all[i],"value_new"] <- inter_fun(test2[test2$ids==ids_all[i],"Year"])
 }
 if (grepl("prod_ippu_metals_tonne:IPPU",ids_all[i])==TRUE)
 {
- pivot <-subset(test2,ids==ids_all[i] & test2$Year%in%c(2022:2030,2050))[,c("value","Year")]
+ pivot <-subset(test2,ids==ids_all[i] & test2$Year%in%c(2022:2030,2070))[,c("value","Year")]
  pivot$value[pivot$Year==2050] <- pivot$value[pivot$Year==2030]*2.0
- pivot <- subset(pivot,Year%in%c(2022:2025,2050))
+ pivot <- subset(pivot,Year%in%c(2022:2025,2070))
  inter_fun <- approxfun(x=as.numeric(pivot$Year), y=as.numeric(pivot$value), rule = 2:1)
  test2[test2$ids==ids_all[i],"value_new"] <- inter_fun(test2[test2$ids==ids_all[i],"Year"])
 }
 if (grepl("prod_ippu_rubber_and_leather_tonne:IPPU",ids_all[i])==TRUE)
 {
- pivot <-subset(test2,ids==ids_all[i] & test2$Year%in%c(2022:2030,2050))[,c("value","Year")]
+ pivot <-subset(test2,ids==ids_all[i] & test2$Year%in%c(2022:2030,2070))[,c("value","Year")]
  pivot$value[pivot$Year==2050] <- pivot$value[pivot$Year==2030]*1.5
- pivot <- subset(pivot,Year%in%c(2022:2025,2050))
+ pivot <- subset(pivot,Year%in%c(2022:2025,2070))
  inter_fun <- approxfun(x=as.numeric(pivot$Year), y=as.numeric(pivot$value), rule = 2:1)
  test2[test2$ids==ids_all[i],"value_new"] <- inter_fun(test2[test2$ids==ids_all[i],"Year"])
 }
 if (grepl("prod_ippu_textiles_tonne:IPPU",ids_all[i])==TRUE)
 {
- pivot <-subset(test2,ids==ids_all[i] & test2$Year%in%c(2022:2030,2050))[,c("value","Year")]
+ pivot <-subset(test2,ids==ids_all[i] & test2$Year%in%c(2022:2030,2070))[,c("value","Year")]
  pivot$value[pivot$Year==2050] <- pivot$value[pivot$Year==2030]*1.5
- pivot <- subset(pivot,Year%in%c(2022:2025,2050))
+ pivot <- subset(pivot,Year%in%c(2022:2025,2070))
  inter_fun <- approxfun(x=as.numeric(pivot$Year), y=as.numeric(pivot$value), rule = 2:1)
  test2[test2$ids==ids_all[i],"value_new"] <- inter_fun(test2[test2$ids==ids_all[i],"Year"])
 }
@@ -152,10 +155,15 @@ if (grepl("prod_ippu_textiles_tonne:IPPU",ids_all[i])==TRUE)
 test2$value <- ifelse(test2$value_new==0,test2$value,test2$value_new)
 test2$value_new <- NULL 
 
-#write file 
-dir.tableau <- paste0("ssp_modeling/Tableau/data/")
-file.name <- paste0("drivers_bulgaria_",output.file)
+#write
+#test2 <- subset(test2,strategy_id!=6005)
 
-write.csv(test2,paste0(dir.tableau,file.name),row.names=FALSE)
+#write file
+dir.tableau <- paste0("ssp_modeling/Tableau/data/")
+file.name <- paste0("drivers_",region,"_",output.file)
+
+write.csv(test2,paste0(dir.tableau,file.name), row.names=FALSE)
+
+paste0("emissions_",region,"_raw_",output.file)
 
 print('Finish: data_prep_drivers process')

@@ -6,6 +6,5 @@ identifiers:
     \ productivity"
 parameters:
   magnitude: 0.21
-  vec_implementation_ramp:
-    tp_0_ramp: 12
+  vec_implementation_ramp: null
 transformer: "TFR:LVST:INC_PRODUCTIVITY"

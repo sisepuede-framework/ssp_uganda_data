@@ -6,6 +6,5 @@ identifiers:
     \ compliance"
 parameters:
   magnitude: 0.45
-  vec_implementation_ramp:
-    tp_0_ramp: 12
+  vec_implementation_ramp: null
 transformer: "TFR:TRWW:INC_COMPLIANCE_SEPTIC"

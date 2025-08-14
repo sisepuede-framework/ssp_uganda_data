@@ -6,6 +6,5 @@ identifiers:
     \ fermentation"
 parameters:
   dict_lvst_reductions: null
-  vec_implementation_ramp:
-    tp_0_ramp: 12
+  vec_implementation_ramp: null
 transformer: "TFR:LVST:DEC_ENTERIC_FERMENTATION"

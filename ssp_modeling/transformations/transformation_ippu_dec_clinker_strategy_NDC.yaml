@@ -6,6 +6,5 @@ identifiers:
     \ clinker"
 parameters:
   magnitude: 0.5
-  vec_implementation_ramp:
-    tp_0_ramp: 12
+  vec_implementation_ramp: null
 transformer: "TFR:IPPU:DEC_CLINKER"

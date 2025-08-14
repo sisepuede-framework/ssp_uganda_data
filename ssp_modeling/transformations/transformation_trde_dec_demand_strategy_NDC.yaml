@@ -6,6 +6,5 @@ identifiers:
     \ for transport"
 parameters:
   magnitude: 0.25
-  vec_implementation_ramp:
-    tp_0_ramp: 12
+  vec_implementation_ramp: null
 transformer: "TFR:TRDE:DEC_DEMAND"
