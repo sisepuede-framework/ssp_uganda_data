@@ -428,9 +428,9 @@ UGA,Uganda,Energy,EN - Other,CH4,MtCO2e,2017,0,WB CSC
 UGA,Uganda,Energy,EN - Other,CH4,MtCO2e,2018,0,WB CSC
 UGA,Uganda,Energy,EN - Other,CH4,MtCO2e,2019,0,WB CSC
 UGA,Uganda,Energy,EN - Other,CH4,MtCO2e,2020,0,WB CSC
-UGA,Uganda,Energy,EN - Other,CH4,MtCO2e,2021,2.34528E-05,WB CSC
-UGA,Uganda,Energy,EN - Other,CH4,MtCO2e,2022,2.17396E-05,WB CSC
-UGA,Uganda,Energy,EN - Other,CH4,MtCO2e,2023,2.17472E-05,WB CSC
+UGA,Uganda,Energy,EN - Other,CH4,MtCO2e,2021,2.35E-05,WB CSC
+UGA,Uganda,Energy,EN - Other,CH4,MtCO2e,2022,2.17E-05,WB CSC
+UGA,Uganda,Energy,EN - Other,CH4,MtCO2e,2023,2.17E-05,WB CSC
 UGA,Uganda,Energy,EN - Other,CO2,MtCO2e,2000,0,WB CSC
 UGA,Uganda,Energy,EN - Other,CO2,MtCO2e,2001,0,WB CSC
 UGA,Uganda,Energy,EN - Other,CO2,MtCO2e,2002,0,WB CSC
@@ -476,9 +476,9 @@ UGA,Uganda,Energy,EN - Other,N2O,MtCO2e,2017,0,WB CSC
 UGA,Uganda,Energy,EN - Other,N2O,MtCO2e,2018,0,WB CSC
 UGA,Uganda,Energy,EN - Other,N2O,MtCO2e,2019,0,WB CSC
 UGA,Uganda,Energy,EN - Other,N2O,MtCO2e,2020,0,WB CSC
-UGA,Uganda,Energy,EN - Other,N2O,MtCO2e,2021,1.33178E-05,WB CSC
-UGA,Uganda,Energy,EN - Other,N2O,MtCO2e,2022,1.2345E-05,WB CSC
-UGA,Uganda,Energy,EN - Other,N2O,MtCO2e,2023,1.23493E-05,WB CSC
+UGA,Uganda,Energy,EN - Other,N2O,MtCO2e,2021,1.33E-05,WB CSC
+UGA,Uganda,Energy,EN - Other,N2O,MtCO2e,2022,1.23E-05,WB CSC
+UGA,Uganda,Energy,EN - Other,N2O,MtCO2e,2023,1.23E-05,WB CSC
 UGA,Uganda,Energy,EN - Power Industry,CH4,MtCO2e,2000,0.000306037,WB CSC
 UGA,Uganda,Energy,EN - Power Industry,CH4,MtCO2e,2001,0.000316117,WB CSC
 UGA,Uganda,Energy,EN - Power Industry,CH4,MtCO2e,2002,0.000376597,WB CSC
@@ -556,25 +556,25 @@ UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2001,0,WB CSC
 UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2002,0,WB CSC
 UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2003,0,WB CSC
 UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2004,0,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2005,6.244E-07,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2006,6.244E-07,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2007,1.2488E-06,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2008,1.2488E-06,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2009,1.2488E-06,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2010,1.2488E-06,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2011,1.2488E-06,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2012,6.244E-07,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2013,1.2488E-06,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2014,1.2488E-06,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2015,6.244E-07,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2016,6.244E-07,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2017,1.1802E-07,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2018,1.5484E-07,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2019,1.6478E-07,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2020,2.4906E-07,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2021,3.6092E-07,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2022,4.44608E-07,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2023,5.15787E-07,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2005,6.24E-07,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2006,6.24E-07,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2007,1.25E-06,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2008,1.25E-06,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2009,1.25E-06,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2010,1.25E-06,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2011,1.25E-06,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2012,6.24E-07,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2013,1.25E-06,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2014,1.25E-06,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2015,6.24E-07,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2016,6.24E-07,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2017,1.18E-07,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2018,1.55E-07,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2019,1.65E-07,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2020,2.49E-07,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2021,3.61E-07,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2022,4.45E-07,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2023,5.16E-07,WB CSC
 UGA,Uganda,Energy,EN - Transport,CO2,MtCO2e,2000,0,WB CSC
 UGA,Uganda,Energy,EN - Transport,CO2,MtCO2e,2001,0,WB CSC
 UGA,Uganda,Energy,EN - Transport,CO2,MtCO2e,2002,0,WB CSC
@@ -616,13 +616,13 @@ UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2013,0.000047276,WB CSC
 UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2014,0.000047276,WB CSC
 UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2015,0.000023638,WB CSC
 UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2016,0.000023638,WB CSC
-UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2017,4.4679E-06,WB CSC
-UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2018,5.8618E-06,WB CSC
-UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2019,6.2381E-06,WB CSC
-UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2020,9.4287E-06,WB CSC
-UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2021,1.36634E-05,WB CSC
-UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2022,1.68316E-05,WB CSC
-UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2023,1.95262E-05,WB CSC
+UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2017,4.47E-06,WB CSC
+UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2018,5.86E-06,WB CSC
+UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2019,6.24E-06,WB CSC
+UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2020,9.43E-06,WB CSC
+UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2021,1.37E-05,WB CSC
+UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2022,1.68E-05,WB CSC
+UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2023,1.95E-05,WB CSC
 UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2000,0,WB CSC
 UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2001,0,WB CSC
 UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2002,0,WB CSC
@@ -767,15 +767,15 @@ UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2020,0.035619685,WB CSC
 UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2021,0.039315979,WB CSC
 UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2022,0.036443923,WB CSC
 UGA,Uganda,Energy,EN - Transport,N2O,MtCO2e,2023,0.036456732,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2000,7.02464E-05,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2001,7.02464E-05,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2002,7.02464E-05,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2003,7.02464E-05,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2004,7.02464E-05,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2005,6.14656E-05,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2006,7.02464E-05,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2007,9.65888E-05,WB CSC
-UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2008,9.65888E-05,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2000,7.02E-05,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2001,7.02E-05,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2002,7.02E-05,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2003,7.02E-05,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2004,7.02E-05,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2005,6.15E-05,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2006,7.02E-05,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2007,9.66E-05,WB CSC
+UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2008,9.66E-05,WB CSC
 UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2009,0.000122931,WB CSC
 UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2010,0.000131712,WB CSC
 UGA,Uganda,Energy,EN - Transport,CH4,MtCO2e,2011,0.000131712,WB CSC
@@ -984,12 +984,12 @@ UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2021,0.1866
 UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2022,0.188975634,WB CSC
 UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2023,0.191903653,WB CSC
 UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2000,0.00029449,WB CSC
-UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2001,8.90416E-05,WB CSC
-UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2002,9.87974E-05,WB CSC
-UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2003,9.38078E-05,WB CSC
+UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2001,8.90E-05,WB CSC
+UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2002,9.88E-05,WB CSC
+UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2003,9.38E-05,WB CSC
 UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2004,0.000177963,WB CSC
-UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2005,1.25372E-05,WB CSC
-UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2006,7.70979E-05,WB CSC
+UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2005,1.25E-05,WB CSC
+UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2006,7.71E-05,WB CSC
 UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2007,0.000187558,WB CSC
 UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2008,0.000256513,WB CSC
 UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2009,0.000135737,WB CSC
@@ -1007,17 +1007,17 @@ UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2020,0.0069
 UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2021,0.007793965,WB CSC
 UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2022,0.007793965,WB CSC
 UGA,Uganda,Industrial Processes,IN - Industrial Processes,CO2,MtCO2e,2023,0.007793965,WB CSC
-UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2000,7.00746E-05,WB CSC
-UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2001,7.2452E-05,WB CSC
-UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2002,7.4968E-05,WB CSC
-UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2003,7.76113E-05,WB CSC
-UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2004,8.03619E-05,WB CSC
-UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2005,8.32055E-05,WB CSC
-UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2006,8.61403E-05,WB CSC
-UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2007,8.91713E-05,WB CSC
-UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2008,9.23003E-05,WB CSC
-UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2009,9.55301E-05,WB CSC
-UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2010,9.88625E-05,WB CSC
+UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2000,7.01E-05,WB CSC
+UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2001,7.25E-05,WB CSC
+UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2002,7.50E-05,WB CSC
+UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2003,7.76E-05,WB CSC
+UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2004,8.04E-05,WB CSC
+UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2005,8.32E-05,WB CSC
+UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2006,8.61E-05,WB CSC
+UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2007,8.92E-05,WB CSC
+UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2008,9.23E-05,WB CSC
+UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2009,9.55E-05,WB CSC
+UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2010,9.89E-05,WB CSC
 UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2011,0.000102298,WB CSC
 UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2012,0.000105834,WB CSC
 UGA,Uganda,Industrial Processes,IN - Industrial Processes,N2O,MtCO2e,2013,0.000109469,WB CSC
@@ -1485,18 +1485,18 @@ UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2000,0.000001,National Communicatio
 UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2001,0.0000014,National Communication 3
 UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2002,0.0000018,National Communication 3
 UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2003,0.0000022,National Communication 3
-UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2004,2.6E-06,National Communication 3
+UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2004,2.60E-06,National Communication 3
 UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2005,0.000003,National Communication 3
-UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2006,3.4E-06,National Communication 3
+UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2006,3.40E-06,National Communication 3
 UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2007,0.0000038,National Communication 3
 UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2008,0.0000042,National Communication 3
 UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2009,0.0000046,National Communication 3
 UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2010,0.000005,National Communication 3
-UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2011,5.8E-06,National Communication 3
+UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2011,5.80E-06,National Communication 3
 UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2012,0.0000066,National Communication 3
-UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2013,7.4E-06,National Communication 3
-UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2014,8.2E-06,National Communication 3
-UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2015,9E-06,National Communication 3
+UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2013,7.40E-06,National Communication 3
+UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2014,8.20E-06,National Communication 3
+UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2015,9.00E-06,National Communication 3
 UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2016,1.05E-05,National Communication 3
 UGA,Uganda,IPPU,Lubricant Use,All GHG,MtCO2e,2017,0.000012,National Communication 3
 UGA,Uganda,AFOLU,Enteric Fermentation,CH4,MtCO2e,1995,7.49008,National Communication 3
@@ -2051,26 +2051,26 @@ UGA,Uganda,Waste,Incineration of Waste,N2O,MtCO2e,2014,0,National Communication 
 UGA,Uganda,Waste,Incineration of Waste,N2O,MtCO2e,2015,0,National Communication 3
 UGA,Uganda,Waste,Incineration of Waste,N2O,MtCO2e,2016,0,National Communication 3
 UGA,Uganda,Waste,Incineration of Waste,N2O,MtCO2e,2017,0,National Communication 3
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,1995,1664.9,National Communication 4
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,1996,1739.52,National Communication 5
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,1997,1814.14,National Communication 6
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,1998,1888.76,National Communication 7
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,1999,1963.38,National Communication 8
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2000,2038,National Communication 9
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2001,2127.2,National Communication 10
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2002,2216.4,National Communication 11
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2003,2305.6,National Communication 12
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2004,2394.8,National Communication 13
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2005,2484,National Communication 14
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2006,2592,National Communication 15
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2007,2700,National Communication 16
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2008,2808,National Communication 17
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2009,2916,National Communication 18
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2010,3024,National Communication 19
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2011,3094.6,National Communication 20
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2012,3165.2,National Communication 21
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2013,3235.8,National Communication 22
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2014,3306.4,National Communication 23
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2015,3377,National Communication 24
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2016,3343.87,National Communication 25
-UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2017,3310.74,National Communication 26
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,1995,1.6649,National Communication 4
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,1996,1.73952,National Communication 5
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,1997,1.81414,National Communication 6
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,1998,1.88876,National Communication 7
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,1999,1.96338,National Communication 8
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2000,2.038,National Communication 9
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2001,2.1272,National Communication 10
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2002,2.2164,National Communication 11
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2003,2.3056,National Communication 12
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2004,2.3948,National Communication 13
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2005,2.484,National Communication 14
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2006,2.592,National Communication 15
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2007,2.7,National Communication 16
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2008,2.808,National Communication 17
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2009,2.916,National Communication 18
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2010,3.024,National Communication 19
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2011,3.0946,National Communication 20
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2012,3.1652,National Communication 21
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2013,3.2358,National Communication 22
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2014,3.3064,National Communication 23
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2015,3.377,National Communication 24
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2016,3.34387,National Communication 25
+UGA,Uganda,Energy,"Other (Residential, Commercial, Institution)",All GHG,MtCO2e,2017,3.31074,National Communication 26
