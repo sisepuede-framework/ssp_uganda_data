@@ -8,6 +8,5 @@ identifiers:
 parameters:
   magnitude_biogas: 0.475
   magnitude_compost: 0.475
-  vec_implementation_ramp:
-    tp_0_ramp: 12
+  vec_implementation_ramp: null
 transformer: "TFR:WASO:INC_ANAEROBIC_AND_COMPOST"

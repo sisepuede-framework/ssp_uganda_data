@@ -11,6 +11,5 @@ parameters:
   dict_entc_renewable_target_msp: {}
   magnitude: 0.95
   scale_non_renewables_to_match_surplus_msp: false
-  vec_implementation_ramp:
-    tp_0_ramp: 12
+  vec_implementation_ramp: null
 transformer: "TFR:ENTC:TARGET_RENEWABLE_ELEC"

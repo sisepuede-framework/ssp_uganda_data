@@ -6,6 +6,5 @@ identifiers:
     \ for private vehicles"
 parameters:
   magnitude: 0.25
-  vec_implementation_ramp:
-    tp_0_ramp: 12
+  vec_implementation_ramp: null
 transformer: "TFR:TRNS:INC_OCCUPANCY_LIGHT_DUTY"

@@ -9,6 +9,5 @@ parameters:
   - road_heavy_freight
   dict_categories_target: null
   magnitude: 0.4
-  vec_implementation_ramp:
-    tp_0_ramp: 12
+  vec_implementation_ramp: null
 transformer: "TFR:TRNS:SHIFT_MODE_FREIGHT"

@@ -6,6 +6,5 @@ identifiers:
     \ transportation energy efficiency"
 parameters:
   magnitude: 0.225
-  vec_implementation_ramp:
-    tp_0_ramp: 12
+  vec_implementation_ramp: null
 transformer: "TFR:TRNS:INC_EFFICIENCY_NON_ELECTRIC"

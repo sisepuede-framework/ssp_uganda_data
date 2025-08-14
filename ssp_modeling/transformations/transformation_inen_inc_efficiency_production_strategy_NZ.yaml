@@ -6,6 +6,5 @@ identifiers:
     \ production efficiency"
 parameters:
   magnitude: 0.4
-  vec_implementation_ramp:
-    tp_0_ramp: 12
+  vec_implementation_ramp: null
 transformer: "TFR:INEN:INC_EFFICIENCY_PRODUCTION"

@@ -9,6 +9,5 @@ identifiers:
 parameters:
   dict_lsmm_pathways: null
   vec_cats_lvst: null
-  vec_implementation_ramp:
-    tp_0_ramp: 12
+  vec_implementation_ramp: null
 transformer: "TFR:LSMM:INC_MANAGEMENT_OTHER"

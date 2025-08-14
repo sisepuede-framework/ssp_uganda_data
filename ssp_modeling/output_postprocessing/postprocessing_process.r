@@ -5,15 +5,22 @@
 # load packages
 library(data.table)
 library(reshape2)
+library(mFilter)
+library(ggplot2)
 
 rm(list=ls())
 
+#setwd('/Users/fabianfuentes/git/ssp_uganda_data/')
+
 #ouputfile
-dir.output  <- "ssp_modeling/ssp_run_output/sisepuede_run_2025-07-29T13;04;41.898821/"
-output.file <-"sisepuede_run_2025-07-29T13;04;41.898821.csv"
+dir.output  <- "ssp_modeling/ssp_run_output/sisepuede_run_2025-08-11T10;35;37.250554/"
+output.file <-"sisepuede_run_2025-08-11T10;35;37.250554.csv"
 
-source('ssp_modeling/output_postprocessing/scr/run_script_baseline_run_new.r')
+region <- "uganda" 
+iso_code3 <- "UGA"
 
-source('ssp_modeling/output_postprocessing/scr/data_prep_new_mapping_bulgaria.r')
+#source('ssp_modeling/output_postprocessing/scr/run_script_baseline_run_new.r')
+
+source('ssp_modeling/output_postprocessing/scr/data_prep_new_mapping_uganda_raw.r')
 
 source('ssp_modeling/output_postprocessing/scr/data_prep_drivers.r')

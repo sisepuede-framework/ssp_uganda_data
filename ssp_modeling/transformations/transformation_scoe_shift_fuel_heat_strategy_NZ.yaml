@@ -6,6 +6,5 @@ identifiers:
     \ for heat using heat pumps, electric stoves, etc."
 parameters:
   magnitude: 0.95
-  vec_implementation_ramp:
-    tp_0_ramp: 12
+  vec_implementation_ramp: null
 transformer: "TFR:SCOE:SHIFT_FUEL_HEAT"
