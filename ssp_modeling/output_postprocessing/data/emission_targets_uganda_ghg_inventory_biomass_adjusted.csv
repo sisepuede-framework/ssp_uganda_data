@@ -1,0 +1,898 @@
+Sector,Subsector,Gas,Year,Value,Source
+AFOLU,Biomass Burning Emissions,CH4,1995,0.8587,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,1996,0.8587,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,1997,0.8587,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,1998,0.8587,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,1999,0.8587,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,2000,0.8587,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,2001,0.86978,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,2002,0.88086,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,2003,0.89194,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,2004,0.90302,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,2005,0.9141,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,2006,0.82546,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,2007,0.73682,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,2008,0.64818,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,2009,0.55954,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,2010,0.4709,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,2011,0.4432,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,2012,0.4155,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,2013,0.3878,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,2014,0.3601,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,2015,0.3324,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,2016,0.3601,National Communication 3
+AFOLU,Biomass Burning Emissions,CH4,2017,0.3878,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,1995,1.434,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,1996,1.1472,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,1997,0.8604,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,1998,0.5736,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,1999,0.2868,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,2000,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,2001,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,2002,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,2003,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,2004,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,2005,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,2006,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,2007,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,2008,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,2009,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,2010,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,2011,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,2012,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,2013,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,2014,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,2015,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,2016,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,CO,2017,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,1995,0.819,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,1996,0.819,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,1997,0.819,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,1998,0.819,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,1999,0.819,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,2000,0.819,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,2001,0.819,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,2002,0.819,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,2003,0.819,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,2004,0.819,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,2005,0.819,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,2006,0.7644,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,2007,0.7098,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,2008,0.6552,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,2009,0.6006,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,2010,0.546,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,2011,0.4914,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,2012,0.4368,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,2013,0.3822,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,2014,0.3276,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,2015,0.273,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,2016,0.273,National Communication 3
+AFOLU,Biomass Burning Emissions,N2O,2017,0.273,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,1995,0.301,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,1996,0.2408,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,1997,0.1806,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,1998,0.1204,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,1999,0.0602,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,2000,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,2001,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,2002,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,2003,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,2004,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,2005,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,2006,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,2007,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,2008,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,2009,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,2010,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,2011,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,2012,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,2013,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,2014,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,2015,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,2016,0.0,National Communication 3
+AFOLU,Biomass Burning Emissions,NOx,2017,0.0,National Communication 3
+AFOLU,Cropland,CO2,1995,10.611,National Communication 3
+AFOLU,Cropland,CO2,1996,10.611,National Communication 3
+AFOLU,Cropland,CO2,1997,10.611,National Communication 3
+AFOLU,Cropland,CO2,1998,10.611,National Communication 3
+AFOLU,Cropland,CO2,1999,10.611,National Communication 3
+AFOLU,Cropland,CO2,2000,10.611,National Communication 3
+AFOLU,Cropland,CO2,2001,10.611,National Communication 3
+AFOLU,Cropland,CO2,2002,10.611,National Communication 3
+AFOLU,Cropland,CO2,2003,10.611,National Communication 3
+AFOLU,Cropland,CO2,2004,10.611,National Communication 3
+AFOLU,Cropland,CO2,2005,10.611,National Communication 3
+AFOLU,Cropland,CO2,2006,10.611,National Communication 3
+AFOLU,Cropland,CO2,2007,10.611,National Communication 3
+AFOLU,Cropland,CO2,2008,10.611,National Communication 3
+AFOLU,Cropland,CO2,2009,10.611,National Communication 3
+AFOLU,Cropland,CO2,2010,10.611,National Communication 3
+AFOLU,Cropland,CO2,2011,10.611,National Communication 3
+AFOLU,Cropland,CO2,2012,10.611,National Communication 3
+AFOLU,Cropland,CO2,2013,10.611,National Communication 3
+AFOLU,Cropland,CO2,2014,10.611,National Communication 3
+AFOLU,Cropland,CO2,2015,10.611,National Communication 3
+AFOLU,Cropland,CO2,2016,10.611,National Communication 3
+AFOLU,Cropland,CO2,2017,10.611,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,1995,3.1395,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,1996,3.17772,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,1997,3.21594,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,1998,3.25416,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,1999,3.29238,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,2000,3.3306,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,2001,3.42342,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,2002,3.51624,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,2003,3.60906,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,2004,3.70188,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,2005,3.7947,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,2006,4.02402,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,2007,4.25334,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,2008,4.48266,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,2009,4.71198,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,2010,4.9413,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,2011,5.05596,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,2012,5.17062,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,2013,5.28528,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,2014,5.39994,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,2015,5.5146,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,2016,5.5965,National Communication 3
+AFOLU,Direct N2O emissions from managed soil,N2O,2017,5.6784,National Communication 3
+AFOLU,Enteric Fermentation,CH4,1995,7.49008,National Communication 3
+AFOLU,Enteric Fermentation,CH4,1996,7.655172,National Communication 3
+AFOLU,Enteric Fermentation,CH4,1997,7.820264,National Communication 3
+AFOLU,Enteric Fermentation,CH4,1998,7.985356,National Communication 3
+AFOLU,Enteric Fermentation,CH4,1999,8.150448,National Communication 3
+AFOLU,Enteric Fermentation,CH4,2000,8.31554,National Communication 3
+AFOLU,Enteric Fermentation,CH4,2001,8.685058,National Communication 3
+AFOLU,Enteric Fermentation,CH4,2002,9.054576,National Communication 3
+AFOLU,Enteric Fermentation,CH4,2003,9.424094,National Communication 3
+AFOLU,Enteric Fermentation,CH4,2004,9.793612,National Communication 3
+AFOLU,Enteric Fermentation,CH4,2005,10.16313,National Communication 3
+AFOLU,Enteric Fermentation,CH4,2006,10.843442,National Communication 3
+AFOLU,Enteric Fermentation,CH4,2007,11.523754,National Communication 3
+AFOLU,Enteric Fermentation,CH4,2008,12.204066,National Communication 3
+AFOLU,Enteric Fermentation,CH4,2009,12.884378,National Communication 3
+AFOLU,Enteric Fermentation,CH4,2010,13.56469,National Communication 3
+AFOLU,Enteric Fermentation,CH4,2011,13.9054,National Communication 3
+AFOLU,Enteric Fermentation,CH4,2012,14.24611,National Communication 3
+AFOLU,Enteric Fermentation,CH4,2013,14.58682,National Communication 3
+AFOLU,Enteric Fermentation,CH4,2014,14.92753,National Communication 3
+AFOLU,Enteric Fermentation,CH4,2015,15.26824,National Communication 3
+AFOLU,Enteric Fermentation,CH4,2016,15.621415,National Communication 3
+AFOLU,Enteric Fermentation,CH4,2017,15.97459,National Communication 3
+AFOLU,Forest land,CO2,1995,-11.152403,National Communication 3
+AFOLU,Forest land,CO2,1996,-11.152403,National Communication 3
+AFOLU,Forest land,CO2,1997,-11.152403,National Communication 3
+AFOLU,Forest land,CO2,1998,-11.152403,National Communication 3
+AFOLU,Forest land,CO2,1999,-11.152403,National Communication 3
+AFOLU,Forest land,CO2,2000,-11.152403,National Communication 3
+AFOLU,Forest land,CO2,2001,-11.152403,National Communication 3
+AFOLU,Forest land,CO2,2002,-11.152403,National Communication 3
+AFOLU,Forest land,CO2,2003,-11.152403,National Communication 3
+AFOLU,Forest land,CO2,2004,-11.152403,National Communication 3
+AFOLU,Forest land,CO2,2005,-11.152403,National Communication 3
+AFOLU,Forest land,CO2,2006,-11.152403,National Communication 3
+AFOLU,Forest land,CO2,2007,-11.152403,National Communication 3
+AFOLU,Forest land,CO2,2008,-11.152403,National Communication 3
+AFOLU,Forest land,CO2,2009,-11.152403,National Communication 3
+AFOLU,Forest land,CO2,2010,-11.152403,National Communication 3
+AFOLU,Forest land,CO2,2011,-11.126566,National Communication 3
+AFOLU,Forest land,CO2,2012,-11.100729,National Communication 3
+AFOLU,Forest land,CO2,2013,-11.074892,National Communication 3
+AFOLU,Forest land,CO2,2014,-11.049055,National Communication 3
+AFOLU,Forest land,CO2,2015,-11.023218,National Communication 3
+AFOLU,Forest land,CO2,2016,-11.152403,National Communication 3
+AFOLU,Forest land,CO2,2017,-11.281588,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,1995,1.27218,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,1996,1.27218,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,1997,1.27218,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,1998,1.27218,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,1999,1.27218,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,2000,1.27218,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,2001,1.27218,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,2002,1.27218,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,2003,1.27218,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,2004,1.27218,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,2005,1.27218,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,2006,1.343706,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,2007,1.415232,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,2008,1.486758,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,2009,1.558284,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,2010,1.62981,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,2011,1.679496,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,2012,1.729182,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,2013,1.778868,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,2014,1.828554,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,2015,1.87824,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,2016,1.87824,National Communication 3
+AFOLU,Indirect N2O Emissions from Manure Management,N2O,2017,1.87824,National Communication 3
+AFOLU,Manure Management,CH4,1995,0.37672,National Communication 3
+AFOLU,Manure Management,CH4,1996,0.377274,National Communication 3
+AFOLU,Manure Management,CH4,1997,0.377828,National Communication 3
+AFOLU,Manure Management,CH4,1998,0.378382,National Communication 3
+AFOLU,Manure Management,CH4,1999,0.378936,National Communication 3
+AFOLU,Manure Management,CH4,2000,0.37949,National Communication 3
+AFOLU,Manure Management,CH4,2001,0.388908,National Communication 3
+AFOLU,Manure Management,CH4,2002,0.398326,National Communication 3
+AFOLU,Manure Management,CH4,2003,0.407744,National Communication 3
+AFOLU,Manure Management,CH4,2004,0.417162,National Communication 3
+AFOLU,Manure Management,CH4,2005,0.42658,National Communication 3
+AFOLU,Manure Management,CH4,2006,0.455388,National Communication 3
+AFOLU,Manure Management,CH4,2007,0.484196,National Communication 3
+AFOLU,Manure Management,CH4,2008,0.513004,National Communication 3
+AFOLU,Manure Management,CH4,2009,0.541812,National Communication 3
+AFOLU,Manure Management,CH4,2010,0.57062,National Communication 3
+AFOLU,Manure Management,CH4,2011,0.58447,National Communication 3
+AFOLU,Manure Management,CH4,2012,0.59832,National Communication 3
+AFOLU,Manure Management,CH4,2013,0.61217,National Communication 3
+AFOLU,Manure Management,CH4,2014,0.62602,National Communication 3
+AFOLU,Manure Management,CH4,2015,0.63987,National Communication 3
+AFOLU,Manure Management,CH4,2016,0.65095,National Communication 3
+AFOLU,Manure Management,CH4,2017,0.66203,National Communication 3
+AFOLU,Manure Management,N2O,1995,0.1365,National Communication 3
+AFOLU,Manure Management,N2O,1996,0.1365,National Communication 3
+AFOLU,Manure Management,N2O,1997,0.1365,National Communication 3
+AFOLU,Manure Management,N2O,1998,0.1365,National Communication 3
+AFOLU,Manure Management,N2O,1999,0.1365,National Communication 3
+AFOLU,Manure Management,N2O,2000,0.1365,National Communication 3
+AFOLU,Manure Management,N2O,2001,0.1365,National Communication 3
+AFOLU,Manure Management,N2O,2002,0.1365,National Communication 3
+AFOLU,Manure Management,N2O,2003,0.1365,National Communication 3
+AFOLU,Manure Management,N2O,2004,0.1365,National Communication 3
+AFOLU,Manure Management,N2O,2005,0.1365,National Communication 3
+AFOLU,Manure Management,N2O,2006,0.14742,National Communication 3
+AFOLU,Manure Management,N2O,2007,0.15834,National Communication 3
+AFOLU,Manure Management,N2O,2008,0.16926,National Communication 3
+AFOLU,Manure Management,N2O,2009,0.18018,National Communication 3
+AFOLU,Manure Management,N2O,2010,0.1911,National Communication 3
+AFOLU,Manure Management,N2O,2011,0.19656,National Communication 3
+AFOLU,Manure Management,N2O,2012,0.20202,National Communication 3
+AFOLU,Manure Management,N2O,2013,0.20748,National Communication 3
+AFOLU,Manure Management,N2O,2014,0.21294,National Communication 3
+AFOLU,Manure Management,N2O,2015,0.2184,National Communication 3
+AFOLU,Manure Management,N2O,2016,0.222495,National Communication 3
+AFOLU,Manure Management,N2O,2017,0.22659,National Communication 3
+AFOLU,Other Lands,CO2,1995,2.793,National Communication 3
+AFOLU,Other Lands,CO2,1996,2.793,National Communication 3
+AFOLU,Other Lands,CO2,1997,2.793,National Communication 3
+AFOLU,Other Lands,CO2,1998,2.793,National Communication 3
+AFOLU,Other Lands,CO2,1999,2.793,National Communication 3
+AFOLU,Other Lands,CO2,2000,2.793,National Communication 3
+AFOLU,Other Lands,CO2,2001,2.793,National Communication 3
+AFOLU,Other Lands,CO2,2002,2.793,National Communication 3
+AFOLU,Other Lands,CO2,2003,2.793,National Communication 3
+AFOLU,Other Lands,CO2,2004,2.793,National Communication 3
+AFOLU,Other Lands,CO2,2005,2.793,National Communication 3
+AFOLU,Other Lands,CO2,2006,2.793,National Communication 3
+AFOLU,Other Lands,CO2,2007,2.793,National Communication 3
+AFOLU,Other Lands,CO2,2008,2.793,National Communication 3
+AFOLU,Other Lands,CO2,2009,2.793,National Communication 3
+AFOLU,Other Lands,CO2,2010,2.793,National Communication 3
+AFOLU,Other Lands,CO2,2011,2.793,National Communication 3
+AFOLU,Other Lands,CO2,2012,2.793,National Communication 3
+AFOLU,Other Lands,CO2,2013,2.793,National Communication 3
+AFOLU,Other Lands,CO2,2014,2.793,National Communication 3
+AFOLU,Other Lands,CO2,2015,2.793,National Communication 3
+AFOLU,Other Lands,CO2,2016,2.793,National Communication 3
+AFOLU,Other Lands,CO2,2017,2.793,National Communication 3
+AFOLU,Urea Application,CO2,1995,0.0,National Communication 3
+AFOLU,Urea Application,CO2,1996,0.0,National Communication 3
+AFOLU,Urea Application,CO2,1997,0.0,National Communication 3
+AFOLU,Urea Application,CO2,1998,0.0,National Communication 3
+AFOLU,Urea Application,CO2,1999,0.0,National Communication 3
+AFOLU,Urea Application,CO2,2000,0.0,National Communication 3
+AFOLU,Urea Application,CO2,2001,0.0,National Communication 3
+AFOLU,Urea Application,CO2,2002,0.0,National Communication 3
+AFOLU,Urea Application,CO2,2003,0.0,National Communication 3
+AFOLU,Urea Application,CO2,2004,0.0,National Communication 3
+AFOLU,Urea Application,CO2,2005,0.0,National Communication 3
+AFOLU,Urea Application,CO2,2006,0.0,National Communication 3
+AFOLU,Urea Application,CO2,2007,0.0,National Communication 3
+AFOLU,Urea Application,CO2,2008,0.0,National Communication 3
+AFOLU,Urea Application,CO2,2009,0.0,National Communication 3
+AFOLU,Urea Application,CO2,2010,0.0,National Communication 3
+AFOLU,Urea Application,CO2,2011,0.001012,National Communication 3
+AFOLU,Urea Application,CO2,2012,0.002024,National Communication 3
+AFOLU,Urea Application,CO2,2013,0.003036,National Communication 3
+AFOLU,Urea Application,CO2,2014,0.004048,National Communication 3
+AFOLU,Urea Application,CO2,2015,0.00506,National Communication 3
+AFOLU,Urea Application,CO2,2016,0.00506,National Communication 3
+AFOLU,Urea Application,CO2,2017,0.00506,National Communication 3
+Energy,Energy Industries,CH4,1995,0.0544305,National Communication 3
+Energy,Energy Industries,CH4,1996,0.05690965,National Communication 3
+Energy,Energy Industries,CH4,1997,0.0593888,National Communication 3
+Energy,Energy Industries,CH4,1998,0.0682251,National Communication 3
+Energy,Energy Industries,CH4,1999,0.0770614,National Communication 3
+Energy,Energy Industries,CH4,2000,0.0829338,National Communication 3
+Energy,Energy Industries,CH4,2001,0.0888062,National Communication 3
+Energy,Energy Industries,CH4,2002,0.0888062,National Communication 3
+Energy,Energy Industries,CH4,2003,0.0888062,National Communication 3
+Energy,Energy Industries,CH4,2004,0.108307,National Communication 3
+Energy,Energy Industries,CH4,2005,0.1278078,National Communication 3
+Energy,Energy Industries,CH4,2006,0.1341234,National Communication 3
+Energy,Energy Industries,CH4,2007,0.140439,National Communication 3
+Energy,Energy Industries,CH4,2008,0.14693465,National Communication 3
+Energy,Energy Industries,CH4,2009,0.1534303,National Communication 3
+Energy,Energy Industries,CH4,2010,0.1566158,National Communication 3
+Energy,Energy Industries,CH4,2011,0.1598013,National Communication 3
+Energy,Energy Industries,CH4,2012,0.1791359,National Communication 3
+Energy,Energy Industries,CH4,2013,0.1984705,National Communication 3
+Energy,Energy Industries,CH4,2014,0.32845275,National Communication 3
+Energy,Energy Industries,CH4,2015,0.458435,National Communication 3
+Energy,Energy Industries,CH4,2016,0.382814,National Communication 3
+Energy,Energy Industries,CH4,2017,0.307193,National Communication 3
+Energy,Energy Industries,CO2,1995,0.000828,National Communication 3
+Energy,Energy Industries,CO2,1996,0.0008655,National Communication 3
+Energy,Energy Industries,CO2,1997,0.000903,National Communication 3
+Energy,Energy Industries,CO2,1998,0.000941,National Communication 3
+Energy,Energy Industries,CO2,1999,0.000979,National Communication 3
+Energy,Energy Industries,CO2,2000,0.0010165,National Communication 3
+Energy,Energy Industries,CO2,2001,0.001054,National Communication 3
+Energy,Energy Industries,CO2,2002,0.001054,National Communication 3
+Energy,Energy Industries,CO2,2003,0.001054,National Communication 3
+Energy,Energy Industries,CO2,2004,0.0009785,National Communication 3
+Energy,Energy Industries,CO2,2005,0.000903,National Communication 3
+Energy,Energy Industries,CO2,2006,0.0860965,National Communication 3
+Energy,Energy Industries,CO2,2007,0.17129,National Communication 3
+Energy,Energy Industries,CO2,2008,0.20364,National Communication 3
+Energy,Energy Industries,CO2,2009,0.23599,National Communication 3
+Energy,Energy Industries,CO2,2010,0.256895,National Communication 3
+Energy,Energy Industries,CO2,2011,0.2778,National Communication 3
+Energy,Energy Industries,CO2,2012,0.1392485,National Communication 3
+Energy,Energy Industries,CO2,2013,0.000697,National Communication 3
+Energy,Energy Industries,CO2,2014,0.0218285,National Communication 3
+Energy,Energy Industries,CO2,2015,0.04296,National Communication 3
+Energy,Energy Industries,CO2,2016,0.08288,National Communication 3
+Energy,Energy Industries,CO2,2017,0.1228,National Communication 3
+Energy,Energy Industries,N2O,1995,0.01092,National Communication 3
+Energy,Energy Industries,N2O,1996,0.011466,National Communication 3
+Energy,Energy Industries,N2O,1997,0.012012,National Communication 3
+Energy,Energy Industries,N2O,1998,0.0137865,National Communication 3
+Energy,Energy Industries,N2O,1999,0.015561,National Communication 3
+Energy,Energy Industries,N2O,2000,0.016653,National Communication 3
+Energy,Energy Industries,N2O,2001,0.017745,National Communication 3
+Energy,Energy Industries,N2O,2002,0.017745,National Communication 3
+Energy,Energy Industries,N2O,2003,0.017745,National Communication 3
+Energy,Energy Industries,N2O,2004,0.0217035,National Communication 3
+Energy,Energy Industries,N2O,2005,0.025662,National Communication 3
+Energy,Energy Industries,N2O,2006,0.0268905,National Communication 3
+Energy,Energy Industries,N2O,2007,0.028119,National Communication 3
+Energy,Energy Industries,N2O,2008,0.0293475,National Communication 3
+Energy,Energy Industries,N2O,2009,0.030576,National Communication 3
+Energy,Energy Industries,N2O,2010,0.0312585,National Communication 3
+Energy,Energy Industries,N2O,2011,0.031941,National Communication 3
+Energy,Energy Industries,N2O,2012,0.035763,National Communication 3
+Energy,Energy Industries,N2O,2013,0.039585,National Communication 3
+Energy,Energy Industries,N2O,2014,0.065247,National Communication 3
+Energy,Energy Industries,N2O,2015,0.090909,National Communication 3
+Energy,Energy Industries,N2O,2016,0.0760305,National Communication 3
+Energy,Energy Industries,N2O,2017,0.061152,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,1995,0.014980777139051214,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,1996,0.015810718368912274,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,1997,0.016640659598773335,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,1998,0.017055100828634397,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,1999,0.017469542058495456,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,2000,0.02937948328835652,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,2001,0.04250227882849839,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,2002,0.04399107436864026,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,2003,0.04547986990878214,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,2004,0.04322916544892401,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,2005,0.04097846098906588,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,2006,0.04481599737580451,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,2007,0.04865353376254314,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,2008,0.05304507014928177,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,2009,0.057436606536020396,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,2010,0.061274142922759026,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,2011,0.06755194152910396,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,2012,0.0901727401354489,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,2013,0.11279353874179385,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,2014,0.11713233734813877,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,2015,0.1214711359544837,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,2016,0.10770613272491875,National Communication 3
+Energy,Manufacturing Industries and Construction,CH4,2017,0.09394112949535377,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,1995,0.9253544531641278,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,1996,1.006674586621552,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,1997,1.0879947200789761,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,1998,1.1443148535364005,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,1999,1.2006349869938246,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,2000,1.253355120451249,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,2001,1.5868059250775008,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,2002,1.950256729703753,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,2003,2.3137075343300055,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,2004,2.722508338956257,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,2005,3.1313091435825093,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,2006,3.512849717417118,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,2007,3.894390291251725,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,2008,4.566230865086333,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,2009,5.23807143892094,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,2010,5.468062012755548,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,2011,6.262882545910992,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,2012,7.434303079066438,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,2013,8.605723612221881,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,2014,9.609994145377327,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,2015,10.61426467853277,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,2016,10.126105877693165,National Communication 3
+Energy,Manufacturing Industries and Construction,CO2,2017,9.63794707685356,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,1995,0.02226441242610399,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,1996,0.02274958127195345,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,1997,0.023234750117802915,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,1998,0.02371991896365238,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,1999,0.02420508780950184,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,2000,0.0410702566553513,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,2001,0.06006790539990519,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,2002,0.06268555414445907,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,2003,0.06530320288901295,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,2004,0.06246085163356682,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,2005,0.059618500378120706,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,2006,0.06568656880675305,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,2007,0.0717546372353854,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,2008,0.07782270566401776,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,2009,0.08389077409265011,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,2010,0.08449884252128247,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,2011,0.0893974593585472,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,2012,0.12705607619581194,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,2013,0.1647146930330767,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,2014,0.17234330987034144,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,2015,0.17997192670760617,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,2016,0.16062700587471013,National Communication 3
+Energy,Manufacturing Industries and Construction,N2O,2017,0.14128208504181405,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,1995,0.05828006313619769,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,1996,0.06230271085281545,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,1997,0.0663253585694332,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,1998,0.07034800628605095,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,1999,0.07437065400266872,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,2000,0.07839330171928648,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,2001,0.08579610680282788,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,2002,0.09319891188636929,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,2003,0.1006017169699107,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,2004,0.10800452205345211,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,2005,0.11540732713699352,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,2006,0.1257382639215208,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,2007,0.13606920070604805,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,2008,0.14640013749057534,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,2009,0.15673107427510258,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,2010,0.16706201105962987,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,2011,0.17113647433737558,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,2012,0.1752109376151213,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,2013,0.17928540089286704,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,2014,0.18335986417061273,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,2015,0.18743432744835845,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,2016,0.19836074831019845,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CH4,2017,0.20928716917203846,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,1995,13.489667391459738,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,1996,14.420760750150441,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,1997,15.351854108841144,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,1998,16.282947467531848,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,1999,17.21404082622255,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,2000,18.145134184913253,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,2001,19.85860827823072,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,2002,21.57208237154818,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,2003,23.285556464865646,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,2004,24.999030558183108,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,2005,26.712504651500574,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,2006,29.103732346978354,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,2007,31.49496004245613,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,2008,33.88618773793391,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,2009,36.27741543341169,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,2010,38.66864312888947,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,2011,39.61172986314815,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,2012,40.554816597406834,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,2013,41.49790333166552,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,2014,42.440990065924204,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,2015,43.38407680018288,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,2016,45.91313691566142,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",CO2,2017,48.442197031139955,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,1995,0.10246990267478306,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,1996,0.1095426527343269,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,1997,0.11661540279387071,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,1998,0.12368815285341454,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,1999,0.13076090291295836,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,2000,0.1378336529725022,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,2001,0.15084950566055005,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,2002,0.1638653583485979,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,2003,0.17688121103664575,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,2004,0.1898970637246936,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,2005,0.20291291641274145,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,2006,0.22107710550045614,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,2007,0.23924129458817084,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,2008,0.25740548367588556,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,2009,0.2755696727636002,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,2010,0.293733861851315,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,2011,0.30089771571583257,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,2012,0.3080615695803502,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,2013,0.3152254234448678,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,2014,0.3223892773093855,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,2015,0.32955313117390306,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,2016,0.3487643197355892,National Communication 3
+Energy,"Other (Residential, Commercial, Institution)",N2O,2017,0.36797550829727527,National Communication 3
+Energy,Transport,CH4,1995,0.0051522,National Communication 3
+Energy,Transport,CH4,1996,0.0053184,National Communication 3
+Energy,Transport,CH4,1997,0.0054846,National Communication 3
+Energy,Transport,CH4,1998,0.0060109,National Communication 3
+Energy,Transport,CH4,1999,0.0065372,National Communication 3
+Energy,Transport,CH4,2000,0.0064818,National Communication 3
+Energy,Transport,CH4,2001,0.0064264,National Communication 3
+Energy,Transport,CH4,2002,0.00652335,National Communication 3
+Energy,Transport,CH4,2003,0.0066203,National Communication 3
+Energy,Transport,CH4,2004,0.00630175,National Communication 3
+Energy,Transport,CH4,2005,0.0059832,National Communication 3
+Energy,Transport,CH4,2006,0.0064264,National Communication 3
+Energy,Transport,CH4,2007,0.0068696,National Communication 3
+Energy,Transport,CH4,2008,0.00854545,National Communication 3
+Energy,Transport,CH4,2009,0.0102213,National Communication 3
+Energy,Transport,CH4,2010,0.01142625,National Communication 3
+Energy,Transport,CH4,2011,0.0126312,National Communication 3
+Energy,Transport,CH4,2012,0.01422395,National Communication 3
+Energy,Transport,CH4,2013,0.0158167,National Communication 3
+Energy,Transport,CH4,2014,0.01757565,National Communication 3
+Energy,Transport,CH4,2015,0.0193346,National Communication 3
+Energy,Transport,CH4,2016,0.02120435,National Communication 3
+Energy,Transport,CH4,2017,0.0230741,National Communication 3
+Energy,Transport,CO2,1995,0.5888,National Communication 3
+Energy,Transport,CO2,1996,0.6053,National Communication 3
+Energy,Transport,CO2,1997,0.6218,National Communication 3
+Energy,Transport,CO2,1998,0.72645,National Communication 3
+Energy,Transport,CO2,1999,0.8311,National Communication 3
+Energy,Transport,CO2,2000,0.83615,National Communication 3
+Energy,Transport,CO2,2001,0.8412,National Communication 3
+Energy,Transport,CO2,2002,0.8486,National Communication 3
+Energy,Transport,CO2,2003,0.856,National Communication 3
+Energy,Transport,CO2,2004,0.9076,National Communication 3
+Energy,Transport,CO2,2005,0.9592,National Communication 3
+Energy,Transport,CO2,2006,1.10755,National Communication 3
+Energy,Transport,CO2,2007,1.2559,National Communication 3
+Energy,Transport,CO2,2008,1.4651,National Communication 3
+Energy,Transport,CO2,2009,1.6743,National Communication 3
+Energy,Transport,CO2,2010,1.83695,National Communication 3
+Energy,Transport,CO2,2011,1.9996,National Communication 3
+Energy,Transport,CO2,2012,2.06245,National Communication 3
+Energy,Transport,CO2,2013,2.1253,National Communication 3
+Energy,Transport,CO2,2014,2.255,National Communication 3
+Energy,Transport,CO2,2015,2.3847,National Communication 3
+Energy,Transport,CO2,2016,2.7441,National Communication 3
+Energy,Transport,CO2,2017,3.1035,National Communication 3
+Energy,Transport,N2O,1995,0.007917,National Communication 3
+Energy,Transport,N2O,1996,0.0080535,National Communication 3
+Energy,Transport,N2O,1997,0.00819,National Communication 3
+Energy,Transport,N2O,1998,0.0096915,National Communication 3
+Energy,Transport,N2O,1999,0.011193,National Communication 3
+Energy,Transport,N2O,2000,0.011193,National Communication 3
+Energy,Transport,N2O,2001,0.011193,National Communication 3
+Energy,Transport,N2O,2002,0.0113295,National Communication 3
+Energy,Transport,N2O,2003,0.011466,National Communication 3
+Energy,Transport,N2O,2004,0.012285,National Communication 3
+Energy,Transport,N2O,2005,0.013104,National Communication 3
+Energy,Transport,N2O,2006,0.0151515,National Communication 3
+Energy,Transport,N2O,2007,0.017199,National Communication 3
+Energy,Transport,N2O,2008,0.0200655,National Communication 3
+Energy,Transport,N2O,2009,0.022932,National Communication 3
+Energy,Transport,N2O,2010,0.025116,National Communication 3
+Energy,Transport,N2O,2011,0.0273,National Communication 3
+Energy,Transport,N2O,2012,0.0279825,National Communication 3
+Energy,Transport,N2O,2013,0.028665,National Communication 3
+Energy,Transport,N2O,2014,0.0326235,National Communication 3
+Energy,Transport,N2O,2015,0.036582,National Communication 3
+Energy,Transport,N2O,2016,0.0391755,National Communication 3
+Energy,Transport,N2O,2017,0.041769,National Communication 3
+IPPU,Cement production,All GHG,1995,0.098,National Communication 3
+IPPU,Cement production,All GHG,1996,0.1008,National Communication 3
+IPPU,Cement production,All GHG,1997,0.1036,National Communication 3
+IPPU,Cement production,All GHG,1998,0.1064,National Communication 3
+IPPU,Cement production,All GHG,1999,0.1092,National Communication 3
+IPPU,Cement production,All GHG,2000,0.112,National Communication 3
+IPPU,Cement production,All GHG,2001,0.1212,National Communication 3
+IPPU,Cement production,All GHG,2002,0.1304,National Communication 3
+IPPU,Cement production,All GHG,2003,0.1396,National Communication 3
+IPPU,Cement production,All GHG,2004,0.1488,National Communication 3
+IPPU,Cement production,All GHG,2005,0.158,National Communication 3
+IPPU,Cement production,All GHG,2006,0.178,National Communication 3
+IPPU,Cement production,All GHG,2007,0.198,National Communication 3
+IPPU,Cement production,All GHG,2008,0.218,National Communication 3
+IPPU,Cement production,All GHG,2009,0.238,National Communication 3
+IPPU,Cement production,All GHG,2010,0.258,National Communication 3
+IPPU,Cement production,All GHG,2011,0.2762,National Communication 3
+IPPU,Cement production,All GHG,2012,0.2944,National Communication 3
+IPPU,Cement production,All GHG,2013,0.3126,National Communication 3
+IPPU,Cement production,All GHG,2014,0.3308,National Communication 3
+IPPU,Cement production,All GHG,2015,0.349,National Communication 3
+IPPU,Cement production,All GHG,2016,0.3462,National Communication 3
+IPPU,Cement production,All GHG,2017,0.3434,National Communication 3
+IPPU,Lime production,All GHG,1995,0.022,National Communication 3
+IPPU,Lime production,All GHG,1996,0.02432,National Communication 3
+IPPU,Lime production,All GHG,1997,0.02664,National Communication 3
+IPPU,Lime production,All GHG,1998,0.02896,National Communication 3
+IPPU,Lime production,All GHG,1999,0.03128,National Communication 3
+IPPU,Lime production,All GHG,2000,0.0336,National Communication 3
+IPPU,Lime production,All GHG,2001,0.03578,National Communication 3
+IPPU,Lime production,All GHG,2002,0.03796,National Communication 3
+IPPU,Lime production,All GHG,2003,0.04014,National Communication 3
+IPPU,Lime production,All GHG,2004,0.04232,National Communication 3
+IPPU,Lime production,All GHG,2005,0.0445,National Communication 3
+IPPU,Lime production,All GHG,2006,0.03868,National Communication 3
+IPPU,Lime production,All GHG,2007,0.03286,National Communication 3
+IPPU,Lime production,All GHG,2008,0.02704,National Communication 3
+IPPU,Lime production,All GHG,2009,0.02122,National Communication 3
+IPPU,Lime production,All GHG,2010,0.0154,National Communication 3
+IPPU,Lime production,All GHG,2011,0.01356,National Communication 3
+IPPU,Lime production,All GHG,2012,0.01172,National Communication 3
+IPPU,Lime production,All GHG,2013,0.00988,National Communication 3
+IPPU,Lime production,All GHG,2014,0.00804,National Communication 3
+IPPU,Lime production,All GHG,2015,0.0062,National Communication 3
+IPPU,Lime production,All GHG,2016,0.00625,National Communication 3
+IPPU,Lime production,All GHG,2017,0.0063,National Communication 3
+IPPU,Lubricant Use,All GHG,1995,1e-06,National Communication 3
+IPPU,Lubricant Use,All GHG,1996,1e-06,National Communication 3
+IPPU,Lubricant Use,All GHG,1997,1e-06,National Communication 3
+IPPU,Lubricant Use,All GHG,1998,1e-06,National Communication 3
+IPPU,Lubricant Use,All GHG,1999,1e-06,National Communication 3
+IPPU,Lubricant Use,All GHG,2000,1e-06,National Communication 3
+IPPU,Lubricant Use,All GHG,2001,1.4e-06,National Communication 3
+IPPU,Lubricant Use,All GHG,2002,1.8e-06,National Communication 3
+IPPU,Lubricant Use,All GHG,2003,2.2e-06,National Communication 3
+IPPU,Lubricant Use,All GHG,2004,2.6e-06,National Communication 3
+IPPU,Lubricant Use,All GHG,2005,3e-06,National Communication 3
+IPPU,Lubricant Use,All GHG,2006,3.4e-06,National Communication 3
+IPPU,Lubricant Use,All GHG,2007,3.8e-06,National Communication 3
+IPPU,Lubricant Use,All GHG,2008,4.2e-06,National Communication 3
+IPPU,Lubricant Use,All GHG,2009,4.6e-06,National Communication 3
+IPPU,Lubricant Use,All GHG,2010,5e-06,National Communication 3
+IPPU,Lubricant Use,All GHG,2011,5.8e-06,National Communication 3
+IPPU,Lubricant Use,All GHG,2012,6.6e-06,National Communication 3
+IPPU,Lubricant Use,All GHG,2013,7.4e-06,National Communication 3
+IPPU,Lubricant Use,All GHG,2014,8.2e-06,National Communication 3
+IPPU,Lubricant Use,All GHG,2015,9e-06,National Communication 3
+IPPU,Lubricant Use,All GHG,2016,1.05e-05,National Communication 3
+IPPU,Lubricant Use,All GHG,2017,1.2e-05,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,1995,0.302484,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,1996,0.31315404,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,1997,0.32382408,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,1998,0.33449412,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,1999,0.34516416,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,2000,0.3558342,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,2001,0.36802774,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,2002,0.38022128,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,2003,0.39241482,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,2004,0.40460836,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,2005,0.4168019,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,2006,0.42999264,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,2007,0.44318338,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,2008,0.45637412,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,2009,0.46956486,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,2010,0.4827556,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,2011,0.49676072,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,2012,0.51076584,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,2013,0.52477096,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,2014,0.53877608,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,2015,0.5527812,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,2016,0.57096625,National Communication 3
+Waste,Biological Treatment of Solid Waste,CH4,2017,0.5891513,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,1995,0.178815,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,1996,0.1851486,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,1997,0.1914822,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,1998,0.1978158,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,1999,0.2041494,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,2000,0.210483,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,2001,0.2176902,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,2002,0.2248974,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,2003,0.2321046,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,2004,0.2393118,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,2005,0.246519,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,2006,0.2543268,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,2007,0.2621346,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,2008,0.2699424,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,2009,0.2777502,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,2010,0.285558,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,2011,0.2938026,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,2012,0.3020472,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,2013,0.3102918,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,2014,0.3185364,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,2015,0.326781,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,2016,0.3375645,National Communication 3
+Waste,Biological Treatment of Solid Waste,N2O,2017,0.348348,National Communication 3
+Waste,Incineration of Waste,CH4,1995,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,1996,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,1997,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,1998,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,1999,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,2000,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,2001,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,2002,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,2003,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,2004,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,2005,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,2006,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,2007,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,2008,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,2009,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,2010,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,2011,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,2012,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,2013,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,2014,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,2015,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,2016,0.0,National Communication 3
+Waste,Incineration of Waste,CH4,2017,0.0,National Communication 3
+Waste,Incineration of Waste,CO2,1995,0.001126,National Communication 3
+Waste,Incineration of Waste,CO2,1996,0.001133,National Communication 3
+Waste,Incineration of Waste,CO2,1997,0.00114,National Communication 3
+Waste,Incineration of Waste,CO2,1998,0.001147,National Communication 3
+Waste,Incineration of Waste,CO2,1999,0.001154,National Communication 3
+Waste,Incineration of Waste,CO2,2000,0.001161,National Communication 3
+Waste,Incineration of Waste,CO2,2001,0.0011682,National Communication 3
+Waste,Incineration of Waste,CO2,2002,0.0011754,National Communication 3
+Waste,Incineration of Waste,CO2,2003,0.0011826,National Communication 3
+Waste,Incineration of Waste,CO2,2004,0.0011898,National Communication 3
+Waste,Incineration of Waste,CO2,2005,0.001197,National Communication 3
+Waste,Incineration of Waste,CO2,2006,0.0012876,National Communication 3
+Waste,Incineration of Waste,CO2,2007,0.0013782,National Communication 3
+Waste,Incineration of Waste,CO2,2008,0.0014688,National Communication 3
+Waste,Incineration of Waste,CO2,2009,0.0015594,National Communication 3
+Waste,Incineration of Waste,CO2,2010,0.00165,National Communication 3
+Waste,Incineration of Waste,CO2,2011,0.0016584,National Communication 3
+Waste,Incineration of Waste,CO2,2012,0.0016668,National Communication 3
+Waste,Incineration of Waste,CO2,2013,0.0016752,National Communication 3
+Waste,Incineration of Waste,CO2,2014,0.0016836,National Communication 3
+Waste,Incineration of Waste,CO2,2015,0.001692,National Communication 3
+Waste,Incineration of Waste,CO2,2016,0.001702,National Communication 3
+Waste,Incineration of Waste,CO2,2017,0.001712,National Communication 3
+Waste,Incineration of Waste,N2O,1995,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,1996,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,1997,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,1998,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,1999,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,2000,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,2001,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,2002,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,2003,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,2004,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,2005,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,2006,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,2007,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,2008,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,2009,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,2010,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,2011,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,2012,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,2013,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,2014,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,2015,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,2016,0.0,National Communication 3
+Waste,Incineration of Waste,N2O,2017,0.0,National Communication 3
+Waste,Open Burning of Waste,CH4,1995,0.0020221,National Communication 3
+Waste,Open Burning of Waste,CH4,1996,0.00254286,National Communication 3
+Waste,Open Burning of Waste,CH4,1997,0.00306362,National Communication 3
+Waste,Open Burning of Waste,CH4,1998,0.00358438,National Communication 3
+Waste,Open Burning of Waste,CH4,1999,0.00410514,National Communication 3
+Waste,Open Burning of Waste,CH4,2000,0.0046259,National Communication 3
+Waste,Open Burning of Waste,CH4,2001,0.00480318,National Communication 3
+Waste,Open Burning of Waste,CH4,2002,0.00498046,National Communication 3
+Waste,Open Burning of Waste,CH4,2003,0.00515774,National Communication 3
+Waste,Open Burning of Waste,CH4,2004,0.00533502,National Communication 3
+Waste,Open Burning of Waste,CH4,2005,0.0055123,National Communication 3
+Waste,Open Burning of Waste,CH4,2006,0.00568404,National Communication 3
+Waste,Open Burning of Waste,CH4,2007,0.00585578,National Communication 3
+Waste,Open Burning of Waste,CH4,2008,0.00602752,National Communication 3
+Waste,Open Burning of Waste,CH4,2009,0.00619926,National Communication 3
+Waste,Open Burning of Waste,CH4,2010,0.006371,National Communication 3
+Waste,Open Burning of Waste,CH4,2011,0.0076175,National Communication 3
+Waste,Open Burning of Waste,CH4,2012,0.008864,National Communication 3
+Waste,Open Burning of Waste,CH4,2013,0.0101105,National Communication 3
+Waste,Open Burning of Waste,CH4,2014,0.011357,National Communication 3
+Waste,Open Burning of Waste,CH4,2015,0.0126035,National Communication 3
+Waste,Open Burning of Waste,CH4,2016,0.01297745,National Communication 3
+Waste,Open Burning of Waste,CH4,2017,0.0133514,National Communication 3
+Waste,Open Burning of Waste,CO2,1995,0.000878,National Communication 3
+Waste,Open Burning of Waste,CO2,1996,0.0009822,National Communication 3
+Waste,Open Burning of Waste,CO2,1997,0.0010864,National Communication 3
+Waste,Open Burning of Waste,CO2,1998,0.0011906,National Communication 3
+Waste,Open Burning of Waste,CO2,1999,0.0012948,National Communication 3
+Waste,Open Burning of Waste,CO2,2000,0.001399,National Communication 3
+Waste,Open Burning of Waste,CO2,2001,0.0016088,National Communication 3
+Waste,Open Burning of Waste,CO2,2002,0.0018186,National Communication 3
+Waste,Open Burning of Waste,CO2,2003,0.0020284,National Communication 3
+Waste,Open Burning of Waste,CO2,2004,0.0022382,National Communication 3
+Waste,Open Burning of Waste,CO2,2005,0.002448,National Communication 3
+Waste,Open Burning of Waste,CO2,2006,0.0024726,National Communication 3
+Waste,Open Burning of Waste,CO2,2007,0.0024972,National Communication 3
+Waste,Open Burning of Waste,CO2,2008,0.0025218,National Communication 3
+Waste,Open Burning of Waste,CO2,2009,0.0025464,National Communication 3
+Waste,Open Burning of Waste,CO2,2010,0.002571,National Communication 3
+Waste,Open Burning of Waste,CO2,2011,0.0030728,National Communication 3
+Waste,Open Burning of Waste,CO2,2012,0.0035746,National Communication 3
+Waste,Open Burning of Waste,CO2,2013,0.0040764,National Communication 3
+Waste,Open Burning of Waste,CO2,2014,0.0045782,National Communication 3
+Waste,Open Burning of Waste,CO2,2015,0.00508,National Communication 3
+Waste,Open Burning of Waste,CO2,2016,0.0061295,National Communication 3
+Waste,Open Burning of Waste,CO2,2017,0.007179,National Communication 3
+Waste,Open Burning of Waste,N2O,1995,0.000273,National Communication 3
+Waste,Open Burning of Waste,N2O,1996,0.0003276,National Communication 3
+Waste,Open Burning of Waste,N2O,1997,0.0003822,National Communication 3
+Waste,Open Burning of Waste,N2O,1998,0.0004368,National Communication 3
+Waste,Open Burning of Waste,N2O,1999,0.0004914,National Communication 3
+Waste,Open Burning of Waste,N2O,2000,0.000546,National Communication 3
+Waste,Open Burning of Waste,N2O,2001,0.0006006,National Communication 3
+Waste,Open Burning of Waste,N2O,2002,0.0006552,National Communication 3
+Waste,Open Burning of Waste,N2O,2003,0.0007098,National Communication 3
+Waste,Open Burning of Waste,N2O,2004,0.0007644,National Communication 3
+Waste,Open Burning of Waste,N2O,2005,0.000819,National Communication 3
+Waste,Open Burning of Waste,N2O,2006,0.000819,National Communication 3
+Waste,Open Burning of Waste,N2O,2007,0.000819,National Communication 3
+Waste,Open Burning of Waste,N2O,2008,0.000819,National Communication 3
+Waste,Open Burning of Waste,N2O,2009,0.000819,National Communication 3
+Waste,Open Burning of Waste,N2O,2010,0.000819,National Communication 3
+Waste,Open Burning of Waste,N2O,2011,0.0009828,National Communication 3
+Waste,Open Burning of Waste,N2O,2012,0.0011466,National Communication 3
+Waste,Open Burning of Waste,N2O,2013,0.0013104,National Communication 3
+Waste,Open Burning of Waste,N2O,2014,0.0014742,National Communication 3
+Waste,Open Burning of Waste,N2O,2015,0.001638,National Communication 3
+Waste,Open Burning of Waste,N2O,2016,0.0017745,National Communication 3
+Waste,Open Burning of Waste,N2O,2017,0.001911,National Communication 3
+Waste,Solid Waste Disposal,All GHG,1995,1.672,National Communication 3
+Waste,Solid Waste Disposal,All GHG,1996,1.787272727,National Communication 3
+Waste,Solid Waste Disposal,All GHG,1997,1.902545455,National Communication 3
+Waste,Solid Waste Disposal,All GHG,1998,2.017818182,National Communication 3
+Waste,Solid Waste Disposal,All GHG,1999,2.133090909,National Communication 3
+Waste,Solid Waste Disposal,All GHG,2000,2.248363636,National Communication 3
+Waste,Solid Waste Disposal,All GHG,2001,2.363636364,National Communication 3
+Waste,Solid Waste Disposal,All GHG,2002,2.478909091,National Communication 3
+Waste,Solid Waste Disposal,All GHG,2003,2.594181818,National Communication 3
+Waste,Solid Waste Disposal,All GHG,2004,2.709454545,National Communication 3
+Waste,Solid Waste Disposal,All GHG,2005,2.824727273,National Communication 3
+Waste,Solid Waste Disposal,All GHG,2006,2.94,National Communication 3
+Waste,Solid Waste Disposal,All GHG,2007,3.055272727,National Communication 3
+Waste,Solid Waste Disposal,All GHG,2008,3.170545455,National Communication 3
+Waste,Solid Waste Disposal,All GHG,2009,3.285818182,National Communication 3
+Waste,Solid Waste Disposal,All GHG,2010,3.401090909,National Communication 3
+Waste,Solid Waste Disposal,All GHG,2011,3.516363636,National Communication 3
+Waste,Solid Waste Disposal,All GHG,2012,3.631636364,National Communication 3
+Waste,Solid Waste Disposal,All GHG,2013,3.746909091,National Communication 3
+Waste,Solid Waste Disposal,All GHG,2014,3.862181818,National Communication 3
+Waste,Solid Waste Disposal,All GHG,2015,3.977454545,National Communication 3
+Waste,Solid Waste Disposal,All GHG,2016,4.092727273,National Communication 3
+Waste,Solid Waste Disposal,All GHG,2017,4.208,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,1995,0.3812628,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,1996,0.4033397,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,1997,0.4254166,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,1998,0.4474935,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,1999,0.4695704,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,2000,0.4916473,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,2001,0.54731876,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,2002,0.60299022,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,2003,0.65866168,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,2004,0.71433314,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,2005,0.7700046,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,2006,0.84035706,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,2007,0.91070952,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,2008,0.98106198,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,2009,1.05141444,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,2010,1.1217669,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,2011,1.21837342,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,2012,1.31497994,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,2013,1.41158646,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,2014,1.50819298,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,2015,1.6047995,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,2016,1.7341585,National Communication 3
+Waste,Wastewater Treatment and Discharge,CH4,2017,1.8635175,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,1995,0.187824,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,1996,0.194649,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,1997,0.201474,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,1998,0.208299,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,1999,0.215124,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,2000,0.221949,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,2001,0.229866,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,2002,0.237783,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,2003,0.2457,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,2004,0.253617,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,2005,0.261534,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,2006,0.2890524,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,2007,0.3165708,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,2008,0.3440892,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,2009,0.3716076,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,2010,0.399126,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,2011,0.4084626,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,2012,0.4177992,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,2013,0.4271358,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,2014,0.4364724,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,2015,0.445809,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,2016,0.459459,National Communication 3
+Waste,Wastewater Treatment and Discharge,N2O,2017,0.473109,National Communication 3
