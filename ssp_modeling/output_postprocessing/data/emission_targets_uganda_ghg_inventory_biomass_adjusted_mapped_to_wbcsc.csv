@@ -22,29 +22,6 @@ AFOLU,AG - Crops,CH4,2014,National Communication -- Mapped to WB CSC Categories,
 AFOLU,AG - Crops,CH4,2015,National Communication -- Mapped to WB CSC Categories,0.3324
 AFOLU,AG - Crops,CH4,2016,National Communication -- Mapped to WB CSC Categories,0.3601
 AFOLU,AG - Crops,CH4,2017,National Communication -- Mapped to WB CSC Categories,0.3878
-AFOLU,AG - Crops,CO,1995,National Communication -- Mapped to WB CSC Categories,1.434
-AFOLU,AG - Crops,CO,1996,National Communication -- Mapped to WB CSC Categories,1.1472
-AFOLU,AG - Crops,CO,1997,National Communication -- Mapped to WB CSC Categories,0.8604
-AFOLU,AG - Crops,CO,1998,National Communication -- Mapped to WB CSC Categories,0.5736
-AFOLU,AG - Crops,CO,1999,National Communication -- Mapped to WB CSC Categories,0.2868
-AFOLU,AG - Crops,CO,2000,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,CO,2001,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,CO,2002,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,CO,2003,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,CO,2004,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,CO,2005,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,CO,2006,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,CO,2007,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,CO,2008,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,CO,2009,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,CO,2010,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,CO,2011,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,CO,2012,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,CO,2013,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,CO,2014,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,CO,2015,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,CO,2016,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,CO,2017,National Communication -- Mapped to WB CSC Categories,0.0
 AFOLU,AG - Crops,CO2,1995,National Communication -- Mapped to WB CSC Categories,0.0
 AFOLU,AG - Crops,CO2,1996,National Communication -- Mapped to WB CSC Categories,0.0
 AFOLU,AG - Crops,CO2,1997,National Communication -- Mapped to WB CSC Categories,0.0
@@ -91,29 +68,6 @@ AFOLU,AG - Crops,N2O,2014,National Communication -- Mapped to WB CSC Categories,
 AFOLU,AG - Crops,N2O,2015,National Communication -- Mapped to WB CSC Categories,5.787599999999999
 AFOLU,AG - Crops,N2O,2016,National Communication -- Mapped to WB CSC Categories,5.8694999999999995
 AFOLU,AG - Crops,N2O,2017,National Communication -- Mapped to WB CSC Categories,5.9514
-AFOLU,AG - Crops,NOx,1995,National Communication -- Mapped to WB CSC Categories,0.301
-AFOLU,AG - Crops,NOx,1996,National Communication -- Mapped to WB CSC Categories,0.2408
-AFOLU,AG - Crops,NOx,1997,National Communication -- Mapped to WB CSC Categories,0.1806
-AFOLU,AG - Crops,NOx,1998,National Communication -- Mapped to WB CSC Categories,0.1204
-AFOLU,AG - Crops,NOx,1999,National Communication -- Mapped to WB CSC Categories,0.0602
-AFOLU,AG - Crops,NOx,2000,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,NOx,2001,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,NOx,2002,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,NOx,2003,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,NOx,2004,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,NOx,2005,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,NOx,2006,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,NOx,2007,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,NOx,2008,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,NOx,2009,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,NOx,2010,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,NOx,2011,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,NOx,2012,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,NOx,2013,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,NOx,2014,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,NOx,2015,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,NOx,2016,National Communication -- Mapped to WB CSC Categories,0.0
-AFOLU,AG - Crops,NOx,2017,National Communication -- Mapped to WB CSC Categories,0.0
 AFOLU,AG - Livestock,CH4,1995,National Communication -- Mapped to WB CSC Categories,7.8668
 AFOLU,AG - Livestock,CH4,1996,National Communication -- Mapped to WB CSC Categories,8.032446
 AFOLU,AG - Livestock,CH4,1997,National Communication -- Mapped to WB CSC Categories,8.198091999999999
@@ -298,282 +252,305 @@ Energy,EN - Building,N2O,2014,National Communication -- Mapped to WB CSC Categor
 Energy,EN - Building,N2O,2015,National Communication -- Mapped to WB CSC Categories,0.32955313117390306
 Energy,EN - Building,N2O,2016,National Communication -- Mapped to WB CSC Categories,0.3487643197355892
 Energy,EN - Building,N2O,2017,National Communication -- Mapped to WB CSC Categories,0.36797550829727527
-Energy,EN - Industrial Combustion,CH4,1995,National Communication -- Mapped to WB CSC Categories,0.014980777139051214
-Energy,EN - Industrial Combustion,CH4,1996,National Communication -- Mapped to WB CSC Categories,0.015810718368912274
-Energy,EN - Industrial Combustion,CH4,1997,National Communication -- Mapped to WB CSC Categories,0.016640659598773335
-Energy,EN - Industrial Combustion,CH4,1998,National Communication -- Mapped to WB CSC Categories,0.017055100828634397
-Energy,EN - Industrial Combustion,CH4,1999,National Communication -- Mapped to WB CSC Categories,0.017469542058495456
-Energy,EN - Industrial Combustion,CH4,2000,National Communication -- Mapped to WB CSC Categories,0.02937948328835652
-Energy,EN - Industrial Combustion,CH4,2001,National Communication -- Mapped to WB CSC Categories,0.04250227882849839
-Energy,EN - Industrial Combustion,CH4,2002,National Communication -- Mapped to WB CSC Categories,0.04399107436864026
-Energy,EN - Industrial Combustion,CH4,2003,National Communication -- Mapped to WB CSC Categories,0.04547986990878214
-Energy,EN - Industrial Combustion,CH4,2004,National Communication -- Mapped to WB CSC Categories,0.04322916544892401
-Energy,EN - Industrial Combustion,CH4,2005,National Communication -- Mapped to WB CSC Categories,0.04097846098906588
-Energy,EN - Industrial Combustion,CH4,2006,National Communication -- Mapped to WB CSC Categories,0.04481599737580451
-Energy,EN - Industrial Combustion,CH4,2007,National Communication -- Mapped to WB CSC Categories,0.04865353376254314
-Energy,EN - Industrial Combustion,CH4,2008,National Communication -- Mapped to WB CSC Categories,0.05304507014928177
-Energy,EN - Industrial Combustion,CH4,2009,National Communication -- Mapped to WB CSC Categories,0.057436606536020396
-Energy,EN - Industrial Combustion,CH4,2010,National Communication -- Mapped to WB CSC Categories,0.061274142922759026
-Energy,EN - Industrial Combustion,CH4,2011,National Communication -- Mapped to WB CSC Categories,0.06755194152910396
-Energy,EN - Industrial Combustion,CH4,2012,National Communication -- Mapped to WB CSC Categories,0.0901727401354489
-Energy,EN - Industrial Combustion,CH4,2013,National Communication -- Mapped to WB CSC Categories,0.11279353874179385
-Energy,EN - Industrial Combustion,CH4,2014,National Communication -- Mapped to WB CSC Categories,0.11713233734813877
-Energy,EN - Industrial Combustion,CH4,2015,National Communication -- Mapped to WB CSC Categories,0.1214711359544837
-Energy,EN - Industrial Combustion,CH4,2016,National Communication -- Mapped to WB CSC Categories,0.10770613272491875
-Energy,EN - Industrial Combustion,CH4,2017,National Communication -- Mapped to WB CSC Categories,0.09394112949535377
-Energy,EN - Industrial Combustion,CO2,1995,National Communication -- Mapped to WB CSC Categories,0.9253544531641278
-Energy,EN - Industrial Combustion,CO2,1996,National Communication -- Mapped to WB CSC Categories,1.006674586621552
-Energy,EN - Industrial Combustion,CO2,1997,National Communication -- Mapped to WB CSC Categories,1.0879947200789761
-Energy,EN - Industrial Combustion,CO2,1998,National Communication -- Mapped to WB CSC Categories,1.1443148535364005
-Energy,EN - Industrial Combustion,CO2,1999,National Communication -- Mapped to WB CSC Categories,1.2006349869938246
-Energy,EN - Industrial Combustion,CO2,2000,National Communication -- Mapped to WB CSC Categories,1.253355120451249
-Energy,EN - Industrial Combustion,CO2,2001,National Communication -- Mapped to WB CSC Categories,1.5868059250775008
-Energy,EN - Industrial Combustion,CO2,2002,National Communication -- Mapped to WB CSC Categories,1.950256729703753
-Energy,EN - Industrial Combustion,CO2,2003,National Communication -- Mapped to WB CSC Categories,2.3137075343300055
-Energy,EN - Industrial Combustion,CO2,2004,National Communication -- Mapped to WB CSC Categories,2.722508338956257
-Energy,EN - Industrial Combustion,CO2,2005,National Communication -- Mapped to WB CSC Categories,3.1313091435825093
-Energy,EN - Industrial Combustion,CO2,2006,National Communication -- Mapped to WB CSC Categories,3.512849717417118
-Energy,EN - Industrial Combustion,CO2,2007,National Communication -- Mapped to WB CSC Categories,3.894390291251725
-Energy,EN - Industrial Combustion,CO2,2008,National Communication -- Mapped to WB CSC Categories,4.566230865086333
-Energy,EN - Industrial Combustion,CO2,2009,National Communication -- Mapped to WB CSC Categories,5.23807143892094
-Energy,EN - Industrial Combustion,CO2,2010,National Communication -- Mapped to WB CSC Categories,5.468062012755548
-Energy,EN - Industrial Combustion,CO2,2011,National Communication -- Mapped to WB CSC Categories,6.262882545910992
-Energy,EN - Industrial Combustion,CO2,2012,National Communication -- Mapped to WB CSC Categories,7.434303079066438
-Energy,EN - Industrial Combustion,CO2,2013,National Communication -- Mapped to WB CSC Categories,8.605723612221881
-Energy,EN - Industrial Combustion,CO2,2014,National Communication -- Mapped to WB CSC Categories,9.609994145377327
-Energy,EN - Industrial Combustion,CO2,2015,National Communication -- Mapped to WB CSC Categories,10.61426467853277
-Energy,EN - Industrial Combustion,CO2,2016,National Communication -- Mapped to WB CSC Categories,10.126105877693165
-Energy,EN - Industrial Combustion,CO2,2017,National Communication -- Mapped to WB CSC Categories,9.63794707685356
-Energy,EN - Industrial Combustion,N2O,1995,National Communication -- Mapped to WB CSC Categories,0.02226441242610399
-Energy,EN - Industrial Combustion,N2O,1996,National Communication -- Mapped to WB CSC Categories,0.02274958127195345
-Energy,EN - Industrial Combustion,N2O,1997,National Communication -- Mapped to WB CSC Categories,0.023234750117802915
-Energy,EN - Industrial Combustion,N2O,1998,National Communication -- Mapped to WB CSC Categories,0.02371991896365238
-Energy,EN - Industrial Combustion,N2O,1999,National Communication -- Mapped to WB CSC Categories,0.02420508780950184
-Energy,EN - Industrial Combustion,N2O,2000,National Communication -- Mapped to WB CSC Categories,0.0410702566553513
-Energy,EN - Industrial Combustion,N2O,2001,National Communication -- Mapped to WB CSC Categories,0.06006790539990519
-Energy,EN - Industrial Combustion,N2O,2002,National Communication -- Mapped to WB CSC Categories,0.06268555414445907
-Energy,EN - Industrial Combustion,N2O,2003,National Communication -- Mapped to WB CSC Categories,0.06530320288901295
-Energy,EN - Industrial Combustion,N2O,2004,National Communication -- Mapped to WB CSC Categories,0.06246085163356682
-Energy,EN - Industrial Combustion,N2O,2005,National Communication -- Mapped to WB CSC Categories,0.059618500378120706
-Energy,EN - Industrial Combustion,N2O,2006,National Communication -- Mapped to WB CSC Categories,0.06568656880675305
-Energy,EN - Industrial Combustion,N2O,2007,National Communication -- Mapped to WB CSC Categories,0.0717546372353854
-Energy,EN - Industrial Combustion,N2O,2008,National Communication -- Mapped to WB CSC Categories,0.07782270566401776
-Energy,EN - Industrial Combustion,N2O,2009,National Communication -- Mapped to WB CSC Categories,0.08389077409265011
-Energy,EN - Industrial Combustion,N2O,2010,National Communication -- Mapped to WB CSC Categories,0.08449884252128247
-Energy,EN - Industrial Combustion,N2O,2011,National Communication -- Mapped to WB CSC Categories,0.0893974593585472
-Energy,EN - Industrial Combustion,N2O,2012,National Communication -- Mapped to WB CSC Categories,0.12705607619581194
-Energy,EN - Industrial Combustion,N2O,2013,National Communication -- Mapped to WB CSC Categories,0.1647146930330767
-Energy,EN - Industrial Combustion,N2O,2014,National Communication -- Mapped to WB CSC Categories,0.17234330987034144
-Energy,EN - Industrial Combustion,N2O,2015,National Communication -- Mapped to WB CSC Categories,0.17997192670760617
-Energy,EN - Industrial Combustion,N2O,2016,National Communication -- Mapped to WB CSC Categories,0.16062700587471013
-Energy,EN - Industrial Combustion,N2O,2017,National Communication -- Mapped to WB CSC Categories,0.14128208504181405
-Energy,EN - Power Industry,CH4,1995,National Communication -- Mapped to WB CSC Categories,0.0544305
-Energy,EN - Power Industry,CH4,1996,National Communication -- Mapped to WB CSC Categories,0.05690965
-Energy,EN - Power Industry,CH4,1997,National Communication -- Mapped to WB CSC Categories,0.0593888
-Energy,EN - Power Industry,CH4,1998,National Communication -- Mapped to WB CSC Categories,0.0682251
-Energy,EN - Power Industry,CH4,1999,National Communication -- Mapped to WB CSC Categories,0.0770614
-Energy,EN - Power Industry,CH4,2000,National Communication -- Mapped to WB CSC Categories,0.0829338
-Energy,EN - Power Industry,CH4,2001,National Communication -- Mapped to WB CSC Categories,0.0888062
-Energy,EN - Power Industry,CH4,2002,National Communication -- Mapped to WB CSC Categories,0.0888062
-Energy,EN - Power Industry,CH4,2003,National Communication -- Mapped to WB CSC Categories,0.0888062
-Energy,EN - Power Industry,CH4,2004,National Communication -- Mapped to WB CSC Categories,0.108307
-Energy,EN - Power Industry,CH4,2005,National Communication -- Mapped to WB CSC Categories,0.1278078
-Energy,EN - Power Industry,CH4,2006,National Communication -- Mapped to WB CSC Categories,0.1341234
-Energy,EN - Power Industry,CH4,2007,National Communication -- Mapped to WB CSC Categories,0.140439
-Energy,EN - Power Industry,CH4,2008,National Communication -- Mapped to WB CSC Categories,0.14693465
-Energy,EN - Power Industry,CH4,2009,National Communication -- Mapped to WB CSC Categories,0.1534303
-Energy,EN - Power Industry,CH4,2010,National Communication -- Mapped to WB CSC Categories,0.1566158
-Energy,EN - Power Industry,CH4,2011,National Communication -- Mapped to WB CSC Categories,0.1598013
-Energy,EN - Power Industry,CH4,2012,National Communication -- Mapped to WB CSC Categories,0.1791359
-Energy,EN - Power Industry,CH4,2013,National Communication -- Mapped to WB CSC Categories,0.1984705
-Energy,EN - Power Industry,CH4,2014,National Communication -- Mapped to WB CSC Categories,0.32845275
-Energy,EN - Power Industry,CH4,2015,National Communication -- Mapped to WB CSC Categories,0.458435
-Energy,EN - Power Industry,CH4,2016,National Communication -- Mapped to WB CSC Categories,0.382814
-Energy,EN - Power Industry,CH4,2017,National Communication -- Mapped to WB CSC Categories,0.307193
-Energy,EN - Power Industry,CO2,1995,National Communication -- Mapped to WB CSC Categories,0.000828
-Energy,EN - Power Industry,CO2,1996,National Communication -- Mapped to WB CSC Categories,0.0008655
-Energy,EN - Power Industry,CO2,1997,National Communication -- Mapped to WB CSC Categories,0.000903
-Energy,EN - Power Industry,CO2,1998,National Communication -- Mapped to WB CSC Categories,0.000941
-Energy,EN - Power Industry,CO2,1999,National Communication -- Mapped to WB CSC Categories,0.000979
-Energy,EN - Power Industry,CO2,2000,National Communication -- Mapped to WB CSC Categories,0.0010165
-Energy,EN - Power Industry,CO2,2001,National Communication -- Mapped to WB CSC Categories,0.001054
-Energy,EN - Power Industry,CO2,2002,National Communication -- Mapped to WB CSC Categories,0.001054
-Energy,EN - Power Industry,CO2,2003,National Communication -- Mapped to WB CSC Categories,0.001054
-Energy,EN - Power Industry,CO2,2004,National Communication -- Mapped to WB CSC Categories,0.0009785
-Energy,EN - Power Industry,CO2,2005,National Communication -- Mapped to WB CSC Categories,0.000903
-Energy,EN - Power Industry,CO2,2006,National Communication -- Mapped to WB CSC Categories,0.0860965
-Energy,EN - Power Industry,CO2,2007,National Communication -- Mapped to WB CSC Categories,0.17129
-Energy,EN - Power Industry,CO2,2008,National Communication -- Mapped to WB CSC Categories,0.20364
-Energy,EN - Power Industry,CO2,2009,National Communication -- Mapped to WB CSC Categories,0.23599
-Energy,EN - Power Industry,CO2,2010,National Communication -- Mapped to WB CSC Categories,0.256895
-Energy,EN - Power Industry,CO2,2011,National Communication -- Mapped to WB CSC Categories,0.2778
-Energy,EN - Power Industry,CO2,2012,National Communication -- Mapped to WB CSC Categories,0.1392485
-Energy,EN - Power Industry,CO2,2013,National Communication -- Mapped to WB CSC Categories,0.000697
-Energy,EN - Power Industry,CO2,2014,National Communication -- Mapped to WB CSC Categories,0.0218285
-Energy,EN - Power Industry,CO2,2015,National Communication -- Mapped to WB CSC Categories,0.04296
-Energy,EN - Power Industry,CO2,2016,National Communication -- Mapped to WB CSC Categories,0.08288
-Energy,EN - Power Industry,CO2,2017,National Communication -- Mapped to WB CSC Categories,0.1228
-Energy,EN - Power Industry,N2O,1995,National Communication -- Mapped to WB CSC Categories,0.01092
-Energy,EN - Power Industry,N2O,1996,National Communication -- Mapped to WB CSC Categories,0.011466
-Energy,EN - Power Industry,N2O,1997,National Communication -- Mapped to WB CSC Categories,0.012012
-Energy,EN - Power Industry,N2O,1998,National Communication -- Mapped to WB CSC Categories,0.0137865
-Energy,EN - Power Industry,N2O,1999,National Communication -- Mapped to WB CSC Categories,0.015561
-Energy,EN - Power Industry,N2O,2000,National Communication -- Mapped to WB CSC Categories,0.016653
-Energy,EN - Power Industry,N2O,2001,National Communication -- Mapped to WB CSC Categories,0.017745
-Energy,EN - Power Industry,N2O,2002,National Communication -- Mapped to WB CSC Categories,0.017745
-Energy,EN - Power Industry,N2O,2003,National Communication -- Mapped to WB CSC Categories,0.017745
-Energy,EN - Power Industry,N2O,2004,National Communication -- Mapped to WB CSC Categories,0.0217035
-Energy,EN - Power Industry,N2O,2005,National Communication -- Mapped to WB CSC Categories,0.025662
-Energy,EN - Power Industry,N2O,2006,National Communication -- Mapped to WB CSC Categories,0.0268905
-Energy,EN - Power Industry,N2O,2007,National Communication -- Mapped to WB CSC Categories,0.028119
-Energy,EN - Power Industry,N2O,2008,National Communication -- Mapped to WB CSC Categories,0.0293475
-Energy,EN - Power Industry,N2O,2009,National Communication -- Mapped to WB CSC Categories,0.030576
-Energy,EN - Power Industry,N2O,2010,National Communication -- Mapped to WB CSC Categories,0.0312585
-Energy,EN - Power Industry,N2O,2011,National Communication -- Mapped to WB CSC Categories,0.031941
-Energy,EN - Power Industry,N2O,2012,National Communication -- Mapped to WB CSC Categories,0.035763
-Energy,EN - Power Industry,N2O,2013,National Communication -- Mapped to WB CSC Categories,0.039585
-Energy,EN - Power Industry,N2O,2014,National Communication -- Mapped to WB CSC Categories,0.065247
-Energy,EN - Power Industry,N2O,2015,National Communication -- Mapped to WB CSC Categories,0.090909
-Energy,EN - Power Industry,N2O,2016,National Communication -- Mapped to WB CSC Categories,0.0760305
-Energy,EN - Power Industry,N2O,2017,National Communication -- Mapped to WB CSC Categories,0.061152
-Energy,EN - Transport,CH4,1995,National Communication -- Mapped to WB CSC Categories,0.0051522
-Energy,EN - Transport,CH4,1996,National Communication -- Mapped to WB CSC Categories,0.0053184
-Energy,EN - Transport,CH4,1997,National Communication -- Mapped to WB CSC Categories,0.0054846
-Energy,EN - Transport,CH4,1998,National Communication -- Mapped to WB CSC Categories,0.0060109
-Energy,EN - Transport,CH4,1999,National Communication -- Mapped to WB CSC Categories,0.0065372
-Energy,EN - Transport,CH4,2000,National Communication -- Mapped to WB CSC Categories,0.0064818
-Energy,EN - Transport,CH4,2001,National Communication -- Mapped to WB CSC Categories,0.0064264
-Energy,EN - Transport,CH4,2002,National Communication -- Mapped to WB CSC Categories,0.00652335
-Energy,EN - Transport,CH4,2003,National Communication -- Mapped to WB CSC Categories,0.0066203
-Energy,EN - Transport,CH4,2004,National Communication -- Mapped to WB CSC Categories,0.00630175
-Energy,EN - Transport,CH4,2005,National Communication -- Mapped to WB CSC Categories,0.0059832
-Energy,EN - Transport,CH4,2006,National Communication -- Mapped to WB CSC Categories,0.0064264
-Energy,EN - Transport,CH4,2007,National Communication -- Mapped to WB CSC Categories,0.0068696
-Energy,EN - Transport,CH4,2008,National Communication -- Mapped to WB CSC Categories,0.00854545
-Energy,EN - Transport,CH4,2009,National Communication -- Mapped to WB CSC Categories,0.0102213
-Energy,EN - Transport,CH4,2010,National Communication -- Mapped to WB CSC Categories,0.01142625
-Energy,EN - Transport,CH4,2011,National Communication -- Mapped to WB CSC Categories,0.0126312
-Energy,EN - Transport,CH4,2012,National Communication -- Mapped to WB CSC Categories,0.01422395
-Energy,EN - Transport,CH4,2013,National Communication -- Mapped to WB CSC Categories,0.0158167
-Energy,EN - Transport,CH4,2014,National Communication -- Mapped to WB CSC Categories,0.01757565
-Energy,EN - Transport,CH4,2015,National Communication -- Mapped to WB CSC Categories,0.0193346
-Energy,EN - Transport,CH4,2016,National Communication -- Mapped to WB CSC Categories,0.02120435
-Energy,EN - Transport,CH4,2017,National Communication -- Mapped to WB CSC Categories,0.0230741
-Energy,EN - Transport,CO2,1995,National Communication -- Mapped to WB CSC Categories,0.5888
-Energy,EN - Transport,CO2,1996,National Communication -- Mapped to WB CSC Categories,0.6053
-Energy,EN - Transport,CO2,1997,National Communication -- Mapped to WB CSC Categories,0.6218
-Energy,EN - Transport,CO2,1998,National Communication -- Mapped to WB CSC Categories,0.72645
-Energy,EN - Transport,CO2,1999,National Communication -- Mapped to WB CSC Categories,0.8311
-Energy,EN - Transport,CO2,2000,National Communication -- Mapped to WB CSC Categories,0.83615
-Energy,EN - Transport,CO2,2001,National Communication -- Mapped to WB CSC Categories,0.8412
-Energy,EN - Transport,CO2,2002,National Communication -- Mapped to WB CSC Categories,0.8486
-Energy,EN - Transport,CO2,2003,National Communication -- Mapped to WB CSC Categories,0.856
-Energy,EN - Transport,CO2,2004,National Communication -- Mapped to WB CSC Categories,0.9076
-Energy,EN - Transport,CO2,2005,National Communication -- Mapped to WB CSC Categories,0.9592
-Energy,EN - Transport,CO2,2006,National Communication -- Mapped to WB CSC Categories,1.10755
-Energy,EN - Transport,CO2,2007,National Communication -- Mapped to WB CSC Categories,1.2559
-Energy,EN - Transport,CO2,2008,National Communication -- Mapped to WB CSC Categories,1.4651
-Energy,EN - Transport,CO2,2009,National Communication -- Mapped to WB CSC Categories,1.6743
-Energy,EN - Transport,CO2,2010,National Communication -- Mapped to WB CSC Categories,1.83695
-Energy,EN - Transport,CO2,2011,National Communication -- Mapped to WB CSC Categories,1.9996
-Energy,EN - Transport,CO2,2012,National Communication -- Mapped to WB CSC Categories,2.06245
-Energy,EN - Transport,CO2,2013,National Communication -- Mapped to WB CSC Categories,2.1253
-Energy,EN - Transport,CO2,2014,National Communication -- Mapped to WB CSC Categories,2.255
-Energy,EN - Transport,CO2,2015,National Communication -- Mapped to WB CSC Categories,2.3847
-Energy,EN - Transport,CO2,2016,National Communication -- Mapped to WB CSC Categories,2.7441
-Energy,EN - Transport,CO2,2017,National Communication -- Mapped to WB CSC Categories,3.1035
-Energy,EN - Transport,N2O,1995,National Communication -- Mapped to WB CSC Categories,0.007917
-Energy,EN - Transport,N2O,1996,National Communication -- Mapped to WB CSC Categories,0.0080535
-Energy,EN - Transport,N2O,1997,National Communication -- Mapped to WB CSC Categories,0.00819
-Energy,EN - Transport,N2O,1998,National Communication -- Mapped to WB CSC Categories,0.0096915
-Energy,EN - Transport,N2O,1999,National Communication -- Mapped to WB CSC Categories,0.011193
-Energy,EN - Transport,N2O,2000,National Communication -- Mapped to WB CSC Categories,0.011193
-Energy,EN - Transport,N2O,2001,National Communication -- Mapped to WB CSC Categories,0.011193
-Energy,EN - Transport,N2O,2002,National Communication -- Mapped to WB CSC Categories,0.0113295
-Energy,EN - Transport,N2O,2003,National Communication -- Mapped to WB CSC Categories,0.011466
-Energy,EN - Transport,N2O,2004,National Communication -- Mapped to WB CSC Categories,0.012285
-Energy,EN - Transport,N2O,2005,National Communication -- Mapped to WB CSC Categories,0.013104
-Energy,EN - Transport,N2O,2006,National Communication -- Mapped to WB CSC Categories,0.0151515
-Energy,EN - Transport,N2O,2007,National Communication -- Mapped to WB CSC Categories,0.017199
-Energy,EN - Transport,N2O,2008,National Communication -- Mapped to WB CSC Categories,0.0200655
-Energy,EN - Transport,N2O,2009,National Communication -- Mapped to WB CSC Categories,0.022932
-Energy,EN - Transport,N2O,2010,National Communication -- Mapped to WB CSC Categories,0.025116
-Energy,EN - Transport,N2O,2011,National Communication -- Mapped to WB CSC Categories,0.0273
-Energy,EN - Transport,N2O,2012,National Communication -- Mapped to WB CSC Categories,0.0279825
-Energy,EN - Transport,N2O,2013,National Communication -- Mapped to WB CSC Categories,0.028665
-Energy,EN - Transport,N2O,2014,National Communication -- Mapped to WB CSC Categories,0.0326235
-Energy,EN - Transport,N2O,2015,National Communication -- Mapped to WB CSC Categories,0.036582
-Energy,EN - Transport,N2O,2016,National Communication -- Mapped to WB CSC Categories,0.0391755
-Energy,EN - Transport,N2O,2017,National Communication -- Mapped to WB CSC Categories,0.041769
-IPPU,IN - Industrial Processes,All GHG,1995,National Communication -- Mapped to WB CSC Categories,0.120001
-IPPU,IN - Industrial Processes,All GHG,1996,National Communication -- Mapped to WB CSC Categories,0.125121
-IPPU,IN - Industrial Processes,All GHG,1997,National Communication -- Mapped to WB CSC Categories,0.130241
-IPPU,IN - Industrial Processes,All GHG,1998,National Communication -- Mapped to WB CSC Categories,0.13536099999999998
-IPPU,IN - Industrial Processes,All GHG,1999,National Communication -- Mapped to WB CSC Categories,0.140481
-IPPU,IN - Industrial Processes,All GHG,2000,National Communication -- Mapped to WB CSC Categories,0.145601
-IPPU,IN - Industrial Processes,All GHG,2001,National Communication -- Mapped to WB CSC Categories,0.1569814
-IPPU,IN - Industrial Processes,All GHG,2002,National Communication -- Mapped to WB CSC Categories,0.16836179999999998
-IPPU,IN - Industrial Processes,All GHG,2003,National Communication -- Mapped to WB CSC Categories,0.1797422
-IPPU,IN - Industrial Processes,All GHG,2004,National Communication -- Mapped to WB CSC Categories,0.1911226
-IPPU,IN - Industrial Processes,All GHG,2005,National Communication -- Mapped to WB CSC Categories,0.202503
-IPPU,IN - Industrial Processes,All GHG,2006,National Communication -- Mapped to WB CSC Categories,0.2166834
-IPPU,IN - Industrial Processes,All GHG,2007,National Communication -- Mapped to WB CSC Categories,0.2308638
-IPPU,IN - Industrial Processes,All GHG,2008,National Communication -- Mapped to WB CSC Categories,0.2450442
-IPPU,IN - Industrial Processes,All GHG,2009,National Communication -- Mapped to WB CSC Categories,0.25922459999999997
-IPPU,IN - Industrial Processes,All GHG,2010,National Communication -- Mapped to WB CSC Categories,0.273405
-IPPU,IN - Industrial Processes,All GHG,2011,National Communication -- Mapped to WB CSC Categories,0.2897658
-IPPU,IN - Industrial Processes,All GHG,2012,National Communication -- Mapped to WB CSC Categories,0.30612659999999997
-IPPU,IN - Industrial Processes,All GHG,2013,National Communication -- Mapped to WB CSC Categories,0.3224874
-IPPU,IN - Industrial Processes,All GHG,2014,National Communication -- Mapped to WB CSC Categories,0.3388482
-IPPU,IN - Industrial Processes,All GHG,2015,National Communication -- Mapped to WB CSC Categories,0.355209
-IPPU,IN - Industrial Processes,All GHG,2016,National Communication -- Mapped to WB CSC Categories,0.3524605
-IPPU,IN - Industrial Processes,All GHG,2017,National Communication -- Mapped to WB CSC Categories,0.34971199999999997
-Waste,WST - Solid Waste,All GHG,1995,National Communication -- Mapped to WB CSC Categories,1.672
-Waste,WST - Solid Waste,All GHG,1996,National Communication -- Mapped to WB CSC Categories,1.787272727
-Waste,WST - Solid Waste,All GHG,1997,National Communication -- Mapped to WB CSC Categories,1.902545455
-Waste,WST - Solid Waste,All GHG,1998,National Communication -- Mapped to WB CSC Categories,2.017818182
-Waste,WST - Solid Waste,All GHG,1999,National Communication -- Mapped to WB CSC Categories,2.133090909
-Waste,WST - Solid Waste,All GHG,2000,National Communication -- Mapped to WB CSC Categories,2.248363636
-Waste,WST - Solid Waste,All GHG,2001,National Communication -- Mapped to WB CSC Categories,2.363636364
-Waste,WST - Solid Waste,All GHG,2002,National Communication -- Mapped to WB CSC Categories,2.478909091
-Waste,WST - Solid Waste,All GHG,2003,National Communication -- Mapped to WB CSC Categories,2.594181818
-Waste,WST - Solid Waste,All GHG,2004,National Communication -- Mapped to WB CSC Categories,2.709454545
-Waste,WST - Solid Waste,All GHG,2005,National Communication -- Mapped to WB CSC Categories,2.824727273
-Waste,WST - Solid Waste,All GHG,2006,National Communication -- Mapped to WB CSC Categories,2.94
-Waste,WST - Solid Waste,All GHG,2007,National Communication -- Mapped to WB CSC Categories,3.055272727
-Waste,WST - Solid Waste,All GHG,2008,National Communication -- Mapped to WB CSC Categories,3.170545455
-Waste,WST - Solid Waste,All GHG,2009,National Communication -- Mapped to WB CSC Categories,3.285818182
-Waste,WST - Solid Waste,All GHG,2010,National Communication -- Mapped to WB CSC Categories,3.401090909
-Waste,WST - Solid Waste,All GHG,2011,National Communication -- Mapped to WB CSC Categories,3.516363636
-Waste,WST - Solid Waste,All GHG,2012,National Communication -- Mapped to WB CSC Categories,3.631636364
-Waste,WST - Solid Waste,All GHG,2013,National Communication -- Mapped to WB CSC Categories,3.746909091
-Waste,WST - Solid Waste,All GHG,2014,National Communication -- Mapped to WB CSC Categories,3.862181818
-Waste,WST - Solid Waste,All GHG,2015,National Communication -- Mapped to WB CSC Categories,3.977454545
-Waste,WST - Solid Waste,All GHG,2016,National Communication -- Mapped to WB CSC Categories,4.092727273
-Waste,WST - Solid Waste,All GHG,2017,National Communication -- Mapped to WB CSC Categories,4.208
-Waste,WST - Solid Waste,CH4,1995,National Communication -- Mapped to WB CSC Categories,0.3045061
-Waste,WST - Solid Waste,CH4,1996,National Communication -- Mapped to WB CSC Categories,0.3156969
-Waste,WST - Solid Waste,CH4,1997,National Communication -- Mapped to WB CSC Categories,0.3268877
-Waste,WST - Solid Waste,CH4,1998,National Communication -- Mapped to WB CSC Categories,0.3380785
-Waste,WST - Solid Waste,CH4,1999,National Communication -- Mapped to WB CSC Categories,0.3492693
-Waste,WST - Solid Waste,CH4,2000,National Communication -- Mapped to WB CSC Categories,0.3604601
-Waste,WST - Solid Waste,CH4,2001,National Communication -- Mapped to WB CSC Categories,0.37283092
-Waste,WST - Solid Waste,CH4,2002,National Communication -- Mapped to WB CSC Categories,0.38520174
-Waste,WST - Solid Waste,CH4,2003,National Communication -- Mapped to WB CSC Categories,0.39757256
-Waste,WST - Solid Waste,CH4,2004,National Communication -- Mapped to WB CSC Categories,0.40994338
-Waste,WST - Solid Waste,CH4,2005,National Communication -- Mapped to WB CSC Categories,0.42231420000000003
-Waste,WST - Solid Waste,CH4,2006,National Communication -- Mapped to WB CSC Categories,0.43567668
-Waste,WST - Solid Waste,CH4,2007,National Communication -- Mapped to WB CSC Categories,0.44903916
-Waste,WST - Solid Waste,CH4,2008,National Communication -- Mapped to WB CSC Categories,0.46240164
-Waste,WST - Solid Waste,CH4,2009,National Communication -- Mapped to WB CSC Categories,0.47576411999999996
-Waste,WST - Solid Waste,CH4,2010,National Communication -- Mapped to WB CSC Categories,0.4891266
-Waste,WST - Solid Waste,CH4,2011,National Communication -- Mapped to WB CSC Categories,0.50437822
-Waste,WST - Solid Waste,CH4,2012,National Communication -- Mapped to WB CSC Categories,0.51962984
-Waste,WST - Solid Waste,CH4,2013,National Communication -- Mapped to WB CSC Categories,0.53488146
-Waste,WST - Solid Waste,CH4,2014,National Communication -- Mapped to WB CSC Categories,0.5501330799999999
-Waste,WST - Solid Waste,CH4,2015,National Communication -- Mapped to WB CSC Categories,0.5653847
-Waste,WST - Solid Waste,CH4,2016,National Communication -- Mapped to WB CSC Categories,0.5839437
-Waste,WST - Solid Waste,CH4,2017,National Communication -- Mapped to WB CSC Categories,0.6025027000000001
+Energy,EN - Electricity/Heat,CH4,1995,National Communication -- Mapped to WB CSC Categories,0.0544305
+Energy,EN - Electricity/Heat,CH4,1996,National Communication -- Mapped to WB CSC Categories,0.05690965
+Energy,EN - Electricity/Heat,CH4,1997,National Communication -- Mapped to WB CSC Categories,0.0593888
+Energy,EN - Electricity/Heat,CH4,1998,National Communication -- Mapped to WB CSC Categories,0.0682251
+Energy,EN - Electricity/Heat,CH4,1999,National Communication -- Mapped to WB CSC Categories,0.0770614
+Energy,EN - Electricity/Heat,CH4,2000,National Communication -- Mapped to WB CSC Categories,0.0829338
+Energy,EN - Electricity/Heat,CH4,2001,National Communication -- Mapped to WB CSC Categories,0.0888062
+Energy,EN - Electricity/Heat,CH4,2002,National Communication -- Mapped to WB CSC Categories,0.0888062
+Energy,EN - Electricity/Heat,CH4,2003,National Communication -- Mapped to WB CSC Categories,0.0888062
+Energy,EN - Electricity/Heat,CH4,2004,National Communication -- Mapped to WB CSC Categories,0.108307
+Energy,EN - Electricity/Heat,CH4,2005,National Communication -- Mapped to WB CSC Categories,0.1278078
+Energy,EN - Electricity/Heat,CH4,2006,National Communication -- Mapped to WB CSC Categories,0.1341234
+Energy,EN - Electricity/Heat,CH4,2007,National Communication -- Mapped to WB CSC Categories,0.140439
+Energy,EN - Electricity/Heat,CH4,2008,National Communication -- Mapped to WB CSC Categories,0.14693465
+Energy,EN - Electricity/Heat,CH4,2009,National Communication -- Mapped to WB CSC Categories,0.1534303
+Energy,EN - Electricity/Heat,CH4,2010,National Communication -- Mapped to WB CSC Categories,0.1566158
+Energy,EN - Electricity/Heat,CH4,2011,National Communication -- Mapped to WB CSC Categories,0.1598013
+Energy,EN - Electricity/Heat,CH4,2012,National Communication -- Mapped to WB CSC Categories,0.1791359
+Energy,EN - Electricity/Heat,CH4,2013,National Communication -- Mapped to WB CSC Categories,0.1984705
+Energy,EN - Electricity/Heat,CH4,2014,National Communication -- Mapped to WB CSC Categories,0.32845275
+Energy,EN - Electricity/Heat,CH4,2015,National Communication -- Mapped to WB CSC Categories,0.458435
+Energy,EN - Electricity/Heat,CH4,2016,National Communication -- Mapped to WB CSC Categories,0.382814
+Energy,EN - Electricity/Heat,CH4,2017,National Communication -- Mapped to WB CSC Categories,0.307193
+Energy,EN - Electricity/Heat,CO2,1995,National Communication -- Mapped to WB CSC Categories,0.000828
+Energy,EN - Electricity/Heat,CO2,1996,National Communication -- Mapped to WB CSC Categories,0.0008655
+Energy,EN - Electricity/Heat,CO2,1997,National Communication -- Mapped to WB CSC Categories,0.000903
+Energy,EN - Electricity/Heat,CO2,1998,National Communication -- Mapped to WB CSC Categories,0.000941
+Energy,EN - Electricity/Heat,CO2,1999,National Communication -- Mapped to WB CSC Categories,0.000979
+Energy,EN - Electricity/Heat,CO2,2000,National Communication -- Mapped to WB CSC Categories,0.0010165
+Energy,EN - Electricity/Heat,CO2,2001,National Communication -- Mapped to WB CSC Categories,0.001054
+Energy,EN - Electricity/Heat,CO2,2002,National Communication -- Mapped to WB CSC Categories,0.001054
+Energy,EN - Electricity/Heat,CO2,2003,National Communication -- Mapped to WB CSC Categories,0.001054
+Energy,EN - Electricity/Heat,CO2,2004,National Communication -- Mapped to WB CSC Categories,0.0009785
+Energy,EN - Electricity/Heat,CO2,2005,National Communication -- Mapped to WB CSC Categories,0.000903
+Energy,EN - Electricity/Heat,CO2,2006,National Communication -- Mapped to WB CSC Categories,0.0860965
+Energy,EN - Electricity/Heat,CO2,2007,National Communication -- Mapped to WB CSC Categories,0.17129
+Energy,EN - Electricity/Heat,CO2,2008,National Communication -- Mapped to WB CSC Categories,0.20364
+Energy,EN - Electricity/Heat,CO2,2009,National Communication -- Mapped to WB CSC Categories,0.23599
+Energy,EN - Electricity/Heat,CO2,2010,National Communication -- Mapped to WB CSC Categories,0.256895
+Energy,EN - Electricity/Heat,CO2,2011,National Communication -- Mapped to WB CSC Categories,0.2778
+Energy,EN - Electricity/Heat,CO2,2012,National Communication -- Mapped to WB CSC Categories,0.1392485
+Energy,EN - Electricity/Heat,CO2,2013,National Communication -- Mapped to WB CSC Categories,0.000697
+Energy,EN - Electricity/Heat,CO2,2014,National Communication -- Mapped to WB CSC Categories,0.0218285
+Energy,EN - Electricity/Heat,CO2,2015,National Communication -- Mapped to WB CSC Categories,0.04296
+Energy,EN - Electricity/Heat,CO2,2016,National Communication -- Mapped to WB CSC Categories,0.08288
+Energy,EN - Electricity/Heat,CO2,2017,National Communication -- Mapped to WB CSC Categories,0.1228
+Energy,EN - Electricity/Heat,N2O,1995,National Communication -- Mapped to WB CSC Categories,0.01092
+Energy,EN - Electricity/Heat,N2O,1996,National Communication -- Mapped to WB CSC Categories,0.011466
+Energy,EN - Electricity/Heat,N2O,1997,National Communication -- Mapped to WB CSC Categories,0.012012
+Energy,EN - Electricity/Heat,N2O,1998,National Communication -- Mapped to WB CSC Categories,0.0137865
+Energy,EN - Electricity/Heat,N2O,1999,National Communication -- Mapped to WB CSC Categories,0.015561
+Energy,EN - Electricity/Heat,N2O,2000,National Communication -- Mapped to WB CSC Categories,0.016653
+Energy,EN - Electricity/Heat,N2O,2001,National Communication -- Mapped to WB CSC Categories,0.017745
+Energy,EN - Electricity/Heat,N2O,2002,National Communication -- Mapped to WB CSC Categories,0.017745
+Energy,EN - Electricity/Heat,N2O,2003,National Communication -- Mapped to WB CSC Categories,0.017745
+Energy,EN - Electricity/Heat,N2O,2004,National Communication -- Mapped to WB CSC Categories,0.0217035
+Energy,EN - Electricity/Heat,N2O,2005,National Communication -- Mapped to WB CSC Categories,0.025662
+Energy,EN - Electricity/Heat,N2O,2006,National Communication -- Mapped to WB CSC Categories,0.0268905
+Energy,EN - Electricity/Heat,N2O,2007,National Communication -- Mapped to WB CSC Categories,0.028119
+Energy,EN - Electricity/Heat,N2O,2008,National Communication -- Mapped to WB CSC Categories,0.0293475
+Energy,EN - Electricity/Heat,N2O,2009,National Communication -- Mapped to WB CSC Categories,0.030576
+Energy,EN - Electricity/Heat,N2O,2010,National Communication -- Mapped to WB CSC Categories,0.0312585
+Energy,EN - Electricity/Heat,N2O,2011,National Communication -- Mapped to WB CSC Categories,0.031941
+Energy,EN - Electricity/Heat,N2O,2012,National Communication -- Mapped to WB CSC Categories,0.035763
+Energy,EN - Electricity/Heat,N2O,2013,National Communication -- Mapped to WB CSC Categories,0.039585
+Energy,EN - Electricity/Heat,N2O,2014,National Communication -- Mapped to WB CSC Categories,0.065247
+Energy,EN - Electricity/Heat,N2O,2015,National Communication -- Mapped to WB CSC Categories,0.090909
+Energy,EN - Electricity/Heat,N2O,2016,National Communication -- Mapped to WB CSC Categories,0.0760305
+Energy,EN - Electricity/Heat,N2O,2017,National Communication -- Mapped to WB CSC Categories,0.061152
+Energy,EN - Fugitive Emissions,CH4,1995,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,1996,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,1997,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,1998,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,1999,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,2000,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,2001,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,2002,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,2003,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,2004,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,2005,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,2006,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,2007,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,2008,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,2009,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,2010,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,2011,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,2012,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,2013,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,2014,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,2015,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,2016,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Fugitive Emissions,CH4,2017,National Communication -- Mapped to WB CSC Categories,0.0
+Energy,EN - Manufacturing/Construction,CH4,1995,National Communication -- Mapped to WB CSC Categories,0.014980777139051214
+Energy,EN - Manufacturing/Construction,CH4,1996,National Communication -- Mapped to WB CSC Categories,0.015810718368912274
+Energy,EN - Manufacturing/Construction,CH4,1997,National Communication -- Mapped to WB CSC Categories,0.016640659598773335
+Energy,EN - Manufacturing/Construction,CH4,1998,National Communication -- Mapped to WB CSC Categories,0.017055100828634397
+Energy,EN - Manufacturing/Construction,CH4,1999,National Communication -- Mapped to WB CSC Categories,0.017469542058495456
+Energy,EN - Manufacturing/Construction,CH4,2000,National Communication -- Mapped to WB CSC Categories,0.02937948328835652
+Energy,EN - Manufacturing/Construction,CH4,2001,National Communication -- Mapped to WB CSC Categories,0.04250227882849839
+Energy,EN - Manufacturing/Construction,CH4,2002,National Communication -- Mapped to WB CSC Categories,0.04399107436864026
+Energy,EN - Manufacturing/Construction,CH4,2003,National Communication -- Mapped to WB CSC Categories,0.04547986990878214
+Energy,EN - Manufacturing/Construction,CH4,2004,National Communication -- Mapped to WB CSC Categories,0.04322916544892401
+Energy,EN - Manufacturing/Construction,CH4,2005,National Communication -- Mapped to WB CSC Categories,0.04097846098906588
+Energy,EN - Manufacturing/Construction,CH4,2006,National Communication -- Mapped to WB CSC Categories,0.04481599737580451
+Energy,EN - Manufacturing/Construction,CH4,2007,National Communication -- Mapped to WB CSC Categories,0.04865353376254314
+Energy,EN - Manufacturing/Construction,CH4,2008,National Communication -- Mapped to WB CSC Categories,0.05304507014928177
+Energy,EN - Manufacturing/Construction,CH4,2009,National Communication -- Mapped to WB CSC Categories,0.057436606536020396
+Energy,EN - Manufacturing/Construction,CH4,2010,National Communication -- Mapped to WB CSC Categories,0.061274142922759026
+Energy,EN - Manufacturing/Construction,CH4,2011,National Communication -- Mapped to WB CSC Categories,0.06755194152910396
+Energy,EN - Manufacturing/Construction,CH4,2012,National Communication -- Mapped to WB CSC Categories,0.0901727401354489
+Energy,EN - Manufacturing/Construction,CH4,2013,National Communication -- Mapped to WB CSC Categories,0.11279353874179385
+Energy,EN - Manufacturing/Construction,CH4,2014,National Communication -- Mapped to WB CSC Categories,0.11713233734813877
+Energy,EN - Manufacturing/Construction,CH4,2015,National Communication -- Mapped to WB CSC Categories,0.1214711359544837
+Energy,EN - Manufacturing/Construction,CH4,2016,National Communication -- Mapped to WB CSC Categories,0.10770613272491875
+Energy,EN - Manufacturing/Construction,CH4,2017,National Communication -- Mapped to WB CSC Categories,0.09394112949535377
+Energy,EN - Manufacturing/Construction,CO2,1995,National Communication -- Mapped to WB CSC Categories,0.9253544531641278
+Energy,EN - Manufacturing/Construction,CO2,1996,National Communication -- Mapped to WB CSC Categories,1.006674586621552
+Energy,EN - Manufacturing/Construction,CO2,1997,National Communication -- Mapped to WB CSC Categories,1.0879947200789761
+Energy,EN - Manufacturing/Construction,CO2,1998,National Communication -- Mapped to WB CSC Categories,1.1443148535364005
+Energy,EN - Manufacturing/Construction,CO2,1999,National Communication -- Mapped to WB CSC Categories,1.2006349869938246
+Energy,EN - Manufacturing/Construction,CO2,2000,National Communication -- Mapped to WB CSC Categories,1.253355120451249
+Energy,EN - Manufacturing/Construction,CO2,2001,National Communication -- Mapped to WB CSC Categories,1.5868059250775008
+Energy,EN - Manufacturing/Construction,CO2,2002,National Communication -- Mapped to WB CSC Categories,1.950256729703753
+Energy,EN - Manufacturing/Construction,CO2,2003,National Communication -- Mapped to WB CSC Categories,2.3137075343300055
+Energy,EN - Manufacturing/Construction,CO2,2004,National Communication -- Mapped to WB CSC Categories,2.722508338956257
+Energy,EN - Manufacturing/Construction,CO2,2005,National Communication -- Mapped to WB CSC Categories,3.1313091435825093
+Energy,EN - Manufacturing/Construction,CO2,2006,National Communication -- Mapped to WB CSC Categories,3.512849717417118
+Energy,EN - Manufacturing/Construction,CO2,2007,National Communication -- Mapped to WB CSC Categories,3.894390291251725
+Energy,EN - Manufacturing/Construction,CO2,2008,National Communication -- Mapped to WB CSC Categories,4.566230865086333
+Energy,EN - Manufacturing/Construction,CO2,2009,National Communication -- Mapped to WB CSC Categories,5.23807143892094
+Energy,EN - Manufacturing/Construction,CO2,2010,National Communication -- Mapped to WB CSC Categories,5.468062012755548
+Energy,EN - Manufacturing/Construction,CO2,2011,National Communication -- Mapped to WB CSC Categories,6.262882545910992
+Energy,EN - Manufacturing/Construction,CO2,2012,National Communication -- Mapped to WB CSC Categories,7.434303079066438
+Energy,EN - Manufacturing/Construction,CO2,2013,National Communication -- Mapped to WB CSC Categories,8.605723612221881
+Energy,EN - Manufacturing/Construction,CO2,2014,National Communication -- Mapped to WB CSC Categories,9.609994145377327
+Energy,EN - Manufacturing/Construction,CO2,2015,National Communication -- Mapped to WB CSC Categories,10.61426467853277
+Energy,EN - Manufacturing/Construction,CO2,2016,National Communication -- Mapped to WB CSC Categories,10.126105877693165
+Energy,EN - Manufacturing/Construction,CO2,2017,National Communication -- Mapped to WB CSC Categories,9.63794707685356
+Energy,EN - Manufacturing/Construction,N2O,1995,National Communication -- Mapped to WB CSC Categories,0.02226441242610399
+Energy,EN - Manufacturing/Construction,N2O,1996,National Communication -- Mapped to WB CSC Categories,0.02274958127195345
+Energy,EN - Manufacturing/Construction,N2O,1997,National Communication -- Mapped to WB CSC Categories,0.023234750117802915
+Energy,EN - Manufacturing/Construction,N2O,1998,National Communication -- Mapped to WB CSC Categories,0.02371991896365238
+Energy,EN - Manufacturing/Construction,N2O,1999,National Communication -- Mapped to WB CSC Categories,0.02420508780950184
+Energy,EN - Manufacturing/Construction,N2O,2000,National Communication -- Mapped to WB CSC Categories,0.0410702566553513
+Energy,EN - Manufacturing/Construction,N2O,2001,National Communication -- Mapped to WB CSC Categories,0.06006790539990519
+Energy,EN - Manufacturing/Construction,N2O,2002,National Communication -- Mapped to WB CSC Categories,0.06268555414445907
+Energy,EN - Manufacturing/Construction,N2O,2003,National Communication -- Mapped to WB CSC Categories,0.06530320288901295
+Energy,EN - Manufacturing/Construction,N2O,2004,National Communication -- Mapped to WB CSC Categories,0.06246085163356682
+Energy,EN - Manufacturing/Construction,N2O,2005,National Communication -- Mapped to WB CSC Categories,0.059618500378120706
+Energy,EN - Manufacturing/Construction,N2O,2006,National Communication -- Mapped to WB CSC Categories,0.06568656880675305
+Energy,EN - Manufacturing/Construction,N2O,2007,National Communication -- Mapped to WB CSC Categories,0.0717546372353854
+Energy,EN - Manufacturing/Construction,N2O,2008,National Communication -- Mapped to WB CSC Categories,0.07782270566401776
+Energy,EN - Manufacturing/Construction,N2O,2009,National Communication -- Mapped to WB CSC Categories,0.08389077409265011
+Energy,EN - Manufacturing/Construction,N2O,2010,National Communication -- Mapped to WB CSC Categories,0.08449884252128247
+Energy,EN - Manufacturing/Construction,N2O,2011,National Communication -- Mapped to WB CSC Categories,0.0893974593585472
+Energy,EN - Manufacturing/Construction,N2O,2012,National Communication -- Mapped to WB CSC Categories,0.12705607619581194
+Energy,EN - Manufacturing/Construction,N2O,2013,National Communication -- Mapped to WB CSC Categories,0.1647146930330767
+Energy,EN - Manufacturing/Construction,N2O,2014,National Communication -- Mapped to WB CSC Categories,0.17234330987034144
+Energy,EN - Manufacturing/Construction,N2O,2015,National Communication -- Mapped to WB CSC Categories,0.17997192670760617
+Energy,EN - Manufacturing/Construction,N2O,2016,National Communication -- Mapped to WB CSC Categories,0.16062700587471013
+Energy,EN - Manufacturing/Construction,N2O,2017,National Communication -- Mapped to WB CSC Categories,0.14128208504181405
+Energy,EN - Transportation,CH4,1995,National Communication -- Mapped to WB CSC Categories,0.0051522
+Energy,EN - Transportation,CH4,1996,National Communication -- Mapped to WB CSC Categories,0.0053184
+Energy,EN - Transportation,CH4,1997,National Communication -- Mapped to WB CSC Categories,0.0054846
+Energy,EN - Transportation,CH4,1998,National Communication -- Mapped to WB CSC Categories,0.0060109
+Energy,EN - Transportation,CH4,1999,National Communication -- Mapped to WB CSC Categories,0.0065372
+Energy,EN - Transportation,CH4,2000,National Communication -- Mapped to WB CSC Categories,0.0064818
+Energy,EN - Transportation,CH4,2001,National Communication -- Mapped to WB CSC Categories,0.0064264
+Energy,EN - Transportation,CH4,2002,National Communication -- Mapped to WB CSC Categories,0.00652335
+Energy,EN - Transportation,CH4,2003,National Communication -- Mapped to WB CSC Categories,0.0066203
+Energy,EN - Transportation,CH4,2004,National Communication -- Mapped to WB CSC Categories,0.00630175
+Energy,EN - Transportation,CH4,2005,National Communication -- Mapped to WB CSC Categories,0.0059832
+Energy,EN - Transportation,CH4,2006,National Communication -- Mapped to WB CSC Categories,0.0064264
+Energy,EN - Transportation,CH4,2007,National Communication -- Mapped to WB CSC Categories,0.0068696
+Energy,EN - Transportation,CH4,2008,National Communication -- Mapped to WB CSC Categories,0.00854545
+Energy,EN - Transportation,CH4,2009,National Communication -- Mapped to WB CSC Categories,0.0102213
+Energy,EN - Transportation,CH4,2010,National Communication -- Mapped to WB CSC Categories,0.01142625
+Energy,EN - Transportation,CH4,2011,National Communication -- Mapped to WB CSC Categories,0.0126312
+Energy,EN - Transportation,CH4,2012,National Communication -- Mapped to WB CSC Categories,0.01422395
+Energy,EN - Transportation,CH4,2013,National Communication -- Mapped to WB CSC Categories,0.0158167
+Energy,EN - Transportation,CH4,2014,National Communication -- Mapped to WB CSC Categories,0.01757565
+Energy,EN - Transportation,CH4,2015,National Communication -- Mapped to WB CSC Categories,0.0193346
+Energy,EN - Transportation,CH4,2016,National Communication -- Mapped to WB CSC Categories,0.02120435
+Energy,EN - Transportation,CH4,2017,National Communication -- Mapped to WB CSC Categories,0.0230741
+Energy,EN - Transportation,CO2,1995,National Communication -- Mapped to WB CSC Categories,0.5888
+Energy,EN - Transportation,CO2,1996,National Communication -- Mapped to WB CSC Categories,0.6053
+Energy,EN - Transportation,CO2,1997,National Communication -- Mapped to WB CSC Categories,0.6218
+Energy,EN - Transportation,CO2,1998,National Communication -- Mapped to WB CSC Categories,0.72645
+Energy,EN - Transportation,CO2,1999,National Communication -- Mapped to WB CSC Categories,0.8311
+Energy,EN - Transportation,CO2,2000,National Communication -- Mapped to WB CSC Categories,0.83615
+Energy,EN - Transportation,CO2,2001,National Communication -- Mapped to WB CSC Categories,0.8412
+Energy,EN - Transportation,CO2,2002,National Communication -- Mapped to WB CSC Categories,0.8486
+Energy,EN - Transportation,CO2,2003,National Communication -- Mapped to WB CSC Categories,0.856
+Energy,EN - Transportation,CO2,2004,National Communication -- Mapped to WB CSC Categories,0.9076
+Energy,EN - Transportation,CO2,2005,National Communication -- Mapped to WB CSC Categories,0.9592
+Energy,EN - Transportation,CO2,2006,National Communication -- Mapped to WB CSC Categories,1.10755
+Energy,EN - Transportation,CO2,2007,National Communication -- Mapped to WB CSC Categories,1.2559
+Energy,EN - Transportation,CO2,2008,National Communication -- Mapped to WB CSC Categories,1.4651
+Energy,EN - Transportation,CO2,2009,National Communication -- Mapped to WB CSC Categories,1.6743
+Energy,EN - Transportation,CO2,2010,National Communication -- Mapped to WB CSC Categories,1.83695
+Energy,EN - Transportation,CO2,2011,National Communication -- Mapped to WB CSC Categories,1.9996
+Energy,EN - Transportation,CO2,2012,National Communication -- Mapped to WB CSC Categories,2.06245
+Energy,EN - Transportation,CO2,2013,National Communication -- Mapped to WB CSC Categories,2.1253
+Energy,EN - Transportation,CO2,2014,National Communication -- Mapped to WB CSC Categories,2.255
+Energy,EN - Transportation,CO2,2015,National Communication -- Mapped to WB CSC Categories,2.3847
+Energy,EN - Transportation,CO2,2016,National Communication -- Mapped to WB CSC Categories,2.7441
+Energy,EN - Transportation,CO2,2017,National Communication -- Mapped to WB CSC Categories,3.1035
+Energy,EN - Transportation,N2O,1995,National Communication -- Mapped to WB CSC Categories,0.007917
+Energy,EN - Transportation,N2O,1996,National Communication -- Mapped to WB CSC Categories,0.0080535
+Energy,EN - Transportation,N2O,1997,National Communication -- Mapped to WB CSC Categories,0.00819
+Energy,EN - Transportation,N2O,1998,National Communication -- Mapped to WB CSC Categories,0.0096915
+Energy,EN - Transportation,N2O,1999,National Communication -- Mapped to WB CSC Categories,0.011193
+Energy,EN - Transportation,N2O,2000,National Communication -- Mapped to WB CSC Categories,0.011193
+Energy,EN - Transportation,N2O,2001,National Communication -- Mapped to WB CSC Categories,0.011193
+Energy,EN - Transportation,N2O,2002,National Communication -- Mapped to WB CSC Categories,0.0113295
+Energy,EN - Transportation,N2O,2003,National Communication -- Mapped to WB CSC Categories,0.011466
+Energy,EN - Transportation,N2O,2004,National Communication -- Mapped to WB CSC Categories,0.012285
+Energy,EN - Transportation,N2O,2005,National Communication -- Mapped to WB CSC Categories,0.013104
+Energy,EN - Transportation,N2O,2006,National Communication -- Mapped to WB CSC Categories,0.0151515
+Energy,EN - Transportation,N2O,2007,National Communication -- Mapped to WB CSC Categories,0.017199
+Energy,EN - Transportation,N2O,2008,National Communication -- Mapped to WB CSC Categories,0.0200655
+Energy,EN - Transportation,N2O,2009,National Communication -- Mapped to WB CSC Categories,0.022932
+Energy,EN - Transportation,N2O,2010,National Communication -- Mapped to WB CSC Categories,0.025116
+Energy,EN - Transportation,N2O,2011,National Communication -- Mapped to WB CSC Categories,0.0273
+Energy,EN - Transportation,N2O,2012,National Communication -- Mapped to WB CSC Categories,0.0279825
+Energy,EN - Transportation,N2O,2013,National Communication -- Mapped to WB CSC Categories,0.028665
+Energy,EN - Transportation,N2O,2014,National Communication -- Mapped to WB CSC Categories,0.0326235
+Energy,EN - Transportation,N2O,2015,National Communication -- Mapped to WB CSC Categories,0.036582
+Energy,EN - Transportation,N2O,2016,National Communication -- Mapped to WB CSC Categories,0.0391755
+Energy,EN - Transportation,N2O,2017,National Communication -- Mapped to WB CSC Categories,0.041769
+IPPU,IN - Industrial Processes,CO2,1995,National Communication -- Mapped to WB CSC Categories,0.055025655735417386
+IPPU,IN - Industrial Processes,CO2,1996,National Communication -- Mapped to WB CSC Categories,0.05737339748228064
+IPPU,IN - Industrial Processes,CO2,1997,National Communication -- Mapped to WB CSC Categories,0.059721139229143884
+IPPU,IN - Industrial Processes,CO2,1998,National Communication -- Mapped to WB CSC Categories,0.06206888097600713
+IPPU,IN - Industrial Processes,CO2,1999,National Communication -- Mapped to WB CSC Categories,0.06441662272287038
+IPPU,IN - Industrial Processes,CO2,2000,National Communication -- Mapped to WB CSC Categories,0.06676436446973365
+IPPU,IN - Industrial Processes,CO2,2001,National Communication -- Mapped to WB CSC Categories,0.07625945901170046
+IPPU,IN - Industrial Processes,CO2,2002,National Communication -- Mapped to WB CSC Categories,0.08715212654766769
+IPPU,IN - Industrial Processes,CO2,2003,National Communication -- Mapped to WB CSC Categories,0.08868858758277294
+IPPU,IN - Industrial Processes,CO2,2004,National Communication -- Mapped to WB CSC Categories,0.10123186760160519
+IPPU,IN - Industrial Processes,CO2,2005,National Communication -- Mapped to WB CSC Categories,0.10445324292224181
+IPPU,IN - Industrial Processes,CO2,2006,National Communication -- Mapped to WB CSC Categories,0.11690497196931829
+IPPU,IN - Industrial Processes,CO2,2007,National Communication -- Mapped to WB CSC Categories,0.12202639600927498
+IPPU,IN - Industrial Processes,CO2,2008,National Communication -- Mapped to WB CSC Categories,0.15126056116033015
+IPPU,IN - Industrial Processes,CO2,2009,National Communication -- Mapped to WB CSC Categories,0.15858758053358088
+IPPU,IN - Industrial Processes,CO2,2010,National Communication -- Mapped to WB CSC Categories,0.17266166894918444
+IPPU,IN - Industrial Processes,CO2,2011,National Communication -- Mapped to WB CSC Categories,0.19130159769517766
+IPPU,IN - Industrial Processes,CO2,2012,National Communication -- Mapped to WB CSC Categories,0.20398095416522596
+IPPU,IN - Industrial Processes,CO2,2013,National Communication -- Mapped to WB CSC Categories,0.2167116866202228
+IPPU,IN - Industrial Processes,CO2,2014,National Communication -- Mapped to WB CSC Categories,0.22972471855664758
+IPPU,IN - Industrial Processes,CO2,2015,National Communication -- Mapped to WB CSC Categories,0.24369530304145093
+IPPU,IN - Industrial Processes,CO2,2016,National Communication -- Mapped to WB CSC Categories,0.24910922493478801
+IPPU,IN - Industrial Processes,CO2,2017,National Communication -- Mapped to WB CSC Categories,0.24667495956855662
+IPPU,IN - Industrial Processes,N2O,1995,National Communication -- Mapped to WB CSC Categories,0.06497534426458262
+IPPU,IN - Industrial Processes,N2O,1996,National Communication -- Mapped to WB CSC Categories,0.06774760251771939
+IPPU,IN - Industrial Processes,N2O,1997,National Communication -- Mapped to WB CSC Categories,0.07051986077085612
+IPPU,IN - Industrial Processes,N2O,1998,National Communication -- Mapped to WB CSC Categories,0.07329211902399287
+IPPU,IN - Industrial Processes,N2O,1999,National Communication -- Mapped to WB CSC Categories,0.07606437727712963
+IPPU,IN - Industrial Processes,N2O,2000,National Communication -- Mapped to WB CSC Categories,0.07883663553026637
+IPPU,IN - Industrial Processes,N2O,2001,National Communication -- Mapped to WB CSC Categories,0.08072194098829955
+IPPU,IN - Industrial Processes,N2O,2002,National Communication -- Mapped to WB CSC Categories,0.08120967345233229
+IPPU,IN - Industrial Processes,N2O,2003,National Communication -- Mapped to WB CSC Categories,0.09105361241722704
+IPPU,IN - Industrial Processes,N2O,2004,National Communication -- Mapped to WB CSC Categories,0.08989073239839483
+IPPU,IN - Industrial Processes,N2O,2005,National Communication -- Mapped to WB CSC Categories,0.0980497570777582
+IPPU,IN - Industrial Processes,N2O,2006,National Communication -- Mapped to WB CSC Categories,0.0997784280306817
+IPPU,IN - Industrial Processes,N2O,2007,National Communication -- Mapped to WB CSC Categories,0.10883740399072504
+IPPU,IN - Industrial Processes,N2O,2008,National Communication -- Mapped to WB CSC Categories,0.09378363883966985
+IPPU,IN - Industrial Processes,N2O,2009,National Communication -- Mapped to WB CSC Categories,0.10063701946641908
+IPPU,IN - Industrial Processes,N2O,2010,National Communication -- Mapped to WB CSC Categories,0.10074333105081558
+IPPU,IN - Industrial Processes,N2O,2011,National Communication -- Mapped to WB CSC Categories,0.09846420230482232
+IPPU,IN - Industrial Processes,N2O,2012,National Communication -- Mapped to WB CSC Categories,0.10214564583477402
+IPPU,IN - Industrial Processes,N2O,2013,National Communication -- Mapped to WB CSC Categories,0.1057757133797772
+IPPU,IN - Industrial Processes,N2O,2014,National Communication -- Mapped to WB CSC Categories,0.10912348144335238
+IPPU,IN - Industrial Processes,N2O,2015,National Communication -- Mapped to WB CSC Categories,0.11151369695854906
+IPPU,IN - Industrial Processes,N2O,2016,National Communication -- Mapped to WB CSC Categories,0.10335127506521197
+IPPU,IN - Industrial Processes,N2O,2017,National Communication -- Mapped to WB CSC Categories,0.10303704043144334
+Waste,WST - Solid Waste,CH4,1995,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,1.9765061
+Waste,WST - Solid Waste,CH4,1996,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,2.102969627
+Waste,WST - Solid Waste,CH4,1997,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,2.229433155
+Waste,WST - Solid Waste,CH4,1998,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,2.355896682
+Waste,WST - Solid Waste,CH4,1999,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,2.482360209
+Waste,WST - Solid Waste,CH4,2000,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,2.608823736
+Waste,WST - Solid Waste,CH4,2001,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,2.736467284
+Waste,WST - Solid Waste,CH4,2002,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,2.8641108309999996
+Waste,WST - Solid Waste,CH4,2003,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,2.991754378
+Waste,WST - Solid Waste,CH4,2004,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,3.119397925
+Waste,WST - Solid Waste,CH4,2005,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,3.2470414730000003
+Waste,WST - Solid Waste,CH4,2006,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,3.3756766799999998
+Waste,WST - Solid Waste,CH4,2007,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,3.504311887
+Waste,WST - Solid Waste,CH4,2008,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,3.632947095
+Waste,WST - Solid Waste,CH4,2009,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,3.761582302
+Waste,WST - Solid Waste,CH4,2010,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,3.890217509
+Waste,WST - Solid Waste,CH4,2011,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,4.020741856
+Waste,WST - Solid Waste,CH4,2012,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,4.151266204
+Waste,WST - Solid Waste,CH4,2013,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,4.281790551
+Waste,WST - Solid Waste,CH4,2014,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,4.412314898
+Waste,WST - Solid Waste,CH4,2015,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,4.542839245
+Waste,WST - Solid Waste,CH4,2016,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,4.676670973
+Waste,WST - Solid Waste,CH4,2017,National Communication -- Mapped to WB CSC CategoriesNational Communication -- Mapped to WB CSC Categories,4.810502700000001
 Waste,WST - Solid Waste,CO2,1995,National Communication -- Mapped to WB CSC Categories,0.002004
 Waste,WST - Solid Waste,CO2,1996,National Communication -- Mapped to WB CSC Categories,0.0021152
 Waste,WST - Solid Waste,CO2,1997,National Communication -- Mapped to WB CSC Categories,0.0022264
