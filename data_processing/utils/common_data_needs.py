@@ -1,4 +1,5 @@
 
+import numpy as np
 import os, os.path
 import pandas as pd
 import pathlib
@@ -286,6 +287,34 @@ def _build_from_outputs(
 
 
 
+def get_files_from_matchstr(
+    matchstr: str,
+) -> pd.DataFrame:
+    """Read output files that start with matchstr
+    """
+    dfs_read = [
+        x for x in sorted(os.listdir(_PATH_OUTPUTS))
+        if x.startswith(matchstr)
+    ]
+
+    # get some data
+    df_data = None
+    
+    for fn in dfs_read:
+        path = os.path.join(_PATH_OUTPUTS, fn)
+        df_cur = pd.read_csv(path, )
+
+        df_data = (
+            df_cur
+            if df_data is None
+            else pd.merge(df_cur, df_data, how = "inner", )
+        )
+
+    return df_data
+
+
+
+
 def get_raw_ssp_inputs(
 ) -> pd.DataFrame:
     """Retrieve the base, raw Uganda inputs for SISEPUEDE,
@@ -301,6 +330,97 @@ def get_raw_ssp_inputs(
         )
     
     return df
+
+
+
+def mix_from_base_year_future(
+    df: pd.DataFrame,
+    fields_ind: List[str],
+    alpha_original: float,
+    time_periods: 'TimePeriods',
+    year_base: int,
+    fields: Union[List[str], None] = None,
+) -> pd.DataFrame:
+    """Using a base year to project forward with final value, mix 
+        the base year projected trajectory with the defined trajectory.
+
+    Function Arugments
+    ------------------
+    df : pd.DataFrame
+        DataFrame to access information from. Must include 
+        time_periods.field_year
+    fields_ind : List[str]
+        Index fields. Should include time_periods.field_year, but if not,
+        the field is added
+    alpha_original : float
+        Fraction of original trajectory to keep; 0 will return only the
+        flat projection
+    time_periods : TimePeriods
+        TimePeriods object used for managing time periods
+    year_base : int
+        Year from which to continue the flat trajectory
+        
+    Keyword Arugments
+    -----------------
+    fields : Union[List[str], None]
+        Optional subset of fields in the DataFrame to apply to. Will only
+        return those fields.
+
+    """
+
+    # check index fields
+    fields_ind = [] if not sf.islistlike(fields_ind) else list(fields_ind)
+    if time_periods.field_year not in fields_ind:
+        fields_ind.append(time_periods.field_year)
+    fields_ind = [x for x in fields_ind if x in df.columns and x]
+
+    # check data fields
+    fields = (
+        [x for x in fields if (x in df.columns)]
+        if sf.islistlike(df)
+        else [x for x in df.columns if x not in fields_ind]
+    )
+
+    # get all years
+    df_inds = df[fields_ind].copy()
+
+    # get data only from base year on
+    df_from_base_year = df[
+        df[time_periods.field_year] <= year_base
+    ][fields_ind + fields]
+
+    df_from_base_year = (
+        pd.merge(
+            df_inds,
+            df_from_base_year,
+            how = "left"
+        )
+        .ffill()
+    )
+
+
+    ##  BUILD A RAMP VECTOR AND MIX
+
+    w = np.where(df_inds[time_periods.field_year].to_numpy() == year_base, )[0]
+    vec_ramp = sf.ramp_vector(
+        df.shape[0],
+        0.0,
+        0,
+        r_0 = w,
+        r_1 = min(w + 10, df.shape[0])
+    )
+    vec_mix = 1 - vec_ramp*alpha_original
+    
+    # mix?
+    # arr_new = sf.do_array_mult(df[fields].to_numpy(), vec_mix, )
+    # arr_new += sf.do_array_mult(df_from_base_year[fields].to_numpy(), 1 - vec_mix, )
+
+    arr_new = df[fields].to_numpy().copy()*alpha_original
+    arr_new += df_from_base_year[fields].to_numpy()*(1 - alpha_original)
+    df_out = df[fields_ind].copy()
+    df_out[fields] = arr_new
+
+    return df_out
 
 
 
@@ -351,6 +471,13 @@ def spawn_years_space_df(
     )
 
     return df_space_years
+
+
+
+
+
+
+
 
 
 
