@@ -1,9 +1,7 @@
-#load packages
-library(data.table)
-
+#drivers
 output.folder <- dir.output
 dir.data <- paste0(output.folder)
-file.name <- output.file
+file.name <- paste0(region,".csv")
 
 #load turkey data  
 data <- read.csv(paste0(dir.data,file.name)) 
