@@ -10,7 +10,7 @@ library(ggplot2)
 
 rm(list=ls())
 
-setwd('/Users/fabianfuentes/git/ssp_uganda_data/')
+setwd('/Users/tony/Documents/sisepuede_modeling/ssp_uganda_data/')
 
 #ouputfile
 dir.output  <- "ssp_modeling/ssp_run_output/sisepuede_summary_results_run_sisepuede_run_2025-08-20T13;21;41.290976/"
