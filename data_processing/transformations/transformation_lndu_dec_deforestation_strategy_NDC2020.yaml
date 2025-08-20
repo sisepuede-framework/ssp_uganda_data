@@ -5,7 +5,7 @@ identifiers:
   transformation_name: 'Scaled Default Max Parameters by 0.89 - LNDU: Stop deforestation
     with year starting in 2020 to reflect NDC 2.0'
 parameters:
-  magnitude: 0.996
+  magnitude: 0.99999
   vec_implementation_ramp:
     tp_0_ramp: 5
 transformer: TFR:LNDU:DEC_DEFORESTATION
