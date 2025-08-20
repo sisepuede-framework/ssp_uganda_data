@@ -259,6 +259,7 @@ def _build_from_outputs(
         )
         .interpolate()
         .bfill()
+        .ffill()
     )
     
     # overwrite fields in base to prouce output
@@ -281,6 +282,7 @@ def _build_from_outputs(
 
     if _SISEPUEDE_REGIONS.key in df_out.columns:
         df_out.drop(columns = _SISEPUEDE_REGIONS.key, inplace = True, )
+        
     
     
     return df_out
