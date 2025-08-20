@@ -16,12 +16,13 @@ te_all$Vars[3] <- "emission_co2e_n2o_lsmm_direct_anaerobic_digester:emission_co2
 # data from SiSePuede
 data_all<-read.csv(paste0(dir.output,output.file))
 
+data_all$emission_co2e_co2_frst_harvested_wood_products = 0
 
 rall <- unique(data_all$region)
 
 #set params of rescaling function
 initial_conditions_id <- "_0"
-time_period_ref <- 7
+time_period_ref <- 5
 
 dim(data_all)
 data_all <- subset(data_all,time_period>=time_period_ref)
