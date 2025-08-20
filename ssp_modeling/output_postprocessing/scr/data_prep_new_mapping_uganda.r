@@ -218,7 +218,7 @@ res <- hp_filter_subsec(
   data = data_new,
   subsec_target = "AG - Crops",
   gas_target = "N2O",
-  lambda_hp = 100
+  lambda_hp = 1600
 )
 
 # plot
@@ -334,6 +334,49 @@ res <- hp_filter_subsec(
 # plot
 print(res$plot)
 
+# Waste - Solid Waste 
+
+res <- hp_filter_subsec(
+  data = res$data,
+  subsec_target = "Waste - Solid Waste",
+  gas_target = c('HFC','N2O','PFC','SF6'),
+  lambda_hp = 1600
+)
+
+# plot
+print(res$plot)
+
+
+# LULUCF - Other Lan
+
+res <- hp_filter_subsec(
+  data = res$data,
+  subsec_target = "LULUCF - Other Land",
+  gas_target = "CO2",
+  lambda_hp = 1600
+)
+
+# plot
+print(res$plot)
+
+
+
+# Waste - Wastewater Treatment
+
+res <- hp_filter_subsec(
+  data = res$data,
+  subsec_target = "Waste - Wastewater Treatment",
+  gas_target = "CH4",
+  lambda_hp = 1600
+)
+
+# plot
+print(res$plot)
+
+
+
+
+
 
 table(data_new$CSC.Subsector)
 table(data_new$Gas)
@@ -341,9 +384,10 @@ table(data_new$Gas)
 
 #write file
 dir.tableau <- paste0("ssp_modeling/Tableau/data/")
-file.name <- paste0("emissions_",region,"_raw_",output.file)
+file.name <- paste0("emissions_",region,"_",output.file)
 
 write.csv(res$data,paste0(dir.tableau,file.name),row.names=FALSE)
 
 print('Finish:data_prep_new_mapping process')
+
 
