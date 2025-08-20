@@ -1,0 +1,14 @@
+citations: null
+description: None
+identifiers:
+  transformation_code: "TX:SCOE:SHIFT_FUEL_HEAT_STRATEGY_NDC2020"
+  transformation_name: "Implements clean cooking"
+parameters:
+  # cat_enfu_target: fuel_hydrocarbon_gas_liquids
+  magnitude: 0.3
+  vec_implementation_ramp:
+      alpha_logistic: 1
+      n_tp_ramp: 40
+      tp_0_ramp: 5
+      window_logistic: (-4, 8)
+transformer: "TFR:SCOE:SHIFT_FUEL_HEAT"
