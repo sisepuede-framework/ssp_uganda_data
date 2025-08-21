@@ -1,0 +1,592 @@
+strategy_id,primary_id,Edgar_Class,CSC.Sector,CSC.Subsector,value,Year,Gas,design_id,future_id,strategy,Code,Contry,source,ids
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2022,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2023,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2024,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2025,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2026,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2027,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2028,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2029,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.015037135,2030,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.015037135,2031,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.015037135,2032,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.015037135,2033,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.015037135,2034,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.018397723,2035,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.018397723,2036,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.018397723,2037,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.018397723,2038,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.018397723,2039,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.024058657,2040,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.024058657,2041,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.024058657,2042,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.024058657,2043,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.024058657,2044,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.030716542,2045,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.030716542,2046,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.030716542,2047,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.030716542,2048,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.030716542,2049,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.039492116,2050,CH4,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2022,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2023,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2024,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2025,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2026,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2027,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2028,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2029,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.270668428,2030,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.270668428,2031,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.270668428,2032,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.270668428,2033,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.270668428,2034,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.331159008,2035,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.331159008,2036,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.331159008,2037,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.331159008,2038,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.331159008,2039,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.433055822,2040,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.433055822,2041,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.433055822,2042,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.433055822,2043,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.433055822,2044,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.552897763,2045,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.552897763,2046,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.552897763,2047,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.552897763,2048,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.552897763,2049,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.71085808,2050,CO2,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2022,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2023,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2024,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2025,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2026,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2027,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2028,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2029,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.015037135,2030,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.015037135,2031,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.015037135,2032,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.015037135,2033,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.015037135,2034,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.018397723,2035,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.018397723,2036,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.018397723,2037,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.018397723,2038,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.018397723,2039,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.024058657,2040,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.024058657,2041,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.024058657,2042,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.024058657,2043,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.024058657,2044,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.030716542,2045,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.030716542,2046,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.030716542,2047,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.030716542,2048,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.030716542,2049,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.039492116,2050,N2O,0,0,BAU,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2022,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2023,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2024,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2025,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2026,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2027,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2028,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2029,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.015037135,2030,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.015037135,2031,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.015037135,2032,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.015037135,2033,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.015037135,2034,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.018397723,2035,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.018397723,2036,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.018397723,2037,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.018397723,2038,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.018397723,2039,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.024058657,2040,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.024058657,2041,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.024058657,2042,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.024058657,2043,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.024058657,2044,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.030716542,2045,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.030716542,2046,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.030716542,2047,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.030716542,2048,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.030716542,2049,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.039492116,2050,CH4,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2022,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2023,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2024,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2025,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2026,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2027,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2028,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2029,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.270668428,2030,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.270668428,2031,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.270668428,2032,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.270668428,2033,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.270668428,2034,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.331159008,2035,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.331159008,2036,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.331159008,2037,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.331159008,2038,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.331159008,2039,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.433055822,2040,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.433055822,2041,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.433055822,2042,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.433055822,2043,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.433055822,2044,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.552897763,2045,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.552897763,2046,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.552897763,2047,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.552897763,2048,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.552897763,2049,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.71085808,2050,CO2,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2022,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2023,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2024,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2025,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2026,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2027,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2028,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2029,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.015037135,2030,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.015037135,2031,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.015037135,2032,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.015037135,2033,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.015037135,2034,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.018397723,2035,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.018397723,2036,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.018397723,2037,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.018397723,2038,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.018397723,2039,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.024058657,2040,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.024058657,2041,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.024058657,2042,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.024058657,2043,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.024058657,2044,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.030716542,2045,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.030716542,2046,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.030716542,2047,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.030716542,2048,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.030716542,2049,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.039492116,2050,N2O,0,0,BAU + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2022,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2023,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2024,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2025,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2026,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2027,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2028,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2029,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.015037135,2030,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.015037135,2031,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.015037135,2032,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.015037135,2033,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.015037135,2034,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.018397723,2035,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.018397723,2036,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.018397723,2037,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.018397723,2038,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.018397723,2039,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.024058657,2040,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.024058657,2041,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.024058657,2042,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.024058657,2043,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.024058657,2044,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.030716542,2045,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.030716542,2046,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.030716542,2047,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.030716542,2048,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.030716542,2049,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.039492116,2050,CH4,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2022,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2023,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2024,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2025,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2026,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2027,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2028,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2029,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.270668428,2030,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.270668428,2031,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.270668428,2032,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.270668428,2033,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.270668428,2034,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.331159008,2035,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.331159008,2036,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.331159008,2037,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.331159008,2038,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.331159008,2039,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.433055822,2040,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.433055822,2041,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.433055822,2042,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.433055822,2043,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.433055822,2044,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.552897763,2045,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.552897763,2046,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.552897763,2047,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.552897763,2048,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.552897763,2049,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.71085808,2050,CO2,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2022,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2023,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2024,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2025,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2026,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2027,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2028,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2029,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.015037135,2030,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.015037135,2031,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.015037135,2032,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.015037135,2033,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.015037135,2034,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.018397723,2035,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.018397723,2036,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.018397723,2037,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.018397723,2038,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.018397723,2039,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.024058657,2040,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.024058657,2041,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.024058657,2042,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.024058657,2043,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.024058657,2044,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.030716542,2045,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.030716542,2046,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.030716542,2047,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.030716542,2048,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.030716542,2049,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.039492116,2050,N2O,0,0,BAU + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2022,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2023,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2024,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2025,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2026,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2027,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2028,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2029,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.002067929,2030,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.002067929,2031,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.002067929,2032,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.002067929,2033,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.002067929,2034,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.004338561,2035,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.004338561,2036,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.004338561,2037,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.004338561,2038,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.004338561,2039,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.031308272,2040,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.031308272,2041,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.031308272,2042,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.031308272,2043,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.031308272,2044,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.052644663,2045,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.052644663,2046,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.052644663,2047,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.052644663,2048,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.052644663,2049,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.086567963,2050,CH4,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2022,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2023,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2024,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2025,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2026,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2027,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2028,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2029,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.037222715,2030,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.037222715,2031,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.037222715,2032,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.037222715,2033,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.037222715,2034,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.078094094,2035,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.078094094,2036,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.078094094,2037,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.078094094,2038,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.078094094,2039,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.563548893,2040,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.563548893,2041,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.563548893,2042,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.563548893,2043,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.563548893,2044,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.947603932,2045,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.947603932,2046,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.947603932,2047,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.947603932,2048,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.947603932,2049,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,1.558223332,2050,CO2,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2022,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2023,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2024,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2025,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2026,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2027,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2028,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2029,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.002067929,2030,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.002067929,2031,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.002067929,2032,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.002067929,2033,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.002067929,2034,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.004338561,2035,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.004338561,2036,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.004338561,2037,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.004338561,2038,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.004338561,2039,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.031308272,2040,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.031308272,2041,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.031308272,2042,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.031308272,2043,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.031308272,2044,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.052644663,2045,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.052644663,2046,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.052644663,2047,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.052644663,2048,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.052644663,2049,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+0,0,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.086567963,2050,N2O,0,0,ASP,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:0
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2022,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2023,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2024,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2025,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2026,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2027,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2028,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2029,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.002067929,2030,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.002067929,2031,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.002067929,2032,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.002067929,2033,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.002067929,2034,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.004338561,2035,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.004338561,2036,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.004338561,2037,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.004338561,2038,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.004338561,2039,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.031308272,2040,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.031308272,2041,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.031308272,2042,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.031308272,2043,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.031308272,2044,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.052644663,2045,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.052644663,2046,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.052644663,2047,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.052644663,2048,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.052644663,2049,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.086567963,2050,CH4,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2022,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2023,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2024,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2025,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2026,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2027,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2028,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2029,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.037222715,2030,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.037222715,2031,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.037222715,2032,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.037222715,2033,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.037222715,2034,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.078094094,2035,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.078094094,2036,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.078094094,2037,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.078094094,2038,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.078094094,2039,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.563548893,2040,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.563548893,2041,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.563548893,2042,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.563548893,2043,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.563548893,2044,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.947603932,2045,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.947603932,2046,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.947603932,2047,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.947603932,2048,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.947603932,2049,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,1.558223332,2050,CO2,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2022,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2023,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2024,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2025,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2026,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2027,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2028,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2029,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.002067929,2030,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.002067929,2031,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.002067929,2032,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.002067929,2033,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.002067929,2034,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.004338561,2035,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.004338561,2036,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.004338561,2037,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.004338561,2038,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.004338561,2039,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.031308272,2040,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.031308272,2041,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.031308272,2042,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.031308272,2043,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.031308272,2044,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.052644663,2045,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.052644663,2046,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.052644663,2047,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.052644663,2048,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.052644663,2049,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6003,69069,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.086567963,2050,N2O,0,0,ASP + NDC,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6003
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2022,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2023,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2024,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2025,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2026,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2027,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2028,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0,2029,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.002067929,2030,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.002067929,2031,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.002067929,2032,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.002067929,2033,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.002067929,2034,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.004338561,2035,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.004338561,2036,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.004338561,2037,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.004338561,2038,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.004338561,2039,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.031308272,2040,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.031308272,2041,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.031308272,2042,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.031308272,2043,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.031308272,2044,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.052644663,2045,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.052644663,2046,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.052644663,2047,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.052644663,2048,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.052644663,2049,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.086567963,2050,CH4,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CH4:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2022,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2023,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2024,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2025,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2026,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2027,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2028,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0,2029,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.037222715,2030,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.037222715,2031,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.037222715,2032,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.037222715,2033,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.037222715,2034,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.078094094,2035,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.078094094,2036,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.078094094,2037,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.078094094,2038,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.078094094,2039,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.563548893,2040,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.563548893,2041,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.563548893,2042,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.563548893,2043,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.563548893,2044,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.947603932,2045,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.947603932,2046,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.947603932,2047,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.947603932,2048,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.947603932,2049,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,1.558223332,2050,CO2,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:CO2:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2022,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2023,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2024,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2025,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2026,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2027,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2028,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0,2029,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.002067929,2030,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.002067929,2031,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.002067929,2032,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.002067929,2033,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.002067929,2034,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.004338561,2035,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.004338561,2036,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.004338561,2037,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.004338561,2038,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.004338561,2039,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.031308272,2040,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.031308272,2041,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.031308272,2042,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.031308272,2043,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.031308272,2044,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.052644663,2045,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.052644663,2046,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.052644663,2047,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.052644663,2048,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.052644663,2049,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+6004,70070,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.086567963,2050,N2O,0,0,ASP + Net Zero,UGA,uganda,SISEPUEDE,EN - Electricity/Heat:N2O:6004
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.003267037,2000,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.003414037,2001,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.004093597,2002,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.004757197,2003,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.005202674,2004,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.00526087,2005,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.005772766,2006,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.005704608,2007,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.0066255,2008,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.008077398,2009,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.008222978,2010,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.008916566,2011,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.008530595,2012,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.010176894,2013,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.010374546,2014,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.0116161,2015,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.05246614,2016,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.052466904,2017,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.060744104,2018,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.094935527,2019,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.003195463,2020,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.003231683,2021,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CH4,Energy,EN - Electricity/Heat,0.003233021,2022,CH4,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CH4:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.00320853,2000,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.00320853,2001,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.00320853,2002,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.00320853,2003,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.00641706,2004,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.057753542,2005,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.314435933,2006,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.4491942,2007,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.4812795,2008,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.68983395,2009,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.77938164,2010,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.74729634,2011,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.21166593,2012,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.00632001,2013,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.083130632,2014,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.059215168,2015,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.059215168,2016,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.059814719,2017,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.23332075,2018,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.077774618,2019,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.050552262,2020,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.055073196,2021,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:CO2,Energy,EN - Electricity/Heat,0.056306178,2022,CO2,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:CO2:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.004124985,2000,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.004310485,2001,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.005168025,2002,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.006005425,2003,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.006569869,2004,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.006680025,2005,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.007509581,2006,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.007519958,2007,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.008704985,2008,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.010686311,2009,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.010933783,2010,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.011786076,2011,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.010916097,2012,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.012846697,2013,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.013150864,2014,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.014699057,2015,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.066247917,2016,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.066249195,2017,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.076813041,2018,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.11985285,2019,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.004066986,2020,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.004115788,2021,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
+NA,NA,EN - Electricity/Heat:N2O,Energy,EN - Electricity/Heat,0.004118321,2022,N2O,NA,NA,Historical,UGA,uganda,EDGAR,EN - Electricity/Heat:N2O:NA
