@@ -10,14 +10,14 @@ library(ggplot2)
 
 rm(list=ls())
 
-setwd('/Users/tony/Documents/sisepuede_modeling/ssp_uganda_data/')
-
 #ouputfile
 dir.output  <- "ssp_modeling/ssp_run_output/sisepuede_summary_results_run_sisepuede_run_2025-08-20T13;21;41.290976/"
 output.file <- "WIDE_INPUTS_OUTPUTS.csv"
 
 region <- "uganda" 
 iso_code3 <- "UGA"
+
+year_ref <- 2020
 
 source('ssp_modeling/output_postprocessing/scr/run_script_baseline_run_new.r')
 

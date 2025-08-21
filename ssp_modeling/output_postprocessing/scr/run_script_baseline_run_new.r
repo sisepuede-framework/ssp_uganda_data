@@ -2,7 +2,7 @@
 # This script runs the intertemporal decomposition for the baseline run
 ################################################################################
 
-te_all<-read.csv(paste0("ssp_modeling/output_postprocessing/data/emission_targets_",region,"_new.csv"))
+te_all<-read.csv(paste0("ssp_modeling/output_postprocessing/data/emission_targets_",region,"_",year_ref,".csv"))
 #te_all <- subset(te_all,Subsector%in%c( "lvst","lsmm","agrc","ippu","waso","trww","frst","lndu","soil"))
 target_country <- iso_code3
 te_all<-te_all[,c("Subsector","Gas","Vars","Edgar_Class",target_country)]
@@ -22,7 +22,7 @@ rall <- unique(data_all$region)
 
 #set params of rescaling function
 initial_conditions_id <- "_0"
-time_period_ref <- 5
+time_period_ref <- year_ref-2015
 
 dim(data_all)
 data_all <- subset(data_all,time_period>=time_period_ref)

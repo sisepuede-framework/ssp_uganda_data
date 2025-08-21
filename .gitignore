@@ -211,3 +211,4 @@ ssp_modeling/Tableau/data/
 *.Rhistory
 *.RData
 *.Ruserdata
+.Rproj.user
