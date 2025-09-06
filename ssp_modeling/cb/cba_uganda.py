@@ -27,7 +27,7 @@ cb = CostBenefits(ssp_data, att_primary, att_strategy, strategy_code_base)
 # Each sheet represents a table in the cost and benefit program database.
 # If the Excel file name is not given, the file will be saved with the default name cb_config_params.xlsx on the current python session.
 
-cb.export_db_to_excel(CB_DEFAULT_DEFINITION_FILE_PATH)
+#cb.export_db_to_excel(CB_DEFAULT_DEFINITION_FILE_PATH)
 
 # Once that the excel file has been updated, we can reload it in order to update the cost factors database
 cb.load_cb_parameters(CB_DEFAULT_DEFINITION_FILE_PATH)
