@@ -105,13 +105,13 @@ ggplot(subset(df_long, variable=='pop_lvst_buffalo'), aes(x = time_period, y = v
 vehicle_distance_traveled_trns_public <- grep("^vehicle_distance_traveled_trns_public", colnames(df), value = TRUE)
 
 df_long <- melt(df, 
-                id.vars = c("primary_id", "strategy_id", "time_period"), 
+                id.vars = c("primary_id", "strategy", "time_period"), 
                 measure.vars = vehicle_distance_traveled_trns_public)
 
 
 ggplot(df_long, aes(x = time_period, y = value, fill = variable)) +
   geom_area(position = "stack") +
-  facet_wrap(~ strategy_id, scales = "fixed") +
+  facet_wrap(~ strategy, scales = "fixed") +
   scale_fill_viridis_d(option = "turbo") +
   scale_y_continuous(labels = label_number()) +
   scale_x_continuous(labels = label_number()) +
@@ -120,3 +120,28 @@ ggplot(df_long, aes(x = time_period, y = value, fill = variable)) +
        y = "Distance Traveled",
        fill = "Variable") +
   theme_dark()
+
+
+vehicle_distance_traveled_trns_road_light <- grep("^vehicle_distance_traveled_trns_road_light", colnames(df), value = TRUE)
+
+df_long <- melt(df, 
+                id.vars = c("primary_id", "strategy", "time_period"), 
+                measure.vars = vehicle_distance_traveled_trns_road_light)
+
+
+ggplot(df_long, aes(x = time_period, y = value, fill = variable)) +
+  geom_area(position = "stack") +
+  facet_wrap(~ strategy, scales = "fixed") +
+  scale_fill_viridis_d(option = "turbo") +
+  scale_y_continuous(labels = label_number()) +
+  scale_x_continuous(labels = label_number()) +
+  labs(title = "",
+       x = "Time Period",
+       y = "Distance Traveled",
+       fill = "Variable") +
+  theme_dark()
+
+
+
+
+vehicle_distance_traveled_trns_road_light
