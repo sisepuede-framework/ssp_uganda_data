@@ -1,45 +1,59 @@
-# Load packages
+## Cargamos paqueterías
 from costs_benefits_ssp.cb_calculate import CostBenefits
-import pandas as pd
-import os
-import pathlib
 import numpy as np
+import pandas as pd 
+import os 
 
-# Define paths
-SSP_PATH = pathlib.Path(os.getcwd())
-SSP_RUN  = os.path.join(SSP_PATH, "ssp_modeling/ssp_run_output/sisepuede_summary_results_run_sisepuede_run_2025-08-27T20;12;53.345956")
+from costs_benefits_ssp.model.cb_data_model import TXTable,CostFactor,TransformationCost,StrategyInteraction
 
 
-CB_DEFAULT_DEFINITION_PATH = os.path.join(SSP_PATH,"ssp_modeling/cb/cb_cost_factors")
-CB_DEFAULT_DEFINITION_FILE_PATH = os.path.join(CB_DEFAULT_DEFINITION_PATH, "cb_config_params.xlsx")
+##---- Definimos directorios
 
-CB_OUTPUT = os.path.join(SSP_PATH,"ssp_modeling/cb/cb_results")
+DIR_PATH = "/home/milo/Documents/egtp/sisepuede/CB/ejecuciones_paquete_cb/mexico"
 
-# Load data
-ssp_data = pd.read_csv(os.path.join(SSP_RUN, "WIDE_INPUTS_OUTPUTS.csv"))
-att_primary = pd.read_csv(os.path.join(SSP_RUN,"ATTRIBUTE_PRIMARY.csv"))
-att_strategy = pd.read_csv(os.path.join(SSP_RUN,"ATTRIBUTE_STRATEGY.csv"))
+build_path = lambda PATH  : os.path.abspath(os.path.join(*PATH))
+
+### Directorio de salidas de SSP
+SSP_RESULTS_PATH = build_path([DIR_PATH,"ssp_salidas"])
+
+### Directorio de configuración de tablas de costos
+CB_DEFAULT_DEFINITION_PATH = build_path([DIR_PATH, "cb_factores_costo"])
+
+### Directorio de salidas del módulo de costos y beneficios
+OUTPUT_CB_PATH = build_path([DIR_PATH, "cb_resultados"])
+
+### Directorio de datos requeridos paragenerar el archivo tornado_plot_data_QA_QC.csv
+QA_PATH = build_path([DIR_PATH, "edgar_cw"])
+
+## Cargamos los datos
+ssp_data = pd.read_csv(os.path.join(SSP_RESULTS_PATH, "mexico.csv"))
+att_primary = pd.read_csv(os.path.join(SSP_RESULTS_PATH, "ATTRIBUTE_PRIMARY.csv"))
+att_strategy = pd.read_csv(os.path.join(SSP_RESULTS_PATH, "ATTRIBUTE_STRATEGY.csv"))
+
+#ssp_data = ssp_data.drop(columns = ["totalvalue_enfu_fuel_consumed_inen_fuel_hydrogen", "totalvalue_enfu_fuel_consumed_inen_fuel_furnace_gas"])
+
+# Definimos la estrategia baseline
 strategy_code_base = "BASE"
 
-# Instantiate CostBenefits object
+## Instanciamos un objeto de la clase CostBenefits 
 cb = CostBenefits(ssp_data, att_primary, att_strategy, strategy_code_base)
 
-# The export_db_to_excel method saves the initial configuration of the cost tables to an excel file.
-# Each sheet represents a table in the cost and benefit program database.
-# If the Excel file name is not given, the file will be saved with the default name cb_config_params.xlsx on the current python session.
+## El método export_db_to_excel guarda la configuración inicial de las tablas de costos a un archivo excel. 
+### Cada pestaña representa una tabla en la base de datos del programa de costos y beneficios.
+CB_DEFAULT_DEFINITION_FILE_PATH = os.path.join(CB_DEFAULT_DEFINITION_PATH, "cb_config_params_mexico.xlsx")
 
 #cb.export_db_to_excel(CB_DEFAULT_DEFINITION_FILE_PATH)
-
-# Once that the excel file has been updated, we can reload it in order to update the cost factors database
 cb.load_cb_parameters(CB_DEFAULT_DEFINITION_FILE_PATH)
 
-# Compute System Costs
+#------ System Costs
+## Calculamos los system costs para todas las estrategias
 results_system = cb.compute_system_cost_for_all_strategies()
 
-# Compute Technical Costs
+#-------Technical Costs
+## Calculamos los technical costs para todas las estrategias
 results_tx = cb.compute_technical_cost_for_all_strategies()
 
-# Combine results
+# Combina resultados
 results_all = pd.concat([results_system, results_tx], ignore_index = True)
 
 #-------------POST PROCESS SIMULATION RESULTS---------------
@@ -47,10 +61,12 @@ results_all = pd.concat([results_system, results_tx], ignore_index = True)
 results_all_pp = cb.cb_process_interactions(results_all)
 
 # SHIFT any stray costs incurred from 2015 to 2025 to 2025 and 2035
-results_all_pp_shifted = cb.cb_shift_costs(results_all_pp)
+#results_all_pp_shifted = cb.cb_shift_costs(results_all_pp)
 
-# Save the results
-results_all_pp_shifted.to_csv(os.path.join(CB_OUTPUT, "cba_results.csv"), index = False)
+# Guardamos los resultados de CBA
+OUTPUT_CB_FILE_PATH = os.path.join(OUTPUT_CB_PATH, "cost_benefit_results_mexico.csv")
+
+results_all_pp.to_csv(OUTPUT_CB_FILE_PATH, index = False)
 
 ###----------- QUALITY ASSURANCE ANALYSIS ---------#
 
@@ -76,11 +92,11 @@ subsector_totals_ch4 = ["emission_co2e_ch4_agrc",
 ch4 = {i:i.split("_")[-1] for i in subsector_totals_ch4}
 
 #read mapping  
-EMMISIONS_TARGETS_FILE_PATH = os.path.join(SSP_PATH, "ssp_modeling/output_postprocessing/data/emission_targets_uganda_2022.csv")
+EMMISIONS_TARGETS_FILE_PATH = os.path.join(QA_PATH, "emission_targets_mexico.csv")
 te_all = pd.read_csv(EMMISIONS_TARGETS_FILE_PATH)
 
 
-target_country = "UGA"
+target_country = "MEX"
 te_all = te_all[["Subsector","Gas","Vars","Edgar_Class",target_country]].rename(columns = {target_country : "tvalue"})
 
 data = ssp_data[ids + subsector_totals]
@@ -168,13 +184,11 @@ data[["strategy", "emission_co2e_total_diff", "net_benefit", "net_benefit_mi_CO2
 #strategy_names = pd.read_csv(STRATEGY_NAMES_FILE_PATH)
 #strategy_names["strategy_code"] = strategy_names["strategy_code"].apply(lambda x: x.replace("TX:",""))
 
-OUTPUT_CB_FILE_PATH = os.path.join(CB_OUTPUT, "uganda_QA_QC_nuevo.csv")
+OUTPUT_CB_FILE_PATH = os.path.join(OUTPUT_CB_PATH, "mexico_QA_QC_nuevo.csv")
 
 data.to_csv(OUTPUT_CB_FILE_PATH, index = False)
 
 
-### Generamos el excel desagregado para el QA
-os.chdir("ssp_modeling/cb/")
 ### Generamos el excel desagregado para el QA
 from cb_qa_excel_builder import QAExcelBuilder
 import re 
