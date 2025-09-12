@@ -46,7 +46,7 @@ table(cb_data$strategy_id)
 table(cb_data$strategy_code)
 
 dir.out <- "ssp_modeling/Tableau/data/"
-
+write.csv(cb_data,paste0(dir.out,"cb_data.csv"),row.names=FALSE)
 
 pib <- fread('data_processing/output_data/GDP.csv')
 head(pib)
