@@ -1,0 +1,13 @@
+﻿lvst_category,system,emission_factor_kg_ch4_head
+cattle_dairy,dairy cows,76
+cattle_nondairy,multiple breeds,52
+goats,high production system,9
+goats,low production system,5
+sheep,high production system,9
+sheep,low production system,5
+pigs,high production system,1.5
+pigs,low production system,1
+horses,,0
+buffalo,,0
+chickens,,0
+mules,,0
