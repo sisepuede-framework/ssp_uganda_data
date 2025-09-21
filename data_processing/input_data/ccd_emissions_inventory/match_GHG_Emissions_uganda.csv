@@ -1,0 +1,39 @@
+Categories,CSC Sector,CSC Subsector,Gas,2019
+1.A.1 - Energy Industries,Energy,EN - Electricity/Heat,CO2,0.074471
+1.A.1 - Energy Industries,Energy,EN - Electricity/Heat,CH4,1.2929
+1.A.1 - Energy Industries,Energy,EN - Electricity/Heat,N2O,0.306075
+1.A.2 - Manufacturing Industries and Construction,Energy,EN - Manufacturing/Construction,CO2,1.005206
+1.A.2 - Manufacturing Industries and Construction,Energy,EN - Manufacturing/Construction,CH4,1.592696
+1.A.2 - Manufacturing Industries and Construction,Energy,EN - Manufacturing/Construction,N2O,0.371
+1.A.3 - Transport,Energy,EN - Transportation,CO2,2.730391
+1.A.3 - Transport,Energy,EN - Transportation,CH4,0.021168
+1.A.3 - Transport,Energy,EN - Transportation,N2O,0.02067
+1.A.4 - Other Sectors,Energy,EN - Building,CO2,0.708425
+1.A.4 - Other Sectors,Energy,EN - Building,CH4,3.46066
+1.A.4 - Other Sectors,Energy,EN - Building,N2O,0.407835
+1.A.5 - Non-Specified,Energy,EN - Building,CO2,0.003185
+2.A.1 - Cement production,Industrial Processes,IN - Industrial Processes,CO2,0.355582
+2.A.2 - Lime production,Industrial Processes,IN - Industrial Processes,CO2,0.01386
+2.D.1 - Lubricant Use,Industrial Processes,IN - Industrial Processes,CO2,1.5e-05
+3.A.1 - Enteric Fermentation,Agriculture,AG - Livestock,CH4,23.93174
+3.A.2 - Manure Management,Agriculture,AG - Livestock,CH4,0.611912
+3.A.2 - Manure Management,Agriculture,AG - Livestock,N2O,2.767925
+3.B.1 - Forest land,"Land Use, Land Use Change, and Forestry",LULUCF - Forest Land,CO2,54.187805
+3.B.2 - Cropland,"Land Use, Land Use Change, and Forestry",LULUCF - Other Land,CO2,1.497333
+3.B.3 - Grassland,"Land Use, Land Use Change, and Forestry",LULUCF - Other Land,CO2,0.003484
+3.C.1 - Burning,Agriculture,AG - Crops,CH4,0.091224
+3.C.1 - Burning,Agriculture,AG - Crops,N2O,0.077115
+3.C.2 - Liming,Agriculture,AG - Crops,CO2,0.004583
+3.C.3 - Urea application,Agriculture,AG - Crops,CO2,0.01123
+3.C.4 - Direct N2O Emissions from managed soils,Agriculture,AG - Crops,N2O,1.21582
+3.C.5 - Indirect N2O Emissions from managed soils,Agriculture,AG - Crops,N2O,0.22048
+3.C.6 - Indirect N2O Emissions from manure management,Agriculture,AG - Livestock,N2O,0.389815
+3.C.7 - Rice cultivation,Agriculture,AG - Crops,CH4,0.240128
+4.A - Solid Waste Disposal,Waste,Waste - Solid Waste,CH4,7.61166
+4.B - Biological Treatment of Solid Waste,Waste,Waste - Solid Waste,CH4,0.158088
+4.B - Biological Treatment of Solid Waste,Waste,Waste - Solid Waste,N2O,0.089835
+4.C - Incineration and Open Burning of Waste,Waste,Waste - Solid Waste,CO2,0.007918
+4.C - Incineration and Open Burning of Waste,Waste,Waste - Solid Waste,CH4,0.00294
+4.C - Incineration and Open Burning of Waste,Waste,Waste - Solid Waste,N2O,0.00053
+4.D - Wastewater Treatment and Discharge,Waste,Waste - Wastewater Treatment,CH4,5.273968
+4.D - Wastewater Treatment and Discharge,Waste,Waste - Wastewater Treatment,N2O,0.412075
