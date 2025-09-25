@@ -666,144 +666,75 @@ Waste,Biological Treatment of Solid Waste,N2O,2014,0.3185364,National Communicat
 Waste,Biological Treatment of Solid Waste,N2O,2015,0.326781,National Communication 3
 Waste,Biological Treatment of Solid Waste,N2O,2016,0.3375645,National Communication 3
 Waste,Biological Treatment of Solid Waste,N2O,2017,0.348348,National Communication 3
-Waste,Incineration of Waste,CH4,1995,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,1996,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,1997,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,1998,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,1999,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,2000,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,2001,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,2002,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,2003,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,2004,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,2005,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,2006,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,2007,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,2008,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,2009,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,2010,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,2011,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,2012,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,2013,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,2014,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,2015,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,2016,0.0,National Communication 3
-Waste,Incineration of Waste,CH4,2017,0.0,National Communication 3
-Waste,Incineration of Waste,CO2,1995,0.001126,National Communication 3
-Waste,Incineration of Waste,CO2,1996,0.001133,National Communication 3
-Waste,Incineration of Waste,CO2,1997,0.00114,National Communication 3
-Waste,Incineration of Waste,CO2,1998,0.001147,National Communication 3
-Waste,Incineration of Waste,CO2,1999,0.001154,National Communication 3
-Waste,Incineration of Waste,CO2,2000,0.001161,National Communication 3
-Waste,Incineration of Waste,CO2,2001,0.0011682,National Communication 3
-Waste,Incineration of Waste,CO2,2002,0.0011754,National Communication 3
-Waste,Incineration of Waste,CO2,2003,0.0011826,National Communication 3
-Waste,Incineration of Waste,CO2,2004,0.0011898,National Communication 3
-Waste,Incineration of Waste,CO2,2005,0.001197,National Communication 3
-Waste,Incineration of Waste,CO2,2006,0.0012876,National Communication 3
-Waste,Incineration of Waste,CO2,2007,0.0013782,National Communication 3
-Waste,Incineration of Waste,CO2,2008,0.0014688,National Communication 3
-Waste,Incineration of Waste,CO2,2009,0.0015594,National Communication 3
-Waste,Incineration of Waste,CO2,2010,0.00165,National Communication 3
-Waste,Incineration of Waste,CO2,2011,0.0016584,National Communication 3
-Waste,Incineration of Waste,CO2,2012,0.0016668,National Communication 3
-Waste,Incineration of Waste,CO2,2013,0.0016752,National Communication 3
-Waste,Incineration of Waste,CO2,2014,0.0016836,National Communication 3
-Waste,Incineration of Waste,CO2,2015,0.001692,National Communication 3
-Waste,Incineration of Waste,CO2,2016,0.001702,National Communication 3
-Waste,Incineration of Waste,CO2,2017,0.001712,National Communication 3
-Waste,Incineration of Waste,N2O,1995,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,1996,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,1997,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,1998,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,1999,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,2000,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,2001,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,2002,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,2003,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,2004,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,2005,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,2006,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,2007,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,2008,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,2009,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,2010,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,2011,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,2012,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,2013,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,2014,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,2015,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,2016,0.0,National Communication 3
-Waste,Incineration of Waste,N2O,2017,0.0,National Communication 3
-Waste,Open Burning of Waste,CH4,1995,0.0020221,National Communication 3
-Waste,Open Burning of Waste,CH4,1996,0.00254286,National Communication 3
-Waste,Open Burning of Waste,CH4,1997,0.00306362,National Communication 3
-Waste,Open Burning of Waste,CH4,1998,0.00358438,National Communication 3
-Waste,Open Burning of Waste,CH4,1999,0.00410514,National Communication 3
-Waste,Open Burning of Waste,CH4,2000,0.0046259,National Communication 3
-Waste,Open Burning of Waste,CH4,2001,0.00480318,National Communication 3
-Waste,Open Burning of Waste,CH4,2002,0.00498046,National Communication 3
-Waste,Open Burning of Waste,CH4,2003,0.00515774,National Communication 3
-Waste,Open Burning of Waste,CH4,2004,0.00533502,National Communication 3
-Waste,Open Burning of Waste,CH4,2005,0.0055123,National Communication 3
-Waste,Open Burning of Waste,CH4,2006,0.00568404,National Communication 3
-Waste,Open Burning of Waste,CH4,2007,0.00585578,National Communication 3
-Waste,Open Burning of Waste,CH4,2008,0.00602752,National Communication 3
-Waste,Open Burning of Waste,CH4,2009,0.00619926,National Communication 3
-Waste,Open Burning of Waste,CH4,2010,0.006371,National Communication 3
-Waste,Open Burning of Waste,CH4,2011,0.0076175,National Communication 3
-Waste,Open Burning of Waste,CH4,2012,0.008864,National Communication 3
-Waste,Open Burning of Waste,CH4,2013,0.0101105,National Communication 3
-Waste,Open Burning of Waste,CH4,2014,0.011357,National Communication 3
-Waste,Open Burning of Waste,CH4,2015,0.0126035,National Communication 3
-Waste,Open Burning of Waste,CH4,2016,0.01297745,National Communication 3
-Waste,Open Burning of Waste,CH4,2017,0.0133514,National Communication 3
-Waste,Open Burning of Waste,CO2,1995,0.000878,National Communication 3
-Waste,Open Burning of Waste,CO2,1996,0.0009822,National Communication 3
-Waste,Open Burning of Waste,CO2,1997,0.0010864,National Communication 3
-Waste,Open Burning of Waste,CO2,1998,0.0011906,National Communication 3
-Waste,Open Burning of Waste,CO2,1999,0.0012948,National Communication 3
-Waste,Open Burning of Waste,CO2,2000,0.001399,National Communication 3
-Waste,Open Burning of Waste,CO2,2001,0.0016088,National Communication 3
-Waste,Open Burning of Waste,CO2,2002,0.0018186,National Communication 3
-Waste,Open Burning of Waste,CO2,2003,0.0020284,National Communication 3
-Waste,Open Burning of Waste,CO2,2004,0.0022382,National Communication 3
-Waste,Open Burning of Waste,CO2,2005,0.002448,National Communication 3
-Waste,Open Burning of Waste,CO2,2006,0.0024726,National Communication 3
-Waste,Open Burning of Waste,CO2,2007,0.0024972,National Communication 3
-Waste,Open Burning of Waste,CO2,2008,0.0025218,National Communication 3
-Waste,Open Burning of Waste,CO2,2009,0.0025464,National Communication 3
-Waste,Open Burning of Waste,CO2,2010,0.002571,National Communication 3
-Waste,Open Burning of Waste,CO2,2011,0.0030728,National Communication 3
-Waste,Open Burning of Waste,CO2,2012,0.0035746,National Communication 3
-Waste,Open Burning of Waste,CO2,2013,0.0040764,National Communication 3
-Waste,Open Burning of Waste,CO2,2014,0.0045782,National Communication 3
-Waste,Open Burning of Waste,CO2,2015,0.00508,National Communication 3
-Waste,Open Burning of Waste,CO2,2016,0.0061295,National Communication 3
-Waste,Open Burning of Waste,CO2,2017,0.007179,National Communication 3
-Waste,Open Burning of Waste,N2O,1995,0.000273,National Communication 3
-Waste,Open Burning of Waste,N2O,1996,0.0003276,National Communication 3
-Waste,Open Burning of Waste,N2O,1997,0.0003822,National Communication 3
-Waste,Open Burning of Waste,N2O,1998,0.0004368,National Communication 3
-Waste,Open Burning of Waste,N2O,1999,0.0004914,National Communication 3
-Waste,Open Burning of Waste,N2O,2000,0.000546,National Communication 3
-Waste,Open Burning of Waste,N2O,2001,0.0006006,National Communication 3
-Waste,Open Burning of Waste,N2O,2002,0.0006552,National Communication 3
-Waste,Open Burning of Waste,N2O,2003,0.0007098,National Communication 3
-Waste,Open Burning of Waste,N2O,2004,0.0007644,National Communication 3
-Waste,Open Burning of Waste,N2O,2005,0.000819,National Communication 3
-Waste,Open Burning of Waste,N2O,2006,0.000819,National Communication 3
-Waste,Open Burning of Waste,N2O,2007,0.000819,National Communication 3
-Waste,Open Burning of Waste,N2O,2008,0.000819,National Communication 3
-Waste,Open Burning of Waste,N2O,2009,0.000819,National Communication 3
-Waste,Open Burning of Waste,N2O,2010,0.000819,National Communication 3
-Waste,Open Burning of Waste,N2O,2011,0.0009828,National Communication 3
-Waste,Open Burning of Waste,N2O,2012,0.0011466,National Communication 3
-Waste,Open Burning of Waste,N2O,2013,0.0013104,National Communication 3
-Waste,Open Burning of Waste,N2O,2014,0.0014742,National Communication 3
-Waste,Open Burning of Waste,N2O,2015,0.001638,National Communication 3
-Waste,Open Burning of Waste,N2O,2016,0.0017745,National Communication 3
-Waste,Open Burning of Waste,N2O,2017,0.001911,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,1995,0.0020221,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,1996,0.00254286,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,1997,0.00306362,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,1998,0.00358438,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,1999,0.00410514,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,2000,0.0046259,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,2001,0.00480318,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,2002,0.00498046,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,2003,0.00515774,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,2004,0.00533502,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,2005,0.0055123,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,2006,0.00568404,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,2007,0.00585578,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,2008,0.00602752,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,2009,0.00619926,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,2010,0.006371,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,2011,0.0076175,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,2012,0.008864,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,2013,0.0101105,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,2014,0.011357,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,2015,0.0126035,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,2016,0.01297745,National Communication 3
+Waste,Incineration and Open Burning of Waste,CH4,2017,0.0133514,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,1995,0.002004,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,1996,0.0021152,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,1997,0.0022264,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,1998,0.0023376,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,1999,0.0024488,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,2000,0.0025599999999999998,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,2001,0.002777,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,2002,0.002994,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,2003,0.0032110000000000003,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,2004,0.003428,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,2005,0.003645,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,2006,0.0037602,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,2007,0.0038754,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,2008,0.0039905999999999995,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,2009,0.0041058,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,2010,0.004221,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,2011,0.0047312,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,2012,0.0052414,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,2013,0.0057516,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,2014,0.0062618,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,2015,0.006772,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,2016,0.0078315,National Communication 3
+Waste,Incineration and Open Burning of Waste,CO2,2017,0.008891,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,1995,0.000273,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,1996,0.0003276,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,1997,0.0003822,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,1998,0.0004368,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,1999,0.0004914,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,2000,0.000546,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,2001,0.0006006,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,2002,0.0006552,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,2003,0.0007098,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,2004,0.0007644,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,2005,0.000819,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,2006,0.000819,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,2007,0.000819,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,2008,0.000819,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,2009,0.000819,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,2010,0.000819,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,2011,0.0009828,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,2012,0.0011466,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,2013,0.0013104,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,2014,0.0014742,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,2015,0.001638,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,2016,0.0017745,National Communication 3
+Waste,Incineration and Open Burning of Waste,N2O,2017,0.001911,National Communication 3
 Waste,Solid Waste Disposal,All GHG,1995,1.672,National Communication 3
 Waste,Solid Waste Disposal,All GHG,1996,1.787272727,National Communication 3
 Waste,Solid Waste Disposal,All GHG,1997,1.902545455,National Communication 3
