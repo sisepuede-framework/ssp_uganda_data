@@ -95,8 +95,9 @@ _SISEPUEDE_MODELS = sm.SISEPUEDEModels(
     initialize_julia = True, 
 )
 
-
-
+# default years to build
+_YEARS_DEFAULT_MIN = 2015
+_YEARS_DEFAULT_MAX = 2070
 
 
 
@@ -290,6 +291,20 @@ def _build_from_outputs(
 
 
 
+def file_name_from_variable(
+    modvar: Union[str, 'ModelVariable'],
+) -> str:
+    """Using a model variable, get the export file name
+    """
+    modvar = _SISEPUEDE_MODEL_ATTRIBUTES.get_variable(modvar, )
+    if modvar is None:
+        return None
+
+    out = f"{modvar.name_fs_safe.upper()}.csv"
+    return out
+    
+
+
 def get_files_from_matchstr(
     matchstr: str,
 ) -> pd.DataFrame:
@@ -333,6 +348,37 @@ def get_raw_ssp_inputs(
         )
     
     return df
+
+
+
+def get_variable_df_for_overwrite(
+    df_base: pd.DataFrame,
+    modvar: Union[str, 'ModelVariable'],
+) -> pd.DataFrame:
+    """Get a variable DataFrame from df_base to use as a base for overwriting 
+        with data in notebooks.
+    """
+
+    modvar = _SISEPUEDE_MODEL_ATTRIBUTES.get_variable(modvar, )
+    if modvar is None:
+        return None
+
+    df_extract = (
+        _SISEPUEDE_TIME_PERIODS
+        .tps_to_years(
+            modvar.get_from_dataframe(
+                df_base, 
+                extraction_logic = "all",                                             # should be complete
+                fields_additional = [_SISEPUEDE_TIME_PERIODS.field_time_period],     # make sure time period is in there
+            )
+        )
+        .drop(columns = _SISEPUEDE_TIME_PERIODS.field_time_period, )
+    )
+
+    return df_extract
+    
+
+
 
 
 
