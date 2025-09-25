@@ -5,6 +5,6 @@ identifiers:
   transformation_name: "Scaled Default Max Parameters by 2.0 - WASO: Biogas for energy\
     \ production"
 parameters:
-  magnitude: 1.7
+  magnitude: 0.95
   vec_implementation_ramp: null
 transformer: "TFR:WASO:INC_ENERGY_FROM_BIOGAS"
