@@ -77,6 +77,7 @@ _PATH_PROJ = _PATH_CUR.parents[0]
 _PATH_INPUTS = _PATH_PROJ.joinpath("input_data")
 _PATH_OUTPUTS = _PATH_PROJ.joinpath("output_data")
 _PATH_BASE_RAW_DATA = _PATH_INPUTS.joinpath("sisepuede_raw_global_inputs_uganda.csv")
+_PATH_SSP_MODELING = _PATH_CUR.parents[1].joinpath("ssp_modeling")
 
 # model attributes and associated support classes
 _SISEPUEDE_EXAMPLES = sxl.SISEPUEDEExamples()
@@ -475,6 +476,14 @@ def spawn_years_space_df(
     return df_space_years
 
 
+
+
+
+
+
+#######################################################
+#    BUILD INVENTORIES THAT REQUIRE SYNTHETIC DATA    #
+#######################################################
 
 
 
