@@ -5,6 +5,6 @@ identifiers:
   transformation_code: "TX:WASO:INC_LANDFILLING_STRATEGY_NDC"
   transformation_name: "Scaled Default Max Parameters by 0.5 - WASO: Increase landfilling"
 parameters:
-  magnitude: 0.5
+  magnitude: 0.75
   vec_implementation_ramp: null
 transformer: "TFR:WASO:INC_LANDFILLING"

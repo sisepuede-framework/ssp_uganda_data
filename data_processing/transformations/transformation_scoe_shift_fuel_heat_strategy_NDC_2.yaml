@@ -5,7 +5,15 @@ identifiers:
   transformation_name: "Scaled Default Max Parameters by 0.01 - SCOE: Switch to electricity\
     \ for heat using heat pumps, electric stoves, etc."
 parameters:
-  magnitude: 0.5
+  cat_enfu_target: fuel_hydrocarbon_gas_liquids
+  cats_enfu_source:
+    - fuel_biomass
+  magnitude: 0.1
   vec_implementation_ramp:
+    alpha_logistic: 1
+    n_tp_ramp: 10
     tp_0_ramp: 5
+    window_logistic: 
+      - -4
+      - 4
 transformer: "TFR:SCOE:SHIFT_FUEL_HEAT"

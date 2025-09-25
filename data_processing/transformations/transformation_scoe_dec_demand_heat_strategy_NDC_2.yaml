@@ -2,10 +2,13 @@ citations: null
 description: None
 identifiers:
   transformation_code: "TX:SCOE:DEC_DEMAND_HEAT_STRATEGY_NDC_2"
-  transformation_name: "Scaled Default Max Parameters by 0.01 - SCOE: Reduce end-use\
-    \ demand for heat energy by improving building shell"
+  transformation_name: "Scaled Default Max Parameters by 0.10% - SCOE: Reduce end-use\
+    \ demand for input biomass for charcoal. This transformation loosely reflects that by 2030."
 parameters:
-  magnitude: 0.1
+  magnitude: 0.05
   vec_implementation_ramp:
+    alpha_logisitic: 1,
+    n_tp_ramp: 20
     tp_0_ramp: 5
+    window_logistic: (-4, 4)
 transformer: "TFR:SCOE:DEC_DEMAND_HEAT"

@@ -5,8 +5,7 @@ identifiers:
   transformation_name: "Scaled Default Max Parameters by 1.0 - AGRC: Improve crop
     productivity"
 parameters:
-  magnitude: 0.2
+  magnitude: 0.6
   vec_implementation_ramp:
     tp_0_ramp: 5
-    n_tp_ramp: 10
 transformer: "TFR:AGRC:INC_PRODUCTIVITY"
