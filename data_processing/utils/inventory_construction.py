@@ -147,7 +147,7 @@ def allocate_accounted_all_ghgs_using_ssp(
 
         # some crosswalk elements
         rows = df_cw_ssp[
-            df_cw_ssp[_FIELD_CW_SUBSECTOR].isin([subsec[0]])
+            df_cw_ssp[_FIELD_CW_SUBSECTOR].isin([subsec[0]])Other (Residential, Commercial, Institution)
         ]
         subsec_disp = rows[_FIELD_CW_DISPLAY_SUBSECTOR].unique()
         if subsec_disp.shape[0] > 1:
