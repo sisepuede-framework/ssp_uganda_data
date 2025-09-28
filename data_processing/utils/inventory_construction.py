@@ -46,6 +46,84 @@ _FLAG_ALL_GHG = "all ghg"       # note that the upper case flag is set to lower 
 #    PRIMARY FUNCTIONS    #
 ###########################
 
+def adjust_subsector_to_match_sisepuede_lvst_ef(
+    df_inventory_raw: pd.DataFrame,
+    df_cw_raw: pd.DataFrame,
+    df_base_ssp: pd.DataFrame,
+    time_periods: 'TimePeriods',
+    delim: str = _DELIM_FIELDS_EMISSION,
+    subsector: str = "Enteric Fermentation",
+) -> pd.DataFrame:
+    """Special case adjustment to scale inventory CH4 to match SSP outputs
+        (this has to do with emission factors not lining up from 2015/2017 
+        to 2019--SSP uses the 2019 factors from BUR2, so we adjust historical
+        numbers to align with similar enteric fermentation factors).
+    """
+
+    ##  INITIALIZATION
+    
+    # get indices
+    inds_replace = df_inventory_raw[_FIELD_INV_SUBSECTOR].isin([subsector])
+    df_modify = df_inventory_raw[inds_replace].copy()
+
+    # get the max year and associated time period
+    yr_max = df_modify[_FIELD_INV_YEAR].max()
+    tp_compare = time_periods.year_to_tp(yr_max)
+    
+    # get the emissions fields to sum over
+    fields = str(
+        df_cw_raw[
+            df_cw_raw[_FIELD_CW_SUBSECTOR].isin([subsector])
+        ]
+        .iloc[0]
+        .get(_FIELD_CW_VARIABLE_FIELDS)
+    ).split(delim)
+
+
+    ##  START DOING CALCULATIONS
+
+    level_emissions_cur = float(
+        df_modify[
+            df_modify[_FIELD_INV_YEAR].isin([yr_max])
+        ]
+        .iloc[0]
+        .get(_FIELD_INV_VALUE)
+    )
+
+    
+    level_emissions_match = float(
+        df_base_ssp[
+            df_base_ssp[time_periods.field_time_period].isin([tp_compare])
+        ]
+        .iloc[0]
+        .get(fields)
+        .sum()
+    )
+
+    # scale emissions up
+    scalar = level_emissions_match/level_emissions_cur
+    df_modify[_FIELD_INV_VALUE] *= scalar
+
+    """
+    modvar_lvst_entferm_emissions.get_from_dataframe(
+        df_base_ssp, 
+        fields_additional = [time_periods.field_time_period]
+    )
+    """
+
+
+    # update output dataframe
+    df_inventory_out = sf._concat_df(
+        [
+            df_modify,
+            df_inventory_raw[~inds_replace]
+        ]
+    )
+
+    return df_inventory_out
+
+
+
 def aggregate_cw_to_display(
     df_cw: pd.DataFrame,
     delim: str = _DELIM_FIELDS_EMISSION,
@@ -147,7 +225,7 @@ def allocate_accounted_all_ghgs_using_ssp(
 
         # some crosswalk elements
         rows = df_cw_ssp[
-            df_cw_ssp[_FIELD_CW_SUBSECTOR].isin([subsec[0]])Other (Residential, Commercial, Institution)
+            df_cw_ssp[_FIELD_CW_SUBSECTOR].isin([subsec[0]])
         ]
         subsec_disp = rows[_FIELD_CW_DISPLAY_SUBSECTOR].unique()
         if subsec_disp.shape[0] > 1:
@@ -496,22 +574,38 @@ def get_inventory_tables(
         df_years, 
     ) = tup_icdfs
 
-
-    ##  BUILD THE SYNTHETIC SECTORS AND CW
-
-    df_inv = build_synthetic_sectors(
-        df_base_ssp,
-        time_periods,
-        model_attributes,
-        *tup_icdfs,
-    )
-
+    # build an aggregate crosswalk as well
     df_cw = sf._concat_df(
         [
             df_ssp_cw_accounted,
             df_ssp_cw_unaccounted
         ]
     ) 
+
+    
+    ##  IMPLEMENT SOME MANUAL ADJUSTMENTS
+
+    # livestock enteric fermentation will be taken from SSP numbers
+    df_inventory = adjust_subsector_to_match_sisepuede_lvst_ef(
+        df_inventory,
+        df_cw,
+        df_base_ssp,
+        time_periods,
+    )
+
+    
+    ##  BUILD THE SYNTHETIC SECTORS AND CW
+
+    df_inv = build_synthetic_sectors(
+        df_base_ssp,
+        time_periods,
+        model_attributes,
+        df_inventory, 
+        df_ssp_cw_accounted, 
+        df_ssp_cw_unaccounted, 
+        df_years, 
+    )
+    
     
     if agg_to_display:
         df_cw = aggregate_cw_to_display(df_cw, )
