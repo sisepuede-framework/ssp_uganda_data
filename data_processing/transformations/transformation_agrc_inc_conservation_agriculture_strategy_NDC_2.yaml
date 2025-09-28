@@ -13,5 +13,5 @@ parameters:
   magnitude_removed: 0.5
   vec_implementation_ramp:
     tp_0_ramp: 5
-    n_tp_ramp: 10
+    #n_tp_ramp: 10
 transformer: "TFR:AGRC:INC_CONSERVATION_AGRICULTURE"
