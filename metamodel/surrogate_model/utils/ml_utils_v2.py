@@ -11,6 +11,7 @@ from sklearn.model_selection import (
 )
 from sklearn.pipeline import Pipeline
 from sklearn.dummy import DummyRegressor
+import warnings
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.linear_model import ElasticNet
 from sklearn.preprocessing import StandardScaler
@@ -37,6 +38,12 @@ class EmissionsPredictionPipeline:
         self._log_transform = False  # only applies to XGB
         self.pipelines: dict[str, object] = {}  # estimators or pipelines
 
+        # NEW: track which features a given model expects (full or subset)
+        self.model_features: dict[str, list[str]] = {}
+
+        # store eval results for quick comparison
+        self._eval_table: pd.DataFrame | None = None
+
         # for reproducibility
         np.random.seed(self.random_state)
 
@@ -61,7 +68,7 @@ class EmissionsPredictionPipeline:
             "min_child_weight": [1, 3, 5, 10],
             "reg_alpha": [0.0, 0.001, 0.01, 0.1],
             "reg_lambda": [0.1, 1.0, 5.0, 10.0],
-            "gamma": [0.0, 0.1, 0.3],  # optional
+            "gamma": [0.0, 0.1, 0.3],
         }
 
         xgb_pipe = Pipeline(
@@ -101,39 +108,57 @@ class EmissionsPredictionPipeline:
         print("Best XGB hyperparameters:", self.best_params)
 
     # ------------------------------------------------------------------ #
-    def train_models(self, log_transform: bool = False):
-        """Fit XGB (with optional log1p target) + baseline models."""
-        if self.X_train is None:
-            raise RuntimeError("Call preprocess() first.")
-        self._log_transform = log_transform
-
-        # 1) XGBoost (fit with early stopping on a holdout eval_set)
-        xgb_model = xgb.XGBRegressor(
+    def _fit_xgb(
+        self,
+        X_train: pd.DataFrame,
+        y_train: pd.Series,
+        X_val: pd.DataFrame,
+        y_val: pd.Series,
+        name: str,
+    ) -> xgb.XGBRegressor:
+        """Internal: fit a single XGB model respecting log transform."""
+        model = xgb.XGBRegressor(
             **self.best_params,
             random_state=self.random_state,
             tree_method="hist",
             objective="reg:squarederror",
             n_jobs=-1,
         )
-        y_fit_xgb = np.log1p(self.y_train) if self._log_transform else self.y_train
-        eval_y = np.log1p(self.y_test) if self._log_transform else self.y_test
-        xgb_model.fit(
-            self.X_train,
-            y_fit_xgb,
-            eval_set=[(self.X_test, eval_y)],
-            # early_stopping_rounds=100,
+        y_fit = np.log1p(y_train) if self._log_transform else y_train
+        y_eval = np.log1p(y_val) if self._log_transform else y_val
+
+        model.fit(
+            X_train,
+            y_fit,
+            eval_set=[(X_val, y_eval)],
             verbose=False,
         )
-        self.pipelines["XGB"] = xgb_model  # store estimator directly
+        self.pipelines[name] = model
+        self.model_features[name] = list(X_train.columns)
+        return model
+
+    # ------------------------------------------------------------------ #
+    def train_models(self, log_transform: bool = False):
+        """Fit XGB (with optional log1p) + baseline models (full feature set)."""
+        if self.X_train is None:
+            raise RuntimeError("Call preprocess() first.")
+        self._log_transform = log_transform
+
+        # 1) Full XGB
+        self._fit_xgb(
+            self.X_train, self.y_train, self.X_test, self.y_test, name="XGB"
+        )
 
         # 2) Baselines / other models
         self.pipelines["MeanBaseline"] = Pipeline(
             [("model", DummyRegressor(strategy="mean"))]
         ).fit(self.X_train, self.y_train)
+        self.model_features["MeanBaseline"] = list(self.X_train.columns)
 
         self.pipelines["MedianBaseline"] = Pipeline(
             [("model", DummyRegressor(strategy="median"))]
         ).fit(self.X_train, self.y_train)
+        self.model_features["MedianBaseline"] = list(self.X_train.columns)
 
         self.pipelines["RandomForest"] = Pipeline(
             [
@@ -147,6 +172,7 @@ class EmissionsPredictionPipeline:
                 )
             ]
         ).fit(self.X_train, self.y_train)
+        self.model_features["RandomForest"] = list(self.X_train.columns)
 
         self.pipelines["ElasticNet"] = Pipeline(
             [
@@ -154,30 +180,104 @@ class EmissionsPredictionPipeline:
                 ("model", ElasticNet(random_state=self.random_state, max_iter=5000)),
             ]
         ).fit(self.X_train, self.y_train)
+        self.model_features["ElasticNet"] = list(self.X_train.columns)
+
+    # ------------------------------------------------------------------ #
+    def _top_k_by_importance(self, k: int) -> list[str]:
+        """
+        Get top-k feature names from the already-trained full XGB model.
+        Falls back to all features if k >= n_features.
+        """
+        if "XGB" not in self.pipelines:
+            raise RuntimeError("Train the full XGB first.")
+        model = self.pipelines["XGB"]
+        importances = getattr(model, "feature_importances_", None)
+        if importances is None:
+            raise RuntimeError("XGB feature_importances_ not available.")
+        feats = np.array(self.model_features["XGB"])
+        k = min(k, len(feats))
+        idx = np.argsort(importances)[-k:][::-1]
+        return feats[idx].tolist()
+
+    # ------------------------------------------------------------------ #
+    def train_reduced_xgboosts(self, ks: list[int] = [10, 5]):
+        """
+        Train reduced XGB models using top-k features derived from the full XGB.
+        Stores models as 'XGB_top{k}'.
+        """
+        if self.X_train is None or "XGB" not in self.pipelines:
+            raise RuntimeError("Call train_models() to fit the full XGB first.")
+
+        for k in ks:
+            topk_feats = self._top_k_by_importance(k)
+            Xtr_k = self.X_train[topk_feats]
+            Xte_k = self.X_test[topk_feats]
+            name = f"XGB_top{k}"
+            self._fit_xgb(Xtr_k, self.y_train, Xte_k, self.y_test, name=name)
+            print(f"Trained reduced model '{name}' with {len(topk_feats)} features.")
+
+    # ------------------------------------------------------------------ #
+    def _evaluate_single(self, name: str) -> dict:
+        """Compute metrics for a single trained model."""
+        est = self.pipelines[name]
+        feats = self.model_features.get(name, list(self.X_test.columns))
+        X = self.X_test[feats] if set(feats).issubset(self.X_test.columns) else self.X_test
+
+        y_pred = est.predict(X)
+        if name.startswith("XGB") and self._log_transform:
+            y_pred = np.expm1(y_pred)
+
+        mae = mean_absolute_error(self.y_test, y_pred)
+        rmse = np.sqrt(mean_squared_error(self.y_test, y_pred))
+        r2 = r2_score(self.y_test, y_pred)
+        denom = (np.abs(self.y_test) + np.abs(y_pred)) / 2
+        smape = (np.mean(np.where(denom == 0, 0, np.abs(self.y_test - y_pred) / denom)) * 100)
+
+        return {"Model": name, "MAE": mae, "RMSE": rmse, "R2": r2, "SMAPE": smape}
 
     # ------------------------------------------------------------------ #
     def evaluate_models(self):
         """Print MAE, RMSE, R², SMAPE for all models (on original scale)."""
-        for name, est in self.pipelines.items():
-            y_pred = est.predict(self.X_test)
-            if name == "XGB" and self._log_transform:
-                y_pred = np.expm1(y_pred)
-
-            mae = mean_absolute_error(self.y_test, y_pred)
-            rmse = np.sqrt(mean_squared_error(self.y_test, y_pred))
-            r2 = r2_score(self.y_test, y_pred)
-
-            denom = (np.abs(self.y_test) + np.abs(y_pred)) / 2
-            smape = (np.mean(np.where(denom == 0, 0, np.abs(self.y_test - y_pred) / denom)) * 100)
-
+        rows = []
+        for name in self.pipelines.keys():
+            rows.append(self._evaluate_single(name))
+        self._eval_table = pd.DataFrame(rows).sort_values("MAE")
+        for row in rows:
             print(
-                f"{name:15s} → MAE: {mae:.4f}, RMSE: {rmse:.4f}, "
-                f"R²: {r2:.4f}, SMAPE: {smape:.1f}%"
+                f"{row['Model']:15s} → MAE: {row['MAE']:.4f}, RMSE: {row['RMSE']:.4f}, "
+                f"R²: {row['R2']:.4f}, SMAPE: {row['SMAPE']:.1f}%"
             )
+        return self._eval_table
+
+    # ------------------------------------------------------------------ #
+    def compare_xgb_variants(self, metric: str = "MAE") -> pd.DataFrame:
+        """
+        Return a table comparing full XGB and any XGB_top{k} models by metric.
+        metric ∈ {'MAE','RMSE','R2','SMAPE'}
+        """
+        if self._eval_table is None:
+            _ = self.evaluate_models()
+        metric = metric.upper()
+        if metric not in {"MAE", "RMSE", "R2", "SMAPE"}:
+            raise ValueError("metric must be one of {'MAE','RMSE','R2','SMAPE'}")
+        tbl = self._eval_table[self._eval_table["Model"].str.startswith("XGB")].copy()
+        ascending = metric in {"MAE", "RMSE", "SMAPE"}  # lower is better
+        return tbl.sort_values(metric, ascending=ascending)
+
+    # ------------------------------------------------------------------ #
+    def select_best_xgb(self, metric: str = "MAE") -> str:
+        """
+        Choose the best among XGB and XGB_top{k} variants by metric.
+        Returns the model name.
+        """
+        tbl = self.compare_xgb_variants(metric=metric)
+        best = tbl.iloc[0]["Model"]
+        print(f"Best XGB variant by {metric}: {best}")
+        return best
 
     # ------------------------------------------------------------------ #
     def cross_validate(self, cv_splits: int = 5, model_names: list[str] | None = None):
-        """CV on training set. For XGB, uses log1p(y) if enabled (no early stopping in CV)."""
+        """CV on training set. Honors feature subsets for reduced models."""
         if model_names is None:
             model_names = list(self.pipelines.keys())
 
@@ -192,11 +292,14 @@ class EmissionsPredictionPipeline:
 
         for name in model_names:
             est = self.pipelines[name]
-            y_cv = np.log1p(self.y_train) if (name == "XGB" and self._log_transform) else self.y_train
+            feats = self.model_features.get(name, list(self.X_train.columns))
+            Xcv = self.X_train[feats]
+
+            y_cv = np.log1p(self.y_train) if (name.startswith("XGB") and self._log_transform) else self.y_train
 
             results = cross_validate(
                 est,
-                self.X_train,
+                Xcv,
                 y_cv,
                 cv=kf,
                 scoring=scoring,
@@ -214,14 +317,17 @@ class EmissionsPredictionPipeline:
                 print(f"{label}: {mean:.4f} ± {std:.4f}")
 
     # ------------------------------------------------------------------ #
-    def create_plots(self):
+    def create_plots(self, model_name: str = "XGB"):
         """Residuals, Pred vs Actual, and top-4 feature importances (XGB only)."""
-        if "XGB" not in self.pipelines:
-            raise RuntimeError("Train XGB first.")
+        if model_name not in self.pipelines:
+            raise RuntimeError(f"Train {model_name} first.")
 
-        model = self.pipelines["XGB"]
-        y_pred = model.predict(self.X_test)
-        if self._log_transform:
+        model = self.pipelines[model_name]
+        feats = self.model_features.get(model_name, list(self.X_test.columns))
+        X_plot = self.X_test[feats]
+
+        y_pred = model.predict(X_plot)
+        if model_name.startswith("XGB") and self._log_transform:
             y_pred = np.expm1(y_pred)
 
         residuals = self.y_test - y_pred
@@ -232,7 +338,7 @@ class EmissionsPredictionPipeline:
         axes[0].axhline(0, linestyle="--", color="k")
         axes[0].set_xlabel("Predicted")
         axes[0].set_ylabel("Residuals")
-        axes[0].set_title("Residuals vs. Predicted")
+        axes[0].set_title(f"Residuals vs. Predicted ({model_name})")
 
         axes[1].scatter(y_pred, self.y_test, alpha=0.6)
         mn = float(min(np.min(y_pred), np.min(self.y_test)))
@@ -240,20 +346,21 @@ class EmissionsPredictionPipeline:
         axes[1].plot([mn, mx], [mn, mx], "k--")
         axes[1].set_xlabel("Predicted")
         axes[1].set_ylabel("Actual")
-        axes[1].set_title("Predicted vs. Actual")
+        axes[1].set_title(f"Predicted vs. Actual ({model_name})")
         plt.tight_layout()
         plt.show()
 
-        # Feature importances (top 4)
-        importances = model.feature_importances_
-        features = np.array(self.X_train.columns)
-        idx = np.argsort(importances)[-4:][::-1]
-
-        plt.figure(figsize=(8, 5))
-        plt.barh(features[idx][::-1], importances[idx][::-1])
-        plt.title("Top 4 Feature Importances (XGB)")
-        plt.tight_layout()
-        plt.show()
+        # Feature importances (top 4) — XGB only
+        if model_name.startswith("XGB"):
+            importances = getattr(model, "feature_importances_", None)
+            if importances is not None:
+                features = np.array(feats)
+                idx = np.argsort(importances)[-4:][::-1]
+                plt.figure(figsize=(8, 5))
+                plt.barh(features[idx][::-1], importances[idx][::-1])
+                plt.title(f"Top 4 Feature Importances ({model_name})")
+                plt.tight_layout()
+                plt.show()
 
     # ------------------------------------------------------------------ #
     def run(
@@ -262,33 +369,30 @@ class EmissionsPredictionPipeline:
         log_transform: bool = False,
         cv_splits: int = 5,
         create_plots: bool = True,
+        train_reduced: bool = True,
+        reduced_ks: list[int] = [10, 5],
     ):
-        """End-to-end run."""
+        """End-to-end run including (optional) reduced-feature XGB variants."""
         self._log_transform = log_transform
         self.preprocess()
         if tune:
             self.tune_hyperparameters()
         self.train_models(log_transform=log_transform)
+        if train_reduced:
+            # derive top-k from the full XGB and train XGB_top10 / XGB_top5
+            self.train_reduced_xgboosts(ks=reduced_ks)
         self.evaluate_models()
-        self.cross_validate(cv_splits=cv_splits)
+        self.cross_validate(cv_splits=cv_splits, model_names=[m for m in self.pipelines if m.startswith("XGB")])
         if create_plots:
-            self.create_plots()
+            # plot for the best XGB variant by MAE
+            best = self.select_best_xgb(metric="MAE")
+            self.create_plots(model_name=best)
     
+    # ------------------------------------------------------------------ #
     def predict(self, new_data: pd.DataFrame, model_name: str = "XGB") -> np.ndarray:
         """
         Predict target values for new observations using a trained model.
-
-        Parameters
-        ----------
-        new_data : pd.DataFrame
-            New data with the same columns and preprocessing as training data.
-        model_name : str, default="XGB"
-            Which trained model to use ("XGB", "RandomForest", "ElasticNet", etc.).
-
-        Returns
-        -------
-        np.ndarray
-            Predicted values on the original target scale.
+        Handles reduced-feature models by subsetting columns appropriately.
         """
         if model_name not in self.pipelines:
             raise ValueError(
@@ -297,18 +401,16 @@ class EmissionsPredictionPipeline:
 
         model = self.pipelines[model_name]
 
-        # Ensure column order and names match training data
-        X_new = new_data.copy()
-        missing_cols = set(self.X_train.columns) - set(X_new.columns)
+        # Ensure required columns exist; subset & order for this model
+        required_cols = self.model_features.get(model_name, list(self.X_train.columns))
+        missing_cols = set(required_cols) - set(new_data.columns)
         if missing_cols:
-            raise ValueError(f"Missing columns in new data: {missing_cols}")
+            raise ValueError(f"Missing columns in new data for {model_name}: {missing_cols}")
 
-        # Reorder columns to match training
-        X_new = X_new[self.X_train.columns]
+        X_new = new_data[required_cols].copy()
 
         # Make predictions
-        if model_name == "XGB":
-            # Respect early stopping best_iteration if available
+        if model_name.startswith("XGB"):
             if hasattr(model, "best_iteration") and model.best_iteration is not None:
                 try:
                     y_pred = model.predict(
@@ -321,7 +423,6 @@ class EmissionsPredictionPipeline:
             else:
                 y_pred = model.predict(X_new)
 
-            # Apply inverse log-transform if needed
             if self._log_transform:
                 y_pred = np.expm1(y_pred)
 
@@ -329,4 +430,3 @@ class EmissionsPredictionPipeline:
             y_pred = model.predict(X_new)
 
         return y_pred
-
