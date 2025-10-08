@@ -1,27 +1,27 @@
 Sector,display_subsector,Gas,Year,emission_co2e
-AFOLU,Agriculture and Livestock,ch4,1995,12.896362339308066
-AFOLU,Agriculture and Livestock,ch4,1996,13.172867035840152
-AFOLU,Agriculture and Livestock,ch4,1997,13.449371732372237
-AFOLU,Agriculture and Livestock,ch4,1998,13.725876428904325
-AFOLU,Agriculture and Livestock,ch4,1999,14.00238112543641
-AFOLU,Agriculture and Livestock,ch4,2000,14.278885821968498
-AFOLU,Agriculture and Livestock,ch4,2001,14.90595185749501
-AFOLU,Agriculture and Livestock,ch4,2002,15.533017893021528
-AFOLU,Agriculture and Livestock,ch4,2003,16.16008392854804
-AFOLU,Agriculture and Livestock,ch4,2004,16.787149964074555
-AFOLU,Agriculture and Livestock,ch4,2005,17.414215999601073
-AFOLU,Agriculture and Livestock,ch4,2006,18.580163111484968
-AFOLU,Agriculture and Livestock,ch4,2007,19.746110223368866
-AFOLU,Agriculture and Livestock,ch4,2008,20.91205733525276
-AFOLU,Agriculture and Livestock,ch4,2009,22.078004447136664
-AFOLU,Agriculture and Livestock,ch4,2010,23.243951559020562
-AFOLU,Agriculture and Livestock,ch4,2011,23.827297124011274
-AFOLU,Agriculture and Livestock,ch4,2012,24.41064268900199
-AFOLU,Agriculture and Livestock,ch4,2013,24.9939882539927
-AFOLU,Agriculture and Livestock,ch4,2014,25.57733381898342
-AFOLU,Agriculture and Livestock,ch4,2015,26.16067938397413
-AFOLU,Agriculture and Livestock,ch4,2016,26.76209015256207
-AFOLU,Agriculture and Livestock,ch4,2017,27.363500921150006
+AFOLU,Agriculture and Livestock,ch4,1995,12.896362339308062
+AFOLU,Agriculture and Livestock,ch4,1996,13.172867035840149
+AFOLU,Agriculture and Livestock,ch4,1997,13.449371732372233
+AFOLU,Agriculture and Livestock,ch4,1998,13.725876428904321
+AFOLU,Agriculture and Livestock,ch4,1999,14.002381125436406
+AFOLU,Agriculture and Livestock,ch4,2000,14.278885821968492
+AFOLU,Agriculture and Livestock,ch4,2001,14.905951857495007
+AFOLU,Agriculture and Livestock,ch4,2002,15.533017893021523
+AFOLU,Agriculture and Livestock,ch4,2003,16.160083928548037
+AFOLU,Agriculture and Livestock,ch4,2004,16.78714996407455
+AFOLU,Agriculture and Livestock,ch4,2005,17.414215999601065
+AFOLU,Agriculture and Livestock,ch4,2006,18.58016311148496
+AFOLU,Agriculture and Livestock,ch4,2007,19.746110223368863
+AFOLU,Agriculture and Livestock,ch4,2008,20.912057335252754
+AFOLU,Agriculture and Livestock,ch4,2009,22.078004447136657
+AFOLU,Agriculture and Livestock,ch4,2010,23.24395155902056
+AFOLU,Agriculture and Livestock,ch4,2011,23.82729712401127
+AFOLU,Agriculture and Livestock,ch4,2012,24.410642689001985
+AFOLU,Agriculture and Livestock,ch4,2013,24.993988253992697
+AFOLU,Agriculture and Livestock,ch4,2014,25.577333818983412
+AFOLU,Agriculture and Livestock,ch4,2015,26.160679383974127
+AFOLU,Agriculture and Livestock,ch4,2016,26.762090152562063
+AFOLU,Agriculture and Livestock,ch4,2017,27.36350092115
 AFOLU,Agriculture and Livestock,co2,1995,0.0
 AFOLU,Agriculture and Livestock,co2,1996,0.0
 AFOLU,Agriculture and Livestock,co2,1997,0.0
@@ -68,144 +68,52 @@ AFOLU,Agriculture and Livestock,n2o,2014,2.041494
 AFOLU,Agriculture and Livestock,n2o,2015,2.09664
 AFOLU,Agriculture and Livestock,n2o,2016,2.100735
 AFOLU,Agriculture and Livestock,n2o,2017,2.1048299999999998
-AFOLU,Cropland,ch4,1995,0.0
-AFOLU,Cropland,ch4,1996,0.0
-AFOLU,Cropland,ch4,1997,0.0
-AFOLU,Cropland,ch4,1998,0.0
-AFOLU,Cropland,ch4,1999,0.0
-AFOLU,Cropland,ch4,2000,0.0
-AFOLU,Cropland,ch4,2001,0.0
-AFOLU,Cropland,ch4,2002,0.0
-AFOLU,Cropland,ch4,2003,0.0
-AFOLU,Cropland,ch4,2004,0.0
-AFOLU,Cropland,ch4,2005,0.0
-AFOLU,Cropland,ch4,2006,0.0
-AFOLU,Cropland,ch4,2007,0.0
-AFOLU,Cropland,ch4,2008,0.0
-AFOLU,Cropland,ch4,2009,0.0
-AFOLU,Cropland,ch4,2010,0.0
-AFOLU,Cropland,ch4,2011,0.0
-AFOLU,Cropland,ch4,2012,0.0
-AFOLU,Cropland,ch4,2013,0.0
-AFOLU,Cropland,ch4,2014,0.0
-AFOLU,Cropland,ch4,2015,0.4915679737890884
-AFOLU,Cropland,ch4,2016,0.4936208197720441
-AFOLU,Cropland,ch4,2017,0.4966612174604645
-AFOLU,Cropland,co2,1995,0.0
-AFOLU,Cropland,co2,1996,0.0
-AFOLU,Cropland,co2,1997,0.0
-AFOLU,Cropland,co2,1998,0.0
-AFOLU,Cropland,co2,1999,0.0
-AFOLU,Cropland,co2,2000,0.0
-AFOLU,Cropland,co2,2001,0.0
-AFOLU,Cropland,co2,2002,0.0
-AFOLU,Cropland,co2,2003,0.0
-AFOLU,Cropland,co2,2004,0.0
-AFOLU,Cropland,co2,2005,0.0
-AFOLU,Cropland,co2,2006,0.0
-AFOLU,Cropland,co2,2007,0.0
-AFOLU,Cropland,co2,2008,0.0
-AFOLU,Cropland,co2,2009,0.0
-AFOLU,Cropland,co2,2010,0.0
-AFOLU,Cropland,co2,2011,0.0
-AFOLU,Cropland,co2,2012,0.0
-AFOLU,Cropland,co2,2013,0.0
-AFOLU,Cropland,co2,2014,0.0
-AFOLU,Cropland,co2,2015,6.9173561004775665
-AFOLU,Cropland,co2,2016,7.167528069123585
-AFOLU,Cropland,co2,2017,7.344710623613414
-AFOLU,Cropland,n2o,1995,0.0
-AFOLU,Cropland,n2o,1996,0.0
-AFOLU,Cropland,n2o,1997,0.0
-AFOLU,Cropland,n2o,1998,0.0
-AFOLU,Cropland,n2o,1999,0.0
-AFOLU,Cropland,n2o,2000,0.0
-AFOLU,Cropland,n2o,2001,0.0
-AFOLU,Cropland,n2o,2002,0.0
-AFOLU,Cropland,n2o,2003,0.0
-AFOLU,Cropland,n2o,2004,0.0
-AFOLU,Cropland,n2o,2005,0.0
-AFOLU,Cropland,n2o,2006,0.0
-AFOLU,Cropland,n2o,2007,0.0
-AFOLU,Cropland,n2o,2008,0.0
-AFOLU,Cropland,n2o,2009,0.0
-AFOLU,Cropland,n2o,2010,0.0
-AFOLU,Cropland,n2o,2011,0.0
-AFOLU,Cropland,n2o,2012,0.0
-AFOLU,Cropland,n2o,2013,0.0
-AFOLU,Cropland,n2o,2014,0.0
-AFOLU,Cropland,n2o,2015,0.7798659541261856
-AFOLU,Cropland,n2o,2016,0.7955586237655353
-AFOLU,Cropland,n2o,2017,0.8401507618083841
-AFOLU,Deforestation,co2,1995,10.611
-AFOLU,Deforestation,co2,1996,10.611
-AFOLU,Deforestation,co2,1997,10.611
-AFOLU,Deforestation,co2,1998,10.611
-AFOLU,Deforestation,co2,1999,10.611
-AFOLU,Deforestation,co2,2000,10.611
-AFOLU,Deforestation,co2,2001,10.611
-AFOLU,Deforestation,co2,2002,10.611
-AFOLU,Deforestation,co2,2003,10.611
-AFOLU,Deforestation,co2,2004,10.611
-AFOLU,Deforestation,co2,2005,10.611
-AFOLU,Deforestation,co2,2006,10.611
-AFOLU,Deforestation,co2,2007,10.611
-AFOLU,Deforestation,co2,2008,10.611
-AFOLU,Deforestation,co2,2009,10.611
-AFOLU,Deforestation,co2,2010,10.611
-AFOLU,Deforestation,co2,2011,10.611
-AFOLU,Deforestation,co2,2012,10.611
-AFOLU,Deforestation,co2,2013,10.611
-AFOLU,Deforestation,co2,2014,10.611
-AFOLU,Deforestation,co2,2015,10.611
-AFOLU,Deforestation,co2,2016,10.611
-AFOLU,Deforestation,co2,2017,10.611
-AFOLU,Forest land,ch4,1995,0.0
-AFOLU,Forest land,ch4,1996,0.0
-AFOLU,Forest land,ch4,1997,0.0
-AFOLU,Forest land,ch4,1998,0.0
-AFOLU,Forest land,ch4,1999,0.0
-AFOLU,Forest land,ch4,2000,0.0
-AFOLU,Forest land,ch4,2001,0.0
-AFOLU,Forest land,ch4,2002,0.0
-AFOLU,Forest land,ch4,2003,0.0
-AFOLU,Forest land,ch4,2004,0.0
-AFOLU,Forest land,ch4,2005,0.0
-AFOLU,Forest land,ch4,2006,0.0
-AFOLU,Forest land,ch4,2007,0.0
-AFOLU,Forest land,ch4,2008,0.0
-AFOLU,Forest land,ch4,2009,0.0
-AFOLU,Forest land,ch4,2010,0.0
-AFOLU,Forest land,ch4,2011,0.0
-AFOLU,Forest land,ch4,2012,0.0
-AFOLU,Forest land,ch4,2013,0.0
-AFOLU,Forest land,ch4,2014,0.0
-AFOLU,Forest land,ch4,2015,0.055167541923573704
-AFOLU,Forest land,ch4,2016,0.0552121706513051
-AFOLU,Forest land,ch4,2017,0.056021457555673
-AFOLU,Forest land,co2,1995,0.0
-AFOLU,Forest land,co2,1996,0.0
-AFOLU,Forest land,co2,1997,0.0
-AFOLU,Forest land,co2,1998,0.0
-AFOLU,Forest land,co2,1999,0.0
-AFOLU,Forest land,co2,2000,0.0
-AFOLU,Forest land,co2,2001,0.0
-AFOLU,Forest land,co2,2002,0.0
-AFOLU,Forest land,co2,2003,0.0
-AFOLU,Forest land,co2,2004,0.0
-AFOLU,Forest land,co2,2005,0.0
-AFOLU,Forest land,co2,2006,0.0
-AFOLU,Forest land,co2,2007,0.0
-AFOLU,Forest land,co2,2008,0.0
-AFOLU,Forest land,co2,2009,0.0
-AFOLU,Forest land,co2,2010,0.0
-AFOLU,Forest land,co2,2011,0.0
-AFOLU,Forest land,co2,2012,0.0
-AFOLU,Forest land,co2,2013,0.0
-AFOLU,Forest land,co2,2014,0.0
-AFOLU,Forest land,co2,2015,-0.4687867693315418
-AFOLU,Forest land,co2,2016,-0.5326738115129547
-AFOLU,Forest land,co2,2017,-0.831246418816745
+AFOLU,Cropland,co2,1995,10.611
+AFOLU,Cropland,co2,1996,10.611
+AFOLU,Cropland,co2,1997,10.611
+AFOLU,Cropland,co2,1998,10.611
+AFOLU,Cropland,co2,1999,10.611
+AFOLU,Cropland,co2,2000,10.611
+AFOLU,Cropland,co2,2001,10.611
+AFOLU,Cropland,co2,2002,10.611
+AFOLU,Cropland,co2,2003,10.611
+AFOLU,Cropland,co2,2004,10.611
+AFOLU,Cropland,co2,2005,10.611
+AFOLU,Cropland,co2,2006,10.611
+AFOLU,Cropland,co2,2007,10.611
+AFOLU,Cropland,co2,2008,10.611
+AFOLU,Cropland,co2,2009,10.611
+AFOLU,Cropland,co2,2010,10.611
+AFOLU,Cropland,co2,2011,10.611
+AFOLU,Cropland,co2,2012,10.611
+AFOLU,Cropland,co2,2013,10.611
+AFOLU,Cropland,co2,2014,10.611
+AFOLU,Cropland,co2,2015,10.611
+AFOLU,Cropland,co2,2016,10.611
+AFOLU,Cropland,co2,2017,10.611
+AFOLU,Cropland - Unaccounted,co2,1995,6.5249484085296015
+AFOLU,Cropland - Unaccounted,co2,1996,6.5249484085296015
+AFOLU,Cropland - Unaccounted,co2,1997,6.5249484085296015
+AFOLU,Cropland - Unaccounted,co2,1998,6.5249484085296015
+AFOLU,Cropland - Unaccounted,co2,1999,6.5249484085296015
+AFOLU,Cropland - Unaccounted,co2,2000,6.5249484085296015
+AFOLU,Cropland - Unaccounted,co2,2001,6.5249484085296015
+AFOLU,Cropland - Unaccounted,co2,2002,6.5249484085296015
+AFOLU,Cropland - Unaccounted,co2,2003,6.5249484085296015
+AFOLU,Cropland - Unaccounted,co2,2004,6.5249484085296015
+AFOLU,Cropland - Unaccounted,co2,2005,6.5249484085296015
+AFOLU,Cropland - Unaccounted,co2,2006,6.5249484085296015
+AFOLU,Cropland - Unaccounted,co2,2007,6.5249484085296015
+AFOLU,Cropland - Unaccounted,co2,2008,6.5249484085296015
+AFOLU,Cropland - Unaccounted,co2,2009,6.5249484085296015
+AFOLU,Cropland - Unaccounted,co2,2010,6.5249484085296015
+AFOLU,Cropland - Unaccounted,co2,2011,6.5249484085296015
+AFOLU,Cropland - Unaccounted,co2,2012,6.5249484085296015
+AFOLU,Cropland - Unaccounted,co2,2013,6.5249484085296015
+AFOLU,Cropland - Unaccounted,co2,2014,6.5249484085296015
+AFOLU,Cropland - Unaccounted,co2,2015,6.5249484085296015
+AFOLU,Cropland - Unaccounted,co2,2016,6.77348163625463
+AFOLU,Cropland - Unaccounted,co2,2017,6.948237109439059
 AFOLU,Forest land - Removals,co2,1995,9.559775
 AFOLU,Forest land - Removals,co2,1996,10.491975
 AFOLU,Forest land - Removals,co2,1997,11.424175
@@ -252,6 +160,52 @@ AFOLU,Forest land - Sequestration,co2,2014,-7.942775
 AFOLU,Forest land - Sequestration,co2,2015,-7.942775
 AFOLU,Forest land - Sequestration,co2,2016,-7.857693
 AFOLU,Forest land - Sequestration,co2,2017,-7.772611
+AFOLU,Forest land - Unaccounted,ch4,1995,0.05516754192357382
+AFOLU,Forest land - Unaccounted,ch4,1996,0.05516754192357382
+AFOLU,Forest land - Unaccounted,ch4,1997,0.05516754192357382
+AFOLU,Forest land - Unaccounted,ch4,1998,0.05516754192357382
+AFOLU,Forest land - Unaccounted,ch4,1999,0.05516754192357382
+AFOLU,Forest land - Unaccounted,ch4,2000,0.05516754192357382
+AFOLU,Forest land - Unaccounted,ch4,2001,0.05516754192357382
+AFOLU,Forest land - Unaccounted,ch4,2002,0.05516754192357382
+AFOLU,Forest land - Unaccounted,ch4,2003,0.05516754192357382
+AFOLU,Forest land - Unaccounted,ch4,2004,0.05516754192357382
+AFOLU,Forest land - Unaccounted,ch4,2005,0.05516754192357382
+AFOLU,Forest land - Unaccounted,ch4,2006,0.05516754192357382
+AFOLU,Forest land - Unaccounted,ch4,2007,0.05516754192357382
+AFOLU,Forest land - Unaccounted,ch4,2008,0.05516754192357382
+AFOLU,Forest land - Unaccounted,ch4,2009,0.05516754192357382
+AFOLU,Forest land - Unaccounted,ch4,2010,0.05516754192357382
+AFOLU,Forest land - Unaccounted,ch4,2011,0.05516754192357382
+AFOLU,Forest land - Unaccounted,ch4,2012,0.05516754192357382
+AFOLU,Forest land - Unaccounted,ch4,2013,0.05516754192357382
+AFOLU,Forest land - Unaccounted,ch4,2014,0.05516754192357382
+AFOLU,Forest land - Unaccounted,ch4,2015,0.05516754192357382
+AFOLU,Forest land - Unaccounted,ch4,2016,0.05521217065130518
+AFOLU,Forest land - Unaccounted,ch4,2017,0.05602145755567313
+AFOLU,Forest land - Unaccounted,co2,1995,-0.46878676933154184
+AFOLU,Forest land - Unaccounted,co2,1996,-0.46878676933154184
+AFOLU,Forest land - Unaccounted,co2,1997,-0.46878676933154184
+AFOLU,Forest land - Unaccounted,co2,1998,-0.46878676933154184
+AFOLU,Forest land - Unaccounted,co2,1999,-0.46878676933154184
+AFOLU,Forest land - Unaccounted,co2,2000,-0.46878676933154184
+AFOLU,Forest land - Unaccounted,co2,2001,-0.46878676933154184
+AFOLU,Forest land - Unaccounted,co2,2002,-0.46878676933154184
+AFOLU,Forest land - Unaccounted,co2,2003,-0.46878676933154184
+AFOLU,Forest land - Unaccounted,co2,2004,-0.46878676933154184
+AFOLU,Forest land - Unaccounted,co2,2005,-0.46878676933154184
+AFOLU,Forest land - Unaccounted,co2,2006,-0.46878676933154184
+AFOLU,Forest land - Unaccounted,co2,2007,-0.46878676933154184
+AFOLU,Forest land - Unaccounted,co2,2008,-0.46878676933154184
+AFOLU,Forest land - Unaccounted,co2,2009,-0.46878676933154184
+AFOLU,Forest land - Unaccounted,co2,2010,-0.46878676933154184
+AFOLU,Forest land - Unaccounted,co2,2011,-0.46878676933154184
+AFOLU,Forest land - Unaccounted,co2,2012,-0.46878676933154184
+AFOLU,Forest land - Unaccounted,co2,2013,-0.46878676933154184
+AFOLU,Forest land - Unaccounted,co2,2014,-0.46878676933154184
+AFOLU,Forest land - Unaccounted,co2,2015,-0.46878676933154184
+AFOLU,Forest land - Unaccounted,co2,2016,-0.5326738115129547
+AFOLU,Forest land - Unaccounted,co2,2017,-0.831246418816745
 AFOLU,Managed Soils,n2o,1995,3.1395
 AFOLU,Managed Soils,n2o,1996,3.17772
 AFOLU,Managed Soils,n2o,1997,3.21594
@@ -295,32 +249,9 @@ AFOLU,Other Lands,ch4,2011,0.4432
 AFOLU,Other Lands,ch4,2012,0.4155
 AFOLU,Other Lands,ch4,2013,0.3878
 AFOLU,Other Lands,ch4,2014,0.3601
-AFOLU,Other Lands,ch4,2015,2.1160815510437185
-AFOLU,Other Lands,ch4,2016,2.2817754312847818
-AFOLU,Other Lands,ch4,2017,2.4952111238157326
-AFOLU,Other Lands,co2,1995,2.793
-AFOLU,Other Lands,co2,1996,2.793
-AFOLU,Other Lands,co2,1997,2.793
-AFOLU,Other Lands,co2,1998,2.793
-AFOLU,Other Lands,co2,1999,2.793
-AFOLU,Other Lands,co2,2000,2.793
-AFOLU,Other Lands,co2,2001,2.793
-AFOLU,Other Lands,co2,2002,2.793
-AFOLU,Other Lands,co2,2003,2.793
-AFOLU,Other Lands,co2,2004,2.793
-AFOLU,Other Lands,co2,2005,2.793
-AFOLU,Other Lands,co2,2006,2.793
-AFOLU,Other Lands,co2,2007,2.793
-AFOLU,Other Lands,co2,2008,2.793
-AFOLU,Other Lands,co2,2009,2.793
-AFOLU,Other Lands,co2,2010,2.793
-AFOLU,Other Lands,co2,2011,2.793
-AFOLU,Other Lands,co2,2012,2.793
-AFOLU,Other Lands,co2,2013,2.793
-AFOLU,Other Lands,co2,2014,2.793
-AFOLU,Other Lands,co2,2015,2.793
-AFOLU,Other Lands,co2,2016,2.793
-AFOLU,Other Lands,co2,2017,2.793
+AFOLU,Other Lands,ch4,2015,0.3324
+AFOLU,Other Lands,ch4,2016,0.3601
+AFOLU,Other Lands,ch4,2017,0.3878
 AFOLU,Other Lands,n2o,1995,0.819
 AFOLU,Other Lands,n2o,1996,0.819
 AFOLU,Other Lands,n2o,1997,0.819
@@ -344,6 +275,75 @@ AFOLU,Other Lands,n2o,2014,0.3276
 AFOLU,Other Lands,n2o,2015,0.273
 AFOLU,Other Lands,n2o,2016,0.273
 AFOLU,Other Lands,n2o,2017,0.273
+AFOLU,Other Lands - Unaccounted,ch4,1995,1.7836815510437185
+AFOLU,Other Lands - Unaccounted,ch4,1996,1.7836815510437185
+AFOLU,Other Lands - Unaccounted,ch4,1997,1.7836815510437185
+AFOLU,Other Lands - Unaccounted,ch4,1998,1.7836815510437185
+AFOLU,Other Lands - Unaccounted,ch4,1999,1.7836815510437185
+AFOLU,Other Lands - Unaccounted,ch4,2000,1.7836815510437185
+AFOLU,Other Lands - Unaccounted,ch4,2001,1.7836815510437185
+AFOLU,Other Lands - Unaccounted,ch4,2002,1.7836815510437185
+AFOLU,Other Lands - Unaccounted,ch4,2003,1.7836815510437185
+AFOLU,Other Lands - Unaccounted,ch4,2004,1.7836815510437185
+AFOLU,Other Lands - Unaccounted,ch4,2005,1.7836815510437185
+AFOLU,Other Lands - Unaccounted,ch4,2006,1.7836815510437185
+AFOLU,Other Lands - Unaccounted,ch4,2007,1.7836815510437185
+AFOLU,Other Lands - Unaccounted,ch4,2008,1.7836815510437185
+AFOLU,Other Lands - Unaccounted,ch4,2009,1.7836815510437185
+AFOLU,Other Lands - Unaccounted,ch4,2010,1.7836815510437185
+AFOLU,Other Lands - Unaccounted,ch4,2011,1.7836815510437185
+AFOLU,Other Lands - Unaccounted,ch4,2012,1.7836815510437185
+AFOLU,Other Lands - Unaccounted,ch4,2013,1.7836815510437185
+AFOLU,Other Lands - Unaccounted,ch4,2014,1.7836815510437185
+AFOLU,Other Lands - Unaccounted,ch4,2015,1.7836815510437185
+AFOLU,Other Lands - Unaccounted,ch4,2016,1.9216754312847817
+AFOLU,Other Lands - Unaccounted,ch4,2017,2.1074111238157327
+AFOLU,Other Lands - Unaccounted,co2,1995,6.8293897366623835
+AFOLU,Other Lands - Unaccounted,co2,1996,6.8293897366623835
+AFOLU,Other Lands - Unaccounted,co2,1997,6.8293897366623835
+AFOLU,Other Lands - Unaccounted,co2,1998,6.8293897366623835
+AFOLU,Other Lands - Unaccounted,co2,1999,6.8293897366623835
+AFOLU,Other Lands - Unaccounted,co2,2000,6.8293897366623835
+AFOLU,Other Lands - Unaccounted,co2,2001,6.8293897366623835
+AFOLU,Other Lands - Unaccounted,co2,2002,6.8293897366623835
+AFOLU,Other Lands - Unaccounted,co2,2003,6.8293897366623835
+AFOLU,Other Lands - Unaccounted,co2,2004,6.8293897366623835
+AFOLU,Other Lands - Unaccounted,co2,2005,6.8293897366623835
+AFOLU,Other Lands - Unaccounted,co2,2006,6.8293897366623835
+AFOLU,Other Lands - Unaccounted,co2,2007,6.8293897366623835
+AFOLU,Other Lands - Unaccounted,co2,2008,6.8293897366623835
+AFOLU,Other Lands - Unaccounted,co2,2009,6.8293897366623835
+AFOLU,Other Lands - Unaccounted,co2,2010,6.8293897366623835
+AFOLU,Other Lands - Unaccounted,co2,2011,6.8293897366623835
+AFOLU,Other Lands - Unaccounted,co2,2012,6.8293897366623835
+AFOLU,Other Lands - Unaccounted,co2,2013,6.8293897366623835
+AFOLU,Other Lands - Unaccounted,co2,2014,6.8293897366623835
+AFOLU,Other Lands - Unaccounted,co2,2015,6.8293897366623835
+AFOLU,Other Lands - Unaccounted,co2,2016,12.285770939647774
+AFOLU,Other Lands - Unaccounted,co2,2017,23.545837897806823
+AFOLU,Other Lands - Unaccounted,n2o,1995,0.7798659541261856
+AFOLU,Other Lands - Unaccounted,n2o,1996,0.7798659541261856
+AFOLU,Other Lands - Unaccounted,n2o,1997,0.7798659541261856
+AFOLU,Other Lands - Unaccounted,n2o,1998,0.7798659541261856
+AFOLU,Other Lands - Unaccounted,n2o,1999,0.7798659541261856
+AFOLU,Other Lands - Unaccounted,n2o,2000,0.7798659541261856
+AFOLU,Other Lands - Unaccounted,n2o,2001,0.7798659541261856
+AFOLU,Other Lands - Unaccounted,n2o,2002,0.7798659541261856
+AFOLU,Other Lands - Unaccounted,n2o,2003,0.7798659541261856
+AFOLU,Other Lands - Unaccounted,n2o,2004,0.7798659541261856
+AFOLU,Other Lands - Unaccounted,n2o,2005,0.7798659541261856
+AFOLU,Other Lands - Unaccounted,n2o,2006,0.7798659541261856
+AFOLU,Other Lands - Unaccounted,n2o,2007,0.7798659541261856
+AFOLU,Other Lands - Unaccounted,n2o,2008,0.7798659541261856
+AFOLU,Other Lands - Unaccounted,n2o,2009,0.7798659541261856
+AFOLU,Other Lands - Unaccounted,n2o,2010,0.7798659541261856
+AFOLU,Other Lands - Unaccounted,n2o,2011,0.7798659541261856
+AFOLU,Other Lands - Unaccounted,n2o,2012,0.7798659541261856
+AFOLU,Other Lands - Unaccounted,n2o,2013,0.7798659541261856
+AFOLU,Other Lands - Unaccounted,n2o,2014,0.7798659541261856
+AFOLU,Other Lands - Unaccounted,n2o,2015,0.7798659541261856
+AFOLU,Other Lands - Unaccounted,n2o,2016,0.7955586237655353
+AFOLU,Other Lands - Unaccounted,n2o,2017,0.8401507618083841
 Energy,Buildings (Stationary Combustion),ch4,1995,1.472755548509829
 Energy,Buildings (Stationary Combustion),ch4,1996,1.5387637285986049
 Energy,Buildings (Stationary Combustion),ch4,1997,1.6047719086873813
@@ -365,7 +365,7 @@ Energy,Buildings (Stationary Combustion),ch4,2012,2.7999074191502853
 Energy,Buildings (Stationary Combustion),ch4,2013,2.8623595434369054
 Energy,Buildings (Stationary Combustion),ch4,2014,2.924811667723526
 Energy,Buildings (Stationary Combustion),ch4,2015,2.9872637920101455
-Energy,Buildings (Stationary Combustion),ch4,2016,2.9579572923272037
+Energy,Buildings (Stationary Combustion),ch4,2016,2.9579572923272033
 Energy,Buildings (Stationary Combustion),ch4,2017,2.928650792644261
 Energy,Buildings (Stationary Combustion),co2,1995,0.0
 Energy,Buildings (Stationary Combustion),co2,1996,0.0
@@ -390,29 +390,29 @@ Energy,Buildings (Stationary Combustion),co2,2014,0.0
 Energy,Buildings (Stationary Combustion),co2,2015,0.0
 Energy,Buildings (Stationary Combustion),co2,2016,0.0
 Energy,Buildings (Stationary Combustion),co2,2017,0.0
-Energy,Buildings (Stationary Combustion),n2o,1995,0.19214445149017118
-Energy,Buildings (Stationary Combustion),n2o,1996,0.200756271401395
-Energy,Buildings (Stationary Combustion),n2o,1997,0.20936809131261885
-Energy,Buildings (Stationary Combustion),n2o,1998,0.2179799112238427
-Energy,Buildings (Stationary Combustion),n2o,1999,0.2265917311350665
-Energy,Buildings (Stationary Combustion),n2o,2000,0.23520355104629034
-Energy,Buildings (Stationary Combustion),n2o,2001,0.24549803424223204
+Energy,Buildings (Stationary Combustion),n2o,1995,0.1921444514901712
+Energy,Buildings (Stationary Combustion),n2o,1996,0.20075627140139501
+Energy,Buildings (Stationary Combustion),n2o,1997,0.20936809131261888
+Energy,Buildings (Stationary Combustion),n2o,1998,0.21797991122384272
+Energy,Buildings (Stationary Combustion),n2o,1999,0.22659173113506653
+Energy,Buildings (Stationary Combustion),n2o,2000,0.23520355104629037
+Energy,Buildings (Stationary Combustion),n2o,2001,0.24549803424223207
 Energy,Buildings (Stationary Combustion),n2o,2002,0.2557925174381737
-Energy,Buildings (Stationary Combustion),n2o,2003,0.26608700063411533
-Energy,Buildings (Stationary Combustion),n2o,2004,0.276381483830057
+Energy,Buildings (Stationary Combustion),n2o,2003,0.2660870006341154
+Energy,Buildings (Stationary Combustion),n2o,2004,0.27638148383005706
 Energy,Buildings (Stationary Combustion),n2o,2005,0.2866759670259987
 Energy,Buildings (Stationary Combustion),n2o,2006,0.2991401395053899
-Energy,Buildings (Stationary Combustion),n2o,2007,0.31160431198478117
-Energy,Buildings (Stationary Combustion),n2o,2008,0.32406848446417236
+Energy,Buildings (Stationary Combustion),n2o,2007,0.3116043119847812
+Energy,Buildings (Stationary Combustion),n2o,2008,0.3240684844641724
 Energy,Buildings (Stationary Combustion),n2o,2009,0.33653265694356366
-Energy,Buildings (Stationary Combustion),n2o,2010,0.3489968294229549
-Energy,Buildings (Stationary Combustion),n2o,2011,0.3571447051363347
-Energy,Buildings (Stationary Combustion),n2o,2012,0.36529258084971455
+Energy,Buildings (Stationary Combustion),n2o,2010,0.34899682942295496
+Energy,Buildings (Stationary Combustion),n2o,2011,0.35714470513633473
+Energy,Buildings (Stationary Combustion),n2o,2012,0.3652925808497146
 Energy,Buildings (Stationary Combustion),n2o,2013,0.3734404565630944
-Energy,Buildings (Stationary Combustion),n2o,2014,0.3815883322764742
-Energy,Buildings (Stationary Combustion),n2o,2015,0.38973620798985403
-Energy,Buildings (Stationary Combustion),n2o,2016,0.3859127076727964
-Energy,Buildings (Stationary Combustion),n2o,2017,0.38208920735573865
+Energy,Buildings (Stationary Combustion),n2o,2014,0.38158833227647426
+Energy,Buildings (Stationary Combustion),n2o,2015,0.3897362079898541
+Energy,Buildings (Stationary Combustion),n2o,2016,0.38591270767279645
+Energy,Buildings (Stationary Combustion),n2o,2017,0.38208920735573876
 Energy,Energy Industries,ch4,1995,0.0544305
 Energy,Energy Industries,ch4,1996,0.05690965
 Energy,Energy Industries,ch4,1997,0.0593888
@@ -482,75 +482,75 @@ Energy,Energy Industries,n2o,2014,0.065247
 Energy,Energy Industries,n2o,2015,0.090909
 Energy,Energy Industries,n2o,2016,0.0760305
 Energy,Energy Industries,n2o,2017,0.061152
-Energy,Fugiive Emissions,ch4,1995,0.0
-Energy,Fugiive Emissions,ch4,1996,0.0
-Energy,Fugiive Emissions,ch4,1997,0.0
-Energy,Fugiive Emissions,ch4,1998,0.0
-Energy,Fugiive Emissions,ch4,1999,0.0
-Energy,Fugiive Emissions,ch4,2000,0.0
-Energy,Fugiive Emissions,ch4,2001,0.0
-Energy,Fugiive Emissions,ch4,2002,0.0
-Energy,Fugiive Emissions,ch4,2003,0.0
-Energy,Fugiive Emissions,ch4,2004,0.0
-Energy,Fugiive Emissions,ch4,2005,0.0
-Energy,Fugiive Emissions,ch4,2006,0.0
-Energy,Fugiive Emissions,ch4,2007,0.0
-Energy,Fugiive Emissions,ch4,2008,0.0
-Energy,Fugiive Emissions,ch4,2009,0.0
-Energy,Fugiive Emissions,ch4,2010,0.0
-Energy,Fugiive Emissions,ch4,2011,0.0
-Energy,Fugiive Emissions,ch4,2012,0.0
-Energy,Fugiive Emissions,ch4,2013,0.0
-Energy,Fugiive Emissions,ch4,2014,0.0
-Energy,Fugiive Emissions,ch4,2015,0.003309918550743495
-Energy,Fugiive Emissions,ch4,2016,0.003691437902067209
-Energy,Fugiive Emissions,ch4,2017,0.004239128447249776
-Energy,Fugiive Emissions,co2,1995,0.0
-Energy,Fugiive Emissions,co2,1996,0.0
-Energy,Fugiive Emissions,co2,1997,0.0
-Energy,Fugiive Emissions,co2,1998,0.0
-Energy,Fugiive Emissions,co2,1999,0.0
-Energy,Fugiive Emissions,co2,2000,0.0
-Energy,Fugiive Emissions,co2,2001,0.0
-Energy,Fugiive Emissions,co2,2002,0.0
-Energy,Fugiive Emissions,co2,2003,0.0
-Energy,Fugiive Emissions,co2,2004,0.0
-Energy,Fugiive Emissions,co2,2005,0.0
-Energy,Fugiive Emissions,co2,2006,0.0
-Energy,Fugiive Emissions,co2,2007,0.0
-Energy,Fugiive Emissions,co2,2008,0.0
-Energy,Fugiive Emissions,co2,2009,0.0
-Energy,Fugiive Emissions,co2,2010,0.0
-Energy,Fugiive Emissions,co2,2011,0.0
-Energy,Fugiive Emissions,co2,2012,0.0
-Energy,Fugiive Emissions,co2,2013,0.0
-Energy,Fugiive Emissions,co2,2014,0.0
-Energy,Fugiive Emissions,co2,2015,1.2473241777077818e-06
-Energy,Fugiive Emissions,co2,2016,1.3874290928076306e-06
-Energy,Fugiive Emissions,co2,2017,1.5802686784204714e-06
-Energy,Fugiive Emissions,n2o,1995,0.0
-Energy,Fugiive Emissions,n2o,1996,0.0
-Energy,Fugiive Emissions,n2o,1997,0.0
-Energy,Fugiive Emissions,n2o,1998,0.0
-Energy,Fugiive Emissions,n2o,1999,0.0
-Energy,Fugiive Emissions,n2o,2000,0.0
-Energy,Fugiive Emissions,n2o,2001,0.0
-Energy,Fugiive Emissions,n2o,2002,0.0
-Energy,Fugiive Emissions,n2o,2003,0.0
-Energy,Fugiive Emissions,n2o,2004,0.0
-Energy,Fugiive Emissions,n2o,2005,0.0
-Energy,Fugiive Emissions,n2o,2006,0.0
-Energy,Fugiive Emissions,n2o,2007,0.0
-Energy,Fugiive Emissions,n2o,2008,0.0
-Energy,Fugiive Emissions,n2o,2009,0.0
-Energy,Fugiive Emissions,n2o,2010,0.0
-Energy,Fugiive Emissions,n2o,2011,0.0
-Energy,Fugiive Emissions,n2o,2012,0.0
-Energy,Fugiive Emissions,n2o,2013,0.0
-Energy,Fugiive Emissions,n2o,2014,0.0
-Energy,Fugiive Emissions,n2o,2015,-4.745512021448767e-20
-Energy,Fugiive Emissions,n2o,2016,0.0
-Energy,Fugiive Emissions,n2o,2017,0.0
+Energy,Fugitive Emissions,ch4,1995,0.0033099185507437625
+Energy,Fugitive Emissions,ch4,1996,0.0033099185507437625
+Energy,Fugitive Emissions,ch4,1997,0.0033099185507437625
+Energy,Fugitive Emissions,ch4,1998,0.0033099185507437625
+Energy,Fugitive Emissions,ch4,1999,0.0033099185507437625
+Energy,Fugitive Emissions,ch4,2000,0.0033099185507437625
+Energy,Fugitive Emissions,ch4,2001,0.0033099185507437625
+Energy,Fugitive Emissions,ch4,2002,0.0033099185507437625
+Energy,Fugitive Emissions,ch4,2003,0.0033099185507437625
+Energy,Fugitive Emissions,ch4,2004,0.0033099185507437625
+Energy,Fugitive Emissions,ch4,2005,0.0033099185507437625
+Energy,Fugitive Emissions,ch4,2006,0.0033099185507437625
+Energy,Fugitive Emissions,ch4,2007,0.0033099185507437625
+Energy,Fugitive Emissions,ch4,2008,0.0033099185507437625
+Energy,Fugitive Emissions,ch4,2009,0.0033099185507437625
+Energy,Fugitive Emissions,ch4,2010,0.0033099185507437625
+Energy,Fugitive Emissions,ch4,2011,0.0033099185507437625
+Energy,Fugitive Emissions,ch4,2012,0.0033099185507437625
+Energy,Fugitive Emissions,ch4,2013,0.0033099185507437625
+Energy,Fugitive Emissions,ch4,2014,0.0033099185507437625
+Energy,Fugitive Emissions,ch4,2015,0.0033099185507437625
+Energy,Fugitive Emissions,ch4,2016,0.0036914379020672908
+Energy,Fugitive Emissions,ch4,2017,0.004239128447249821
+Energy,Fugitive Emissions,co2,1995,1.2473241778909339e-06
+Energy,Fugitive Emissions,co2,1996,1.2473241778909339e-06
+Energy,Fugitive Emissions,co2,1997,1.2473241778909339e-06
+Energy,Fugitive Emissions,co2,1998,1.2473241778909339e-06
+Energy,Fugitive Emissions,co2,1999,1.2473241778909339e-06
+Energy,Fugitive Emissions,co2,2000,1.2473241778909339e-06
+Energy,Fugitive Emissions,co2,2001,1.2473241778909339e-06
+Energy,Fugitive Emissions,co2,2002,1.2473241778909339e-06
+Energy,Fugitive Emissions,co2,2003,1.2473241778909339e-06
+Energy,Fugitive Emissions,co2,2004,1.2473241778909339e-06
+Energy,Fugitive Emissions,co2,2005,1.2473241778909339e-06
+Energy,Fugitive Emissions,co2,2006,1.2473241778909339e-06
+Energy,Fugitive Emissions,co2,2007,1.2473241778909339e-06
+Energy,Fugitive Emissions,co2,2008,1.2473241778909339e-06
+Energy,Fugitive Emissions,co2,2009,1.2473241778909339e-06
+Energy,Fugitive Emissions,co2,2010,1.2473241778909339e-06
+Energy,Fugitive Emissions,co2,2011,1.2473241778909339e-06
+Energy,Fugitive Emissions,co2,2012,1.2473241778909339e-06
+Energy,Fugitive Emissions,co2,2013,1.2473241778909339e-06
+Energy,Fugitive Emissions,co2,2014,1.2473241778909339e-06
+Energy,Fugitive Emissions,co2,2015,1.2473241778909339e-06
+Energy,Fugitive Emissions,co2,2016,1.3874290928076304e-06
+Energy,Fugitive Emissions,co2,2017,1.5802686784204714e-06
+Energy,Fugitive Emissions,n2o,1995,0.0
+Energy,Fugitive Emissions,n2o,1996,0.0
+Energy,Fugitive Emissions,n2o,1997,0.0
+Energy,Fugitive Emissions,n2o,1998,0.0
+Energy,Fugitive Emissions,n2o,1999,0.0
+Energy,Fugitive Emissions,n2o,2000,0.0
+Energy,Fugitive Emissions,n2o,2001,0.0
+Energy,Fugitive Emissions,n2o,2002,0.0
+Energy,Fugitive Emissions,n2o,2003,0.0
+Energy,Fugitive Emissions,n2o,2004,0.0
+Energy,Fugitive Emissions,n2o,2005,0.0
+Energy,Fugitive Emissions,n2o,2006,0.0
+Energy,Fugitive Emissions,n2o,2007,0.0
+Energy,Fugitive Emissions,n2o,2008,0.0
+Energy,Fugitive Emissions,n2o,2009,0.0
+Energy,Fugitive Emissions,n2o,2010,0.0
+Energy,Fugitive Emissions,n2o,2011,0.0
+Energy,Fugitive Emissions,n2o,2012,0.0
+Energy,Fugitive Emissions,n2o,2013,0.0
+Energy,Fugitive Emissions,n2o,2014,0.0
+Energy,Fugitive Emissions,n2o,2015,0.0
+Energy,Fugitive Emissions,n2o,2016,0.0
+Energy,Fugitive Emissions,n2o,2017,0.0
 Energy,Manufacturing Industries and Construction,ch4,1995,0.011634
 Energy,Manufacturing Industries and Construction,ch4,1996,0.012188
 Energy,Manufacturing Industries and Construction,ch4,1997,0.012742
@@ -735,29 +735,29 @@ IPPU,IPPU,hfcs,2014,0.0
 IPPU,IPPU,hfcs,2015,0.0
 IPPU,IPPU,hfcs,2016,0.0
 IPPU,IPPU,hfcs,2017,0.0
-IPPU,IPPU,n2o,1995,0.0
-IPPU,IPPU,n2o,1996,0.0
-IPPU,IPPU,n2o,1997,0.0
-IPPU,IPPU,n2o,1998,0.0
-IPPU,IPPU,n2o,1999,0.0
-IPPU,IPPU,n2o,2000,0.0
-IPPU,IPPU,n2o,2001,0.0
-IPPU,IPPU,n2o,2002,0.0
-IPPU,IPPU,n2o,2003,0.0
-IPPU,IPPU,n2o,2004,0.0
-IPPU,IPPU,n2o,2005,0.0
-IPPU,IPPU,n2o,2006,0.0
-IPPU,IPPU,n2o,2007,0.0
-IPPU,IPPU,n2o,2008,0.0
-IPPU,IPPU,n2o,2009,0.0
-IPPU,IPPU,n2o,2010,0.0
-IPPU,IPPU,n2o,2011,0.0
-IPPU,IPPU,n2o,2012,0.0
-IPPU,IPPU,n2o,2013,0.0
-IPPU,IPPU,n2o,2014,0.0
-IPPU,IPPU,n2o,2015,0.5414844491296147
-IPPU,IPPU,n2o,2016,0.41461871138372947
-IPPU,IPPU,n2o,2017,0.318893662363332
+IPPU,IPPU,n2o,1995,0.5414844491296148
+IPPU,IPPU,n2o,1996,0.5414844491296148
+IPPU,IPPU,n2o,1997,0.5414844491296148
+IPPU,IPPU,n2o,1998,0.5414844491296148
+IPPU,IPPU,n2o,1999,0.5414844491296148
+IPPU,IPPU,n2o,2000,0.5414844491296148
+IPPU,IPPU,n2o,2001,0.5414844491296148
+IPPU,IPPU,n2o,2002,0.5414844491296148
+IPPU,IPPU,n2o,2003,0.5414844491296148
+IPPU,IPPU,n2o,2004,0.5414844491296148
+IPPU,IPPU,n2o,2005,0.5414844491296148
+IPPU,IPPU,n2o,2006,0.5414844491296148
+IPPU,IPPU,n2o,2007,0.5414844491296148
+IPPU,IPPU,n2o,2008,0.5414844491296148
+IPPU,IPPU,n2o,2009,0.5414844491296148
+IPPU,IPPU,n2o,2010,0.5414844491296148
+IPPU,IPPU,n2o,2011,0.5414844491296148
+IPPU,IPPU,n2o,2012,0.5414844491296148
+IPPU,IPPU,n2o,2013,0.5414844491296148
+IPPU,IPPU,n2o,2014,0.5414844491296148
+IPPU,IPPU,n2o,2015,0.5414844491296148
+IPPU,IPPU,n2o,2016,0.4146187113837295
+IPPU,IPPU,n2o,2017,0.31889366236333216
 IPPU,IPPU,nf3,1995,0.0
 IPPU,IPPU,nf3,1996,0.0
 IPPU,IPPU,nf3,1997,0.0
@@ -781,49 +781,49 @@ IPPU,IPPU,nf3,2014,0.0
 IPPU,IPPU,nf3,2015,0.0
 IPPU,IPPU,nf3,2016,0.0
 IPPU,IPPU,nf3,2017,0.0
-IPPU,IPPU,other_fcs,1995,0.0
-IPPU,IPPU,other_fcs,1996,0.0
-IPPU,IPPU,other_fcs,1997,0.0
-IPPU,IPPU,other_fcs,1998,0.0
-IPPU,IPPU,other_fcs,1999,0.0
-IPPU,IPPU,other_fcs,2000,0.0
-IPPU,IPPU,other_fcs,2001,0.0
-IPPU,IPPU,other_fcs,2002,0.0
-IPPU,IPPU,other_fcs,2003,0.0
-IPPU,IPPU,other_fcs,2004,0.0
-IPPU,IPPU,other_fcs,2005,0.0
-IPPU,IPPU,other_fcs,2006,0.0
-IPPU,IPPU,other_fcs,2007,0.0
-IPPU,IPPU,other_fcs,2008,0.0
-IPPU,IPPU,other_fcs,2009,0.0
-IPPU,IPPU,other_fcs,2010,0.0
-IPPU,IPPU,other_fcs,2011,0.0
-IPPU,IPPU,other_fcs,2012,0.0
-IPPU,IPPU,other_fcs,2013,0.0
-IPPU,IPPU,other_fcs,2014,0.0
+IPPU,IPPU,other_fcs,1995,2.807454739568e-05
+IPPU,IPPU,other_fcs,1996,2.807454739568e-05
+IPPU,IPPU,other_fcs,1997,2.807454739568e-05
+IPPU,IPPU,other_fcs,1998,2.807454739568e-05
+IPPU,IPPU,other_fcs,1999,2.807454739568e-05
+IPPU,IPPU,other_fcs,2000,2.807454739568e-05
+IPPU,IPPU,other_fcs,2001,2.807454739568e-05
+IPPU,IPPU,other_fcs,2002,2.807454739568e-05
+IPPU,IPPU,other_fcs,2003,2.807454739568e-05
+IPPU,IPPU,other_fcs,2004,2.807454739568e-05
+IPPU,IPPU,other_fcs,2005,2.807454739568e-05
+IPPU,IPPU,other_fcs,2006,2.807454739568e-05
+IPPU,IPPU,other_fcs,2007,2.807454739568e-05
+IPPU,IPPU,other_fcs,2008,2.807454739568e-05
+IPPU,IPPU,other_fcs,2009,2.807454739568e-05
+IPPU,IPPU,other_fcs,2010,2.807454739568e-05
+IPPU,IPPU,other_fcs,2011,2.807454739568e-05
+IPPU,IPPU,other_fcs,2012,2.807454739568e-05
+IPPU,IPPU,other_fcs,2013,2.807454739568e-05
+IPPU,IPPU,other_fcs,2014,2.807454739568e-05
 IPPU,IPPU,other_fcs,2015,2.807454739568e-05
 IPPU,IPPU,other_fcs,2016,3.20049840310752e-05
 IPPU,IPPU,other_fcs,2017,3.6485681795425734e-05
-IPPU,IPPU,pfcs,1995,0.0
-IPPU,IPPU,pfcs,1996,0.0
-IPPU,IPPU,pfcs,1997,0.0
-IPPU,IPPU,pfcs,1998,0.0
-IPPU,IPPU,pfcs,1999,0.0
-IPPU,IPPU,pfcs,2000,0.0
-IPPU,IPPU,pfcs,2001,0.0
-IPPU,IPPU,pfcs,2002,0.0
-IPPU,IPPU,pfcs,2003,0.0
-IPPU,IPPU,pfcs,2004,0.0
-IPPU,IPPU,pfcs,2005,0.0
-IPPU,IPPU,pfcs,2006,0.0
-IPPU,IPPU,pfcs,2007,0.0
-IPPU,IPPU,pfcs,2008,0.0
-IPPU,IPPU,pfcs,2009,0.0
-IPPU,IPPU,pfcs,2010,0.0
-IPPU,IPPU,pfcs,2011,0.0
-IPPU,IPPU,pfcs,2012,0.0
-IPPU,IPPU,pfcs,2013,0.0
-IPPU,IPPU,pfcs,2014,0.0
+IPPU,IPPU,pfcs,1995,2.366542962843039e-06
+IPPU,IPPU,pfcs,1996,2.366542962843039e-06
+IPPU,IPPU,pfcs,1997,2.366542962843039e-06
+IPPU,IPPU,pfcs,1998,2.366542962843039e-06
+IPPU,IPPU,pfcs,1999,2.366542962843039e-06
+IPPU,IPPU,pfcs,2000,2.366542962843039e-06
+IPPU,IPPU,pfcs,2001,2.366542962843039e-06
+IPPU,IPPU,pfcs,2002,2.366542962843039e-06
+IPPU,IPPU,pfcs,2003,2.366542962843039e-06
+IPPU,IPPU,pfcs,2004,2.366542962843039e-06
+IPPU,IPPU,pfcs,2005,2.366542962843039e-06
+IPPU,IPPU,pfcs,2006,2.366542962843039e-06
+IPPU,IPPU,pfcs,2007,2.366542962843039e-06
+IPPU,IPPU,pfcs,2008,2.366542962843039e-06
+IPPU,IPPU,pfcs,2009,2.366542962843039e-06
+IPPU,IPPU,pfcs,2010,2.366542962843039e-06
+IPPU,IPPU,pfcs,2011,2.366542962843039e-06
+IPPU,IPPU,pfcs,2012,2.366542962843039e-06
+IPPU,IPPU,pfcs,2013,2.366542962843039e-06
+IPPU,IPPU,pfcs,2014,2.366542962843039e-06
 IPPU,IPPU,pfcs,2015,2.366542962843039e-06
 IPPU,IPPU,pfcs,2016,2.6978589776410652e-06
 IPPU,IPPU,pfcs,2017,3.075559234510814e-06

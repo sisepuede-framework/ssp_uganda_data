@@ -368,6 +368,7 @@ def build_synthetic_sectors(
         # interpolate--leave separate in case we want to set to align with 0
         df_new = (
             df_new
+            .bfill()
             .interpolate()
         )
         
