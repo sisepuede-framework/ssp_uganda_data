@@ -8,18 +8,10 @@ library(RColorBrewer)
 library(ggplot2)
 library(scales)
 library(tidyverse)
+library(readxl)
 
 rm(list=ls())
 
-df_2019 <- read_excel("data_processing/input_data/ccd_emissions_inventory/GHG Emissions_2019_Complete File.xlsx", 
-                      sheet = "Table A Summary Table", range = "A3:D113")
-
-# Ensure text column name is "Categories" (adjust if your file uses another name)
-names(df_2019)[1] <- "Categories"
-
-# Normaliza texto (quita dobles espacios y convierte –/— a "-")
-df_2019 <- df_2019 %>%
-  mutate(Categories = str_squish(str_replace_all(Categories, "[\u2013\u2014]", "-")))
 
 # -----------------------
 # Energy
@@ -117,7 +109,7 @@ lulucf_other <- c(
 afolu_leaf <- c(ag_lvst, ag_crops, lulucf_forest, lulucf_other)
 
 # -----------------------
-# Waste (4) - hojas
+# Waste
 # -----------------------
 w_solid <- c(
   "4.A - Solid Waste Disposal",
@@ -129,7 +121,7 @@ w_wwt <- c("4.D - Wastewater Treatment and Discharge")
 w_leaf <- c(w_solid, w_wwt)
 
 
-# -------- helper: procesa un año y regresa (long) agregado por CSC+Gas --------
+
 process_year <- function(y) {
   path <- sprintf("data_processing/input_data/ccd_emissions_inventory/GHG Emissions_%d_Complete File.xlsx", y)
   
@@ -148,7 +140,7 @@ process_year <- function(y) {
   # asigna CSC exacto (tus listas ya están definidas arriba)
   df <- df %>%
     mutate(
-      `CSC Sector` = case_when(
+      CSC.Sector = case_when(
         Categories %in% en_leaf        ~ "Energy",
         Categories %in% ipcu_leaf      ~ "Industrial Processes",
         Categories %in% ag_lvst        ~ "Agriculture",
@@ -158,7 +150,7 @@ process_year <- function(y) {
         Categories %in% w_leaf         ~ "Waste",
         TRUE ~ NA_character_
       ),
-      `CSC Subsector` = case_when(
+      CSC.Subsector = case_when(
         Categories %in% en_elec   ~ "EN - Electricity/Heat",
         Categories %in% en_manu   ~ "EN - Manufacturing/Construction",
         Categories %in% en_trns   ~ "EN - Transportation",
@@ -174,7 +166,7 @@ process_year <- function(y) {
         TRUE ~ NA_character_
       )
     ) %>%
-    filter(!is.na(`CSC Subsector`))   # fuera subtotales/no mapeados
+    filter(!is.na(CSC.Subsector))   # fuera subtotales/no mapeados
   
   # limpieza y conversión a MtCO2e (AR5: CH4=28, N2O=265)
   df <- df %>%
@@ -189,14 +181,14 @@ process_year <- function(y) {
     pivot_longer(c(CO2, CH4, N2O), names_to = "Gas", values_to = "value") %>%
     filter(!is.na(value)) %>%
     mutate(Gas = factor(Gas, levels = c("CH4","CO2","N2O"))) %>%
-    group_by(`CSC Sector`, `CSC Subsector`, Gas) %>%
+    group_by(CSC.Sector, CSC.Subsector, Gas) %>%
     summarise(value = sum(value, na.rm = TRUE), .groups = "drop") %>%
     mutate(Year = y)
   
   df
 }
 
-# -------- corre 1995–2019 y arma la tabla wide --------
+# -------- run 1995–2019 
 years <- 1995:2019
 
 panel <- map_dfr(years, ~{
@@ -205,9 +197,20 @@ panel <- map_dfr(years, ~{
 })
 
 df_wide <- panel %>%
-  arrange(`CSC Sector`, `CSC Subsector`, Gas, Year) %>%
+  arrange(CSC.Sector, CSC.Subsector, Gas, Year) %>%
   pivot_wider(names_from = Year, values_from = value, names_sort = TRUE)
 
 
-write_csv(df_wide, "data_processing/output/CSC_by_gas_1995_2019.csv")
+edgar <- read.csv('/Users/fabianfuentes/Library/CloudStorage/OneDrive-InstitutoTecnologicoydeEstudiosSuperioresdeMonterrey/SISEPUEDE/emission_targets/data/CSC-GHG_emissions-April2024_to_calibrate.csv') %>%
+  filter(Code=='UGA')%>%
+  select("Code","Country","EDGAR.Country.Code","Income.group","Lending.category","Region","CSC.Sector","CSC.Subsector","Gas","Units")
+
+
+edgar <- left_join(edgar, df_wide, by = join_by(CSC.Sector, CSC.Subsector, Gas))
+
+edgar$`2020` <- edgar$`2019` * 1.013471364
+edgar$`2021` <- edgar$`2020` * 1.015184693
+edgar$`2022` <- edgar$`2021` * 1.008720443
+
+fwrite(edgar, "data_processing/input_data/ccd_emissions_inventory/CSC_by_gas_1995_2022.csv")
 

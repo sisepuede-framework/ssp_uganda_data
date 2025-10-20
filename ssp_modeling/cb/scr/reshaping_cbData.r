@@ -28,15 +28,16 @@ cb_data$Year <- cb_data$time_period+2015
 head(cb_data)
 table(cb_data$Year)
 
+table(cb_data$strategy)
 
 #change strategy names
-cb_data$strategy <- gsub("PFLO:NDC_2", "NDC_2", cb_data$strategy)
+cb_data$strategy <- gsub("PFLO:NDC_2_2020_TUNED", "NDC_2", cb_data$strategy)
 cb_data$strategy <- gsub("PFLO:NZ", "Low Emissions Pathway", cb_data$strategy)
 
 table(cb_data$strategy_code)
 
 #create strategy id 
-cb_data$strategy_id <- ifelse(cb_data$strategy_code=="PFLO:NDC_2", 6004,
+cb_data$strategy_id <- ifelse(cb_data$strategy_code=="PFLO:NDC_2_2020_TUNED", 6004,
 							  ifelse(cb_data$strategy_code=="PFLO:NZ", 6006, cb_data$strategy_code))
 cb_data$ids <- paste(cb_data$variable,cb_data$strategy_id,sep=":")
 
@@ -56,7 +57,5 @@ head(pib)
 cb_data <- merge(cb_data, pib, by.x = "Year", by.y = "year")
 
 # Transform 'value' in cb_data to relative GDP value
-cb_data$value_orig <- cb_data$value 
-cb_data$value <- (cb_data$value / cb_data$gdp_mmm_usd) * 100
 
 write.csv(cb_data,paste0(dir.out,"cb_data_relative.csv"),row.names=FALSE)

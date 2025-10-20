@@ -117,7 +117,7 @@ lulucf_other <- c(
 afolu_leaf <- c(ag_lvst, ag_crops, lulucf_forest, lulucf_other)
 
 # -----------------------
-# Waste (4) - hojas
+# Waste
 # -----------------------
 w_solid <- c(
   "4.A - Solid Waste Disposal",

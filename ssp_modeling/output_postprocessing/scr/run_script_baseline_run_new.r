@@ -5,7 +5,7 @@
 te_all<-read.csv(paste0("ssp_modeling/output_postprocessing/data/emission_targets_",region,"_",year_ref,".csv"))
 #te_all <- subset(te_all,Subsector%in%c( "lvst","lsmm","agrc","ippu","waso","trww","frst","lndu","soil"))
 target_country <- iso_code3
-te_all<-te_all[,c("Subsector","Gas","Vars","Edgar_Class",target_country)]
+te_all<-te_all[,c("Subsector","Gas","Vars","Subsector_Category",target_country)]
 te_all[,"tvalue"] <- te_all[,target_country]
 te_all[,target_country] <- NULL
 target_vars <- unlist(strsplit(te_all$Vars,":"))
@@ -14,9 +14,7 @@ target_vars <- unlist(strsplit(te_all$Vars,":"))
 # te_all$Vars[3] <- "emission_co2e_n2o_lsmm_direct_anaerobic_digester:emission_co2e_n2o_lsmm_direct_anaerobic_lagoon:emission_co2e_n2o_lsmm_direct_composting:emission_co2e_n2o_lsmm_direct_daily_spread:emission_co2e_n2o_lsmm_direct_deep_bedding:emission_co2e_n2o_lsmm_direct_dry_lot:emission_co2e_n2o_lsmm_direct_incineration:emission_co2e_n2o_lsmm_direct_liquid_slurry:emission_co2e_n2o_lsmm_direct_paddock_pasture_range:emission_co2e_n2o_lsmm_direct_poultry_manure:emission_co2e_n2o_lsmm_direct_storage_solid:emission_co2e_n2o_lsmm_indirect_anaerobic_digester:emission_co2e_n2o_lsmm_indirect_anaerobic_lagoon:emission_co2e_n2o_lsmm_indirect_composting:emission_co2e_n2o_lsmm_indirect_daily_spread:emission_co2e_n2o_lsmm_indirect_deep_bedding:emission_co2e_n2o_lsmm_indirect_dry_lot:emission_co2e_n2o_lsmm_indirect_incineration:emission_co2e_n2o_lsmm_indirect_liquid_slurry:emission_co2e_n2o_lsmm_indirect_paddock_pasture_range:emission_co2e_n2o_lsmm_indirect_poultry_manure:emission_co2e_n2o_lsmm_indirect_storage_solid"
 
 # data from SiSePuede
-data_all<-read.csv(paste0(dir.output,output.file))
-
-data_all$emission_co2e_co2_frst_harvested_wood_products = 0
+data_all<- fread(paste0(dir.output,output.file)) %>% as.data.frame()
 
 rall <- unique(data_all$region)
 
@@ -42,12 +40,12 @@ for (i in 1:nrow(te_all))
 }
 
 te_all$simulation <- ifelse(te_all$simulation==0 & te_all$tvalue>0,0,1)
-correct<- aggregate(list(factor_correction=te_all$simulation),list(Edgar_Class=te_all$Edgar_Class),mean)
-te_all <- merge(te_all,correct,by="Edgar_Class")
+correct <- aggregate(list(factor_correction=te_all$simulation),list(Subsector_Category=te_all$Subsector_Category),mean)
+te_all <- merge(te_all,correct,by="Subsector_Category")
 te_all$tvalue <- te_all$tvalue/te_all$factor_correction
 te_all$simulation<-NULL 
 te_all$factor_correction<-NULL
-te_all$Edgar_Class<-NULL
+te_all$Subsector_Category<-NULL
 
 #now run
 
@@ -55,5 +53,5 @@ source("ssp_modeling/output_postprocessing/scr/intertemporal_decomposition.r")
 z<-1
 rescale(z,rall,data_all,te_all,initial_conditions_id,dir.output,time_period_ref)
 
-print('Finish:run_script_baseline_run_new_asp process')
+print('Finish:run_script_baseline_run_new process')
 
