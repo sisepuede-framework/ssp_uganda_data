@@ -412,7 +412,127 @@ def aggregate_inventory_and_fill_from_ssp(
     #     return df_out
     
     return df_out
+
+
+
+def allocate_charcoal_to_inen_and_scoe(
+    df_inv_trajectories: pd.DataFrame,
+    field_emission: str,
+    time_periods: 'TimePeriods',
+    cat_buildings: str = "Buildings",
+    cat_fuel_production: str = "Fuel Production",
+    cat_industry: str = "Industrial Combustion",
+) -> pd.DataFrame:
+    """Allocate emissions from charcoal production to biomass CH4 (inen and scoe)
+    """
+
+    print("NOTE: reallocation charcoal emissions to SCOE and INEN...")
     
+    ##  INITIALIZATION
+    
+    dict_dfs = {}
+
+    # data to allocate
+    df_allocate = df_inv_trajectories[
+        df_inv_trajectories[_FIELD_CW_CATEGORY_AGGREGATION]
+        .isin([cat_fuel_production])
+    ]
+
+    # some indices to split off
+    inds_keep = (
+        ~df_inv_trajectories[_FIELD_CW_CATEGORY_AGGREGATION]
+        .isin([cat_buildings, cat_industry, cat_fuel_production])
+    )
+
+    
+    ##  ITERATE OVER EACH GAS TO ALLOCATE
+
+    cats_allocate = [cat_buildings, cat_industry]
+    df_append = [df_inv_trajectories[inds_keep]]
+    
+    for gas in df_allocate[_FIELD_CW_GAS].unique():
+
+        df_cur = df_allocate[
+            df_allocate[_FIELD_CW_GAS].isin([gas])
+        ].copy()
+
+        # get allocation fractions
+        for cat in cats_allocate:
+            
+            df_subinv = (
+                df_inv_trajectories[
+                    df_inv_trajectories[_FIELD_CW_CATEGORY_AGGREGATION].isin([cat])
+                    & df_inv_trajectories[_FIELD_CW_GAS].isin([gas])
+                ]
+                .rename(columns = {field_emission: cat})
+                .drop(columns = [_FIELD_CW_CATEGORY_AGGREGATION])
+            )
+
+            df_cur = (
+                df_subinv
+                if df_cur is None
+                else pd.merge(
+                    df_cur,
+                    df_subinv,
+                    how = "left",
+                )
+            )
+            
+            #dict_dfs.update({cat: })
+
+        
+        arr_allocate = sf.check_row_sums(
+            df_cur[cats_allocate],
+            thresh_correction = None,
+        )
+
+        arr_allocate = sf.do_array_mult(
+            arr_allocate, 
+            df_cur[field_emission].to_numpy(),
+        )
+
+        # update allocation
+        df_cur[cats_allocate] += arr_allocate
+        df_cur[field_emission] = 0.0
+
+        
+        # unwrap
+        df_cur = (
+            df_cur
+            .drop(columns = _FIELD_CW_CATEGORY_AGGREGATION)
+            .rename(columns = {field_emission: cat_fuel_production})
+            .melt(
+                id_vars = [
+                    _FIELD_CW_GAS,
+                    time_periods.field_year,
+                ],
+                value_name = field_emission,
+                value_vars = cats_allocate + [cat_fuel_production],
+                var_name = _FIELD_CW_CATEGORY_AGGREGATION,
+            )
+        )
+
+        #
+        df_append.append(df_cur)
+
+    global dfa
+    dfa = df_append
+    
+    # concatenate and sort
+    df_out = (
+        pd.concat(df_append, )
+        .sort_values(
+            by = [
+                _FIELD_CW_CATEGORY_AGGREGATION,
+                _FIELD_CW_GAS,
+                time_periods.field_year
+            ]
+        )
+        .reset_index(drop = True, )
+    )
+        
+    return df_out
+
 
 
 def field_category_level(
@@ -847,7 +967,6 @@ def retrieve_values_from_matchstrs(
             continue
 
         if len(ind) > 1:
-            print()
             raise RuntimeError(f"Multiple entries found for matchstr = {matchstr}: {ind}")
 
         # get the field and value
@@ -879,10 +998,12 @@ def split_aggregate_inv_into_cw_and_trajectories(
     model_attributes: 'ModelAttributes',
     time_periods: 'TimePeriods',
     add_stars_to_est_groups: bool = True,
-) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    dict_overwrite_category_to_value: Union[Dict[str, float], None] = None,
+) -> Tuple[pd.DataFrame, pd.DataFrame, str]:
     """Split the aggregate inventory table into a crosswalk and separate out
         trajectories.
     """
+
     # some initialization
     fields_years = [x for x in df_inv_aggregate if isinstance(x, int)]
     fields_id = [
@@ -943,10 +1064,22 @@ def split_aggregate_inv_into_cw_and_trajectories(
 
     # finally, scale emissions to SSP units
     df_trajectories[field_out] *= scale_units
-    
 
+    # overwrite directly from dictionary?
+    if isinstance(dict_overwrite_category_to_value, dict):
+        for k, v in dict_overwrite_category_to_value.items():
+
+            # get the rows to overwrite
+            ind = df_trajectories[_FIELD_CW_CATEGORY_AGGREGATION].isin([k])
+            w = np.where(ind)[0]
+            
+            if len(w) == 0: continue
+            
+            df_trajectories.loc[w, field_out] = v
+
+    
     # return the crosswalk and the trajectories
-    out = (df_cw, df_trajectories, )
+    out = (df_cw, df_trajectories, field_out, )
     
     return out
 
@@ -964,6 +1097,8 @@ def main(
     path_out_trajectories: pathlib.Path,
     model_attributes: 'ModelAttributes',
     time_periods: 'TimePeriods',
+    dict_overwrite_category_to_value: Union[Dict[str, float], None] = None,
+    reallocate_charcoal_production: bool = True,
     path_out_figure: Union[pathlib.Path, None] = None,
     **kwargs,
 ) -> Dict[str, Union[Tuple[pd.DataFrame], 'plt.Plot']]:
@@ -1009,13 +1144,17 @@ def main(
 
     Keyword Arguments
     -----------------
+    dict_overwrite_category_to_value : Union[Dict[str, float], None]
+        Optional dictionary used to overwrite values associated with category (k)
     path_out_figure : pathlib.Path
         Optional path to specify for writing output of plot of historical
         inventory trajectories.
+    reallocate_charcoal_production: bool
+        Send charchoal production to SCOE and INEN biomass?
     **kwargs : 
         passed to sf._write_csv
     """
-
+    
     ##  INITIALIZATION
 
     # get files
@@ -1028,7 +1167,7 @@ def main(
     dict_table_ind_to_sheet_name = get_all_sheet_name_table_dict(dict_dfs, )
     fields_cat_ordered = get_category_fields_ordered(df_cw, )
 
-
+    
     ##  BUILD TRAJECTORIES FROM INVENTORY TABLES
 
     df_cw_with_trajectories = add_inv_table_emissions_to_cw(
@@ -1055,13 +1194,27 @@ def main(
 
     ##  SPLIT, WRITE, AND RETURN
 
+
     out = split_aggregate_inv_into_cw_and_trajectories(
         df_inv_aggregate,
         model_attributes,
         time_periods,
+        dict_overwrite_category_to_value = dict_overwrite_category_to_value,
     )
 
-    df_cw_out, df_trajectories = out
+    df_cw_out, df_trajectories, field_emission = out
+
+    if reallocate_charcoal_production:
+        # do some reallocation and update
+        df_trajectories = allocate_charcoal_to_inen_and_scoe(
+            df_trajectories,
+            field_emission,
+            time_periods,
+        ) 
+    
+        out = (df_cw_out, df_trajectories, field_emission)
+
+    
 
     # write output
     sf._write_csv(df_cw_out, path_out_cw_new, **kwargs, )
