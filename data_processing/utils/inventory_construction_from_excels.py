@@ -1065,7 +1065,7 @@ def main(
 
     # write output
     sf._write_csv(df_cw_out, path_out_cw_new, **kwargs, )
-    sf._write_csv(df_cw_out, path_out_trajectories, **kwargs, )
+    sf._write_csv(df_trajectories, path_out_trajectories, **kwargs, )
 
     # plot and export if wanted
     plots = plot_and_export_inventory(
