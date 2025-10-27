@@ -1,0 +1,18 @@
+citations: null
+description: Increase average efficiency of heat energy from biomass from 60% to 80%
+  through clean cooking stoves.
+identifiers:
+  transformation_code: TX:SCOE:INC_EFFICIENCY_HEAT_NDC_25
+  transformation_name: Increase efficiency of biomass stoves and heating, LEP for
+    NDC 2.0 with year starting in 2026
+parameters:
+  dict_cats_to_magnitude:
+    fuel_biomass: 0.33
+  vec_implementation_ramp:
+    alpha_logistic: 1
+    n_tp_ramp: 20
+    tp_0_ramp: 11
+    window_logistic:
+    - -4
+    - 6
+transformer: TFR:SCOE:INC_EFFICIENCY_HEAT

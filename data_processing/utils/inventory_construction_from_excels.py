@@ -938,7 +938,7 @@ def retrieve_emissions_element_from_table(
         total_emission *= model_attributes.get_gwp(gas)
 
     return total_emission
-
+    
 
 
 def retrieve_values_from_matchstrs(
@@ -959,33 +959,42 @@ def retrieve_values_from_matchstrs(
     
     # iterate over each categoryu
     for matchstr in matchstrs:
-        
+
+        # find row and col--check for issues with CO2 in AFOLU
         ind = np.where([((matchstr in x) if isinstance(x, str) else False) for x in col])[0]
+        field = dict_cw_gas_to_itab_gas_field.get(gas)
+        if (gas == "co2") & (field not in df_inv.columns):
+            field = "Net CO2 emissions / removals"
         
         if len(ind) == 0: 
             dict_out.update({matchstr: missing_val})
             continue
 
+        # case where there are multiple rows; if only one of the rows is assocaited with values, use that row
         if len(ind) > 1:
-            raise RuntimeError(f"Multiple entries found for matchstr = {matchstr}: {ind}")
+            nums = []
+            for i in ind:
+                val = try_convert_value(
+                    df_inv[field].iloc[i], 
+                    None,
+                )
+                nums.append(sf.isnumber(val), )
 
-        # get the field and value
-        field = dict_cw_gas_to_itab_gas_field.get(gas)
-        if (gas == "co2") & (field not in df_inv.columns):
-            field = "Net CO2 emissions / removals"
+            # if there's not a unique row associated with a number, raise an error
+            if sum(nums) != 1:
+                raise RuntimeError(f"Multiple entries found for matchstr = {matchstr}: {ind}")
+
+            # otherwise, assign the 
+            w_nums = np.where(nums)[0]
+            ind = [ind[w_nums]]
+        
 
         # value adjustment
-        val = df_inv[field].iloc[ind[0]]
-        if isinstance(val, str):
-            val = val.replace(",", "")
-
-        # print(f"{gas} - {field} - {ind} - {val}")
-
-        try:
-            val = float(val)
-
-        except:
-            val = missing_val
+        val = try_convert_value(
+            df_inv[field].iloc[ind[0]], 
+            missing_val,
+        )
+        
 
         dict_out.update({matchstr: val})
 
@@ -1083,6 +1092,26 @@ def split_aggregate_inv_into_cw_and_trajectories(
     
     return out
 
+
+
+def try_convert_value(
+    val: Any,
+    missing_val: Any,
+) -> float:
+    """Try converting an inventory entry to a float
+    """
+
+    # value adjustment
+    if isinstance(val, str):
+        val = val.replace(",", "")
+
+    try:
+        val = float(val)
+
+    except:
+        val = missing_val
+
+    return val
 
 
 

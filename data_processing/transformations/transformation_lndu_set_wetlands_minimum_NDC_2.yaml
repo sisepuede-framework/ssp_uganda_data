@@ -10,7 +10,7 @@ description: "Land use classes are estimated using a transition matrix and ajdus
   \ land use area associated with wetlands in 2017. This transformation increases\
   \ wetlands area by 3.1% from 3.7% to 6.8% of the country's area, or 1,642,540 ha."
 identifiers:
-  transformation_code: "TX:LNDU:SET_WETLANDS_MINIMUM_NDC2"
+  transformation_code: "TX:LNDU:SET_WETLANDS_MINIMUM_NDC_2"
   transformation_name: "Default Value - LNDU: Bound Classes"
 parameters:
   dict_directional_categories_to_magnitude:

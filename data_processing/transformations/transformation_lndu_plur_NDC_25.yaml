@@ -1,0 +1,12 @@
+citations: null
+description: Set land use reallocation factor to 0.2
+identifiers:
+  transformation_code: TX:LNDU:PLUR_NDC_25
+  transformation_name: 'Default Value - LNDU: Partial land use reallocation for NDC2
+    for NDC 2.0 with year starting in 2026'
+parameters:
+  force: true
+  magnitude: 0.275
+  vec_implementation_ramp:
+    tp_0_ramp: 11
+transformer: TFR:LNDU:PLUR

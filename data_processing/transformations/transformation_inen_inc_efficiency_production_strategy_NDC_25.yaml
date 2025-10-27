@@ -1,0 +1,11 @@
+citations: null
+description: None
+identifiers:
+  transformation_code: TX:INEN:INC_EFFICIENCY_PRODUCTION_STRATEGY_NDC_25
+  transformation_name: 'Scaled Default Max Parameters by 0.01 - INEN: Maximize industrial
+    production efficiency for NDC 2.0 with year starting in 2026'
+parameters:
+  magnitude: 0.004
+  vec_implementation_ramp:
+    tp_0_ramp: 11
+transformer: TFR:INEN:INC_EFFICIENCY_PRODUCTION
