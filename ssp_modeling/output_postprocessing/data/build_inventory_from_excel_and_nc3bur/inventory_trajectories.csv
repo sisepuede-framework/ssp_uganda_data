@@ -999,6 +999,31 @@ Other Not Estimated Sequestration,co2,2016,-2.4566218630844108
 Other Not Estimated Sequestration,co2,2017,-2.2496322235843733
 Other Not Estimated Sequestration,co2,2018,-1.3599953447109736
 Other Not Estimated Sequestration,co2,2019,-0.6183938038410354
+Other Not Estimated Soils,n2o,1995,1.2554419748494035
+Other Not Estimated Soils,n2o,1996,1.2554419748494035
+Other Not Estimated Soils,n2o,1997,1.2554419748494035
+Other Not Estimated Soils,n2o,1998,1.2554419748494035
+Other Not Estimated Soils,n2o,1999,1.2554419748494035
+Other Not Estimated Soils,n2o,2000,1.2554419748494035
+Other Not Estimated Soils,n2o,2001,1.2554419748494035
+Other Not Estimated Soils,n2o,2002,1.2554419748494035
+Other Not Estimated Soils,n2o,2003,1.2554419748494035
+Other Not Estimated Soils,n2o,2004,1.2554419748494035
+Other Not Estimated Soils,n2o,2005,1.2554419748494035
+Other Not Estimated Soils,n2o,2006,1.2554419748494035
+Other Not Estimated Soils,n2o,2007,1.2554419748494035
+Other Not Estimated Soils,n2o,2008,1.2554419748494035
+Other Not Estimated Soils,n2o,2009,1.2554419748494035
+Other Not Estimated Soils,n2o,2010,1.2554419748494035
+Other Not Estimated Soils,n2o,2011,1.2554419748494035
+Other Not Estimated Soils,n2o,2012,1.2554419748494035
+Other Not Estimated Soils,n2o,2013,1.2554419748494035
+Other Not Estimated Soils,n2o,2014,1.2554419748494035
+Other Not Estimated Soils,n2o,2015,1.2554419748494035
+Other Not Estimated Soils,n2o,2016,1.294729448962273
+Other Not Estimated Soils,n2o,2017,1.3014361780335006
+Other Not Estimated Soils,n2o,2018,1.3361009444838747
+Other Not Estimated Soils,n2o,2019,1.362262577383608
 Solid Waste,ch4,1995,3.2374044000000004
 Solid Waste,ch4,1996,3.651273
 Solid Waste,ch4,1997,4.0280625
@@ -1076,79 +1101,79 @@ Solid Waste,n2o,2018,0.09227400000000001
 Solid Waste,n2o,2019,0.081354
 Transportation,ch4,1995,0.005217299999999999
 Transportation,ch4,1996,0.005217299999999999
-Transportation,ch4,1997,0.0055242
-Transportation,ch4,1998,0.0060263999999999995
-Transportation,ch4,1999,0.0065844
-Transportation,ch4,2000,0.0062496
-Transportation,ch4,2001,0.0064728
-Transportation,ch4,2002,0.006668099999999999
-Transportation,ch4,2003,0.0065286
-Transportation,ch4,2004,0.0063612
-Transportation,ch4,2005,0.0059985
-Transportation,ch4,2006,0.007030799999999999
-Transportation,ch4,2007,0.0069470999999999995
-Transportation,ch4,2008,0.0089559
-Transportation,ch4,2009,0.010323
-Transportation,ch4,2010,0.010908900000000001
-Transportation,ch4,2011,0.0127782
-Transportation,ch4,2012,0.0163215
-Transportation,ch4,2013,0.0166005
-Transportation,ch4,2014,0.0181629
-Transportation,ch4,2015,0.019083600000000003
-Transportation,ch4,2016,0.021929399999999998
-Transportation,ch4,2017,0.0232407
-Transportation,ch4,2018,0.019529999999999995
-Transportation,ch4,2019,0.021064499999999996
-Transportation,co2,1995,0.588759
-Transportation,co2,1996,0.588759
-Transportation,co2,1997,0.621813
-Transportation,co2,1998,0.699755
-Transportation,co2,1999,0.831057
-Transportation,co2,2000,0.8165079999999999
-Transportation,co2,2001,0.841155
-Transportation,co2,2002,0.85849
-Transportation,co2,2003,0.915141
-Transportation,co2,2004,0.9643539999999999
-Transportation,co2,2005,0.9591949999999999
-Transportation,co2,2006,1.187316
-Transportation,co2,2007,1.2559360000000002
-Transportation,co2,2008,1.501181
-Transportation,co2,2009,1.67429
-Transportation,co2,2010,1.812856
-Transportation,co2,2011,1.999606
-Transportation,co2,2012,2.2270620000000005
-Transportation,co2,2013,2.179406
-Transportation,co2,2014,2.384698
-Transportation,co2,2015,2.561885
-Transportation,co2,2016,2.9429390000000004
-Transportation,co2,2017,3.103528
-Transportation,co2,2018,2.623692
-Transportation,co2,2019,2.73039
-Transportation,n2o,1995,0.007644000000000001
-Transportation,n2o,1996,0.007644000000000001
-Transportation,n2o,1997,0.00819
-Transportation,n2o,1998,0.009282
-Transportation,n2o,1999,0.011193
-Transportation,n2o,2000,0.010920000000000001
-Transportation,n2o,2001,0.011193
-Transportation,n2o,2002,0.011193
-Transportation,n2o,2003,0.012284999999999999
-Transportation,n2o,2004,0.013104
-Transportation,n2o,2005,0.013104
-Transportation,n2o,2006,0.01638
-Transportation,n2o,2007,0.017471999999999998
-Transportation,n2o,2008,0.020202
-Transportation,n2o,2009,0.023205
-Transportation,n2o,2010,0.024843
-Transportation,n2o,2011,0.0273
-Transportation,n2o,2012,0.03003
-Transportation,n2o,2013,0.029211
-Transportation,n2o,2014,0.032214000000000007
-Transportation,n2o,2015,0.034671
-Transportation,n2o,2016,0.039585
-Transportation,n2o,2017,0.041769
-Transportation,n2o,2018,0.019929000000000002
-Transportation,n2o,2019,0.021567
+Transportation,ch4,1997,0.0055521
+Transportation,ch4,1998,0.0060542999999999994
+Transportation,ch4,1999,0.0066123
+Transportation,ch4,2000,0.0062775
+Transportation,ch4,2001,0.006500699999999999
+Transportation,ch4,2002,0.006695999999999999
+Transportation,ch4,2003,0.0065565
+Transportation,ch4,2004,0.0063891
+Transportation,ch4,2005,0.0060263999999999995
+Transportation,ch4,2006,0.007058699999999999
+Transportation,ch4,2007,0.0070028999999999985
+Transportation,ch4,2008,0.008983799999999998
+Transportation,ch4,2009,0.0103788
+Transportation,ch4,2010,0.0109647
+Transportation,ch4,2011,0.012834
+Transportation,ch4,2012,0.016377299999999997
+Transportation,ch4,2013,0.0166563
+Transportation,ch4,2014,0.0182187
+Transportation,ch4,2015,0.0191394
+Transportation,ch4,2016,0.0219852
+Transportation,ch4,2017,0.0232965
+Transportation,ch4,2018,0.0195858
+Transportation,ch4,2019,0.0211203
+Transportation,co2,1995,0.658967
+Transportation,co2,1996,0.658967
+Transportation,co2,1997,0.74006
+Transportation,co2,1998,0.860549
+Transportation,co2,1999,0.956039
+Transportation,co2,2000,0.9110339999999999
+Transportation,co2,2001,0.9711029999999998
+Transportation,co2,2002,0.988438
+Transportation,co2,2003,1.077482
+Transportation,co2,2004,1.149835
+Transportation,co2,2005,1.1676490000000002
+Transportation,co2,2006,1.398261
+Transportation,co2,2007,1.473023
+Transportation,co2,2008,1.605656
+Transportation,co2,2009,1.935673
+Transportation,co2,2010,2.0892250000000003
+Transportation,co2,2011,2.2635840000000003
+Transportation,co2,2012,2.5454370000000006
+Transportation,co2,2013,2.470025
+Transportation,co2,2014,2.7386660000000003
+Transportation,co2,2015,2.8886040000000004
+Transportation,co2,2016,3.2579890000000007
+Transportation,co2,2017,3.4247349999999996
+Transportation,co2,2018,2.9503760000000003
+Transportation,co2,2019,3.0746480000000003
+Transportation,n2o,1995,0.008190000000000001
+Transportation,n2o,1996,0.008190000000000001
+Transportation,n2o,1997,0.009009000000000001
+Transportation,n2o,1998,0.010374
+Transportation,n2o,1999,0.012012
+Transportation,n2o,2000,0.011739000000000001
+Transportation,n2o,2001,0.012285
+Transportation,n2o,2002,0.012285
+Transportation,n2o,2003,0.013649999999999999
+Transportation,n2o,2004,0.014469000000000001
+Transportation,n2o,2005,0.014742000000000002
+Transportation,n2o,2006,0.018018000000000003
+Transportation,n2o,2007,0.01911
+Transportation,n2o,2008,0.021021
+Transportation,n2o,2009,0.025115999999999996
+Transportation,n2o,2010,0.027027000000000002
+Transportation,n2o,2011,0.029211000000000004
+Transportation,n2o,2012,0.032487
+Transportation,n2o,2013,0.031395
+Transportation,n2o,2014,0.034944
+Transportation,n2o,2015,0.037127999999999994
+Transportation,n2o,2016,0.042042
+Transportation,n2o,2017,0.044226
+Transportation,n2o,2018,0.022386000000000003
+Transportation,n2o,2019,0.024297000000000003
 Wastewater Treatment,ch4,1995,3.1424606999999996
 Wastewater Treatment,ch4,1996,3.2069934
 Wastewater Treatment,ch4,1997,3.3394904999999997

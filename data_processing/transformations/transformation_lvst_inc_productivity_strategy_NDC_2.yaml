@@ -8,5 +8,5 @@ parameters:
   magnitude: 0.3
   vec_implementation_ramp:
     tp_0_ramp: 5
-    n_tp_ramp: 10
+    #n_tp_ramp: 20
 transformer: "TFR:LVST:INC_PRODUCTIVITY"
