@@ -55,7 +55,7 @@ dim(data)
 
 #apply this differences to every combination of gas and sector
 #te_all$sector_gas <- paste(te_all$Subsector,te_all$Gas,sep="-")
-te_all$sector_gas <- paste(row.names(te_all),te_all$Subsector_Category,te_all$Gas,sep="-")
+te_all$sector_gas <- paste(row.names(te_all),te_all$ssp_subsector,te_all$Gas,sep="-")
 sector_gas_all <- unique(te_all$sector_gas)
 
 for (w in 1:length(sector_gas_all))
@@ -90,12 +90,12 @@ round(sum(data [data$time_period==time_period_ref & data$Index==ref_inds,tv1] ),
 }
 
 #estimate sector totals 
-subsectors <- unique(te_all$Subsector)
+subsectors <- unique(te_all$ssp_subsector)
 
 for (a in 1:length(subsectors))
 { 
    #a <- 29
-   subsector_vars <- unlist(lapply(subset(te_all,Subsector==subsectors[a])$Vars,function(x){strsplit(x,":")}))
+   subsector_vars <- unlist(lapply(subset(te_all,ssp_subsector==subsectors[a])$Vars,function(x){strsplit(x,":")}))
    # remove empty or NA names and keep only columns present in data
    subsector_vars <- subsector_vars[which(!is.na(subsector_vars) & subsector_vars != "")]
    subsector_vars <- intersect(subsector_vars, colnames(data))

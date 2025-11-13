@@ -5,7 +5,7 @@
 te_all<-read.csv(paste0("ssp_modeling/output_postprocessing/data/emission_targets_",region,"_",year_ref,".csv"))
 #te_all <- subset(te_all,Subsector%in%c( "lvst","lsmm","agrc","ippu","waso","trww","frst","lndu","soil"))
 target_country <- iso_code3
-te_all<-te_all[,c("Subsector","Gas","Vars","Subsector_Category",target_country)]
+te_all<-te_all[,c("Subsector","Gas","Vars","Subsector_Category","ssp_subsector",target_country)]
 te_all[,"tvalue"] <- te_all[,target_country]
 te_all[,target_country] <- NULL
 target_vars <- unlist(strsplit(te_all$Vars,":"))

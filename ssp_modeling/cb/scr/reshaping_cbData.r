@@ -56,6 +56,4 @@ head(pib)
 
 cb_data <- merge(cb_data, pib, by.x = "Year", by.y = "year")
 
-# Transform 'value' in cb_data to relative GDP value
-
 write.csv(cb_data,paste0(dir.out,"cb_data_relative.csv"),row.names=FALSE)

@@ -212,3 +212,6 @@ ssp_modeling/Tableau/data/
 *.RData
 *.Ruserdata
 .Rproj.user
+
+# ignore output ensemble data
+ssp_modeling/output_postprocessing/1000runs/ensemble_data/*

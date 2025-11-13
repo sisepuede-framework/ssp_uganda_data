@@ -10,11 +10,11 @@ library(scales)
 
 rm(list=ls())
 
-run <- "ssp_modeling/ssp_run_output/sisepuede_summary_results_run_sisepuede_run_2025-09-27T21;50;10.556740/"
+run <- "ssp_modeling/ssp_run_output/sisepuede_summary_results_run_sisepuede_run_2025-10-29T19;49;25.722413/"
 
 
-df <- fread(paste0(run,'/uganda.csv'))
-#df <- fread(paste0(run,'/WIDE_INPUTS_OUTPUTS.csv'))
+#df <- fread(paste0(run,'/uganda.csv'))
+df <- fread(paste0(run,'/WIDE_INPUTS_OUTPUTS.csv'))
 att <- fread(paste0(run,'/ATTRIBUTE_PRIMARY.csv'))
 stt <- fread(paste0(run,'/ATTRIBUTE_STRATEGY.csv'))
 
@@ -25,15 +25,13 @@ df <- merge(df, stt, by = "strategy_id", all.x = TRUE)
 table(df$strategy)
 
  
-other_ch4 <- c('emission_co2e_ch4_agrc_biomass_burning',
-                 'emission_co2e_ch4_lndu_wetlands')
+other_ch4 <- c('emission_co2e_co2_entc_generation_pp_biogas:emission_co2e_co2_entc_generation_pp_coal:emission_co2e_co2_entc_generation_pp_coal_ccs:emission_co2e_co2_entc_generation_pp_gas:emission_co2e_co2_entc_generation_pp_gas_ccs:emission_co2e_co2_entc_generation_pp_geothermal:emission_co2e_co2_entc_generation_pp_hydropower:emission_co2e_co2_entc_generation_pp_nuclear:emission_co2e_co2_entc_generation_pp_ocean:emission_co2e_co2_entc_generation_pp_oil:emission_co2e_co2_entc_generation_pp_solar:emission_co2e_co2_entc_generation_pp_waste_incineration:emission_co2e_co2_entc_generation_pp_wind')
 
-other_n2o <- c('emission_co2e_n2o_agrc_biomass_burning')
-
+other_ch4 <- unlist(strsplit(other_ch4, ":"))
 
 df_long <- melt(df, 
                 id.vars = c("primary_id", "strategy", "time_period"), 
-                measure.vars = other_n2o)
+                measure.vars = other_ch4)
 
 ggplot(df_long, aes(x = time_period, y = value, fill = variable)) +
   geom_area(position = "stack") +
