@@ -24,26 +24,47 @@ class EDAUtils:
         plt.show()
     
     @staticmethod
-    def plot_multiple_histograms(df, columns=None, bins=30, kde=True, title="Histograms of Selected Columns"):
-        if columns is None:
-            columns = df.columns
+    def plot_multiple_histograms(df, columns, bins=30, kde=False, title=None):
+        import math
+        import matplotlib.pyplot as plt
+        import seaborn as sns
+
+        # Filter to numeric columns only (optional, but usually helpful)
+        columns = [c for c in columns if pd.api.types.is_numeric_dtype(df[c])]
+
+        # Drop columns that are constant
+        columns = [c for c in columns if df[c].dropna().nunique() > 1]
+
         n_cols = len(columns)
-        n_rows = (n_cols + 1) // 2
-        fig, axes = plt.subplots(n_rows, 2, figsize=(12, n_rows * 4))
+        nrows = math.ceil(n_cols / 3)
+        ncols = 3
+
+        fig, axes = plt.subplots(nrows, ncols, figsize=(5 * ncols, 4 * nrows))
         axes = axes.flatten()
-        
+
         for i, col in enumerate(columns):
-            sns.histplot(df[col], bins=bins, kde=kde, ax=axes[i])
+            s = df[col].dropna()
+            if s.nunique() <= 1:
+                axes[i].text(0.5, 0.5, f"{col}\n(constant)", ha="center", va="center")
+                axes[i].set_axis_off()
+                continue
+
+            # Use up to `bins` or less if data is very sparse
+            nbins = min(bins, max(1, s.nunique()))
+            sns.histplot(s, bins=nbins, kde=kde, ax=axes[i])
             axes[i].set_title(f"Histogram of {col}")
             axes[i].set_xlabel(col)
-            axes[i].set_ylabel("Frequency")
-        
+
+        # Hide unused subplots if any
         for j in range(i + 1, len(axes)):
-            axes[j].axis('off')
-        
-        plt.tight_layout()
-        plt.suptitle(title, y=1.02)
+            axes[j].set_axis_off()
+
+        if title:
+            fig.suptitle(title, fontsize=16)
+
+        fig.tight_layout()
         plt.show()
+
 
     @staticmethod
     def log_transform_comparison_plot(df, column="total_emissions_last_five_years"):

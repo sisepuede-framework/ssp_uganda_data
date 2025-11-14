@@ -205,4 +205,5 @@ ssp_modeling/transformations/templates
 
 #ignore ssp folder in metamodel
 metamodel/data/ssp/
-metamodel/surrogate_model/config/aws_credentials_config.yaml
+metamodel/surrogate_model/config/aws_credentials_config.
+metamodel/cb/cb_raw_outputs
