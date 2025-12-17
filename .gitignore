@@ -218,7 +218,7 @@ ssp_modeling/output_postprocessing/1000runs/ensemble_data/*
 
 
 # ignore output tornado data
-ssp_modeling/output_postprocessing/tornado/ssp_run_output
-ssp_modeling/output_postprocessing/tornado/cb/cb_results
-
-/Users/fabianfuentes/git/ssp_uganda_data/ssp_modeling/ssp_run_output 
+ssp_modeling/ssp_run_output/
+ssp_modeling/cb/cb_results/
+ssp_modeling/output_postprocessing/tornado/ssp_run_output/
+ssp_modeling/output_postprocessing/tornado/cb/cb_results/ 
