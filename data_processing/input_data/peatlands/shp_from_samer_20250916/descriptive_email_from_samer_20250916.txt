@@ -1,0 +1,10 @@
+Samer Elshehawi <samer.elshehawi@succow-stiftung.de>
+
+
+Hi Amira, James, 
+Please find attached the peatland shape file for Uganda. It indicates the peatland distribution. You can use the field column (p-status) to extract the drained areas using the values: 2 - slightly drained-, and 3 - heavily drained-. The IPCC supplement allows to calculate GHG emissions from drained peatlands using only drainage a Tier-I information. There are classes for different land covers, however, as I mentioned in the call a careful approach is needed there. I would be happy to exchange in a small technical setting on that.
+Cheers,
+Samer
+
+
+

@@ -1,0 +1,12 @@
+citations: null
+description: Increase fraction of waste that is otherwise untreated (i.e., post recycling,
+  composting, etc.) that is sent to landfills
+identifiers:
+  transformation_code: TX:WASO:INC_LANDFILLING_STRATEGY_NDC_25
+  transformation_name: 'Scaled Default Max Parameters by 1.0 - WASO: Increase landfilling
+    for NDC 2.0 with year starting in 2026'
+parameters:
+  magnitude: 1.0
+  vec_implementation_ramp:
+    tp_0_ramp: 11
+transformer: TFR:WASO:INC_LANDFILLING

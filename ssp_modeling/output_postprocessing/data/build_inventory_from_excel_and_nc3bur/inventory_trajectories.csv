@@ -1,0 +1,1276 @@
+aggregation_category,gas,year,emission_co2e_mt
+Agriculture and Managed Soil,ch4,1995,0.19702979999999998
+Agriculture and Managed Soil,ch4,1996,0.1995129
+Agriculture and Managed Soil,ch4,1997,0.20196809999999998
+Agriculture and Managed Soil,ch4,1998,0.20445119999999997
+Agriculture and Managed Soil,ch4,1999,0.20693430000000002
+Agriculture and Managed Soil,ch4,2000,0.2094174
+Agriculture and Managed Soil,ch4,2001,0.2118726
+Agriculture and Managed Soil,ch4,2002,0.2130723
+Agriculture and Managed Soil,ch4,2003,0.21418829999999997
+Agriculture and Managed Soil,ch4,2004,0.21524849999999998
+Agriculture and Managed Soil,ch4,2005,0.2163087
+Agriculture and Managed Soil,ch4,2006,0.21097980000000002
+Agriculture and Managed Soil,ch4,2007,0.205623
+Agriculture and Managed Soil,ch4,2008,0.20023829999999998
+Agriculture and Managed Soil,ch4,2009,0.19323540000000003
+Agriculture and Managed Soil,ch4,2010,0.18620459999999997
+Agriculture and Managed Soil,ch4,2011,0.1853118
+Agriculture and Managed Soil,ch4,2012,0.1954116
+Agriculture and Managed Soil,ch4,2013,0.1943793
+Agriculture and Managed Soil,ch4,2014,0.2245113
+Agriculture and Managed Soil,ch4,2015,0.20796659999999997
+Agriculture and Managed Soil,ch4,2016,0.2254878
+Agriculture and Managed Soil,ch4,2017,0.2153322
+Agriculture and Managed Soil,ch4,2018,0.2822643
+Agriculture and Managed Soil,ch4,2019,0.2419209
+Agriculture and Managed Soil,co2,1995,7.307183
+Agriculture and Managed Soil,co2,1996,7.307183
+Agriculture and Managed Soil,co2,1997,7.307183
+Agriculture and Managed Soil,co2,1998,7.306486
+Agriculture and Managed Soil,co2,1999,7.305364
+Agriculture and Managed Soil,co2,2000,7.304554
+Agriculture and Managed Soil,co2,2001,7.304253
+Agriculture and Managed Soil,co2,2002,7.310865
+Agriculture and Managed Soil,co2,2003,7.310588
+Agriculture and Managed Soil,co2,2004,0.768573
+Agriculture and Managed Soil,co2,2005,0.7658510000000002
+Agriculture and Managed Soil,co2,2006,7.266458
+Agriculture and Managed Soil,co2,2007,0.681741
+Agriculture and Managed Soil,co2,2008,0.325374
+Agriculture and Managed Soil,co2,2009,0.283941
+Agriculture and Managed Soil,co2,2010,0.24177500000000002
+Agriculture and Managed Soil,co2,2011,0.24807800000000002
+Agriculture and Managed Soil,co2,2012,0.322272
+Agriculture and Managed Soil,co2,2013,0.32462599999999997
+Agriculture and Managed Soil,co2,2014,0.535145
+Agriculture and Managed Soil,co2,2015,0.438887
+Agriculture and Managed Soil,co2,2016,0.5775450000000001
+Agriculture and Managed Soil,co2,2017,0.21661600000000003
+Agriculture and Managed Soil,co2,2018,0.081902
+Agriculture and Managed Soil,co2,2019,0.025526000000000004
+Agriculture and Managed Soil,n2o,1995,0.502866
+Agriculture and Managed Soil,n2o,1996,0.433524
+Agriculture and Managed Soil,n2o,1997,0.450996
+Agriculture and Managed Soil,n2o,1998,0.46573799999999993
+Agriculture and Managed Soil,n2o,1999,0.468741
+Agriculture and Managed Soil,n2o,2000,0.4772040000000001
+Agriculture and Managed Soil,n2o,2001,0.486486
+Agriculture and Managed Soil,n2o,2002,0.49549499999999996
+Agriculture and Managed Soil,n2o,2003,0.5045040000000001
+Agriculture and Managed Soil,n2o,2004,0.51324
+Agriculture and Managed Soil,n2o,2005,0.622986
+Agriculture and Managed Soil,n2o,2006,0.530166
+Agriculture and Managed Soil,n2o,2007,0.537537
+Agriculture and Managed Soil,n2o,2008,0.570843
+Agriculture and Managed Soil,n2o,2009,0.8108099999999999
+Agriculture and Managed Soil,n2o,2010,0.708435
+Agriculture and Managed Soil,n2o,2011,0.623805
+Agriculture and Managed Soil,n2o,2012,0.645099
+Agriculture and Managed Soil,n2o,2013,0.663117
+Agriculture and Managed Soil,n2o,2014,0.689052
+Agriculture and Managed Soil,n2o,2015,1.7229030000000003
+Agriculture and Managed Soil,n2o,2016,0.7300019999999999
+Agriculture and Managed Soil,n2o,2017,0.731367
+Agriculture and Managed Soil,n2o,2018,0.7272719999999999
+Agriculture and Managed Soil,n2o,2019,1.8817890000000002
+Buildings,ch4,1995,1.81422459588944
+Buildings,ch4,1996,1.81422459588944
+Buildings,ch4,1997,1.9368224732231405
+Buildings,ch4,1998,2.000911348253197
+Buildings,ch4,1999,2.016339577206019
+Buildings,ch4,2000,2.13318849795093
+Buildings,ch4,2001,2.321055271242272
+Buildings,ch4,2002,2.5520490866012224
+Buildings,ch4,2003,2.5586752456347193
+Buildings,ch4,2004,2.6020767195922048
+Buildings,ch4,2005,2.6936064716656634
+Buildings,ch4,2006,2.7608854004546934
+Buildings,ch4,2007,2.882911377701861
+Buildings,ch4,2008,3.0339872019284
+Buildings,ch4,2009,3.081917970109972
+Buildings,ch4,2010,3.1846628399224772
+Buildings,ch4,2011,3.2614168906105743
+Buildings,ch4,2012,3.3404130459718058
+Buildings,ch4,2013,3.048791141130482
+Buildings,ch4,2014,3.088712699934108
+Buildings,ch4,2015,3.7318055368034107
+Buildings,ch4,2016,3.236495142556456
+Buildings,ch4,2017,3.353997109218662
+Buildings,ch4,2018,4.438010711274463
+Buildings,ch4,2019,4.327967372647484
+Buildings,co2,1995,0.103885
+Buildings,co2,1996,0.103885
+Buildings,co2,1997,0.116331
+Buildings,co2,1998,0.142481
+Buildings,co2,1999,0.123791
+Buildings,co2,2000,0.143454
+Buildings,co2,2001,0.15035400000000002
+Buildings,co2,2002,0.151075
+Buildings,co2,2003,0.15129800000000002
+Buildings,co2,2004,0.116385
+Buildings,co2,2005,0.099437
+Buildings,co2,2006,0.10356900000000001
+Buildings,co2,2007,0.086173
+Buildings,co2,2008,0.15200400000000003
+Buildings,co2,2009,0.178443
+Buildings,co2,2010,0.14680400000000002
+Buildings,co2,2011,0.194152
+Buildings,co2,2012,0.192275
+Buildings,co2,2013,0.13954899999999998
+Buildings,co2,2014,0.144463
+Buildings,co2,2015,0.274068
+Buildings,co2,2016,0.29213900000000004
+Buildings,co2,2017,0.304743
+Buildings,co2,2018,0.314161
+Buildings,co2,2019,0.20019399999999998
+Buildings,n2o,1995,0.23437392027334852
+Buildings,n2o,1996,0.23437392027334852
+Buildings,n2o,1997,0.24983724653148345
+Buildings,n2o,1998,0.25824111340206185
+Buildings,n2o,1999,0.2613580165289256
+Buildings,n2o,2000,0.2766585189873418
+Buildings,n2o,2001,0.2996883814602133
+Buildings,n2o,2002,0.3299132696629214
+Buildings,n2o,2003,0.3309568566878981
+Buildings,n2o,2004,0.33608386895475817
+Buildings,n2o,2005,0.34734221052631575
+Buildings,n2o,2006,0.35612379310344827
+Buildings,n2o,2007,0.3714901909090909
+Buildings,n2o,2008,0.3861366101694915
+Buildings,n2o,2009,0.39740378224238504
+Buildings,n2o,2010,0.4101013888190954
+Buildings,n2o,2011,0.42058021362799264
+Buildings,n2o,2012,0.43072918705035973
+Buildings,n2o,2013,0.3865358823529412
+Buildings,n2o,2014,0.3967244314720812
+Buildings,n2o,2015,0.47382391785150074
+Buildings,n2o,2016,0.4092831219512195
+Buildings,n2o,2017,0.42380340983606557
+Buildings,n2o,2018,0.6325169594813614
+Buildings,n2o,2019,0.5835971810139503
+Carbon Capture Industries,ch4,1995,0.0
+Carbon Capture Industries,ch4,1996,0.0
+Carbon Capture Industries,ch4,1997,0.0
+Carbon Capture Industries,ch4,1998,0.0
+Carbon Capture Industries,ch4,1999,0.0
+Carbon Capture Industries,ch4,2000,0.0
+Carbon Capture Industries,ch4,2001,0.0
+Carbon Capture Industries,ch4,2002,0.0
+Carbon Capture Industries,ch4,2003,0.0
+Carbon Capture Industries,ch4,2004,0.0
+Carbon Capture Industries,ch4,2005,0.0
+Carbon Capture Industries,ch4,2006,0.0
+Carbon Capture Industries,ch4,2007,0.0
+Carbon Capture Industries,ch4,2008,0.0
+Carbon Capture Industries,ch4,2009,0.0
+Carbon Capture Industries,ch4,2010,0.0
+Carbon Capture Industries,ch4,2011,0.0
+Carbon Capture Industries,ch4,2012,0.0
+Carbon Capture Industries,ch4,2013,0.0
+Carbon Capture Industries,ch4,2014,0.0
+Carbon Capture Industries,ch4,2015,0.0
+Carbon Capture Industries,ch4,2016,0.0
+Carbon Capture Industries,ch4,2017,0.0
+Carbon Capture Industries,ch4,2018,0.0
+Carbon Capture Industries,ch4,2019,0.0
+Carbon Capture Industries,co2,1995,0.0
+Carbon Capture Industries,co2,1996,0.0
+Carbon Capture Industries,co2,1997,0.0
+Carbon Capture Industries,co2,1998,0.0
+Carbon Capture Industries,co2,1999,0.0
+Carbon Capture Industries,co2,2000,0.0
+Carbon Capture Industries,co2,2001,0.0
+Carbon Capture Industries,co2,2002,0.0
+Carbon Capture Industries,co2,2003,0.0
+Carbon Capture Industries,co2,2004,0.0
+Carbon Capture Industries,co2,2005,0.0
+Carbon Capture Industries,co2,2006,0.0
+Carbon Capture Industries,co2,2007,0.0
+Carbon Capture Industries,co2,2008,0.0
+Carbon Capture Industries,co2,2009,0.0
+Carbon Capture Industries,co2,2010,0.0
+Carbon Capture Industries,co2,2011,0.0
+Carbon Capture Industries,co2,2012,0.0
+Carbon Capture Industries,co2,2013,0.0
+Carbon Capture Industries,co2,2014,0.0
+Carbon Capture Industries,co2,2015,0.0
+Carbon Capture Industries,co2,2016,0.0
+Carbon Capture Industries,co2,2017,0.0
+Carbon Capture Industries,co2,2018,0.0
+Carbon Capture Industries,co2,2019,0.0
+Carbon Capture Industries,n2o,1995,0.0
+Carbon Capture Industries,n2o,1996,0.0
+Carbon Capture Industries,n2o,1997,0.0
+Carbon Capture Industries,n2o,1998,0.0
+Carbon Capture Industries,n2o,1999,0.0
+Carbon Capture Industries,n2o,2000,0.0
+Carbon Capture Industries,n2o,2001,0.0
+Carbon Capture Industries,n2o,2002,0.0
+Carbon Capture Industries,n2o,2003,0.0
+Carbon Capture Industries,n2o,2004,0.0
+Carbon Capture Industries,n2o,2005,0.0
+Carbon Capture Industries,n2o,2006,0.0
+Carbon Capture Industries,n2o,2007,0.0
+Carbon Capture Industries,n2o,2008,0.0
+Carbon Capture Industries,n2o,2009,0.0
+Carbon Capture Industries,n2o,2010,0.0
+Carbon Capture Industries,n2o,2011,0.0
+Carbon Capture Industries,n2o,2012,0.0
+Carbon Capture Industries,n2o,2013,0.0
+Carbon Capture Industries,n2o,2014,0.0
+Carbon Capture Industries,n2o,2015,0.0
+Carbon Capture Industries,n2o,2016,0.0
+Carbon Capture Industries,n2o,2017,0.0
+Carbon Capture Industries,n2o,2018,0.0
+Carbon Capture Industries,n2o,2019,0.0
+Deforestation,co2,1995,13.098280651166236
+Deforestation,co2,1996,13.098280651166236
+Deforestation,co2,1997,13.098280651166236
+Deforestation,co2,1998,13.098280651166236
+Deforestation,co2,1999,13.098280651166236
+Deforestation,co2,2000,13.098280651166236
+Deforestation,co2,2001,13.098280651166236
+Deforestation,co2,2002,13.098280651166236
+Deforestation,co2,2003,13.098280651166236
+Deforestation,co2,2004,13.098280651166236
+Deforestation,co2,2005,13.098280651166236
+Deforestation,co2,2006,13.098280651166236
+Deforestation,co2,2007,13.098280651166236
+Deforestation,co2,2008,13.098280651166236
+Deforestation,co2,2009,13.098280651166236
+Deforestation,co2,2010,13.098280651166236
+Deforestation,co2,2011,13.098280651166236
+Deforestation,co2,2012,13.098280651166236
+Deforestation,co2,2013,13.098280651166236
+Deforestation,co2,2014,13.098280651166236
+Deforestation,co2,2015,13.098280651166236
+Deforestation,co2,2016,13.098663481414619
+Deforestation,co2,2017,13.099046311663
+Deforestation,co2,2018,13.099046311663
+Deforestation,co2,2019,13.099046311663
+Electricity and Heat Generation,ch4,1995,0.0
+Electricity and Heat Generation,ch4,1996,0.0
+Electricity and Heat Generation,ch4,1997,0.0
+Electricity and Heat Generation,ch4,1998,0.0
+Electricity and Heat Generation,ch4,1999,0.0
+Electricity and Heat Generation,ch4,2000,0.0
+Electricity and Heat Generation,ch4,2001,0.0
+Electricity and Heat Generation,ch4,2002,0.0
+Electricity and Heat Generation,ch4,2003,0.0
+Electricity and Heat Generation,ch4,2004,0.0
+Electricity and Heat Generation,ch4,2005,0.00011159999999999999
+Electricity and Heat Generation,ch4,2006,0.00013949999999999998
+Electricity and Heat Generation,ch4,2007,0.0001953
+Electricity and Heat Generation,ch4,2008,0.00022319999999999998
+Electricity and Heat Generation,ch4,2009,0.0001674
+Electricity and Heat Generation,ch4,2010,0.00022319999999999998
+Electricity and Heat Generation,ch4,2011,0.0003069
+Electricity and Heat Generation,ch4,2012,0.0002511
+Electricity and Heat Generation,ch4,2013,8.37e-05
+Electricity and Heat Generation,ch4,2014,5.5799999999999994e-05
+Electricity and Heat Generation,ch4,2015,5.5799999999999994e-05
+Electricity and Heat Generation,ch4,2016,5.5799999999999994e-05
+Electricity and Heat Generation,ch4,2017,0.00013949999999999998
+Electricity and Heat Generation,ch4,2018,0.0002511
+Electricity and Heat Generation,ch4,2019,8.37e-05
+Electricity and Heat Generation,co2,1995,0.000874
+Electricity and Heat Generation,co2,1996,0.000874
+Electricity and Heat Generation,co2,1997,0.0009559999999999999
+Electricity and Heat Generation,co2,1998,0.000903
+Electricity and Heat Generation,co2,1999,0.000979
+Electricity and Heat Generation,co2,2000,0.0009860000000000001
+Electricity and Heat Generation,co2,2001,0.001054
+Electricity and Heat Generation,co2,2002,0.001052
+Electricity and Heat Generation,co2,2003,0.001129
+Electricity and Heat Generation,co2,2004,0.001129
+Electricity and Heat Generation,co2,2005,0.105963
+Electricity and Heat Generation,co2,2006,0.12128799999999999
+Electricity and Heat Generation,co2,2007,0.17129
+Electricity and Heat Generation,co2,2008,0.199064
+Electricity and Heat Generation,co2,2009,0.147363
+Electricity and Heat Generation,co2,2010,0.207176
+Electricity and Heat Generation,co2,2011,0.277764
+Electricity and Heat Generation,co2,2012,0.235387
+Electricity and Heat Generation,co2,2013,0.084366
+Electricity and Heat Generation,co2,2014,0.042957
+Electricity and Heat Generation,co2,2015,0.052787
+Electricity and Heat Generation,co2,2016,0.043421
+Electricity and Heat Generation,co2,2017,0.122776
+Electricity and Heat Generation,co2,2018,0.22333699999999998
+Electricity and Heat Generation,co2,2019,0.07447100000000001
+Electricity and Heat Generation,n2o,1995,0.0
+Electricity and Heat Generation,n2o,1996,0.0
+Electricity and Heat Generation,n2o,1997,0.0
+Electricity and Heat Generation,n2o,1998,0.0
+Electricity and Heat Generation,n2o,1999,0.0
+Electricity and Heat Generation,n2o,2000,0.0
+Electricity and Heat Generation,n2o,2001,0.0
+Electricity and Heat Generation,n2o,2002,0.0
+Electricity and Heat Generation,n2o,2003,0.0
+Electricity and Heat Generation,n2o,2004,0.0
+Electricity and Heat Generation,n2o,2005,0.000273
+Electricity and Heat Generation,n2o,2006,0.000273
+Electricity and Heat Generation,n2o,2007,0.000273
+Electricity and Heat Generation,n2o,2008,0.000546
+Electricity and Heat Generation,n2o,2009,0.000273
+Electricity and Heat Generation,n2o,2010,0.000546
+Electricity and Heat Generation,n2o,2011,0.000546
+Electricity and Heat Generation,n2o,2012,0.000546
+Electricity and Heat Generation,n2o,2013,0.000273
+Electricity and Heat Generation,n2o,2014,0.0
+Electricity and Heat Generation,n2o,2015,0.0
+Electricity and Heat Generation,n2o,2016,0.0
+Electricity and Heat Generation,n2o,2017,0.000273
+Electricity and Heat Generation,n2o,2018,0.000546
+Electricity and Heat Generation,n2o,2019,0.000273
+Forest Land - Removals,co2,1995,-19.303684
+Forest Land - Removals,co2,1996,-17.208148
+Forest Land - Removals,co2,1997,-19.231391
+Forest Land - Removals,co2,1998,-14.431947000000001
+Forest Land - Removals,co2,1999,-11.311982
+Forest Land - Removals,co2,2000,-8.070042
+Forest Land - Removals,co2,2001,-4.699094
+Forest Land - Removals,co2,2002,-7.4738109999999995
+Forest Land - Removals,co2,2003,-4.719435
+Forest Land - Removals,co2,2004,-1.810142
+Forest Land - Removals,co2,2005,9.329443
+Forest Land - Removals,co2,2006,11.658136999999998
+Forest Land - Removals,co2,2007,17.489936
+Forest Land - Removals,co2,2008,19.936255
+Forest Land - Removals,co2,2009,22.421004
+Forest Land - Removals,co2,2010,24.944032
+Forest Land - Removals,co2,2011,27.498154000000003
+Forest Land - Removals,co2,2012,30.082574
+Forest Land - Removals,co2,2013,37.690435
+Forest Land - Removals,co2,2014,40.401943
+Forest Land - Removals,co2,2015,43.002758
+Forest Land - Removals,co2,2016,45.4964342343335
+Forest Land - Removals,co2,2017,46.882463468667005
+Forest Land - Removals,co2,2018,48.956185468667
+Forest Land - Removals,co2,2019,50.176896468667
+Forest Land - Sequestration,co2,1995,-7.654960906871515
+Forest Land - Sequestration,co2,1996,-7.654960906871515
+Forest Land - Sequestration,co2,1997,-7.654960906871515
+Forest Land - Sequestration,co2,1998,-7.654960906871515
+Forest Land - Sequestration,co2,1999,-7.654960906871515
+Forest Land - Sequestration,co2,2000,-7.654960906871515
+Forest Land - Sequestration,co2,2001,-7.654960906871515
+Forest Land - Sequestration,co2,2002,-7.654960906871515
+Forest Land - Sequestration,co2,2003,-7.654960906871515
+Forest Land - Sequestration,co2,2004,-7.654960906871515
+Forest Land - Sequestration,co2,2005,-7.654960906871515
+Forest Land - Sequestration,co2,2006,-7.654960906871515
+Forest Land - Sequestration,co2,2007,-7.654960906871515
+Forest Land - Sequestration,co2,2008,-7.654960906871515
+Forest Land - Sequestration,co2,2009,-7.654960906871515
+Forest Land - Sequestration,co2,2010,-7.654960906871515
+Forest Land - Sequestration,co2,2011,-7.654960906871515
+Forest Land - Sequestration,co2,2012,-7.654960906871515
+Forest Land - Sequestration,co2,2013,-7.654960906871515
+Forest Land - Sequestration,co2,2014,-7.654960906871515
+Forest Land - Sequestration,co2,2015,-7.654960906871515
+Forest Land - Sequestration,co2,2016,-7.672695534756879
+Forest Land - Sequestration,co2,2017,-7.80452717159076
+Forest Land - Sequestration,co2,2018,-9.433641409196738
+Forest Land - Sequestration,co2,2019,-10.970867097652578
+Forest Land Methane,ch4,1995,0.055167541923573704
+Forest Land Methane,ch4,1996,0.055167541923573704
+Forest Land Methane,ch4,1997,0.055167541923573704
+Forest Land Methane,ch4,1998,0.055167541923573704
+Forest Land Methane,ch4,1999,0.055167541923573704
+Forest Land Methane,ch4,2000,0.055167541923573704
+Forest Land Methane,ch4,2001,0.055167541923573704
+Forest Land Methane,ch4,2002,0.055167541923573704
+Forest Land Methane,ch4,2003,0.055167541923573704
+Forest Land Methane,ch4,2004,0.055167541923573704
+Forest Land Methane,ch4,2005,0.055167541923573704
+Forest Land Methane,ch4,2006,0.055167541923573704
+Forest Land Methane,ch4,2007,0.055167541923573704
+Forest Land Methane,ch4,2008,0.055167541923573704
+Forest Land Methane,ch4,2009,0.055167541923573704
+Forest Land Methane,ch4,2010,0.055167541923573704
+Forest Land Methane,ch4,2011,0.055167541923573704
+Forest Land Methane,ch4,2012,0.055167541923573704
+Forest Land Methane,ch4,2013,0.055167541923573704
+Forest Land Methane,ch4,2014,0.055167541923573704
+Forest Land Methane,ch4,2015,0.055167541923573704
+Forest Land Methane,ch4,2016,0.055212170651305105
+Forest Land Methane,ch4,2017,0.056021457555673
+Forest Land Methane,ch4,2018,0.0666066992550739
+Forest Land Methane,ch4,2019,0.0766163758244624
+Fuel Production,ch4,1995,0.0
+Fuel Production,ch4,1996,0.0
+Fuel Production,ch4,1997,0.0
+Fuel Production,ch4,1998,0.0
+Fuel Production,ch4,1999,0.0
+Fuel Production,ch4,2000,0.0
+Fuel Production,ch4,2001,0.0
+Fuel Production,ch4,2002,0.0
+Fuel Production,ch4,2003,0.0
+Fuel Production,ch4,2004,0.0
+Fuel Production,ch4,2005,0.0
+Fuel Production,ch4,2006,0.0
+Fuel Production,ch4,2007,0.0
+Fuel Production,ch4,2008,0.0
+Fuel Production,ch4,2009,0.0
+Fuel Production,ch4,2010,0.0
+Fuel Production,ch4,2011,0.0
+Fuel Production,ch4,2012,0.0
+Fuel Production,ch4,2013,0.0
+Fuel Production,ch4,2014,0.0
+Fuel Production,ch4,2015,0.0
+Fuel Production,ch4,2016,0.0
+Fuel Production,ch4,2017,0.0
+Fuel Production,ch4,2018,0.0
+Fuel Production,ch4,2019,0.0
+Fuel Production,co2,1995,0.0
+Fuel Production,co2,1996,0.0
+Fuel Production,co2,1997,0.0
+Fuel Production,co2,1998,0.0
+Fuel Production,co2,1999,0.0
+Fuel Production,co2,2000,0.0
+Fuel Production,co2,2001,0.0
+Fuel Production,co2,2002,0.0
+Fuel Production,co2,2003,0.0
+Fuel Production,co2,2004,0.0
+Fuel Production,co2,2005,0.0
+Fuel Production,co2,2006,0.0
+Fuel Production,co2,2007,0.0
+Fuel Production,co2,2008,0.0
+Fuel Production,co2,2009,0.0
+Fuel Production,co2,2010,0.0
+Fuel Production,co2,2011,0.0
+Fuel Production,co2,2012,0.0
+Fuel Production,co2,2013,0.0
+Fuel Production,co2,2014,0.0
+Fuel Production,co2,2015,0.0
+Fuel Production,co2,2016,0.0
+Fuel Production,co2,2017,0.0
+Fuel Production,co2,2018,0.0
+Fuel Production,co2,2019,0.0
+Fuel Production,n2o,1995,0.0
+Fuel Production,n2o,1996,0.0
+Fuel Production,n2o,1997,0.0
+Fuel Production,n2o,1998,0.0
+Fuel Production,n2o,1999,0.0
+Fuel Production,n2o,2000,0.0
+Fuel Production,n2o,2001,0.0
+Fuel Production,n2o,2002,0.0
+Fuel Production,n2o,2003,0.0
+Fuel Production,n2o,2004,0.0
+Fuel Production,n2o,2005,0.0
+Fuel Production,n2o,2006,0.0
+Fuel Production,n2o,2007,0.0
+Fuel Production,n2o,2008,0.0
+Fuel Production,n2o,2009,0.0
+Fuel Production,n2o,2010,0.0
+Fuel Production,n2o,2011,0.0
+Fuel Production,n2o,2012,0.0
+Fuel Production,n2o,2013,0.0
+Fuel Production,n2o,2014,0.0
+Fuel Production,n2o,2015,0.0
+Fuel Production,n2o,2016,0.0
+Fuel Production,n2o,2017,0.0
+Fuel Production,n2o,2018,0.0
+Fuel Production,n2o,2019,0.0
+Fugitive Emissions,ch4,1995,0.0
+Fugitive Emissions,ch4,1996,0.0
+Fugitive Emissions,ch4,1997,0.0
+Fugitive Emissions,ch4,1998,0.0
+Fugitive Emissions,ch4,1999,0.0
+Fugitive Emissions,ch4,2000,0.0
+Fugitive Emissions,ch4,2001,0.0
+Fugitive Emissions,ch4,2002,0.0
+Fugitive Emissions,ch4,2003,0.0
+Fugitive Emissions,ch4,2004,0.0
+Fugitive Emissions,ch4,2005,0.0
+Fugitive Emissions,ch4,2006,0.0
+Fugitive Emissions,ch4,2007,0.0
+Fugitive Emissions,ch4,2008,0.0
+Fugitive Emissions,ch4,2009,0.0
+Fugitive Emissions,ch4,2010,0.0
+Fugitive Emissions,ch4,2011,0.0
+Fugitive Emissions,ch4,2012,0.0
+Fugitive Emissions,ch4,2013,0.0
+Fugitive Emissions,ch4,2014,0.0
+Fugitive Emissions,ch4,2015,0.0
+Fugitive Emissions,ch4,2016,0.0
+Fugitive Emissions,ch4,2017,0.0
+Fugitive Emissions,ch4,2018,0.0
+Fugitive Emissions,ch4,2019,0.0
+Fugitive Emissions,co2,1995,0.0
+Fugitive Emissions,co2,1996,0.0
+Fugitive Emissions,co2,1997,0.0
+Fugitive Emissions,co2,1998,0.0
+Fugitive Emissions,co2,1999,0.0
+Fugitive Emissions,co2,2000,0.0
+Fugitive Emissions,co2,2001,0.0
+Fugitive Emissions,co2,2002,0.0
+Fugitive Emissions,co2,2003,0.0
+Fugitive Emissions,co2,2004,0.0
+Fugitive Emissions,co2,2005,0.0
+Fugitive Emissions,co2,2006,0.0
+Fugitive Emissions,co2,2007,0.0
+Fugitive Emissions,co2,2008,0.0
+Fugitive Emissions,co2,2009,0.0
+Fugitive Emissions,co2,2010,0.0
+Fugitive Emissions,co2,2011,0.0
+Fugitive Emissions,co2,2012,0.0
+Fugitive Emissions,co2,2013,0.0
+Fugitive Emissions,co2,2014,0.0
+Fugitive Emissions,co2,2015,0.0
+Fugitive Emissions,co2,2016,0.0
+Fugitive Emissions,co2,2017,0.0
+Fugitive Emissions,co2,2018,0.0
+Fugitive Emissions,co2,2019,0.0
+Fugitive Emissions,n2o,1995,0.0
+Fugitive Emissions,n2o,1996,0.0
+Fugitive Emissions,n2o,1997,0.0
+Fugitive Emissions,n2o,1998,0.0
+Fugitive Emissions,n2o,1999,0.0
+Fugitive Emissions,n2o,2000,0.0
+Fugitive Emissions,n2o,2001,0.0
+Fugitive Emissions,n2o,2002,0.0
+Fugitive Emissions,n2o,2003,0.0
+Fugitive Emissions,n2o,2004,0.0
+Fugitive Emissions,n2o,2005,0.0
+Fugitive Emissions,n2o,2006,0.0
+Fugitive Emissions,n2o,2007,0.0
+Fugitive Emissions,n2o,2008,0.0
+Fugitive Emissions,n2o,2009,0.0
+Fugitive Emissions,n2o,2010,0.0
+Fugitive Emissions,n2o,2011,0.0
+Fugitive Emissions,n2o,2012,0.0
+Fugitive Emissions,n2o,2013,0.0
+Fugitive Emissions,n2o,2014,0.0
+Fugitive Emissions,n2o,2015,0.0
+Fugitive Emissions,n2o,2016,0.0
+Fugitive Emissions,n2o,2017,0.0
+Fugitive Emissions,n2o,2018,0.0
+Fugitive Emissions,n2o,2019,0.0
+IPPU,ch4,1995,0.0
+IPPU,ch4,1996,0.0
+IPPU,ch4,1997,0.0
+IPPU,ch4,1998,0.0
+IPPU,ch4,1999,0.0
+IPPU,ch4,2000,0.0
+IPPU,ch4,2001,0.0
+IPPU,ch4,2002,0.0
+IPPU,ch4,2003,0.0
+IPPU,ch4,2004,0.0
+IPPU,ch4,2005,0.0
+IPPU,ch4,2006,0.0
+IPPU,ch4,2007,0.0
+IPPU,ch4,2008,0.0
+IPPU,ch4,2009,0.0
+IPPU,ch4,2010,0.0
+IPPU,ch4,2011,0.0
+IPPU,ch4,2012,0.0
+IPPU,ch4,2013,0.0
+IPPU,ch4,2014,0.0
+IPPU,ch4,2015,0.0
+IPPU,ch4,2016,0.0
+IPPU,ch4,2017,0.0
+IPPU,ch4,2018,0.0
+IPPU,ch4,2019,0.0
+IPPU,co2,1995,0.122113
+IPPU,co2,1996,0.122113
+IPPU,co2,1997,0.126091
+IPPU,co2,1998,0.12834700000000002
+IPPU,co2,1999,0.13911500000000002
+IPPU,co2,2000,0.147726
+IPPU,co2,2001,0.11904799999999999
+IPPU,co2,2002,0.185399
+IPPU,co2,2003,0.15854200000000002
+IPPU,co2,2004,0.20431100000000002
+IPPU,co2,2005,0.206046
+IPPU,co2,2006,0.211729
+IPPU,co2,2007,0.18427
+IPPU,co2,2008,0.240082
+IPPU,co2,2009,0.2391
+IPPU,co2,2010,0.278693
+IPPU,co2,2011,0.413491
+IPPU,co2,2012,0.32372100000000004
+IPPU,co2,2013,0.371407
+IPPU,co2,2014,0.420648
+IPPU,co2,2015,0.362667
+IPPU,co2,2016,0.375454
+IPPU,co2,2017,0.35664599999999996
+IPPU,co2,2018,0.369456
+IPPU,co2,2019,0.369457
+IPPU,hfcs,1995,0.013675
+IPPU,hfcs,1996,0.01716
+IPPU,hfcs,1997,0.020297000000000003
+IPPU,hfcs,1998,0.023153
+IPPU,hfcs,1999,0.025769
+IPPU,hfcs,2000,0.028184
+IPPU,hfcs,2001,0.030442
+IPPU,hfcs,2002,0.032405
+IPPU,hfcs,2003,0.034115
+IPPU,hfcs,2004,0.035615
+IPPU,hfcs,2005,0.036937000000000005
+IPPU,hfcs,2006,0.03811199999999999
+IPPU,hfcs,2007,0.03978400000000001
+IPPU,hfcs,2008,0.067273
+IPPU,hfcs,2009,0.062595
+IPPU,hfcs,2010,0.060064
+IPPU,hfcs,2011,0.059949999999999996
+IPPU,hfcs,2012,0.061297
+IPPU,hfcs,2013,0.064012
+IPPU,hfcs,2014,0.067908
+IPPU,hfcs,2015,0.072967
+IPPU,hfcs,2016,0.079915
+IPPU,hfcs,2017,0.086171
+IPPU,hfcs,2018,0.091904
+IPPU,hfcs,2019,0.09642400000000001
+IPPU,n2o,1995,0.0
+IPPU,n2o,1996,0.0
+IPPU,n2o,1997,0.0
+IPPU,n2o,1998,0.0
+IPPU,n2o,1999,0.0
+IPPU,n2o,2000,0.0
+IPPU,n2o,2001,0.0
+IPPU,n2o,2002,0.0
+IPPU,n2o,2003,0.0
+IPPU,n2o,2004,0.0
+IPPU,n2o,2005,0.0
+IPPU,n2o,2006,0.0
+IPPU,n2o,2007,0.0
+IPPU,n2o,2008,0.0
+IPPU,n2o,2009,0.0
+IPPU,n2o,2010,0.0
+IPPU,n2o,2011,0.0
+IPPU,n2o,2012,0.0
+IPPU,n2o,2013,0.0
+IPPU,n2o,2014,0.0
+IPPU,n2o,2015,0.0
+IPPU,n2o,2016,0.0
+IPPU,n2o,2017,0.0
+IPPU,n2o,2018,0.0
+IPPU,n2o,2019,0.0
+IPPU,nf3,1995,0.0
+IPPU,nf3,1996,0.0
+IPPU,nf3,1997,0.0
+IPPU,nf3,1998,0.0
+IPPU,nf3,1999,0.0
+IPPU,nf3,2000,0.0
+IPPU,nf3,2001,0.0
+IPPU,nf3,2002,0.0
+IPPU,nf3,2003,0.0
+IPPU,nf3,2004,0.0
+IPPU,nf3,2005,0.0
+IPPU,nf3,2006,0.0
+IPPU,nf3,2007,0.0
+IPPU,nf3,2008,0.0
+IPPU,nf3,2009,0.0
+IPPU,nf3,2010,0.0
+IPPU,nf3,2011,0.0
+IPPU,nf3,2012,0.0
+IPPU,nf3,2013,0.0
+IPPU,nf3,2014,0.0
+IPPU,nf3,2015,0.0
+IPPU,nf3,2016,0.0
+IPPU,nf3,2017,0.0
+IPPU,nf3,2018,0.0
+IPPU,nf3,2019,0.0
+IPPU,pfcs,1995,0.0
+IPPU,pfcs,1996,0.0
+IPPU,pfcs,1997,0.0
+IPPU,pfcs,1998,0.0
+IPPU,pfcs,1999,0.0
+IPPU,pfcs,2000,0.0
+IPPU,pfcs,2001,0.0
+IPPU,pfcs,2002,0.0
+IPPU,pfcs,2003,0.0
+IPPU,pfcs,2004,0.0
+IPPU,pfcs,2005,0.0
+IPPU,pfcs,2006,0.0
+IPPU,pfcs,2007,0.0
+IPPU,pfcs,2008,0.0
+IPPU,pfcs,2009,0.0
+IPPU,pfcs,2010,0.17402
+IPPU,pfcs,2011,0.0
+IPPU,pfcs,2012,0.0
+IPPU,pfcs,2013,0.0
+IPPU,pfcs,2014,0.0
+IPPU,pfcs,2015,0.0
+IPPU,pfcs,2016,0.0
+IPPU,pfcs,2017,0.0
+IPPU,pfcs,2018,0.0
+IPPU,pfcs,2019,0.0
+IPPU,sf6,1995,0.0
+IPPU,sf6,1996,0.0
+IPPU,sf6,1997,0.0
+IPPU,sf6,1998,0.0
+IPPU,sf6,1999,0.0
+IPPU,sf6,2000,0.0
+IPPU,sf6,2001,0.0
+IPPU,sf6,2002,0.0
+IPPU,sf6,2003,0.0
+IPPU,sf6,2004,0.0
+IPPU,sf6,2005,0.0
+IPPU,sf6,2006,0.0
+IPPU,sf6,2007,0.0
+IPPU,sf6,2008,0.0
+IPPU,sf6,2009,0.0
+IPPU,sf6,2010,0.0
+IPPU,sf6,2011,0.0
+IPPU,sf6,2012,0.0
+IPPU,sf6,2013,0.0
+IPPU,sf6,2014,0.0
+IPPU,sf6,2015,0.0
+IPPU,sf6,2016,0.0
+IPPU,sf6,2017,0.0
+IPPU,sf6,2018,0.0
+IPPU,sf6,2019,0.0
+Industrial Combustion,ch4,1995,0.012109404110559885
+Industrial Combustion,ch4,1996,0.012109404110559885
+Industrial Combustion,ch4,1997,0.013499126776859504
+Industrial Combustion,ch4,1998,0.014166151746802885
+Industrial Combustion,ch4,1999,0.013692322793981053
+Industrial Combustion,ch4,2000,0.01433030204906983
+Industrial Combustion,ch4,2001,0.038308228757728095
+Industrial Combustion,ch4,2002,0.02356731339877772
+Industrial Combustion,ch4,2003,0.02603655436528102
+Industrial Combustion,ch4,2004,0.0285305804077955
+Industrial Combustion,ch4,2005,0.03068902833433657
+Industrial Combustion,ch4,2006,0.031123399545306917
+Industrial Combustion,ch4,2007,0.03506592229813914
+Industrial Combustion,ch4,2008,0.046479698071599136
+Industrial Combustion,ch4,2009,0.040650029890027264
+Industrial Combustion,ch4,2010,0.04225116007752291
+Industrial Combustion,ch4,2011,0.042082609389425464
+Industrial Combustion,ch4,2012,0.04226665402819389
+Industrial Combustion,ch4,2013,0.08454625886951805
+Industrial Combustion,ch4,2014,0.08516340006589182
+Industrial Combustion,ch4,2015,0.099896763196589
+Industrial Combustion,ch4,2016,0.0911099574435437
+Industrial Combustion,ch4,2017,0.06445039078133834
+Industrial Combustion,ch4,2018,0.08243098872553721
+Industrial Combustion,ch4,2019,1.9955397273525157
+Industrial Combustion,co2,1995,0.184013
+Industrial Combustion,co2,1996,0.184013
+Industrial Combustion,co2,1997,0.21989499999999998
+Industrial Combustion,co2,1998,0.256784
+Industrial Combustion,co2,1999,0.217494
+Industrial Combustion,co2,2000,0.19959000000000002
+Industrial Combustion,co2,2001,0.19806900000000002
+Industrial Combustion,co2,2002,0.20380600000000001
+Industrial Combustion,co2,2003,0.244747
+Industrial Combustion,co2,2004,0.292604
+Industrial Combustion,co2,2005,0.292786
+Industrial Combustion,co2,2006,0.341834
+Industrial Combustion,co2,2007,0.31989999999999996
+Industrial Combustion,co2,2008,0.32349199999999995
+Industrial Combustion,co2,2009,0.963117
+Industrial Combustion,co2,2010,0.542961
+Industrial Combustion,co2,2011,0.41656600000000005
+Industrial Combustion,co2,2012,0.65069
+Industrial Combustion,co2,2013,0.7319680000000001
+Industrial Combustion,co2,2014,0.916691
+Industrial Combustion,co2,2015,1.196476
+Industrial Combustion,co2,2016,1.2153120000000002
+Industrial Combustion,co2,2017,1.2123920000000001
+Industrial Combustion,co2,2018,1.107652
+Industrial Combustion,co2,2019,1.513437
+Industrial Combustion,n2o,1995,0.01596707972665148
+Industrial Combustion,n2o,1996,0.01596707972665148
+Industrial Combustion,n2o,1997,0.017702753468516543
+Industrial Combustion,n2o,1998,0.018853886597938147
+Industrial Combustion,n2o,1999,0.01819398347107438
+Industrial Combustion,n2o,2000,0.01900048101265823
+Industrial Combustion,n2o,2001,0.050570618539786706
+Industrial Combustion,n2o,2002,0.030992730337078653
+Industrial Combustion,n2o,2003,0.03431714331210191
+Industrial Combustion,n2o,2004,0.03792613104524181
+Industrial Combustion,n2o,2005,0.040863789473684214
+Industrial Combustion,n2o,2006,0.04109120689655174
+Industrial Combustion,n2o,2007,0.04647280909090909
+Industrial Combustion,n2o,2008,0.06158338983050848
+Industrial Combustion,n2o,2009,0.054138217757615036
+Industrial Combustion,n2o,2010,0.055909611180904525
+Industrial Combustion,n2o,2011,0.055531786372007376
+Industrial Combustion,n2o,2012,0.056029812949640295
+Industrial Combustion,n2o,2013,0.11196211764705884
+Industrial Combustion,n2o,2014,0.11187456852791879
+Industrial Combustion,n2o,2015,0.13496608214849923
+Industrial Combustion,n2o,2016,0.12142887804878051
+Industrial Combustion,n2o,2017,0.08643359016393444
+Industrial Combustion,n2o,2018,0.12478504051863859
+Industrial Combustion,n2o,2019,0.5337918189860497
+Livestock,ch4,1995,12.9871431
+Livestock,ch4,1996,12.9871431
+Livestock,ch4,1997,13.7861154
+Livestock,ch4,1998,14.1855876
+Livestock,ch4,1999,14.5852272
+Livestock,ch4,2000,14.984811
+Livestock,ch4,2001,15.3845622
+Livestock,ch4,2002,15.785847899999998
+Livestock,ch4,2003,16.1901468
+Livestock,ch4,2004,16.5958965
+Livestock,ch4,2005,17.0036271
+Livestock,ch4,2006,17.4135897
+Livestock,ch4,2007,17.824556700000002
+Livestock,ch4,2008,19.3463622
+Livestock,ch4,2009,19.810925100000002
+Livestock,ch4,2010,20.275460099999997
+Livestock,ch4,2011,20.739911399999997
+Livestock,ch4,2012,21.204474299999998
+Livestock,ch4,2013,21.669009300000003
+Livestock,ch4,2014,22.1334606
+Livestock,ch4,2015,22.597967699999995
+Livestock,ch4,2016,23.062446899999994
+Livestock,ch4,2017,23.527009800000002
+Livestock,ch4,2018,23.527511999999998
+Livestock,ch4,2019,24.455996099999997
+Livestock,n2o,1995,1.623804
+Livestock,n2o,1996,1.623804
+Livestock,n2o,1997,1.717989
+Livestock,n2o,1998,1.765491
+Livestock,n2o,1999,1.814085
+Livestock,n2o,2000,1.8626790000000002
+Livestock,n2o,2001,1.9112730000000002
+Livestock,n2o,2002,1.959867
+Livestock,n2o,2003,2.008461
+Livestock,n2o,2004,2.057055
+Livestock,n2o,2005,2.105922
+Livestock,n2o,2006,2.1547889999999996
+Livestock,n2o,2007,2.2033829999999996
+Livestock,n2o,2008,2.4040379999999995
+Livestock,n2o,2009,2.4447150000000004
+Livestock,n2o,2010,2.485392
+Livestock,n2o,2011,2.526069
+Livestock,n2o,2012,2.5667459999999997
+Livestock,n2o,2013,2.6074230000000003
+Livestock,n2o,2014,2.6481
+Livestock,n2o,2015,2.688777
+Livestock,n2o,2016,2.7294539999999996
+Livestock,n2o,2017,2.770131
+Livestock,n2o,2018,2.772315
+Livestock,n2o,2019,2.8514850000000003
+Other  Combustion,ch4,1995,0.0
+Other  Combustion,ch4,1996,0.0
+Other  Combustion,ch4,1997,0.0
+Other  Combustion,ch4,1998,0.0
+Other  Combustion,ch4,1999,0.0
+Other  Combustion,ch4,2000,0.0
+Other  Combustion,ch4,2001,0.0
+Other  Combustion,ch4,2002,0.0
+Other  Combustion,ch4,2003,0.0
+Other  Combustion,ch4,2004,0.0
+Other  Combustion,ch4,2005,0.0
+Other  Combustion,ch4,2006,0.0
+Other  Combustion,ch4,2007,0.0
+Other  Combustion,ch4,2008,0.0
+Other  Combustion,ch4,2009,0.0
+Other  Combustion,ch4,2010,0.0
+Other  Combustion,ch4,2011,0.0
+Other  Combustion,ch4,2012,0.0
+Other  Combustion,ch4,2013,0.0
+Other  Combustion,ch4,2014,0.0
+Other  Combustion,ch4,2015,0.0
+Other  Combustion,ch4,2016,0.0
+Other  Combustion,ch4,2017,0.0
+Other  Combustion,ch4,2018,0.0
+Other  Combustion,ch4,2019,0.0
+Other  Combustion,co2,1995,0.0
+Other  Combustion,co2,1996,0.0
+Other  Combustion,co2,1997,0.0
+Other  Combustion,co2,1998,0.0
+Other  Combustion,co2,1999,0.0
+Other  Combustion,co2,2000,0.0
+Other  Combustion,co2,2001,0.0
+Other  Combustion,co2,2002,0.0
+Other  Combustion,co2,2003,0.0
+Other  Combustion,co2,2004,0.0
+Other  Combustion,co2,2005,0.0
+Other  Combustion,co2,2006,0.0
+Other  Combustion,co2,2007,0.0
+Other  Combustion,co2,2008,0.0
+Other  Combustion,co2,2009,0.0
+Other  Combustion,co2,2010,0.0
+Other  Combustion,co2,2011,0.0
+Other  Combustion,co2,2012,0.0
+Other  Combustion,co2,2013,0.0
+Other  Combustion,co2,2014,0.0
+Other  Combustion,co2,2015,0.0
+Other  Combustion,co2,2016,0.0
+Other  Combustion,co2,2017,0.0
+Other  Combustion,co2,2018,0.0
+Other  Combustion,co2,2019,0.0
+Other  Combustion,n2o,1995,0.0
+Other  Combustion,n2o,1996,0.0
+Other  Combustion,n2o,1997,0.0
+Other  Combustion,n2o,1998,0.0
+Other  Combustion,n2o,1999,0.0
+Other  Combustion,n2o,2000,0.0
+Other  Combustion,n2o,2001,0.0
+Other  Combustion,n2o,2002,0.0
+Other  Combustion,n2o,2003,0.0
+Other  Combustion,n2o,2004,0.0
+Other  Combustion,n2o,2005,0.0
+Other  Combustion,n2o,2006,0.0
+Other  Combustion,n2o,2007,0.0
+Other  Combustion,n2o,2008,0.0
+Other  Combustion,n2o,2009,0.0
+Other  Combustion,n2o,2010,0.0
+Other  Combustion,n2o,2011,0.0
+Other  Combustion,n2o,2012,0.0
+Other  Combustion,n2o,2013,0.0
+Other  Combustion,n2o,2014,0.0
+Other  Combustion,n2o,2015,0.0
+Other  Combustion,n2o,2016,0.0
+Other  Combustion,n2o,2017,0.0
+Other  Combustion,n2o,2018,0.0
+Other  Combustion,n2o,2019,0.0
+Other Land Use Conversion,co2,1995,0.3057193488337634
+Other Land Use Conversion,co2,1996,0.3057193488337634
+Other Land Use Conversion,co2,1997,0.3057193488337634
+Other Land Use Conversion,co2,1998,0.3057193488337634
+Other Land Use Conversion,co2,1999,0.3057193488337634
+Other Land Use Conversion,co2,2000,0.3057193488337634
+Other Land Use Conversion,co2,2001,0.3057193488337634
+Other Land Use Conversion,co2,2002,0.3057193488337634
+Other Land Use Conversion,co2,2003,0.3057193488337634
+Other Land Use Conversion,co2,2004,0.3057193488337634
+Other Land Use Conversion,co2,2005,0.3057193488337634
+Other Land Use Conversion,co2,2006,0.3057193488337634
+Other Land Use Conversion,co2,2007,0.3057193488337634
+Other Land Use Conversion,co2,2008,0.3057193488337634
+Other Land Use Conversion,co2,2009,0.3057193488337634
+Other Land Use Conversion,co2,2010,0.3057193488337634
+Other Land Use Conversion,co2,2011,0.3057193488337634
+Other Land Use Conversion,co2,2012,0.3057193488337634
+Other Land Use Conversion,co2,2013,0.3057193488337634
+Other Land Use Conversion,co2,2014,0.3057193488337634
+Other Land Use Conversion,co2,2015,0.3057193488337634
+Other Land Use Conversion,co2,2016,0.3057282842518817
+Other Land Use Conversion,co2,2017,0.30573721967
+Other Land Use Conversion,co2,2018,0.30573721967
+Other Land Use Conversion,co2,2019,0.30573721967
+Other Not Estimated Conversion,co2,1995,0.45701514896400036
+Other Not Estimated Conversion,co2,1996,0.45701514896400036
+Other Not Estimated Conversion,co2,1997,0.45701514896400036
+Other Not Estimated Conversion,co2,1998,0.45701514896400036
+Other Not Estimated Conversion,co2,1999,0.45701514896400036
+Other Not Estimated Conversion,co2,2000,0.45701514896400036
+Other Not Estimated Conversion,co2,2001,0.45701514896400036
+Other Not Estimated Conversion,co2,2002,0.45701514896400036
+Other Not Estimated Conversion,co2,2003,0.45701514896400036
+Other Not Estimated Conversion,co2,2004,0.45701514896400036
+Other Not Estimated Conversion,co2,2005,0.45701514896400036
+Other Not Estimated Conversion,co2,2006,0.45701514896400036
+Other Not Estimated Conversion,co2,2007,0.45701514896400036
+Other Not Estimated Conversion,co2,2008,0.45701514896400036
+Other Not Estimated Conversion,co2,2009,0.45701514896400036
+Other Not Estimated Conversion,co2,2010,0.45701514896400036
+Other Not Estimated Conversion,co2,2011,0.45701514896400036
+Other Not Estimated Conversion,co2,2012,0.45701514896400036
+Other Not Estimated Conversion,co2,2013,0.45701514896400036
+Other Not Estimated Conversion,co2,2014,0.45701514896400036
+Other Not Estimated Conversion,co2,2015,0.45701514896400036
+Other Not Estimated Conversion,co2,2016,1.0369160119338796
+Other Not Estimated Conversion,co2,2017,1.4925977119263725
+Other Not Estimated Conversion,co2,2018,2.0124735464191916
+Other Not Estimated Conversion,co2,2019,2.5403349402720345
+Other Not Estimated Sequestration,co2,1995,-2.493982888709767
+Other Not Estimated Sequestration,co2,1996,-2.493982888709767
+Other Not Estimated Sequestration,co2,1997,-2.493982888709767
+Other Not Estimated Sequestration,co2,1998,-2.493982888709767
+Other Not Estimated Sequestration,co2,1999,-2.493982888709767
+Other Not Estimated Sequestration,co2,2000,-2.493982888709767
+Other Not Estimated Sequestration,co2,2001,-2.493982888709767
+Other Not Estimated Sequestration,co2,2002,-2.493982888709767
+Other Not Estimated Sequestration,co2,2003,-2.493982888709767
+Other Not Estimated Sequestration,co2,2004,-2.493982888709767
+Other Not Estimated Sequestration,co2,2005,-2.493982888709767
+Other Not Estimated Sequestration,co2,2006,-2.493982888709767
+Other Not Estimated Sequestration,co2,2007,-2.493982888709767
+Other Not Estimated Sequestration,co2,2008,-2.493982888709767
+Other Not Estimated Sequestration,co2,2009,-2.493982888709767
+Other Not Estimated Sequestration,co2,2010,-2.493982888709767
+Other Not Estimated Sequestration,co2,2011,-2.493982888709767
+Other Not Estimated Sequestration,co2,2012,-2.493982888709767
+Other Not Estimated Sequestration,co2,2013,-2.493982888709767
+Other Not Estimated Sequestration,co2,2014,-2.493982888709767
+Other Not Estimated Sequestration,co2,2015,-2.493982888709767
+Other Not Estimated Sequestration,co2,2016,-2.4566218630844108
+Other Not Estimated Sequestration,co2,2017,-2.2496322235843733
+Other Not Estimated Sequestration,co2,2018,-1.3599953447109736
+Other Not Estimated Sequestration,co2,2019,-0.6183938038410354
+Other Not Estimated Soils,n2o,1995,2.693556976769902
+Other Not Estimated Soils,n2o,1996,2.693556976769902
+Other Not Estimated Soils,n2o,1997,2.693556976769902
+Other Not Estimated Soils,n2o,1998,2.693556976769902
+Other Not Estimated Soils,n2o,1999,2.693556976769902
+Other Not Estimated Soils,n2o,2000,2.693556976769902
+Other Not Estimated Soils,n2o,2001,2.693556976769902
+Other Not Estimated Soils,n2o,2002,2.693556976769902
+Other Not Estimated Soils,n2o,2003,2.693556976769902
+Other Not Estimated Soils,n2o,2004,2.693556976769902
+Other Not Estimated Soils,n2o,2005,2.693556976769902
+Other Not Estimated Soils,n2o,2006,2.693556976769902
+Other Not Estimated Soils,n2o,2007,2.693556976769902
+Other Not Estimated Soils,n2o,2008,2.693556976769902
+Other Not Estimated Soils,n2o,2009,2.693556976769902
+Other Not Estimated Soils,n2o,2010,2.693556976769902
+Other Not Estimated Soils,n2o,2011,2.693556976769902
+Other Not Estimated Soils,n2o,2012,2.693556976769902
+Other Not Estimated Soils,n2o,2013,2.693556976769902
+Other Not Estimated Soils,n2o,2014,2.693556976769902
+Other Not Estimated Soils,n2o,2015,2.693556976769902
+Other Not Estimated Soils,n2o,2016,2.7785646910781394
+Other Not Estimated Soils,n2o,2017,2.794700641019511
+Other Not Estimated Soils,n2o,2018,2.8691207819085305
+Other Not Estimated Soils,n2o,2019,2.925807980985455
+Solid Waste,ch4,1995,3.2374044000000004
+Solid Waste,ch4,1996,3.651273
+Solid Waste,ch4,1997,4.0280625
+Solid Waste,ch4,1998,4.375836
+Solid Waste,ch4,1999,4.6995318
+Solid Waste,ch4,2000,5.003753400000001
+Solid Waste,ch4,2001,5.2917372
+Solid Waste,ch4,2002,5.5633437
+Solid Waste,ch4,2003,5.8021119
+Solid Waste,ch4,2004,6.020401500000001
+Solid Waste,ch4,2005,6.2204445
+Solid Waste,ch4,2006,6.4038312
+Solid Waste,ch4,2007,6.5760579
+Solid Waste,ch4,2008,6.760895400000001
+Solid Waste,ch4,2009,6.955358400000001
+Solid Waste,ch4,2010,7.1572149
+Solid Waste,ch4,2011,7.3647351
+Solid Waste,ch4,2012,7.2986958
+Solid Waste,ch4,2013,7.2798912
+Solid Waste,ch4,2014,7.2958779
+Solid Waste,ch4,2015,7.3396809
+Solid Waste,ch4,2016,7.4160153
+Solid Waste,ch4,2017,7.516929599999998
+Solid Waste,ch4,2018,7.6473063
+Solid Waste,ch4,2019,7.744928399999999
+Solid Waste,co2,1995,0.004287
+Solid Waste,co2,1996,0.004287
+Solid Waste,co2,1997,0.004309
+Solid Waste,co2,1998,0.004312000000000001
+Solid Waste,co2,1999,0.0043159999999999995
+Solid Waste,co2,2000,0.0043230000000000005
+Solid Waste,co2,2001,0.004325
+Solid Waste,co2,2002,0.004871
+Solid Waste,co2,2003,0.0054210000000000005
+Solid Waste,co2,2004,0.005953
+Solid Waste,co2,2005,0.00677
+Solid Waste,co2,2006,0.007461000000000001
+Solid Waste,co2,2007,0.0075309999999999995
+Solid Waste,co2,2008,0.007552999999999999
+Solid Waste,co2,2009,0.007609
+Solid Waste,co2,2010,0.0076630000000000005
+Solid Waste,co2,2011,0.007719
+Solid Waste,co2,2012,0.007773
+Solid Waste,co2,2013,0.0038020000000000003
+Solid Waste,co2,2014,0.007871000000000001
+Solid Waste,co2,2015,0.007893
+Solid Waste,co2,2016,0.007899000000000002
+Solid Waste,co2,2017,0.007779
+Solid Waste,co2,2018,0.008322
+Solid Waste,co2,2019,0.007918000000000001
+Solid Waste,n2o,1995,0.102648
+Solid Waste,n2o,1996,0.102648
+Solid Waste,n2o,1997,0.102102
+Solid Waste,n2o,1998,0.10182899999999999
+Solid Waste,n2o,1999,0.101556
+Solid Waste,n2o,2000,0.101556
+Solid Waste,n2o,2001,0.101283
+Solid Waste,n2o,2002,0.098826
+Solid Waste,n2o,2003,0.09664199999999999
+Solid Waste,n2o,2004,0.09445799999999999
+Solid Waste,n2o,2005,0.09227400000000001
+Solid Waste,n2o,2006,0.09009
+Solid Waste,n2o,2007,0.09009
+Solid Waste,n2o,2008,0.09009
+Solid Waste,n2o,2009,0.090363
+Solid Waste,n2o,2010,0.090363
+Solid Waste,n2o,2011,0.090636
+Solid Waste,n2o,2012,0.090636
+Solid Waste,n2o,2013,0.090636
+Solid Waste,n2o,2014,0.090909
+Solid Waste,n2o,2015,0.091182
+Solid Waste,n2o,2016,0.091728
+Solid Waste,n2o,2017,0.09200100000000001
+Solid Waste,n2o,2018,0.09227400000000001
+Solid Waste,n2o,2019,0.081354
+Transportation,ch4,1995,0.005217299999999999
+Transportation,ch4,1996,0.005217299999999999
+Transportation,ch4,1997,0.0055521
+Transportation,ch4,1998,0.0060542999999999994
+Transportation,ch4,1999,0.0066123
+Transportation,ch4,2000,0.0062775
+Transportation,ch4,2001,0.006500699999999999
+Transportation,ch4,2002,0.006695999999999999
+Transportation,ch4,2003,0.0065565
+Transportation,ch4,2004,0.0063891
+Transportation,ch4,2005,0.0060263999999999995
+Transportation,ch4,2006,0.007058699999999999
+Transportation,ch4,2007,0.0070028999999999985
+Transportation,ch4,2008,0.008983799999999998
+Transportation,ch4,2009,0.0103788
+Transportation,ch4,2010,0.0109647
+Transportation,ch4,2011,0.012834
+Transportation,ch4,2012,0.016377299999999997
+Transportation,ch4,2013,0.0166563
+Transportation,ch4,2014,0.0182187
+Transportation,ch4,2015,0.0191394
+Transportation,ch4,2016,0.0219852
+Transportation,ch4,2017,0.0232965
+Transportation,ch4,2018,0.0195858
+Transportation,ch4,2019,0.0211203
+Transportation,co2,1995,0.658967
+Transportation,co2,1996,0.658967
+Transportation,co2,1997,0.74006
+Transportation,co2,1998,0.860549
+Transportation,co2,1999,0.956039
+Transportation,co2,2000,0.9110339999999999
+Transportation,co2,2001,0.9711029999999998
+Transportation,co2,2002,0.988438
+Transportation,co2,2003,1.077482
+Transportation,co2,2004,1.149835
+Transportation,co2,2005,1.1676490000000002
+Transportation,co2,2006,1.398261
+Transportation,co2,2007,1.473023
+Transportation,co2,2008,1.605656
+Transportation,co2,2009,1.935673
+Transportation,co2,2010,2.0892250000000003
+Transportation,co2,2011,2.2635840000000003
+Transportation,co2,2012,2.5454370000000006
+Transportation,co2,2013,2.470025
+Transportation,co2,2014,2.7386660000000003
+Transportation,co2,2015,2.8886040000000004
+Transportation,co2,2016,3.2579890000000007
+Transportation,co2,2017,3.4247349999999996
+Transportation,co2,2018,2.9503760000000003
+Transportation,co2,2019,3.0746480000000003
+Transportation,n2o,1995,0.008190000000000001
+Transportation,n2o,1996,0.008190000000000001
+Transportation,n2o,1997,0.009009000000000001
+Transportation,n2o,1998,0.010374
+Transportation,n2o,1999,0.012012
+Transportation,n2o,2000,0.011739000000000001
+Transportation,n2o,2001,0.012285
+Transportation,n2o,2002,0.012285
+Transportation,n2o,2003,0.013649999999999999
+Transportation,n2o,2004,0.014469000000000001
+Transportation,n2o,2005,0.014742000000000002
+Transportation,n2o,2006,0.018018000000000003
+Transportation,n2o,2007,0.01911
+Transportation,n2o,2008,0.021021
+Transportation,n2o,2009,0.025115999999999996
+Transportation,n2o,2010,0.027027000000000002
+Transportation,n2o,2011,0.029211000000000004
+Transportation,n2o,2012,0.032487
+Transportation,n2o,2013,0.031395
+Transportation,n2o,2014,0.034944
+Transportation,n2o,2015,0.037127999999999994
+Transportation,n2o,2016,0.042042
+Transportation,n2o,2017,0.044226
+Transportation,n2o,2018,0.022386000000000003
+Transportation,n2o,2019,0.024297000000000003
+Wastewater Treatment,ch4,1995,3.1424606999999996
+Wastewater Treatment,ch4,1996,3.2069934
+Wastewater Treatment,ch4,1997,3.3394904999999997
+Wastewater Treatment,ch4,1998,3.4397631000000004
+Wastewater Treatment,ch4,1999,3.5412912
+Wastewater Treatment,ch4,2000,4.1168682
+Wastewater Treatment,ch4,2001,3.6695754000000003
+Wastewater Treatment,ch4,2002,3.9397032
+Wastewater Treatment,ch4,2003,4.0576365
+Wastewater Treatment,ch4,2004,4.1770764
+Wastewater Treatment,ch4,2005,4.359933
+Wastewater Treatment,ch4,2006,4.5190188
+Wastewater Treatment,ch4,2007,4.694063399999999
+Wastewater Treatment,ch4,2008,5.066054100000001
+Wastewater Treatment,ch4,2009,5.595345
+Wastewater Treatment,ch4,2010,5.5702907999999995
+Wastewater Treatment,ch4,2011,5.6618865
+Wastewater Treatment,ch4,2012,5.9825133
+Wastewater Treatment,ch4,2013,6.153177599999999
+Wastewater Treatment,ch4,2014,6.691452299999999
+Wastewater Treatment,ch4,2015,6.783131699999999
+Wastewater Treatment,ch4,2016,7.0579187999999995
+Wastewater Treatment,ch4,2017,7.3403505000000004
+Wastewater Treatment,ch4,2018,7.6307895
+Wastewater Treatment,ch4,2019,5.2551324
+Wastewater Treatment,n2o,1995,0.20420400000000002
+Wastewater Treatment,n2o,1996,0.210756
+Wastewater Treatment,n2o,1997,0.21730800000000003
+Wastewater Treatment,n2o,1998,0.22386
+Wastewater Treatment,n2o,1999,0.230412
+Wastewater Treatment,n2o,2000,0.236964
+Wastewater Treatment,n2o,2001,0.24488100000000002
+Wastewater Treatment,n2o,2002,0.252525
+Wastewater Treatment,n2o,2003,0.260442
+Wastewater Treatment,n2o,2004,0.268086
+Wastewater Treatment,n2o,2005,0.27573000000000003
+Wastewater Treatment,n2o,2006,0.284466
+Wastewater Treatment,n2o,2007,0.293202
+Wastewater Treatment,n2o,2008,0.30193800000000004
+Wastewater Treatment,n2o,2009,0.31040100000000004
+Wastewater Treatment,n2o,2010,0.319137
+Wastewater Treatment,n2o,2011,0.32923800000000003
+Wastewater Treatment,n2o,2012,0.33933900000000006
+Wastewater Treatment,n2o,2013,0.349713
+Wastewater Treatment,n2o,2014,0.359814
+Wastewater Treatment,n2o,2015,0.36991500000000005
+Wastewater Treatment,n2o,2016,0.383565
+Wastewater Treatment,n2o,2017,0.410865
+Wastewater Treatment,n2o,2018,0.410865
+Wastewater Treatment,n2o,2019,0.424515
+Wetlands,ch4,1995,0.0
+Wetlands,ch4,1996,0.0
+Wetlands,ch4,1997,0.0
+Wetlands,ch4,1998,0.0
+Wetlands,ch4,1999,0.0
+Wetlands,ch4,2000,0.0
+Wetlands,ch4,2001,0.0
+Wetlands,ch4,2002,0.0
+Wetlands,ch4,2003,0.0
+Wetlands,ch4,2004,0.0
+Wetlands,ch4,2005,0.0
+Wetlands,ch4,2006,0.0
+Wetlands,ch4,2007,0.0
+Wetlands,ch4,2008,0.0
+Wetlands,ch4,2009,0.0
+Wetlands,ch4,2010,0.0
+Wetlands,ch4,2011,0.0
+Wetlands,ch4,2012,0.0
+Wetlands,ch4,2013,0.0
+Wetlands,ch4,2014,0.0
+Wetlands,ch4,2015,0.0
+Wetlands,ch4,2016,0.0
+Wetlands,ch4,2017,0.0
+Wetlands,ch4,2018,0.0
+Wetlands,ch4,2019,0.0
+Wetlands,co2,1995,0.0
+Wetlands,co2,1996,0.0
+Wetlands,co2,1997,0.0
+Wetlands,co2,1998,0.0
+Wetlands,co2,1999,0.0
+Wetlands,co2,2000,0.0
+Wetlands,co2,2001,0.0
+Wetlands,co2,2002,0.0
+Wetlands,co2,2003,0.0
+Wetlands,co2,2004,0.0
+Wetlands,co2,2005,0.0
+Wetlands,co2,2006,0.0
+Wetlands,co2,2007,0.0
+Wetlands,co2,2008,0.0
+Wetlands,co2,2009,0.0
+Wetlands,co2,2010,0.0
+Wetlands,co2,2011,0.0
+Wetlands,co2,2012,0.0
+Wetlands,co2,2013,0.0
+Wetlands,co2,2014,0.0
+Wetlands,co2,2015,0.0
+Wetlands,co2,2016,0.0
+Wetlands,co2,2017,0.0
+Wetlands,co2,2018,0.0
+Wetlands,co2,2019,0.0

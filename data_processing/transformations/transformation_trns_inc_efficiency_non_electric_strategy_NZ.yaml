@@ -3,8 +3,8 @@ description: None
 identifiers:
   transformation_code: "TX:TRNS:INC_EFFICIENCY_NON_ELECTRIC_STRATEGY_NZ"
   transformation_name: "Scaled Default Max Parameters by 2.0 - TRNS: Increase non-electric\
-    \ transportation energy efficiency"
+    \ transportation energy efficiency. There is significant room for improvement (see https://www.streetsforlife.org/media/461028/africa_vehicle-fuel-economy-baseline-for-uganda.pdf)"
 parameters:
-  magnitude: 0.5
+  magnitude: 1.0
   vec_implementation_ramp: null
 transformer: "TFR:TRNS:INC_EFFICIENCY_NON_ELECTRIC"

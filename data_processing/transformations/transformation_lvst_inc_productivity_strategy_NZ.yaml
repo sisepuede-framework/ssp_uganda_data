@@ -1,10 +1,10 @@
 citations: null
-description: Increase inferred livestock carrying capacity by 20%
+description: Increase inferred livestock carrying capacity by 50%
 identifiers:
   transformation_code: "TX:LVST:INC_PRODUCTIVITY_STRATEGY_NZ"
-  transformation_name: "Scaled Default Max Parameters by 0.7 - LVST: Increase livestock\
+  transformation_name: "Increase livestock productivity by 50% from baseline - LVST: Increase livestock\
     \ productivity"
 parameters:
-  magnitude: 0.21
+  magnitude: 0.5
   vec_implementation_ramp: null
 transformer: "TFR:LVST:INC_PRODUCTIVITY"

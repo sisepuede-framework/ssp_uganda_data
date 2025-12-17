@@ -5,6 +5,10 @@ identifiers:
   transformation_name: "Scaled Default Max Parameters by 2.0 - WALI: Improved urban\
     \ wastewater treatment"
 parameters:
-  dict_magnitude: null
+  dict_magnitude:
+    treated_advanced_aerobic: 0.1
+    treated_advanced_anaerobic: 0.7
+    treated_secondary_aerobic: 0.1
+    treated_secondary_anaerobic: 0.1
   vec_implementation_ramp: null
 transformer: "TFR:WALI:INC_TREATMENT_URBAN"

@@ -1,0 +1,11 @@
+citations: null
+description: None
+identifiers:
+  transformation_code: "TX:WALI:INC_TREATMENT_URBAN_STRATEGY_NDC_2"
+  transformation_name: "Scaled Default Max Parameters by 1.0 - WALI: Improved urban\
+    \ wastewater treatment"
+parameters:
+  dict_magnitude: null
+  vec_implementation_ramp:
+    tp_0_ramp: 5
+transformer: "TFR:WALI:INC_TREATMENT_URBAN"
