@@ -35,7 +35,7 @@ sapply(DT.m1,class)
 
 
 #now read drivers taxonomy. 
-drivers <- read.csv("ssp_modeling/output_postprocessing/data/driver_variables_taxonomy_20240117.csv")
+drivers <- read.csv("ssp_modeling/output_postprocessing/data/driver_variables_taxonomy_20251013.csv")
 
 #change column name to taxonomy 
 drivers$variable <- drivers$field
