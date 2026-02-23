@@ -223,3 +223,6 @@ ssp_modeling/cb/cb_results/
 ssp_modeling/output_postprocessing/tornado/ssp_run_output/
 ssp_modeling/output_postprocessing/tornado/cb/cb_results/ 
 ssp_modeling/output_postprocessing/tornado/Tableau/data/
+ 
+# tableau backup files
+*.twbr
