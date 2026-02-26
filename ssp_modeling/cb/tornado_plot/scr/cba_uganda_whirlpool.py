@@ -7,13 +7,13 @@ import numpy as np
 
 # Define paths
 SSP_PATH = pathlib.Path(os.getcwd())
-SSP_RUN  = os.path.join(SSP_PATH, "ssp_modeling/ssp_run_output/sisepuede_summary_results_run_sisepuede_run_2026-02-18T21;36;42.734194/tornado")
+SSP_RUN  = os.path.join(SSP_PATH, "ssp_modeling/ssp_run_output/sisepuede_summary_results_run_sisepuede_run_2026-02-18T21;36;42.734194/whirlpool")
 
 
 CB_DEFAULT_DEFINITION_PATH = os.path.join(SSP_PATH,"ssp_modeling/cb/cb_cost_factors")
 CB_DEFAULT_DEFINITION_FILE_PATH = os.path.join(CB_DEFAULT_DEFINITION_PATH, "cb_config_params.xlsx")
 
-CB_OUTPUT = os.path.join(SSP_PATH,"ssp_modeling/cb/tornado_plot/data/input/tornado")
+CB_OUTPUT = os.path.join(SSP_PATH,"ssp_modeling/cb/tornado_plot/data/input/whirlpool")
 
 # Load data
 ssp_data = pd.read_csv(os.path.join(SSP_RUN, "uganda.csv"))
@@ -50,4 +50,4 @@ results_all_pp = cb.cb_process_interactions(results_all)
 results_all_pp_shifted = cb.cb_shift_costs(results_all_pp)
 
 # Save the results
-results_all_pp_shifted.to_csv(os.path.join(CB_OUTPUT, "cba_results_ssp_modeling_tornado.csv"), index = False)
+results_all_pp_shifted.to_csv(os.path.join(CB_OUTPUT, "cba_results_ssp_modeling_whirlpool.csv"), index = False)
