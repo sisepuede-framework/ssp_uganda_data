@@ -1,0 +1,173 @@
+"""
+Whirlpool process: merge emissions + CBA, compute marginal abatement cost, write tornado_plot_whirlpool.csv.
+
+Country-agnostic. Run from project root or pass paths.
+Whirlpool-specific: base emission from strategy_id 6004 minus offset; drop strategy 'NZ' after merge.
+
+Usage:
+  python ssp_modeling/cb/tornado_plot/scr/process_whirlpool.py \\
+    --country uganda \\
+    --input-dir ssp_modeling/cb/tornado_plot/data/input/whirlpool \\
+    --output-dir ssp_modeling/cb/tornado_plot/data/output/whirlpool \\
+    [--emissions-year 2019] [--base-strategy-id 6004] [--base-emission-offset 400]
+"""
+
+import argparse
+import pathlib
+import numpy as np
+import pandas as pd
+
+
+MAC_COL = "marginal_total_abatement_cost_(USD/tCO2e)"
+
+
+def add_sector_and_transformation_fields_whirlpool(
+    df: pd.DataFrame, strategy_col: str = "strategy"
+) -> pd.DataFrame:
+    """Whirlpool-style: sector from TX:XXX:, transformation_name after second colon."""
+    df = df.copy()
+    df["sector"] = df[strategy_col].str.extract(r"TX:([A-Z]{3,6}):", expand=False)
+    df.loc[
+        df[strategy_col].str.contains(r"TX:BASE", regex=True, na=False),
+        "sector",
+    ] = "BASE"
+    df["transformation_name"] = df[strategy_col].str.extract(
+        r"TX:[A-Z]{3,6}:(\S+)", expand=False
+    )
+    base_mask = df[strategy_col].str.contains(r"TX:BASE", regex=True, na=False)
+    df.loc[base_mask, "transformation_name"] = "BASE"
+    df["transformation_name"] = df["transformation_name"].fillna("").str.strip()
+    return df
+
+
+def run(
+    input_dir: pathlib.Path,
+    output_dir: pathlib.Path,
+    country: str,
+    emissions_year: int = 2019,
+    base_strategy_id: int = 6004,
+    base_emission_offset: float = 400.0,
+) -> None:
+    input_dir = pathlib.Path(input_dir).resolve()
+    output_dir = pathlib.Path(output_dir).resolve()
+
+    emissions_file = input_dir / f"raw_emissions_{country}_{emissions_year}_whirlpool_data_raw.csv"
+    cba_file = input_dir / f"cba_results_ssp_modeling_whirlpool_{country}.csv"
+    att_strategy_file = input_dir / "ATTRIBUTE_STRATEGY.csv"
+
+    for f in (emissions_file, cba_file, att_strategy_file):
+        if not f.exists():
+            raise FileNotFoundError(f"Required input not found: {f}")
+
+    emissions_df = pd.read_csv(emissions_file)
+    emissions_df = emissions_df.loc[
+        ~emissions_df["strategy"].isin(["Historical", "Strategy TX:BASE"])
+    ].copy()
+    tornado_emissions_df = emissions_df
+
+    tornado_emissions_agg_df = (
+        tornado_emissions_df.groupby(["strategy_id", "primary_id", "strategy"])["value"]
+        .sum()
+        .reset_index()
+    )
+    tornado_emissions_agg_df = tornado_emissions_agg_df.rename(columns={"value": "emission_total"})
+
+    base_emission_total = (
+        tornado_emissions_agg_df.loc[
+            tornado_emissions_agg_df["strategy_id"] == base_strategy_id, "emission_total"
+        ].values[0]
+        - base_emission_offset
+    )
+    tornado_emissions_agg_df["base_emission_total"] = base_emission_total
+    tornado_emissions_agg_df["emission_diff"] = (
+        tornado_emissions_agg_df["emission_total"] - tornado_emissions_agg_df["base_emission_total"]
+    )
+
+    tornado_emissions_agg_extended_df = add_sector_and_transformation_fields_whirlpool(
+        tornado_emissions_agg_df
+    )
+
+    cb_raw_df = pd.read_csv(cba_file)
+    cb_data = cb_raw_df.copy()
+    cb_chars = cb_data["variable"].astype(str).str.split(":", n=4, expand=True)
+    cb_chars.columns = ["name", "sector", "cb_type", "item_1", "item_2"]
+    cb_data = pd.concat([cb_data, cb_chars], axis=1)
+    cb_data["Year"] = cb_data["time_period"] + 2015
+
+    attribute_strategy_df = pd.read_csv(att_strategy_file)
+    cb_data = cb_data.merge(attribute_strategy_df, on="strategy_code", how="left")
+
+    cb_data = (
+        cb_data.groupby(["strategy_id", "cb_type"], as_index=False)["value"]
+        .sum()
+        .rename(columns={"value": "cumulative"})
+    )
+    wide_cb = (
+        cb_data.pivot(index="strategy_id", columns="cb_type", values="cumulative")
+        .reset_index()
+    )
+    wide_cb.columns.name = None
+
+    df_merged = pd.merge(
+        tornado_emissions_agg_extended_df,
+        wide_cb,
+        on="strategy_id",
+        how="inner",
+    )
+    df_merged = df_merged[df_merged["strategy"] != "NZ"].copy()
+
+    df_merged["technical_cost"] = df_merged["technical_cost"] * -1
+    df_merged[MAC_COL] = (df_merged["technical_cost"] / df_merged["emission_diff"]) * 1000
+    df_merged[MAC_COL] = df_merged[MAC_COL].abs() * np.sign(df_merged["technical_cost"])
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    out_path = output_dir / "tornado_plot_whirlpool.csv"
+    df_merged.to_csv(out_path, index=False)
+    print(f"[whirlpool] Results saved to: {out_path}")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Whirlpool process: emissions + CBA -> tornado_plot_whirlpool.csv",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=__doc__,
+    )
+    parser.add_argument("--country", type=str, default="uganda", help="Country code for file names.")
+    parser.add_argument(
+        "--input-dir",
+        type=str,
+        required=True,
+        help="Path to input folder (emissions CSV, CBA CSV, ATTRIBUTE_STRATEGY.csv).",
+    )
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        required=True,
+        help="Path to output folder (tornado_plot_whirlpool.csv will be written here).",
+    )
+    parser.add_argument("--emissions-year", type=int, default=2019)
+    parser.add_argument(
+        "--base-strategy-id",
+        type=int,
+        default=6004,
+        help="Strategy ID used as base for whirlpool (emission_total - offset).",
+    )
+    parser.add_argument(
+        "--base-emission-offset",
+        type=float,
+        default=400.0,
+        help="Subtract this from base strategy emission to get base_emission_total.",
+    )
+    args = parser.parse_args()
+    run(
+        input_dir=pathlib.Path(args.input_dir),
+        output_dir=pathlib.Path(args.output_dir),
+        country=args.country,
+        emissions_year=args.emissions_year,
+        base_strategy_id=args.base_strategy_id,
+        base_emission_offset=args.base_emission_offset,
+    )
+
+
+if __name__ == "__main__":
+    main()

@@ -12,4 +12,4 @@ dependencies:
   - pip:
       - git+https://github.com/jcsyme/sisepuede/
       - ssp-transformations-handler
-      - costs-benefits-ssp
+      - costs-benefits-ssp 
