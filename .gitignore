@@ -225,5 +225,12 @@ ssp_modeling/output_postprocessing/tornado/cb/cb_results/
 ssp_modeling/output_postprocessing/tornado/Tableau/data/
 ssp_modeling/cb/tornado_plot/data/
 
+
+# ignore latest versions of tornado and whirlpool
+ssp_modeling/cb/tornado_plot/scr/cba_uganda_tornado.py
+ssp_modeling/cb/tornado_plot/scr/cba_uganda_whirlpool.py
+ssp_modeling/cb/tornado_plot/scr/postprocessing_process_whirlpool.r
+ssp_modeling/cb/tornado_plot/scr/postprocessing_process_tornado.r 
+ssp_modeling/cb/tornado_plot/scr/cba_uganda_tornado_whirlpool.ipynb
 # tableau backup files
 *.twbr
