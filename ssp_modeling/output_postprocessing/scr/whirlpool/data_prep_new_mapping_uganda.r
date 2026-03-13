@@ -141,7 +141,7 @@ table(data_new$strategy)
 
 
 #write file
-dir.tableau <- paste0("ssp_modeling/cb/tornado_plot/data/input/whirlpool/")
+dir.tableau <- paste0("ssp_modeling/cost-benefits/tornado_plot/data/input/whirlpool/")
 file.name <- paste0("emissions_", region, "_", year_ref, "_", output.file)
 
 fwrite(data_new,paste0(dir.tableau,'raw_',file.name),row.names=FALSE)

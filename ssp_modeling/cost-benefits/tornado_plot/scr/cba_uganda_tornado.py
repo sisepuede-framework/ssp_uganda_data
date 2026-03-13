@@ -12,7 +12,6 @@ SSP_RUN  = os.path.join(SSP_PATH, "ssp_modeling/ssp_run_output/sisepuede_run_202
 
 CB_DEFAULT_DEFINITION_PATH = os.path.join(SSP_PATH,"ssp_modeling/cost-benefits/cb_cost_factors")
 CB_DEFAULT_DEFINITION_FILE_PATH = os.path.join(CB_DEFAULT_DEFINITION_PATH, "cb_config_params.xlsx")
-
 CB_OUTPUT = os.path.join(SSP_PATH,"ssp_modeling/cost-benefits/tornado_plot/data/input/tornado")
 
 # Load data

@@ -11,8 +11,11 @@ library(ggplot2)
 rm(list=ls())
 
 #ouputfile
-dir.output  <- "ssp_modeling/ssp_run_output/sisepuede_summary_results_run_sisepuede_run_2026-02-18T21;36;42.734194/"
-output.file <- "WIDE_INPUTS_OUTPUTS.csv"
+run <- 'sisepuede_run_2026-03-10t13;27;53.264959'
+
+dir.output  <- paste0("ssp_modeling/ssp_run_output/",run,"/")
+output.file <- "c585e7e9-e32f-4131-999b-ee7fc5ec014e.csv"
+
 att <- "ATTRIBUTE_STRATEGY.csv"
 
 # load full data
@@ -21,13 +24,13 @@ dim(whirlpool)
 
 att <- read.csv(paste0(dir.output,"ATTRIBUTE_PRIMARY.csv"))
 dim(att)
-att <- att[att$strategy_id==0 | (att$strategy_id >= 6500 & att$strategy_id <= 6561), ]
+att <- att[att$strategy_id==0 | att$strategy_id==6004 | (att$strategy_id >= 6559 & att$strategy_id <= 6617), ]
 dim(att)
 head(att)
 
 atts <- read.csv(paste0(dir.output,"ATTRIBUTE_STRATEGY.csv"))
 dim(atts)
-atts <- atts[att$strategy_id==0 | (atts$strategy_id >= 6500 & atts$strategy_id <= 6561), ]
+atts <- atts[atts$strategy_id==0 | atts$strategy_id==6004 | (atts$strategy_id >= 6559 & atts$strategy_id <= 6617), ]
 dim(atts)
 head(atts)
 
@@ -36,54 +39,54 @@ whirlpool <- merge(whirlpool,att,by="primary_id")
 dim(whirlpool)
 
 #filter for the strategies we want to include in the whirlpool
-whirlpool <- whirlpool[whirlpool$strategy_id==0 | (whirlpool$strategy_id >= 6500 & whirlpool$strategy_id <= 6561), ]
+whirlpool <- whirlpool[whirlpool$strategy_id==0 | whirlpool$strategy_id==6004 | (whirlpool$strategy_id >= 6559 & whirlpool$strategy_id <= 6617), ]
 
 dim(whirlpool)
 whirlpool[, c('design_id','strategy_id','future_id') := NULL]
 dim(whirlpool)
 
-# load data for NZ
-dir.output  <- "ssp_modeling/ssp_run_output/sisepuede_run_2025-10-29T19;49;25.722413/"
-output.file <- "sisepuede_ide_run_2025-10-29T19;49;25.722413.csv"
+# # replace fail runs
+# dir.output.err  <- "ssp_modeling/ssp_run_output/sisepuede_results_sisepuede_run_2026-03-12T17;22;02.508214/"
+# output.file <- "sisepuede_results_sisepuede_run_2026-03-12T17;22;02.508214_WIDE_INPUTS_OUTPUTS.csv"
 
-nz <- fread(paste0(dir.output, output.file))
-nz <- nz[nz$primary_id == 70070, ]
-dim(nz)
-whirlpool <- rbind(nz, whirlpool)
+# error <- fread(paste0(dir.output.err, output.file))
+# error <- error[error$primary_id %in% c(76076,77077,81081,89089,97097,99099,111111,119119), ]
+# dim(error)
 
-att_nz <- read.csv(paste0(dir.output,"ATTRIBUTE_PRIMARY.csv"))
-att_nz <- att_nz[att_nz$primary_id == 70070, ]
+# dim(whirlpool)
+# whirlpool <- whirlpool[!whirlpool$primary_id %in% c(76076,77077,81081,89089,97097,99099,111111,119119), ]
+# dim(whirlpool)
 
-atts_nz <- read.csv(paste0(dir.output,"ATTRIBUTE_STRATEGY.csv"))
-atts_nz <- atts_nz[atts_nz$strategy_id == 6004, ]
-atts_nz
+# whirlpool <- rbind(whirlpool,error)
+# dim(whirlpool)
 
-att <- rbind(att_nz, att)
-atts <- rbind(atts_nz, atts)
+
 
 #ouputfile
-dir.output  <- "ssp_modeling/ssp_run_output/sisepuede_summary_results_run_sisepuede_run_2026-02-18T21;36;42.734194/whirlpool/"
+if (!dir.exists(paste0(dir.output, "/whirlpool/"))) {
+    dir.create(paste0(dir.output, "/whirlpool/"), recursive = TRUE, showWarnings = FALSE)
+}
 
-fwrite(whirlpool, paste0(dir.output, "whirlpool_data_raw.csv"))
-fwrite(att, paste0(dir.output, "ATTRIBUTE_PRIMARY.csv"))
-fwrite(atts, paste0(dir.output, "ATTRIBUTE_STRATEGY.csv"))
+dir.output.whirlpool  <- paste0(dir.output,"/whirlpool/")
 
-dir.output <- 'ssp_modeling/cb/tornado_plot/data/input/whirlpool/'
+fwrite(whirlpool, paste0(dir.output.whirlpool, "whirlpool_data_raw.csv"))
+fwrite(att, paste0(dir.output.whirlpool, "ATTRIBUTE_PRIMARY.csv"))
+fwrite(atts, paste0(dir.output.whirlpool, "ATTRIBUTE_STRATEGY.csv"))
 
-fwrite(att, paste0(dir.output, "ATTRIBUTE_PRIMARY.csv"))
-fwrite(atts, paste0(dir.output, "ATTRIBUTE_STRATEGY.csv"))
+dir.input.whirlpool <- 'ssp_modeling/cost-benefits/tornado_plot/data/input/whirlpool/'
+
+fwrite(att, paste0(dir.input.whirlpool, "ATTRIBUTE_PRIMARY.csv"))
+fwrite(atts, paste0(dir.input.whirlpool, "ATTRIBUTE_STRATEGY.csv"))
 
 
 
 ################################################################################
 
-
-dir.output  <- "ssp_modeling/ssp_run_output/sisepuede_summary_results_run_sisepuede_run_2026-02-18T21;36;42.734194/whirlpool/"
+dir.output  <- dir.output.whirlpool
 output.file <- "whirlpool_data_raw.csv"
 
 region <- "uganda" 
 iso_code3 <- "UGA"
-
 
 # set year_ref for this run
 year_ref <- 2019

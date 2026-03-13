@@ -32,6 +32,7 @@ all_vars <- trimws(all_vars)
 all_vars_made <- make.names(all_vars)
 missing <- setdiff(all_vars_made, names(data_all))
 
+all_vars <- setdiff(all_vars, c("emission_co2e_co2_ccsq_direct_air_capture","emission_co2e_ch4_ccsq_direct_air_capture","emission_co2e_n2o_ccsq_direct_air_capture"))
 
 for (var in all_vars) {
   mask <- data_all$time_period == time_period_ref & data_all[[var]] == 0

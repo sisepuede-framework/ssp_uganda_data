@@ -26,6 +26,28 @@ dim(data_all)
 data_all <- subset(data_all,time_period>=time_period_ref)
 dim(data_all)
 
+# Quick pre-flight check of Vars coverage
+all_vars <- unique(unlist(strsplit(te_all$Vars, ":", fixed = TRUE)))
+all_vars <- trimws(all_vars)
+all_vars_made <- make.names(all_vars)
+missing <- setdiff(all_vars_made, names(data_all))
+
+all_vars <- setdiff(all_vars, c("emission_co2e_co2_ccsq_direct_air_capture","emission_co2e_ch4_ccsq_direct_air_capture","emission_co2e_n2o_ccsq_direct_air_capture"))
+
+for (var in all_vars) {
+  mask <- data_all$time_period == time_period_ref & data_all[[var]] == 0
+  changed <- sum(mask, na.rm = TRUE)
+  data_all[[var]][mask] <- 0.01
+  if (changed > 0) {
+    print(paste0("Changed ", changed, " zeros in: ", var, " (time_period == ", time_period_ref, ")"))
+  }
+}
+  
+if (length(missing)) {
+  message("Variables in te_all$Vars not found in data_all: ",
+          paste(missing, collapse = ", "))
+}
+
 #revise which sector-gas ids are zero at baseline 
 te_all$simulation <- 0
 for (i in 1:nrow(te_all))
@@ -56,3 +78,4 @@ z<-1
 rescale(z,rall,data_all,te_all,initial_conditions_id,dir.output,time_period_ref)
 
 print('Finish:run_script_baseline_run_new process')
+
