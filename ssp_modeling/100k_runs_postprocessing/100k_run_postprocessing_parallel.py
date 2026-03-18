@@ -148,35 +148,15 @@ def cleanup_tmp(tmp_dir: str, keep_tmp: bool = False) -> None:
 # Global (per-process) state for workers
 # --------------------------
 PROC_STATE = {
-    "S3": None,
-    "BUCKET": None,
-    "TMP_DIR": None,
-    "S3_DECOMP_PREFIX": None,
-    "S3_CB_PREFIX": None,
-    "CACHE_DIR": None,
     "LOCAL_FILES": {},
     "CONFIG_DIR": None,
 }
 
 def worker_init(
-    profile_name: str,
-    bucket_name: str,
-    tmp_dir: str,
     cache_dir: str,
-    s3_decomp_prefix: str,
-    s3_cb_prefix: str,
     config_dir: str,
 ):
-    """Runs once per worker process. R decomposition is done in main; workers handle CB."""
-    session = boto3.Session(profile_name=profile_name)
-    s3_resource = session.resource('s3')
-
-    PROC_STATE["S3"] = s3_resource
-    PROC_STATE["BUCKET"] = bucket_name
-    PROC_STATE["TMP_DIR"] = tmp_dir
-    PROC_STATE["S3_DECOMP_PREFIX"] = s3_decomp_prefix
-    PROC_STATE["S3_CB_PREFIX"] = s3_cb_prefix
-    PROC_STATE["CACHE_DIR"] = cache_dir
+    """Runs once per worker process. Workers compute results and return DataFrames; main uploads."""
     PROC_STATE["CONFIG_DIR"] = config_dir
 
     PROC_STATE["LOCAL_FILES"] = {
@@ -189,19 +169,15 @@ def worker_init(
 
 
 
-def run_decomposition_worker(primary_id_to_decompose: int) -> Tuple[int, Optional[str]]:
+def run_decomposition_worker(
+    primary_id_to_decompose: int,
+) -> Tuple[int, Optional[pd.DataFrame], Optional[pd.DataFrame], Optional[str]]:
     """
-    CB + Jobs for a single primary_id.
-    R decomposition is done once in main(); workers receive the pre-computed
-    decomposed_df (all primary_ids, input+output already merged).
+    CB + emissions for a single primary_id.
+    Returns (primary_id, emissions_df, cb_df, error).
+    Workers do NOT upload to S3 — main() concatenates all results and uploads once.
     """
     try:
-        s3               = PROC_STATE["S3"]
-        bucket           = PROC_STATE["BUCKET"]
-        tmp_dir          = PROC_STATE["TMP_DIR"]
-        s3_decomp_prefix = PROC_STATE["S3_DECOMP_PREFIX"]
-        s3_cb_prefix     = PROC_STATE["S3_CB_PREFIX"]
-
         # Load cached data
         decomposed_all        = pd.read_pickle(PROC_STATE["LOCAL_FILES"]["decomposed_df"])
         attribute_primary_df  = pd.read_pickle(PROC_STATE["LOCAL_FILES"]["attribute_primary_df"])
@@ -212,29 +188,20 @@ def run_decomposition_worker(primary_id_to_decompose: int) -> Tuple[int, Optiona
         # decomposed_all already has input+output merged — no additional merge needed.
         decomposed_df = decomposed_all[decomposed_all["primary_id"] == primary_id_to_decompose].copy()
         if decomposed_df.empty:
-            return primary_id_to_decompose, f"No rows in decomposed_df for primary_id={primary_id_to_decompose}"
+            return primary_id_to_decompose, None, None, f"No rows in decomposed_df for primary_id={primary_id_to_decompose}"
 
         if base_decomposed_df.empty:
-            return primary_id_to_decompose, "Baseline data is empty in cache."
+            return primary_id_to_decompose, None, None, "Baseline data is empty in cache."
 
-        # Upload emissions summary — columns already present in decomposed_df
+        # Build emissions summary — columns already present in decomposed_df
         decomposed_df["total_emissions"] = (
             decomposed_df.filter(like="emission_co2e_subsector_total").sum(axis=1)
         )
-        energy_demand_cols    = [c for c in decomposed_df.columns if c.startswith("energy_demand_")]
-        total_value_enfu_cols = [c for c in decomposed_df.columns if c.startswith("totalvalue_enfu_fuel_consumed_inen")]
-        frac_inen_energy_cols = [c for c in decomposed_df.columns if c.startswith("frac_inen_energy_")]
-        efficfactor_cols      = [c for c in decomposed_df.columns if c.startswith("efficfactor_enfu_industrial_energy_fuel")]
-
+        
         cols_to_keep = (
             ["primary_id", "time_period", "total_emissions"]
-            + efficfactor_cols
-            + energy_demand_cols
-            + frac_inen_energy_cols
-            + total_value_enfu_cols
         )
-        df_to_upload = decomposed_df[[c for c in cols_to_keep if c in decomposed_df.columns]]
-        upload_df_to_s3(df_to_upload, s3, bucket, f"{s3_decomp_prefix}emission_total_{primary_id_to_decompose}.csv")
+        emissions_df = decomposed_df[[c for c in cols_to_keep if c in decomposed_df.columns]].copy()
 
         # --- Cost Benefits ---
         try:
@@ -242,7 +209,7 @@ def run_decomposition_worker(primary_id_to_decompose: int) -> Tuple[int, Optiona
             strategy_id = int(attribute_primary_df.loc[attribute_primary_df["primary_id"] == primary_id_to_decompose, "strategy_id"].values[0])
             strategy_code = attribute_strategy_df.loc[attribute_strategy_df["strategy_id"] == strategy_id, "strategy_code"].values[0]
         except Exception:
-            return primary_id_to_decompose, f"Missing strategy/future mapping for primary_id={primary_id_to_decompose}"
+            return primary_id_to_decompose, emissions_df, None, f"Missing strategy/future mapping for primary_id={primary_id_to_decompose}"
 
         from costs_benefits_ssp.cb_calculate import CostBenefits
 
@@ -257,7 +224,7 @@ def run_decomposition_worker(primary_id_to_decompose: int) -> Tuple[int, Optiona
 
         cb_config_path = os.path.join(PROC_STATE["CONFIG_DIR"], "cb_config_params.xlsx")
         if not os.path.exists(cb_config_path):
-            return primary_id_to_decompose, f"CB config not found: {cb_config_path}"
+            return primary_id_to_decompose, emissions_df, None, f"CB config not found: {cb_config_path}"
         cb.load_cb_parameters(cb_config_path)
 
         results_system = cb.compute_system_cost_for_strategy(strategy_code_tx=strategy_code)
@@ -269,13 +236,11 @@ def run_decomposition_worker(primary_id_to_decompose: int) -> Tuple[int, Optiona
         results_all_pp_shifted["future_id"]  = future_id
 
         agg_cb_df = postprocess_cba(results_all_pp_shifted)
-        if agg_cb_df is not None and not agg_cb_df.empty:
-            upload_df_to_s3(agg_cb_df, s3, bucket, f"{s3_cb_prefix}cb_{primary_id_to_decompose}.csv")
 
-        return primary_id_to_decompose, None
+        return primary_id_to_decompose, emissions_df, agg_cb_df, None
 
     except Exception as e:
-        return primary_id_to_decompose, f"{e}\n{traceback.format_exc()}"
+        return primary_id_to_decompose, None, None, f"{e}\n{traceback.format_exc()}"
 
 
 # --------------------------
@@ -435,12 +400,7 @@ def main():
     mp.set_start_method("spawn", force=True)
 
     init_args = (
-        PROFILE_NAME,
-        BUCKET_NAME,
-        TMP_DIR_PATH,
         CACHE_DIR,
-        S3_DECOMPOSED_DIR_PREFIX,
-        S3_CB_DIR_PREFIX,
         CONFIG_DIR_PATH,
     )
 
@@ -455,7 +415,19 @@ def main():
             total=len(primary_ids)
         ))
 
-    errors = [(pid, err) for pid, err in results if err]
+    # Collect and separate results
+    emissions_frames: List[pd.DataFrame] = []
+    cb_frames: List[pd.DataFrame] = []
+    errors = []
+    for pid, em_df, cb_df, err in results:
+        if err:
+            errors.append((pid, err))
+        else:
+            if em_df is not None and not em_df.empty:
+                emissions_frames.append(em_df)
+            if cb_df is not None and not cb_df.empty:
+                cb_frames.append(cb_df)
+
     if errors:
         logger.warning(f"{len(errors)} primary_id(s) failed:")
         for pid, err in errors[:10]:
@@ -464,6 +436,25 @@ def main():
             logger.warning("  … (more errors not shown)")
     else:
         logger.info("All primary_id tasks completed successfully.")
+
+    # Upload single combined file per table
+    region = rall[0]
+
+    if emissions_frames:
+        all_emissions = pd.concat(emissions_frames, ignore_index=True)
+        em_key = f"{S3_DECOMPOSED_DIR_PREFIX}region={region}/emission_total_{args.dir_id}/data.csv"
+        upload_df_to_s3(all_emissions, s3, BUCKET_NAME, em_key)
+        logger.info(f"Uploaded combined emissions ({len(emissions_frames)} primary_ids) → {em_key}")
+    else:
+        logger.warning("No emission frames to upload.")
+
+    if cb_frames:
+        all_cb = pd.concat(cb_frames, ignore_index=True)
+        cb_key = f"{S3_CB_DIR_PREFIX}region={region}/cb_{args.dir_id}/data.csv"
+        upload_df_to_s3(all_cb, s3, BUCKET_NAME, cb_key)
+        logger.info(f"Uploaded combined CB ({len(cb_frames)} primary_ids) → {cb_key}")
+    else:
+        logger.warning("No CB frames to upload.")
 
     cleanup_tmp(TMP_DIR_PATH, keep_tmp=args.keep_tmp)
 

@@ -8,7 +8,7 @@
 
 # Loop over the directory IDs you want to process
 
-for i in {1..2}
+for i in {148..149}
 do
     echo "==========================================="
     echo "Running postprocessing for DIR_ID = $i"
