@@ -510,8 +510,11 @@ def main():
     logger.info(f"Found {len(primary_ids)} non-baseline primary_ids to process.")
 
     # Build data_all: merge output+input for ALL primary_ids.
+    # Remove pid=0 from output_df before the merge to avoid duplicating the baseline
+    # rows that pd.concat([baseline_df, ...]) adds below.
     logger.info("Building data_all (output merged with input, all primary_ids)…")
-    data_all = pd.merge(output_df, input_df, on=["primary_id", "region", "time_period"], how="left")
+    output_df_no_base = output_df[output_df["primary_id"] != PRIMARY_ID_BASE].copy()
+    data_all = pd.merge(output_df_no_base, input_df, on=["primary_id", "region", "time_period"], how="left")
     data_all = pd.concat([baseline_df, data_all], ignore_index=True)
     data_all = data_all.fillna(0)
     logger.info(f"data_all shape: {data_all.shape}  |  primary_ids: {len(data_all['primary_id'].unique())}")
@@ -572,10 +575,28 @@ def main():
     # so each worker reads only its own slice instead of the full dataframe
     PID_CACHE_DIR = os.path.join(CACHE_DIR, "pids")
     os.makedirs(PID_CACHE_DIR, exist_ok=True)
+    decomposed_pids = set()
     for pid, grp in decomposed_df.groupby("primary_id"):
         grp.reset_index(drop=True).to_pickle(os.path.join(PID_CACHE_DIR, f"{int(pid)}.pkl"))
-    logger.info(f"Pre-split: {len(primary_ids)} per-pid pickles → {PID_CACHE_DIR}")
+        decomposed_pids.add(int(pid))
+    logger.info(f"Pre-split: {len(decomposed_pids)} pickles created → {PID_CACHE_DIR}")
     logger.info(f"Cached shared tables: baseline={baseline_df.shape}")
+
+    # Diagnose any primary_id mismatch between processing list and rescale output
+    primary_ids_set = set(primary_ids)
+    missing_from_decomposed = primary_ids_set - decomposed_pids
+    extra_in_decomposed     = decomposed_pids - primary_ids_set
+    if missing_from_decomposed:
+        logger.warning(
+            f"DIAGNOSTIC: {len(missing_from_decomposed)} primary_id(s) in output_df "
+            f"but missing from rescale output (no pickle will be created): "
+            f"{sorted(missing_from_decomposed)[:20]}"
+        )
+    if extra_in_decomposed:
+        logger.info(
+            f"DIAGNOSTIC: {len(extra_in_decomposed)} primary_id(s) in rescale output "
+            f"but not in processing list (ignored): {sorted(extra_in_decomposed)[:20]}"
+        )
 
     mp.set_start_method("spawn", force=True)
 
