@@ -85,9 +85,9 @@ def postprocess_cba(cb_raw_df: pd.DataFrame) -> pd.DataFrame:
     parts.columns = ["name", "sector", "cb_type", "item_1", "item_2"]
     cb_data = pd.concat([cb_raw_df, parts], axis=1)
     cb_data["value"] = cb_data["value"] / 1e9
-    cb_data["Year"]  = cb_data["time_period"] + 2015
 
-    group_cols = ["cb_type", "strategy_code", "primary_id", "future_id", "Year"]
+    group_cols = ["cb_type",  "primary_id",  "time_period"]
+
     cb_agg = (
         cb_data.groupby(group_cols, dropna=False, as_index=False)["value"]
         .sum()
@@ -96,7 +96,7 @@ def postprocess_cba(cb_raw_df: pd.DataFrame) -> pd.DataFrame:
 
     agg_cb_df = (
         cb_agg.pivot_table(
-            index=["primary_id", "future_id", "strategy_code", "Year"],
+            index=["primary_id", "time_period"],
             columns="cb_type",
             values="Cumulative",
             aggfunc="sum"
@@ -104,6 +104,19 @@ def postprocess_cba(cb_raw_df: pd.DataFrame) -> pd.DataFrame:
         .reset_index()
     )
     agg_cb_df.columns.name = None
+
+    cb_col_order = [
+        "primary_id", "time_period",
+        "air_pollution", "congestion", "consumer_savings", "crop_value",
+        "ecosystem_services", "env_pollution", "fuel_cost", "human_health",
+        "ippu_value", "land_pollution", "lvst_value", "road_safety",
+        "sector_specific", "system_cost", "technical_cost", "technical_savings",
+        "water_pollution",
+    ]
+    ordered_cols = [c for c in cb_col_order if c in agg_cb_df.columns]
+    extra_cols   = [c for c in agg_cb_df.columns if c not in cb_col_order]
+    agg_cb_df = agg_cb_df[ordered_cols + extra_cols]
+
     return agg_cb_df
 
 
@@ -148,24 +161,25 @@ def cleanup_tmp(tmp_dir: str, keep_tmp: bool = False) -> None:
 # Global (per-process) state for workers
 # --------------------------
 PROC_STATE = {
-    "LOCAL_FILES": {},
-    "CONFIG_DIR": None,
+    "PID_CACHE_DIR":       None,
+    "CONFIG_DIR":          None,
+    "attribute_primary_df":  None,
+    "attribute_strategy_df": None,
+    "baseline_decomposed_df": None,
 }
 
 def worker_init(
+    pid_cache_dir: str,
     cache_dir: str,
     config_dir: str,
 ):
-    """Runs once per worker process. Workers compute results and return DataFrames; main uploads."""
-    PROC_STATE["CONFIG_DIR"] = config_dir
-
-    PROC_STATE["LOCAL_FILES"] = {
-        # Full decomposed output (all primary_ids, input+output already merged by main).
-        "decomposed_df":          os.path.join(cache_dir, "decomposed_df.pkl"),
-        "attribute_primary_df":   os.path.join(cache_dir, "attribute_primary_df.pkl"),
-        "attribute_strategy_df":  os.path.join(cache_dir, "attribute_strategy_df.pkl"),
-        "baseline_decomposed_df": os.path.join(cache_dir, "baseline_decomposed_df.pkl"),
-    }
+    """Runs once per worker process. Loads shared data into memory; per-pid data is read per task."""
+    PROC_STATE["PID_CACHE_DIR"] = pid_cache_dir
+    PROC_STATE["CONFIG_DIR"]    = config_dir
+    # Load shared tables once per worker process (not once per task)
+    PROC_STATE["attribute_primary_df"]   = pd.read_pickle(os.path.join(cache_dir, "attribute_primary_df.pkl"))
+    PROC_STATE["attribute_strategy_df"]  = pd.read_pickle(os.path.join(cache_dir, "attribute_strategy_df.pkl"))
+    PROC_STATE["baseline_decomposed_df"] = pd.read_pickle(os.path.join(cache_dir, "baseline_decomposed_df.pkl"))
 
 
 
@@ -178,15 +192,15 @@ def run_decomposition_worker(
     Workers do NOT upload to S3 — main() concatenates all results and uploads once.
     """
     try:
-        # Load cached data
-        decomposed_all        = pd.read_pickle(PROC_STATE["LOCAL_FILES"]["decomposed_df"])
-        attribute_primary_df  = pd.read_pickle(PROC_STATE["LOCAL_FILES"]["attribute_primary_df"])
-        attribute_strategy_df = pd.read_pickle(PROC_STATE["LOCAL_FILES"]["attribute_strategy_df"])
-        base_decomposed_df    = pd.read_pickle(PROC_STATE["LOCAL_FILES"]["baseline_decomposed_df"])
+        # Load only this pid's slice (small file) — shared tables are already in PROC_STATE
+        pid_pkl = os.path.join(PROC_STATE["PID_CACHE_DIR"], f"{primary_id_to_decompose}.pkl")
+        if not os.path.exists(pid_pkl):
+            return primary_id_to_decompose, None, None, f"No cached file for primary_id={primary_id_to_decompose}"
+        decomposed_df         = pd.read_pickle(pid_pkl)
+        attribute_primary_df  = PROC_STATE["attribute_primary_df"]
+        attribute_strategy_df = PROC_STATE["attribute_strategy_df"]
+        base_decomposed_df    = PROC_STATE["baseline_decomposed_df"]
 
-        # Filter decomposed output for this primary_id
-        # decomposed_all already has input+output merged — no additional merge needed.
-        decomposed_df = decomposed_all[decomposed_all["primary_id"] == primary_id_to_decompose].copy()
         if decomposed_df.empty:
             return primary_id_to_decompose, None, None, f"No rows in decomposed_df for primary_id={primary_id_to_decompose}"
 
@@ -356,10 +370,7 @@ def main():
             logger.warning(f"Pre-flight: missing column '{_var}' in data_all_r")
             continue
         _mask = (data_all_r["time_period"] == TIME_PERIOD_REF) & (data_all_r[_var] == 0)
-        _changed = int(_mask.sum())
         data_all_r.loc[_mask, _var] = 0.01
-        if _changed > 0:
-            logger.info(f"Pre-flight: changed {_changed} zeros → 0.01 in '{_var}' (time_period == {TIME_PERIOD_REF})")
 
     with localconverter(default_converter + pandas2ri.converter):
         r_data_all = ro.conversion.py2rpy(data_all_r)
@@ -387,19 +398,27 @@ def main():
     decomposed_df = decomposed_df[decomposed_df["primary_id"] != PRIMARY_ID_BASE].copy()
     logger.info(f"decomposed_df shape: {decomposed_df.shape}  |  primary_ids: {len(decomposed_df['primary_id'].unique())}")
 
-    # Cache everything workers need
+    # Cache shared tables (loaded once per worker process)
     CACHE_DIR = os.path.join(TMP_DIR_PATH, "cache")
     os.makedirs(CACHE_DIR, exist_ok=True)
-    decomposed_df.to_pickle(os.path.join(CACHE_DIR, "decomposed_df.pkl"))
     attribute_primary_df.to_pickle(os.path.join(CACHE_DIR, "attribute_primary_df.pkl"))
     attribute_strategy_df.to_pickle(os.path.join(CACHE_DIR, "attribute_strategy_df.pkl"))
     baseline_df.to_pickle(os.path.join(CACHE_DIR, "baseline_decomposed_df.pkl"))
-    logger.info(f"Cached: decomposed_df={decomposed_df.shape}, baseline={baseline_df.shape}")
+
+    # Pre-split decomposed_df into one small pickle per primary_id
+    # so each worker reads only its own slice instead of the full dataframe
+    PID_CACHE_DIR = os.path.join(CACHE_DIR, "pids")
+    os.makedirs(PID_CACHE_DIR, exist_ok=True)
+    for pid, grp in decomposed_df.groupby("primary_id"):
+        grp.reset_index(drop=True).to_pickle(os.path.join(PID_CACHE_DIR, f"{int(pid)}.pkl"))
+    logger.info(f"Pre-split: {len(primary_ids)} per-pid pickles → {PID_CACHE_DIR}")
+    logger.info(f"Cached shared tables: baseline={baseline_df.shape}")
 
     # Spawn-based pool (rpy2-safe)
     mp.set_start_method("spawn", force=True)
 
     init_args = (
+        PID_CACHE_DIR,
         CACHE_DIR,
         CONFIG_DIR_PATH,
     )
@@ -442,7 +461,7 @@ def main():
 
     if emissions_frames:
         all_emissions = pd.concat(emissions_frames, ignore_index=True)
-        em_key = f"{S3_DECOMPOSED_DIR_PREFIX}region={region}/emission_total_{args.dir_id}/data.csv"
+        em_key = f"{S3_DECOMPOSED_DIR_PREFIX}region={region}/decomposed_emissions_{args.dir_id}/data.csv"
         upload_df_to_s3(all_emissions, s3, BUCKET_NAME, em_key)
         logger.info(f"Uploaded combined emissions ({len(emissions_frames)} primary_ids) → {em_key}")
     else:
