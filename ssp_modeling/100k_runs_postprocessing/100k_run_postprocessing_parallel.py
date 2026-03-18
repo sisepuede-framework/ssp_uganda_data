@@ -20,12 +20,6 @@ import numpy as np
 import yaml
 import boto3
 
-# rpy2
-import rpy2.robjects as ro
-from rpy2.robjects import pandas2ri, default_converter
-from rpy2.robjects.conversion import localconverter
-from rpy2.rinterface_lib.embedded import RRuntimeError
-
 try:
     from tqdm import tqdm
 except Exception:
@@ -63,19 +57,6 @@ def upload_df_to_s3(df, s3_resource, bucket, key):
     df.to_csv(buf, index=False)
     s3_resource.Object(bucket, key).put(Body=buf.getvalue(), ContentType="text/csv")
     logger.info(f"Uploaded to s3://{bucket}/{key}")
-
-def sanitize_for_r(df: pd.DataFrame) -> pd.DataFrame:
-    df = df.copy()
-    def _is_scalar(x):
-        import pandas as pd
-        return not isinstance(x, (list, dict, pd.Series))
-    for c in df.columns:
-        s = df[c]
-        if not s.map(_is_scalar).all():
-            df[c] = s.astype(str)
-        elif s.dtype == "object":
-            df[c] = df[c].astype("string")
-    return df
 
 # --------------------------
 # Core domain funcs
@@ -155,6 +136,209 @@ def cleanup_tmp(tmp_dir: str, keep_tmp: bool = False) -> None:
         logger.info(f"Cleanup complete. Preserved: {baseline_name}")
     else:
         logger.info("Cleanup complete. No baseline file to preserve.")
+
+
+# --------------------------
+# Python rescale (replaces R intertemporal_decomposition.r)
+# --------------------------
+def rescale_py(
+    data_all: pd.DataFrame,
+    te_all: pd.DataFrame,
+    rall: List[str],
+    initial_conditions_id: str,
+    time_period_ref: int,
+) -> pd.DataFrame:
+    """
+    Pure-Python equivalent of the R rescale() function.
+
+    Replicates R behavior exactly:
+      1. For each region in rall:
+         a. Compute pct_diff and diff growth rates from the ORIGINAL uncalibrated data.
+         b. For each sector-gas row in te_all:
+            - Compute deviation_factor = target / uncalibrated_baseline_sum.
+            - Apply deviation_factor to ALL primary_ids at time_period_ref.
+            - Read calibrated init_value from baseline at time_period_ref.
+            - Propagate through time:
+                init==0  → cumsum(diff) * deviation_factor
+                init!=0  → init_value * cumprod(1 + pct_diff)
+         c. Compute emission_co2e_subsector_total_* columns.
+      2. Concatenate all regions and return (Index column removed).
+    """
+    results: List[pd.DataFrame] = []
+
+    for tregion in rall:
+        data = data_all[data_all["region"] == tregion].copy()
+
+        # All co2e_ columns except subsector totals  (mirrors R tv1_all)
+        tv1_all = [
+            c for c in data.columns
+            if "co2e_" in c and "emission_co2e_subsector_total_" not in c
+        ]
+
+        # R: data$Index <- paste0(data$region, "_", data$primary_id)
+        data["Index"] = data["region"].astype(str) + "_" + data["primary_id"].astype(str)
+        data = data.sort_values(["Index", "time_period"]).reset_index(drop=True)
+
+        # After sort, unique() first-appearance order == lex order  ✓ (matches R post-sort)
+        inds     = list(data["Index"].unique())
+        ref_inds = f"{tregion}{initial_conditions_id}"   # e.g. "uganda_0"
+
+        tp_sorted = sorted(data["time_period"].unique())
+        n_tp      = len(tp_sorted)
+        n_inds    = len(inds)
+
+        # Validate uniform time-period count (needed for flat-array assignment)
+        tp_counts = data.groupby("Index")["time_period"].count()
+        if tp_counts.nunique() != 1:
+            raise RuntimeError(
+                f"region={tregion}: unequal time_period counts per Index — "
+                f"{tp_counts.unique().tolist()}"
+            )
+
+        # Snapshot of original data for pct_diff computation.
+        # The main loop modifies `data`; pct_diffs must come from original values.
+        data_orig = data.copy()
+
+        # Build sector_gas key exactly as R does:
+        #   paste(row.names(te_all), ssp_subsector, Gas, sep="-")
+        # pandas2ri sends a 0-based DataFrame; R rownames become "1","2",... (1-based)
+        te = te_all.copy()
+        te["sector_gas"] = (
+            (te.index + 1).astype(str) + "-"
+            + te["ssp_subsector"].astype(str) + "-"
+            + te["Gas"].astype(str)
+        )
+        sector_gas_all = te["sector_gas"].unique().tolist()
+
+        # ---------------------------------------------------------------
+        # Step 1 — Growth-rate cache  (computed from original data, lazy)
+        # Each entry: (pct_diff_mat, diff_mat) of shape (n_inds, n_tp)
+        # Rows are in `inds` order (= sorted lex = same as data row order).
+        # ---------------------------------------------------------------
+        _growth_cache: dict = {}
+
+        def _get_growth(var: str):
+            if var in _growth_cache:
+                return _growth_cache[var]
+
+            # Pivot: rows = inds (lex sorted), cols = tp_sorted
+            pivot = (
+                data_orig[["Index", "time_period", var]]
+                .pivot(index="Index", columns="time_period", values=var)
+                .reindex(index=inds, columns=tp_sorted)
+            )
+            vals = pivot.values.astype(float)   # (n_inds, n_tp)
+
+            # R line 30: single-cell NAs → row mean
+            row_means = np.nanmean(vals, axis=1, keepdims=True)
+            row_means = np.where(np.isnan(row_means), 0.0, row_means)
+            vals = np.where(np.isnan(vals), row_means, vals)
+            # R line 32-33: fully-NA row (nanmean still NaN) → 0
+            vals = np.nan_to_num(vals, nan=0.0)
+
+            pct_diff_mat = np.zeros((n_inds, n_tp))
+            diff_mat     = np.zeros((n_inds, n_tp))
+
+            # R line 35: if (mean(unique(row)) == 0) → pct_diff = 0  (keep zeros)
+            # Exact replication: compute mean-of-uniques per row
+            row_unique_means = np.array([np.mean(np.unique(row)) for row in vals])
+            nonzero = row_unique_means != 0
+
+            if nonzero.any():
+                v = vals[nonzero]                          # (k, n_tp)
+
+                # R: pivot$diff = c(diff(vals), 0)
+                raw_diff   = np.diff(v, axis=1)            # (k, n_tp-1)
+                pivot_diff = np.c_[raw_diff, np.zeros(v.shape[0])]  # (k, n_tp)
+
+                # R: pct_diff = c(0, pivot_diff[1:(n-1)] / vals[1:(n-1)])
+                # R 1-based [1:(n-1)] → Python [0:n-1]
+                denom = v[:, :n_tp - 1]
+                numer = pivot_diff[:, :n_tp - 1]
+                with np.errstate(divide="ignore", invalid="ignore"):
+                    ratio = np.where(denom != 0, numer / denom, 0.0)
+                # R lines 40-41: NA and Inf → 0
+                ratio = np.where(np.isfinite(ratio), ratio, 0.0)
+
+                pct_d = np.zeros_like(v)
+                pct_d[:, 1:] = ratio
+                pct_diff_mat[nonzero] = pct_d
+
+                # R: diff_var = c(0, diff(vals))
+                d_var = np.zeros_like(v)
+                d_var[:, 1:] = np.diff(v, axis=1)
+                diff_mat[nonzero] = d_var
+
+            _growth_cache[var] = (pct_diff_mat, diff_mat)
+            return pct_diff_mat, diff_mat
+
+        # ---------------------------------------------------------------
+        # Step 2 — Sector-gas loop: deviation factor + propagation
+        # ---------------------------------------------------------------
+        ref_tp_mask = (data["Index"] == ref_inds) & (data["time_period"] == time_period_ref)
+        all_tp_ref_mask = data["time_period"] == time_period_ref
+
+        for sg in sector_gas_all:
+            sg_row     = te[te["sector_gas"] == sg]
+            vars_str   = sg_row["Vars"].values[0]
+            tv1        = [v.strip() for v in str(vars_str).split(":") if v.strip()]
+            tv1        = [v for v in tv1 if v in data.columns]
+            if not tv1:
+                continue
+
+            target_total = float(sg_row["tvalue"].values[0])
+
+            # R line 67: uncalibrated_total from CURRENT data (may be modified by prev iterations)
+            uncal      = float(data.loc[ref_tp_mask, tv1].values.sum())
+            dev_factor = 1.0 if uncal == 0 else (target_total / uncal)
+
+            # R line 69: apply deviation_factor to ALL inds at time_period_ref
+            data.loc[all_tp_ref_mask, tv1] = (
+                data.loc[all_tp_ref_mask, tv1].values * dev_factor
+            )
+
+            # R lines 81-87: propagate per var
+            for var in tv1:
+                pct_diff_mat, diff_mat = _get_growth(var)
+
+                # R line 81: init_value from BASELINE (ref_inds) at time_period_ref
+                # (reads AFTER deviation factor was applied → calibrated value)
+                init_arr   = data.loc[ref_tp_mask, var].values
+                init_value = float(init_arr[0]) if len(init_arr) > 0 else 0.0
+
+                # R lines 82-87: vectorised over all inds
+                if init_value == 0.0:
+                    # cumsum of absolute diffs, scaled by dev_factor
+                    new_vals = np.cumsum(diff_mat, axis=1) * dev_factor   # (n_inds, n_tp)
+                else:
+                    # init_value × cumulative product of (1 + growth_rate)
+                    new_vals = init_value * np.cumprod(1.0 + pct_diff_mat, axis=1)
+
+                # Assign back — data is sorted (Index lex, time_period asc) and every
+                # ind has exactly n_tp rows, so flatten maps directly to data rows.
+                data[var] = new_vals.flatten()
+
+        # ---------------------------------------------------------------
+        # Step 3 — Subsector totals  (R lines 92-108)
+        # ---------------------------------------------------------------
+        for subsector in te["ssp_subsector"].dropna().unique():
+            sub_vars_raw = te.loc[te["ssp_subsector"] == subsector, "Vars"].dropna()
+            sub_vars: List[str] = []
+            for v_str in sub_vars_raw:
+                for v in str(v_str).split(":"):
+                    v = v.strip()
+                    if v and v not in sub_vars:
+                        sub_vars.append(v)
+            sub_vars = [v for v in sub_vars if v in data.columns]
+
+            col = f"emission_co2e_subsector_total_{subsector}"
+            data[col] = data[sub_vars].sum(axis=1) if sub_vars else 0.0
+
+        # R line 113: data$Index <- NULL
+        data = data.drop(columns=["Index"])
+        results.append(data)
+
+    return pd.concat(results, ignore_index=True) if results else pd.DataFrame()
 
 
 # --------------------------
@@ -274,7 +458,6 @@ def main():
     CONFIG_DIR_PATH = os.path.join(SCRIPT_DIR_PATH, "config")
     CW_DIR_PATH     = os.path.join(SCRIPT_DIR_PATH, "cw")
     TMP_DIR_PATH    = os.path.join(SCRIPT_DIR_PATH, "tmp")
-    R_SCRIPTS_DIR_PATH = os.path.join(SCRIPT_DIR_PATH, "r_scripts")
 
 
     os.makedirs(TMP_DIR_PATH, exist_ok=True)
@@ -304,7 +487,6 @@ def main():
     # Decomposition params
     TARGET_COUNTRY            = "UGA"
     EMISSION_TARGETS_CSV_PATH = os.path.join(CW_DIR_PATH, 'emission_targets_uganda_2019_LULUCF.csv')
-    R_SCRIPT_PATH             = os.path.join(R_SCRIPTS_DIR_PATH, 'intertemporal_decomposition.r')
     TIME_PERIOD_REF           = 4
     S3_DECOMPOSED_DIR_PREFIX  = f"{RUN_DB_PREFIX}decomposed_outputs/"
     S3_CB_DIR_PREFIX          = f"{RUN_DB_PREFIX}cb_outputs/"
@@ -328,30 +510,25 @@ def main():
     logger.info(f"Found {len(primary_ids)} non-baseline primary_ids to process.")
 
     # Build data_all: merge output+input for ALL primary_ids.
-    # data_all needs both input and output because the output of rescale()
-    # will be the input for CB, which requires both sources.
     logger.info("Building data_all (output merged with input, all primary_ids)…")
     data_all = pd.merge(output_df, input_df, on=["primary_id", "region", "time_period"], how="left")
     data_all = pd.concat([baseline_df, data_all], ignore_index=True)
     data_all = data_all.fillna(0)
     logger.info(f"data_all shape: {data_all.shape}  |  primary_ids: {len(data_all['primary_id'].unique())}")
 
-    # Call R rescale() once for all primary_ids
-    logger.info(f"Loading R script: {R_SCRIPT_PATH}")
-    ro.r['source'](R_SCRIPT_PATH)
-    r_rescale = ro.globalenv['rescale']
-
+    # Build te_df (emission targets for rescale)
     te_cols = ["Subsector", "Gas", "Vars", "Subsector_Category", "ssp_subsector", TARGET_COUNTRY]
-    te_df = emission_targets_df[[c for c in te_cols if c in emission_targets_df.columns]].copy()
-    te_df = te_df.rename(columns={TARGET_COUNTRY: "tvalue"})
-    te_df = sanitize_for_r(te_df)
+    te_df   = emission_targets_df[[c for c in te_cols if c in emission_targets_df.columns]].copy()
+    te_df   = te_df.rename(columns={TARGET_COUNTRY: "tvalue"})
 
-    data_all_r = sanitize_for_r(data_all.loc[data_all["time_period"] >= TIME_PERIOD_REF].copy())
+    # Filter data to time_period >= TIME_PERIOD_REF (same as R input)
+    data_all_r = data_all.loc[data_all["time_period"] >= TIME_PERIOD_REF].copy()
     rall = data_all_r["region"].dropna().astype(str).unique().tolist()
     if not rall:
         raise RuntimeError("No regions found in data_all after filtering by time_period.")
 
-    # Pre-flight check: replace zeros in emission vars at TIME_PERIOD_REF
+    # Pre-flight: replace zeros in emission vars at TIME_PERIOD_REF with 0.01
+    # (prevents division-by-zero in the deviation-factor calculation)
     _EXCLUDE_VARS = {
         "emission_co2e_co2_ccsq_direct_air_capture",
         "emission_co2e_ch4_ccsq_direct_air_capture",
@@ -372,31 +549,17 @@ def main():
         _mask = (data_all_r["time_period"] == TIME_PERIOD_REF) & (data_all_r[_var] == 0)
         data_all_r.loc[_mask, _var] = 0.01
 
-    with localconverter(default_converter + pandas2ri.converter):
-        r_data_all = ro.conversion.py2rpy(data_all_r)
-    with localconverter(default_converter + pandas2ri.converter):
-        r_te_all = ro.conversion.py2rpy(te_df)
-
-    out_dir = TMP_DIR_PATH if TMP_DIR_PATH.endswith(os.sep) else TMP_DIR_PATH + os.sep
-    logger.info(f"Calling rescale() for {len(primary_ids)} primary_ids → {out_dir}")
-    r_rescale(
-        ro.IntVector([1]),
-        ro.StrVector([str(x) for x in rall]),
-        r_data_all,
-        r_te_all,
-        ro.StrVector(["_0"]),
-        ro.StrVector([out_dir]),
-        ro.IntVector([TIME_PERIOD_REF]),
+    # Run Python rescale (replaces R intertemporal_decomposition.r)
+    logger.info(f"Running rescale_py() for {len(primary_ids)} primary_ids…")
+    decomposed_df = rescale_py(
+        data_all_r,
+        te_df,
+        rall,
+        "_0",
+        TIME_PERIOD_REF,
     )
-    logger.info("rescale() completed.")
-
-    # Read R output (one CSV, all primary_ids, input+output preserved)
-    r_output = os.path.join(TMP_DIR_PATH, f"{rall[0]}.csv")
-    if not os.path.exists(r_output):
-        raise FileNotFoundError(f"R output not found: {r_output}")
-    decomposed_df = pd.read_csv(r_output)
     decomposed_df = decomposed_df[decomposed_df["primary_id"] != PRIMARY_ID_BASE].copy()
-    logger.info(f"decomposed_df shape: {decomposed_df.shape}  |  primary_ids: {len(decomposed_df['primary_id'].unique())}")
+    logger.info(f"rescale_py() completed. decomposed_df shape: {decomposed_df.shape}  |  primary_ids: {len(decomposed_df['primary_id'].unique())}")
 
     # Cache shared tables (loaded once per worker process)
     CACHE_DIR = os.path.join(TMP_DIR_PATH, "cache")
@@ -414,7 +577,6 @@ def main():
     logger.info(f"Pre-split: {len(primary_ids)} per-pid pickles → {PID_CACHE_DIR}")
     logger.info(f"Cached shared tables: baseline={baseline_df.shape}")
 
-    # Spawn-based pool (rpy2-safe)
     mp.set_start_method("spawn", force=True)
 
     init_args = (
