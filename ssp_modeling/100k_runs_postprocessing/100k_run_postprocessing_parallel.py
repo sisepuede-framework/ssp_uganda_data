@@ -104,11 +104,7 @@ def postprocess_cba(cb_raw_df: pd.DataFrame) -> pd.DataFrame:
         .reset_index()
     )
     agg_cb_df.columns.name = None
-    cols = ["primary_id", "future_id", "strategy_code", "Year"]
-    for c in ["air_pollution", "technical_cost"]:
-        if c in agg_cb_df.columns:
-            cols.append(c)
-    return agg_cb_df[cols]
+    return agg_cb_df
 
 
 def cleanup_tmp(tmp_dir: str, keep_tmp: bool = False) -> None:
