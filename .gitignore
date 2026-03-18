@@ -227,3 +227,11 @@ ssp_modeling/cost-benefits/tornado_plot/data/
 
 # tableau backup files
 *.twbr
+
+# Ignore everything in the tmp directory
+ssp_modeling/100k_runs_postprocessing/tmp/*
+
+# But not this file
+!ssp_modeling/100k_runs_postprocessing/tmp/uganda_36800368.csv
+
+ssp_modeling/100k_runs_postprocessing/config/aws_credentials_config.yaml
