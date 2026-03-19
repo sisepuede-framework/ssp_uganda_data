@@ -15,7 +15,7 @@ do
     echo "==========================================="
 
     # Run the Python script (use --dir-id argument)
-    python 100k_run_postprocessing_parallel.py --dir-id "$i" --workers 5
+    python 100k_run_postprocessing_parallel.py --dir-id "$i" --workers 6
 
     # Check exit code
     if [ $? -ne 0 ]; then

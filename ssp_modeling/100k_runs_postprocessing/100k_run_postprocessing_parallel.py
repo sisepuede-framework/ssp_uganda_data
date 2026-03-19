@@ -396,6 +396,25 @@ def worker_init(
     PROC_STATE["attribute_strategy_df"]  = pd.read_pickle(os.path.join(cache_dir, "attribute_strategy_df.pkl"))
     PROC_STATE["baseline_decomposed_df"] = pd.read_pickle(os.path.join(cache_dir, "baseline_decomposed_df.pkl"))
 
+    # Patch CostBenefits.initialize_session to use a per-process unique tmp DB file.
+    # The default implementation writes to a single shared tmp_cb_data.db; when multiple
+    # worker processes run concurrently they overwrite each other → "malformed" / "no such table".
+    import inspect as _inspect, shutil as _shutil
+    from sqlalchemy import create_engine as _create_engine
+    from sqlalchemy.orm import sessionmaker as _sessionmaker
+    from costs_benefits_ssp.cb_calculate import CostBenefits as _CB
+
+    def _per_process_initialize_session(self):
+        _lib_dir = os.path.dirname(os.path.abspath(_inspect.getfile(type(self))))
+        _src_db  = os.path.join(_lib_dir, "database", "backup", "cb_data.db")
+        _tmp_db  = os.path.join(_lib_dir, "database", f"tmp_cb_data_{os.getpid()}.db")
+        _shutil.copyfile(_src_db, _tmp_db)
+        _engine  = _create_engine(f"sqlite:///{_tmp_db}")
+        _Session = _sessionmaker(bind=_engine)
+        return _Session()
+
+    _CB.initialize_session = _per_process_initialize_session
+
 
 
 def run_decomposition_worker(
@@ -701,6 +720,15 @@ def main():
             pool.imap_unordered(run_decomposition_worker, primary_ids),
             total=len(primary_ids)
         ))
+
+    # Clean up per-process tmp CB database files left by the patched initialize_session
+    import glob as _glob, costs_benefits_ssp.cb_calculate as _cb_mod
+    _cb_db_dir = os.path.join(os.path.dirname(os.path.abspath(_cb_mod.__file__)), "database")
+    for _f in _glob.glob(os.path.join(_cb_db_dir, "tmp_cb_data_*.db")):
+        try:
+            os.remove(_f)
+        except Exception:
+            pass
 
     # Collect and separate results.
     # Unit of analysis is primary_id + time_period → emissions are ALWAYS saved.
