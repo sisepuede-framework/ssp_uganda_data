@@ -738,7 +738,8 @@ def main():
     if emissions_frames:
         all_emissions = pd.concat(emissions_frames, ignore_index=True)
         em_key = f"{S3_DECOMPOSED_DIR_PREFIX}region={region}/decomposed_emissions_{args.dir_id}/data.csv"
-        upload_df_to_s3(all_emissions, s3, BUCKET_NAME, em_key)
+        _em_upload = all_emissions[[c for c in ["primary_id", "time_period", "total_emissions"] if c in all_emissions.columns]]
+        upload_df_to_s3(_em_upload, s3, BUCKET_NAME, em_key)
         logger.info(f"Uploaded combined emissions ({len(emissions_frames)} primary_ids) → {em_key}")
     else:
         logger.warning("No emission frames to upload.")
