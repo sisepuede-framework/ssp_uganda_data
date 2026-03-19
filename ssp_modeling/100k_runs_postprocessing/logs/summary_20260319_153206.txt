@@ -1,0 +1,12 @@
+============================================
+RUN SUMMARY — Thu Mar 19 15:33:22 CST 2026
+============================================
+
+Successful (2): 302 303
+Failed     (0): none
+
+Individual logs:
+  [OK]  DIR_ID=302 -> /Users/fabianfuentes/git/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_302_20260319_153206.txt
+  [OK]  DIR_ID=303 -> /Users/fabianfuentes/git/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_303_20260319_153206.txt
+
+Summary file: /Users/fabianfuentes/git/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/summary_20260319_153206.txt
