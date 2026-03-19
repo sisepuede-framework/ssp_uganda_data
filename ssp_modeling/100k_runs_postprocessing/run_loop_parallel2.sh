@@ -8,14 +8,14 @@
 
 # Loop over the directory IDs you want to process
 
-for i in {48..99}
+for i in {500..599}
 do
     echo "==========================================="
     echo "Running postprocessing for DIR_ID = $i"
     echo "==========================================="
 
     # Run the Python script (use --dir-id argument)
-    python 100k_run_postprocessing_parallel.py --dir-id "$i" --workers 20
+    python 100k_run_postprocessing_parallel.py --dir-id "$i" --workers 15
 
     # Check exit code
     if [ $? -ne 0 ]; then

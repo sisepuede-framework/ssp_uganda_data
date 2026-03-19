@@ -147,6 +147,7 @@ def rescale_py(
     rall: List[str],
     initial_conditions_id: str,
     time_period_ref: int,
+    growth_clip_pct: float = 1.0,
 ) -> pd.DataFrame:
     """
     Pure-Python equivalent of the R rescale() function.
@@ -262,12 +263,26 @@ def rescale_py(
 
                 pct_d = np.zeros_like(v)
                 pct_d[:, 1:] = ratio
-                pct_diff_mat[nonzero] = pct_d
 
                 # R: diff_var = c(0, diff(vals))
                 d_var = np.zeros_like(v)
                 d_var[:, 1:] = np.diff(v, axis=1)
-                diff_mat[nonzero] = d_var
+
+                # Winsorize growth rates per time_period (across primary_ids) to
+                # prevent a single outlier scenario from distorting the rescaling.
+                # Clip at [growth_clip_pct, 100-growth_clip_pct] across the
+                # primary_id dimension at each time step.
+                if growth_clip_pct > 0 and v.shape[0] > 1:
+                    p_lo = np.nanpercentile(pct_d, growth_clip_pct,       axis=0, keepdims=True)
+                    p_hi = np.nanpercentile(pct_d, 100 - growth_clip_pct, axis=0, keepdims=True)
+                    pct_d = np.clip(pct_d, p_lo, p_hi)
+
+                    d_lo = np.nanpercentile(d_var, growth_clip_pct,       axis=0, keepdims=True)
+                    d_hi = np.nanpercentile(d_var, 100 - growth_clip_pct, axis=0, keepdims=True)
+                    d_var = np.clip(d_var, d_lo, d_hi)
+
+                pct_diff_mat[nonzero] = pct_d
+                diff_mat[nonzero]     = d_var
 
             _growth_cache[var] = (pct_diff_mat, diff_mat)
             return pct_diff_mat, diff_mat
@@ -313,6 +328,22 @@ def rescale_py(
                 else:
                     # init_value × cumulative product of (1 + growth_rate)
                     new_vals = init_value * np.cumprod(1.0 + pct_diff_mat, axis=1)
+
+                # Forward-fill outlier values: for each time_period scan the
+                # distribution of new_vals across primary_ids (axis=0).
+                # Any scenario whose value falls outside K×IQR from [Q1, Q3]
+                # is replaced with its own previous-period value.  Processing
+                # left-to-right ensures the replacement value is already clean.
+                if n_inds > 3:
+                    _K = 5.0
+                    for t_idx in range(1, n_tp):
+                        col = new_vals[:, t_idx]
+                        q1, q3 = np.percentile(col, [25, 75])
+                        iqr = q3 - q1
+                        if iqr > 0:
+                            spike = (col < q1 - _K * iqr) | (col > q3 + _K * iqr)
+                            if spike.any():
+                                new_vals[spike, t_idx] = new_vals[spike, t_idx - 1]
 
                 # Assign back — data is sorted (Index lex, time_period asc) and every
                 # ind has exactly n_tp rows, so flatten maps directly to data rows.
