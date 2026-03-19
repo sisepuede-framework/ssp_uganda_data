@@ -427,46 +427,86 @@ def run_decomposition_worker(
             decomposed_df.filter(like="emission_co2e_subsector_total").sum(axis=1)
         )
         
-        cols_to_keep = (
-            ["primary_id", "time_period", "total_emissions"]
-        )
+        cols_to_keep = ["primary_id", "time_period", "total_emissions"]
         emissions_df = decomposed_df[[c for c in cols_to_keep if c in decomposed_df.columns]].copy()
 
-        # --- Cost Benefits ---
+        # --- Strategy / future lookup (soft-fail) ---
+        # These are only required for CB. If the attribute tables don't cover this
+        # primary_id, we still save emissions and skip CB (no error raised).
+        future_id     = None
+        strategy_code = None
+        _cb_skip_reason = None
         try:
-            future_id   = int(attribute_primary_df.loc[attribute_primary_df["primary_id"] == primary_id_to_decompose, "future_id"].values[0])
-            strategy_id = int(attribute_primary_df.loc[attribute_primary_df["primary_id"] == primary_id_to_decompose, "strategy_id"].values[0])
-            strategy_code = attribute_strategy_df.loc[attribute_strategy_df["strategy_id"] == strategy_id, "strategy_code"].values[0]
-        except Exception:
-            return primary_id_to_decompose, emissions_df, None, f"Missing strategy/future mapping for primary_id={primary_id_to_decompose}"
+            attr_row = attribute_primary_df.loc[
+                attribute_primary_df["primary_id"] == primary_id_to_decompose
+            ]
+            if len(attr_row) == 0:
+                _cb_skip_reason = f"pid={primary_id_to_decompose} not found in attribute_primary_df"
+            else:
+                future_id = int(attr_row["future_id"].values[0])
+                sc = attr_row["strategy_code"].values[0]
+                if pd.isna(sc):
+                    _cb_skip_reason = f"pid={primary_id_to_decompose} has no strategy_code (strategy_id not in attribute_strategy_df)"
+                else:
+                    strategy_code = sc
+        except Exception as _e:
+            _cb_skip_reason = f"pid={primary_id_to_decompose} lookup error: {_e}"
+
+        # Add future_id to emissions for traceability (if available)
+        if future_id is not None:
+            emissions_df["future_id"] = future_id
+
+        # --- Cost Benefits (optional — skipped when strategy_code unavailable) ---
+        if strategy_code is None:
+            import logging as _logging
+            _logging.getLogger(__name__).warning(f"CB skipped — {_cb_skip_reason}")
+            return primary_id_to_decompose, emissions_df, None, None
 
         from costs_benefits_ssp.cb_calculate import CostBenefits
 
         # Append baseline (primary_id=0) + current run.
-        # Both have input+output merged — schemas are compatible.
         ssp_data = pd.concat([base_decomposed_df, decomposed_df], ignore_index=True)
         ssp_data = ssp_data.replace(np.nan, 0.0)
         strategy_code_base = "BASE"
 
-        cb = CostBenefits(ssp_data, attribute_primary_df, attribute_strategy_df, strategy_code_base)
-        cb.ssp_data["future_id"] = 0
-
         cb_config_path = os.path.join(PROC_STATE["CONFIG_DIR"], "cb_config_params.xlsx")
         if not os.path.exists(cb_config_path):
-            return primary_id_to_decompose, emissions_df, None, f"CB config not found: {cb_config_path}"
-        cb.load_cb_parameters(cb_config_path)
+            return primary_id_to_decompose, emissions_df, None, None  # no CB config → skip CB
 
-        results_system = cb.compute_system_cost_for_strategy(strategy_code_tx=strategy_code)
-        results_tx     = cb.compute_technical_cost_for_strategy(strategy_code_tx=strategy_code)
-        results_all    = pd.concat([results_system, results_tx], ignore_index=True)
-        results_all_pp = cb.cb_process_interactions(results_all)
-        results_all_pp_shifted = cb.cb_shift_costs(results_all_pp)
-        results_all_pp_shifted["primary_id"] = primary_id_to_decompose
-        results_all_pp_shifted["future_id"]  = future_id
+        try:
+            import contextlib, io as _io, warnings as _warnings
+            _devnull = _io.StringIO()
+            with contextlib.redirect_stdout(_devnull), \
+                 _warnings.catch_warnings():
+                _warnings.simplefilter("ignore")  # suppress SettingWithCopyWarning and others from cb lib
+                # Drop strategy_code if present — CostBenefits.marge_attribute_strategy merges
+                # att_primary with att_strategy on strategy_id; duplicate strategy_code columns
+                # would be renamed to strategy_code_x / strategy_code_y, breaking the CB library.
+                _att_primary_for_cb = attribute_primary_df.drop(columns=["strategy_code"], errors="ignore")
+                cb = CostBenefits(ssp_data, _att_primary_for_cb, attribute_strategy_df, strategy_code_base)
+                cb.ssp_data["future_id"] = 0
+                cb.load_cb_parameters(cb_config_path)
 
-        agg_cb_df = postprocess_cba(results_all_pp_shifted)
+                results_system = cb.compute_system_cost_for_strategy(strategy_code_tx=strategy_code)
+                results_tx     = cb.compute_technical_cost_for_strategy(strategy_code_tx=strategy_code)
+                results_all    = pd.concat([results_system, results_tx], ignore_index=True)
+                results_all_pp = cb.cb_process_interactions(results_all)
+                results_all_pp_shifted = cb.cb_shift_costs(results_all_pp)
 
-        return primary_id_to_decompose, emissions_df, agg_cb_df, None
+            results_all_pp_shifted["primary_id"] = primary_id_to_decompose
+            if future_id is not None:
+                results_all_pp_shifted["future_id"] = future_id
+
+            agg_cb_df = postprocess_cba(results_all_pp_shifted)
+            return primary_id_to_decompose, emissions_df, agg_cb_df, None
+
+        except Exception as cb_err:
+            # CB failed (e.g. malformed SQLite DB) — still preserve emissions
+            import logging as _logging
+            _logging.getLogger(__name__).warning(
+                f"CB failed for pid={primary_id_to_decompose}: {type(cb_err).__name__}: {cb_err}"
+            )
+            return primary_id_to_decompose, emissions_df, None, None
 
     except Exception as e:
         return primary_id_to_decompose, None, None, f"{e}\n{traceback.format_exc()}"
@@ -581,7 +621,9 @@ def main():
             logger.warning(f"Pre-flight: missing column '{_var}' in data_all_r")
             continue
         _mask = (data_all_r["time_period"] == TIME_PERIOD_REF) & (data_all_r[_var] == 0)
-        data_all_r.loc[_mask, _var] = 0.01
+        if _mask.any():
+            data_all_r[_var] = data_all_r[_var].astype(float)
+            data_all_r.loc[_mask, _var] = 0.01
 
     # Run Python rescale (replaces R intertemporal_decomposition.r)
     logger.info(f"Running rescale_py() for {len(primary_ids)} primary_ids…")
@@ -598,6 +640,18 @@ def main():
     # Cache shared tables (loaded once per worker process)
     CACHE_DIR = os.path.join(TMP_DIR_PATH, "cache")
     os.makedirs(CACHE_DIR, exist_ok=True)
+    logger.info(f"attribute_primary_df columns: {attribute_primary_df.columns.tolist()}")
+    logger.info(f"attribute_strategy_df columns: {attribute_strategy_df.columns.tolist()}")
+    # Pre-join strategy_code into attribute_primary_df so workers do a single lookup
+    _strat_cols = [c for c in ["strategy_id", "strategy_code"] if c in attribute_strategy_df.columns]
+    if "strategy_code" in attribute_strategy_df.columns:
+        attribute_primary_df = attribute_primary_df.merge(
+            attribute_strategy_df[_strat_cols],
+            on="strategy_id",
+            how="left",
+        )
+    else:
+        logger.warning("attribute_strategy_df has no 'strategy_code' column — CB will be skipped for all pids")
     attribute_primary_df.to_pickle(os.path.join(CACHE_DIR, "attribute_primary_df.pkl"))
     attribute_strategy_df.to_pickle(os.path.join(CACHE_DIR, "attribute_strategy_df.pkl"))
     baseline_df.to_pickle(os.path.join(CACHE_DIR, "baseline_decomposed_df.pkl"))
@@ -648,27 +702,35 @@ def main():
             total=len(primary_ids)
         ))
 
-    # Collect and separate results
+    # Collect and separate results.
+    # Unit of analysis is primary_id + time_period → emissions are ALWAYS saved.
+    # CB is optional: missing strategy mapping is a soft-skip, not a hard error.
     emissions_frames: List[pd.DataFrame] = []
     cb_frames: List[pd.DataFrame] = []
-    errors = []
+    hard_errors   = []   # could not compute even emissions
+    cb_skipped    = 0    # emissions ok but CB skipped (no strategy mapping)
     for pid, em_df, cb_df, err in results:
+        # Always save emissions when available, regardless of CB outcome
+        if em_df is not None and not em_df.empty:
+            emissions_frames.append(em_df)
+        if cb_df is not None and not cb_df.empty:
+            cb_frames.append(cb_df)
+        # Hard error = could not load / process decomposed data
         if err:
-            errors.append((pid, err))
-        else:
-            if em_df is not None and not em_df.empty:
-                emissions_frames.append(em_df)
-            if cb_df is not None and not cb_df.empty:
-                cb_frames.append(cb_df)
+            hard_errors.append((pid, err))
+        elif cb_df is None and (em_df is not None and not em_df.empty):
+            cb_skipped += 1
 
-    if errors:
-        logger.warning(f"{len(errors)} primary_id(s) failed:")
-        for pid, err in errors[:10]:
+    logger.info(
+        f"Results: {len(emissions_frames)} emissions, {len(cb_frames)} CB, "
+        f"{cb_skipped} CB-skipped (no strategy mapping), {len(hard_errors)} hard errors."
+    )
+    if hard_errors:
+        logger.warning(f"{len(hard_errors)} primary_id(s) failed entirely:")
+        for pid, err in hard_errors[:10]:
             logger.warning(f"  - {pid}: {err}")
-        if len(errors) > 10:
+        if len(hard_errors) > 10:
             logger.warning("  … (more errors not shown)")
-    else:
-        logger.info("All primary_id tasks completed successfully.")
 
     # Upload single combined file per table
     region = rall[0]
