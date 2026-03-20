@@ -17,7 +17,7 @@ FAILED_IDS=()
 SUCCESS_IDS=()
 
 # Loop over the directory IDs you want to process
-for i in {302..303}
+for i in {400..621}
 do
     RUN_LOG="${LOG_DIR}/dir_id_${i}_${TIMESTAMP}.txt"
 

@@ -235,3 +235,5 @@ ssp_modeling/100k_runs_postprocessing/tmp/*
 !ssp_modeling/100k_runs_postprocessing/tmp/uganda_36800368.csv
 
 ssp_modeling/100k_runs_postprocessing/config/aws_credentials_config.yaml
+
+ssp_modeling/100k_runs_postprocessing/logs
