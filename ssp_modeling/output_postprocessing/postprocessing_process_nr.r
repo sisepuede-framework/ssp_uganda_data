@@ -78,7 +78,7 @@ message(sprintf("=== Running post-processing for year_ref = %d ===", year_ref))
 # run the original steps (they read year_ref from the env)
 source('ssp_modeling/output_postprocessing/scr/LULUCF/run_script_baseline_run_new.r')
 source('ssp_modeling/output_postprocessing/scr/LULUCF/data_prep_new_mapping_uganda.r')
-source('ssp_modeling/output_postprocessing/scr/data_prep_drivers.r')
+source('ssp_modeling/output_postprocessing/scr/LULUCF/data_prep_drivers.r')
 
 # Levers table
 source('ssp_modeling/output_postprocessing/scr/levers_table/#create levers table.r')
