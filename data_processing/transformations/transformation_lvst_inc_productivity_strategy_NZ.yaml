@@ -2,7 +2,7 @@ citations: null
 description: Increase inferred livestock carrying capacity by 50%
 identifiers:
   transformation_code: "TX:LVST:INC_PRODUCTIVITY_STRATEGY_NZ"
-  transformation_name: "Increase livestock productivity by 50% from baseline - LVST: Increase livestock\
+  transformation_name: "Increase livestock productivity by 100% from baseline - LVST: Increase livestock\
     \ productivity"
 parameters:
   magnitude: 0.5

@@ -5,7 +5,7 @@ identifiers:
   transformation_code: "TX:PFLO:INC_HEALTHIER_DIETS"
   transformation_name: "Default Value - PFLO: Change diets"
 parameters:
-  magnitude_red_meat: 0.5
+  magnitude_red_meat: 0.3
   vec_implementation_ramp:
     n_tp_ramp: 35
 transformer: "TFR:PFLO:INC_HEALTHIER_DIETS"

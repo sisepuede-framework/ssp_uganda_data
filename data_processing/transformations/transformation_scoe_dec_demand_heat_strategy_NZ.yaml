@@ -5,7 +5,7 @@ identifiers:
   transformation_name: "Scaled Default Max Parameters by 1.0 - SCOE: Reduce end-use\
     \ demand for heat energy by improving building shell"
 parameters:
-  magnitude: 0.5
+  magnitude: 0.4
   vec_implementation_ramp:
     alpha_logistic: 1
     n_tp_ramp: 30

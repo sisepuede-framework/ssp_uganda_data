@@ -5,6 +5,6 @@ identifiers:
   transformation_name: "Scaled Default Max Parameters by 1.0 - SCOE: Increase appliance\
     \ efficiency. Reflects adoption of newer, more efficient technologies available."
 parameters:
-  magnitude: 0.5
+  magnitude: 0.3
   vec_implementation_ramp: null
 transformer: "TFR:SCOE:INC_EFFICIENCY_APPLIANCE"

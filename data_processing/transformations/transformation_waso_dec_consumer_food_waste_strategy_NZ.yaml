@@ -5,6 +5,6 @@ identifiers:
   transformation_name: "Scaled Default Max Parameters by 2.0 - WASO: Consumer food\
     \ waste reduction"
 parameters:
-  magnitude: 0.6
+  magnitude: 0.45
   vec_implementation_ramp: null
 transformer: "TFR:WASO:DEC_CONSUMER_FOOD_WASTE"

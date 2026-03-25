@@ -4,8 +4,7 @@ identifiers:
   transformation_code: "TX:FRST:INCREASE_SEQUESTRATION_NZ"
   transformation_name: "Increase Secondary Sequestration by 20% to represent sustainable biomass for Net Zero"
 parameters:
-  magnitude: 0.2
+  magnitude: 0.15
   vec_implementation_ramp:
-    tp_0_ramp: 10
-    n_tp_ramp: 10
+    n_tp_ramp: 20
 transformer: "TFR:FRST:INCREASE_SEQUESTRATION"
