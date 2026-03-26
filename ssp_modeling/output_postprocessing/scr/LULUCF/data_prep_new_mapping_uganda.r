@@ -142,9 +142,9 @@ table(data_new$strategy)
 
 #write file
 dir.tableau <- paste0("ssp_modeling/Tableau/data/")
-file.name <- paste0("emissions_", region, "_", year_ref, "_", output.file)
+file.name <- paste0("emissions_", region, "_", year_ref, ".csv" )
 
-fwrite(data_new,paste0(dir.tableau,'raw_',file.name),row.names=FALSE)
+fwrite(data_new,paste0(dir.tableau,file.name),row.names=FALSE)
 
 
 print(paste0('Finish:data_prep_new_mapping process'))

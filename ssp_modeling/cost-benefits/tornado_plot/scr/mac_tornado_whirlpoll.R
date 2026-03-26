@@ -1,31 +1,29 @@
 
 # load packages
 library(data.table)
-library(reshape2)
 library(dplyr)
-library(ggplot2)
 
 rm(list=ls())
 
 #ouputfile
-dir <- "ssp_modeling/cost-benefits/tornado_plot/data/output/"
+dir <- "ssp_modeling/ssp_run_output/sisepuede_run_2026-03-10t13;27;53.264959/"
 
-tornado <- fread(paste0(dir, '/tornado/tornado_plot.csv'))
+tornado <- fread(paste0(dir, 'marginal_abatement_costs.csv'))
 
-tornado$mac_tornado <- tornado$`marginal_total_abatement_cost_(USD/tCO2e)`
+tornado$mac_tornado <- tornado$marginal_abatement_cost
  
 tornado <- select(tornado, primary_id, mac_tornado)
 
 
 
-whirlpool <- fread(paste0(dir, '/whirlpool/tornado_plot_whirlpool.csv'))
+whirlpool <- fread(paste0(dir, 'marginal_abatement_costs_whirlpool.csv'))
 
-whirlpool$mac_whirlpool <- whirlpool$`marginal_total_abatement_cost_(USD/tCO2e)`
+whirlpool$mac_whirlpool <- whirlpool$marginal_abatement_cost
 
 whirlpool <- select(whirlpool, primary_id, mac_whirlpool)
 
 
-mac <- fread('ssp_modeling/cost-benefits/tornado_plot/data/input/sisepuede_run_2026-03-10T13;27;53.264959/ATTRIBUTE_MAP_TORNADO_WHIRLPOOL.csv')
+mac <- fread(paste0(dir, 'ATTRIBUTE_MAP_TORNADO_WHIRLPOOL.csv'))
 
 mac <- left_join(mac, tornado, by=c('primary_id_tornado'='primary_id'))
 
