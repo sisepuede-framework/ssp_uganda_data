@@ -237,3 +237,8 @@ ssp_modeling/100k_runs_postprocessing/tmp/*
 ssp_modeling/100k_runs_postprocessing/config/aws_credentials_config.yaml
 
 ssp_modeling/100k_runs_postprocessing/logs
+
+
+#ignore claude files
+.claude
+CLAUDE.md
