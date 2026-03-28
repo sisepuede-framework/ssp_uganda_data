@@ -214,3 +214,71 @@ def run_mac_analysis(
     )
 
     return mac_df
+
+
+def build_tableau_whirlpool(
+    mac_df: pd.DataFrame,
+    run_output_dir: Path,
+    tableau_dir: Path,
+) -> pd.DataFrame:
+    """
+    Build and export the Tableau whirlpool plot data.
+
+    Joins ATTRIBUTE_MAP_TORNADO_WHIRLPOOL with whirlpool MAC results,
+    filters out strategies with zero emission difference,
+    and writes to tableau_whirlpool.csv.
+    """
+    att_map = pd.read_csv(run_output_dir / "ATTRIBUTE_MAP_TORNADO_WHIRLPOOL.csv")
+
+    mac_cols = [
+        "primary_id", "emission_total", "base_emission_total",
+        "emission_diff", "technical_cost", "marginal_abatement_cost",
+    ]
+    tableau = att_map.merge(
+        mac_df[mac_cols],
+        left_on="primary_id_whirlpool",
+        right_on="primary_id",
+        how="left",
+    )
+    tableau = tableau[tableau["emission_diff"] != 0].reset_index(drop=True)
+
+    tableau_dir.mkdir(parents=True, exist_ok=True)
+    tableau.to_csv(tableau_dir / "tableau_whirlpool.csv", index=False, encoding="UTF-8")
+
+    return tableau
+
+
+def build_mac_tornado_to_whirlpool(
+    whirlpool_mac_df: pd.DataFrame,
+    run_output_dir: Path,
+    tableau_dir: Path,
+) -> pd.DataFrame:
+    """
+    Build and export the combined tornado vs whirlpool MAC comparison table.
+
+    Reads tornado MAC from run_output_dir, joins both MACs onto the attribute
+    map, filters rows where either MAC is missing, and writes to
+    mac_tornado_to_whirlpool.csv.
+    """
+    att_map = pd.read_csv(run_output_dir / "ATTRIBUTE_MAP_TORNADO_WHIRLPOOL.csv")
+
+    tornado_mac = pd.read_csv(run_output_dir / "marginal_abatement_costs_tornado.csv")
+    tornado_mac = tornado_mac[["primary_id", "marginal_abatement_cost"]].rename(
+        columns={"marginal_abatement_cost": "mac_tornado"}
+    )
+
+    whirlpool_mac = whirlpool_mac_df[["primary_id", "marginal_abatement_cost"]].rename(
+        columns={"marginal_abatement_cost": "mac_whirlpool"}
+    )
+
+    mac = att_map.merge(tornado_mac,  left_on="primary_id_tornado",   right_on="primary_id", how="left").drop(columns="primary_id")
+    mac = mac.merge(whirlpool_mac, left_on="primary_id_whirlpool", right_on="primary_id", how="left").drop(columns="primary_id")
+
+    mac["mac_tornado"]   = pd.to_numeric(mac["mac_tornado"],   errors="coerce")
+    mac["mac_whirlpool"] = pd.to_numeric(mac["mac_whirlpool"], errors="coerce")
+    mac = mac[mac["mac_tornado"].notna() & mac["mac_whirlpool"].notna()].reset_index(drop=True)
+
+    tableau_dir.mkdir(parents=True, exist_ok=True)
+    mac.to_csv(tableau_dir / "mac_tornado_to_whirlpool.csv", index=False, encoding="UTF-8")
+
+    return mac

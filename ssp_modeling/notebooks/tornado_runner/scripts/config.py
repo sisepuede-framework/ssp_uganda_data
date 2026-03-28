@@ -39,9 +39,13 @@ TARGETS_PATH = SSP_MODELING_DIR / "output_postprocessing/data/LULUCF/emission_ta
 INVENT_DIR   = SSP_MODELING_DIR / "output_postprocessing/data/LULUCF"
 
 # Output paths for intermediate results
-OUTPUT_DECOMPOSED = RUN_ID_OUTPUT_DIR / "decomposed_ssp_output_tornado.csv"
-OUTPUT_CB_DATA    = RUN_ID_OUTPUT_DIR / "cost_benefits_data_tornado.csv"
-OUTPUT_MAC        = RUN_ID_OUTPUT_DIR / "marginal_abatement_costs_tornado.csv"
+OUTPUT_DECOMPOSED      = RUN_ID_OUTPUT_DIR / "decomposed_ssp_output_tornado.csv"
+OUTPUT_CB_DATA         = RUN_ID_OUTPUT_DIR / "cost_benefits_data_tornado.csv"
+OUTPUT_MAC             = RUN_ID_OUTPUT_DIR / "marginal_abatement_costs_tornado.csv"
+
+# ── Tableau output ─────────────────────────────────────────────────────────────
+TABLEAU_DIR            = SSP_MODELING_DIR / "Tableau/data"
+OUTPUT_TABLEAU_TORNADO = TABLEAU_DIR / "tableau_tornado.csv"
 
 # ── Cost-benefits parameters ──────────────────────────────────────────────────
 # Tornado uses cb_cost_factors/ (different subfolder than whirlpool)

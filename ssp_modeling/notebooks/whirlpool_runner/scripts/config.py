@@ -37,6 +37,11 @@ OUTPUT_DECOMPOSED  = RUN_ID_OUTPUT_DIR / "decomposed_ssp_output_whirlpool.csv"
 OUTPUT_CB_DATA     = RUN_ID_OUTPUT_DIR / "cost_benefits_data_whirlpool.csv"
 OUTPUT_MAC         = RUN_ID_OUTPUT_DIR / "marginal_abatement_costs_whirlpool.csv"
 
+# ── Tableau output ─────────────────────────────────────────────────────────────
+TABLEAU_DIR                    = SSP_MODELING_DIR / "Tableau/data"
+OUTPUT_TABLEAU_WHIRLPOOL       = TABLEAU_DIR / "tableau_whirlpool.csv"
+OUTPUT_MAC_TORNADO_TO_WHIRLPOOL = TABLEAU_DIR / "mac_tornado_to_whirlpool.csv"
+
 # ── Cost-benefits parameters ──────────────────────────────────────────────────
 CB_CONFIG_PATH = SSP_MODELING_DIR / "cost-benefits/cb_cost_factors/cb_config_params.xlsx"
 CB_OUTPUT_PATH = SSP_MODELING_DIR / "cost-benefits/out"

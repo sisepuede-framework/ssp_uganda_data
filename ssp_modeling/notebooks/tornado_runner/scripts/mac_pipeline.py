@@ -224,3 +224,41 @@ def run_mac_analysis(
     )
 
     return mac_df
+
+
+def build_tableau_tornado(
+    mac_df: pd.DataFrame,
+    run_output_dir: Path,
+    tableau_dir: Path,
+) -> pd.DataFrame:
+    """
+    Build and export the Tableau tornado plot data.
+
+    Joins ATTRIBUTE_MAP_TORNADO_WHIRLPOOL with MAC results,
+    filters out strategies with zero emission difference,
+    and writes to tableau_tornado.csv.
+
+    Parameters
+    ----------
+    mac_df         : output of run_mac_analysis
+    run_output_dir : directory containing ATTRIBUTE_MAP_TORNADO_WHIRLPOOL.csv
+    tableau_dir    : destination directory for tableau_tornado.csv
+    """
+    att_map = pd.read_csv(run_output_dir / "ATTRIBUTE_MAP_TORNADO_WHIRLPOOL.csv")
+
+    mac_cols = [
+        "primary_id", "emission_total", "base_emission_total",
+        "emission_diff", "technical_cost", "marginal_abatement_cost",
+    ]
+    tableau = att_map.merge(
+        mac_df[mac_cols],
+        left_on="primary_id_tornado",
+        right_on="primary_id",
+        how="left",
+    )
+    tableau = tableau[tableau["emission_diff"] != 0].reset_index(drop=True)
+
+    tableau_dir.mkdir(parents=True, exist_ok=True)
+    tableau.to_csv(tableau_dir / "tableau_tornado.csv", index=False, encoding="UTF-8")
+
+    return tableau
