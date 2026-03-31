@@ -141,7 +141,7 @@ table(data_new$strategy)
 
 
 #write file
-dir.tableau <- paste0("ssp_modeling/Tableau/data/")
+dir.tableau <- paste0("ssp_modeling/Tableau/data_LULUCF/")
 file.name <- paste0("emissions_", region, "_", year_ref, ".csv" )
 
 fwrite(data_new,paste0(dir.tableau,file.name),row.names=FALSE)

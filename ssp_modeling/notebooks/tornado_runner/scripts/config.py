@@ -24,7 +24,7 @@ DATA_DIR          = SSP_MODELING_DIR / "input_data"
 RUN_OUTPUT_DIR    = SSP_MODELING_DIR / "ssp_run_output"
 
 # ── Run to analyze ────────────────────────────────────────────────────────────
-RUN_ID            = "sisepuede_run_2026-03-10t13;27;53.264959/"
+RUN_ID            = "sisepuede_summary_results_run_sisepuede_run_2026-03-30T03;04;59.566941/"
 RUN_ID_OUTPUT_DIR = RUN_OUTPUT_DIR / RUN_ID
 
 # ── Model time range ──────────────────────────────────────────────────────────
@@ -35,7 +35,7 @@ YEAR_END   = 2070
 ISO_CODE3    = "UGA"
 YEAR_REF     = 2019
 REGION       = "uganda"
-TARGETS_PATH = SSP_MODELING_DIR / "output_postprocessing/data/LULUCF/emission_targets_uganda_2019_LULUCF.csv"
+TARGETS_PATH = SSP_MODELING_DIR / "output_postprocessing/data/LULUCF/emission_targets_uganda_2019_LULUCF_updated.csv"
 INVENT_DIR   = SSP_MODELING_DIR / "output_postprocessing/data/LULUCF"
 
 # Output paths for intermediate results
@@ -60,12 +60,10 @@ STRATEGY_CODE_BASELINE = "BASE"   # alias used by mac_pipeline
 # ── Primary IDs to analyze (tornado strategy set) ─────────────────────────────
 PRIMARY_IDS_FILTER = [
     0,
-    760076,  770077,  780078,  790079,  800080,  810081,  820082,  830083,
-    840084,  850085,  860086,  870087,  880088,  890089,  900090,  910091,
-    920092,  930093,  940094,  950095,  960096,  970097,  980098,  990099,
-    1000100, 1010101, 1020102, 1030103, 1040104, 1050105, 1060106,
-    1070107, 1080108, 1090109, 1100110, 1110111, 1120112, 1130113,
-    1140114, 1150115, 1160116, 1170117, 1180118, 1190119, 1200120,
-    1210121, 1220122, 1230123, 1240124, 1250125, 1260126, 1270127,
-    1280128, 1290129, 1300130, 1310131, 1320132, 1330133, 1340134,
+    6500, 6501, 6502, 6503, 6504, 6505, 6506, 6507, 6508, 6509,
+    6510, 6511, 6512, 6513, 6514, 6515, 6516, 6517, 6518, 6519,
+    6520, 6521, 6522, 6523, 6524, 6525, 6526, 6527, 6528, 6529,
+    6530, 6531, 6532, 6533, 6534, 6535, 6536, 6537, 6538, 6539,
+    6540, 6541, 6542, 6543, 6544, 6545, 6546, 6547, 6548, 6549,
+    6550, 6551, 6552, 6553, 6554, 6555, 6556, 6557, 6558
 ]

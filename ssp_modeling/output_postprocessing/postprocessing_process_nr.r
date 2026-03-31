@@ -11,15 +11,16 @@ library(ggplot2)
 rm(list=ls())
 
 #ouputfile
-run <- 'sisepuede_run_2026-03-10t13;27;53.264959'
+run <- 'sisepuede_summary_results_run_sisepuede_run_2026-03-30T03;04;59.566941'
 
 dir.output  <- paste0("ssp_modeling/ssp_run_output/",run,"/")
+#output.file <- "c585e7e9-e32f-4131-999b-ee7fc5ec014e.csv"
 output.file <- "c585e7e9-e32f-4131-999b-ee7fc5ec014e.csv"
 
 att <- "ATTRIBUTE_STRATEGY.csv"
 
 
-sttrategy_ids <- c(0,6004,6008,6009) 
+sttrategy_ids <- c(0,6004,6010,6011,6012) 
 
 # load full data
 nwr <- fread(paste0(dir.output, output.file))
@@ -80,8 +81,12 @@ source('ssp_modeling/output_postprocessing/scr/LULUCF/run_script_baseline_run_ne
 source('ssp_modeling/output_postprocessing/scr/LULUCF/data_prep_new_mapping_uganda.r')
 source('ssp_modeling/output_postprocessing/scr/LULUCF/data_prep_drivers.r')
 
+
 # Levers table
 source('ssp_modeling/output_postprocessing/scr/levers_table/#create levers table.r')
 
 # Jobs table
 source('ssp_modeling/output_postprocessing/scr/levers_table/#create jobs table.r')
+
+
+

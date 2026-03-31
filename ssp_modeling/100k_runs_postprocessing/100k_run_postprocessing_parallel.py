@@ -376,11 +376,12 @@ def rescale_py(
 # Global (per-process) state for workers
 # --------------------------
 PROC_STATE = {
-    "PID_CACHE_DIR":       None,
-    "CONFIG_DIR":          None,
-    "attribute_primary_df":  None,
-    "attribute_strategy_df": None,
-    "baseline_decomposed_df": None,
+    "PID_CACHE_DIR":            None,
+    "CONFIG_DIR":               None,
+    "attribute_primary_df":     None,
+    "attribute_strategy_df":    None,
+    "baseline_decomposed_df":   None,
+    "canonical_emission_cols":  None,
 }
 
 def worker_init(
@@ -395,6 +396,9 @@ def worker_init(
     PROC_STATE["attribute_primary_df"]   = pd.read_pickle(os.path.join(cache_dir, "attribute_primary_df.pkl"))
     PROC_STATE["attribute_strategy_df"]  = pd.read_pickle(os.path.join(cache_dir, "attribute_strategy_df.pkl"))
     PROC_STATE["baseline_decomposed_df"] = pd.read_pickle(os.path.join(cache_dir, "baseline_decomposed_df.pkl"))
+    import pickle as _pickle
+    with open(os.path.join(cache_dir, "canonical_emission_cols.pkl"), "rb") as _f:
+        PROC_STATE["canonical_emission_cols"] = _pickle.load(_f)
 
     # Patch CostBenefits.initialize_session to use a per-process unique tmp DB file.
     # The default implementation writes to a single shared tmp_cb_data.db; when multiple
@@ -441,13 +445,14 @@ def run_decomposition_worker(
         if base_decomposed_df.empty:
             return primary_id_to_decompose, None, None, "Baseline data is empty in cache."
 
-        # Build emissions summary — columns already present in decomposed_df
+        # Build emissions summary — use canonical column list for consistent output
+        canonical_emission_cols = PROC_STATE["canonical_emission_cols"]
         decomposed_df["total_emissions"] = (
             decomposed_df.filter(like="emission_co2e_subsector_total").sum(axis=1)
         )
-        
-        cols_to_keep = ["primary_id", "time_period", "total_emissions"]
-        emissions_df = decomposed_df[[c for c in cols_to_keep if c in decomposed_df.columns]].copy()
+
+        cols_to_keep = ["primary_id", "time_period"] + canonical_emission_cols + ["total_emissions"]
+        emissions_df = decomposed_df.reindex(columns=cols_to_keep, fill_value=0.0)
 
         # --- Strategy / future lookup (soft-fail) ---
         # These are only required for CB. If the attribute tables don't cover this
@@ -578,8 +583,8 @@ def main():
     TARGET_COUNTRY            = "UGA"
     EMISSION_TARGETS_CSV_PATH = os.path.join(CW_DIR_PATH, 'emission_targets_uganda_2019_LULUCF.csv')
     TIME_PERIOD_REF           = 4
-    S3_DECOMPOSED_DIR_PREFIX  = f"{RUN_DB_PREFIX}decomposed_outputs/"
-    S3_CB_DIR_PREFIX          = f"{RUN_DB_PREFIX}cb_outputs/"
+    S3_DECOMPOSED_DIR_PREFIX  = f"{RUN_DB_PREFIX}model_output_decomposed/"
+    S3_CB_DIR_PREFIX          = f"{RUN_DB_PREFIX}cba/"
 
     session = boto3.Session(profile_name=PROFILE_NAME)
     s3      = session.resource('s3')
@@ -684,6 +689,13 @@ def main():
         grp.reset_index(drop=True).to_pickle(os.path.join(PID_CACHE_DIR, f"{int(pid)}.pkl"))
         decomposed_pids.add(int(pid))
     logger.info(f"Pre-split: {len(decomposed_pids)} pickles created → {PID_CACHE_DIR}")
+
+    # Save canonical emission column list so every worker uses the same columns in the same order
+    canonical_emission_cols = sorted([c for c in decomposed_df.columns if c.startswith("emission_")])
+    import pickle as _pickle
+    with open(os.path.join(CACHE_DIR, "canonical_emission_cols.pkl"), "wb") as _f:
+        _pickle.dump(canonical_emission_cols, _f)
+    logger.info(f"Canonical emission columns: {len(canonical_emission_cols)}")
     logger.info(f"Cached shared tables: baseline={baseline_df.shape}")
 
     # Diagnose any primary_id mismatch between processing list and rescale output
@@ -766,9 +778,8 @@ def main():
     if emissions_frames:
         all_emissions = pd.concat(emissions_frames, ignore_index=True)
         em_key = f"{S3_DECOMPOSED_DIR_PREFIX}region={region}/decomposed_emissions_{args.dir_id}/data.csv"
-        _em_upload = all_emissions[[c for c in ["primary_id", "time_period", "total_emissions"] if c in all_emissions.columns]]
-        upload_df_to_s3(_em_upload, s3, BUCKET_NAME, em_key)
-        logger.info(f"Uploaded combined emissions ({len(emissions_frames)} primary_ids) → {em_key}")
+        upload_df_to_s3(all_emissions, s3, BUCKET_NAME, em_key)
+        logger.info(f"Uploaded combined emissions ({len(emissions_frames)} primary_ids, {all_emissions.shape[1]} cols) → {em_key}")
     else:
         logger.warning("No emission frames to upload.")
 

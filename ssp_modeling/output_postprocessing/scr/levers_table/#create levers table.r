@@ -4,6 +4,7 @@
 #attach transformations descriptions 
 
 #read the transformation table
+dir.output  <- paste0("ssp_modeling/ssp_run_output/",run,"/")
 ssp_table <- read.csv(paste0(dir.output,"tableau_levers_table.csv" ))
 ssp_table$transformation_code <- gsub("TFR:","",ssp_table$transformer_code)
 #read descriptions 

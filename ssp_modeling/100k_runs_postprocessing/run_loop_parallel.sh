@@ -17,7 +17,8 @@ FAILED_IDS=()
 SUCCESS_IDS=()
 
 # Loop over the directory IDs you want to process
-for i in {400..621}
+# For a full run use: for i in {400..621}
+for i in {1..621}
 do
     RUN_LOG="${LOG_DIR}/dir_id_${i}_${TIMESTAMP}.txt"
 
@@ -27,7 +28,7 @@ do
     echo "==========================================="
 
     # Run the Python script — output goes to console AND individual log file
-    python "${SCRIPT_DIR}/100k_run_postprocessing_parallel.py" --dir-id "$i" --workers 12 2>&1 | tee "$RUN_LOG"
+    python "${SCRIPT_DIR}/100k_run_postprocessing_parallel.py" --dir-id "$i" --workers 6 2>&1 | tee "$RUN_LOG"
     EXIT_CODE=${PIPESTATUS[0]}
 
     if [ $EXIT_CODE -ne 0 ]; then

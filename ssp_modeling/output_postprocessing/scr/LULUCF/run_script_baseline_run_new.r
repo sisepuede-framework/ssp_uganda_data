@@ -2,7 +2,9 @@
 # This script runs the intertemporal decomposition for the baseline run
 ################################################################################
 
-te_all<-read.csv(paste0("ssp_modeling/output_postprocessing/data/LULUCF/emission_targets_",region,"_",year_ref,"_LULUCF.csv"))
+te_all<-read.csv(paste0("ssp_modeling/output_postprocessing/data/LULUCF/emission_targets_",region,"_",year_ref,"_LULUCF_updated.csv"))
+
+
 #te_all <- subset(te_all,Subsector%in%c( "lvst","lsmm","agrc","ippu","waso","trww","frst","lndu","soil"))
 target_country <- iso_code3
 te_all<-te_all[,c("Subsector","Gas","Vars","Subsector_Category","ssp_subsector",target_country)]
@@ -31,6 +33,9 @@ missing <- setdiff(all_vars_made, names(data_all))
 
 all_vars <- setdiff(all_vars, c("emission_co2e_co2_ccsq_direct_air_capture","emission_co2e_ch4_ccsq_direct_air_capture","emission_co2e_n2o_ccsq_direct_air_capture"))
 
+# Overwrite all_vars as test
+#all_vars <- intersect(all_vars, names(data_all))
+
 for (var in all_vars) {
   mask <- data_all$time_period == time_period_ref & data_all[[var]] == 0
   changed <- sum(mask, na.rm = TRUE)
@@ -50,6 +55,8 @@ te_all$simulation <- 0
 for (i in 1:nrow(te_all))
  {
    # i<- 12
+    
+    # Test
     vars <- unlist(strsplit(te_all$Vars[i],":"))
     if (length(vars)>1) {
     te_all$simulation[i] <- as.numeric(rowSums(data_all[data_all$primary_id==gsub("_","",initial_conditions_id) &  data_all$time_period==time_period_ref,vars]))
