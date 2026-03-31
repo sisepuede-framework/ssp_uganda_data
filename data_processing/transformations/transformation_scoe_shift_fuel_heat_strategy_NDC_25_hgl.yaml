@@ -8,7 +8,7 @@ identifiers:
 parameters:
   cat_enfu_target: fuel_hydrocarbon_gas_liquids
   cats_enfu_source:
-  - fuel_biomass
+    - fuel_biomass
   magnitude: 0.1
   vec_implementation_ramp:
     alpha_logistic: 1

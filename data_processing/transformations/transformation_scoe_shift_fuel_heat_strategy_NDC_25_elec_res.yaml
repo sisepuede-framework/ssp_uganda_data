@@ -1,0 +1,19 @@
+citations: null
+description: None
+identifiers:
+  transformation_code: TX:SCOE:SHIFT_FUEL_HEAT_STRATEGY_NDC_25_ELEC_RES
+  transformation_name: 'Switch 50% of cooking energy (assumed that most heat energy is used for cooking) to electricity in residential.'
+parameters:
+  cat_enfu_target: fuel_electricity
+  cats_enfu_source: fuel_hydrocarbon_gas_liquids
+  cats_scoe_apply: 
+  - residential
+  magnitude: 0.4
+  vec_implementation_ramp:
+    alpha_logistic: 1
+    n_tp_ramp: 12
+    tp_0_ramp: 11
+    window_logistic:
+    - -4
+    - 4
+transformer: TFR:SCOE:SHIFT_FUEL_HEAT
