@@ -6,6 +6,8 @@ identifiers:
   transformation_code: "TX:LNDU:INC_SILVOPASTURE"
   transformation_name: "Default Value - LNDU: Expand silvopasture"
 parameters:
-  magnitude: 0.2
-  vec_implementation_ramp: null
+  magnitude: 0.45
+  vec_implementation_ramp:
+    n_tp_ramp: 25
+    tp_0_ramp: 11
 transformer: "TFR:LNDU:INC_SILVOPASTURE"

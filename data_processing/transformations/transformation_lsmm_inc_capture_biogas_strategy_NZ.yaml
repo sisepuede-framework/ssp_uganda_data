@@ -6,6 +6,7 @@ identifiers:
   transformation_name: "Scaled Default Max Parameters by 1.05 - LSMM: Increase biogas\
     \ capture at anaerobic decomposition facilities"
 parameters:
-  magnitude: 0.9450000000000001
-  vec_implementation_ramp: null
+  magnitude: 0.945
+  vec_implementation_ramp:
+    tp_0_ramp: 11
 transformer: "TFR:LSMM:INC_CAPTURE_BIOGAS"

@@ -6,5 +6,6 @@ identifiers:
   transformation_name: "Scaled Default Max Parameters by 1.0 - WASO: Increase landfilling"
 parameters:
   magnitude: 1.0
-  vec_implementation_ramp: null
+  vec_implementation_ramp:
+    tp_0_ramp: 11
 transformer: "TFR:WASO:INC_LANDFILLING"

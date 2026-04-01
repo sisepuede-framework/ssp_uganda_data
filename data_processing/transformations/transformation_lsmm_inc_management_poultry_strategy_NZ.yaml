@@ -10,5 +10,6 @@ parameters:
     anaerobic_digester: 0.8
     poultry_manure: 0.10
   vec_cats_lvst: null
-  vec_implementation_ramp: null
+  vec_implementation_ramp:
+    tp_0_ramp: 11
 transformer: "TFR:LSMM:INC_MANAGEMENT_POULTRY"

@@ -10,5 +10,6 @@ parameters:
     treated_advanced_anaerobic: 0.7
     treated_secondary_aerobic: 0.1
     treated_secondary_anaerobic: 0.1
-  vec_implementation_ramp: null
+  vec_implementation_ramp:
+    tp_0_ramp: 11
 transformer: "TFR:WALI:INC_TREATMENT_URBAN"

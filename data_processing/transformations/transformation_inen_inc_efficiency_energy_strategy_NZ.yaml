@@ -6,5 +6,6 @@ identifiers:
     \ energy efficiency"
 parameters:
   magnitude: 0.4
-  vec_implementation_ramp: null
+  vec_implementation_ramp:
+    tp_0_ramp: 11
 transformer: "TFR:INEN:INC_EFFICIENCY_ENERGY"

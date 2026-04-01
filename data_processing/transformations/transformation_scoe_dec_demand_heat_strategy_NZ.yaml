@@ -9,5 +9,6 @@ parameters:
   vec_implementation_ramp:
     alpha_logistic: 1
     n_tp_ramp: 30
+    tp_0_ramp: 11
     window_logistic: (-4, 4)
 transformer: "TFR:SCOE:DEC_DEMAND_HEAT"

@@ -15,5 +15,6 @@ identifiers:
 parameters:
   dict_directional_categories_to_magnitude: null
   vec_implementation_ramp:
-    n_tp_ramp: 10
+    n_tp_ramp: 8
+    tp_0_ramp: 11
 transformer: "TFR:LNDU:BOUND_CLASSES"

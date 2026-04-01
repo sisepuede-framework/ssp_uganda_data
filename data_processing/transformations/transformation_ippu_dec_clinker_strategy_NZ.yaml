@@ -5,6 +5,7 @@ identifiers:
   transformation_name: "Scaled Default Max Parameters by 1.0 - IPPU: Reduce cement\
     \ clinker"
 parameters:
-  magnitude: 0.5
-  vec_implementation_ramp: null
+  magnitude: 0.75
+  vec_implementation_ramp:
+    tp_0_ramp: 11
 transformer: "TFR:IPPU:DEC_CLINKER"

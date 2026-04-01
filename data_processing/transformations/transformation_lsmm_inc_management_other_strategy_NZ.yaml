@@ -13,5 +13,6 @@ parameters:
     dry_lot: 0.175
     daily_spread: 0.175
   vec_cats_lvst: null
-  vec_implementation_ramp: null
+  vec_implementation_ramp:
+    tp_0_ramp: 11
 transformer: "TFR:LSMM:INC_MANAGEMENT_OTHER"

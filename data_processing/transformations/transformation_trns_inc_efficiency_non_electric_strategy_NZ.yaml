@@ -6,5 +6,6 @@ identifiers:
     \ transportation energy efficiency. There is significant room for improvement (see https://www.streetsforlife.org/media/461028/africa_vehicle-fuel-economy-baseline-for-uganda.pdf)"
 parameters:
   magnitude: 1.0
-  vec_implementation_ramp: null
+  vec_implementation_ramp:
+    tp_0_ramp: 11
 transformer: "TFR:TRNS:INC_EFFICIENCY_NON_ELECTRIC"

@@ -5,10 +5,11 @@ identifiers:
   transformation_name: "Increase efficiency of biomass stoves and heating, LEP"
 parameters:
   dict_cats_to_magnitude: 
-    fuel_biomass: 0.33
+    fuel_biomass: 0.4
   vec_implementation_ramp:
     alpha_logistic: 1
     n_tp_ramp: 20
+    tp_0_ramp: 11
     window_logistic:
       - -4
       - 6

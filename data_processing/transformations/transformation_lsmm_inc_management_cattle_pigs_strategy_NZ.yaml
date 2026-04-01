@@ -13,5 +13,6 @@ parameters:
     composting: 0.15
     daily_spread: 0.25
   vec_cats_lvst: null
-  vec_implementation_ramp: null
+  vec_implementation_ramp:
+    tp_0_ramp: 11
 transformer: "TFR:LSMM:INC_MANAGEMENT_CATTLE_PIGS"
