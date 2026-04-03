@@ -18,7 +18,7 @@ SUCCESS_IDS=()
 
 # Loop over the directory IDs you want to process
 # For a full run use: for i in {400..621}
-for i in {1..621}
+for i in 568 569 570 571 572 573 574 575 576 577 578 579 580 581 582 583 584 585 586 587 588 589 590 591 592 593 594 595 596 597 598 599 600 601 602 603 604 605 606 607 608 609 610 611 612 613 614 615 616 617 618 619 620 621 #{373..621}
 do
     RUN_LOG="${LOG_DIR}/dir_id_${i}_${TIMESTAMP}.txt"
 

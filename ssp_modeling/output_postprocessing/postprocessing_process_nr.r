@@ -11,7 +11,7 @@ library(ggplot2)
 rm(list=ls())
 
 #ouputfile
-run <- 'sisepuede_summary_results_run_sisepuede_run_2026-03-30T03;04;59.566941'
+run <- 'sisepuede_summary_results_run_sisepuede_run_2026-04-01T14;29;26.355576'
 
 dir.output  <- paste0("ssp_modeling/ssp_run_output/",run,"/")
 #output.file <- "c585e7e9-e32f-4131-999b-ee7fc5ec014e.csv"
@@ -87,6 +87,8 @@ source('ssp_modeling/output_postprocessing/scr/levers_table/#create levers table
 
 # Jobs table
 source('ssp_modeling/output_postprocessing/scr/levers_table/#create jobs table.r')
+
+
 
 
 

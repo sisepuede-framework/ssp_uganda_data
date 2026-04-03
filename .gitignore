@@ -242,3 +242,6 @@ ssp_modeling/100k_runs_postprocessing/logs
 #ignore claude files
 .claude
 CLAUDE.md
+
+# ignore transformation_description
+ssp_modeling/transformations_description/

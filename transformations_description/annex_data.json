@@ -1,0 +1,1974 @@
+[
+  {
+    "subsector": "AGRC",
+    "subsector_label": "Agriculture – Crops",
+    "transformation_name": "Decrease Exports",
+    "transformation_code": "TX:AGRC:DEC_EXPORTS",
+    "policy_description": "Decrease agricultural exports relative to baseline levels by the final time period.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "No policy"
+      }
+    ]
+  },
+  {
+    "subsector": "AGRC",
+    "subsector_label": "Agriculture – Crops",
+    "transformation_name": "Expand conservation agriculture",
+    "transformation_code": "TX:AGRC:INC_CONSERVATION_AGRICULTURE",
+    "policy_description": "Expand conservation agriculture practices — minimum tillage, permanent soil cover, and species diversification — increasing crop residues retained on the field.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "50% of crop residues retained on field"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "50% of crop residues retained on field"
+      }
+    ]
+  },
+  {
+    "subsector": "AGRC",
+    "subsector_label": "Agriculture – Crops",
+    "transformation_name": "Improve crop productivity",
+    "transformation_code": "TX:AGRC:INC_PRODUCTIVITY",
+    "policy_description": "Apply a fractional increase to crop yield factors per hectare to improve land productivity.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "20% increase in crop yields per hectare"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "60% increase in crop yields per hectare"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "60% increase in crop yields per hectare"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "70% increase in crop yields per hectare"
+      }
+    ]
+  },
+  {
+    "subsector": "AGRC",
+    "subsector_label": "Agriculture – Crops",
+    "transformation_name": "Improve rice management",
+    "transformation_code": "TX:AGRC:DEC_CH4_RICE",
+    "policy_description": "Reduce methane emissions from rice cultivation through improved water management, fertilization, tillage, and residue management practices.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "45% reduction in methane emissions from rice cultivation"
+      }
+    ]
+  },
+  {
+    "subsector": "AGRC",
+    "subsector_label": "Agriculture – Crops",
+    "transformation_name": "Reduce supply chain losses",
+    "transformation_code": "TX:AGRC:DEC_LOSSES_SUPPLY_CHAIN",
+    "policy_description": "Reduce pre-consumer food waste along the agricultural supply chain, lowering production demand for crops.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "50% reduction in supply chain food losses"
+      }
+    ]
+  },
+  {
+    "subsector": "SOIL",
+    "subsector_label": "Agriculture – Soils",
+    "transformation_name": "Improve fertilizer application",
+    "transformation_code": "TX:SOIL:DEC_N_APPLIED",
+    "policy_description": "Decrease total nitrogen applied through precision fertilizer use without reducing crop yields.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "20% reduction in fertilizer nitrogen applied"
+      }
+    ]
+  },
+  {
+    "subsector": "SOIL",
+    "subsector_label": "Agriculture – Soils",
+    "transformation_name": "Improve lime application",
+    "transformation_code": "TX:SOIL:DEC_LIME_APPLIED",
+    "policy_description": "Decrease lime applied to agricultural soils through improved soil management and pH monitoring practices.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "20% reduction in lime applied to soils"
+      }
+    ]
+  },
+  {
+    "subsector": "LNDU",
+    "subsector_label": "Land Use",
+    "transformation_name": "Dec Wetland Loss",
+    "transformation_code": "TX:LNDU:DEC_WETLAND_LOSS",
+    "policy_description": "Halt wetland loss by increasing the self-transition probability for wetlands to near one, preventing conversion to other land uses.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "No policy"
+      }
+    ]
+  },
+  {
+    "subsector": "LNDU",
+    "subsector_label": "Land Use",
+    "transformation_name": "Expand silvopasture",
+    "transformation_code": "TX:LNDU:INC_SILVOPASTURE",
+    "policy_description": "Convert a share of pasture to silvopasture (integrated tree–livestock systems), with livestock carrying capacity adjusted to compensate.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "20% of pasture converted to silvopasture"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "20% of pasture converted to silvopasture"
+      }
+    ]
+  },
+  {
+    "subsector": "LNDU",
+    "subsector_label": "Land Use",
+    "transformation_name": "Expand sustainable grazing practices",
+    "transformation_code": "TX:LNDU:DEC_SOC_LOSS_PASTURES",
+    "policy_description": "Decrease soil organic carbon loss in grasslands by expanding sustainable grazing practices across a defined share of pasture area.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "No policy"
+      }
+    ]
+  },
+  {
+    "subsector": "LNDU",
+    "subsector_label": "Land Use",
+    "transformation_name": "Increase Reforestation",
+    "transformation_code": "TX:LNDU:INC_REFORESTATION",
+    "policy_description": "Increase probability of land being converted to secondary forest, raising secondary forest area above baseline by the final time period.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "10% increase in secondary forest area"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "30% increase in secondary forest area"
+      }
+    ]
+  },
+  {
+    "subsector": "LNDU",
+    "subsector_label": "Land Use",
+    "transformation_name": "Plur",
+    "transformation_code": "TX:LNDU:PLUR",
+    "policy_description": "Apply a partial land use reallocation factor that redistributes a fraction of projected land use transitions across categories, smoothing extreme shifts in the land use transition matrix.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "28% land use reallocation factor applied"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "No policy"
+      }
+    ]
+  },
+  {
+    "subsector": "LNDU",
+    "subsector_label": "Land Use",
+    "transformation_name": "Set Wetlands Minimum",
+    "transformation_code": "TX:LNDU:SET_WETLANDS_MINIMUM",
+    "policy_description": "Set a minimum bound on wetlands area using the land use quadratic programming framework, representing protected area targets or restoration commitments for wetland ecosystems.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "Minimum wetlands area bound enforced to protect and restore wetland ecosystems"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "Minimum wetlands area bound enforced to protect and restore wetland ecosystems"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "Minimum wetlands area bound enforced to protect and restore wetland ecosystems"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "Minimum wetlands area bound enforced to protect and restore wetland ecosystems"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "Minimum wetlands area bound enforced to protect and restore wetland ecosystems"
+      }
+    ]
+  },
+  {
+    "subsector": "LNDU",
+    "subsector_label": "Land Use",
+    "transformation_name": "Stop deforestation",
+    "transformation_code": "TX:LNDU:DEC_DEFORESTATION",
+    "policy_description": "Halt deforestation by setting the primary forest self-transition probability to near one — primary forest is kept as primary forest rather than being converted to other land uses.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "100% of primary forest remains forested each period (near-zero deforestation rate)"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "100% of primary forest remains forested each period (near-zero deforestation rate)"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "100% of primary forest remains forested each period (near-zero deforestation rate)"
+      }
+    ]
+  },
+  {
+    "subsector": "FRST",
+    "subsector_label": "Forestry",
+    "transformation_name": "Increase Sequestration",
+    "transformation_code": "TX:FRST:INCREASE_SEQUESTRATION",
+    "policy_description": "Increase carbon sequestration in secondary forests to represent gains from sustainable biomass management and forest restoration.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "10% increase in secondary forest carbon sequestration"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "15% increase in secondary forest carbon sequestration"
+      }
+    ]
+  },
+  {
+    "subsector": "LVST",
+    "subsector_label": "Livestock",
+    "transformation_name": "Decrease exports",
+    "transformation_code": "TX:LVST:DEC_EXPORTS",
+    "policy_description": "Decrease exports of livestock and livestock products relative to baseline levels by the final time period.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "No policy"
+      }
+    ]
+  },
+  {
+    "subsector": "LVST",
+    "subsector_label": "Livestock",
+    "transformation_name": "Increase livestock productivity",
+    "transformation_code": "TX:LVST:INC_PRODUCTIVITY",
+    "policy_description": "Increase livestock carrying capacity (average land productivity) above baseline levels by the final time period.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "21% increase in livestock productivity (animals per unit area)"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "30% increase in livestock productivity (animals per unit area)"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "50% increase in livestock productivity (animals per unit area)"
+      }
+    ]
+  },
+  {
+    "subsector": "LVST",
+    "subsector_label": "Livestock",
+    "transformation_name": "Reduce enteric fermentation",
+    "transformation_code": "TX:LVST:DEC_ENTERIC_FERMENTATION",
+    "policy_description": "Reduce methane emissions from enteric fermentation in ruminant livestock through feed management and/or methagenic vaccines. Default reductions per species: 40% for buffalo, dairy cattle, and non-dairy cattle; 56% for goats and sheep.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "Default rates: 40% reduction (buffalo, cattle), 56% reduction (goats, sheep)"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "Default rates: 40% reduction (buffalo, cattle), 56% reduction (goats, sheep)"
+      }
+    ]
+  },
+  {
+    "subsector": "LSMM",
+    "subsector_label": "Livestock – Manure Management",
+    "transformation_name": "Improve manure management for cattle and pigs",
+    "transformation_code": "TX:LSMM:INC_MANAGEMENT_CATTLE_PIGS",
+    "policy_description": "Improve manure management for cattle (dairy and non-dairy) and pigs, directing treated manure to: ~59% anaerobic digestion, ~24% daily spreading, and ~12% composting by the final time period.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "Manure treated (cattle, pigs): ~59% anaerobic digestion, ~24% daily spread, ~12% composting"
+      }
+    ]
+  },
+  {
+    "subsector": "LSMM",
+    "subsector_label": "Livestock – Manure Management",
+    "transformation_name": "Improve manure management for other animals",
+    "transformation_code": "TX:LSMM:INC_MANAGEMENT_OTHER",
+    "policy_description": "Improve manure management for other livestock (buffalo, goats, horses, mules, sheep), directing treated manure to: ~48% anaerobic digestion, ~24% composting, ~12% dry lot, and ~12% daily spreading.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "Manure treated (buffalo, goats, horses, sheep): ~48% anaerobic digestion, ~24% composting, ~24% dry lot/daily spread"
+      }
+    ]
+  },
+  {
+    "subsector": "LSMM",
+    "subsector_label": "Livestock – Manure Management",
+    "transformation_name": "Improve manure management for poultry",
+    "transformation_code": "TX:LSMM:INC_MANAGEMENT_POULTRY",
+    "policy_description": "Improve manure management for poultry (chickens), directing treated manure to: ~48% anaerobic digestion and ~48% dedicated poultry manure management pathways.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "Poultry manure (chickens): ~48% anaerobic digestion, ~48% dedicated poultry treatment"
+      }
+    ]
+  },
+  {
+    "subsector": "LSMM",
+    "subsector_label": "Livestock – Manure Management",
+    "transformation_name": "Increase biogas capture at anaerobic decomposition facilities",
+    "transformation_code": "TX:LSMM:INC_CAPTURE_BIOGAS",
+    "policy_description": "Increase the fraction of biogas captured at anaerobic livestock manure management facilities.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "94% of biogas captured at manure facilities"
+      }
+    ]
+  },
+  {
+    "subsector": "ENTC",
+    "subsector_label": "Energy – Electricity",
+    "transformation_name": "95% of electricity is generated by renewables in 2050",
+    "transformation_code": "TX:ENTC:TARGET_RENEWABLE_ELEC",
+    "policy_description": "Set a minimum share of electricity generation from renewable sources (geothermal, hydropower, ocean, solar, wind, and tidal) by 2050.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "95% renewable electricity share by 2050"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "95% renewable electricity share by 2050"
+      }
+    ]
+  },
+  {
+    "subsector": "ENTC",
+    "subsector_label": "Energy – Electricity",
+    "transformation_name": "Clean hydrogen",
+    "transformation_code": "TX:ENTC:TARGET_CLEAN_HYDROGEN",
+    "policy_description": "Set a target share of hydrogen production sourced from green hydrogen (electrolysis) by the final time period.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "95% of hydrogen from green electrolysis"
+      }
+    ]
+  },
+  {
+    "subsector": "ENTC",
+    "subsector_label": "Energy – Electricity",
+    "transformation_name": "Reduce transmission losses",
+    "transformation_code": "TX:ENTC:DEC_LOSSES",
+    "policy_description": "Upgrade electrical transmission infrastructure to reduce grid transmission losses. The magnitude sets a final-period loss ceiling (final_value_ceiling): only regions whose baseline loss exceeds the target are affected; losses already below the ceiling remain unchanged. A minimum feasible loss floor (min_loss) applies regardless of target.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "Grid losses capped at 6% — applied only where current losses exceed this level"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "Grid losses capped at 6% — applied only where current losses exceed this level"
+      }
+    ]
+  },
+  {
+    "subsector": "FGTV",
+    "subsector_label": "Fugitive Emissions",
+    "transformation_name": "Maximize flaring",
+    "transformation_code": "TX:FGTV:INC_FLARE",
+    "policy_description": "Replace methane venting at orphan wells and mining facilities with flaring, converting CH₄ to the less potent CO₂.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "80% of vented methane converted via flaring"
+      }
+    ]
+  },
+  {
+    "subsector": "FGTV",
+    "subsector_label": "Fugitive Emissions",
+    "transformation_name": "Minimize leaks",
+    "transformation_code": "TX:FGTV:DEC_LEAKS",
+    "policy_description": "Reduce fugitive methane emission factors across the production, distribution, and transmission of coal, natural gas, and oil through leak detection and repair (LDAR) programs.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "80% reduction in methane leakage rates (oil, gas, coal sectors)"
+      }
+    ]
+  },
+  {
+    "subsector": "INEN",
+    "subsector_label": "Industry – Energy",
+    "transformation_name": "Fuel switch high- and low-temp thermal processes. ",
+    "transformation_code": "TX:INEN:SHIFT_FUEL_HEAT",
+    "policy_description": "Switch industrial low-temperature heat processes to electricity and high-temperature heat processes to electricity and hydrogen across cement, metals, chemicals, glass, paper, and lime sectors.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "90% of industrial heat processes switched to low-carbon fuels"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "90% of industrial heat processes switched to low-carbon fuels"
+      }
+    ]
+  },
+  {
+    "subsector": "INEN",
+    "subsector_label": "Industry – Energy",
+    "transformation_name": "Maximize industrial energy efficiency",
+    "transformation_code": "TX:INEN:INC_EFFICIENCY_ENERGY",
+    "policy_description": "Increase the average energy efficiency of industrial production processes by fuel type to reduce overall energy demands.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "10% improvement in industrial energy efficiency"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "40% improvement in industrial energy efficiency"
+      }
+    ]
+  },
+  {
+    "subsector": "INEN",
+    "subsector_label": "Industry – Energy",
+    "transformation_name": "Maximize industrial production efficiency",
+    "transformation_code": "TX:INEN:INC_EFFICIENCY_PRODUCTION",
+    "policy_description": "Reduce industrial end-use energy demand through modernization of production processes (kJ per tonne improvement).",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "No policy"
+      }
+    ]
+  },
+  {
+    "subsector": "IPPU",
+    "subsector_label": "Industry – Processes",
+    "transformation_name": "Demand management",
+    "transformation_code": "TX:IPPU:DEC_DEMAND",
+    "policy_description": "Reduce overall industrial production demand relative to the baseline by the final time period.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "No policy"
+      }
+    ]
+  },
+  {
+    "subsector": "IPPU",
+    "subsector_label": "Industry – Processes",
+    "transformation_name": "Reduce Nitrous Oxide emissions",
+    "transformation_code": "TX:IPPU:DEC_N2O",
+    "policy_description": "Reduce IPPU emission factors for nitrous oxide (N₂O) generated as a byproduct of industrial processes.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "10% reduction in industrial N₂O emissions"
+      }
+    ]
+  },
+  {
+    "subsector": "IPPU",
+    "subsector_label": "Industry – Processes",
+    "transformation_name": "Reduce cement clinker",
+    "transformation_code": "TX:IPPU:DEC_CLINKER",
+    "policy_description": "Substitute clinker in cement production with supplementary cementitious materials (SCMs), LC3 cement, or equivalent processes. ",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "Clinker fraction capped at 50% of cement production"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "Clinker fraction capped at 50% of cement production"
+      }
+    ]
+  },
+  {
+    "subsector": "IPPU",
+    "subsector_label": "Industry – Processes",
+    "transformation_name": "Reduce other fluorinated compounds",
+    "transformation_code": "TX:IPPU:DEC_OTHER_FCS",
+    "policy_description": "Reduce emission factors for other fluorinated compounds (SF₆, NF₃, HCFCs) generated as byproducts of industrial processes.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "10% reduction in SF₆, NF₃, and other fluorinated compound emissions"
+      }
+    ]
+  },
+  {
+    "subsector": "IPPU",
+    "subsector_label": "Industry – Processes",
+    "transformation_name": "Reduce use of HFCs",
+    "transformation_code": "TX:IPPU:DEC_HFCS",
+    "policy_description": "Reduce IPPU emission factors for hydrofluorocarbons (HFCs) through improved refrigerant management, recovery, and phase-down.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "10% reduction in HFC emissions from industrial processes"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "10% reduction in HFC emissions from industrial processes"
+      }
+    ]
+  },
+  {
+    "subsector": "IPPU",
+    "subsector_label": "Industry – Processes",
+    "transformation_name": "Reduce use of PFCs",
+    "transformation_code": "TX:IPPU:DEC_PFCS",
+    "policy_description": "Reduce IPPU emission factors for perfluorinated carbons (PFCs) generated as byproducts of industrial processes.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "10% reduction in PFC emissions from industrial processes"
+      }
+    ]
+  },
+  {
+    "subsector": "PFLO",
+    "subsector_label": "Cross-Cutting",
+    "transformation_name": "Change diets",
+    "transformation_code": "TX:PFLO:INC_HEALTHIER_DIETS",
+    "policy_description": "Reduce average per-capita demand for cattle products through dietary shifts toward healthier, lower-emissions diets.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "30% reduction in per-capita cattle consumption"
+      }
+    ]
+  },
+  {
+    "subsector": "PFLO",
+    "subsector_label": "Cross-Cutting",
+    "transformation_name": "Industrial carbon capture and sequestration",
+    "transformation_code": "TX:PFLO:INC_IND_CCS",
+    "policy_description": "Deploy carbon capture and sequestration (CCS) across applicable industrial facilities excluding energy generation, with a default capture efficacy of 90%.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "Industrial CCS deployed with 90% capture efficacy per facility"
+      }
+    ]
+  },
+  {
+    "subsector": "SCOE",
+    "subsector_label": "Buildings",
+    "transformation_name": "Inc Efficiency Heat",
+    "transformation_code": "TX:SCOE:INC_EFFICIENCY_HEAT",
+    "policy_description": "Increase the average efficiency of heat energy from biomass through adoption of clean cookstoves and improved heating systems.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "33% improvement in biomass heating efficiency (clean cookstoves)"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "33% improvement in biomass heating efficiency (clean cookstoves)"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "33% improvement in biomass heating efficiency (clean cookstoves)"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "33% improvement in biomass heating efficiency (clean cookstoves)"
+      }
+    ]
+  },
+  {
+    "subsector": "SCOE",
+    "subsector_label": "Buildings",
+    "transformation_name": "Increase appliance efficiency",
+    "transformation_code": "TX:SCOE:INC_EFFICIENCY_APPLIANCE",
+    "policy_description": "Reduce electricity demand in buildings by increasing the efficiency of electrified appliances and building energy systems.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "30% reduction in building electricity demand"
+      }
+    ]
+  },
+  {
+    "subsector": "SCOE",
+    "subsector_label": "Buildings",
+    "transformation_name": "Reduce end-use demand for heat energy by improving building shell",
+    "transformation_code": "TX:SCOE:DEC_DEMAND_HEAT",
+    "policy_description": "Reduce end-use heat energy demand in buildings through retrofitting, insulation improvements, and smart thermostats.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "5% reduction in building heat energy demand"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "5% reduction in building heat energy demand"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "5% reduction in building heat energy demand"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "40% reduction in building heat energy demand"
+      }
+    ]
+  },
+  {
+    "subsector": "SCOE",
+    "subsector_label": "Buildings",
+    "transformation_name": "Shift Fuel Heat Strategy Ndc 25 Elec Cm",
+    "transformation_code": "TX:SCOE:SHIFT_FUEL_HEAT_STRATEGY_NDC_25_ELEC_CM",
+    "policy_description": "",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "No policy"
+      }
+    ]
+  },
+  {
+    "subsector": "SCOE",
+    "subsector_label": "Buildings",
+    "transformation_name": "Shift Fuel Heat Strategy Ndc 25 Elec Res",
+    "transformation_code": "TX:SCOE:SHIFT_FUEL_HEAT_STRATEGY_NDC_25_ELEC_RES",
+    "policy_description": "",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "No policy"
+      }
+    ]
+  },
+  {
+    "subsector": "SCOE",
+    "subsector_label": "Buildings",
+    "transformation_name": "Switch to electricity for heat using heat pumps, electric stoves, etc.",
+    "transformation_code": "TX:SCOE:SHIFT_FUEL_HEAT",
+    "policy_description": "Electrify building heat demand (space heating, water heating, and cooking) using heat pumps, electric stoves, and equivalent equipment.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "90% of building heat demand electrified"
+      }
+    ]
+  },
+  {
+    "subsector": "TRDE",
+    "subsector_label": "Transport – Demand",
+    "transformation_name": "Reduce demand for transport",
+    "transformation_code": "TX:TRDE:DEC_DEMAND",
+    "policy_description": "Reduce aggregate public and private transportation demand through urban planning, congestion pricing, and demand management policies.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "50% reduction in total transport demand"
+      }
+    ]
+  },
+  {
+    "subsector": "TRNS",
+    "subsector_label": "Transport – Supply",
+    "transformation_name": "Electrify light duty road transport",
+    "transformation_code": "TX:TRNS:SHIFT_FUEL_LIGHT_DUTY",
+    "policy_description": "Set a minimum share of the light-duty vehicle fleet (private cars and light trucks) fueled by electricity",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "70% of light-duty vehicle fleet electrified"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "70% of light-duty vehicle fleet electrified"
+      }
+    ]
+  },
+  {
+    "subsector": "TRNS",
+    "subsector_label": "Transport – Supply",
+    "transformation_name": "Electrify rail",
+    "transformation_code": "TX:TRNS:SHIFT_FUEL_RAIL",
+    "policy_description": "Electrify rail transportation (freight and passenger) by setting a target share of rail demand fueled by electricity.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "25% of rail transport electrified"
+      }
+    ]
+  },
+  {
+    "subsector": "TRNS",
+    "subsector_label": "Transport – Supply",
+    "transformation_name": "Fuel switch maritime",
+    "transformation_code": "TX:TRNS:SHIFT_FUEL_MARITIME",
+    "policy_description": "Shift maritime transportation demand away from fossil fuels toward hydrogen and electricity.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "140% of maritime transport shifted to low-carbon fuels"
+      }
+    ]
+  },
+  {
+    "subsector": "TRNS",
+    "subsector_label": "Transport – Supply",
+    "transformation_name": "Fuel switch medium duty road transport",
+    "transformation_code": "TX:TRNS:SHIFT_FUEL_MEDIUM_DUTY",
+    "policy_description": "Shift medium-duty vehicles (heavy freight, regional, and public transport) from fossil fuels to electricity and hydrogen.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "70% of medium-duty fleet shifted to electricity or hydrogen"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "140% of medium-duty fleet shifted to electricity or hydrogen"
+      }
+    ]
+  },
+  {
+    "subsector": "TRNS",
+    "subsector_label": "Transport – Supply",
+    "transformation_name": "Increase electric transportation energy efficiency",
+    "transformation_code": "TX:TRNS:INC_EFFICIENCY_ELECTRIC",
+    "policy_description": "Improve the on-road efficiency of electric vehicles through regulation and technology standards.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "50% improvement in electric vehicle fuel efficiency"
+      }
+    ]
+  },
+  {
+    "subsector": "TRNS",
+    "subsector_label": "Transport – Supply",
+    "transformation_name": "Increase non-electric transportation energy efficiency",
+    "transformation_code": "TX:TRNS:INC_EFFICIENCY_NON_ELECTRIC",
+    "policy_description": "Improve the on-road efficiency of non-electric vehicles (fossil-fuel ICEs and other fuel types) through fuel standards and regulation.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "80% improvement in non-electric vehicle fuel efficiency"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "100% improvement in non-electric vehicle fuel efficiency"
+      }
+    ]
+  },
+  {
+    "subsector": "TRNS",
+    "subsector_label": "Transport – Supply",
+    "transformation_name": "Increase occupancy for private vehicles",
+    "transformation_code": "TX:TRNS:INC_OCCUPANCY_LIGHT_DUTY",
+    "policy_description": "Increase the average occupancy rate of private light-duty vehicles through carpool lanes and incentive programs.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "25% increase in average private vehicle occupancy"
+      }
+    ]
+  },
+  {
+    "subsector": "TRNS",
+    "subsector_label": "Transport – Supply",
+    "transformation_name": "Mode shift freight",
+    "transformation_code": "TX:TRNS:SHIFT_MODE_FREIGHT",
+    "policy_description": "Shift a share of aviation and road freight demand to freight rail by the final time period.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "20% of road and air freight shifted to rail"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "40% of road and air freight shifted to rail"
+      }
+    ]
+  },
+  {
+    "subsector": "TRNS",
+    "subsector_label": "Transport – Supply",
+    "transformation_name": "Mode shift passenger vehicles to others",
+    "transformation_code": "TX:TRNS:SHIFT_MODE_PASSENGER",
+    "policy_description": "Shift a share of passenger road demand to human-powered transport, powered bikes, and public transit.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "30% of private road trips shifted to public or active transport"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "60% of private road trips shifted to public or active transport"
+      }
+    ]
+  },
+  {
+    "subsector": "TRNS",
+    "subsector_label": "Transport – Supply",
+    "transformation_name": "Mode shift regional passenger travel",
+    "transformation_code": "TX:TRNS:SHIFT_MODE_REGIONAL",
+    "policy_description": "Shift shares of regional aviation and light-duty road demand to heavy-duty road transport.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "10% of regional aviation, 20% of light-duty road demand shifted to heavy road"
+      }
+    ]
+  },
+  {
+    "subsector": "TRWW",
+    "subsector_label": "Transport – Wastewater",
+    "transformation_name": "Increase biogas capture",
+    "transformation_code": "TX:TRWW:INC_CAPTURE_BIOGAS",
+    "policy_description": "Increase the fraction of biogas captured at anaerobic wastewater treatment facilities (advanced and secondary anaerobic).",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "85% of biogas captured at wastewater treatment facilities"
+      }
+    ]
+  },
+  {
+    "subsector": "TRWW",
+    "subsector_label": "Transport – Wastewater",
+    "transformation_name": "Increase septic compliance",
+    "transformation_code": "TX:TRWW:INC_COMPLIANCE_SEPTIC",
+    "policy_description": "Increase compliance with pumping schedule and maintenance requirements for rural septic tanks to preserve full emissions and health benefits.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "90% of septic tanks meeting maintenance compliance standards"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "90% of septic tanks meeting maintenance compliance standards"
+      }
+    ]
+  },
+  {
+    "subsector": "WALI",
+    "subsector_label": "Wastewater",
+    "transformation_name": "Improved industrial wastewater treatment",
+    "transformation_code": "TX:WALI:INC_TREATMENT_INDUSTRIAL",
+    "policy_description": "Restructure industrial wastewater treatment to default targets: 80% in advanced anaerobic facilities, 10% secondary aerobic, and 10% secondary anaerobic. Targets may be overridden via dict_magnitude.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "Target mix: 80% advanced anaerobic, 10% secondary aerobic, 10% secondary anaerobic"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "Target mix: 80% advanced anaerobic, 10% secondary aerobic, 10% secondary anaerobic"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "Target mix: 80% advanced anaerobic, 10% secondary aerobic, 10% secondary anaerobic"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "Target mix: 80% advanced anaerobic, 10% secondary aerobic, 10% secondary anaerobic"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "Target mix: 80% advanced anaerobic, 10% secondary aerobic, 10% secondary anaerobic"
+      }
+    ]
+  },
+  {
+    "subsector": "WALI",
+    "subsector_label": "Wastewater",
+    "transformation_name": "Improved rural wastewater treatment",
+    "transformation_code": "TX:WALI:INC_TREATMENT_RURAL",
+    "policy_description": "Restructure rural wastewater treatment so that 100% is treated in septic tanks (default target). Target may be overridden via dict_magnitude.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "Target mix: 100% treated in septic tanks"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "Target mix: 100% treated in septic tanks"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "Target mix: 100% treated in septic tanks"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "Target mix: 100% treated in septic tanks"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "Target mix: 100% treated in septic tanks"
+      }
+    ]
+  },
+  {
+    "subsector": "WALI",
+    "subsector_label": "Wastewater",
+    "transformation_name": "Improved urban wastewater treatment",
+    "transformation_code": "TX:WALI:INC_TREATMENT_URBAN",
+    "policy_description": "Restructure urban wastewater treatment to default targets: 30% advanced anaerobic, 30% advanced aerobic, 20% secondary anaerobic, and 20% secondary aerobic. Targets may be overridden via dict_magnitude.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "Target mix: 30% advanced anaerobic, 30% advanced aerobic, 20% secondary anaerobic, 20% secondary aerobic"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "Target mix: 30% advanced anaerobic, 30% advanced aerobic, 20% secondary anaerobic, 20% secondary aerobic"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "Target mix: 30% advanced anaerobic, 30% advanced aerobic, 20% secondary anaerobic, 20% secondary aerobic"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "Target mix: 30% advanced anaerobic, 30% advanced aerobic, 20% secondary anaerobic, 20% secondary aerobic"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "Target mix: 30% advanced anaerobic, 30% advanced aerobic, 20% secondary anaerobic, 20% secondary aerobic"
+      }
+    ]
+  },
+  {
+    "subsector": "WASO",
+    "subsector_label": "Waste – Solid",
+    "transformation_name": "Biogas for energy production",
+    "transformation_code": "TX:WASO:INC_ENERGY_FROM_BIOGAS",
+    "policy_description": "Increase the fraction of captured biogas converted to energy use.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "95% of captured biogas converted to energy"
+      }
+    ]
+  },
+  {
+    "subsector": "WASO",
+    "subsector_label": "Waste – Solid",
+    "transformation_name": "Consumer food waste reduction",
+    "transformation_code": "TX:WASO:DEC_CONSUMER_FOOD_WASTE",
+    "policy_description": "Reduce per-capita food waste generation at the consumer level.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "30% reduction in per-capita consumer food waste"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "45% reduction in per-capita consumer food waste"
+      }
+    ]
+  },
+  {
+    "subsector": "WASO",
+    "subsector_label": "Waste – Solid",
+    "transformation_name": "Incineration for energy production",
+    "transformation_code": "TX:WASO:INC_ENERGY_FROM_INCINERATION",
+    "policy_description": "Increase the fraction of incinerated solid waste used for energy recovery (waste-to-energy).",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "170% of incinerated waste used for energy recovery"
+      }
+    ]
+  },
+  {
+    "subsector": "WASO",
+    "subsector_label": "Waste – Solid",
+    "transformation_name": "Increase biogas capture",
+    "transformation_code": "TX:WASO:INC_CAPTURE_BIOGAS",
+    "policy_description": "Increase the fraction of biogas captured from landfills and anaerobic digesters.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "85% of biogas captured from landfills and digesters"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "85% of biogas captured from landfills and digesters"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "85% of biogas captured from landfills and digesters"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "95% of biogas captured from landfills and digesters"
+      }
+    ]
+  },
+  {
+    "subsector": "WASO",
+    "subsector_label": "Waste – Solid",
+    "transformation_name": "Increase composting and biogas",
+    "transformation_code": "TX:WASO:INC_ANAEROBIC_AND_COMPOST",
+    "policy_description": "Increase the fraction of organic waste (yard waste, food waste, and sludge) treated in anaerobic digesters and compost facilities.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "48% of organic waste to anaerobic digestion, 48% to composting"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "48% of organic waste to anaerobic digestion, 48% to composting"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "48% of organic waste to anaerobic digestion, 48% to composting"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "48% of organic waste to anaerobic digestion, 48% to composting"
+      }
+    ]
+  },
+  {
+    "subsector": "WASO",
+    "subsector_label": "Waste – Solid",
+    "transformation_name": "Increase landfilling",
+    "transformation_code": "TX:WASO:INC_LANDFILLING",
+    "policy_description": "Increase the fraction of solid waste — not recycled, composted, or digested — directed to managed sanitary landfills (away from open dumping).",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "100% of residual solid waste directed to managed landfills"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "100% of residual solid waste directed to managed landfills"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "100% of residual solid waste directed to managed landfills"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "100% of residual solid waste directed to managed landfills"
+      }
+    ]
+  },
+  {
+    "subsector": "WASO",
+    "subsector_label": "Waste – Solid",
+    "transformation_name": "Increase recycling",
+    "transformation_code": "TX:WASO:INC_RECYCLING",
+    "policy_description": "Increase the fraction of recyclable solid waste that is recycled, reducing landfill decomposition and virgin material production.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "95% of recyclable waste recycled"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "95% of recyclable waste recycled"
+      }
+    ]
+  },
+  {
+    "subsector": "CCSQ",
+    "subsector_label": "Carbon Capture & Sequestration",
+    "transformation_name": "Increase direct air capture",
+    "transformation_code": "TX:CCSQ:INC_CAPTURE",
+    "policy_description": "Deploy Direct Air Capture (DAC) technology to remove CO₂e directly from the atmosphere by 2050.",
+    "pathways": [
+      {
+        "label": "BAU",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Conditional",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional (As Planned)",
+        "text": "No policy"
+      },
+      {
+        "label": "NDC2 Unconditional w/Additional Cost Effective",
+        "text": "No policy"
+      },
+      {
+        "label": "Candidate NDC3",
+        "text": "No policy"
+      }
+    ]
+  }
+]
