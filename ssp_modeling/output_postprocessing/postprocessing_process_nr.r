@@ -20,7 +20,7 @@ output.file <- "c585e7e9-e32f-4131-999b-ee7fc5ec014e.csv"
 att <- "ATTRIBUTE_STRATEGY.csv"
 
 
-sttrategy_ids <- c(0,6004,6010,6011,6012) 
+sttrategy_ids <- c(0,6004,6009,6010,6011,6012) 
 
 # load full data
 nwr <- fread(paste0(dir.output, output.file))
