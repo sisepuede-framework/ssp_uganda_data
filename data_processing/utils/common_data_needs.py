@@ -95,6 +95,9 @@ _SISEPUEDE_MODELS = sm.SISEPUEDEModels(
     initialize_julia = True, 
 )
 
+# base years
+_TIME_PERIODS_BASE = np.arange(12)
+
 # default years to build
 _YEARS_DEFAULT_MIN = 2015
 _YEARS_DEFAULT_MAX = 2070
