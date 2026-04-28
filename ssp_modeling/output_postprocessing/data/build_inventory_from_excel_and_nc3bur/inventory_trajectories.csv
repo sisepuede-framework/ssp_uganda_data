@@ -224,31 +224,31 @@ Carbon Capture Industries,n2o,2016,0.0
 Carbon Capture Industries,n2o,2017,0.0
 Carbon Capture Industries,n2o,2018,0.0
 Carbon Capture Industries,n2o,2019,0.0
-Deforestation,co2,1995,13.098280651166236
-Deforestation,co2,1996,13.098280651166236
-Deforestation,co2,1997,13.098280651166236
-Deforestation,co2,1998,13.098280651166236
-Deforestation,co2,1999,13.098280651166236
-Deforestation,co2,2000,13.098280651166236
-Deforestation,co2,2001,13.098280651166236
-Deforestation,co2,2002,13.098280651166236
-Deforestation,co2,2003,13.098280651166236
-Deforestation,co2,2004,13.098280651166236
-Deforestation,co2,2005,13.098280651166236
-Deforestation,co2,2006,13.098280651166236
-Deforestation,co2,2007,13.098280651166236
-Deforestation,co2,2008,13.098280651166236
-Deforestation,co2,2009,13.098280651166236
-Deforestation,co2,2010,13.098280651166236
-Deforestation,co2,2011,13.098280651166236
-Deforestation,co2,2012,13.098280651166236
-Deforestation,co2,2013,13.098280651166236
-Deforestation,co2,2014,13.098280651166236
-Deforestation,co2,2015,13.098280651166236
-Deforestation,co2,2016,13.098663481414619
-Deforestation,co2,2017,13.099046311663
-Deforestation,co2,2018,13.099046311663
-Deforestation,co2,2019,13.099046311663
+Deforestation,co2,1995,12.982090000000001
+Deforestation,co2,1996,13.285849
+Deforestation,co2,1997,19.227432
+Deforestation,co2,1998,14.105887000000001
+Deforestation,co2,1999,19.239069
+Deforestation,co2,2000,13.390396
+Deforestation,co2,2001,16.019188
+Deforestation,co2,2002,12.412282000000001
+Deforestation,co2,2003,11.972399000000001
+Deforestation,co2,2004,13.591544000000003
+Deforestation,co2,2005,2.714748
+Deforestation,co2,2006,4.628628
+Deforestation,co2,2007,3.011661
+Deforestation,co2,2008,3.311468
+Deforestation,co2,2009,2.9211430000000003
+Deforestation,co2,2010,2.997868
+Deforestation,co2,2011,3.03274
+Deforestation,co2,2012,3.187934
+Deforestation,co2,2013,3.067129
+Deforestation,co2,2014,2.890359
+Deforestation,co2,2015,2.5440245
+Deforestation,co2,2016,2.19769
+Deforestation,co2,2017,1.8261
+Deforestation,co2,2018,1.88235
+Deforestation,co2,2019,1.491104
 Electricity and Heat Generation,ch4,1995,0.0
 Electricity and Heat Generation,ch4,1996,0.0
 Electricity and Heat Generation,ch4,1997,0.0
@@ -324,31 +324,31 @@ Electricity and Heat Generation,n2o,2016,0.0
 Electricity and Heat Generation,n2o,2017,0.000273
 Electricity and Heat Generation,n2o,2018,0.000546
 Electricity and Heat Generation,n2o,2019,0.000273
-Forest Land - Removals,co2,1995,-19.303684
-Forest Land - Removals,co2,1996,-17.208148
-Forest Land - Removals,co2,1997,-19.231391
-Forest Land - Removals,co2,1998,-14.431947000000001
-Forest Land - Removals,co2,1999,-11.311982
-Forest Land - Removals,co2,2000,-8.070042
-Forest Land - Removals,co2,2001,-4.699094
-Forest Land - Removals,co2,2002,-7.4738109999999995
-Forest Land - Removals,co2,2003,-4.719435
-Forest Land - Removals,co2,2004,-1.810142
-Forest Land - Removals,co2,2005,9.329443
-Forest Land - Removals,co2,2006,11.658136999999998
-Forest Land - Removals,co2,2007,17.489936
-Forest Land - Removals,co2,2008,19.936255
-Forest Land - Removals,co2,2009,22.421004
-Forest Land - Removals,co2,2010,24.944032
-Forest Land - Removals,co2,2011,27.498154000000003
-Forest Land - Removals,co2,2012,30.082574
-Forest Land - Removals,co2,2013,37.690435
-Forest Land - Removals,co2,2014,40.401943
-Forest Land - Removals,co2,2015,43.002758
-Forest Land - Removals,co2,2016,45.4964342343335
-Forest Land - Removals,co2,2017,46.882463468667005
-Forest Land - Removals,co2,2018,48.956185468667
-Forest Land - Removals,co2,2019,50.176896468667
+Forest Land - Removals,co2,1995,-19.70150088013312
+Forest Land - Removals,co2,1996,-17.90972388013312
+Forest Land - Removals,co2,1997,-25.874549880133124
+Forest Land - Removals,co2,1998,-15.953560880133121
+Forest Land - Removals,co2,1999,-17.966777880133122
+Forest Land - Removals,co2,2000,-8.876164880133121
+Forest Land - Removals,co2,2001,-8.13400888013312
+Forest Land - Removals,co2,2002,-7.301819880133122
+Forest Land - Removals,co2,2003,-4.107560880133122
+Forest Land - Removals,co2,2004,-2.817412880133123
+Forest Land - Removals,co2,2005,19.198968119866876
+Forest Land - Removals,co2,2006,19.61378211986688
+Forest Land - Removals,co2,2007,27.06254811986688
+Forest Land - Removals,co2,2008,29.209060119866876
+Forest Land - Removals,co2,2009,32.08413411986688
+Forest Land - Removals,co2,2010,34.53043711986688
+Forest Land - Removals,co2,2011,37.04968711986688
+Forest Land - Removals,co2,2012,39.478913119866874
+Forest Land - Removals,co2,2013,47.20757911986688
+Forest Land - Removals,co2,2014,50.09585711986688
+Forest Land - Removals,co2,2015,53.04300661986688
+Forest Land - Removals,co2,2016,53.39812279168137
+Forest Land - Removals,co2,2017,50.27773299823311
+Forest Land - Removals,co2,2018,51.88663345959158
+Forest Land - Removals,co2,2019,61.784838780330006
 Forest Land - Sequestration,co2,1995,-7.654960906871515
 Forest Land - Sequestration,co2,1996,-7.654960906871515
 Forest Land - Sequestration,co2,1997,-7.654960906871515
@@ -924,56 +924,56 @@ Other  Combustion,n2o,2016,0.0
 Other  Combustion,n2o,2017,0.0
 Other  Combustion,n2o,2018,0.0
 Other  Combustion,n2o,2019,0.0
-Other Land Use Conversion,co2,1995,0.3057193488337634
-Other Land Use Conversion,co2,1996,0.3057193488337634
-Other Land Use Conversion,co2,1997,0.3057193488337634
-Other Land Use Conversion,co2,1998,0.3057193488337634
-Other Land Use Conversion,co2,1999,0.3057193488337634
-Other Land Use Conversion,co2,2000,0.3057193488337634
-Other Land Use Conversion,co2,2001,0.3057193488337634
-Other Land Use Conversion,co2,2002,0.3057193488337634
-Other Land Use Conversion,co2,2003,0.3057193488337634
-Other Land Use Conversion,co2,2004,0.3057193488337634
-Other Land Use Conversion,co2,2005,0.3057193488337634
-Other Land Use Conversion,co2,2006,0.3057193488337634
-Other Land Use Conversion,co2,2007,0.3057193488337634
-Other Land Use Conversion,co2,2008,0.3057193488337634
-Other Land Use Conversion,co2,2009,0.3057193488337634
-Other Land Use Conversion,co2,2010,0.3057193488337634
-Other Land Use Conversion,co2,2011,0.3057193488337634
-Other Land Use Conversion,co2,2012,0.3057193488337634
-Other Land Use Conversion,co2,2013,0.3057193488337634
-Other Land Use Conversion,co2,2014,0.3057193488337634
-Other Land Use Conversion,co2,2015,0.3057193488337634
-Other Land Use Conversion,co2,2016,0.3057282842518817
-Other Land Use Conversion,co2,2017,0.30573721967
-Other Land Use Conversion,co2,2018,0.30573721967
-Other Land Use Conversion,co2,2019,0.30573721967
-Other Not Estimated Conversion,co2,1995,0.45701514896400036
-Other Not Estimated Conversion,co2,1996,0.45701514896400036
-Other Not Estimated Conversion,co2,1997,0.45701514896400036
-Other Not Estimated Conversion,co2,1998,0.45701514896400036
-Other Not Estimated Conversion,co2,1999,0.45701514896400036
-Other Not Estimated Conversion,co2,2000,0.45701514896400036
-Other Not Estimated Conversion,co2,2001,0.45701514896400036
-Other Not Estimated Conversion,co2,2002,0.45701514896400036
-Other Not Estimated Conversion,co2,2003,0.45701514896400036
-Other Not Estimated Conversion,co2,2004,0.45701514896400036
-Other Not Estimated Conversion,co2,2005,0.45701514896400036
-Other Not Estimated Conversion,co2,2006,0.45701514896400036
-Other Not Estimated Conversion,co2,2007,0.45701514896400036
-Other Not Estimated Conversion,co2,2008,0.45701514896400036
-Other Not Estimated Conversion,co2,2009,0.45701514896400036
-Other Not Estimated Conversion,co2,2010,0.45701514896400036
-Other Not Estimated Conversion,co2,2011,0.45701514896400036
-Other Not Estimated Conversion,co2,2012,0.45701514896400036
-Other Not Estimated Conversion,co2,2013,0.45701514896400036
-Other Not Estimated Conversion,co2,2014,0.45701514896400036
-Other Not Estimated Conversion,co2,2015,0.45701514896400036
-Other Not Estimated Conversion,co2,2016,1.0369160119338796
-Other Not Estimated Conversion,co2,2017,1.4925977119263725
-Other Not Estimated Conversion,co2,2018,2.0124735464191916
-Other Not Estimated Conversion,co2,2019,2.5403349402720345
+Other Land Use Conversion,co2,1995,0.8197268801331212
+Other Land Use Conversion,co2,1996,0.8197268801331212
+Other Land Use Conversion,co2,1997,0.8197268801331212
+Other Land Use Conversion,co2,1998,0.8197268801331212
+Other Land Use Conversion,co2,1999,0.8197268801331212
+Other Land Use Conversion,co2,2000,0.8197268801331212
+Other Land Use Conversion,co2,2001,0.8197268801331212
+Other Land Use Conversion,co2,2002,0.8197268801331212
+Other Land Use Conversion,co2,2003,0.8197268801331212
+Other Land Use Conversion,co2,2004,0.8197268801331212
+Other Land Use Conversion,co2,2005,0.8197268801331212
+Other Land Use Conversion,co2,2006,0.8197268801331212
+Other Land Use Conversion,co2,2007,0.8197268801331212
+Other Land Use Conversion,co2,2008,0.8197268801331212
+Other Land Use Conversion,co2,2009,0.8197268801331212
+Other Land Use Conversion,co2,2010,0.8197268801331212
+Other Land Use Conversion,co2,2011,0.8197268801331212
+Other Land Use Conversion,co2,2012,0.8197268801331212
+Other Land Use Conversion,co2,2013,0.8197268801331212
+Other Land Use Conversion,co2,2014,0.8197268801331212
+Other Land Use Conversion,co2,2015,0.8197268801331212
+Other Land Use Conversion,co2,2016,3.3050132083186377
+Other Land Use Conversion,co2,2017,8.183414001766888
+Other Land Use Conversion,co2,2018,8.591985540408423
+Other Land Use Conversion,co2,2019,0.305737219669993
+Other Not Estimated Conversion,co2,1995,0.5135584600151629
+Other Not Estimated Conversion,co2,1996,0.5135584600151629
+Other Not Estimated Conversion,co2,1997,0.5135584600151629
+Other Not Estimated Conversion,co2,1998,0.5135584600151629
+Other Not Estimated Conversion,co2,1999,0.5135584600151629
+Other Not Estimated Conversion,co2,2000,0.5135584600151629
+Other Not Estimated Conversion,co2,2001,0.5135584600151629
+Other Not Estimated Conversion,co2,2002,0.5135584600151629
+Other Not Estimated Conversion,co2,2003,0.5135584600151629
+Other Not Estimated Conversion,co2,2004,0.5135584600151629
+Other Not Estimated Conversion,co2,2005,0.5135584600151629
+Other Not Estimated Conversion,co2,2006,0.5135584600151629
+Other Not Estimated Conversion,co2,2007,0.5135584600151629
+Other Not Estimated Conversion,co2,2008,0.5135584600151629
+Other Not Estimated Conversion,co2,2009,0.5135584600151629
+Other Not Estimated Conversion,co2,2010,0.5135584600151629
+Other Not Estimated Conversion,co2,2011,0.5135584600151629
+Other Not Estimated Conversion,co2,2012,0.5135584600151629
+Other Not Estimated Conversion,co2,2013,0.5135584600151629
+Other Not Estimated Conversion,co2,2014,0.5135584600151629
+Other Not Estimated Conversion,co2,2015,0.5135584600151629
+Other Not Estimated Conversion,co2,2016,1.205347133953043
+Other Not Estimated Conversion,co2,2017,1.7326173167319878
+Other Not Estimated Conversion,co2,2018,2.358133184629954
+Other Not Estimated Conversion,co2,2019,2.9517043168944896
 Other Not Estimated Sequestration,co2,1995,-2.493982888709767
 Other Not Estimated Sequestration,co2,1996,-2.493982888709767
 Other Not Estimated Sequestration,co2,1997,-2.493982888709767
@@ -999,31 +999,31 @@ Other Not Estimated Sequestration,co2,2016,-2.4566218630844108
 Other Not Estimated Sequestration,co2,2017,-2.2496322235843733
 Other Not Estimated Sequestration,co2,2018,-1.3599953447109736
 Other Not Estimated Sequestration,co2,2019,-0.6183938038410354
-Other Not Estimated Soils,n2o,1995,2.693556976769902
-Other Not Estimated Soils,n2o,1996,2.693556976769902
-Other Not Estimated Soils,n2o,1997,2.693556976769902
-Other Not Estimated Soils,n2o,1998,2.693556976769902
-Other Not Estimated Soils,n2o,1999,2.693556976769902
-Other Not Estimated Soils,n2o,2000,2.693556976769902
-Other Not Estimated Soils,n2o,2001,2.693556976769902
-Other Not Estimated Soils,n2o,2002,2.693556976769902
-Other Not Estimated Soils,n2o,2003,2.693556976769902
-Other Not Estimated Soils,n2o,2004,2.693556976769902
-Other Not Estimated Soils,n2o,2005,2.693556976769902
-Other Not Estimated Soils,n2o,2006,2.693556976769902
-Other Not Estimated Soils,n2o,2007,2.693556976769902
-Other Not Estimated Soils,n2o,2008,2.693556976769902
-Other Not Estimated Soils,n2o,2009,2.693556976769902
-Other Not Estimated Soils,n2o,2010,2.693556976769902
-Other Not Estimated Soils,n2o,2011,2.693556976769902
-Other Not Estimated Soils,n2o,2012,2.693556976769902
-Other Not Estimated Soils,n2o,2013,2.693556976769902
-Other Not Estimated Soils,n2o,2014,2.693556976769902
-Other Not Estimated Soils,n2o,2015,2.693556976769902
-Other Not Estimated Soils,n2o,2016,2.7785646910781394
-Other Not Estimated Soils,n2o,2017,2.794700641019511
-Other Not Estimated Soils,n2o,2018,2.8691207819085305
-Other Not Estimated Soils,n2o,2019,2.925807980985455
+Other Not Estimated Soils,n2o,1995,1.3796819688375876
+Other Not Estimated Soils,n2o,1996,1.3796819688375876
+Other Not Estimated Soils,n2o,1997,1.3796819688375876
+Other Not Estimated Soils,n2o,1998,1.3796819688375876
+Other Not Estimated Soils,n2o,1999,1.3796819688375876
+Other Not Estimated Soils,n2o,2000,1.3796819688375876
+Other Not Estimated Soils,n2o,2001,1.3796819688375876
+Other Not Estimated Soils,n2o,2002,1.3796819688375876
+Other Not Estimated Soils,n2o,2003,1.3796819688375876
+Other Not Estimated Soils,n2o,2004,1.3796819688375876
+Other Not Estimated Soils,n2o,2005,1.3796819688375876
+Other Not Estimated Soils,n2o,2006,1.3796819688375876
+Other Not Estimated Soils,n2o,2007,1.3796819688375876
+Other Not Estimated Soils,n2o,2008,1.3796819688375876
+Other Not Estimated Soils,n2o,2009,1.3796819688375876
+Other Not Estimated Soils,n2o,2010,1.3796819688375876
+Other Not Estimated Soils,n2o,2011,1.3796819688375876
+Other Not Estimated Soils,n2o,2012,1.3796819688375876
+Other Not Estimated Soils,n2o,2013,1.3796819688375876
+Other Not Estimated Soils,n2o,2014,1.3796819688375876
+Other Not Estimated Soils,n2o,2015,1.3796819688375876
+Other Not Estimated Soils,n2o,2016,1.4354502484186942
+Other Not Estimated Soils,n2o,2017,1.4439883114162453
+Other Not Estimated Soils,n2o,2018,1.4987095327426048
+Other Not Estimated Soils,n2o,2019,1.538585389990307
 Solid Waste,ch4,1995,3.2374044000000004
 Solid Waste,ch4,1996,3.651273
 Solid Waste,ch4,1997,4.0280625

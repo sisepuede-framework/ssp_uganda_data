@@ -628,17 +628,22 @@ def get_emissions_deforestation(
     
     # mark which years are actually broken out
     field_tb = "true_break"
-    df_emissions_deforestation_agg[field_tb] = (
-        (
-            ~df_emissions_deforestation_agg[_CAT_ED_OTHER].isna() &
-            ~df_emissions_deforestation_agg[_CAT_ED_DEFORESTATION].isna()
-        )
-        .astype(int)
-    )
+    global dfag
+    dfag = df_emissions_deforestation_agg.copy()
+
+    # get inds where not NA
+    vec_break = ~df_emissions_deforestation_agg[_CAT_ED_DEFORESTATION].isna()
+    if _CAT_ED_OTHER in df_emissions_deforestation_agg.columns:
+        vec_break &= ~df_emissions_deforestation_agg[_CAT_ED_OTHER].isna()
+    
+    vec_break = vec_break.astype(int)
+    df_emissions_deforestation_agg[field_tb] = vec_break
     
     # fill fields and use as fracs
     vec_total = 0
     _CATS_ED = [_CAT_ED_DEFORESTATION, _CAT_ED_OTHER]
+    _CATS_ED = [x for x in _CATS_ED if x in df_emissions_deforestation_agg.columns]
+
     for cat in _CATS_ED:
         df_emissions_deforestation_agg[cat] = (
             df_emissions_deforestation_agg[cat]
@@ -652,19 +657,24 @@ def get_emissions_deforestation(
     
     ##  ALLOCATE USING PROPORTIONS FROM KNOWN DATA
     
-    for cat in _CATS_ED:
-        df_emissions_deforestation_agg[cat] = (
-            df_emissions_deforestation_agg[cat]
-            .to_numpy()
-            *df_emissions_deforestation_agg[_CAT_ED_AGG].to_numpy()
-            /vec_total
-        )
+    if _CAT_ED_AGG in df_emissions_deforestation_agg.columns:
+        for cat in _CATS_ED:
+            df_emissions_deforestation_agg[cat] = (
+                df_emissions_deforestation_agg[cat]
+                .to_numpy()
+                *df_emissions_deforestation_agg[_CAT_ED_AGG].to_numpy()
+                /vec_total
+            )
     
+    # clean and drop
+    fields_drop = [field_tb, _CAT_ED_AGG]
+    fields_drop = [x for x in fields_drop if x in df_emissions_deforestation_agg.columns]
+
     df_emissions_deforestation_agg = (
         df_emissions_deforestation_agg[
             df_emissions_deforestation_agg[field_tb].isin([0])
         ]
-        .drop(columns = [field_tb, _CAT_ED_AGG])
+        .drop(columns = fields_drop)
         .melt(
             id_vars = [_FIELD_ED_YEAR, _FIELD_ED_GAS],
             value_name = _FIELD_ED_VALUE,

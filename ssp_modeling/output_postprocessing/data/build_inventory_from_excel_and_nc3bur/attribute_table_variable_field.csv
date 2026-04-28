@@ -747,6 +747,7 @@ frst,Forest,ef_frst_sequestration_young_secondary_kt_co2_ha,Young Secondary Fore
 frst,Forest,frac_frst_annual_wildfire_fraction_mangroves,Average Fraction of Forest Burned Annually,,,,,,,,
 frst,Forest,frac_frst_annual_wildfire_fraction_primary,Average Fraction of Forest Burned Annually,,,,,,,,
 frst,Forest,frac_frst_annual_wildfire_fraction_secondary,Average Fraction of Forest Burned Annually,,,,,,,,
+frst,Forest,frac_frst_forest_conversions_available_for_fuelwood,Fraction of Forest Conversions Available for Fuelwood,,,,,,,,
 frst,Forest,frac_frst_mangroves_cl1_temperate_nutrient_poor,Forest Fraction Temperate Nutrient Poor,,,,,,,,
 frst,Forest,frac_frst_mangroves_cl1_temperate_nutrient_rich,Forest Fraction Temperate Nutrient Rich,,,,,,,,
 frst,Forest,frac_frst_mangroves_cl1_tropical,Forest Fraction Tropical,,,,,,,,
@@ -768,38 +769,55 @@ fgtv,Fugitive Emissions,ef_fgtv_distribution_tonne_ch4_per_m3_fuel_natural_gas,:
 fgtv,Fugitive Emissions,ef_fgtv_distribution_tonne_co2_per_m3_fuel_natural_gas,:math:\text{CO}_2 FGTV Distribution Emission Factor,,,,tonne,,,m3,co2
 fgtv,Fugitive Emissions,ef_fgtv_distribution_tonne_nmvoc_per_m3_fuel_natural_gas,NMVOC FGTV Distribution Emission Factor,,,,tonne,,,m3,
 fgtv,Fugitive Emissions,ef_fgtv_production_flaring_tonne_ch4_per_m3_fuel_coal,:math:\text{CH}_4 FGTV Production Flaring Emission Factor,,,,tonne,,,m3,ch4
+fgtv,Fugitive Emissions,ef_fgtv_production_flaring_tonne_ch4_per_m3_fuel_crude,:math:\text{CH}_4 FGTV Production Flaring Emission Factor,,,,tonne,,,m3,ch4
 fgtv,Fugitive Emissions,ef_fgtv_production_flaring_tonne_ch4_per_m3_fuel_natural_gas,:math:\text{CH}_4 FGTV Production Flaring Emission Factor,,,,tonne,,,m3,ch4
 fgtv,Fugitive Emissions,ef_fgtv_production_flaring_tonne_ch4_per_m3_fuel_oil,:math:\text{CH}_4 FGTV Production Flaring Emission Factor,,,,tonne,,,m3,ch4
 fgtv,Fugitive Emissions,ef_fgtv_production_flaring_tonne_co2_per_m3_fuel_coal,:math:\text{CO}_2 FGTV Production Flaring Emission Factor,,,,tonne,,,m3,co2
+fgtv,Fugitive Emissions,ef_fgtv_production_flaring_tonne_co2_per_m3_fuel_crude,:math:\text{CO}_2 FGTV Production Flaring Emission Factor,,,,tonne,,,m3,co2
 fgtv,Fugitive Emissions,ef_fgtv_production_flaring_tonne_co2_per_m3_fuel_natural_gas,:math:\text{CO}_2 FGTV Production Flaring Emission Factor,,,,tonne,,,m3,co2
 fgtv,Fugitive Emissions,ef_fgtv_production_flaring_tonne_co2_per_m3_fuel_oil,:math:\text{CO}_2 FGTV Production Flaring Emission Factor,,,,tonne,,,m3,co2
+fgtv,Fugitive Emissions,ef_fgtv_production_flaring_tonne_n2o_per_m3_fuel_crude,:math:\text{N}_2\text{O} FGTV Production Flaring Emission Factor,,,,tonne,,,m3,n2o
 fgtv,Fugitive Emissions,ef_fgtv_production_flaring_tonne_n2o_per_m3_fuel_natural_gas,:math:\text{N}_2\text{O} FGTV Production Flaring Emission Factor,,,,tonne,,,m3,n2o
 fgtv,Fugitive Emissions,ef_fgtv_production_flaring_tonne_n2o_per_m3_fuel_oil,:math:\text{N}_2\text{O} FGTV Production Flaring Emission Factor,,,,tonne,,,m3,n2o
+fgtv,Fugitive Emissions,ef_fgtv_production_flaring_tonne_nmvoc_per_m3_fuel_crude,NMVOC FGTV Production Flaring Emission Factor,,,,tonne,,,m3,
 fgtv,Fugitive Emissions,ef_fgtv_production_flaring_tonne_nmvoc_per_m3_fuel_natural_gas,NMVOC FGTV Production Flaring Emission Factor,,,,tonne,,,m3,
 fgtv,Fugitive Emissions,ef_fgtv_production_flaring_tonne_nmvoc_per_m3_fuel_oil,NMVOC FGTV Production Flaring Emission Factor,,,,tonne,,,m3,
 fgtv,Fugitive Emissions,ef_fgtv_production_fugitive_tonne_ch4_per_m3_fuel_coal,:math:\text{CH}_4 FGTV Production Fugitive Emission Factor,,,,tonne,,,m3,ch4
+fgtv,Fugitive Emissions,ef_fgtv_production_fugitive_tonne_ch4_per_m3_fuel_crude,:math:\text{CH}_4 FGTV Production Fugitive Emission Factor,,,,tonne,,,m3,ch4
 fgtv,Fugitive Emissions,ef_fgtv_production_fugitive_tonne_ch4_per_m3_fuel_natural_gas,:math:\text{CH}_4 FGTV Production Fugitive Emission Factor,,,,tonne,,,m3,ch4
 fgtv,Fugitive Emissions,ef_fgtv_production_fugitive_tonne_ch4_per_m3_fuel_oil,:math:\text{CH}_4 FGTV Production Fugitive Emission Factor,,,,tonne,,,m3,ch4
 fgtv,Fugitive Emissions,ef_fgtv_production_fugitive_tonne_co2_per_m3_fuel_coal,:math:\text{CO}_2 FGTV Production Fugitive Emission Factor,,,,tonne,,,m3,co2
+fgtv,Fugitive Emissions,ef_fgtv_production_fugitive_tonne_co2_per_m3_fuel_crude,:math:\text{CO}_2 FGTV Production Fugitive Emission Factor,,,,tonne,,,m3,co2
 fgtv,Fugitive Emissions,ef_fgtv_production_fugitive_tonne_co2_per_m3_fuel_natural_gas,:math:\text{CO}_2 FGTV Production Fugitive Emission Factor,,,,tonne,,,m3,co2
 fgtv,Fugitive Emissions,ef_fgtv_production_fugitive_tonne_co2_per_m3_fuel_oil,:math:\text{CO}_2 FGTV Production Fugitive Emission Factor,,,,tonne,,,m3,co2
+fgtv,Fugitive Emissions,ef_fgtv_production_fugitive_tonne_n2o_per_m3_fuel_crude,:math:\text{N}_2\text{O} FGTV Production Fugitive Emission Factor,,,,tonne,,,m3,n2o
 fgtv,Fugitive Emissions,ef_fgtv_production_fugitive_tonne_n2o_per_m3_fuel_oil,:math:\text{N}_2\text{O} FGTV Production Fugitive Emission Factor,,,,tonne,,,m3,n2o
+fgtv,Fugitive Emissions,ef_fgtv_production_fugitive_tonne_nmvoc_per_m3_fuel_crude,NMVOC FGTV Production Fugitive Emission Factor,,,,tonne,,,m3,
 fgtv,Fugitive Emissions,ef_fgtv_production_fugitive_tonne_nmvoc_per_m3_fuel_natural_gas,NMVOC FGTV Production Fugitive Emission Factor,,,,tonne,,,m3,
 fgtv,Fugitive Emissions,ef_fgtv_production_fugitive_tonne_nmvoc_per_m3_fuel_oil,NMVOC FGTV Production Fugitive Emission Factor,,,,tonne,,,m3,
 fgtv,Fugitive Emissions,ef_fgtv_production_venting_tonne_ch4_per_m3_fuel_coal,:math:\text{CH}_4 FGTV Production Venting Emission Factor,,,,tonne,,,m3,ch4
+fgtv,Fugitive Emissions,ef_fgtv_production_venting_tonne_ch4_per_m3_fuel_crude,:math:\text{CH}_4 FGTV Production Venting Emission Factor,,,,tonne,,,m3,ch4
 fgtv,Fugitive Emissions,ef_fgtv_production_venting_tonne_ch4_per_m3_fuel_oil,:math:\text{CH}_4 FGTV Production Venting Emission Factor,,,,tonne,,,m3,ch4
 fgtv,Fugitive Emissions,ef_fgtv_production_venting_tonne_co2_per_m3_fuel_coal,:math:\text{CO}_2 FGTV Production Venting Emission Factor,,,,tonne,,,m3,co2
+fgtv,Fugitive Emissions,ef_fgtv_production_venting_tonne_co2_per_m3_fuel_crude,:math:\text{CO}_2 FGTV Production Venting Emission Factor,,,,tonne,,,m3,co2
 fgtv,Fugitive Emissions,ef_fgtv_production_venting_tonne_co2_per_m3_fuel_oil,:math:\text{CO}_2 FGTV Production Venting Emission Factor,,,,tonne,,,m3,co2
+fgtv,Fugitive Emissions,ef_fgtv_production_venting_tonne_n2o_per_m3_fuel_crude,:math:\text{N}_2\text{O} FGTV Production Venting Emission Factor,,,,tonne,,,m3,n2o
 fgtv,Fugitive Emissions,ef_fgtv_production_venting_tonne_n2o_per_m3_fuel_oil,:math:\text{N}_2\text{O} FGTV Production Venting Emission Factor,,,,tonne,,,m3,n2o
+fgtv,Fugitive Emissions,ef_fgtv_production_venting_tonne_nmvoc_per_m3_fuel_crude,NMVOC FGTV Production Venting Emission Factor,,,,tonne,,,m3,
 fgtv,Fugitive Emissions,ef_fgtv_production_venting_tonne_nmvoc_per_m3_fuel_oil,NMVOC FGTV Production Venting Emission Factor,,,,tonne,,,m3,
+fgtv,Fugitive Emissions,ef_fgtv_transmission_tonne_ch4_per_m3_fuel_crude,:math:\text{CH}_4 FGTV Transmission Emission Factor,,,,tonne,,,m3,ch4
 fgtv,Fugitive Emissions,ef_fgtv_transmission_tonne_ch4_per_m3_fuel_natural_gas,:math:\text{CH}_4 FGTV Transmission Emission Factor,,,,tonne,,,m3,ch4
 fgtv,Fugitive Emissions,ef_fgtv_transmission_tonne_ch4_per_m3_fuel_oil,:math:\text{CH}_4 FGTV Transmission Emission Factor,,,,tonne,,,m3,ch4
+fgtv,Fugitive Emissions,ef_fgtv_transmission_tonne_co2_per_m3_fuel_crude,:math:\text{CO}_2 FGTV Transmission Emission Factor,,,,tonne,,,m3,co2
 fgtv,Fugitive Emissions,ef_fgtv_transmission_tonne_co2_per_m3_fuel_natural_gas,:math:\text{CO}_2 FGTV Transmission Emission Factor,,,,tonne,,,m3,co2
 fgtv,Fugitive Emissions,ef_fgtv_transmission_tonne_co2_per_m3_fuel_oil,:math:\text{CO}_2 FGTV Transmission Emission Factor,,,,tonne,,,m3,co2
+fgtv,Fugitive Emissions,ef_fgtv_transmission_tonne_n2o_per_m3_fuel_crude,:math:\text{N}_2\text{O} FGTV Transmission Emission Factor,,,,tonne,,,m3,n2o
 fgtv,Fugitive Emissions,ef_fgtv_transmission_tonne_n2o_per_m3_fuel_oil,:math:\text{N}_2\text{O} FGTV Transmission Emission Factor,,,,tonne,,,m3,n2o
+fgtv,Fugitive Emissions,ef_fgtv_transmission_tonne_nmvoc_per_m3_fuel_crude,NMVOC FGTV Transmission Emission Factor,,,,tonne,,,m3,
 fgtv,Fugitive Emissions,ef_fgtv_transmission_tonne_nmvoc_per_m3_fuel_natural_gas,NMVOC FGTV Transmission Emission Factor,,,,tonne,,,m3,
 fgtv,Fugitive Emissions,ef_fgtv_transmission_tonne_nmvoc_per_m3_fuel_oil,NMVOC FGTV Transmission Emission Factor,,,,tonne,,,m3,
 fgtv,Fugitive Emissions,frac_fgtv_drained_and_waste_ch4_flared_fuel_coal,Fraction Non-Fugitive :math:\text{CH}_4 Flared,,,,,,,,ch4
+fgtv,Fugitive Emissions,frac_fgtv_drained_and_waste_ch4_flared_fuel_crude,Fraction Non-Fugitive :math:\text{CH}_4 Flared,,,,,,,,ch4
 fgtv,Fugitive Emissions,frac_fgtv_drained_and_waste_ch4_flared_fuel_oil,Fraction Non-Fugitive :math:\text{CH}_4 Flared,,,,,,,,ch4
 fgtv,Fugitive Emissions,frac_fgtv_reduction_in_fugitive_leaks,Reduction in Fugitive Leaks,,,,,,,,
 gnrl,General,area_gnrl_country_ha,Area of Region,ha,,,,,,,
@@ -2290,6 +2308,7 @@ trns,Transportation,frac_trns_fuelmix_road_light_natural_gas,Transportation Mode
 trns,Transportation,frac_trns_fuelmix_water_borne_ammonia,Transportation Mode Fuel Fraction Ammonia,,,,,,,,
 trns,Transportation,frac_trns_fuelmix_water_borne_diesel,Transportation Mode Fuel Fraction Diesel,,,,,,,,
 trns,Transportation,frac_trns_fuelmix_water_borne_electricity,Transportation Mode Fuel Fraction Electricity,,,,,,,,
+trns,Transportation,frac_trns_fuelmix_water_borne_gasoline,Transportation Mode Fuel Fraction Gasoline,,,,,,,,
 trns,Transportation,frac_trns_fuelmix_water_borne_hydrogen,Transportation Mode Fuel Fraction Hydrogen,,,,,,,,
 trns,Transportation,frac_trns_fuelmix_water_borne_natural_gas,Transportation Mode Fuel Fraction Natural Gas,,,,,,,,
 trns,Transportation,frac_trns_mtkm_dem_freight_aviation,Freight Transportation Mode Share,,,,,,,,

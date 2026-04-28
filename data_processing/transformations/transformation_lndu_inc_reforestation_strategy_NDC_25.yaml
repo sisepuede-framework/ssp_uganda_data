@@ -11,7 +11,7 @@ parameters:
   - croplands
   - grasslands
   - other
-  magnitude: 0.1
+  magnitude: 0.05
   vec_implementation_ramp:
     n_tp_ramp: 20
     tp_0_ramp: 11

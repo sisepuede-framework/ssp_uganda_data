@@ -13,7 +13,8 @@ identifiers:
   transformation_code: "TX:LNDU:SET_WETLANDS_MINIMUM_NZ"
   transformation_name: "Default Value - LNDU: Bound Classes"
 parameters:
-  dict_directional_categories_to_magnitude: null
+  dict_directional_categories_to_magnitude:
+    wetlands|min: 1642540
   vec_implementation_ramp:
     n_tp_ramp: 8
     tp_0_ramp: 11

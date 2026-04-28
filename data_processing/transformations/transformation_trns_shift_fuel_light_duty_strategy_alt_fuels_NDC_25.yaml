@@ -1,14 +1,22 @@
 citations: null
 description: None
 identifiers:
-  transformation_code: "TX:TRNS:SHIFT_FUEL_LIGHT_DUTY_STRATEGY_NZ"
+  transformation_code: "TX:TRNS:SHIFT_FUEL_LIGHT_DUTY_ALT_FUELS_NDC_25"
   transformation_name: "Scaled Default Max Parameters by 1.0 - TRNS: Electrify light\
     \ duty road transport"
 parameters:
   categories:
+  - public
   - road_light
-  dict_fuel_allocation: null
-  magnitude: 0.9
+  - road_heavy_freight
+  - road_heavy_regional
+  dict_fuel_allocation: 
+    fuel_biofuels: 0.4
+    fuel_natural_gas: 0.6
+  magnitude: 0.15
   vec_implementation_ramp:
+    alpha_logistic: 1
     tp_0_ramp: 11
+    n_tp_ramp: 15
+    window_logistic: [-2, 3]
 transformer: "TFR:TRNS:SHIFT_FUEL_LIGHT_DUTY"
