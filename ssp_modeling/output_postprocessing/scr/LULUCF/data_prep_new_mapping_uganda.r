@@ -4,7 +4,8 @@ iso_code3 <- iso_code3
 Country <- region
 
 #load last crosswalk
-mapping <- read.csv('ssp_modeling/output_postprocessing/data/LULUCF/crosswalk_inventory_to_sisepeude_20260220.csv')
+#mapping <- read.csv('ssp_modeling/output_postprocessing/data/crosswalk_inventory_to_sisepeude_20260220.csv')
+mapping <- read.csv('ssp_modeling/output_postprocessing/data/crosswalk_inventory_to_sisepeude.csv')
 mapping$Subsector_Category <- paste(mapping$aggregation_category,
                              mapping$gas,sep=":")
 
@@ -17,10 +18,11 @@ mapping <- mapping %>%
   )
 
 mapping<-mapping[,c("Sector","Subsector","Gas","Subsector_Category", "Vars")]
+#mapping<-mapping[,c("Subsector","Gas","Subsector_Category", "Vars")]
 
 
 # add edgar
-edgar <- read.csv('ssp_modeling/output_postprocessing/data/LULUCF/inventory_trajectories.csv')
+edgar <- read.csv('ssp_modeling/output_postprocessing/data/inventory_trajectories.csv')
 
 table(edgar$CSC.Subsector)
 
@@ -51,7 +53,7 @@ if (length(tvars)>1) {
  data [,mapping$ids[i]] <- rowSums(data[,tvars])
 } else if (length(tvars)==1 ) 
 { 
-  data [,mapping$ids[i]] <- data[,tvars]
+  data [,mapping$ids[i]] <- data[, tvars, drop = TRUE]
 } else {
   data [,mapping$ids[i]] <- 0
 } 
@@ -78,7 +80,8 @@ data_new <- aggregate(list(value=data_new$value),by=list(primary_id=data_new$pri
                                              time_period=data_new$time_period,
                                              Subsector_Category=data_new$Subsector_Category,
                                              CSC.Subsector=data_new$CSC.Subsector,
-                                             CSC.Sector=data_new$Sector),sum)
+                                             CSC.Sector=data_new$Sector
+                                             ),sum)
 table(data_new$Subsector_Category)
 table(data_new$CSC.Sector)
 
@@ -92,20 +95,15 @@ table(data_new$Gas)
 att <- read.csv(paste0(dir.output,"ATTRIBUTE_PRIMARY.csv"))
 head(att)
 
-dim(data_new)
-
 data_new <- merge(data_new,att,by="primary_id")
-dim(data_new)
 
 atts <- read.csv(paste0(dir.output,"ATTRIBUTE_STRATEGY.csv"))
 
-#merge 
-dim(data_new)
 data_new <- merge(data_new,atts[c("strategy_id","strategy")],by="strategy_id")
-dim(data_new)
 
 #melt edgar data 
-id_varsEd <- c("Code","CSC.Sector","CSC.Subsector","Gas","Subsector_Category")
+#id_varsEd <- c("Code","CSC.Sector","CSC.Subsector","Gas","Subsector_Category")
+id_varsEd <- c("Code","CSC.Subsector","Gas","Subsector_Category")
 measure.vars_Ed <- subset(colnames(edgar),grepl("X",colnames(edgar))==TRUE)
 edgar <- data.table(edgar)
 edgar <- melt(edgar, id.vars = id_varsEd, measure.vars =measure.vars_Ed)
@@ -119,6 +117,7 @@ edgar$strategy_id <- NA
 edgar$primary_id <- NA 
 edgar$design_id <- NA 
 edgar$future_id <- NA 
+edgar$CSC.Sector <- NA
 edgar$Contry <- Country
 edgar$strategy <- "Historical" 
 edgar$source <- "EDGAR"
@@ -127,6 +126,7 @@ edgar <- subset(edgar,Year<=year_ref)
 #data_new 
 data_new$time_period <- NULL 
 data_new$Code <- iso_code3 
+#data_new$CSC.Sector <- NA
 data_new$Contry <- Country
 data_new$source <- "SISEPUEDE"
 data_new <- subset(data_new,Year>=year_ref)
