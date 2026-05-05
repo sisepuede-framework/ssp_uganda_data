@@ -11,5 +11,5 @@ parameters:
     alpha_logisitic: 1,
     n_tp_ramp: 20
     tp_0_ramp: 11
-    window_logistic: (-4, 4)
+    window_logistic: [-4, 4]
 transformer: TFR:SCOE:DEC_DEMAND_HEAT

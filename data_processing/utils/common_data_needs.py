@@ -335,6 +335,49 @@ def get_files_from_matchstr(
 
 
 
+def get_pj_per_ktoe(
+    df_input: pd.DataFrame,
+    model_attributes: pd.DataFrame = _SISEPUEDE_MODEL_ATTRIBUTES,
+    kg_per_boe: float = 136.0,
+    gal_per_boe: float = 42.0,
+) -> float:
+    """Get the assumed PJ per Thousand Barrel of Oil Equivalent.
+
+        136 kg/boe comes from: https://energyeducation.ca/encyclopedia/Barrels_of_oil_equivalent#cite_note-2
+    """
+    # initialize some model attribute elements
+    modvar_ved = model_attributes.get_variable("Volumetric Energy Density")
+    um_energy = model_attributes.get_unit("energy")
+    um_volume = model_attributes.get_unit("volume")
+    
+    # convert energy units
+    scalar_energy = um_energy.convert(
+        modvar_ved.attribute("unit_energy"), 
+        "tj",
+    )
+
+    # convert VED volume to gallons
+    scalar_volumetric = um_volume.convert(
+        modvar_ved.attribute("unit_volume"), 
+        "gallon",
+    )
+    
+    field = modvar_ved.build_fields(category_restrictions = "fuel_crude", )
+    val = df_input[field].iloc[0]
+    
+    # do conversions
+    val_tj = val*scalar_energy                      # tj per litre
+    val_tj_per_gal = val_tj/scalar_volumetric       # tj per gallon
+    val_tj_per_boe = val_tj_per_gal*gal_per_boe     # tj per boe
+
+    # mass conversion
+    val_tj_per_kg = val_tj_per_boe/kg_per_boe       # tj per kg
+    val_tj_per_tonne = 1000*val_tj_per_kg
+    
+    # same as pj per ktoe 
+    return val_tj_per_tonne
+
+
 
 def get_raw_ssp_inputs(
 ) -> pd.DataFrame:

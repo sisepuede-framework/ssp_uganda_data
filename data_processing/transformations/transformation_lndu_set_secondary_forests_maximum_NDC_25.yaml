@@ -1,0 +1,22 @@
+citations: null
+description: "Land use classes are estimated using a transition matrix and ajdusted\
+  \ using a quadratic program. This transformation can be used to set upper and lower\
+  \ bounds on transitionable land use classes. This transformation can be used to\
+  \ represent the addition of protected areas through the use of a minimum bound OR\
+  \ the prevention of additional growth through the maxium bound.\
+  \\
+  \  The NDC2 Technical report implies that 15% of 40 million trees is 162,000 ha 
+  \ (16,200 ha/year) and that 40% of 40 million is 43,200 ha/year. We assume, then, 
+  \ that completion of the REDD+ program is consisten with NDC2 principles and 
+  \ aligns with 1,080,000 ha of new forest. This is added to the 2026 value of 
+  \ 2,698,419 to get the target maximum of 3,778,419 ha."
+identifiers:
+  transformation_code: "TX:LNDU:SET_FORESTS_SECONDARY_MAX_NDC_25"
+  transformation_name: "Default Value - LNDU: Bound Classes"
+parameters:
+  dict_directional_categories_to_magnitude:
+    forests_secondary|max: 3778419
+  vec_implementation_ramp:
+    tp_0_ramp: 11
+    n_tp_ramp: 10
+transformer: "TFR:LNDU:BOUND_CLASSES"

@@ -1,12 +1,13 @@
 citations: null
-description: 'Increase sequestration to represent sustainable biomass '
+description: 'Reflects increase in sequestration commensurate with (a) commercial transmission pole
+  and timber plantations and (b) commercial sawlog and timber plantations. Combined with 
+  TX:LNDU:INC_REFORESTATION_STRATEGY_NDC_25 to represent these actions.'
 identifiers:
   transformation_code: TX:FRST:INCREASE_SEQUESTRATION_NDC_25
-  transformation_name: Increase Secondary Sequestration by 20% to represent sustainable
-    biomass for NDC2.0 for NDC 2.0 with year starting in 2026
+  transformation_name: Increase Secondary Sequestration by 75% to plantations for NDC2.5
 parameters:
-  magnitude: 0.1
+  magnitude: 0.8
   vec_implementation_ramp:
-    n_tp_ramp: 10
     tp_0_ramp: 11
+    n_tp_ramp: 10
 transformer: TFR:FRST:INCREASE_SEQUESTRATION

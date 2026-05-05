@@ -6,15 +6,13 @@ identifiers:
     for heat using heat pumps, electric stoves, etc. for NDC 2.0 with year starting
     in 2026'
 parameters:
-  cat_enfu_target: fuel_hydrocarbon_gas_liquids
+  cat_enfu_target: fuel_electricity
   cats_enfu_source:
     - fuel_biomass
-  magnitude: 0.1
+  magnitude: 0.4
   vec_implementation_ramp:
     alpha_logistic: 1
-    n_tp_ramp: 15
+    n_tp_ramp: 10
     tp_0_ramp: 11
-    window_logistic:
-    - -4
-    - 4
+    window_logistic: [-3, 4]
 transformer: TFR:SCOE:SHIFT_FUEL_HEAT

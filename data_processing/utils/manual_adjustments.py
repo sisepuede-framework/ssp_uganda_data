@@ -15,6 +15,23 @@ from typing import *
 
 
 
+def get_path(
+) -> pathlib.Path:
+    """Get current directory
+    """
+
+    path_cur = pathlib.Path(os.path.abspath(__file__))
+    path_utils = path_cur.parents[0]
+    path_repo = path_utils.parents[1]
+
+    out = (
+        path_utils,
+        path_repo,
+    )
+    
+    return out
+
+
 
 def _setup_logger(
     format_str: str = "%(asctime)s - %(levelname)s - %(message)s",
@@ -68,6 +85,8 @@ _BIOMASS_SHIFT_IMPLEMENTATION_WINDOW = (-2, 6)
 
 # some dates
 _YEAR_0_NEW_STEEL = 2028
+
+
 
 ###################
 #    FUNCTIONS    #
@@ -146,21 +165,74 @@ def get_arrays_for_fuel_shift(
 
 
 
-def get_path(
-) -> pathlib.Path:
-    """Get current directory
+def _update_enfu_factors(
+    df_input: pd.DataFrame,
+    model_attributes: 'ModelAttributes',
+    logger: Union[logging.Logger, None] = None,
+) -> pd.DataFrame:
+    """Update biofuel factors. Assume 10% ethanol. 
+
+        Assume:
+            - CO2 factors are biogenic (sugarcane), so LC emissions
+                are 0
+            - CH4 and N2O are from V2.C3 Table 3.2.2 of IPCC GNGHGI
     """
 
-    path_cur = pathlib.Path(os.path.abspath(__file__))
-    path_utils = path_cur.parents[0]
-    path_repo = path_utils.parents[1]
+    ##  INITIALIZATION
 
-    out = (
-        path_utils,
-        path_repo,
-    )
+    # categories
+    cat_enfu_biofuels = "fuel_biofuels"
+    cat_enfu_gasoline = "fuel_gasoline"
+    cat_trns_light = "road_light"
     
-    return out
+    # model variables
+    modvar_co2 = model_attributes.get_variable(":math:\\text{CO}_2 Combustion Emission Factor")
+    modvar_ch4 = model_attributes.get_variable(":math:\\text{CH}_4 Biofuels Mobile Combustion Emission Factor")
+    modvar_ch4_gas = model_attributes.get_variable(":math:\\text{CH}_4 Gasoline Mobile Combustion Emission Factor")
+    modvar_n2o = model_attributes.get_variable(":math:\\text{N}_2\\text{O} Biofuels Mobile Combustion Emission Factor")
+    modvar_n2o_gas = model_attributes.get_variable(":math:\\text{N}_2\\text{O} Gasoline Mobile Combustion Emission Factor")
+
+    # get biofuel categories
+    cats_trns_ch4 = model_attributes.get_variable_categories(modvar_ch4, )
+    cats_trns_n2o = model_attributes.get_variable_categories(modvar_n2o, )
+    
+    # some fields
+    field_co2_biofuels = modvar_co2.build_fields(category_restrictions = cat_enfu_biofuels, )
+    field_co2_gasoline = modvar_co2.build_fields(category_restrictions = cat_enfu_gasoline, )
+    fields_ch4 = modvar_ch4.fields
+    fields_ch4_gas = modvar_ch4_gas.build_fields(category_restrictions = cats_trns_ch4, )
+    fields_n2o = modvar_n2o.fields
+    fields_n2o_gas = modvar_n2o_gas.build_fields(category_restrictions = cats_trns_n2o, )
+
+    # some special fields
+    field_ch4_light = modvar_ch4.build_fields(category_restrictions = cat_trns_light, )
+    field_ch4_gas_light = modvar_ch4_gas.build_fields(category_restrictions = cat_trns_light, )
+    
+
+    ##  UPDATE OUTPUT
+
+    df_out = df_input.copy()
+    share_gas = 0.9
+    
+    # co2 is assumed to be 10% biogenic (net zero) from gasoline
+    df_out[field_co2_biofuels] = df_out[field_co2_gasoline]*share_gas
+
+    # use CH4 direct from 3.2.2
+    df_out[fields_ch4] = share_gas*df_out[fields_ch4_gas] + 260*(1 - share_gas)
+    df_out[field_ch4_light] = share_gas*df_out[field_ch4_gas_light] + 18*(1 - share_gas)
+
+    # use N2O direct from 3.2.2
+    df_out[fields_n2o] = share_gas*df_out[fields_n2o_gas] + 41*(1 - share_gas)
+    
+
+    # dump output
+    sf._optional_log(
+        logger,
+        "Completed adjustmnt of biofuels (E10) emission factors.",
+        type_log = "info",
+    )
+
+    return df_out
 
 
 
@@ -481,6 +553,65 @@ def _update_entc_capital_costs(
 
 
 
+def _update_frst_fraction_deforestation_avail(
+    df_input: pd.DataFrame,
+    model_attributes: 'ModelAttributes',
+    time_periods: 'TimePeriods',
+    logger: Union[logging.Logger, None] = None,
+) -> pd.DataFrame:
+    """Update availability of forest conversion from deforestation available for
+        biomass. Used to align targets.
+    """
+    ##  INITIALIZATION
+
+    modvar_frst_frac = model_attributes.get_variable(
+        "Fraction of Forest Conversions Available for Fuelwood"
+    )
+    field = modvar_frst_frac.fields[0]
+    field_tp = time_periods.field_time_period
+
+    df_out = df_input.copy()
+
+
+    ##  ADJUST
+
+    # some other info--assume it opens in 2027
+    year_0 = 2019
+    tp_0 = time_periods.year_to_tp(year_0, )
+    w = np.where(df_out[field_tp].to_numpy() == tp_0)[0]
+
+    # basis for the adjustment--has to be manually set 
+    frac_cur = df_out[field].iloc[w[0]]
+    v_cur = 0.477596 # could write as a function, but easier to just set here
+    v_target = 1.491104
+
+    # get scalar to apply
+    frac_new = 1 - (1 - frac_cur)*v_target/v_cur
+    scalar = frac_new/frac_cur
+    
+    # set as a vector and adjust
+    vec_ramp = sf.ramp_vector(
+        df_out.shape[0],
+        alpha_logistic = 1.0,
+        r_0 = 11,
+        r_1 = _BIOMASS_SHIFT_IMPLEMENTATION_TP_END,
+        window_logistic = (-3, 3),
+    )
+    vec_scalar = scalar*(1 - vec_ramp) + vec_ramp
+
+    df_out[field] = df_out[field].to_numpy()*vec_scalar
+    
+
+    # dump log
+    sf._optional_log(
+        logger,
+        "Updated fraction of forest conversions available for use.",
+        type_log = "info",
+    )
+
+    return df_out
+
+
 def _update_inen_fuel_mix_from_by(
     df_input: pd.DataFrame,
     time_periods: 'TimePeriods',
@@ -529,6 +660,10 @@ def _update_inen_fuel_mix_metals(
     """Update the Industrial energy fuel mixes by mixing from base year
         to a future target. Current production is about 500,000 Tonne of steel;
         a 1 MT plant gives 2/3 to 1/3. 
+
+    Assume that it is a blast furnace:
+    https://ugandainvest.go.ug/presidents-museveni-ruto-break-ground-for-500-million-mega-steel-mill-in-eastern-uganda/
+
     """
 
     ##  INITIALIZATION
@@ -570,7 +705,7 @@ def _update_inen_fuel_mix_metals(
         field = modvar.build_fields(category_restrictions = cat, )
         if (field is None): continue
 
-        df_out[field] = 0
+        df_out[field] = 0.0
 
         # update
         if k == fuel_coal:
@@ -611,6 +746,8 @@ def _update_ippu_efs_metal(
     https://en.wikipedia.org/wiki/Tororo_Steel_Mill
     https://yieh.com/es/News/devki-steel-to-build-new-steel-plant-in-eastern-uganda/158153
     (blast furnace)
+    https://ugandainvest.go.ug/presidents-museveni-ruto-break-ground-for-500-million-mega-steel-mill-in-eastern-uganda/
+    (also blast furnace)
 
 
     To represent this, we adjust emission factors from EAF-based steel making,
@@ -623,7 +760,9 @@ def _update_ippu_efs_metal(
     ##  INITIALIZATION
 
     # model variable pieces
-    modvar = model_attributes.get_variable(":math:\\text{CO}_2 Production Process Emission Factor")
+    modvar = model_attributes.get_variable(
+        ":math:\\text{CO}_2 Production Process Emission Factor",
+    )
     field = modvar.build_fields(
         category_restrictions = "metals",
     )
@@ -684,19 +823,41 @@ def _update_ippu_elasticities(
 
     df_out = df_input.copy()
 
+    
     # cement is defined up to 2022
     tp_cement = time_periods.year_to_tp(2022, )
-    w = np.where(df_out[field_tp].to_numpy() >= tp_cement)
-    df_out[field_cement][w] = 1.0
+    w = np.where(df_out[field_tp].to_numpy() >= tp_cement)[0]
+
+    # try building a ramp vector
+    vec_ramp = sf.ramp_vector(
+        w.shape[0],
+        alpha_logistic = 1,
+        r_0 = 0,
+        r_1 = 6,
+    )
+    vec_ramp2 = sf.ramp_vector(
+        w.shape[0],
+        alpha_logistic = 1,
+        r_0 = 14,
+        r_1 = 36,
+        window_logistic = (-3, 6),
+    )
+
+    vec_ramp *= 0.7 
+    vec_ramp += 1
+    vec_ramp = (1 - vec_ramp2)*vec_ramp + vec_ramp2*0.5
+
+    # apply
+    df_out[field_cement][w] = vec_ramp
 
     # metals is are defined up to 2022
     tp_metals = time_periods.year_to_tp(2022, )
-    w = np.where(df_out[field_tp].to_numpy() >= tp_metals)
-    df_out[field_metals][w] = 0.5
+    w = np.where(df_out[field_tp].to_numpy() >= tp_metals)[0]
+    df_out[field_metals][w] = 1.5
 
     # mining is defined up to 2023
     tp_mining = time_periods.year_to_tp(2023, )
-    w = np.where(df_out[field_tp].to_numpy() >= tp_mining)
+    w = np.where(df_out[field_tp].to_numpy() >= tp_mining)[0]
     df_out[field_mining][w] = 0.5
 
     # dump output
@@ -748,6 +909,102 @@ def _update_ippu_net_imports_clinker(
     sf._optional_log(
         logger,
         "Completed adjustment to net imports of clinker to reflct Karamoja plant.",
+        type_log = "info",
+    )
+    
+    return df_out
+
+
+
+def _update_lndu_reallocation_factor(
+    df_input: pd.DataFrame,
+    model_attributes: 'ModelAttributes',
+    logger: Union[logging.Logger, None] = None,
+) -> pd.DataFrame:
+    """Specify a land use reallocation factor directly.
+    """
+    
+    ##  INITIALIZATION
+
+    modvar_lurf = model_attributes.get_variable(
+        "Land Use Yield Reallocation Factor"
+    )
+    field = modvar_lurf.fields[0]
+
+    df_out = df_input.copy()
+
+
+    ##  ADJUST
+
+    # build a vector that I know aligns
+    v1 = 0.25*sf.ramp_vector(
+        df_input.shape[0],
+        r_0 = 13,
+    )
+
+    v2 = sf.ramp_vector(
+        df_input.shape[0],
+        r_0 = 11,
+    )
+
+    # mix, shift, and clip
+    out = (v1*(1 - v2) + 0.275*v2)
+    out = np.clip(out - 0.05, 0, 1, )
+
+    # update and return
+    df_out[field] = out
+
+
+    # dump log
+    sf._optional_log(
+        logger,
+        "Updated land use reallocation factor.",
+        type_log = "info",
+    )
+    
+    return df_out
+
+
+
+def _update_lndu_suprema(
+    df_input: pd.DataFrame,
+    model_attributes: 'ModelAttributes',
+    logger: Union[logging.Logger, None] = None,
+) -> pd.DataFrame:
+    """Specify any suprema for land use classes.
+    """
+    
+    ##  INITIALIZATION
+
+    modvar_max_area = model_attributes.get_variable(
+        "Maximum Area"
+    )
+
+    # specify directly
+    dict_caps = {
+        "wetlands": 1650000,
+    }
+
+    
+    ##  ITERATE OVER DICT ITEMS TO SPECIFY
+
+    df_out = df_input.copy()
+
+    for k, v in dict_caps.items():
+
+        field = modvar_max_area.build_fields(
+            category_restrictions = k,
+        )
+        if field is None: continue
+
+        df_out[field] = v
+
+
+
+    # dump log
+    sf._optional_log(
+        logger,
+        "Updated land use suprema.",
         type_log = "info",
     )
     
@@ -998,6 +1255,65 @@ def _update_soil_initial_fertilizer(
     
 
 
+def _update_trns_diesel_rail_efficiency(
+    df_input: pd.DataFrame,
+    model_attributes: 'ModelAttributes',
+    time_periods: 'TimePeriods',
+    logger: Union[logging.Logger, None] = None,
+) -> pd.DataFrame:
+    """Update diesel rail efficiency in-line with BAU assumptions of 12% 
+        increase from 2015-2030 (see page 41)
+    """
+
+    ##   SOME INITIALIZATION
+    
+    # categories to apply disel efficiency boost to
+    cats_apply = [
+        "rail_freight",
+        "rail_passenger"
+    ]
+
+    # variable
+    modvar = model_attributes.get_variable("Fuel Efficiency Diesel")
+    
+
+    ##  GET SHIFTS FOR TRANSPORTATION
+
+    df_out = df_input.copy()
+    field_tp = time_periods.field_time_period
+
+    # some other info--assume this baseline increase starts in 2026 instead of 2015
+    year_0 = 2026
+    tp_0 = time_periods.year_to_tp(year_0, )
+    w = np.where(df_out[field_tp].to_numpy() == tp_0)[0]
+
+    # get rate
+    n = df_out.shape[0]
+    n_ramp = n - w[0]
+    r_final = 0.12*(n_ramp - 1)/15
+
+    vec_ramp = sf.ramp_vector(n = n, r_0 = w[0], )
+    vec_ramp = 1 + vec_ramp*r_final
+
+    # now, scale output fields
+    fields = modvar.build_fields(
+        category_restrictions = cats_apply,
+    )
+    for field in fields:
+        df_out[field] *= vec_ramp
+
+    # dump output
+    sf._optional_log(
+        logger,
+        "Completed transportation baseline improvements in diesel rail efficiency.",
+        type_log = "info",
+    )
+
+
+    return df_out
+
+
+
 def _update_trns_electrification_rates(
     df_input: pd.DataFrame,
     model_afolu: pd.DataFrame,
@@ -1158,6 +1474,25 @@ def adjust_inputs(
 
     ##  AFOLU
 
+    df_input = _update_frst_fraction_deforestation_avail(
+        df_input,
+        model_attributes,
+        time_periods,
+        logger = _LOGGER,
+    )
+
+    df_input = _update_lndu_reallocation_factor(
+        df_input,
+        model_attributes,
+        logger = _LOGGER,
+    )
+
+    df_input = _update_lndu_suprema(
+        df_input,
+        model_attributes,
+        logger = _LOGGER,
+    )
+
     df_input = _update_soil_frac_mineral(
         df_input,
         model_attributes,
@@ -1173,6 +1508,12 @@ def adjust_inputs(
 
 
     ##  ENERGY
+
+    df_input = _update_enfu_factors(
+        df_input,
+        model_attributes,
+        logger = _LOGGER,
+    )
 
     df_input = _update_enfu_stationary_combustion_factors(
         df_input,
@@ -1202,6 +1543,13 @@ def adjust_inputs(
     df_input = _update_enst_annual_storage_capacities(
         df_input,
         model_attributes,
+        logger = _LOGGER,
+    )
+
+    df_input = _update_trns_diesel_rail_efficiency(
+        df_input,
+        model_attributes,
+        time_periods,
         logger = _LOGGER,
     )
 

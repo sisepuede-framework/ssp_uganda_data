@@ -1,18 +1,16 @@
 citations: null
 description: None
 identifiers:
-  transformation_code: "TX:SCOE:SHIFT_FUEL_HEAT_STRATEGY_BIOMASS_TO_ELEC_NDC_2"
+  transformation_code: TX:SCOE:SHIFT_FUEL_HEAT_STRATEGY_NDC_2_HGL
   transformation_name: "Switch from biomass to electricity for clean cooking by 2025 (5 year time period)."
 parameters:
   cat_enfu_target: fuel_electricity
   cats_enfu_source:
-    - fuel_biomass
-  magnitude: 0.55
+    - fuel_hydrocarbon_gas_liquids
+  magnitude: 0.4
   vec_implementation_ramp:
-    alpha_logistic: 0
-    n_tp_ramp: 5
+    alpha_logistic: 1
+    n_tp_ramp: 10
     tp_0_ramp: 5
-    window_logistic: 
-      - -4
-      - 4
+    window_logistic: [-3, 5]
 transformer: "TFR:SCOE:SHIFT_FUEL_HEAT"

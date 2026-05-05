@@ -5,15 +5,13 @@ identifiers:
   transformation_name: "Scaled Default Max Parameters by 0.01 - SCOE: Switch to HGL\
     \ for heat using heat pumps, electric stoves, etc."
 parameters:
-  cat_enfu_target: fuel_hydrocarbon_gas_liquids
+  cat_enfu_target: fuel_electricity
   cats_enfu_source:
     - fuel_biomass
-  magnitude: 0.1
+  magnitude: 0.6
   vec_implementation_ramp:
-    alpha_logistic: 1
-    n_tp_ramp: 15
+    alpha_logistic: 1.0
+    n_tp_ramp: 10
     tp_0_ramp: 5
-    window_logistic: 
-      - -4
-      - 4
+    window_logistic: [-2, 4]
 transformer: "TFR:SCOE:SHIFT_FUEL_HEAT"

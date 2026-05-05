@@ -1,16 +1,17 @@
 citations: null
 description: None
 identifiers:
-  transformation_code: "TX:TRNS:SHIFT_FUEL_LIGHT_DUTY_STRATEGY_NDC_2"
+  transformation_code: "TX:TRNS:SHIFT_FUEL_POWERED_BIKES_STRATEGY_NDC_2"
   transformation_name: "Scaled Default Max Parameters by 1.0 - TRNS: Electrify light\
     \ duty road transport"
 parameters:
   categories:
-  - road_light
+  - powered_bikes
   dict_fuel_allocation: null
-  magnitude: 0.7
+  magnitude: 0.5
   vec_implementation_ramp:
-    alpha_logistic: 1 
+    alpha_logistic: 1
     tp_0_ramp: 5
-    window_logistic: [-4, 6]
+    n_tp_tamp: 30
+    window_logistic: [-2, 3]
 transformer: "TFR:TRNS:SHIFT_FUEL_LIGHT_DUTY"

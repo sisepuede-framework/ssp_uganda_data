@@ -9,7 +9,7 @@ identifiers:
     NDC 2.0 with year starting in 2026'
 parameters:
   cat_lndu: wetlands
-  magnitude: 0.99999
+  magnitude: 0.9999
   vec_implementation_ramp:
     n_tp_ramp: 8
     tp_0_ramp: 11

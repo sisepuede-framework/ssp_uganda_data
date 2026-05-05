@@ -1,5 +1,10 @@
 citations: null
-description: 'Increases probability of input land use classes being converted to '
+description: 'Increases probability of input land use classes being converted to secondary
+  forests. This transformation reaches 162000 new haeach for (a) commercial transmission pole
+  and timber plantations and (b) commercial sawlog and timber plantations. Each is associated with
+  (from Zutari report): "15% of 40 million annual trees planted; Equaling 16,200 ha planted annually 
+  & surpassing REDD+ target in 3 years. Harvesting in year 10 and replanting on the same land in 
+  year 11. This means only using 162,000 ha of land". Targets 332k ha of new forest by 2035.'
 identifiers:
   transformation_code: "TX:LNDU:INC_REFORESTATION_STRATEGY_NZ"
   transformation_name: "Scaled Default Max Parameters by 2.0 - LNDU: Increase Reforestation"
@@ -8,8 +13,8 @@ parameters:
   - croplands
   - grasslands
   - other
-  magnitude: 0.15
+  magnitude: 0.88
   vec_implementation_ramp:
-    tp_0_ramp: 10
-    n_tp_ramp: 11
+    tp_0_ramp: 11
+    n_tp_ramp: 10
 transformer: "TFR:LNDU:INC_REFORESTATION"
