@@ -245,3 +245,6 @@ CLAUDE.md
 
 # ignore transformation_description
 ssp_modeling/transformations_description/
+
+# ignore metamodel files
+ssp_uganda_data/metamodel/

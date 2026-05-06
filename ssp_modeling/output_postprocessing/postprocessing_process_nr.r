@@ -11,7 +11,7 @@ library(ggplot2)
 rm(list=ls())
 
 #ouputfile
-run <- 'sisepuede_summary_results_run_sisepuede_run_2026-05-03T23;39;43.045564'
+run <- 'sisepuede_summary_results_run_sisepuede_run_2026-05-06T08;29;31.552237'
 
 dir.output  <- paste0("ssp_modeling/ssp_run_output/",run,"/")
 #output.file <- "c585e7e9-e32f-4131-999b-ee7fc5ec014e.csv"
@@ -20,7 +20,7 @@ output.file <- "c585e7e9-e32f-4131-999b-ee7fc5ec014e.csv"
 att <- "ATTRIBUTE_STRATEGY.csv"
 
 
-sttrategy_ids <- c(0,6004,6009,6011,6012) 
+sttrategy_ids <- c(0,6003,6004,6005,6006,6007) 
 
 # load full data
 nwr <- fread(paste0(dir.output, output.file))
@@ -87,6 +87,8 @@ source('ssp_modeling/output_postprocessing/scr/levers_table/#create levers table
 
 # Jobs table
 source('ssp_modeling/output_postprocessing/scr/levers_table/#create jobs table.r')
+
+
 
 
 
