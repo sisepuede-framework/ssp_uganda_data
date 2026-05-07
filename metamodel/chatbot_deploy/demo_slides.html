@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uganda Climate Policy Simulator — Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:         #F0EAD6;
+    --surface:    #FFFFFF;
+    --surface-2:  #F7F3EC;
+    --border:     #DDD5C4;
+    --text:       #26211A;
+    --text-muted: #6B5E50;
+    --amber:      #B8860B;
+    --amber-dim:  rgba(184,134,11,0.10);
+    --teal:       #007A6F;
+    --teal-dim:   rgba(0,122,111,0.10);
+    --red:        #A8222E;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: #26211A;
+    font-family: "Epilogue", sans-serif;
+    overflow: hidden;
+  }
+
+  .deck {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .slide-frame {
+    width: min(100vw, calc(100vh * 16/9));
+    height: min(100vh, calc(100vw * 9/16));
+    position: relative;
+  }
+
+  .slide {
+    position: absolute; inset: 0;
+    background: var(--bg);
+    display: none; flex-direction: column; overflow: hidden;
+  }
+  .slide.active { display: flex; }
+
+  /* ── Header stripe ── */
+  .slide-header {
+    background: var(--surface);
+    border-bottom: 2px solid var(--amber);
+    padding: 1.4% 3%;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .slide-header-left { display: flex; align-items: center; gap: 1.2%; }
+  .slide-logo { font-size: 1.6em; line-height: 1; }
+  .slide-title-block h1 {
+    font-size: 0.82em; font-weight: 700; color: var(--text); letter-spacing: 0.01em;
+  }
+  .slide-title-block h1 span { color: var(--amber); }
+  .slide-title-block p { font-size: 0.62em; color: var(--text-muted); margin-top: 1px; }
+  .slide-counter {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.6em; color: var(--text-muted);
+    background: var(--surface-2); border: 1px solid var(--border);
+    padding: 2px 10px; border-radius: 3px; letter-spacing: 0.04em;
+  }
+
+  /* ── Slide body ── */
+  .slide-body {
+    flex: 1; display: flex; flex-direction: column;
+    padding: 3% 4% 2.5%; overflow: hidden;
+  }
+  .slide-label {
+    font-size: 0.55em; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 1.2%;
+  }
+  .slide-headline {
+    font-size: 1.7em; font-weight: 800; color: var(--text);
+    line-height: 1.15; margin-bottom: 3%;
+  }
+  .slide-headline em { color: var(--amber); font-style: normal; }
+
+  /* ── Title slide ── */
+  .title-slide .slide-body {
+    justify-content: center; align-items: flex-start; gap: 2%;
+  }
+  .title-slide .kicker {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.62em; font-weight: 500; color: var(--amber);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    border-left: 3px solid var(--amber); padding-left: 1%;
+  }
+  .title-slide h2 {
+    font-size: 2.6em; font-weight: 800; color: var(--text); line-height: 1.1;
+  }
+  .title-slide h2 span { color: var(--amber); }
+  .title-slide .subtitle {
+    font-size: 0.85em; color: var(--text-muted); line-height: 1.5; max-width: 68%;
+  }
+  .title-slide .tag-row { display: flex; gap: 1.5%; margin-top: 1%; }
+  .tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.58em; font-weight: 500;
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text-muted); padding: 3px 12px; border-radius: 3px; letter-spacing: 0.03em;
+  }
+  .tag.amber { background: var(--amber-dim); border-color: var(--amber); color: var(--amber); }
+  .tag.teal  { background: var(--teal-dim);  border-color: var(--teal);  color: var(--teal);  }
+
+  /* ── Three-column cards ── */
+  .cards-3 {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2%; flex: 1;
+  }
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; padding: 4% 5%;
+    display: flex; flex-direction: column; gap: 5%;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  }
+  .card-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.6em; font-weight: 600; color: var(--border); line-height: 1;
+  }
+  .card h3 { font-size: 0.78em; font-weight: 700; color: var(--amber); margin-bottom: 4%; }
+  .card p  { font-size: 0.68em; color: var(--text-muted); line-height: 1.6; }
+  .card .highlight {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.6em; color: var(--teal);
+    background: var(--teal-dim); padding: 2px 6px; border-radius: 3px;
+    margin-top: auto; display: inline-block; width: fit-content;
+  }
+
+  /* ── Two-column layout ── */
+  .cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5%; flex: 1; }
+  .col-block {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; padding: 4% 5%;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  }
+  .col-block h3 {
+    font-size: 0.72em; font-weight: 700; color: var(--amber);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 5%; padding-bottom: 4%; border-bottom: 1px solid var(--border);
+  }
+  .bullet-list { list-style: none; display: flex; flex-direction: column; gap: 4%; }
+  .bullet-list li {
+    font-size: 0.68em; color: var(--text); line-height: 1.55;
+    padding-left: 5%; position: relative;
+  }
+  .bullet-list li::before {
+    content: "▸"; position: absolute; left: 0; color: var(--amber); font-size: 0.9em;
+  }
+  .bullet-list li strong { color: var(--text); font-weight: 700; }
+
+  /* ── How it works: pipeline flow ── */
+  .pipeline {
+    flex: 1; display: flex; align-items: stretch; gap: 0;
+  }
+  .pipe-node {
+    flex: 1; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; padding: 4% 4.5%;
+    display: flex; flex-direction: column;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    position: relative;
+  }
+  .pipe-node.accent-amber { border-top: 3px solid var(--amber); }
+  .pipe-node.accent-teal  { border-top: 3px solid var(--teal); }
+  .pipe-arrow {
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; width: 4%; color: var(--border);
+    font-size: 1.2em;
+  }
+  .pipe-icon { font-size: 1.6em; margin-bottom: 4%; }
+  .pipe-node h3 {
+    font-size: 0.72em; font-weight: 700; color: var(--amber);
+    text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 4%;
+  }
+  .pipe-node.accent-teal h3 { color: var(--teal); }
+  .pipe-node p {
+    font-size: 0.62em; color: var(--text-muted); line-height: 1.6; margin-bottom: 3%;
+  }
+  .pipe-node p strong { color: var(--text); }
+  .pipe-tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.52em; font-weight: 600; letter-spacing: 0.06em;
+    color: var(--amber); background: var(--amber-dim);
+    border: 1px solid var(--amber); border-radius: 3px;
+    padding: 2px 8px; margin-top: auto; display: inline-block; width: fit-content;
+  }
+  .pipe-tag.teal {
+    color: var(--teal); background: var(--teal-dim); border-color: var(--teal);
+  }
+  .pipe-divider {
+    border: none; border-top: 1px dashed var(--border); margin: 4% 0;
+  }
+  .pipe-node .limitation {
+    font-size: 0.58em; color: var(--text-muted);
+    font-style: italic; line-height: 1.5;
+  }
+  .pipe-node .limitation strong { color: var(--red); font-style: normal; }
+
+  /* ── Learn pills ── */
+  .learn-row { display: flex; gap: 2%; flex: 1; }
+  .learn-pill {
+    flex: 1; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; padding: 4% 5%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    display: flex; flex-direction: column; gap: 4%;
+  }
+  .learn-pill.wide { flex: 1.6; }
+  .pill-label {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.55em; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--teal); margin-bottom: 1%;
+  }
+  .learn-pill p { font-size: 0.67em; color: var(--text); line-height: 1.6; }
+  .learn-pill p strong { color: var(--text); font-weight: 700; }
+  .learn-pill p .muted { color: var(--text-muted); }
+
+  /* ── Demo questions ── */
+  .q-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5%; flex: 1;
+  }
+  .q-row {
+    display: flex; align-items: flex-start; gap: 3%;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; padding: 2.5% 3%;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+  }
+  .q-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8em; font-weight: 600; color: var(--border);
+    flex-shrink: 0; padding-top: 1px; min-width: 1.6em;
+  }
+  .q-text { font-size: 0.65em; color: var(--text); line-height: 1.5; }
+  .q-tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.5em; display: inline-block; margin-top: 3%;
+    padding: 1px 7px; border-radius: 2px; font-weight: 500;
+  }
+  .q-tag.context     { background: var(--surface-2); border: 1px solid var(--border); color: var(--text-muted); }
+  .q-tag.compute     { background: var(--teal-dim);  border: 1px solid var(--teal);  color: var(--teal); }
+  .q-tag.compare     { background: var(--amber-dim); border: 1px solid var(--amber); color: var(--amber); }
+  .q-tag.uncertainty { background: rgba(168,34,46,0.07); border: 1px solid var(--red); color: var(--red); }
+
+  /* ── Nav ── */
+  .nav {
+    position: fixed; bottom: 1.5%; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 12px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; padding: 5px 14px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.18); z-index: 100;
+  }
+  .nav button {
+    background: none; border: none; cursor: pointer;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem; color: var(--text-muted);
+    padding: 3px 8px; border-radius: 3px;
+    transition: color 0.15s, background 0.15s;
+  }
+  .nav button:hover { color: var(--amber); background: var(--amber-dim); }
+  .nav .nav-count {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.7rem; color: var(--text-muted); min-width: 42px; text-align: center;
+  }
+  .nav .nav-dots { display: flex; gap: 5px; align-items: center; }
+  .nav .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--border); cursor: pointer; transition: background 0.15s;
+  }
+  .nav .dot.active { background: var(--amber); }
+
+  @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+  .slide.active .slide-body > * { animation: fadeIn 0.28s ease both; }
+  .slide.active .slide-body > *:nth-child(1) { animation-delay: 0.04s; }
+  .slide.active .slide-body > *:nth-child(2) { animation-delay: 0.10s; }
+  .slide.active .slide-body > *:nth-child(3) { animation-delay: 0.16s; }
+  .slide.active .slide-body > *:nth-child(4) { animation-delay: 0.22s; }
+</style>
+</head>
+<body>
+
+<div class="deck">
+<div class="slide-frame" id="frame">
+
+  <!-- ══ SLIDE 1: TITLE ══════════════════════════════════════════════ -->
+  <div class="slide title-slide active" id="slide-1">
+    <div class="slide-header">
+      <div class="slide-header-left">
+        <div class="slide-logo">🇺🇬</div>
+        <div class="slide-title-block">
+          <h1>Uganda <span>Climate Policy</span> Simulator</h1>
+          <p>SISEPUEDE Surrogate Model — AI Interface</p>
+        </div>
+      </div>
+      <div class="slide-counter">01 / 06</div>
+    </div>
+    <div class="slide-body">
+      <div class="kicker">First Demo — April 2026</div>
+      <h2>Asking <span>climate questions</span><br>in plain language</h2>
+      <p class="subtitle">
+        An AI agent that translates policy questions into inputs for Uganda's SISEPUEDE climate model
+        and returns model-grounded answers — no technical expertise required.
+      </p>
+      <div class="tag-row">
+        <span class="tag amber">XGBoost Surrogate</span>
+        <span class="tag teal">Claude AI Agent</span>
+        <span class="tag">S3 Data Layer</span>
+        <span class="tag">100k+ SISEPUEDE runs</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 2: HOW IT WORKS ═══════════════════════════════════════ -->
+  <div class="slide" id="slide-2">
+    <div class="slide-header">
+      <div class="slide-header-left">
+        <div class="slide-logo">🇺🇬</div>
+        <div class="slide-title-block">
+          <h1>Uganda <span>Climate Policy</span> Simulator</h1>
+          <p>SISEPUEDE Surrogate Model — AI Interface</p>
+        </div>
+      </div>
+      <div class="slide-counter">02 / 06</div>
+    </div>
+    <div class="slide-body">
+      <div class="slide-label">How it works</div>
+      <div class="slide-headline">Two layers <em>make this possible</em></div>
+      <div class="pipeline">
+
+        <div class="pipe-node accent-amber">
+          <div class="pipe-icon">⚙️</div>
+          <h3>SISEPUEDE Full Model</h3>
+          <p>The underlying climate model for Uganda. Runs <strong>~100,000 simulations</strong>, each exploring a different combination of policy levers and uncertainty parameters — renewable energy adoption, land use change, transport policies, and more.</p>
+          <hr class="pipe-divider">
+          <p class="limitation">Computationally intensive and technically complex. <strong>Not accessible</strong> in real time or to non-technical audiences.</p>
+          <span class="pipe-tag">run once · offline</span>
+        </div>
+
+        <div class="pipe-arrow">→</div>
+
+        <div class="pipe-node accent-amber">
+          <div class="pipe-icon">🤖</div>
+          <h3>XGBoost Surrogate Model</h3>
+          <p>A machine learning model trained on those 100k simulations. It <strong>learns the input–output relationship</strong> of SISEPUEDE and can reproduce its predictions in milliseconds — enabling real-time exploration of multiple scenarios without re-running the full model.</p>
+          <hr class="pipe-divider">
+          <p class="limitation">Fast and powerful, but still <strong>requires structured technical inputs</strong>: lever values, variable IDs, numeric ranges.</p>
+          <span class="pipe-tag">fast · multi-scenario</span>
+        </div>
+
+        <div class="pipe-arrow">→</div>
+
+        <div class="pipe-node accent-teal">
+          <div class="pipe-icon">💬</div>
+          <h3>Claude AI Agent</h3>
+          <p>The interface layer. It receives <strong>plain English policy questions</strong> from any user, translates them into the technical inputs the surrogate needs, runs predictions, and returns results as charts and clear language — no modeling expertise required.</p>
+          <hr class="pipe-divider">
+          <p>Bridges the gap between <strong>policy conversations</strong> and <strong>quantitative model outputs</strong> — making SISEPUEDE results accessible to ministers, planners, and development partners.</p>
+          <span class="pipe-tag teal">natural language · real time</span>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 3: WHY THIS TOOL ══════════════════════════════════════ -->
+  <div class="slide" id="slide-3">
+    <div class="slide-header">
+      <div class="slide-header-left">
+        <div class="slide-logo">🇺🇬</div>
+        <div class="slide-title-block">
+          <h1>Uganda <span>Climate Policy</span> Simulator</h1>
+          <p>SISEPUEDE Surrogate Model — AI Interface</p>
+        </div>
+      </div>
+      <div class="slide-counter">03 / 06</div>
+    </div>
+    <div class="slide-body">
+      <div class="slide-label">Why build this</div>
+      <div class="slide-headline">Three reasons <em>this tool matters</em></div>
+      <div class="cards-3">
+        <div class="card">
+          <div class="card-num">01</div>
+          <h3>Easier access to SISEPUEDE results</h3>
+          <p>SISEPUEDE produces rich outputs but requires deep technical expertise to query. This tool lets ministers, planners, and development partners explore Uganda's climate scenarios directly — without understanding model internals.</p>
+          <span class="highlight">policy language → model inputs</span>
+        </div>
+        <div class="card">
+          <div class="card-num">02</div>
+          <h3>Translate policy questions into the model</h3>
+          <p>An AI agent maps natural language questions — "What if we invest $200M in bus rapid transit?" — into structured lever inputs, runs the surrogate, and returns grounded answers with charts and numbers.</p>
+          <span class="highlight">question → prediction → insight</span>
+        </div>
+        <div class="card">
+          <div class="card-num">03</div>
+          <h3>Stress-test with real questions</h3>
+          <p>Users ask things we haven't anticipated. This surfaces gaps in model coverage, limits of the surrogate, and scenarios that need better parameterization — before the model informs high-stakes decisions.</p>
+          <span class="highlight">discover model boundaries</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 4: WHAT WE LEARNED ════════════════════════════════════ -->
+  <div class="slide" id="slide-4">
+    <div class="slide-header">
+      <div class="slide-header-left">
+        <div class="slide-logo">🇺🇬</div>
+        <div class="slide-title-block">
+          <h1>Uganda <span>Climate Policy</span> Simulator</h1>
+          <p>SISEPUEDE Surrogate Model — AI Interface</p>
+        </div>
+      </div>
+      <div class="slide-counter">04 / 06</div>
+    </div>
+    <div class="slide-body">
+      <div class="slide-label">What we learned this week</div>
+      <div class="slide-headline">This first test <em>demonstrated</em></div>
+      <div class="learn-row">
+        <div class="learn-pill wide">
+          <div class="pill-label">✓ Existing tools and data can connect</div>
+          <p>We showed that the tools and data we already had — <strong>SISEPUEDE simulation outputs</strong>, the <strong>trained XGBoost surrogate</strong>, and <strong>stored S3 data</strong> — can be connected together and given additional value by linking them through an AI agent.</p>
+        </div>
+        <div class="learn-pill">
+          <div class="pill-label">✓ Real conversation can begin</div>
+          <p>We can now show stakeholders <strong>something concrete</strong> and start collecting feedback on what the tool needs to be useful for a real audience.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 5: WHAT COMES NEXT ════════════════════════════════════ -->
+  <div class="slide" id="slide-5">
+    <div class="slide-header">
+      <div class="slide-header-left">
+        <div class="slide-logo">🇺🇬</div>
+        <div class="slide-title-block">
+          <h1>Uganda <span>Climate Policy</span> Simulator</h1>
+          <p>SISEPUEDE Surrogate Model — AI Interface</p>
+        </div>
+      </div>
+      <div class="slide-counter">05 / 06</div>
+    </div>
+    <div class="slide-body">
+      <div class="slide-label">Next steps</div>
+      <div class="slide-headline">Four areas <em>to improve</em></div>
+      <div class="cols-2">
+        <div class="col-block">
+          <h3>Model &amp; data</h3>
+          <ul class="bullet-list">
+            <li><strong>Define target time points</strong> — pin exactly which years matter for policy decisions (2030, 2035, 2050 NDC milestones)</li>
+            <li><strong>Ground factual answers in verified data</strong> — NDC targets, GDP, energy mix from official Uganda sources, not AI training knowledge</li>
+            <li><strong>Systematic agent stress-testing</strong> — identify where natural language → lever mapping breaks down against the XGBoost</li>
+          </ul>
+        </div>
+        <div class="col-block">
+          <h3>Presentation &amp; UX</h3>
+          <ul class="bullet-list">
+            <li><strong>Scenario-tailored charts</strong> — vary chart type by question: emissions by sector for coverage, cost/benefit timeline for investment, MAC curve for prioritization</li>
+            <li><strong>Improve result formatting</strong> — units, uncertainty ranges, sector labels, axis clarity</li>
+            <li><strong>Continuous user testing</strong> — both technical (modelers checking outputs) and non-technical (policy audience checking interpretability)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SLIDE 6: DEMO QUESTIONS ══════════════════════════════════════ -->
+  <div class="slide" id="slide-6">
+    <div class="slide-header">
+      <div class="slide-header-left">
+        <div class="slide-logo">🇺🇬</div>
+        <div class="slide-title-block">
+          <h1>Uganda <span>Climate Policy</span> Simulator</h1>
+          <p>SISEPUEDE Surrogate Model — AI Interface</p>
+        </div>
+      </div>
+      <div class="slide-counter">06 / 06</div>
+    </div>
+    <div class="slide-body">
+      <div class="slide-label">Demo questions — 15 minutes</div>
+      <div class="q-grid">
+        <div class="q-row">
+          <div class="q-num">01</div>
+          <div class="q-text">What is Uganda's emissions profile?<br><span class="q-tag context">context</span></div>
+        </div>
+        <div class="q-row">
+          <div class="q-num">02</div>
+          <div class="q-text">What is the net zero strategy for Uganda?<br><span class="q-tag context">context</span></div>
+        </div>
+        <div class="q-row">
+          <div class="q-num">03</div>
+          <div class="q-text">Can you produce a MAC curve for the net zero strategy?<br><span class="q-tag compute">model output</span></div>
+        </div>
+        <div class="q-row">
+          <div class="q-num">04</div>
+          <div class="q-text">Give me the cost in dollars per tonne of CO₂.<br><span class="q-tag compute">model output</span></div>
+        </div>
+        <div class="q-row">
+          <div class="q-num">05–06</div>
+          <div class="q-text">I have a project to plant 100 sq km of sustainable timber and sawlog plantations. What would the emissions impact and benefit-to-cost ratio be?<br><span class="q-tag compute">project scenario</span></div>
+        </div>
+        <div class="q-row">
+          <div class="q-num">07–08</div>
+          <div class="q-text">Show emissions by sector over time and cost/benefit over time for the Net Zero Strategy. Can you create graphs?<br><span class="q-tag compute">time series</span></div>
+        </div>
+        <div class="q-row">
+          <div class="q-num">09</div>
+          <div class="q-text">Compare: (a) $200M in bus rapid transit vs. (b) banning pre-2005 car imports — emissions and costs in 2035 and 2050.<br><span class="q-tag compare">policy comparison</span></div>
+        </div>
+        <div class="q-row">
+          <div class="q-num">10</div>
+          <div class="q-text">Show the uncertainty range of Net Zero emissions when GDP growth and renewable costs each vary ±10%.<br><span class="q-tag uncertainty">uncertainty</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /slide-frame -->
+</div><!-- /deck -->
+
+<div class="nav" id="nav">
+  <button id="prev">◀ prev</button>
+  <div class="nav-dots" id="dots"></div>
+  <span class="nav-count" id="count">1 / 6</span>
+  <button id="next">next ▶</button>
+</div>
+
+<script>
+  const TOTAL = 6;
+  let current = 1;
+  const dotsEl = document.getElementById('dots');
+  const countEl = document.getElementById('count');
+
+  for (let i = 1; i <= TOTAL; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.addEventListener('click', () => go(i));
+    dotsEl.appendChild(d);
+  }
+
+  function go(n) {
+    if (n < 1 || n > TOTAL) return;
+    document.getElementById('slide-' + current).classList.remove('active');
+    current = n;
+    document.getElementById('slide-' + current).classList.add('active');
+    countEl.textContent = current + ' / ' + TOTAL;
+    dotsEl.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i + 1 === current));
+  }
+
+  document.getElementById('prev').addEventListener('click', () => go(current - 1));
+  document.getElementById('next').addEventListener('click', () => go(current + 1));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') go(current + 1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')                      go(current - 1);
+  });
+</script>
+</body>
+</html>

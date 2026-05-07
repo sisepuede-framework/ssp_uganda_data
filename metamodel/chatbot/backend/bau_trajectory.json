@@ -1,0 +1,21 @@
+{
+  "outputs": {
+    "emission_total_sum": 7759.203125,
+    "2033_2037_mean_emission": 149.500824,
+    "2066_2070_mean_emission": 185.08403,
+    "2025_2035_mean_benefits": 2.909902,
+    "2025_2070_mean_benefits": 19.257919,
+    "2025_2035_mean_costs": 0.417578,
+    "2025_2070_mean_costs": 0.728154,
+    "2025_2035_max_costs_rel_to_gdp": 0.003035,
+    "2025_2070_max_costs_rel_to_gdp": 0.003842,
+    "2025_2035_cumulative_cost_rel_to_gdp": 0.002175,
+    "2025_2070_cumulative_cost_rel_to_gdp": 0.001441
+  },
+  "generated_at": "2026-04-15T19:14:08.279987+00:00",
+  "model": "xgb_pipeline_2025-11-12t22;19;28.194097.pkl",
+  "bau_defaults": {
+    "L_groups_1_to_59": 0.1,
+    "X_groups_60_to_68": -1.0
+  }
+}

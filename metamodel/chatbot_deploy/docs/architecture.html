@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uganda Climate Chatbot — System Architecture</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #f7f8fa;
+    --surface:   #ffffff;
+    --border:    #dde1e7;
+    --text:      #1c2433;
+    --muted:     #6b7685;
+    --accent:    #1e4d8c;
+    --accent2:   #2e7d5e;
+    --accent3:   #7b4f12;
+    --tag-bg:    #e8eef7;
+    --tag-text:  #1e4d8c;
+    --code-bg:   #f0f2f5;
+    --warn-bg:   #fff8e1;
+    --warn-border:#e6c340;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--surface);
+    border-bottom: 2px solid var(--border);
+    padding: 20px 40px;
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+  header h1 { font-size: 18px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
+  header .subtitle { font-size: 13px; color: var(--muted); font-weight: 400; }
+  .badge {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* ── Tab nav ── */
+  nav {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+  }
+  .tab-btn {
+    padding: 12px 20px;
+    border: none;
+    background: none;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .tab-btn:hover { color: var(--text); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── Content ── */
+  main { max-width: 1100px; margin: 0 auto; padding: 36px 40px; }
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+
+  h2 { font-size: 20px; font-weight: 700; margin-bottom: 6px; color: var(--text); letter-spacing: -0.3px; }
+  h3 { font-size: 15px; font-weight: 600; margin: 28px 0 10px; color: var(--text); }
+  h4 { font-size: 13px; font-weight: 600; margin: 20px 0 8px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+  p  { margin-bottom: 12px; color: var(--text); }
+  .lead { font-size: 14px; color: var(--muted); margin-bottom: 28px; }
+
+  /* ── Cards ── */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+  }
+  .card-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .card-row.three { grid-template-columns: 1fr 1fr 1fr; }
+
+  /* ── Flow diagram ── */
+  .flow {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    margin: 28px 0;
+    flex-wrap: wrap;
+  }
+  .flow-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .flow-node {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    min-width: 130px;
+    color: var(--text);
+  }
+  .flow-node.accent  { border-color: var(--accent);  background: #e8eef7; color: var(--accent); }
+  .flow-node.accent2 { border-color: var(--accent2); background: #e4f2eb; color: var(--accent2); }
+  .flow-node.accent3 { border-color: var(--accent3); background: #f5ece0; color: var(--accent3); }
+  .flow-node .sub { font-size: 10px; font-weight: 400; color: var(--muted); margin-top: 2px; }
+  .flow-arrow {
+    display: flex;
+    align-items: center;
+    padding: 0 8px;
+    color: var(--muted);
+    font-size: 18px;
+    font-weight: 300;
+  }
+  .flow-down {
+    color: var(--muted);
+    font-size: 16px;
+    line-height: 1;
+  }
+
+  /* ── Tables ── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+  th {
+    text-align: left;
+    padding: 8px 12px;
+    background: var(--bg);
+    border-bottom: 2px solid var(--border);
+    font-weight: 600;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    color: var(--muted);
+  }
+  td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--bg); }
+
+  /* ── Code ── */
+  pre, code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 16px 20px;
+    overflow-x: auto;
+    margin-bottom: 16px;
+    line-height: 1.6;
+    color: #2c3e50;
+  }
+  code {
+    background: var(--code-bg);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: #2c3e50;
+    font-size: 11.5px;
+  }
+  pre code { background: none; padding: 0; font-size: 12px; }
+
+  /* ── Callout ── */
+  .callout {
+    border-left: 3px solid var(--accent);
+    background: var(--tag-bg);
+    padding: 12px 16px;
+    border-radius: 0 5px 5px 0;
+    margin-bottom: 16px;
+    font-size: 13px;
+    color: var(--text);
+  }
+  .callout.warn {
+    border-left-color: var(--warn-border);
+    background: var(--warn-bg);
+  }
+  .callout strong { color: var(--accent); }
+  .callout.warn strong { color: var(--accent3); }
+
+  /* ── Tag pills ── */
+  .tag {
+    display: inline-block;
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 2px 7px;
+    border-radius: 3px;
+    margin: 2px 2px 2px 0;
+  }
+  .tag.green { background: #e4f2eb; color: var(--accent2); }
+  .tag.amber { background: #f5ece0; color: var(--accent3); }
+
+  /* ── File path chip ── */
+  .filepath {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    background: #f0f2f5;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 2px 7px;
+    color: #2c3e50;
+    margin: 2px 0;
+  }
+
+  /* ── Divider ── */
+  hr { border: none; border-top: 1px solid var(--border); margin: 28px 0; }
+
+  /* ── Prompt block ── */
+  .prompt-block {
+    background: #f0f2f5;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 20px 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    overflow-x: auto;
+    max-height: 480px;
+    overflow-y: auto;
+    color: #2c3e50;
+  }
+  .prompt-section { color: #1e4d8c; font-weight: 600; }
+  .prompt-rule { color: #2e7d5e; }
+  .prompt-warn { color: #7b4f12; }
+
+  /* ── Section intro ── */
+  .section-intro {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 28px;
+  }
+  .section-intro .icon {
+    width: 48px; height: 48px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .icon.blue  { background: var(--tag-bg); }
+  .icon.green { background: #e4f2eb; }
+  .icon.amber { background: #f5ece0; }
+
+  /* ── Stats row ── */
+  .stats { display: flex; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
+  .stat {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 14px 20px;
+    min-width: 120px;
+  }
+  .stat .num { font-size: 26px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .stat .lbl { font-size: 11px; color: var(--muted); font-weight: 500; text-transform: uppercase; letter-spacing: 0.4px; margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Uganda Climate Chatbot</h1>
+  <span class="subtitle">System Architecture Reference</span>
+  <span class="badge">Internal</span>
+</header>
+
+<nav>
+  <button class="tab-btn active" onclick="switchTab('overview')">Overview</button>
+  <button class="tab-btn" onclick="switchTab('frontend')">Frontend</button>
+  <button class="tab-btn" onclick="switchTab('agent')">Agent &amp; Backend</button>
+  <button class="tab-btn" onclick="switchTab('surrogate')">Surrogate Model</button>
+  <button class="tab-btn" onclick="switchTab('aws')">AWS &amp; Data</button>
+</nav>
+
+<main>
+
+<!-- ═══════════════════════════════════════════════════════ TAB 1: OVERVIEW -->
+<div class="tab-pane active" id="tab-overview">
+  <h2>System Overview</h2>
+  <p class="lead">End-to-end flow from user message to rendered chart. The backend is stateless — the frontend holds all conversation history and sends it with every request.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="num">92</div><div class="lbl">Model features</div></div>
+    <div class="stat"><div class="num">11</div><div class="lbl">Output metrics</div></div>
+    <div class="stat"><div class="num">1,933</div><div class="lbl">Training scenarios</div></div>
+    <div class="stat"><div class="num">4</div><div class="lbl">Agent tools</div></div>
+    <div class="stat"><div class="num">5</div><div class="lbl">Max tool iterations</div></div>
+    <div class="stat"><div class="num">2025–2070</div><div class="lbl">Simulation horizon</div></div>
+  </div>
+
+  <h3>Visual Flow Diagram</h3>
+
+  <svg viewBox="0 0 920 600" xmlns="http://www.w3.org/2000/svg"
+       style="width:100%;max-width:920px;display:block;margin:0 auto 36px;font-family:'Inter',sans-serif;">
+    <defs>
+      <marker id="ah"  markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#6b7685"/></marker>
+      <marker id="ahb" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#1e4d8c"/></marker>
+      <marker id="ahg" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#2e7d5e"/></marker>
+      <marker id="ahd" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#aab0bb"/></marker>
+    </defs>
+
+    <!-- ── BROWSER ── -->
+    <rect x="200" y="14" width="520" height="68" rx="8" fill="#e8eef7" stroke="#1e4d8c" stroke-width="1.5"/>
+    <text x="460" y="42"  text-anchor="middle" font-size="13" font-weight="600" fill="#1c2433">Browser / Frontend</text>
+    <text x="460" y="60"  text-anchor="middle" font-size="11" fill="#6b7685">app.js · Chart.js · state.messages[] — session held entirely in browser</text>
+    <text x="460" y="74"  text-anchor="middle" font-size="10" fill="#1e4d8c" font-style="italic">renders chart ← extractChartBlock() ← ChatResponse JSON</text>
+
+    <!-- Arrow ① -->
+    <line x1="460" y1="82" x2="460" y2="130" stroke="#6b7685" stroke-width="1.5" marker-end="url(#ah)"/>
+    <rect x="310" y="95" width="204" height="16" rx="3" fill="white" fill-opacity="0.9"/>
+    <text x="412" y="107" text-anchor="middle" font-size="10" fill="#6b7685">① POST /api/chat  (full history, synchronous)</text>
+
+    <!-- ── FASTAPI ── -->
+    <rect x="240" y="131" width="440" height="64" rx="8" fill="#e4f2eb" stroke="#2e7d5e" stroke-width="1.5"/>
+    <text x="460" y="156"  text-anchor="middle" font-size="13" font-weight="600" fill="#1c2433">FastAPI — backend/app.py : 166</text>
+    <text x="460" y="174"  text-anchor="middle" font-size="11" fill="#6b7685">chat() validates request · records latency · returns ChatResponse JSON</text>
+
+    <!-- Log box (right, dashed) -->
+    <rect x="710" y="138" width="170" height="52" rx="6" fill="#f5f5f5" stroke="#bbb" stroke-width="1.2" stroke-dasharray="4,3"/>
+    <text x="795" y="159" text-anchor="middle" font-size="10" font-weight="600" fill="#666">logs/</text>
+    <text x="795" y="175" text-anchor="middle" font-size="10" fill="#888" font-family="'JetBrains Mono',monospace">interactions.jsonl</text>
+    <line x1="680" y1="163" x2="708" y2="163" stroke="#bbb" stroke-width="1.2" stroke-dasharray="3,2" marker-end="url(#ahd)"/>
+    <text x="694" y="158" text-anchor="middle" font-size="9" fill="#aaa">writes</text>
+
+    <!-- Arrow ② -->
+    <line x1="460" y1="195" x2="460" y2="242" stroke="#6b7685" stroke-width="1.5" marker-end="url(#ah)"/>
+    <rect x="338" y="208" width="152" height="16" rx="3" fill="white" fill-opacity="0.9"/>
+    <text x="414" y="220" text-anchor="middle" font-size="10" fill="#6b7685">② agent.run(messages, overrides)</text>
+
+    <!-- ── AGENT ── -->
+    <rect x="180" y="243" width="560" height="78" rx="8" fill="#f5ece0" stroke="#7b4f12" stroke-width="1.5"/>
+    <text x="460" y="268" text-anchor="middle" font-size="13" font-weight="600" fill="#1c2433">Claude Agent Loop — backend/services/agent.py</text>
+    <text x="460" y="286" text-anchor="middle" font-size="11" fill="#6b7685">Builds system prompt from feature_registry.json · calls Claude API</text>
+    <text x="460" y="304" text-anchor="middle" font-size="11" fill="#6b7685">Tool loop: up to 5 iterations · accumulates tool_calls_log</text>
+
+    <!-- Fan-out trunk + horizontal bar + 4 drops -->
+    <line x1="460" y1="321" x2="460" y2="350" stroke="#7b4f12" stroke-width="1.2"/>
+    <line x1="113" y1="350" x2="758" y2="350" stroke="#7b4f12" stroke-width="1.2"/>
+    <line x1="113" y1="350" x2="113" y2="363" stroke="#2e7d5e" stroke-width="1.4" marker-end="url(#ahg)"/>
+    <line x1="323" y1="350" x2="323" y2="363" stroke="#1e4d8c" stroke-width="1.4" marker-end="url(#ahb)"/>
+    <line x1="543" y1="350" x2="543" y2="363" stroke="#aab0bb" stroke-width="1.2" marker-end="url(#ahd)"/>
+    <line x1="758" y1="350" x2="758" y2="363" stroke="#aab0bb" stroke-width="1.2" marker-end="url(#ahd)"/>
+    <!-- branch labels -->
+    <text x="113" y="345" text-anchor="middle" font-size="9" fill="#2e7d5e">③</text>
+    <text x="323" y="345" text-anchor="middle" font-size="9" fill="#1e4d8c">④</text>
+    <text x="543" y="345" text-anchor="middle" font-size="9" fill="#aaa">⑤</text>
+    <text x="758" y="345" text-anchor="middle" font-size="9" fill="#aaa">⑥</text>
+
+    <!-- ── TOOL BOXES (y=363, h=62) ── -->
+    <!-- run_simulation -->
+    <rect x="20"  y="363" width="186" height="62" rx="6" fill="#e4f2eb" stroke="#2e7d5e" stroke-width="1.5"/>
+    <text x="113" y="384" text-anchor="middle" font-size="11" font-weight="600" fill="#2e7d5e">run_simulation</text>
+    <text x="113" y="400" text-anchor="middle" font-size="10" fill="#6b7685">lever_overrides {gid:val}</text>
+    <text x="113" y="416" text-anchor="middle" font-size="10" fill="#6b7685">exogenous_overrides {gid:val}</text>
+
+    <!-- get_scenario_variables -->
+    <rect x="230" y="363" width="186" height="62" rx="6" fill="#e8eef7" stroke="#1e4d8c" stroke-width="1.5"/>
+    <text x="323" y="384" text-anchor="middle" font-size="11" font-weight="600" fill="#1e4d8c">get_scenario_</text>
+    <text x="323" y="398" text-anchor="middle" font-size="11" font-weight="600" fill="#1e4d8c">variables</text>
+    <text x="323" y="416" text-anchor="middle" font-size="10" fill="#6b7685">group_ids · l_values</text>
+
+    <!-- get_country_context -->
+    <rect x="450" y="363" width="186" height="62" rx="6" fill="#f5f5f5" stroke="#bbb" stroke-width="1.2"/>
+    <text x="543" y="384" text-anchor="middle" font-size="11" font-weight="600" fill="#777">get_country_</text>
+    <text x="543" y="398" text-anchor="middle" font-size="11" font-weight="600" fill="#777">context</text>
+    <text x="543" y="416" text-anchor="middle" font-size="10" fill="#999">hardcoded baseline data</text>
+
+    <!-- list_strategies -->
+    <rect x="665" y="363" width="186" height="62" rx="6" fill="#f5f5f5" stroke="#bbb" stroke-width="1.2"/>
+    <text x="758" y="384" text-anchor="middle" font-size="11" font-weight="600" fill="#777">list_strategies</text>
+    <text x="758" y="400" text-anchor="middle" font-size="10" fill="#999">ATTRIBUTE_</text>
+    <text x="758" y="416" text-anchor="middle" font-size="10" fill="#999">STRATEGY.csv (local)</text>
+
+    <!-- Arrows: tools → resources -->
+    <line x1="113" y1="425" x2="113" y2="466" stroke="#2e7d5e" stroke-width="1.5" marker-end="url(#ahg)"/>
+    <text x="140" y="450" font-size="9" fill="#2e7d5e">92-feat vector</text>
+    <line x1="323" y1="425" x2="323" y2="466" stroke="#1e4d8c" stroke-width="1.5" marker-end="url(#ahb)"/>
+    <text x="340" y="450" font-size="9" fill="#1e4d8c">LHS lookup</text>
+
+    <!-- ── RESOURCE BOXES (y=467, h=68) ── -->
+    <!-- XGBoost -->
+    <rect x="20"  y="467" width="186" height="68" rx="6" fill="#fef9e7" stroke="#c98f00" stroke-width="1.5"/>
+    <text x="113" y="490" text-anchor="middle" font-size="11" font-weight="600" fill="#7b4f12">XGBoost Surrogate</text>
+    <text x="113" y="506" text-anchor="middle" font-size="10" fill="#888">predictor.py</text>
+    <text x="113" y="521" text-anchor="middle" font-size="10" fill="#888">92 features → 11 outputs</text>
+    <text x="113" y="529" text-anchor="middle" font-size="9"  fill="#c98f00" font-style="italic">training.parquet · model.pkl</text>
+
+    <!-- S3 / LHS -->
+    <rect x="230" y="467" width="186" height="68" rx="6" fill="#e0f2fe" stroke="#1e4d8c" stroke-width="1.5"/>
+    <text x="323" y="490" text-anchor="middle" font-size="11" font-weight="600" fill="#1e4d8c">S3 + Local CSV</text>
+    <text x="323" y="506" text-anchor="middle" font-size="10" fill="#888">s3_lookup.py  (LRU cache)</text>
+    <text x="323" y="521" text-anchor="middle" font-size="10" fill="#888">LHS samples · model_input_N</text>
+    <text x="323" y="529" text-anchor="middle" font-size="9"  fill="#1e4d8c" font-style="italic">s3://sisepuede-data/</text>
+
+    <!-- ── RETURN PATH (right dashed) ── -->
+    <!-- Horizontal from XGBoost right → right column -->
+    <line x1="206" y1="535" x2="884" y2="535" stroke="#aab0bb" stroke-width="1.2" stroke-dasharray="4,3"/>
+    <!-- Vertical up the right side -->
+    <line x1="884" y1="535" x2="884" y2="82" stroke="#aab0bb" stroke-width="1.2" stroke-dasharray="4,3" marker-end="url(#ahd)"/>
+    <!-- Horizontal back to Frontend right edge -->
+    <line x1="720" y1="82" x2="884" y2="82" stroke="#aab0bb" stroke-width="1.2" stroke-dasharray="4,3"/>
+    <!-- Return label -->
+    <text x="898" y="400" text-anchor="middle" font-size="10" fill="#aab0bb" transform="rotate(90,898,400)">predictions · tool results · ChatResponse JSON</text>
+
+    <!-- ── LEGEND ── -->
+    <rect x="450" y="476" width="420" height="56" rx="6" fill="#f8f9fa" stroke="#dde1e7" stroke-width="1"/>
+    <text x="462" y="494" font-size="10" font-weight="600" fill="#555">Legend</text>
+    <line x1="510" y1="504" x2="546" y2="504" stroke="#2e7d5e" stroke-width="1.5" marker-end="url(#ahg)"/>
+    <text x="551" y="508" font-size="10" fill="#2e7d5e">→ Surrogate model</text>
+    <line x1="650" y1="504" x2="686" y2="504" stroke="#1e4d8c" stroke-width="1.5" marker-end="url(#ahb)"/>
+    <text x="691" y="508" font-size="10" fill="#1e4d8c">→ S3 / data lookup</text>
+    <line x1="800" y1="504" x2="836" y2="504" stroke="#aab0bb" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#ahd)"/>
+    <text x="841" y="508" font-size="10" fill="#aab0bb">return path</text>
+    <text x="462" y="523" font-size="9.5" fill="#888">⑤ get_country_context returns pre-loaded Uganda baseline — no external call &nbsp;·&nbsp; ⑥ list_strategies reads local ATTRIBUTE_STRATEGY.csv</text>
+  </svg>
+
+  <h3>Step-by-Step Flow</h3>
+
+  <div style="overflow-x:auto; margin-bottom:32px;">
+  <table style="min-width:700px;">
+    <thead>
+      <tr><th>#</th><th>Layer</th><th>File</th><th>What happens</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>1</code></td>
+        <td><span class="tag">Frontend</span></td>
+        <td><span class="filepath">frontend/app.js</span></td>
+        <td>User types message. <code>sendMessage()</code> builds message array and calls <code>sendChatRequest()</code>. Loading indicator starts cycling funny phrases.</td>
+      </tr>
+      <tr>
+        <td><code>2</code></td>
+        <td><span class="tag">HTTP</span></td>
+        <td></td>
+        <td><code>POST /api/chat</code> with full conversation history as JSON body. <em>Synchronous — waits for full response.</em></td>
+      </tr>
+      <tr>
+        <td><code>3</code></td>
+        <td><span class="tag">FastAPI</span></td>
+        <td><span class="filepath">backend/app.py:166</span></td>
+        <td><code>chat()</code> validates request, records <code>t0</code>, calls <code>agent.run()</code>.</td>
+      </tr>
+      <tr>
+        <td><code>4</code></td>
+        <td><span class="tag">Agent</span></td>
+        <td><span class="filepath">backend/services/agent.py</span></td>
+        <td>Builds system prompt from <code>feature_registry.json</code>. Sends history + tools to Claude API. Enters tool loop (max 5 iterations).</td>
+      </tr>
+      <tr>
+        <td><code>5a</code></td>
+        <td><span class="tag green">Tool: run_simulation</span></td>
+        <td><span class="filepath">agent.py → predictor.py</span></td>
+        <td>Claude calls <code>run_simulation</code> with <code>lever_overrides</code> and <code>exogenous_overrides</code>. Predictor builds 92-feature vector → XGBoost returns 11 scalar outputs. BAU baseline also runs for comparison.</td>
+      </tr>
+      <tr>
+        <td><code>5b</code></td>
+        <td><span class="tag green">Tool: get_scenario_variables</span></td>
+        <td><span class="filepath">agent.py → s3_lookup.py</span></td>
+        <td>Finds nearest LHS trial in local CSV (Euclidean distance). Fetches <code>model_input_N/data.csv</code> from S3. Returns raw SISEPUEDE variable values for changed groups.</td>
+      </tr>
+      <tr>
+        <td><code>5c</code></td>
+        <td><span class="tag green">Tool: get_country_context</span></td>
+        <td><span class="filepath">agent.py</span></td>
+        <td>Returns pre-loaded Uganda baseline stats (energy mix, GDP, population, agriculture, transport). Never invented — always from this tool.</td>
+      </tr>
+      <tr>
+        <td><code>5d</code></td>
+        <td><span class="tag green">Tool: list_strategies</span></td>
+        <td><span class="filepath">agent.py → s3_lookup.py</span></td>
+        <td>Reads <code>ATTRIBUTE_STRATEGY.csv</code> from local disk. Returns 76 named SISEPUEDE strategies with IDs and codes.</td>
+      </tr>
+      <tr>
+        <td><code>6</code></td>
+        <td><span class="tag">Agent</span></td>
+        <td><span class="filepath">agent.py:244</span></td>
+        <td>Claude receives tool results, generates narrative text + <code>```chart```</code> JSON block. Returns when <code>stop_reason == "end_turn"</code>.</td>
+      </tr>
+      <tr>
+        <td><code>7</code></td>
+        <td><span class="tag">FastAPI</span></td>
+        <td><span class="filepath">app.py:185</span></td>
+        <td>Logs latency. Writes <code>interactions.jsonl</code> (parameters + outputs). Returns <code>ChatResponse</code> JSON.</td>
+      </tr>
+      <tr>
+        <td><code>8</code></td>
+        <td><span class="tag">Frontend</span></td>
+        <td><span class="filepath">frontend/app.js</span></td>
+        <td><code>extractChartBlock()</code> strips the <code>```chart```</code> fence from reply text. <code>renderInlineChart()</code> creates Chart.js line chart. Loading indicator stops.</td>
+      </tr>
+    </tbody>
+  </table>
+  </div>
+
+  <h3>Key Design Constraints</h3>
+  <div class="card-row">
+    <div class="card">
+      <h4>Stateless Backend</h4>
+      <p>The API holds zero session state. Every request carries the full conversation history. Session is maintained entirely in the browser (<code>state.messages[]</code>).</p>
+    </div>
+    <div class="card">
+      <h4>No Streaming</h4>
+      <p>The <code>/api/chat</code> endpoint is synchronous. The full Claude + tool loop completes before any bytes are sent. Loading phrases on the frontend are purely cosmetic timers.</p>
+    </div>
+  </div>
+  <div class="card-row">
+    <div class="card">
+      <h4>Surrogate ≠ SISEPUEDE</h4>
+      <p>The XGBoost model is a statistical approximation trained on 1,933 SISEPUEDE runs. It predicts means of 5-year emission windows, not full year-by-year trajectories.</p>
+    </div>
+    <div class="card">
+      <h4>Chart = 2 Points Only</h4>
+      <p>Charts show emissions at <strong>2035</strong> (2033–37 mean) and <strong>2070</strong> (2066–70 mean). The straight line between them is visual interpolation — <em>not</em> a model projection of intermediate years.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ TAB 2: FRONTEND -->
+<div class="tab-pane" id="tab-frontend">
+  <h2>Frontend Layer</h2>
+  <p class="lead">A single-page HTML/CSS/JS app served as static files by FastAPI. No build step, no framework.</p>
+
+  <h3>File Structure</h3>
+  <table>
+    <thead><tr><th>File</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><span class="filepath">frontend/index.html</span></td><td>Shell: imports Google Fonts, Chart.js 4.4.0 CDN, app.js. Dark-theme chat UI layout.</td></tr>
+      <tr><td><span class="filepath">frontend/app.js</span></td><td>All application logic: state, API calls, message rendering, chart rendering.</td></tr>
+      <tr><td><span class="filepath">frontend/style.css</span></td><td>Design tokens, layout, chat bubbles, chart card styling.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Key Functions in <code>app.js</code></h3>
+  <table>
+    <thead><tr><th>Function</th><th>Line</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr><td><code>sendChatRequest(messages)</code></td><td>~60</td><td>Fetches <code>POST /api/chat</code>. Returns parsed JSON or throws on HTTP error.</td></tr>
+      <tr><td><code>sendMessage()</code></td><td>~75</td><td>Entry point for user send action. Validates, appends user message to state, calls <code>sendChatRequest</code>.</td></tr>
+      <tr><td><code>THINKING_PHRASES[]</code></td><td>249</td><td>10 phrases shown in rotation while waiting. Cycles every 3s via <code>setInterval</code>.</td></tr>
+      <tr><td><code>setLoading(bool)</code></td><td>264</td><td>Shows/hides typing indicator. Disables input + send button during requests.</td></tr>
+      <tr><td><code>extractChartBlock(text)</code></td><td>~412</td><td>Regex <code>/```chart\s*([\s\S]*?)```/</code> extracts JSON from Claude's reply. Returns <code>{cleanText, chartData}</code>.</td></tr>
+      <tr><td><code>renderInlineChart(container, chartData)</code></td><td>~437</td><td>Creates a Chart.js <code>type:"line"</code> instance. Always plots 2 x-axis points: 2035 and 2070.</td></tr>
+      <tr><td><code>renderChartMetrics(container, metrics)</code></td><td>~577</td><td>Renders 3 summary cards below the chart: total, near-term, long-term % vs BAU.</td></tr>
+      <tr><td><code>renderVariableTable(container, pairs)</code></td><td>~200</td><td>Renders Markdown pipe tables from Claude's response as styled HTML tables.</td></tr>
+    </tbody>
+  </table>
+
+  <h3>Chart JSON Format</h3>
+  <p>Claude embeds this block in its reply. The frontend extracts and removes it from the displayed prose.</p>
+  <pre><code>```chart
+{
+  "years": [2035, 2070],
+  "bau":      [149.5, 185.1],     // 2033–37 mean and 2066–70 mean emissions (Mt CO₂e/yr)
+  "nz":       [45.2,  12.8],     // Net Zero pathway — always present
+  "scenario": [120.3, 98.5],     // User's simulated scenario (null if user asked for Net Zero)
+  "scenario_label": "Simulated Scenario",
+  "metrics": {
+    "total_reduction_pct":   -23.5,    // emission_total_sum % change vs BAU
+    "near_term_vs_bau_pct":  -18.2,    // 2033–37 % change vs BAU
+    "long_term_vs_bau_pct":  -46.8     // 2066–70 % change vs BAU
+  }
+}
+```</code></pre>
+
+  <div class="callout warn">
+    <strong>Important:</strong> The two-point line is NOT an interpolated trajectory. It is two independent model predictions for different time windows. Intermediate years (2038–2065) cannot be estimated by the surrogate.
+  </div>
+
+  <h3>Chart Rendering Detail</h3>
+  <table>
+    <thead><tr><th>Series</th><th>Color</th><th>Style</th></tr></thead>
+    <tbody>
+      <tr><td>Business as Usual (BAU)</td><td><code>#A8222E</code> red</td><td>Dashed line, <code>borderDash: [6,4]</code></td></tr>
+      <tr><td>Net Zero Pathway</td><td><code>#007A6F</code> teal</td><td>Solid line, 2px</td></tr>
+      <tr><td>Simulated Scenario</td><td><code>#B8860B</code> amber</td><td>Solid line, 2px (when present)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>State Object</h3>
+  <pre><code>const state = {
+  messages:   [],        // Full conversation history — sent with every request
+  isLoading:  false,
+  simulation: null,      // Last SimulationResponse from backend
+};</code></pre>
+
+  <h3>Preset Scenarios (UI)</h3>
+  <p>The UI exposes three preset buttons that populate <code>locked_overrides</code> — these force-override Claude's decisions:</p>
+  <table>
+    <thead><tr><th>Preset</th><th>Effect</th></tr></thead>
+    <tbody>
+      <tr><td>BAU</td><td>All L groups = 0.1, all X groups = −1.0</td></tr>
+      <tr><td>Net Zero</td><td>Uses <code>preset_scenario: "netzero"</code> (per-group L values from NZ strategy YAMLs)</td></tr>
+      <tr><td>Compare</td><td>Runs BAU vs Net Zero side-by-side</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ TAB 3: AGENT -->
+<div class="tab-pane" id="tab-agent">
+  <h2>Agent &amp; Backend Layer</h2>
+  <p class="lead">FastAPI serves the HTTP API. The Claude agent loop translates natural language to model parameters, executes tool calls, and synthesizes the final response.</p>
+
+  <div class="card-row">
+    <div class="card">
+      <h4>Entry Point</h4>
+      <p><span class="filepath">backend/app.py:166</span></p>
+      <p><code>POST /api/chat</code> — accepts <code>ChatRequest</code> (full message history + optional locked overrides). Calls <code>agent.run()</code>. Logs the interaction to <code>logs/interactions.jsonl</code>.</p>
+    </div>
+    <div class="card">
+      <h4>Other Endpoints</h4>
+      <p><code>GET /api/health</code> — model status<br>
+      <code>GET /api/features</code> — full feature registry<br>
+      <code>POST /api/simulate</code> — direct XGBoost call (no LLM)<br>
+      <code>GET /api/bau</code> — pre-computed BAU trajectory</p>
+    </div>
+  </div>
+
+  <h3>Agent Tool Loop</h3>
+  <pre><code>def run(messages, locked_overrides):
+    tool_calls_log = []
+    client = Anthropic(api_key=...)
+    system_prompt = _build_system_prompt()     # Loads feature_registry.json each call
+
+    for iteration in range(5):                 # Max 5 tool iterations
+        response = client.messages.create(
+            model=settings.claude_model,       # claude-sonnet-4-6
+            system=system_prompt,
+            tools=TOOLS,
+            messages=anthropic_messages,
+        )
+
+        if response.stop_reason == "end_turn":
+            return {reply, simulation, scenario_interpretation, tool_calls_log}
+
+        if response.stop_reason == "tool_use":
+            for tool_block in response.content:
+                result, sim_data, interp = _execute_tool_call(tool_block, ...)
+                tool_calls_log.append({tool, inputs})
+                # append tool result to history and loop</code></pre>
+
+  <h3>Available Tools</h3>
+  <table>
+    <thead><tr><th>Tool</th><th>When called</th><th>Returns</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>run_simulation</code></td>
+        <td>Any question about emissions, costs, or policy outcomes. Called first.</td>
+        <td>11 output metrics for scenario + BAU baseline + % changes.</td>
+      </tr>
+      <tr>
+        <td><code>get_scenario_variables</code></td>
+        <td>After <code>run_simulation</code> when user asked about a specific policy. Gets variable-level detail.</td>
+        <td>Raw SISEPUEDE variable values from nearest LHS trial in S3 (design_id=3).</td>
+      </tr>
+      <tr>
+        <td><code>get_country_context</code></td>
+        <td>User asks about Uganda's current situation, energy mix, GDP, population.</td>
+        <td>Pre-loaded baseline statistics by topic (energy, economy, agriculture, transport).</td>
+      </tr>
+      <tr>
+        <td><code>list_strategies</code></td>
+        <td>User mentions a named strategy or asks what strategies are available.</td>
+        <td>76 named SISEPUEDE strategies with IDs and codes.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>System Prompt Structure</h3>
+  <p>Built dynamically at each call from <span class="filepath">backend/feature_registry.json</span>. Contains the following sections:</p>
+
+  <div class="prompt-block"><span class="prompt-section">## UGANDA COUNTRY CONTEXT</span>
+Uganda, 47M people, GDP ~40B USD, 85% hydropower, 72% workforce in agriculture.
+NDC target: 22% GHG reduction by 2030 vs BAU.
+
+<span class="prompt-section">## MODEL MECHANICS</span>
+68 input parameters: 59 policy lever groups (L, 0–1) + 9 exogenous uncertainty groups (X, −1 to 1).
+Predicts 11 outcomes: emissions, costs, co-benefits.
+
+<span class="prompt-rule">L groups = policy choices. Claude CAN set L values.</span>
+<span class="prompt-warn">X groups = external conditions. Claude MUST NOT set X values in response to policy requests.</span>
+
+<span class="prompt-section">## L TRANSFORM FORMULA</span>
+T = 0.9 × x + 0.1   (design 3 — standard)
+Reverse: x = (T − 0.1) / 0.9
+Physical effect = transformer_default_magnitude × T
+Ramp: progressive transition from baseline to T over ~20–30 years (SISEPUEDE vec_implementation_ramp).
+
+<span class="prompt-section">## SCENARIO PRESETS</span>
+BAU:      preset_scenario = "bau"     L=0.1 all groups, X=−1.0
+Net Zero: preset_scenario = "netzero" Per-group L values from Uganda NZ strategy YAMLs
+
+<span class="prompt-section">## POLICY LEVERS — 59 L groups, scale 0–1</span>
+[Dynamic list from feature_registry.json — sectors: Agriculture, Energy, Industry,
+ Land Use, Livestock, Buildings, Transport, Waste, Water]
+
+<span class="prompt-section">## EXOGENOUS UNCERTAINTY FACTORS — 9 X groups, scale −1 to 1</span>
+[Dynamic list: GDP trajectory (62), population (65), fossil fuel prices (61), etc.]
+
+<span class="prompt-section">## RULES</span>
+<span class="prompt-rule">1. Always call run_simulation BEFORE giving any emissions numbers.</span>
+<span class="prompt-rule">2. Call get_scenario_variables AFTER run_simulation for specific policy questions.</span>
+<span class="prompt-rule">3. Call get_country_context for Uganda baseline stats. Never invent numbers.</span>
+<span class="prompt-warn">4. Never hallucinate values — all numbers from tool calls only.</span>
+<span class="prompt-warn">5. Never set X groups in response to a policy request.</span>
+<span class="prompt-rule">6. Flag any non-tool-sourced information explicitly.</span>
+
+<span class="prompt-section">## TRANSLATION RULES</span>
+"aggressive/ambitious/maximum" → L group = 0.9
+"moderate/some/partial"        → L group = 0.5
+"business as usual/baseline"   → all L groups = 0.1
+"phase out" fossil fuels        → fuel-switch L group = 0.9
+"protect forests"               → L19 (deforestation) + L21 (reforestation) = 0.8–0.9
+"Net Zero"                      → preset_scenario: "netzero" — do NOT manually set L groups
+"higher GDP growth"             → X62 = 0.7–0.9 (scenario context only)
+"optimistic future"             → all X groups = 0.7–0.8 (scenario context only)
+
+<span class="prompt-section">## RESPONSE FORMAT</span>
+Every response includes either:
+A) ```chart``` block — for any response with simulation output
+B) Markdown table — for factual/context responses
+
+Be brief: 2–4 sentences of prose maximum.
+Simulation structure: key finding → table → main driver → chart block.</div>
+
+  <h3>Interaction Log Format</h3>
+  <p>Written to <span class="filepath">chatbot_deploy/logs/interactions.jsonl</span> after every successful request:</p>
+  <pre><code>{
+  "ts": "2026-05-03T18:42:11.234Z",
+  "user_message": "What happens if Uganda aggressively expands renewables?",
+  "tool_calls": [
+    {
+      "tool": "run_simulation",
+      "inputs": {
+        "lever_overrides": {"8": 0.9},
+        "exogenous_overrides": {},
+        "preset_scenario": "bau",
+        "compare_to_baseline": true,
+        "scenario_name": "High Renewables"
+      }
+    },
+    { "tool": "get_scenario_variables", "inputs": {"group_ids": [8], "l_values": {"8": 0.9}} }
+  ],
+  "lever_overrides":     {"8": 0.9},
+  "exogenous_overrides": {},
+  "simulation_outputs": {
+    "emission_total_sum":        7210.5,
+    "2033_2037_mean_emission":    142.3,
+    "2066_2070_mean_emission":    158.7,
+    ...
+  },
+  "reply_snippet": "Aggressively expanding Uganda's renewable electricity target to...",
+  "latency_s": 4.21
+}</code></pre>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ TAB 4: SURROGATE -->
+<div class="tab-pane" id="tab-surrogate">
+  <h2>Surrogate Model</h2>
+  <p class="lead">An XGBoost multi-output regressor trained on 1,933 SISEPUEDE climate-economic scenarios for Uganda. It approximates the full SISEPUEDE simulation in milliseconds.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="num">1,933</div><div class="lbl">Training scenarios</div></div>
+    <div class="stat"><div class="num">92</div><div class="lbl">Input features</div></div>
+    <div class="stat"><div class="num">83</div><div class="lbl">L (lever) features</div></div>
+    <div class="stat"><div class="num">9</div><div class="lbl">X (exogenous) features</div></div>
+    <div class="stat"><div class="num">11</div><div class="lbl">Output metrics</div></div>
+  </div>
+
+  <h3>Model File</h3>
+  <p><span class="filepath">metamodel/surrogate_model/trained_models/xgb_pipeline_2025-11-12t22;19;28.194097.pkl</span></p>
+  <p>Loaded at server startup via <code>joblib.load()</code>. Wrapped in a <code>SurrogatePredictor</code> singleton (<span class="filepath">backend/services/predictor.py</span>).</p>
+
+  <h3>Feature Space</h3>
+
+  <h4>L Groups — Policy Levers (59 groups, 83 training columns)</h4>
+  <div class="callout">
+    <strong>Scale:</strong> 0.0 = no policy action (BAU) · 0.5 = moderate ambition · 0.9–1.0 = maximum / Net Zero ambition<br>
+    <strong>BAU default:</strong> all L groups = 0.1
+  </div>
+  <table>
+    <thead><tr><th>Group</th><th>Display Name</th><th>Sector</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Rice Paddy Methane Reduction</td><td>Agriculture</td></tr>
+      <tr><td>2</td><td>Agricultural Food Loss Reduction</td><td>Agriculture</td></tr>
+      <tr><td>3</td><td>Conservation Agriculture</td><td>Agriculture</td></tr>
+      <tr><td>4</td><td>Crop Yield Improvement</td><td>Agriculture</td></tr>
+      <tr><td>5</td><td>Carbon Capture &amp; Storage (CCS)</td><td>Energy</td></tr>
+      <tr><td>6</td><td>Electricity Grid Efficiency</td><td>Energy</td></tr>
+      <tr><td>7</td><td>Clean Hydrogen Production</td><td>Energy</td></tr>
+      <tr><td>8</td><td>Renewable Electricity Target</td><td>Energy</td></tr>
+      <tr><td>9</td><td>Fugitive Gas Leak Reduction</td><td>Energy</td></tr>
+      <tr><td>10</td><td>Methane Flaring Reduction</td><td>Energy</td></tr>
+      <tr><td>11</td><td>Forest Carbon Sequestration</td><td>Land Use</td></tr>
+      <tr><td>12</td><td>Industrial Fuel Efficiency</td><td>Industry</td></tr>
+      <tr><td>13</td><td>Industrial Production Efficiency</td><td>Industry</td></tr>
+      <tr><td>14</td><td>Industrial Fuel Mix Shift</td><td>Industry</td></tr>
+      <tr><td>15</td><td>Low-Clinker Cement</td><td>Industry</td></tr>
+      <tr><td>16</td><td>Industrial Production Demand Reduction</td><td>Industry</td></tr>
+      <tr><td>17</td><td>Industrial N₂O Process Emissions</td><td>Industry</td></tr>
+      <tr><td>18</td><td>Industrial PFC Emissions</td><td>Industry</td></tr>
+      <tr><td>19</td><td>Deforestation Reduction</td><td>Land Use</td></tr>
+      <tr><td>20</td><td>Wetland Protection</td><td>Land Use</td></tr>
+      <tr><td>21</td><td>Reforestation</td><td>Land Use</td></tr>
+      <tr><td>22</td><td>Silvopasture</td><td>Livestock</td></tr>
+      <tr><td>23</td><td>Livestock Manure Biogas Capture</td><td>Livestock</td></tr>
+      <tr><td>24</td><td>Cattle &amp; Pig Manure Management</td><td>Livestock</td></tr>
+      <tr><td>25</td><td>Other Livestock Manure Management</td><td>Livestock</td></tr>
+      <tr><td>26</td><td>Poultry Manure Management</td><td>Livestock</td></tr>
+      <tr><td>27</td><td>Livestock Enteric Fermentation</td><td>Livestock</td></tr>
+      <tr><td>28</td><td>Livestock Productivity</td><td>Livestock</td></tr>
+      <tr><td>29</td><td>Diet Shift</td><td>Agriculture</td></tr>
+      <tr><td>30</td><td>Industrial CO₂ Capture</td><td>Industry</td></tr>
+      <tr><td>31</td><td>Building Heat Demand Reduction</td><td>Buildings</td></tr>
+      <tr><td>32</td><td>Building Appliance Efficiency</td><td>Buildings</td></tr>
+      <tr><td>33</td><td>Biomass Cooking Stove Efficiency</td><td>Buildings</td></tr>
+      <tr><td>34</td><td>Building Fuel Mix Shift</td><td>Buildings</td></tr>
+      <tr><td>35</td><td>Agricultural Liming Reduction</td><td>Agriculture</td></tr>
+      <tr><td>36</td><td>Nitrogen Fertilizer Reduction</td><td>Agriculture</td></tr>
+      <tr><td>37</td><td>Transport Demand Reduction</td><td>Transport</td></tr>
+      <tr><td>38</td><td>Electric Vehicle Efficiency</td><td>Transport</td></tr>
+      <tr><td>39</td><td>Non-Electric Vehicle Efficiency</td><td>Transport</td></tr>
+      <tr><td>40</td><td>Passenger Vehicle Occupancy</td><td>Transport</td></tr>
+      <tr><td>41</td><td>Light Duty Vehicle Electrification</td><td>Transport</td></tr>
+      <tr><td>42</td><td>Maritime Fuel Shift</td><td>Transport</td></tr>
+      <tr><td>43</td><td>Medium Duty Vehicle Electrification</td><td>Transport</td></tr>
+      <tr><td>44</td><td>Rail Electrification</td><td>Transport</td></tr>
+      <tr><td>45</td><td>Freight Mode Shift</td><td>Transport</td></tr>
+      <tr><td>46</td><td>Passenger Mode Shift</td><td>Transport</td></tr>
+      <tr><td>47</td><td>Regional Transport Mode Shift</td><td>Transport</td></tr>
+      <tr><td>48</td><td>Wastewater Biogas Capture</td><td>Waste</td></tr>
+      <tr><td>49</td><td>Septic System Compliance</td><td>Waste</td></tr>
+      <tr><td>50</td><td>Industrial Wastewater Treatment</td><td>Waste</td></tr>
+      <tr><td>51</td><td>Rural Wastewater Treatment</td><td>Waste</td></tr>
+      <tr><td>52</td><td>Urban Wastewater Treatment</td><td>Waste</td></tr>
+      <tr><td>53</td><td>Consumer Food Waste Reduction</td><td>Waste</td></tr>
+      <tr><td>54</td><td>Organic Waste Composting</td><td>Waste</td></tr>
+      <tr><td>55</td><td>Landfill Gas Capture</td><td>Waste</td></tr>
+      <tr><td>56</td><td>Landfill Gas Energy Recovery</td><td>Waste</td></tr>
+      <tr><td>57</td><td>Waste Incineration Energy Recovery</td><td>Waste</td></tr>
+      <tr><td>58</td><td>Controlled Landfilling</td><td>Waste</td></tr>
+      <tr><td>59</td><td>Solid Waste Recycling</td><td>Waste</td></tr>
+    </tbody>
+  </table>
+
+  <h4>X Groups — Exogenous Uncertainty (9 groups)</h4>
+  <div class="callout">
+    <strong>Scale:</strong> −1.0 = fixed baseline trajectory · 0.0 = pessimistic · 0.5 = median · 1.0 = optimistic<br>
+    <strong>BAU default:</strong> all X groups = −1.0
+  </div>
+  <table>
+    <thead><tr><th>Group</th><th>Description</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>60</td><td>Energy demand trajectory</td><td>Overall energy intensity of the economy</td></tr>
+      <tr><td>61</td><td>Fossil fuel price trajectory</td><td>International fossil fuel price uncertainty</td></tr>
+      <tr><td>62</td><td>GDP growth trajectory</td><td>Economic development pathway</td></tr>
+      <tr><td>63</td><td>Agricultural productivity</td><td>Crop yield growth under climate change</td></tr>
+      <tr><td>64</td><td>Technology cost decline</td><td>Clean energy and transport cost curves</td></tr>
+      <tr><td>65</td><td>Population growth</td><td>Demographic projection</td></tr>
+      <tr><td>66</td><td>Industrial output trajectory</td><td>Manufacturing and construction growth</td></tr>
+      <tr><td>67</td><td>Livestock demand</td><td>Per-capita meat and dairy consumption trends</td></tr>
+      <tr><td>68</td><td>Urbanisation rate</td><td>Rural-to-urban migration pace</td></tr>
+    </tbody>
+  </table>
+
+  <h3>L Transform Formula</h3>
+  <div class="card">
+    <pre style="border:none; padding:0; background:none; margin:0; font-size:13px;"><code><strong>T = 0.9 × x + 0.1</strong>   (design 3 — standard, confirmed by modeler)
+
+x = L feature value ∈ [0, 1]
+T = transformation magnitude ∈ [0.1, 1.0]
+Physical effect = transformer_default_magnitude × T
+
+Reverse:  x = (T − 0.1) / 0.9
+Example:  x = 0.9  →  T = 0.91  →  91% of maximum ambition
+
+Ramp: SISEPUEDE applies T progressively over ~20–30 years via vec_implementation_ramp.
+T is the TARGET at 2070, not an immediate jump.</code></pre>
+  </div>
+
+  <h3>Output Metrics (11)</h3>
+  <table>
+    <thead><tr><th>Key</th><th>Display Name</th><th>Unit</th></tr></thead>
+    <tbody>
+      <tr><td><code>emission_total_sum</code></td><td>Total Cumulative Emissions (2025–2070)</td><td>Mt CO₂e</td></tr>
+      <tr><td><code>2033_2037_mean_emission</code></td><td>Near-Term Annual Emissions (2033–37 avg)</td><td>Mt CO₂e/yr</td></tr>
+      <tr><td><code>2066_2070_mean_emission</code></td><td>Long-Term Annual Emissions (2066–70 avg)</td><td>Mt CO₂e/yr</td></tr>
+      <tr><td><code>2025_2035_mean_benefits</code></td><td>Near-Term Annual Co-Benefits (2025–35 avg)</td><td>Billion USD/yr</td></tr>
+      <tr><td><code>2025_2070_mean_benefits</code></td><td>Long-Term Annual Co-Benefits (2025–70 avg)</td><td>Billion USD/yr</td></tr>
+      <tr><td><code>2025_2035_mean_costs</code></td><td>Near-Term Annual Implementation Costs (2025–35)</td><td>Billion USD/yr</td></tr>
+      <tr><td><code>2025_2070_mean_costs</code></td><td>Long-Term Annual Implementation Costs (2025–70)</td><td>Billion USD/yr</td></tr>
+      <tr><td><code>2025_2035_max_costs_rel_to_gdp</code></td><td>Peak Near-Term Cost as % of GDP (2025–35)</td><td>Fraction × 100 = %</td></tr>
+      <tr><td><code>2025_2070_max_costs_rel_to_gdp</code></td><td>Peak Long-Term Cost as % of GDP (2025–70)</td><td>Fraction × 100 = %</td></tr>
+      <tr><td><code>2025_2035_cumulative_cost_rel_to_gdp</code></td><td>Cumulative Near-Term Cost / GDP (2025–35)</td><td>Fraction × 100 = %</td></tr>
+      <tr><td><code>2025_2070_cumulative_cost_rel_to_gdp</code></td><td>Cumulative Long-Term Cost / GDP (2025–70)</td><td>Fraction × 100 = %</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn">
+    <strong>GDP-relative metrics:</strong> Returned as decimal fractions (e.g. 0.003). Multiply by 100 before displaying to users (0.003 → "0.3% of GDP").
+  </div>
+
+  <h3>BAU Reference Values</h3>
+  <p>Pre-computed at startup and cached in <span class="filepath">backend/bau_trajectory.json</span>:</p>
+  <table>
+    <thead><tr><th>Metric</th><th>BAU Value</th></tr></thead>
+    <tbody>
+      <tr><td>Total cumulative emissions 2025–2070</td><td>7,759 Mt CO₂e</td></tr>
+      <tr><td>Near-term annual emissions (2033–37 avg)</td><td>149.5 Mt CO₂e/yr</td></tr>
+      <tr><td>Long-term annual emissions (2066–70 avg)</td><td>185.1 Mt CO₂e/yr</td></tr>
+      <tr><td>Near-term co-benefits (2025–35 avg)</td><td>2.91 B USD/yr</td></tr>
+      <tr><td>Long-term co-benefits (2025–70 avg)</td><td>19.26 B USD/yr</td></tr>
+      <tr><td>Near-term costs (2025–35 avg)</td><td>0.42 B USD/yr</td></tr>
+    </tbody>
+  </table>
+
+  <h3>How the Feature Vector is Built</h3>
+  <pre><code># 1. Start with BAU defaults
+group_values = {gid: 0.1 for gid in range(1, 60)}   # L groups
+group_values.update({gid: -1.0 for gid in range(60, 69)})  # X groups
+
+# 2. Apply preset (netzero: per-group NETZERO_L_OVERRIDES dict)
+# 3. Apply caller's overrides (Claude's lever_overrides / exogenous_overrides)
+# 4. Apply locked_overrides from UI sliders (always win)
+
+# 5. Map group_id → training column name via feature_registry.json
+# 6. Build ordered vector matching model.feature_names_in_ exactly
+X = np.array([vector[col] for col in feature_columns]).reshape(1, -1)
+predictions = model.predict(X)[0]   # shape: (11,)</code></pre>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════ TAB 5: AWS -->
+<div class="tab-pane" id="tab-aws">
+  <h2>AWS &amp; Data Layer</h2>
+  <p class="lead">The chatbot reads from S3 for variable-level detail lookups. The surrogate model and training data are local files. AWS credentials use the <code>alexa</code> SSO profile.</p>
+
+  <h3>AWS Configuration</h3>
+  <table>
+    <thead><tr><th>Setting</th><th>Value</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Credential method</td><td>SSO profile <code>alexa</code></td><td><span class="filepath">chatbot_deploy/.env</span> → <code>AWS_PROFILE=alexa</code></td></tr>
+      <tr><td>Region</td><td><code>us-east-1</code></td><td><span class="filepath">.env</span> → <code>AWS_DEFAULT_REGION=us-east-1</code></td></tr>
+      <tr><td>Bucket</td><td><code>sisepuede-data</code></td><td><span class="filepath">backend/config.py</span></td></tr>
+      <tr><td>Run ID</td><td><code>sisepuede_run_2025-11-12T22:19:28.194097</code></td><td><span class="filepath">backend/config.py</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn">
+    <strong>S3 key format vs Run ID:</strong> S3 keys use lowercase <code>t</code> and semicolons: <code>sisepuede_run_2025-11-12t22;19;28.194097</code>. The config stores the original ISO format and normalises it at startup.
+  </div>
+
+  <h3>S3 Paths</h3>
+  <table>
+    <thead><tr><th>Path</th><th>Contents</th><th>Used for</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><code>run_database/</code></td>
+        <td>Root of all run data</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td><code>run_database/{run_id}/model_input/region=uganda/model_input_N/data.csv</code></td>
+        <td>SISEPUEDE model inputs. Each CSV covers a batch of ~4–6 <code>primary_id</code>s, one row per time period (tp 0–55, years 2015–2070).</td>
+        <td><code>get_scenario_variables</code> tool — fetches raw variable values for the nearest LHS trial</td>
+      </tr>
+      <tr>
+        <td><code>run_database/{run_id}/model_outputs/</code></td>
+        <td>SISEPUEDE simulation outputs</td>
+        <td>Not currently used by chatbot</td>
+      </tr>
+      <tr>
+        <td><code>transfers/{run_id}/</code></td>
+        <td>Uncertainty tables</td>
+        <td>Not currently used by chatbot</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Local Data Files (required at startup)</h3>
+  <table>
+    <thead><tr><th>File</th><th>Required</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><span class="filepath">chatbot_deploy/training.parquet</span></td>
+        <td><span class="tag">Required</span></td>
+        <td>1,933-row training dataset. Used at startup to load feature column order and compute target percentiles for the "percentile in training" display.</td>
+      </tr>
+      <tr>
+        <td><span class="filepath">surrogate_model/trained_models/xgb_pipeline_2025-11-12t22;19;28.194097.pkl</span></td>
+        <td><span class="tag">Required</span></td>
+        <td>Trained XGBoost MultiOutputRegressor pipeline. Loaded via <code>joblib.load()</code>.</td>
+      </tr>
+      <tr>
+        <td><span class="filepath">chatbot_deploy/backend/feature_registry.json</span></td>
+        <td><span class="tag">Required</span></td>
+        <td>Master registry of all 92 feature groups: display names, sectors, variables, transform defaults. Read on every request to build system prompt.</td>
+      </tr>
+      <tr>
+        <td><span class="filepath">chatbot_deploy/backend/s3_model_input_index.json</span></td>
+        <td><span class="tag">Required</span></td>
+        <td>Index: <code>primary_id → S3 directory_N</code>. Pre-built from Athena query. Without this, <code>get_scenario_variables</code> cannot locate S3 objects.</td>
+      </tr>
+      <tr>
+        <td><span class="filepath">metamodel/data/ssp/{run_id}/ATTRIBUTE_LHC_SAMPLES_LEVER_EFFECTS.csv</span></td>
+        <td><span class="tag">Required</span></td>
+        <td>LHS samples table: one row per trial, columns = group_ids 1–59 with L values. Used to find the nearest training trial (Euclidean distance) for <code>get_scenario_variables</code>.</td>
+      </tr>
+      <tr>
+        <td><span class="filepath">metamodel/data/ssp/{run_id}/ATTRIBUTE_PRIMARY.csv</span></td>
+        <td><span class="tag">Required</span></td>
+        <td>Maps <code>(design_id, future_id, strategy_id) → primary_id</code>. Used to resolve the nearest LHS trial to a fetchable S3 primary_id.</td>
+      </tr>
+      <tr>
+        <td><span class="filepath">metamodel/data/ssp/{run_id}/ATTRIBUTE_STRATEGY.csv</span></td>
+        <td>Optional</td>
+        <td>76 named strategies. Needed only for the <code>list_strategies</code> tool.</td>
+      </tr>
+      <tr>
+        <td><span class="filepath">chatbot_deploy/backend/bau_trajectory.json</span></td>
+        <td>Optional</td>
+        <td>Pre-computed BAU outputs (emissions, costs). Serves <code>GET /api/bau</code> and is used by the agent as fallback context. Regenerated by running the predictor with all defaults.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Design ID Rules</h3>
+  <div class="callout warn">
+    <strong>Critical constraint from modeler:</strong> Never mix L and X variable lookups in the same row.
+  </div>
+  <table>
+    <thead><tr><th>design_id</th><th>vary_l</th><th>vary_x</th><th>Use for</th></tr></thead>
+    <tbody>
+      <tr><td><code>3</code></td><td>1</td><td>0</td><td>L-only lookups — <code>get_scenario_variables</code> always uses this</td></tr>
+      <tr><td><code>0</code></td><td>0</td><td>1</td><td>X-only lookups (not currently used by chatbot)</td></tr>
+    </tbody>
+  </table>
+
+  <h3>LHS Trial Lookup Flow</h3>
+  <pre><code># When get_scenario_variables is called:
+
+1. load ATTRIBUTE_LHC_SAMPLES_LEVER_EFFECTS.csv  (local, ~350KB)
+2. Filter to design_id=3 rows
+3. Compute Euclidean distance from requested L values to each trial row
+4. Select the nearest trial → future_id
+
+5. Lookup future_id in ATTRIBUTE_PRIMARY.csv → primary_id
+6. Look up primary_id in s3_model_input_index.json → directory_N
+
+7. Fetch s3://sisepuede-data/run_database/{run_id}/model_input/region=uganda/
+        model_input_{directory_N}/data.csv   (S3, cached LRU 50 entries)
+
+8. Filter CSV to primary_id row → return variable values for requested groups</code></pre>
+
+  <h3>S3 Credential Priority</h3>
+  <pre><code># In backend/services/s3_lookup.py:
+
+if settings.aws_access_key_id and settings.aws_secret_access_key:
+    # Explicit keys (not recommended — use profile instead)
+elif settings.aws_profile:
+    # Named profile from .env: AWS_PROFILE=alexa  ← current setup
+else:
+    # Default boto3 chain: env vars → ~/.aws/credentials → instance role</code></pre>
+</div>
+
+</main>
+
+<script>
+function switchTab(name) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>

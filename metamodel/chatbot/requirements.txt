@@ -1,0 +1,26 @@
+# Uganda Climate Chatbot — Python dependencies
+# Install with: pip install -r requirements.txt
+# Or (recommended) create a conda env first: conda activate ssp_uganda
+
+# ── Web framework ──────────────────────────────────────────────────────
+fastapi==0.115.0
+uvicorn[standard]==0.30.6
+
+# ── Configuration ──────────────────────────────────────────────────────
+pydantic-settings==2.4.0
+
+# ── Anthropic SDK (Claude) ─────────────────────────────────────────────
+anthropic>=0.34.0
+
+# ── Data & model ───────────────────────────────────────────────────────
+numpy>=1.24.0
+pandas>=2.0.0
+scikit-learn>=1.3.0
+xgboost>=2.0.0
+scipy>=1.10.0
+pyarrow>=14.0.0      # For reading .parquet training data
+joblib>=1.3.0        # For loading the sklearn/XGBoost pipeline (.pkl file)
+
+# ── AWS / S3 ────────────────────────────────────────────────────────────────
+boto3>=1.34.0        # AWS SDK — S3 reads, SSO auth
+s3fs>=2024.3.0       # Filesystem interface for pandas/pyarrow S3 reads

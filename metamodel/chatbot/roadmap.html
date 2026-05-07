@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uganda Chatbot — Build Roadmap</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0f1117;color:#c2c0b6;line-height:1.5;padding:24px}
+h1{font-size:16px;font-weight:500;color:#f0ede4;margin-bottom:4px}
+.subtitle{font-size:12px;color:#73726c;margin-bottom:20px}
+.summary{display:flex;gap:8px;margin-bottom:20px}
+.sum-card{flex:1;background:#1a1f2e;border:0.5px solid #2a2f3e;border-radius:8px;padding:10px 12px}
+.sum-val{font-size:22px;font-weight:500;color:#f0ede4}
+.sum-lbl{font-size:10px;color:#73726c}
+.phase{border:0.5px solid #2a2f3e;border-radius:10px;margin-bottom:10px;overflow:hidden}
+.phase-header{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;user-select:none;background:#1a1f2e}
+.phase-header:hover{background:#1e2436}
+.phase-num{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;flex-shrink:0}
+.phase-title{font-size:13px;font-weight:500;color:#f0ede4;flex:1}
+.phase-meta{font-size:10px;color:#73726c}
+.chevron{font-size:10px;color:#73726c;transition:transform .18s}
+.phase.open .chevron{transform:rotate(90deg)}
+.phase-body{padding:0 14px 12px;display:none;border-top:0.5px solid #2a2f3e}
+.phase.open .phase-body{display:block}
+.pbar{height:3px;background:#2a2f3e;margin:0 14px 8px;border-radius:2px;overflow:hidden}
+.pbar-fill{height:100%;background:#1D9E75;border-radius:2px;transition:width .25s}
+.step{display:flex;gap:10px;padding:8px 0;border-bottom:0.5px solid #2a2f3e;align-items:flex-start}
+.step:last-child{border-bottom:none}
+.chk{width:16px;height:16px;border-radius:4px;border:0.5px solid #3d3d3a;flex-shrink:0;margin-top:1px;cursor:pointer;display:flex;align-items:center;justify-content:center;background:#1a1f2e;transition:all .12s}
+.chk.done{background:#0F6E56;border-color:#1D9E75}
+.chk svg{display:none}
+.chk.done svg{display:block}
+.step-title{font-size:12px;font-weight:500;color:#f0ede4;margin-bottom:2px}
+.step-title.done{text-decoration:line-through;color:#5F5E5A}
+.step-desc{font-size:11px;color:#888780;line-height:1.42;margin-bottom:4px}
+.file{display:inline-block;font-size:10px;background:#0c2240;border:0.5px solid #185FA5;border-radius:4px;padding:1px 5px;color:#85B7EB;font-family:'JetBrains Mono',monospace;margin-right:3px;margin-bottom:2px}
+.cc-btn{display:inline-block;font-size:10px;background:#1a1f2e;border:0.5px solid #3d3d3a;border-radius:4px;padding:2px 8px;color:#888780;font-family:monospace;cursor:pointer;margin-top:4px;transition:opacity .12s}
+.cc-btn:hover{opacity:.7}
+</style>
+</head>
+<body>
+<h1>Uganda Climate Futures Chatbot — Build Roadmap</h1>
+<p class="subtitle">6 phases · click steps to track progress · copy prompt buttons work with clipboard</p>
+
+<div class="summary">
+  <div class="sum-card"><div class="sum-val" id="s-done">0</div><div class="sum-lbl">done</div></div>
+  <div class="sum-card"><div class="sum-val" id="s-left">0</div><div class="sum-lbl">remaining</div></div>
+  <div class="sum-card"><div class="sum-val" id="s-pct">0%</div><div class="sum-lbl">complete</div></div>
+</div>
+
+<div id="phases"></div>
+
+<script>
+const phases = [
+{id:'p0',label:'0',title:'Claude Code setup',days:'1 day',accent:'#888780',
+steps:[
+{t:'Create CLAUDE.md at project root',
+ d:'Read at the start of every session. Keep under 300 lines. Only things that change how Claude writes code for this project.',
+ f:['CLAUDE.md'],
+ cc:`Create CLAUDE.md at the project root with these sections:
+
+## Project
+Uganda Climate Policy Chatbot - FastAPI backend + XGBoost surrogate + Claude agent + HTML/JS frontend.
+
+## Architecture
+- backend/services/predictor.py: XGBoost wrapper. 92 input features (83 L + 9 X groups).
+- backend/services/agent.py: Claude agent with tool calling + system prompt.
+- backend/services/s3_lookup.py: S3 access layer for SISEPUEDE model_inputs and variable values.
+- backend/feature_registry.json: Master registry of all 92 feature groups. NEVER overwrite from code.
+- frontend/: Static HTML/CSS/JS. No build step.
+
+## S3 paths (confirmed)
+- Run database: s3://sisepuede-data/run_database/
+- Model inputs: s3://sisepuede-data/run_database/model_inputs/
+- Model outputs: s3://sisepuede-data/run_database/model_outputs/
+- Uncertainty tables: s3://sisepuede-data/transfers/sisepuede_run_2025-11-12T22:19:28.194097/
+- Run ID: sisepuede_run_2025-11-12T22:19:28.194097
+
+## L transform formula (confirmed by modeler)
+T = max(min(m*x + b, u), l)
+Design 3 params: m=0.9, b=0.1, l=0.1, u=1.0
+For design 3 clamp never activates: T = 0.9*x + 0.1
+Reverse: x = (T - 0.1) / 0.9
+Physical magnitude = transformer_default_magnitude * T
+
+## X feature semantics
+X values scale the final time period of the baseline trajectory within a defined range.
+Real baseline values live in S3 model_inputs (not in training parquet).
+X features must NEVER be reverse-mapped from policy targets.
+
+## Design ID rules for S3 lookups
+- L-only queries: use design_id=3 (vary_l=1, vary_x=0)
+- X-only queries: use design_id=0 (vary_l=0, vary_x=1)
+- NEVER mix X and L variable lookups in the same row (modeler warning)
+
+## BAU defaults
+L groups: all = 0.1
+X groups: all = -1.0
+
+## Coding rules
+- Python 3.11+, async FastAPI.
+- Always verify XGBoost feature column order against model.feature_names_in_.
+- Chart JSON must be emitted as a fenced block tagged chart in every agent response with model output.
+- Cache S3 parquet reads (LRU, max 50 rows).
+
+## Context management
+Run /compact after each phase. Start fresh sessions for unrelated tasks.`},
+
+{t:'Add frontend aesthetics section to CLAUDE.md',
+ d:'Commit to Uganda-specific design: dark slate, amber/teal accents, monospaced data values. Prevents generic SaaS aesthetics.',
+ f:['CLAUDE.md'],
+ cc:`Append to CLAUDE.md:
+
+## Frontend aesthetics
+This is a government climate policy tool for Uganda. Authoritative, data-credible, purpose-built.
+
+Typography: JetBrains Mono (Google Fonts) for all numeric data values. Epilogue for prose and labels. Never Inter, Roboto, or system fonts.
+
+Colors: Dark theme. Background #0f1117. Surface #1a1f2e. Accent amber #FCDC04 (NDC targets). Positive outcomes teal #00A896. BAU/high-emissions muted red #D90429. No purple gradients, no white backgrounds, no rounded pill buttons.
+
+Motion: One staggered page-load reveal (animation-delay). Subtle chart line draw-on. No scattered micro-interactions.
+
+Charts: Dark background, subtle gridlines. BAU = red dashed. Scenario = teal solid 2.5px. NDC target = amber dotted.
+
+Avoid: Inter font, purple-on-white, generic card grids, SaaS landing page patterns.`},
+
+{t:'Create .claude/commands/ slash commands',
+ d:'Reusable prompts for every session: verify columns, test prediction, check registry, test S3.',
+ f:['.claude/commands/verify-columns.md','.claude/commands/test-prediction.md','.claude/commands/check-registry.md','.claude/commands/test-s3.md'],
+ cc:`Create .claude/commands/ directory and add these four files:
+
+--- verify-columns.md ---
+Load the XGBoost model pkl (path from config.py). Print model.feature_names_in_ and the column order predictor.py currently sends. List any mismatches. This must pass before any other code change.
+
+--- test-prediction.md ---
+Run three predictions and print a comparison table:
+1. BAU (all L=0.1, X=-1.0) - compare to bau_trajectory.json if it exists
+2. Group 8 at L=0.9, all others at BAU - verify energy emissions decrease vs BAU
+3. All L=1.0, X=0.5 - verify total emissions near training minimum (~62 Mt/yr)
+
+--- check-registry.md ---
+Show the state of feature_registry.json. For lever groups: list group_id, display_name, transformer_default_magnitude (value or MISSING). For exogenous groups: list group_id, display_name, physical_at_X0_2050 (value or MISSING). Print counts at the end.
+
+--- test-s3.md ---
+Test S3 connectivity. List top-level keys in s3://sisepuede-data/run_database/. Fetch the row for primary_id=0 from model_inputs and print the first 10 column names and values. If boto3 or credentials are missing, print exactly what needs to be configured.`},
+
+{t:'Understand /compact - use after every phase',
+ d:'Run /compact when finishing a phase. Claude Code summarises progress. Review and add anything missing to CLAUDE.md before closing the session.',
+ f:[],
+ cc:`No code needed. Workflow reminder: after completing each phase, type /compact in Claude Code. If the summary omits a key decision or constraint, add it to CLAUDE.md immediately. Any new Claude Code session starting from CLAUDE.md should be able to pick up exactly where you left off.`},
+]},
+
+{id:'p1',label:'1',title:'Audit existing code',days:'half day',accent:'#BA7517',
+steps:[
+{t:'Verify feature column order — do this first',
+ d:'Silent wrong predictions are the biggest risk. If the model expects columns in a different order than predictor.py sends, every prediction is wrong.',
+ f:['backend/services/predictor.py'],
+ cc:`/verify-columns`},
+
+{t:'Audit agent.py: system prompt and tools',
+ d:'Show the full system prompt, tool definitions, and agent loop. Does it know Uganda NDC targets? Does it emit chart JSON? Does it always call run_scenario before giving numbers?',
+ f:['backend/services/agent.py'],
+ cc:`Show me the complete contents of backend/services/agent.py without summarising. I need the full system prompt string, every tool schema, and the agent loop logic including how tool results are fed back.`},
+
+{t:'Check model output fields',
+ d:'Run a BAU prediction and print every output field with its value and unit from feature_registry.json. Confirm all 11 outputs are present.',
+ f:[],
+ cc:`Write scripts/check_outputs.py that loads the model (path from config.py), runs a BAU prediction (all L=0.1, all X=-1.0), and prints every output field with its value and the unit/description from the outputs section of feature_registry.json. Run it and show the result.`},
+
+{t:'Run /compact after audit phase',d:'Summarise findings before moving on.',f:[],cc:`/compact`},
+]},
+
+{id:'p2',label:'2',title:'Enrich feature_registry.json',days:'1-2 days',accent:'#185FA5',
+steps:[
+{t:'Add L transform formula to registry metadata',
+ d:'Add the confirmed formula and per-design parameters to _metadata so any code reading the registry has the source of truth.',
+ f:['backend/feature_registry.json'],
+ cc:`Edit the _metadata section in backend/feature_registry.json. Add a new key "l_transform" with this exact structure:
+
+{
+  "formula": "T = max(min(m*x + b, u), l)",
+  "reverse": "x = (T - b) / m  then clamp x to [0,1]",
+  "confirmed_by": "modeler, 2025",
+  "per_design": {
+    "3": {"m": 0.9, "b": 0.1, "l": 0.1, "u": 1.0, "note": "Clamp never activates. T = 0.9x + 0.1"},
+    "4": {"m": 1.0, "b": 0.0, "l": 0.0, "u": 1.0, "note": "Identity. T = x"},
+    "1": {"m": 0.75, "b": 0.25, "l": 0.25, "u": 1.0},
+    "2": {"m": 1.25, "b": 0.0, "l": 0.25, "u": 1.0}
+  }
+}
+
+Also add to _metadata.notes: "Physical magnitude formula: physical = transformer_default_magnitude * T where T = max(min(0.9*x + 0.1, 1.0), 0.1) for design 3."`},
+
+{t:'Add transformer defaults to all 59 L groups',
+ d:'Match transformation_magnitudes.csv. Rule: replace TX: with TFR:, strip _STRATEGY_NZ, strip trailing _NZ. 55 auto-match. Groups 20, 24, 25, 26 need manual defaults.',
+ f:['backend/feature_registry.json'],
+ cc:`Read backend/feature_registry.json and transformation_magnitudes.csv.
+
+For each lever group, normalize transformation_code by:
+  1. Replacing TX: with TFR:
+  2. Removing _STRATEGY_NZ suffix
+  3. Removing trailing _NZ suffix
+Then match against the transformer_code column in the CSV.
+
+For each matched group add these fields:
+  "transformer_default_magnitude": the magnitude_default value as a float (or string if complex)
+  "transformer_default_magnitude_description": the magnitude_description from the CSV
+  "magnitude_is_scalar": true if magnitude_default is a single number, false otherwise
+  "physical_at_L1": transformer_default_magnitude * 1.0 with unit description
+  "physical_at_L0": transformer_default_magnitude * 0.1 with unit description
+
+Special cases:
+- Groups 24, 25, 26 (LSMM manure management): match to TFR:LSMM:INC_MANAGEMENT_* entry, use default 0.95
+- Group 20 (LNDU wetland loss): no match, set null, add note "verify from TFR:LNDU:DEC_CLASS_LOSS"
+- Group 5 (CCSQ carbon capture): default 50 is megatonnes NOT a fraction, make this explicit
+- Group 6 (ENTC transmission losses): default 0.06 is a target loss fraction, lower is better, note this`},
+
+{t:'Add X group physical anchors (after modeler provides S3 input slice)',
+ d:'Request 12 columns from S3 model_inputs at primary_id=0 from the modeler, plus X scalar ranges. Until then qualitative X semantics in registry are sufficient.',
+ f:['backend/feature_registry.json'],
+ cc:`I have baseline SISEPUEDE variable values for groups 60-68 from S3 model_inputs primary_id=0, plus the scalar ranges per X group from the modeler.
+
+For X groups 60, 61, 62, 65 (exports, fuel prices, GDP, population) add:
+  "physical_baseline_2030": value at year 2030
+  "physical_baseline_2050": value at year 2050
+  "scalar_range": object with keys "low" and "high"
+  "physical_at_X0_2050": baseline_2050 * low scalar with unit
+  "physical_at_X1_2050": baseline_2050 * high scalar with unit
+  "unit": unit string e.g. "billion USD" or "million people"
+  "agent_narrative_X0": one sentence describing the low scenario
+  "agent_narrative_X1": one sentence describing the high scenario
+  "has_no_reverse_mapping": true
+
+For X groups 63, 64, 66, 67, 68 (elasticities) add only:
+  "has_no_reverse_mapping": true`},
+
+{t:'Pre-compute BAU trajectory and cache it',
+ d:'Run XGBoost once on BAU defaults (L=0.1, X=-1.0) and save. Every "vs BAU" delta uses this cached file - no model call needed per request.',
+ f:['scripts/precompute_bau.py','backend/bau_trajectory.json'],
+ cc:`Write scripts/precompute_bau.py. It should:
+1. Load the XGBoost pipeline from the path in config.py
+2. Build a feature vector with all L groups = 0.1 and all X groups = -1.0
+3. Run a prediction
+4. Save result to backend/bau_trajectory.json:
+   {"outputs": {"emission_total_sum": val, "2033_2037_mean_emission": val, ...all 11 outputs}, "generated_at": "ISO timestamp"}
+
+Add GET /api/bau endpoint in backend/app.py that reads and returns this file.
+Run the script and verify bau_trajectory.json is created with all output keys.`},
+
+{t:'Run /compact after registry phase',d:'',f:[],cc:`/compact`},
+]},
+
+{id:'p3',label:'3',title:'S3 data access layer',days:'1-2 days',accent:'#5F5E5A',
+steps:[
+{t:'Set up boto3 and AWS credentials',
+ d:'Add boto3 to requirements.txt. Add AWS credentials to .env.example. Confirm S3 access with /test-s3 before writing any S3 code.',
+ f:['requirements.txt','.env.example'],
+ cc:`Add boto3 and s3fs to requirements.txt.
+
+Add to .env.example:
+AWS_ACCESS_KEY_ID=your_key_here
+AWS_SECRET_ACCESS_KEY=your_secret_here
+AWS_DEFAULT_REGION=us-east-1
+S3_BUCKET=sisepuede-data
+S3_RUN_ID=sisepuede_run_2025-11-12T22:19:28.194097
+
+Add corresponding fields in backend/config.py using os.getenv().
+Run /test-s3 to verify connectivity before proceeding.`},
+
+{t:'Create s3_lookup.py with three core functions',
+ d:'Translates L values into actual SISEPUEDE variable values from S3. find_nearest_lhs_trial finds the closest matching training row for given L group values.',
+ f:['backend/services/s3_lookup.py'],
+ cc:`Create backend/services/s3_lookup.py with these three functions:
+
+Function 1: find_nearest_lhs_trial(group_values: dict, design_id: int = 3) -> int
+  - group_values maps group_id integers to x values between 0 and 1
+  - Load ATTRIBUTE_LHC_SAMPLES_LEVER_EFFECTS.csv from local data/ or S3 transfers path
+  - Filter rows to only those where design_id column matches
+  - For each row compute Euclidean distance between requested group_values and row group columns
+  - CSV column names are strings ("1", "2", etc.) - convert group_values keys accordingly
+  - Return the primary_id integer from the closest matching row
+
+Function 2: get_model_inputs_row(primary_id: int) -> dict
+  - Read model_inputs parquet from s3://sisepuede-data/run_database/model_inputs/
+  - Filter to the single row where primary_id matches
+  - Use functools.lru_cache with maxsize=50 to cache results
+  - Return as a flat dict mapping column_name to value
+
+Function 3: get_changed_variables(group_ids: list, l_values: dict) -> dict
+  - group_ids is a list of integer group IDs the user changed
+  - l_values maps group_id to the x value used
+  - Look up variable field names for each group from feature_registry.json variables field
+  - Call find_nearest_lhs_trial(l_values, design_id=3) to get the closest primary_id
+  - Call get_model_inputs_row to fetch that S3 row
+  - Return only variables belonging to requested groups as a dict
+  - Include key "design_note": "L-only lookup design_id=3. Do not mix with X variables."`},
+
+{t:'Add get_country_context using S3 baseline row',
+ d:'Fetches Uganda baseline values from S3 model_inputs at primary_id=0. Topics: energy_mix, gdp, population, agriculture, transport.',
+ f:['backend/services/context.py'],
+ cc:`Create backend/services/context.py.
+
+At module import time call get_model_inputs_row(primary_id=0) from s3_lookup.py and cache as a module-level variable. This is the Uganda baseline row.
+
+Expose: get_country_context(topic: str) -> str
+
+Support these topics:
+- "energy_mix": electricity generation technology fractions (nemomod_entc_frac columns)
+- "gdp": gdp_mmm_usd at years 2025, 2030, 2040, 2050
+- "population": population_gnrl_rural and population_gnrl_urban at same years
+- "agriculture": key crop area fractions and livestock head counts
+- "transport": transport mode share fractions
+
+Each topic returns a formatted human-readable string Claude can include directly in a response.`},
+
+{t:'Test the S3 layer end-to-end',
+ d:'Set group 8 to L=0.8, call get_changed_variables, verify it returns real nemomod variable values. Check the nearest trial has a group 8 value close to 0.8.',
+ f:['tests/test_s3_lookup.py'],
+ cc:`Write tests/test_s3_lookup.py with three tests:
+
+Test 1: find_nearest_lhs_trial({8: 0.8}, design_id=3) should return a valid primary_id and the matched LHS row should have group 8 value within 0.15 of 0.8.
+
+Test 2: get_model_inputs_row(0) should return a dict with more than 100 keys and gdp_mmm_usd should be present.
+
+Test 3: get_changed_variables([8], {8: 0.8}) should return a dict containing the exact variable field names listed for group 8 in feature_registry.json.
+
+Run the tests and print pass/fail with actual values returned.`},
+
+{t:'Run /compact after S3 phase',d:'',f:[],cc:`/compact`},
+]},
+
+{id:'p4',label:'4',title:'Improve the agent',days:'2 days',accent:'#A32D2D',
+steps:[
+{t:'Rewrite system prompt with NDC context and chart instruction',
+ d:'Highest-leverage single edit. Uganda NDC targets, L/X distinction, preset scenarios, mandatory chart JSON format, always-call-tools-first rule.',
+ f:['backend/services/agent.py'],
+ cc:`Rewrite _build_system_prompt() in backend/services/agent.py with all of the following:
+
+CONTEXT: Uganda has 47 million people, GDP roughly 40 billion USD, 85 percent of electricity from hydropower, agriculture employing 72 percent of the workforce. NDC target: 22 percent emissions reduction by 2030 vs BAU, conditional on international support.
+
+MODEL MECHANICS: 59 policy lever groups (L, scale 0 to 1) and 9 exogenous uncertainty groups (X, scale -1 to 1). L groups are policy choices you CAN set from user requests. X groups are uncertainties - NEVER set from policy requests, only describe as scenario context.
+
+L TRANSFORM: T = 0.9 times x plus 0.1 (design 3). Reverse: x = (T minus 0.1) divided by 0.9. Physical effect = transformer_default_magnitude times T. Consult feature_registry.json for each group's transformer_default_magnitude.
+
+PRESETS: BAU is L=0.1 for all and X=-1.0. Moderate is L=0.5 and X=0.5. Net Zero is L=1.0 and X=0.5. NDC_2.5 uses strategy_id=6009.
+
+RULES: Always call run_scenario BEFORE giving emissions numbers. Always call get_scenario_variables AFTER run_scenario when the user asked about specific policies. Call get_country_context when asked about Uganda's current situation. Never hallucinate values.
+
+RESPONSE FORMAT: Every response with model output must end with a fenced JSON block tagged "chart" containing: years array, bau array, scenario array, ndc_target array set to [144, 130], and a metrics object with total_reduction_pct, near_term_vs_bau_pct, and long_term_vs_bau_pct.`},
+
+{t:'Add get_scenario_variables tool (S3-backed)',
+ d:'Shows actual SISEPUEDE variable values for the groups the user changed. Makes responses concrete: not just "emissions fall 28%" but the real variable values from S3.',
+ f:['backend/services/agent.py'],
+ cc:`Add a Claude tool called get_scenario_variables to backend/services/agent.py.
+
+Input schema: groups_changed (list of integers), l_values (dict mapping group_id string to float).
+
+Implementation: call backend.services.s3_lookup.get_changed_variables(group_ids, l_values) and format the result. For each group include the display_name from feature_registry.json, the L value, the computed T value (T = 0.9 * L + 0.1), and each variable name with its actual value from S3.
+
+Example output format:
+  Group 8 (Renewable Electricity Target) at L=0.78, T=0.80:
+    nemomod_re_min_production_target = 0.80 (minimum 80% of electricity from renewables)
+    nemomod_min_share_production_renewable = 0.76
+
+Tool description: "Only call for L groups. Do not use for X group variables. Always uses design_id=3."
+
+Update system prompt: call this tool after run_scenario whenever the user specified particular policy groups or asked what would actually change.`},
+
+{t:'Add get_country_context tool',
+ d:'Lets Claude answer "what is Uganda\'s current energy mix?" with real S3 baseline values, not hallucinations.',
+ f:['backend/services/agent.py'],
+ cc:`Add a Claude tool called get_country_context to backend/services/agent.py.
+
+Input schema: topic (string, one of: energy_mix, gdp, population, agriculture, transport).
+
+Implementation: call backend.services.context.get_country_context(topic) and return the result.
+
+Tool description: "Use when the user asks about Uganda's current situation, baseline values, energy mix, GDP, population, or country context. Never answer country fact questions from memory."
+
+Update system prompt: call get_country_context when asked about Uganda's current state or when you need baseline values to contextualise a scenario result.`},
+
+{t:'Add list_strategies tool and strategy_id support',
+ d:'Lets Claude offer named portfolios (Net Zero, NDC 2.5) and run them by strategy_id instead of manually setting all 59 L values.',
+ f:['backend/services/agent.py','backend/schemas.py'],
+ cc:`Add a Claude tool called list_strategies to backend/services/agent.py.
+
+It reads ATTRIBUTE_STRATEGY.csv from the local data directory and returns all rows as a list of objects with strategy_id, strategy_code, and description fields.
+
+Update the run_scenario tool input schema to accept an optional strategy_id integer. When provided, predictor.py should use the L group values from the LHS samples table (rows where strategy_id matches and design_id=3) rather than custom group intensities.
+
+Test with strategy_id=6009 (NDC_2.5). Predicted emissions should be meaningfully lower than BAU.`},
+
+{t:'Run /compact after agent phase',d:'',f:[],cc:`/compact`},
+]},
+
+{id:'p5',label:'5',title:'Frontend',days:'1-2 days',accent:'#0F6E56',
+steps:[
+{t:'Apply Uganda-specific aesthetic',
+ d:'Dark slate, JetBrains Mono for data, Epilogue for prose, amber/teal accents. Verify aesthetics section is in CLAUDE.md before starting.',
+ f:['frontend/style.css','frontend/index.html'],
+ cc:`Redesign frontend/style.css and frontend/index.html to match the CLAUDE.md aesthetics section.
+
+Background: #0f1117. Message surfaces: #1a1f2e. Import JetBrains Mono and Epilogue from Google Fonts. JetBrains Mono for all numbers, variable names, and code. Epilogue for prose and labels.
+
+Accent colors: amber #FCDC04 for highlights and NDC elements, teal #00A896 for positive outcomes, muted red #D90429 for BAU and danger indicators.
+
+Chat input bar pinned to bottom with dark styling. Message bubbles on the slightly lighter surface color. One staggered page-load animation using animation-delay on messages.
+
+No Inter, Roboto, system fonts, purple gradients, white backgrounds, or rounded pill buttons.`},
+
+{t:'Add chart rendering from agent chart JSON',
+ d:'Parse the fenced chart block from agent responses. Render a Chart.js line chart inline in the message bubble with BAU, scenario, and NDC target series.',
+ f:['frontend/app.js','frontend/index.html'],
+ cc:`Edit frontend/app.js to detect fenced JSON blocks starting with triple backticks followed by the word "chart" in assistant messages.
+
+When found: strip the block from displayed text, parse the JSON, render a Chart.js canvas inside the message bubble below the text.
+
+Load Chart.js from cdnjs CDN in index.html.
+
+Chart styling: background #1a1f2e, subtle gridlines #2a2f3e. Three series: BAU (#D90429, dashed 1.5px), Scenario (#00A896, solid 2.5px), NDC target (#FCDC04, dotted 1.5px). X axis: years array. Y axis label: Mt CO2e per year. Responsive to container width.`},
+
+{t:'Add metric cards from chart metrics object',
+ d:'Render three stat cards from the metrics object: total reduction %, near-term vs BAU %, long-term vs BAU %.',
+ f:['frontend/app.js'],
+ cc:`After rendering the chart in frontend/app.js, extract the metrics object and render three cards in a row below the chart.
+
+Each card: dark surface #1a1f2e, amber value text #FCDC04 in JetBrains Mono 20px, muted label below in Epilogue 11px.
+
+Cards: total_reduction_pct labeled "total reduction vs BAU", near_term_vs_bau_pct labeled "near-term 2033-37", long_term_vs_bau_pct labeled "long-term 2066-70". Show minus sign prefix for reduction values.`},
+
+{t:'Add variable values display and follow-up chips',
+ d:'Parse variable values returned by get_scenario_variables and render as a monospaced table. Add follow-up suggestion chips.',
+ f:['frontend/app.js'],
+ cc:`In frontend/app.js, detect lines matching the pattern "variable_name = value" in assistant messages. Extract those lines and render as a compact table: JetBrains Mono throughout, variable name left in muted color, value right in teal #00A896. Label above the table: "variables changed" in 10px uppercase muted text.
+
+Below each assistant message with chart data, render three follow-up chips as small bordered button elements. On click each calls sendMessage() with its text. Suggestions: "Show sector breakdown", "Compare to NDC 2.5 strategy", "What if GDP grows faster?".`},
+]},
+];
+
+const promptStore = {};
+phases.forEach(ph => {
+  ph.steps.forEach((s, i) => {
+    promptStore[ph.id + '-' + i] = s.cc || '';
+  });
+});
+
+let checks = {};
+
+function toggle(id) {
+  const el = document.getElementById(id);
+  el.classList.toggle('open');
+  updateBars();
+}
+
+function toggleCheck(sid) {
+  checks[sid] = !checks[sid];
+  const box = document.getElementById('c-' + sid);
+  const title = document.getElementById('t-' + sid);
+  if (checks[sid]) { box.classList.add('done'); title.classList.add('done'); }
+  else { box.classList.remove('done'); title.classList.remove('done'); }
+  updateSummary(); updateBars();
+}
+
+function copyPrompt(key, btn) {
+  const text = promptStore[key] || '';
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.textContent;
+    btn.textContent = 'copied!';
+    setTimeout(() => { btn.textContent = orig; }, 1400);
+  }).catch(() => {
+    btn.textContent = 'failed';
+    setTimeout(() => { btn.textContent = 'copy prompt'; }, 1400);
+  });
+}
+
+function updateSummary() {
+  const total = phases.reduce((s, p) => s + p.steps.length, 0);
+  const done = Object.values(checks).filter(Boolean).length;
+  document.getElementById('s-done').textContent = done;
+  document.getElementById('s-left').textContent = total - done;
+  document.getElementById('s-pct').textContent = Math.round(done / total * 100) + '%';
+}
+
+function updateBars() {
+  phases.forEach(ph => {
+    const done = ph.steps.filter((_, i) => checks[ph.id + '-' + i]).length;
+    const pct = Math.round(done / ph.steps.length * 100);
+    const bar = document.getElementById('bar-' + ph.id);
+    if (bar) bar.style.width = pct + '%';
+  });
+}
+
+function render() {
+  const container = document.getElementById('phases');
+  let html = '';
+  phases.forEach(ph => {
+    html += `<div class="phase" id="${ph.id}">
+      <div class="phase-header" onclick="toggle('${ph.id}')">
+        <div class="phase-num" style="background:${ph.accent}22;color:${ph.accent};border:0.5px solid ${ph.accent}66">${ph.label}</div>
+        <span class="phase-title">${ph.title}</span>
+        <span class="phase-meta">${ph.days} &middot; ${ph.steps.length} steps</span>
+        <span class="chevron">&#9658;</span>
+      </div>
+      <div class="pbar"><div class="pbar-fill" id="bar-${ph.id}" style="width:0%;background:${ph.accent}"></div></div>
+      <div class="phase-body">`;
+    ph.steps.forEach((s, i) => {
+      const sid = ph.id + '-' + i;
+      html += `<div class="step">
+        <div class="chk" id="c-${sid}" onclick="toggleCheck('${sid}')">
+          <svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l2.5 2.5L9 1" stroke="#1D9E75" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div style="flex:1">
+          <div class="step-title" id="t-${sid}">${s.t}</div>
+          <div class="step-desc">${s.d}</div>
+          ${s.f.map(f => `<span class="file">${f}</span>`).join('')}
+          ${s.cc ? `<br><button class="cc-btn" onclick="copyPrompt('${sid}', this)">copy prompt</button>` : ''}
+        </div>
+      </div>`;
+    });
+    html += `</div></div>`;
+  });
+  container.innerHTML = html;
+  document.getElementById('p0').classList.add('open');
+  updateSummary();
+}
+
+render();
+</script>
+</body>
+</html>

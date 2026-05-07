@@ -1,0 +1,23 @@
+# Secrets — never bake into the image
+.env
+**/.env
+
+# Python cache
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+
+# macOS
+**/.DS_Store
+
+# Tests
+tests/
+
+# Editor
+**/.idea/
+**/.vscode/
+
+# Git
+**/.git/
+**/.gitignore
