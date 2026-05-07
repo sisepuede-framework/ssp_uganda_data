@@ -50,8 +50,21 @@ def _log_interaction(user_message: str, result: dict, latency: float) -> None:
         "exogenous_overrides": (result.get("scenario_interpretation") or {}).get("exogenous_overrides"),
         "preset_scenario": (result.get("scenario_interpretation") or {}).get("preset_scenario"),
         "simulation_outputs": {
-            k: v.get("value")
-            for k, v in sim.get("predictions", {}).items()
+            **{
+                k: v.get("value")
+                for k, v in (sim.get("scenario") or {}).get("predictions", {}).items()
+            },
+            **{
+                f"emission_{sector}_yr{year}": val
+                for sector, traj in (
+                    (sim.get("sector_comparison") or {})
+                    .get("scenario", {})
+                    .get("sector_trajectories", {})
+                    .items()
+                )
+                for year, val in traj.items()
+                if year != 2019
+            },
         },
         "reply_snippet": result.get("reply", "")[:300],
         "latency_s": round(latency, 2),
