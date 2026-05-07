@@ -1,0 +1,12 @@
+citations: null
+description: None
+identifiers:
+  transformation_code: "TX:SCOE:SHIFT_FUEL_HEAT_STRATEGY_NZ"
+  transformation_name: "90% electrification of heat energy (cooking, heating) by 2070, with accelerated timeline from 2025-2035"
+parameters:
+  magnitude: 0.9
+  vec_implementation_ramp:
+    alpha_logistic: 0.85
+    tp_0_ramp: 11
+    window_logistic: [-2.5, 6]
+transformer: "TFR:SCOE:SHIFT_FUEL_HEAT"

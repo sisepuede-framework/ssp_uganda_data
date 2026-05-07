@@ -217,3 +217,9 @@ ssp_modeling/ssp_run_output/
 ssp_modeling/Tableau/data/
 
 ssp_modeling/ssp_run_output/
+
+data_processing/
+employment_estimates/
+inventory_summary_excel/
+metamodel/chatbot_deploy/docs/
+ssp_modeling/

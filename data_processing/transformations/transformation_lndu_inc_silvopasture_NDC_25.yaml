@@ -1,0 +1,14 @@
+citations: null
+description: Increase the use of silvopasture; modeled by shifting 30% of pasture
+  (in final time period) to secondary forests over time; livestock carrying capacities
+  increase to meet the change, while pasture fractions of grassland decrease.
+identifiers:
+  transformation_code: TX:LNDU:INC_SILVOPASTURE_NDC_25
+  transformation_name: 'Default Value - LNDU: Expand silvopasture for NDC 2.0 with
+    year starting in 2026'
+parameters:
+  magnitude: 0.2
+  vec_implementation_ramp:
+    n_tp_ramp: 10
+    tp_0_ramp: 11
+transformer: TFR:LNDU:INC_SILVOPASTURE

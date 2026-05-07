@@ -1,0 +1,11 @@
+citations: null
+description: "Increase sequestration to represent sustainable biomass "
+identifiers:
+  transformation_code: "TX:FRST:INCREASE_SEQUESTRATION_NDC_2"
+  transformation_name: "Increase Secondary Sequestration by 20% to represent sustainable biomass for NDC2.0"
+parameters:
+  magnitude: 0.1
+  vec_implementation_ramp:
+    tp_0_ramp: 5
+    n_tp_ramp: 10
+transformer: "TFR:FRST:INCREASE_SEQUESTRATION"

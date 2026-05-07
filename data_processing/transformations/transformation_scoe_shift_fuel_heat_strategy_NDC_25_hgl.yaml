@@ -1,0 +1,20 @@
+citations: null
+description: None
+identifiers:
+  transformation_code: TX:SCOE:SHIFT_FUEL_HEAT_STRATEGY_NDC_25
+  transformation_name: 'Scaled Default Max Parameters by 0.01 - SCOE: Switch to HGL
+    for heat using heat pumps, electric stoves, etc. for NDC 2.0 with year starting
+    in 2026'
+parameters:
+  cat_enfu_target: fuel_hydrocarbon_gas_liquids
+  cats_enfu_source:
+    - fuel_biomass
+  magnitude: 0.1
+  vec_implementation_ramp:
+    alpha_logistic: 1
+    n_tp_ramp: 15
+    tp_0_ramp: 11
+    window_logistic:
+    - -4
+    - 4
+transformer: TFR:SCOE:SHIFT_FUEL_HEAT

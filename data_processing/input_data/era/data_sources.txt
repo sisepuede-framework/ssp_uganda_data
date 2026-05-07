@@ -1,0 +1,18 @@
+INSTALLED CAPACITY STATISTICS
+-----------------------------
+FILE:
+20240604_STA_InstalledGenerationCapacity2000_Todate.xlsx
+
+SOURCE:
+https://www.era.go.ug/installed-capacity/
+
+
+
+DISTRIBUTION LOSSES
+-------------------
+FILE: 
+20250327_STA_Distribution_Statistics_Q4_2024.xlsm
+screenshot_distribution_losses_20250709.png
+
+SOURCE:
+

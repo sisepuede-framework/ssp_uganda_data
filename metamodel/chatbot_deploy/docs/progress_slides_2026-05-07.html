@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Uganda Climate Chatbot — Progress Update May 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:         #F0EAD6;
+    --surface:    #FFFFFF;
+    --surface-2:  #F7F3EC;
+    --border:     #DDD5C4;
+    --text:       #26211A;
+    --text-muted: #6B5E50;
+    --amber:      #B8860B;
+    --amber-dim:  rgba(184,134,11,0.10);
+    --teal:       #007A6F;
+    --teal-dim:   rgba(0,122,111,0.10);
+    --red:        #A8222E;
+    --red-dim:    rgba(168,34,46,0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%; height: 100%;
+    background: #26211A;
+    font-family: "Epilogue", sans-serif;
+    overflow: hidden;
+  }
+
+  .deck {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .slide-frame {
+    width: min(100vw, calc(100vh * 16/9));
+    height: min(100vh, calc(100vw * 9/16));
+    position: relative;
+  }
+
+  .slide {
+    position: absolute; inset: 0;
+    background: var(--bg);
+    display: none; flex-direction: column; overflow: hidden;
+  }
+  .slide.active { display: flex; }
+
+  /* ── Header stripe ── */
+  .slide-header {
+    background: var(--surface);
+    border-bottom: 2px solid var(--amber);
+    padding: 1.4% 3%;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+  .slide-header-left { display: flex; align-items: center; gap: 1.2%; }
+  .slide-logo { font-size: 1.6em; line-height: 1; }
+  .slide-title-block h1 {
+    font-size: 0.82em; font-weight: 700; color: var(--text); letter-spacing: 0.01em;
+  }
+  .slide-title-block h1 span { color: var(--amber); }
+  .slide-title-block p { font-size: 0.62em; color: var(--text-muted); margin-top: 1px; }
+  .slide-counter {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.6em; color: var(--text-muted);
+    background: var(--surface-2); border: 1px solid var(--border);
+    padding: 2px 10px; border-radius: 3px; letter-spacing: 0.04em;
+  }
+
+  /* ── Slide body ── */
+  .slide-body {
+    flex: 1; display: flex; flex-direction: column;
+    padding: 2.5% 3.5% 2%; overflow: hidden;
+  }
+  .slide-label {
+    font-size: 0.55em; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.1em; color: var(--text-muted); margin-bottom: 0.8%;
+  }
+  .slide-headline {
+    font-size: 1.55em; font-weight: 800; color: var(--text);
+    line-height: 1.15; margin-bottom: 2.5%;
+  }
+  .slide-headline em { color: var(--amber); font-style: normal; }
+
+  /* ── Title slide ── */
+  .title-slide .slide-body {
+    justify-content: center; align-items: flex-start; gap: 2%;
+  }
+  .title-slide .kicker {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.62em; font-weight: 500; color: var(--amber);
+    letter-spacing: 0.08em; text-transform: uppercase;
+    border-left: 3px solid var(--amber); padding-left: 1%;
+  }
+  .title-slide h2 {
+    font-size: 2.6em; font-weight: 800; color: var(--text); line-height: 1.1;
+  }
+  .title-slide h2 span { color: var(--amber); }
+  .title-slide .subtitle {
+    font-size: 0.85em; color: var(--text-muted); line-height: 1.6; max-width: 72%;
+  }
+  .title-slide .tag-row { display: flex; gap: 1.5%; margin-top: 1%; flex-wrap: wrap; }
+  .tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.58em; font-weight: 500;
+    background: var(--surface); border: 1px solid var(--border);
+    color: var(--text-muted); padding: 3px 12px; border-radius: 3px; letter-spacing: 0.03em;
+  }
+  .tag.amber { background: var(--amber-dim); border-color: var(--amber); color: var(--amber); }
+  .tag.teal  { background: var(--teal-dim);  border-color: var(--teal);  color: var(--teal); }
+  .tag.red   { background: var(--red-dim);   border-color: var(--red);   color: var(--red); }
+
+  /* ── 2×2 cards grid ── */
+  .cards-2x2 {
+    display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+    gap: 1.6%; flex: 1;
+  }
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; padding: 3% 3.5%;
+    display: flex; flex-direction: column; gap: 0;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+  }
+  .card-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 1.3em; font-weight: 600; color: var(--border); line-height: 1;
+    margin-bottom: 3%;
+  }
+  .card h3 {
+    font-size: 0.72em; font-weight: 700; color: var(--amber);
+    text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4%;
+  }
+  .card .bullet-list { list-style: none; display: flex; flex-direction: column; gap: 2.5%; }
+  .card .bullet-list li {
+    font-size: 0.62em; color: var(--text); line-height: 1.5;
+    padding-left: 5%; position: relative;
+  }
+  .card .bullet-list li::before {
+    content: "▸"; position: absolute; left: 0; color: var(--amber); font-size: 0.9em;
+  }
+  .card .highlight {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.55em; color: var(--teal);
+    background: var(--teal-dim); padding: 2px 6px; border-radius: 3px;
+    margin-top: auto; padding-top: 4%; display: inline-block; width: fit-content;
+  }
+
+  /* ── Two-column layout ── */
+  .cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5%; flex: 1; }
+  .col-block {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; padding: 3.5% 4%;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+    display: flex; flex-direction: column;
+  }
+  .col-block h3 {
+    font-size: 0.72em; font-weight: 700; color: var(--amber);
+    text-transform: uppercase; letter-spacing: 0.06em;
+    margin-bottom: 4%; padding-bottom: 3%; border-bottom: 1px solid var(--border);
+  }
+  .col-block p {
+    font-size: 0.66em; color: var(--text-muted); line-height: 1.65; margin-bottom: 3%;
+  }
+  .col-block p strong { color: var(--text); font-weight: 700; }
+  .bullet-list { list-style: none; display: flex; flex-direction: column; gap: 4%; }
+  .bullet-list li {
+    font-size: 0.66em; color: var(--text); line-height: 1.55;
+    padding-left: 5%; position: relative;
+  }
+  .bullet-list li::before {
+    content: "▸"; position: absolute; left: 0; color: var(--amber); font-size: 0.9em;
+  }
+  .bullet-list li strong { font-weight: 700; }
+
+  /* ── Three-column cards ── */
+  .cards-3 {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2%; flex: 1;
+  }
+
+  /* ── R² comparison table ── */
+  .metric-table {
+    width: 100%; border-collapse: collapse;
+    font-size: 0.6em; font-family: "JetBrains Mono", monospace;
+  }
+  .metric-table th {
+    text-align: left; padding: 4px 8px;
+    background: var(--surface-2); border-bottom: 2px solid var(--border);
+    font-weight: 700; color: var(--text-muted); font-size: 0.9em; letter-spacing: 0.05em;
+  }
+  .metric-table td {
+    padding: 4px 8px; border-bottom: 1px solid var(--border); color: var(--text);
+  }
+  .metric-table tr:hover td { background: var(--surface-2); }
+  .metric-table .win { color: var(--teal); font-weight: 700; }
+  .metric-table .lose { color: var(--text-muted); }
+  .metric-table .mean-row td {
+    font-weight: 700; background: var(--amber-dim);
+    border-top: 2px solid var(--amber); border-bottom: none;
+  }
+  .metric-label {
+    font-family: "Epilogue", sans-serif; font-size: 0.65em; font-weight: 600;
+    color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.06em;
+    margin: 3% 0 2%;
+  }
+
+  /* ── Demo checklist ── */
+  .check-item {
+    display: flex; align-items: flex-start; gap: 4%;
+    padding: 3.5% 0; border-bottom: 1px dashed var(--border);
+    font-size: 0.62em; color: var(--text); line-height: 1.55;
+  }
+  .check-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .check-box {
+    font-family: "JetBrains Mono", monospace;
+    color: var(--border); flex-shrink: 0; margin-top: 0.1em; font-size: 1.1em;
+  }
+  .check-item strong { font-weight: 700; color: var(--text); }
+  .check-item .mono {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.88em; color: var(--teal);
+    background: var(--teal-dim); padding: 1px 5px; border-radius: 2px;
+  }
+
+  /* ── Open questions ── */
+  .q-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5%; flex: 1;
+  }
+  .q-row {
+    display: flex; align-items: flex-start; gap: 3%;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; padding: 2.5% 3%;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+  }
+  .q-row.wide { grid-column: span 2; }
+  .q-num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.8em; font-weight: 600; color: var(--border);
+    flex-shrink: 0; padding-top: 1px; min-width: 1.6em;
+  }
+  .q-text { font-size: 0.65em; color: var(--text); line-height: 1.5; }
+  .q-text strong { color: var(--amber); }
+  .q-tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.5em; display: inline-block; margin-top: 3%;
+    padding: 1px 7px; border-radius: 2px; font-weight: 500;
+  }
+  .q-tag.model    { background: var(--amber-dim); border: 1px solid var(--amber); color: var(--amber); }
+  .q-tag.ux       { background: var(--teal-dim);  border: 1px solid var(--teal);  color: var(--teal); }
+  .q-tag.data     { background: var(--surface-2); border: 1px solid var(--border); color: var(--text-muted); }
+
+  /* ── Nav ── */
+  .nav {
+    position: fixed; bottom: 1.5%; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 12px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 4px; padding: 5px 14px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.18); z-index: 100;
+  }
+  .nav button {
+    background: none; border: none; cursor: pointer;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem; color: var(--text-muted);
+    padding: 3px 8px; border-radius: 3px;
+    transition: color 0.15s, background 0.15s;
+  }
+  .nav button:hover { color: var(--amber); background: var(--amber-dim); }
+  .nav .nav-count {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.7rem; color: var(--text-muted); min-width: 42px; text-align: center;
+  }
+  .nav .nav-dots { display: flex; gap: 5px; align-items: center; }
+  .nav .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--border); cursor: pointer; transition: background 0.15s;
+  }
+  .nav .dot.active { background: var(--amber); }
+
+  @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+  .slide.active .slide-body > * { animation: fadeIn 0.28s ease both; }
+  .slide.active .slide-body > *:nth-child(1) { animation-delay: 0.04s; }
+  .slide.active .slide-body > *:nth-child(2) { animation-delay: 0.10s; }
+  .slide.active .slide-body > *:nth-child(3) { animation-delay: 0.16s; }
+  .slide.active .slide-body > *:nth-child(4) { animation-delay: 0.22s; }
+</style>
+</head>
+<body>
+
+<div class="deck">
+<div class="slide-frame" id="frame">
+
+<!-- ══ SLIDE 1: TITLE ══════════════════════════════════════════════════════ -->
+<div class="slide title-slide active" id="slide-1">
+  <div class="slide-header">
+    <div class="slide-header-left">
+      <div class="slide-logo">🇺🇬</div>
+      <div class="slide-title-block">
+        <h1>Uganda <span>Climate Policy</span> Chatbot</h1>
+        <p>SISEPUEDE Surrogate Model — AI Interface</p>
+      </div>
+    </div>
+    <div class="slide-counter">01 / 06</div>
+  </div>
+  <div class="slide-body">
+    <div class="kicker">Progress Update · May 2026</div>
+    <h2>What we <span>built</span> and<br>what comes next</h2>
+    <p class="subtitle">
+      A sprint review covering: backend pipeline validation, an extended XGBoost sector model,
+      structured interaction logging, and a stacked sector emissions chart.
+      Plus open design questions and next steps.
+    </p>
+    <div class="tag-row">
+      <span class="tag amber">Backend Validation</span>
+      <span class="tag amber">Sector Model (59 outputs)</span>
+      <span class="tag teal">Interaction Logs</span>
+      <span class="tag teal">Stacked Chart</span>
+      <span class="tag">Internal Review</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 2: WHAT WE BUILT ══════════════════════════════════════════════ -->
+<div class="slide" id="slide-2">
+  <div class="slide-header">
+    <div class="slide-header-left">
+      <div class="slide-logo">🇺🇬</div>
+      <div class="slide-title-block">
+        <h1>Uganda <span>Climate Policy</span> Chatbot</h1>
+        <p>SISEPUEDE Surrogate Model — AI Interface</p>
+      </div>
+    </div>
+    <div class="slide-counter">02 / 06</div>
+  </div>
+  <div class="slide-body">
+    <div class="slide-label">Sprint accomplishments</div>
+    <div class="slide-headline">Four advances <em>this sprint</em></div>
+    <div class="cards-2x2">
+
+      <div class="card">
+        <div class="card-num">01</div>
+        <h3>Backend Pipeline Validation</h3>
+        <ul class="bullet-list">
+          <li>Traced the full request flow end-to-end: FastAPI → Agent loop → tools → XGBoost → response</li>
+          <li>Confirmed step-by-step function activation: <strong>run_simulation → predictor → feature vector → predict</strong></li>
+          <li>Architecture.html updated: pipeline diagram, L transform semantics, log format</li>
+        </ul>
+        <span class="highlight">7-step documented flow</span>
+      </div>
+
+      <div class="card">
+        <div class="card-num">02</div>
+        <h3>XGBoost Sector Model — 59 outputs</h3>
+        <ul class="bullet-list">
+          <li>Extended model: <strong>11 aggregate</strong> + <strong>48 sector×year</strong> targets (12 sectors × 2030/2040/2050/2070)</li>
+          <li>Compared MultiOutputRegressor vs native multi-output tree</li>
+          <li>Variant A selected — mean R² <strong>0.951</strong> vs 0.704 — fully deployed in chatbot</li>
+        </ul>
+        <span class="highlight">59 outputs · R² 0.951</span>
+      </div>
+
+      <div class="card">
+        <div class="card-num">03</div>
+        <h3>Interaction Logging</h3>
+        <ul class="bullet-list">
+          <li>Every <code>/api/chat</code> request saved to <strong>logs/interactions.jsonl</strong></li>
+          <li>Captures: user message, tool calls + inputs, all model outputs, latency</li>
+          <li>Enables offline testing: replay queries, audit LHS values, validate agent behavior</li>
+        </ul>
+        <span class="highlight">logs/interactions.jsonl</span>
+      </div>
+
+      <div class="card">
+        <div class="card-num">04</div>
+        <h3>Stacked Sector Emissions Chart</h3>
+        <ul class="bullet-list">
+          <li>Renders <strong>side-by-side BAU vs Scenario</strong> stacked area charts on every response</li>
+          <li>12 sectors, color-coded, interactive legend — forestry as negative stack (sequestration)</li>
+          <li>Note: some subsectors excluded — to be discussed</li>
+        </ul>
+        <span class="highlight">12 sectors · 4 time points</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 3: MODEL EVIDENCE ═════════════════════════════════════════════ -->
+<div class="slide" id="slide-3">
+  <div class="slide-header">
+    <div class="slide-header-left">
+      <div class="slide-logo">🇺🇬</div>
+      <div class="slide-title-block">
+        <h1>Uganda <span>Climate Policy</span> Chatbot</h1>
+        <p>SISEPUEDE Surrogate Model — AI Interface</p>
+      </div>
+    </div>
+    <div class="slide-counter">03 / 06</div>
+  </div>
+  <div class="slide-body">
+    <div class="slide-label">Model selection</div>
+    <div class="slide-headline">Why <em>MultiOutputRegressor</em> won</div>
+    <div class="cols-2">
+
+      <div class="col-block">
+        <h3>The comparison</h3>
+        <p>
+          <strong>Variant A</strong> (deployed) — <code>MultiOutputRegressor(XGBRegressor)</code>:
+          one independent gradient-boosted tree per output target.
+        </p>
+        <p>
+          <strong>Variant B</strong> (not selected) — <code>XGBRegressor(multi_strategy='multi_output_tree')</code>:
+          a single shared tree across all targets (XGBoost 2.0+ native).
+        </p>
+        <p>
+          Variant B looked appealing — one model, shared structure, faster inference.
+          But it <strong>collapsed on cost and co-benefit targets</strong>:
+          R² drops from 0.97 → 0.39 on near-term costs, and from 0.99 → 0.46 on co-benefits.
+          These are the metrics most relevant to policy decisions.
+        </p>
+        <p>
+          Variant A dominates on <strong>57 of 59 targets</strong>, and especially on all 48 sector×year
+          breakdowns needed for the stacked chart.
+        </p>
+      </div>
+
+      <div class="col-block">
+        <h3>R² test set (N = 368)</h3>
+        <div class="metric-label">Selected targets</div>
+        <table class="metric-table">
+          <thead>
+            <tr><th>Target</th><th>A</th><th>B</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Near-term costs 2025–35</td><td class="win">0.97</td><td class="lose">0.39</td></tr>
+            <tr><td>Long-term costs 2025–70</td><td class="win">0.98</td><td class="lose">0.43</td></tr>
+            <tr><td>Co-benefits 2025–35</td><td class="win">0.99</td><td class="lose">0.46</td></tr>
+            <tr><td>agrc emissions 2030</td><td class="win">1.00</td><td class="lose">0.78</td></tr>
+            <tr><td>frst emissions 2030</td><td class="win">0.99</td><td class="lose">0.44</td></tr>
+            <tr><td>lvst emissions 2030</td><td class="win">1.00</td><td class="lose">0.36</td></tr>
+            <tr><td>lndu emissions 2040</td><td class="win">1.00</td><td class="lose">0.94</td></tr>
+            <tr><td>ippu emissions 2070</td><td class="win">0.94</td><td class="lose">0.20</td></tr>
+            <tr class="mean-row"><td><strong>Mean — all 59 targets</strong></td><td class="win">0.95</td><td class="lose">0.70</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 4: DEMOS ══════════════════════════════════════════════════════ -->
+<div class="slide" id="slide-4">
+  <div class="slide-header">
+    <div class="slide-header-left">
+      <div class="slide-logo">🇺🇬</div>
+      <div class="slide-title-block">
+        <h1>Uganda <span>Climate Policy</span> Chatbot</h1>
+        <p>SISEPUEDE Surrogate Model — AI Interface</p>
+      </div>
+    </div>
+    <div class="slide-counter">04 / 06</div>
+  </div>
+  <div class="slide-body">
+    <div class="slide-label">Live demos</div>
+    <div class="slide-headline">Three things to <em>walk through</em></div>
+    <div class="cards-3">
+
+      <div class="col-block">
+        <h3>① Architecture walkthrough</h3>
+        <div class="check-item">
+          <span class="check-box">□</span>
+          <span>Open <span class="mono">architecture.html</span> → Surrogate Model tab. Walk the pipeline: user text → Claude → L values → 59 outputs.</span>
+        </div>
+        <div class="check-item">
+          <span class="check-box">□</span>
+          <span>Show the <strong>L transform callout</strong>: XGBoost takes raw L values directly — T formula is only for explaining physical magnitude to the user.</span>
+        </div>
+        <div class="check-item">
+          <span class="check-box">□</span>
+          <span>Show the model comparison table — R² 0.95 vs 0.70.</span>
+        </div>
+      </div>
+
+      <div class="col-block">
+        <h3>② Interaction logs</h3>
+        <div class="check-item">
+          <span class="check-box">□</span>
+          <span>Open a real <span class="mono">interactions.jsonl</span> entry. Point to: <strong>user_message</strong>, <strong>lever_overrides</strong> (which LHS values the agent chose), <strong>simulation_outputs</strong>, <strong>latency_s</strong>.</span>
+        </div>
+        <div class="check-item">
+          <span class="check-box">□</span>
+          <span>Show that logs let us <strong>audit agent decisions</strong> — what group IDs were set, what values, and why.</span>
+        </div>
+        <div class="check-item">
+          <span class="check-box">□</span>
+          <span>Mention: replaying log entries = systematic test suite for agent behavior.</span>
+        </div>
+      </div>
+
+      <div class="col-block">
+        <h3>③ Chatbot + stacked chart</h3>
+        <div class="check-item">
+          <span class="check-box">□</span>
+          <span>Send a live "what if" query, e.g. <em>"What if Uganda aggressively expands renewables and protects forests?"</em></span>
+        </div>
+        <div class="check-item">
+          <span class="check-box">□</span>
+          <span>Show the <strong>response + inline emissions chart</strong> (BAU vs Scenario, 2 time points).</span>
+        </div>
+        <div class="check-item">
+          <span class="check-box">□</span>
+          <span>Show the <strong>stacked sector chart</strong> — 12 sectors, BAU left / Scenario right, forestry as negative stack.</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 5: OPEN QUESTIONS ═════════════════════════════════════════════ -->
+<div class="slide" id="slide-5">
+  <div class="slide-header">
+    <div class="slide-header-left">
+      <div class="slide-logo">🇺🇬</div>
+      <div class="slide-title-block">
+        <h1>Uganda <span>Climate Policy</span> Chatbot</h1>
+        <p>SISEPUEDE Surrogate Model — AI Interface</p>
+      </div>
+    </div>
+    <div class="slide-counter">05 / 06</div>
+  </div>
+  <div class="slide-body">
+    <div class="slide-label">For discussion</div>
+    <div class="slide-headline">Five design questions to <em>resolve</em></div>
+    <div class="q-grid">
+
+      <div class="q-row">
+        <div class="q-num">01</div>
+        <div class="q-text">
+          <strong>Costs &amp; co-benefits in XGBoost</strong> — Currently 6 aggregate cost outputs. Should we restructure as per-group breakdowns? What disaggregation is actually useful for policy decisions?<br>
+          <span class="q-tag model">model targets</span>
+        </div>
+      </div>
+
+      <div class="q-row">
+        <div class="q-num">02</div>
+        <div class="q-text">
+          <strong>Sector disaggregation</strong> — Current breakdown: agrc, frst, inen, ippu, lndu, lsmm, lvst, scoe, soil, trns, trww, waso. Is this the right level? Should any be merged or split?<br>
+          <span class="q-tag data">sector structure</span>
+        </div>
+      </div>
+
+      <div class="q-row">
+        <div class="q-num">03</div>
+        <div class="q-text">
+          <strong>Missing subsectors</strong> — Three subsectors were excluded from the stacked chart. Should they be added back? Which ones and why were they excluded?<br>
+          <span class="q-tag data">sector structure</span>
+        </div>
+      </div>
+
+      <div class="q-row">
+        <div class="q-num">04</div>
+        <div class="q-text">
+          <strong>Prediction years</strong> — Currently: 2030, 2040, 2050, 2070. Are these the right checkpoints? Should we add 2025 (near-term NDC) or 2060?<br>
+          <span class="q-tag model">model targets</span>
+        </div>
+      </div>
+
+      <div class="q-row wide">
+        <div class="q-num">05</div>
+        <div class="q-text">
+          <strong>Stacked chart time resolution</strong> — Four discrete points vs. interpolated trajectory. The model predicts specific years — what does the audience need to see, and is the current representation clear enough for non-technical stakeholders?<br>
+          <span class="q-tag ux">UX / presentation</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ══ SLIDE 6: NEXT STEPS ═════════════════════════════════════════════════ -->
+<div class="slide" id="slide-6">
+  <div class="slide-header">
+    <div class="slide-header-left">
+      <div class="slide-logo">🇺🇬</div>
+      <div class="slide-title-block">
+        <h1>Uganda <span>Climate Policy</span> Chatbot</h1>
+        <p>SISEPUEDE Surrogate Model — AI Interface</p>
+      </div>
+    </div>
+    <div class="slide-counter">06 / 06</div>
+  </div>
+  <div class="slide-body">
+    <div class="slide-label">Next steps</div>
+    <div class="slide-headline">Three work tracks <em>ahead</em></div>
+    <div class="cards-3">
+
+      <div class="col-block">
+        <h3>Model &amp; Data</h3>
+        <ul class="bullet-list">
+          <li><strong>Finalize cost/benefit target structure</strong> — pending discussion outcome</li>
+          <li><strong>Add missing subsectors</strong> if decided → retrain sector model</li>
+          <li><strong>Build cost chart</strong> using new predicted values</li>
+          <li><strong>Adjust prediction years</strong> if new checkpoints agreed</li>
+        </ul>
+      </div>
+
+      <div class="col-block">
+        <h3>Agent &amp; Transparency</h3>
+        <ul class="bullet-list">
+          <li><strong>LHS transparency in responses</strong> — agent should state: "I set group 8 to L=0.9 → T=0.91 → ~91% of max renewable target"</li>
+          <li><strong>Log-based test suite</strong> — replay standard queries, audit LHS choices, validate consistency</li>
+          <li><strong>Validate BAU vs Net Zero</strong> stacked chart rendering end-to-end</li>
+        </ul>
+      </div>
+
+      <div class="col-block">
+        <h3>Infrastructure</h3>
+        <ul class="bullet-list">
+          <li><strong>Create read-only AWS IAM profile</strong> for this project — replace current <code>alexa</code> SSO profile which has broader permissions</li>
+          <li><strong>Verify chatbot lever selection</strong> for sector-level "what if" queries using new logs</li>
+          <li><strong>Document sector model integration</strong> in architecture.html</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+</div><!-- /slide-frame -->
+</div><!-- /deck -->
+
+<div class="nav" id="nav">
+  <button id="prev">◀ prev</button>
+  <div class="nav-dots" id="dots"></div>
+  <span class="nav-count" id="count">1 / 6</span>
+  <button id="next">next ▶</button>
+</div>
+
+<script>
+  const TOTAL = 6;
+  let current = 1;
+  const dotsEl = document.getElementById('dots');
+  const countEl = document.getElementById('count');
+
+  for (let i = 1; i <= TOTAL; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 1 ? ' active' : '');
+    d.addEventListener('click', () => go(i));
+    dotsEl.appendChild(d);
+  }
+
+  function go(n) {
+    if (n < 1 || n > TOTAL) return;
+    document.getElementById('slide-' + current).classList.remove('active');
+    current = n;
+    document.getElementById('slide-' + current).classList.add('active');
+    countEl.textContent = current + ' / ' + TOTAL;
+    dotsEl.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i + 1 === current));
+  }
+
+  document.getElementById('prev').addEventListener('click', () => go(current - 1));
+  document.getElementById('next').addEventListener('click', () => go(current + 1));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') go(current + 1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')                      go(current - 1);
+  });
+</script>
+</body>
+</html>

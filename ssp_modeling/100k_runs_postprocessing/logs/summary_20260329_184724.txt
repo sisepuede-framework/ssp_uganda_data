@@ -1,0 +1,12 @@
+============================================
+RUN SUMMARY — Sun Mar 29 18:47:48 CST 2026
+============================================
+
+Successful (2): 1 2
+Failed     (0): none
+
+Individual logs:
+  [OK]  DIR_ID=1 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_1_20260329_184724.txt
+  [OK]  DIR_ID=2 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_2_20260329_184724.txt
+
+Summary file: /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/summary_20260329_184724.txt

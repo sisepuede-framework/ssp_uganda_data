@@ -1,0 +1,15 @@
+2026-04-01 00:32:17,740 [INFO] [PID:96277] Baseline file confirmed: /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/tmp/uganda_0.csv
+2026-04-01 00:32:17,907 [INFO] [PID:96277] Fetching inputs from S3 (one-time)…
+2026-04-01 00:32:17,913 [INFO] [PID:96277] Loading cached SSO token for mi-sesion-sso
+2026-04-01 00:33:04,259 [INFO] [PID:96277] Found 40 non-baseline primary_ids to process.
+2026-04-01 00:33:04,259 [INFO] [PID:96277] Building data_all (output merged with input, all primary_ids)…
+2026-04-01 00:33:04,346 [INFO] [PID:96277] data_all shape: (2296, 4054)  |  primary_ids: 41
+2026-04-01 00:33:04,473 [INFO] [PID:96277] Running rescale_py() for 40 primary_ids…
+2026-04-01 00:33:08,444 [INFO] [PID:96277] rescale_py() completed. decomposed_df shape: (2080, 4054)  |  primary_ids: 40
+2026-04-01 00:33:08,445 [INFO] [PID:96277] attribute_primary_df columns: ['primary_id', 'design_id', 'strategy_id', 'future_id']
+2026-04-01 00:33:08,445 [INFO] [PID:96277] attribute_strategy_df columns: ['strategy_id', 'strategy_code', 'strategy', 'description', 'transformation_specification', 'baseline_strategy_id']
+2026-04-01 00:33:08,507 [INFO] [PID:96277] Pre-split: 40 pickles created → /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/tmp/cache/pids
+2026-04-01 00:33:08,508 [INFO] [PID:96277] Canonical emission columns: 614
+2026-04-01 00:33:08,508 [INFO] [PID:96277] Cached shared tables: baseline=(56, 4054)
+2026-04-01 00:33:08,508 [INFO] [PID:96277] Starting pool with 6 workers…
+2026-04-01 00:33:39,524 [INFO] [PID:96277] Results: 40 emissions, 40 CB, 0 CB-skipped (no strategy mapping), 0 hard errors.

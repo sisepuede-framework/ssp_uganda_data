@@ -1,0 +1,11 @@
+citations: null
+description: None
+identifiers:
+  transformation_code: TX:WALI:INC_TREATMENT_URBAN_STRATEGY_NDC_25
+  transformation_name: 'Scaled Default Max Parameters by 1.0 - WALI: Improved urban
+    wastewater treatment for NDC 2.0 with year starting in 2026'
+parameters:
+  dict_magnitude: null
+  vec_implementation_ramp:
+    tp_0_ramp: 11
+transformer: TFR:WALI:INC_TREATMENT_URBAN

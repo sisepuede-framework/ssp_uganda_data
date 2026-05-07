@@ -1,0 +1,20 @@
+citations: null
+description: "Land use classes are estimated using a transition matrix and ajdusted\
+  \ using a quadratic program. This transformation can be used to set upper and lower\
+  \ bounds on transitionable land use classes. This transformation can be used to\
+  \ represent the addition of protected areas through the use of a minimum bound OR\
+  \ the prevention of additional growth through the maxium bound.\
+  \\
+  \  This implementation sets a minimum bound for wetlands. The NDC2.0 calls for an\
+  \ increase from 8.9% to 12% from 2022 (NOT 2020) to 2030, but UG BOS only shows around 3.6% of\
+  \ land use area associated with wetlands in 2017. This transformation increases\
+  \ wetlands area by 3.1% from 3.7% to 6.8% of the country's area, or 1,642,540 ha, by 2035."
+identifiers:
+  transformation_code: "TX:LNDU:SET_WETLANDS_MINIMUM_NZ"
+  transformation_name: "Default Value - LNDU: Bound Classes"
+parameters:
+  dict_directional_categories_to_magnitude: null
+  vec_implementation_ramp:
+    n_tp_ramp: 8
+    tp_0_ramp: 11
+transformer: "TFR:LNDU:BOUND_CLASSES"

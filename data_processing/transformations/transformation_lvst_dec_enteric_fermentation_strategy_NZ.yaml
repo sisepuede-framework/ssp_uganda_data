@@ -1,0 +1,19 @@
+citations: null
+description: Reduce enteric fermentation
+identifiers:
+  transformation_code: "TX:LVST:DEC_ENTERIC_FERMENTATION_STRATEGY_NZ"
+  transformation_name: "Scaled Default Max Parameters by 1.0 - LVST: Reduce enteric\
+    \ fermentation. Includes assumption around 85% adoption and 60% reduction, which\
+    \  requires some technological advances."
+parameters:
+  dict_lvst_reductions:
+    buffalo: 0.51
+    cattle_dairy: 0.51
+    cattle_nondairy: 0.51
+    goats: 0.56
+    sheep: 0.56
+  vec_implementation_ramp:
+    alpha_logistic: 0.75
+    tp_0_ramp: 11
+    window_logistic: [-2.5, 5]
+transformer: "TFR:LVST:DEC_ENTERIC_FERMENTATION"

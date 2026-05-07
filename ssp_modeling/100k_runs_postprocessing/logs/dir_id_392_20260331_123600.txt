@@ -1,0 +1,27 @@
+2026-03-31 15:32:35,090 [INFO] [PID:77799] Baseline file confirmed: /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/tmp/uganda_0.csv
+2026-03-31 15:32:35,247 [INFO] [PID:77799] Fetching inputs from S3 (one-time)…
+2026-03-31 15:32:35,251 [INFO] [PID:77799] Loading cached SSO token for mi-sesion-sso
+Traceback (most recent call last):
+  File "/Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/100k_run_postprocessing_parallel.py", line 797, in <module>
+    main()
+  File "/Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/100k_run_postprocessing_parallel.py", line 594, in main
+    output_df             = fetch_csv_from_s3(s3, BUCKET_NAME, f'{MODEL_OUTPUT_PREFIX}data.csv')
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/100k_run_postprocessing_parallel.py", line 52, in fetch_csv_from_s3
+    content = obj.get()['Body'].read().decode('utf-8')
+              ^^^^^^^^^
+  File "/opt/anaconda3/envs/ssp_uganda_env/lib/python3.11/site-packages/boto3/resources/factory.py", line 581, in do_action
+    response = action(self, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/ssp_uganda_env/lib/python3.11/site-packages/boto3/resources/action.py", line 88, in __call__
+    response = getattr(parent.meta.client, operation_name)(*args, **params)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/ssp_uganda_env/lib/python3.11/site-packages/botocore/client.py", line 602, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/ssp_uganda_env/lib/python3.11/site-packages/botocore/context.py", line 123, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/anaconda3/envs/ssp_uganda_env/lib/python3.11/site-packages/botocore/client.py", line 1078, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.errorfactory.NoSuchKey: An error occurred (NoSuchKey) when calling the GetObject operation: The specified key does not exist.

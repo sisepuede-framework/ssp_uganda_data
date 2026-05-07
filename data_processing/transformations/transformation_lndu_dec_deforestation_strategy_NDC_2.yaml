@@ -1,0 +1,11 @@
+citations:
+description: Halt deforestation of primary and secondary forests
+identifiers:
+  transformation_code: "TX:LNDU:DEC_DEFORESTATION_STRATEGY_NDC_2"
+  transformation_name: "Scaled Default Max Parameters by 1.0 - LNDU: Stop deforestation"
+parameters:
+  magnitude: 0.99999
+  vec_implementation_ramp:
+    tp_0_ramp: 5
+    n_tp_ramp: 25
+transformer: "TFR:LNDU:DEC_DEFORESTATION"

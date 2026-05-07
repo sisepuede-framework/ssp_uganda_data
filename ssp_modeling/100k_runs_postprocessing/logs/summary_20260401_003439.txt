@@ -1,0 +1,64 @@
+============================================
+RUN SUMMARY — Wed Apr  1 01:50:25 CDT 2026
+============================================
+
+Successful (54): 568 569 570 571 572 573 574 575 576 577 578 579 580 581 582 583 584 585 586 587 588 589 590 591 592 593 594 595 596 597 598 599 600 601 602 603 604 605 606 607 608 609 610 611 612 613 614 615 616 617 618 619 620 621
+Failed     (0): none
+
+Individual logs:
+  [OK]  DIR_ID=568 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_568_20260401_003439.txt
+  [OK]  DIR_ID=569 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_569_20260401_003439.txt
+  [OK]  DIR_ID=570 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_570_20260401_003439.txt
+  [OK]  DIR_ID=571 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_571_20260401_003439.txt
+  [OK]  DIR_ID=572 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_572_20260401_003439.txt
+  [OK]  DIR_ID=573 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_573_20260401_003439.txt
+  [OK]  DIR_ID=574 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_574_20260401_003439.txt
+  [OK]  DIR_ID=575 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_575_20260401_003439.txt
+  [OK]  DIR_ID=576 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_576_20260401_003439.txt
+  [OK]  DIR_ID=577 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_577_20260401_003439.txt
+  [OK]  DIR_ID=578 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_578_20260401_003439.txt
+  [OK]  DIR_ID=579 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_579_20260401_003439.txt
+  [OK]  DIR_ID=580 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_580_20260401_003439.txt
+  [OK]  DIR_ID=581 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_581_20260401_003439.txt
+  [OK]  DIR_ID=582 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_582_20260401_003439.txt
+  [OK]  DIR_ID=583 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_583_20260401_003439.txt
+  [OK]  DIR_ID=584 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_584_20260401_003439.txt
+  [OK]  DIR_ID=585 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_585_20260401_003439.txt
+  [OK]  DIR_ID=586 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_586_20260401_003439.txt
+  [OK]  DIR_ID=587 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_587_20260401_003439.txt
+  [OK]  DIR_ID=588 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_588_20260401_003439.txt
+  [OK]  DIR_ID=589 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_589_20260401_003439.txt
+  [OK]  DIR_ID=590 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_590_20260401_003439.txt
+  [OK]  DIR_ID=591 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_591_20260401_003439.txt
+  [OK]  DIR_ID=592 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_592_20260401_003439.txt
+  [OK]  DIR_ID=593 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_593_20260401_003439.txt
+  [OK]  DIR_ID=594 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_594_20260401_003439.txt
+  [OK]  DIR_ID=595 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_595_20260401_003439.txt
+  [OK]  DIR_ID=596 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_596_20260401_003439.txt
+  [OK]  DIR_ID=597 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_597_20260401_003439.txt
+  [OK]  DIR_ID=598 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_598_20260401_003439.txt
+  [OK]  DIR_ID=599 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_599_20260401_003439.txt
+  [OK]  DIR_ID=600 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_600_20260401_003439.txt
+  [OK]  DIR_ID=601 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_601_20260401_003439.txt
+  [OK]  DIR_ID=602 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_602_20260401_003439.txt
+  [OK]  DIR_ID=603 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_603_20260401_003439.txt
+  [OK]  DIR_ID=604 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_604_20260401_003439.txt
+  [OK]  DIR_ID=605 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_605_20260401_003439.txt
+  [OK]  DIR_ID=606 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_606_20260401_003439.txt
+  [OK]  DIR_ID=607 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_607_20260401_003439.txt
+  [OK]  DIR_ID=608 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_608_20260401_003439.txt
+  [OK]  DIR_ID=609 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_609_20260401_003439.txt
+  [OK]  DIR_ID=610 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_610_20260401_003439.txt
+  [OK]  DIR_ID=611 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_611_20260401_003439.txt
+  [OK]  DIR_ID=612 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_612_20260401_003439.txt
+  [OK]  DIR_ID=613 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_613_20260401_003439.txt
+  [OK]  DIR_ID=614 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_614_20260401_003439.txt
+  [OK]  DIR_ID=615 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_615_20260401_003439.txt
+  [OK]  DIR_ID=616 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_616_20260401_003439.txt
+  [OK]  DIR_ID=617 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_617_20260401_003439.txt
+  [OK]  DIR_ID=618 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_618_20260401_003439.txt
+  [OK]  DIR_ID=619 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_619_20260401_003439.txt
+  [OK]  DIR_ID=620 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_620_20260401_003439.txt
+  [OK]  DIR_ID=621 -> /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/dir_id_621_20260401_003439.txt
+
+Summary file: /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/logs/summary_20260401_003439.txt

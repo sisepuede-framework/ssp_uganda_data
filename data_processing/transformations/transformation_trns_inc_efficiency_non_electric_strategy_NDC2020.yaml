@@ -1,0 +1,11 @@
+citations: null
+description: None
+identifiers:
+  transformation_code: TX:TRNS:INC_EFFICIENCY_NON_ELECTRIC_STRATEGY_NDC2020
+  transformation_name: 'Scaled Default Max Parameters by 0.9 - TRNS: Increase non-electric
+    transportation energy efficiency with year starting in 2020 to reflect NDC 2.0'
+parameters:
+  magnitude: 0.225
+  vec_implementation_ramp:
+    tp_0_ramp: 5
+transformer: TFR:TRNS:INC_EFFICIENCY_NON_ELECTRIC

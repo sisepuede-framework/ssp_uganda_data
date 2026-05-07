@@ -1,0 +1,21 @@
+2026-03-29 22:29:42,866 [INFO] [PID:38092] Baseline file confirmed: /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/tmp/uganda_0.csv
+2026-03-29 22:29:43,009 [INFO] [PID:38092] Fetching inputs from S3 (one-time)…
+2026-03-29 22:29:43,013 [INFO] [PID:38092] Loading cached SSO token for mi-sesion-sso
+2026-03-29 22:29:45,340 [INFO] [PID:38092] Found 1 non-baseline primary_ids to process.
+2026-03-29 22:29:45,340 [INFO] [PID:38092] Building data_all (output merged with input, all primary_ids)…
+2026-03-29 22:29:45,391 [INFO] [PID:38092] data_all shape: (112, 4054)  |  primary_ids: 2
+2026-03-29 22:29:45,499 [INFO] [PID:38092] Running rescale_py() for 1 primary_ids…
+2026-03-29 22:29:48,449 [INFO] [PID:38092] rescale_py() completed. decomposed_df shape: (52, 4054)  |  primary_ids: 1
+2026-03-29 22:29:48,450 [INFO] [PID:38092] attribute_primary_df columns: ['primary_id', 'design_id', 'strategy_id', 'future_id']
+2026-03-29 22:29:48,450 [INFO] [PID:38092] attribute_strategy_df columns: ['strategy_id', 'strategy_code', 'strategy', 'description', 'transformation_specification', 'baseline_strategy_id']
+2026-03-29 22:29:48,455 [INFO] [PID:38092] Pre-split: 1 pickles created → /Users/alexa/Projects/ssp_uganda_data/ssp_modeling/100k_runs_postprocessing/tmp/cache/pids
+2026-03-29 22:29:48,456 [INFO] [PID:38092] Canonical emission columns: 614
+2026-03-29 22:29:48,456 [INFO] [PID:38092] Cached shared tables: baseline=(56, 4054)
+2026-03-29 22:29:48,456 [INFO] [PID:38092] Starting pool with 6 workers…
+2026-03-29 22:29:51,729 [INFO] [PID:38092] Results: 1 emissions, 1 CB, 0 CB-skipped (no strategy mapping), 0 hard errors.
+2026-03-29 22:29:52,558 [INFO] [PID:38092] Uploaded to s3://sisepuede-data/run_database/sisepuede_run_2026-03-10t13;27;53.264959/model_output_decomposed/region=uganda/decomposed_emissions_61/data.csv
+2026-03-29 22:29:52,558 [INFO] [PID:38092] Uploaded combined emissions (1 primary_ids, 618 cols) → run_database/sisepuede_run_2026-03-10t13;27;53.264959/model_output_decomposed/region=uganda/decomposed_emissions_61/data.csv
+2026-03-29 22:29:52,793 [INFO] [PID:38092] Uploaded to s3://sisepuede-data/run_database/sisepuede_run_2026-03-10t13;27;53.264959/cba/region=uganda/cb_61/data.csv
+2026-03-29 22:29:52,793 [INFO] [PID:38092] Uploaded combined CB (1 primary_ids) → run_database/sisepuede_run_2026-03-10t13;27;53.264959/cba/region=uganda/cb_61/data.csv
+2026-03-29 22:29:52,795 [INFO] [PID:38092] Removed directory: cache
+2026-03-29 22:29:52,795 [INFO] [PID:38092] Cleanup complete. Preserved: uganda_0.csv

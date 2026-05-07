@@ -1,0 +1,22 @@
+﻿cats_inv,cats_wb_0,cats_wb_1
+Energy Industries,EN - Power Industry,EN - Electricity/Heat
+Manufacturing Industries and Construction,EN - Industrial Combustion,EN - Manufacturing/Construction
+Transport,EN - Transport,EN - Transportation
+Cement production,IN - Industrial Processes,IN - Industrial Processes
+Lime production,IN - Industrial Processes,IN - Industrial Processes
+Lubricant Use,IN - Industrial Processes,IN - Industrial Processes
+Enteric Fermentation,AG - Livestock,AG - Livestock
+Manure Management,AG - Livestock,AG - Livestock
+Forest land,LULUCF - Forest Land,LULUCF - Forest Land
+Cropland,LULUCF - Deforestation,LULUCF - Deforestation
+Other Lands,LULUCF - Other Land,LULUCF - Other Land
+Biomass Burning Emissions,AG - Crops,AG - Crops
+Urea Application,AG - Crops,AG - Crops
+Direct N2O emissions from managed soil,AG - Crops,AG - Crops
+Indirect N2O Emissions from Manure Management,AG - Livestock,AG - Livestock
+Solid Waste Disposal,WST - Solid Waste,WST - Solid Waste
+Biological Treatment of Solid Waste,WST - Solid Waste,WST - Solid Waste
+Wastewater Treatment and Discharge,WST - Wastewater Treatment,WST - Wastewater Treatment
+Open Burning of Waste,WST - Solid Waste,WST - Solid Waste
+Incineration of Waste,WST - Solid Waste,WST - Solid Waste
+"Other (Residential, Commercial, Institution)",EN - Building,EN - Building
