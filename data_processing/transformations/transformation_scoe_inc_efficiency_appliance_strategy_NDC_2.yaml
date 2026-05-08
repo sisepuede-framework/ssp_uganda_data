@@ -1,0 +1,17 @@
+citations: null
+description: None
+identifiers:
+  transformation_code: "TX:SCOE:INC_EFFICIENCY_APPLIANCE_STRATEGY_NDC_2"
+  transformation_name: "Increase lighting efficiency a small amount to reflect 
+    increases in NDC2. Assume that a 75% reduction in lighting efficiency (NDC)
+    is applied to 25% of demand (2022_mutebi_and_thu, pg 298, gives 25% as 
+    lighting fraction of appliances). This gives 3/16 = 18.75% reduciton in 
+    appliance demand by 2030. Since this is applied to the demand scalar, it 
+    is directly sent. The NDC2 doesn't mention anything beyond lighting, so we
+    apply this for 10 years and leave it."
+parameters:
+  magnitude: 0.1875
+  vec_implementation_ramp:
+    tp_0_ramp: 5
+    n_tp_ramp: 10
+transformer: "TFR:SCOE:INC_EFFICIENCY_APPLIANCE"

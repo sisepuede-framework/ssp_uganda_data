@@ -81,7 +81,7 @@ _LOGGER = _setup_logger()
 
 # biomass shift
 _BIOMASS_SHIFT_IMPLEMENTATION_TP_END = 45
-_BIOMASS_SHIFT_IMPLEMENTATION_WINDOW = (-2, 6)
+_BIOMASS_SHIFT_IMPLEMENTATION_WINDOW = (-4, 6)
 
 # some dates
 _YEAR_0_NEW_STEEL = 2028
@@ -339,21 +339,58 @@ def _update_enst_annual_storage_capacities(
     # use Table 13.3 (candidate generation projects) to set minimum capacity from BESS
     # assume 50% by 2035, 100% by 2040
     n = df_out.shape[0]
-    cap_target = 1.55132*um_energy.convert("gwy", "pj")
+    cap_target = 4*1.55132*um_energy.convert("gwh", "pj")
+    target_capacity_scalar = 5    # set 2070 target to be this  
 
-    vec_ramp_min_prod_st = 0.5*sf.ramp_vector(
+    # nothing is built before 2035
+    factor = (1/target_capacity_scalar)
+    vec_ramp_min_prod_st = factor*sf.ramp_vector(
         n,
-        r_0 = 12,
-        r_1 = 20,
+        r_0 = 23,
+        r_1 = 26,
     )
-    vec_ramp_min_prod_st += 0.5*sf.ramp_vector(
+    vec_ramp_min_prod_st += (1 - factor)*sf.ramp_vector(
         n,
-        r_0 = 20,
-        r_1 = 25,
+        alpha_logistic = 1.0,
+        r_0 = 26,
+        window_logistic = [-0.01, 4]
+        #r_1 = 25,
     )
 
     # set min capacity ramp
-    df_out[field_to_min_bound] = cap_target*vec_ramp_min_prod_st
+    df_out[field_to_min_bound] = target_capacity_scalar*cap_target*vec_ramp_min_prod_st
+
+
+
+    #########################################################
+    #    ADD A MAXIMUM INVESTMENT CONSTRAINT FOR STORAGE    #
+    #########################################################
+
+    field_cap = modvar_max_inv.build_fields(
+        category_restrictions = cat_storage_min,
+    )
+
+    # build a max investment
+    field_min_cap = df_out[field_to_min_bound].to_numpy()
+    vec_max_inv = 1.05*(field_min_cap[1:] - field_min_cap[0:-1])
+
+    # some points to choose
+    pt1 = vec_max_inv[0:20].max()
+    pt2 = max(pt1, vec_max_inv[20:31].max())
+    pt3 = max(pt2, vec_max_inv[31:42].max())
+    pt4 = max(pt3, vec_max_inv[42:-1].max())
+
+    const = [
+        np.zeros(11),
+        np.ones(9)*pt1,
+        np.ones(11)*pt2,
+        np.ones(11)*pt3,
+        np.ones(14)*pt4
+    ]
+
+    const = np.concatenate(const, )
+
+    df_out[field_cap] = const
 
 
     # dump log
@@ -546,6 +583,67 @@ def _update_entc_capital_costs(
     sf._optional_log(
         logger,
         "Updated capital costs of technologies.",
+        type_log = "info",
+    )
+
+    return df_out
+
+
+
+def _update_entc_max_investment(
+    df_input: pd.DataFrame,
+    model_attributes: 'ModelAttributes',
+    logger: Union[logging.Logger, None] = None,
+) -> pd.DataFrame:
+    """Cap solar to prevent massive, unrealistic investments.
+    """
+    modvar_max_inv = model_attributes.get_variable("NemoMod TotalAnnualMaxCapacityInvestment")
+    field_max_inv = modvar_max_inv.build_fields(
+        category_restrictions = "pp_solar",
+    )
+    
+    # add to output--set to 25 GW/year, which is still enormous
+    df_out = df_input.copy()
+    df_out[field_max_inv] = 25
+
+    # dump log
+    sf._optional_log(
+        logger,
+        "Updated entc max investment constraint",
+        type_log = "info",
+    )
+
+    return df_out
+
+
+
+def _update_entc_renewable_tag(
+    df_input: pd.DataFrame,
+    model_attributes: 'ModelAttributes',
+    logger: Union[logging.Logger, None] = None,
+) -> pd.DataFrame:
+    """Update renewable energy tag for techs. Necessary to ensure RE Target 
+        transformation works properly. 
+    """
+    modvar = model_attributes.get_variable("NemoMod RETagTechnology")
+    fields_re_tag = modvar.build_fields(
+        category_restrictions = [
+            "pp_nuclear",
+            "st_batteries",
+            "st_compressed_air",
+            "st_flywheels",
+            "st_pumped_hydro"
+        ]
+    )
+    
+    # add to output
+    df_out = df_input.copy()
+    df_out[fields_re_tag] = 1
+
+    # dump log
+    sf._optional_log(
+        logger,
+        "Updated renewable energy tags.",
         type_log = "info",
     )
 
@@ -982,7 +1080,8 @@ def _update_lndu_suprema(
 
     # specify directly
     dict_caps = {
-        "wetlands": 1650000,
+        "wetlands": 1_650_000,
+        "forests_secondary": 2_800_000,
     }
 
     
@@ -1520,13 +1619,6 @@ def adjust_inputs(
         model_attributes,
         logger = _LOGGER,
     )
-    
-    df_input = _update_entc_capital_costs(
-        df_input,
-        model_attributes,
-        time_periods,
-        logger = _LOGGER,
-    )
 
     df_input = _update_entc_annual_maxcapacity(
         df_input,
@@ -1535,6 +1627,25 @@ def adjust_inputs(
     )
     
     df_input = _update_entc_annual_maxprod_inc(
+        df_input,
+        model_attributes,
+        logger = _LOGGER,
+    )
+
+    df_input = _update_entc_capital_costs(
+        df_input,
+        model_attributes,
+        time_periods,
+        logger = _LOGGER,
+    )
+
+    df_input = _update_entc_max_investment(
+        df_input,
+        model_attributes,
+        logger = _LOGGER,
+    )
+
+    df_input = _update_entc_renewable_tag(
         df_input,
         model_attributes,
         logger = _LOGGER,

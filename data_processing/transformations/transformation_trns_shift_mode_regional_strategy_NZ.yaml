@@ -8,7 +8,10 @@ parameters:
   dict_categories_out:
     aviation: 0.1
     road_light: 0.2
-  dict_categories_target: null
+  dict_categories_target:
+    rail_passenger: 0.5
+    road_heavy_regional: 0.5
   vec_implementation_ramp:
+    n_tp_ramp: 24
     tp_0_ramp: 11
 transformer: "TFR:TRNS:SHIFT_MODE_REGIONAL"

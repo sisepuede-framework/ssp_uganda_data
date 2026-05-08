@@ -2,9 +2,18 @@ citations: null
 description: None
 identifiers:
   transformation_code: "TX:SCOE:INC_EFFICIENCY_APPLIANCE_STRATEGY_NZ"
-  transformation_name: "Scaled Default Max Parameters by 1.0 - SCOE: Increase appliance\
-    \ efficiency. Reflects adoption of newer, more efficient technologies available."
+  transformation_name: "Increase lighting efficiency a small amount to reflect 
+    increases in NDC2. Assume that a 75% reduction in lighting efficiency (NDC)
+    is applied to 25% of demand (2022_mutebi_and_thu, pg 298, gives 25% as 
+    lighting fraction of appliances). This gives 3/16 = 18.75% reduciton in 
+    appliance demand by 2030. Since this is applied to the demand scalar, it 
+    is directly sent. The NZ target is based on an assumption that these kinds of 
+    efficiencies are extended to other appliances, including TVs, refrigerators,
+    microwaves, etc., with a 55% reduction in appliance efficiency acheieved by 
+    2055."
 parameters:
-  magnitude: 0.3
-  vec_implementation_ramp: null
+  magnitude: 0.55
+  vec_implementation_ramp:
+    n_tp_ramp: 29
+    tp_0_ramp: 11
 transformer: "TFR:SCOE:INC_EFFICIENCY_APPLIANCE"

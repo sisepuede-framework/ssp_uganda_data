@@ -7,7 +7,7 @@ identifiers:
   transformation_name: 'Default Value - LNDU: Expand silvopasture for NDC 2.0 with
     year starting in 2026'
 parameters:
-  magnitude: 0.2
+  magnitude: 0.1
   vec_implementation_ramp:
     n_tp_ramp: 10
     tp_0_ramp: 11
