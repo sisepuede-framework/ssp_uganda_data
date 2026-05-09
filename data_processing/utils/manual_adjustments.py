@@ -81,7 +81,7 @@ _LOGGER = _setup_logger()
 
 # biomass shift
 _BIOMASS_SHIFT_IMPLEMENTATION_TP_END = 45
-_BIOMASS_SHIFT_IMPLEMENTATION_WINDOW = (-4, 6)
+_BIOMASS_SHIFT_IMPLEMENTATION_WINDOW = (-3, 6)
 
 # some dates
 _YEAR_0_NEW_STEEL = 2028
@@ -1702,7 +1702,7 @@ def adjust_inputs(
         df_input,
         model_attributes,
         logger = _LOGGER,
-    )
+    );
 
     df_input = _update_inen_fuel_mix_metals(
         df_input,
