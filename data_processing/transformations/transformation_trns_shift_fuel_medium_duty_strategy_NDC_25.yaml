@@ -6,14 +6,12 @@ identifiers:
     duty road transport for NDC 2.0 with year starting in 2026'
 parameters:
   categories:
-  - road_heavy_freight
-  - road_heavy_regional
   - public
   dict_allocation_fuels_target: null
   fuels_source:
   - fuel_diesel
   - fuel_gasoline
-  magnitude: 0.7
+  magnitude: 0.3
   vec_implementation_ramp:
     tp_0_ramp: 11
 transformer: TFR:TRNS:SHIFT_FUEL_MEDIUM_DUTY

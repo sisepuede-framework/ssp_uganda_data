@@ -5,6 +5,6 @@ identifiers:
   transformation_name: "Scaled Default Max Parameters by 2.0 - TRDE: Reduce demand\
     \ for transport"
 parameters:
-  magnitude: 0.5
+  magnitude: 0.4
   vec_implementation_ramp: null
 transformer: "TFR:TRDE:DEC_DEMAND"

@@ -1,9 +1,11 @@
 baseline:
+  apply_renewable_target: False
   categories_entc_max_investment_ramp: null
   categories_entc_pps_to_cap: null
   categories_entc_renewable: null
   dict_entc_renewable_target_msp_baseline: {}
   magnitude_lurf: null
+  scale_non_renewables_to_match_surplus_msp: False
   vec_implementation_ramp:
     alpha_logistic: 0.0
     d: 0

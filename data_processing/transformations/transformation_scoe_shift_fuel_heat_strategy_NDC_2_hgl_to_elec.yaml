@@ -7,10 +7,10 @@ parameters:
   cat_enfu_target: fuel_electricity
   cats_enfu_source:
     - fuel_hydrocarbon_gas_liquids
-  magnitude: 0.4
+  magnitude: 0.3
   vec_implementation_ramp:
     alpha_logistic: 1
-    n_tp_ramp: 10
+    n_tp_ramp: 15
     tp_0_ramp: 5
     window_logistic: [-3, 5]
 transformer: "TFR:SCOE:SHIFT_FUEL_HEAT"

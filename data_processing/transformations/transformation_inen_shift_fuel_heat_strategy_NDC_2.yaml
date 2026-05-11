@@ -7,7 +7,7 @@ identifiers:
     \ and low-temp thermal processes. "
 parameters:
   frac_high_given_high: null
-  frac_switchable: 0.9
+  frac_switchable: 0.7
   vec_implementation_ramp:
     tp_0_ramp: 5
 transformer: "TFR:INEN:SHIFT_FUEL_HEAT"

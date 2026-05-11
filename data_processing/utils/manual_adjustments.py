@@ -650,6 +650,94 @@ def _update_entc_renewable_tag(
     return df_out
 
 
+def _update_fgtv_factors(
+    df_input: pd.DataFrame, 
+    model_attributes: 'ModelAttributes',
+    time_periods: 'TimePeriods',
+    logger: Union[logging.Logger, None] = None,
+) -> pd.DataFrame:
+    """Adjust fugitive emissions in line with Uganda's current policies.
+    """
+
+    ##  INITIALIZATION
+
+    df_out = df_input.copy()
+
+
+    ##  VENTING
+    
+    # assume 90% reduction in venting; any that continues is illicit
+    modvars_vent = [
+        ":math:\\text{CO}_2 FGTV Production Venting Emission Factor",
+        ":math:\\text{CH}_4 FGTV Production Venting Emission Factor",
+        ":math:\\text{N}_2\\text{O} FGTV Production Venting Emission Factor",
+    ]
+    cols_div = []
+    
+    # 90% reduction in any venting in baseline
+    for modvar in modvars_vent:
+        modvar = matt.get_variable(modvar, )
+        cols_div += modvar.fields
+    df_out[cols_div] /= 10
+
+
+    ##  FLARING
+    
+    # ban flaring
+    modvar_flaring_frac = matt.get_variable("Fraction Non-Fugitive :math:\\text{CH}_4 Flared")
+    df_out[modvar_flaring_frac.fields] = 0
+
+
+    ##  PROD 
+
+    modvars_prod = [
+        ":math:\\text{CO}_2 FGTV Production Fugitive Emission Factor",
+        ":math:\\text{CH}_4 FGTV Production Fugitive Emission Factor",
+        ":math:\\text{N}_2\\text{O} FGTV Production Fugitive Emission Factor",
+    ]
+    cols_div = []
+    
+    # 90% reduction in any venting in baseline
+    for modvar in modvars_prod:
+        modvar = matt.get_variable(modvar, )
+        cols_div += modvar.fields
+    df_out[cols_div] /= 20
+
+    
+    ##  DIST 
+
+    modvars_dist = [
+        ":math:\\text{CO}_2 FGTV Distribution Emission Factor",
+        ":math:\\text{CH}_4 FGTV Distribution Emission Factor",
+        #":math:\\text{N}_2\\text{O} FGTV Distribution Fugitive Emission Factor",
+    ]
+    cols_div = []
+    
+    # 80% reduction in any distribution in baseline
+    for modvar in modvars_dist:
+        modvar = matt.get_variable(modvar, )
+        cols_div += modvar.fields
+    df_out[cols_div] /= 2
+
+    
+    ##  TRANSMISSION 
+
+    modvars_trans = [
+        ":math:\\text{CO}_2 FGTV Transmission Emission Factor",
+        ":math:\\text{CH}_4 FGTV Transmission Emission Factor",
+        ":math:\\text{N}_2\\text{O} FGTV Transmission Emission Factor",
+    ]
+    cols_div = []
+    
+    # 80% reduction in any transmission in baseline
+    for modvar in modvars_trans:
+        modvar = matt.get_variable(modvar, )
+        cols_div += modvar.fields
+    df_out[cols_div] /= 5
+    
+    return df_out
+
+
 
 def _update_frst_fraction_deforestation_avail(
     df_input: pd.DataFrame,
@@ -1193,7 +1281,7 @@ def _update_scoe_fuel_mix_from_by(
 def _update_scoe_shift_biomass_to_elec(
     df_input: pd.DataFrame,
     model_attributes: 'ModelAttributes',
-    factor_shift: float = 0.925,#0.95
+    factor_shift: float = 0.85,#0.925
     tp_end_shift_out_of_biomass: int = _BIOMASS_SHIFT_IMPLEMENTATION_TP_END,
     window_logistic: int = _BIOMASS_SHIFT_IMPLEMENTATION_WINDOW,
     logger: Union[logging.Logger, None] = None,
