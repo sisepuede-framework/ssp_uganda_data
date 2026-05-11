@@ -11,7 +11,7 @@ library(ggplot2)
 rm(list=ls())
 
 #ouputfile
-run <- 'sisepuede_summary_results_run_sisepuede_run_2026-05-06T08;29;31.552237'
+run <- 'sisepuede_summary_results_run_sisepuede_run_2026-05-10T09;58;21.534094'
 
 dir.output  <- paste0("ssp_modeling/ssp_run_output/",run,"/")
 #output.file <- "c585e7e9-e32f-4131-999b-ee7fc5ec014e.csv"
@@ -20,52 +20,52 @@ output.file <- "c585e7e9-e32f-4131-999b-ee7fc5ec014e.csv"
 att <- "ATTRIBUTE_STRATEGY.csv"
 
 
-sttrategy_ids <- c(0,6003,6004,6005,6006,6007) 
+sttrategy_ids <- c(0,6003:6063) 
 
-# load full data
-nwr <- fread(paste0(dir.output, output.file))
-dim(nwr)
+# # load full data
+# nwr <- fread(paste0(dir.output, output.file))
+# dim(nwr)
 
-att <- read.csv(paste0(dir.output,"ATTRIBUTE_PRIMARY.csv"))
-dim(att)
-att <- att[att$strategy_id %in% sttrategy_ids, ]
-dim(att)
-head(att)
+# att <- read.csv(paste0(dir.output,"ATTRIBUTE_PRIMARY.csv"))
+# dim(att)
+# att <- att[att$strategy_id %in% sttrategy_ids, ]
+# dim(att)
+# head(att)
 
-atts <- read.csv(paste0(dir.output,"ATTRIBUTE_STRATEGY.csv"))
-dim(atts)
-atts <- atts[atts$strategy_id %in% sttrategy_ids, ]
-dim(atts)
-head(atts)
-
-
-nwr <- merge(nwr,att,by="primary_id")
-dim(nwr)
-
-#filter for the strategies we want to include in the nwr
-nwr <- nwr[nwr$strategy_id %in% sttrategy_ids, ]
-
-dim(nwr)
-nwr[, c('design_id','strategy_id','future_id') := NULL]
-dim(nwr)
-
-#ouputfile
-if (!dir.exists(paste0(dir.output, "/nwr/"))) {
-    dir.create(paste0(dir.output, "/nwr/"), recursive = TRUE, showWarnings = FALSE)
-}
-
-dir.output.nwr  <- paste0(dir.output,"/nwr/")
-
-fwrite(nwr, paste0(dir.output.nwr, "nwr_data_raw.csv"))
-fwrite(att, paste0(dir.output.nwr, "ATTRIBUTE_PRIMARY.csv"))
-fwrite(atts, paste0(dir.output.nwr, "ATTRIBUTE_STRATEGY.csv"))
+# atts <- read.csv(paste0(dir.output,"ATTRIBUTE_STRATEGY.csv"))
+# dim(atts)
+# atts <- atts[atts$strategy_id %in% sttrategy_ids, ]
+# dim(atts)
+# head(atts)
 
 
-################################################################################
+# nwr <- merge(nwr,att,by="primary_id")
+# dim(nwr)
 
-#ouputfile
-dir.output  <-dir.output.nwr
-output.file <- "nwr_data_raw.csv"
+# #filter for the strategies we want to include in the nwr
+# nwr <- nwr[nwr$strategy_id %in% sttrategy_ids, ]
+
+# dim(nwr)
+# nwr[, c('design_id','strategy_id','future_id') := NULL]
+# dim(nwr)
+
+# #ouputfile
+# if (!dir.exists(paste0(dir.output, "/nwr/"))) {
+#     dir.create(paste0(dir.output, "/nwr/"), recursive = TRUE, showWarnings = FALSE)
+# }
+
+# dir.output.nwr  <- paste0(dir.output,"/nwr/")
+
+# fwrite(nwr, paste0(dir.output.nwr, "nwr_data_raw.csv"))
+# fwrite(att, paste0(dir.output.nwr, "ATTRIBUTE_PRIMARY.csv"))
+# fwrite(atts, paste0(dir.output.nwr, "ATTRIBUTE_STRATEGY.csv"))
+
+
+# ################################################################################
+
+# #ouputfile
+# dir.output  <-dir.output.nwr
+# output.file <- "nwr_data_raw.csv"
 
 region <- "uganda" 
 iso_code3 <- "UGA"

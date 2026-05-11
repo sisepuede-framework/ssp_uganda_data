@@ -33,6 +33,12 @@ missing <- setdiff(all_vars_made, names(data_all))
 
 all_vars <- setdiff(all_vars, c("emission_co2e_co2_ccsq_direct_air_capture","emission_co2e_ch4_ccsq_direct_air_capture","emission_co2e_n2o_ccsq_direct_air_capture"))
 
+# Exclude FGTV vars from zero-replacement: Uganda has no coal/crude extraction, so those
+# vars are legitimately 0 at baseline. Replacing them with 0.01 inflates uncalibrated_total
+# and drives deviation_factor to 0, erasing the real natural-gas FGTV signal.
+fgtv_vars <- unique(unlist(strsplit(paste(te_all$Vars[te_all$ssp_subsector == "fgtv"], collapse = ":"), ":")))
+all_vars <- setdiff(all_vars, fgtv_vars)
+
 # Overwrite all_vars as test
 #all_vars <- intersect(all_vars, names(data_all))
 

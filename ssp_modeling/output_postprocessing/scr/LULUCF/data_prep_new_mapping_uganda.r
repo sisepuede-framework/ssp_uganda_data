@@ -1,11 +1,12 @@
 # This script prepares the data for emissions mapping in Uganda
+
 file.name <- paste0(region,".csv")
 iso_code3 <- iso_code3
 Country <- region
 
 #load last crosswalk
-#mapping <- read.csv('ssp_modeling/output_postprocessing/data/crosswalk_inventory_to_sisepeude_20260220.csv')
-mapping <- read.csv('ssp_modeling/output_postprocessing/data/crosswalk_inventory_to_sisepeude.csv')
+#mapping <- read.csv('/Users/alexa/Projects/ssp_uganda_data/ssp_modeling/output_postprocessing/data/LULUCF/emission_targets_uganda_2019_LULUCF_updated.csv')
+mapping <- read.csv('ssp_modeling/output_postprocessing/data/crosswalk_inventory_to_sisepeude_20260510.csv')
 mapping$Subsector_Category <- paste(mapping$aggregation_category,
                              mapping$gas,sep=":")
 
@@ -29,7 +30,6 @@ table(edgar$CSC.Subsector)
 #load data  
 data <- fread(paste0(dir.output,file.name)) %>% as.data.frame()
 data <- subset(data,region==Country)
-
 #order data
 setorder(data, primary_id, time_period, region)
 
@@ -50,13 +50,13 @@ tvars <- mapping$Vars[i]
 tvars <- unlist(strsplit(tvars,":"))
 tvars <- subset(tvars,tvars%in%colnames(data))
 if (length(tvars)>1) {
- data [,mapping$ids[i]] <- rowSums(data[,tvars])
-} else if (length(tvars)==1 ) 
-{ 
+ data [,mapping$ids[i]] <- rowSums(data[,tvars], na.rm=TRUE)
+} else if (length(tvars)==1 )
+{
   data [,mapping$ids[i]] <- data[, tvars, drop = TRUE]
 } else {
   data [,mapping$ids[i]] <- 0
-} 
+}
 }
 #now we just keep the new variables and the time period which we will reduce to above 2022
 data_new <- data [,c(id_vars,mapping$ids)]

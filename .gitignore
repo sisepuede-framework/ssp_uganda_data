@@ -248,3 +248,7 @@ ssp_modeling/transformations_description/
 
 # ignore metamodel files
 ssp_uganda_data/metamodel/
+
+ssp_modeling/Tableau/
+
+metamodel/

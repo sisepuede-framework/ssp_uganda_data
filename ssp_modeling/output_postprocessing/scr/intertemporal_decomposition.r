@@ -38,7 +38,7 @@ pivot[,paste0("pct_diff_",tv1_all[j])] <- 0
 pivot$diff <- c(diff(pivot[,tv1_all[j]]),0)
 pivot[,paste0("pct_diff_",tv1_all[j])] <- c(0,pivot$diff[1:(nrow(pivot)-1)]/pivot[,tv1_all[j]][1:(nrow(pivot)-1)])
 pivot[,paste0("pct_diff_",tv1_all[j])] <- ifelse(is.na(pivot[,paste0("pct_diff_",tv1_all[j])])==TRUE,0,pivot[,paste0("pct_diff_",tv1_all[j])])
-pivot[,paste0("pct_diff_",tv1_all[j])] <- ifelse(pivot[,paste0("pct_diff_",tv1_all[j])]==Inf,0,pivot[,paste0("pct_diff_",tv1_all[j])])
+pivot[,paste0("pct_diff_",tv1_all[j])] <- ifelse(is.infinite(pivot[,paste0("pct_diff_",tv1_all[j])]),0,pivot[,paste0("pct_diff_",tv1_all[j])])
 }
 pivot[,paste0("diff_",tv1_all[j])] <-c(0,diff(pivot[,tv1_all[j]]))
 pivot <- pivot[,c("Index","time_period",paste0("pct_diff_",tv1_all[j]),paste0("diff_",tv1_all[j]))]
