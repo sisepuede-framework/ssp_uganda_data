@@ -11,7 +11,7 @@ library(ggplot2)
 rm(list=ls())
 
 #ouputfile
-run <- 'sisepuede_summary_results_run_sisepuede_run_2026-05-10T09;58;21.534094'
+run <- 'sisepuede_summary_results_run_sisepuede_run_2026-05-10T13;25;55.848572'
 
 dir.output  <- paste0("ssp_modeling/ssp_run_output/",run,"/")
 #output.file <- "c585e7e9-e32f-4131-999b-ee7fc5ec014e.csv"
@@ -78,6 +78,7 @@ message(sprintf("=== Running post-processing for year_ref = %d ===", year_ref))
 
 # run the original steps (they read year_ref from the env)
 source('ssp_modeling/output_postprocessing/scr/LULUCF/run_script_baseline_run_new.r')
+source('ssp_modeling/output_postprocessing/scr/adjust_fgtv_entc.r')
 source('ssp_modeling/output_postprocessing/scr/LULUCF/data_prep_new_mapping_uganda.r')
 source('ssp_modeling/output_postprocessing/scr/LULUCF/data_prep_drivers.r')
 
@@ -87,6 +88,10 @@ source('ssp_modeling/output_postprocessing/scr/levers_table/#create levers table
 
 # Jobs table
 source('ssp_modeling/output_postprocessing/scr/levers_table/#create jobs table.r')
+
+
+
+
 
 
 
