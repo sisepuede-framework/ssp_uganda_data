@@ -446,17 +446,29 @@ _SECTOR_CODES = list(SECTOR_DISPLAY_NAMES.keys())
 _EMISSIONS_2019_CACHE: dict[str, float] | None = None
 
 
-def _load_sector_emissions_2019() -> dict[str, float]:
-    """Return per-sector MtCO2e for 2019 from the BAU-nearest S3 baseline run.
+_SECTOR_BASELINE_PATH = Path(__file__).parent.parent / "sector_baseline_2019.json"
 
-    Finds the LHS trial closest to BAU (all L=0.1, design_id=3) and reads
-    time_period=4 (year 2019 = 2015 + 4) from the S3 model_outputs.
-    Result is cached at module level.
+
+def _load_sector_emissions_2019() -> dict[str, float]:
+    """Return per-sector MtCO2e for 2019.
+
+    Tries the precomputed local file first (sector_baseline_2019.json).
+    Falls back to a live S3 fetch only if the file is missing, and caches
+    the result for the lifetime of the process.
     """
     global _EMISSIONS_2019_CACHE
     if _EMISSIONS_2019_CACHE is not None:
         return _EMISSIONS_2019_CACHE
 
+    if _SECTOR_BASELINE_PATH.exists():
+        with open(_SECTOR_BASELINE_PATH) as fh:
+            data = json.load(fh)
+        _EMISSIONS_2019_CACHE = data["emissions_2019"]
+        logger.info("Loaded 2019 sector baseline from local file")
+        return _EMISSIONS_2019_CACHE
+
+    # Local file missing — fall back to S3 (requires AWS credentials).
+    logger.warning("sector_baseline_2019.json not found, fetching from S3")
     from backend.services.s3_lookup import find_nearest_lhs_trial, get_model_outputs_row
 
     bau_l_values = {gid: BAU_L_DEFAULT for gid in range(1, 60)}

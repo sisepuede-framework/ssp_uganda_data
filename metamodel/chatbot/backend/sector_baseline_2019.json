@@ -1,0 +1,21 @@
+{
+  "emissions_2019": {
+    "agrc": 1.926,
+    "frst": -12.367,
+    "inen": 9.494,
+    "ippu": 2.377,
+    "lndu": 22.29,
+    "lsmm": 4.292,
+    "lvst": 22.944,
+    "scoe": 37.289,
+    "soil": 8.792,
+    "trns": 3.12,
+    "trww": 5.641,
+    "waso": 7.763
+  },
+  "primary_id": 298694,
+  "time_period": 4,
+  "year": 2019,
+  "generated_at": "2026-05-25T18:12:34.171972+00:00",
+  "note": "Static historical baseline. Re-run only if S3 run data changes."
+}

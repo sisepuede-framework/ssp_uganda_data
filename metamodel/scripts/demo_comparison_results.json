@@ -1,0 +1,164 @@
+{
+  "log_entry": {
+    "user_message": "What happens if there is a strong policy for clean cooking, an increase in reforestation, and better practices in agriculture?",
+    "ts": "2026-05-25T22:22:38.953597+00:00",
+    "latency_s": 21.07,
+    "lever_overrides": {
+      "34": 0.9,
+      "33": 0.9,
+      "31": 0.9,
+      "21": 0.9,
+      "19": 0.9,
+      "3": 0.9,
+      "4": 0.9,
+      "36": 0.9,
+      "2": 0.9,
+      "1": 0.9
+    },
+    "simulation_outputs": {
+      "emission_total_sum": 6978.605,
+      "2033_2037_mean_emission": 138.4959,
+      "2066_2070_mean_emission": 149.6741,
+      "2025_2035_mean_benefits": 2.8284,
+      "2025_2070_mean_benefits": 17.0323,
+      "2025_2035_mean_costs": 0.4286,
+      "2025_2070_mean_costs": 0.6715,
+      "2025_2035_max_costs_rel_to_gdp": 0.0044,
+      "2025_2070_max_costs_rel_to_gdp": 0.0051,
+      "2025_2035_cumulative_cost_rel_to_gdp": 0.0026,
+      "2025_2070_cumulative_cost_rel_to_gdp": 0.0015,
+      "emission_agrc_yr2030": 2.966,
+      "emission_agrc_yr2040": 3.803,
+      "emission_agrc_yr2050": 3.568,
+      "emission_agrc_yr2070": 4.106,
+      "emission_frst_yr2030": -12.194,
+      "emission_frst_yr2040": -15.953,
+      "emission_frst_yr2050": -18.67,
+      "emission_frst_yr2070": -17.513,
+      "emission_inen_yr2030": 8.643,
+      "emission_inen_yr2040": 5.829,
+      "emission_inen_yr2050": 5.452,
+      "emission_inen_yr2070": 5.376,
+      "emission_ippu_yr2030": 3.594,
+      "emission_ippu_yr2040": 3.951,
+      "emission_ippu_yr2050": 4.396,
+      "emission_ippu_yr2070": 4.642,
+      "emission_lndu_yr2030": 25.043,
+      "emission_lndu_yr2040": 17.021,
+      "emission_lndu_yr2050": 17.656,
+      "emission_lndu_yr2070": 39.502,
+      "emission_lsmm_yr2030": 5.973,
+      "emission_lsmm_yr2040": 8.759,
+      "emission_lsmm_yr2050": 9.886,
+      "emission_lsmm_yr2070": 12.976,
+      "emission_lvst_yr2030": 30.048,
+      "emission_lvst_yr2040": 43.124,
+      "emission_lvst_yr2050": 46.314,
+      "emission_lvst_yr2070": 63.558,
+      "emission_scoe_yr2030": 53.302,
+      "emission_scoe_yr2040": 35.019,
+      "emission_scoe_yr2050": 20.325,
+      "emission_scoe_yr2070": 6.145,
+      "emission_soil_yr2030": 11.707,
+      "emission_soil_yr2040": 9.673,
+      "emission_soil_yr2050": 7.758,
+      "emission_soil_yr2070": 16.199,
+      "emission_trns_yr2030": 5.994,
+      "emission_trns_yr2040": 11.415,
+      "emission_trns_yr2050": 14.331,
+      "emission_trns_yr2070": 15.205,
+      "emission_trww_yr2030": 10.117,
+      "emission_trww_yr2040": 16.604,
+      "emission_trww_yr2050": 21.818,
+      "emission_trww_yr2070": 37.064,
+      "emission_waso_yr2030": 8.251,
+      "emission_waso_yr2040": 10.028,
+      "emission_waso_yr2050": 12.346,
+      "emission_waso_yr2070": 14.598
+    },
+    "reply_snippet": "This three-pillar package delivers **dramatic long-term reductions in cooking/buildings and land use**, though national totals are partially offset by livestock growth. Here are the results:\n\n## Emissions Impact: Clean Cooking + Reforestation + Better Agriculture\n\n| Metric | BAU | Scenario | Change "
+  },
+  "xgboost_direct": {
+    "scenario": {
+      "emission_total_sum": 6978.605,
+      "2033_2037_mean_emission": 138.4959,
+      "2066_2070_mean_emission": 149.6741,
+      "2025_2035_mean_benefits": 2.8284,
+      "2025_2070_mean_benefits": 17.0323,
+      "2025_2035_mean_costs": 0.4286,
+      "2025_2070_mean_costs": 0.6715,
+      "2025_2035_max_costs_rel_to_gdp": 0.0044,
+      "2025_2070_max_costs_rel_to_gdp": 0.0051,
+      "2025_2035_cumulative_cost_rel_to_gdp": 0.0026,
+      "2025_2070_cumulative_cost_rel_to_gdp": 0.0015
+    },
+    "baseline": {
+      "emission_total_sum": 6855.3335,
+      "2033_2037_mean_emission": 135.5603,
+      "2066_2070_mean_emission": 152.3116,
+      "2025_2035_mean_benefits": 2.8275,
+      "2025_2070_mean_benefits": 17.0821,
+      "2025_2035_mean_costs": 0.4082,
+      "2025_2070_mean_costs": 0.6697,
+      "2025_2035_max_costs_rel_to_gdp": 0.0041,
+      "2025_2070_max_costs_rel_to_gdp": 0.0051,
+      "2025_2035_cumulative_cost_rel_to_gdp": 0.0025,
+      "2025_2070_cumulative_cost_rel_to_gdp": 0.0015
+    },
+    "comparison_pct": {
+      "emission_total_sum": 1.8,
+      "2033_2037_mean_emission": 2.17,
+      "2066_2070_mean_emission": -1.73,
+      "2025_2035_mean_benefits": 0.03,
+      "2025_2070_mean_benefits": -0.29,
+      "2025_2035_mean_costs": 5.0,
+      "2025_2070_mean_costs": 0.27,
+      "2025_2035_max_costs_rel_to_gdp": 7.32,
+      "2025_2070_max_costs_rel_to_gdp": 0.0,
+      "2025_2035_cumulative_cost_rel_to_gdp": 4.0,
+      "2025_2070_cumulative_cost_rel_to_gdp": 0.0
+    }
+  },
+  "lever_labels": {
+    "34": {
+      "name": "Building Fuel Mix Shift to Clean Fuels",
+      "sector": "Buildings"
+    },
+    "33": {
+      "name": "Biomass Cooking Stove Efficiency",
+      "sector": "Buildings"
+    },
+    "31": {
+      "name": "Building Heat Energy Demand Reduction",
+      "sector": "Buildings"
+    },
+    "21": {
+      "name": "Reforestation (Active Forest Expansion)",
+      "sector": "Land Use"
+    },
+    "19": {
+      "name": "Deforestation Reduction",
+      "sector": "Land Use"
+    },
+    "3": {
+      "name": "Conservation Agriculture (No-Till)",
+      "sector": "Agriculture"
+    },
+    "4": {
+      "name": "Crop Yield Improvement",
+      "sector": "Agriculture"
+    },
+    "36": {
+      "name": "Nitrogen Fertilizer Reduction",
+      "sector": "Agriculture"
+    },
+    "2": {
+      "name": "Agricultural Food Loss Reduction",
+      "sector": "Agriculture"
+    },
+    "1": {
+      "name": "Rice Paddy Methane Reduction",
+      "sector": "Agriculture"
+    }
+  }
+}
