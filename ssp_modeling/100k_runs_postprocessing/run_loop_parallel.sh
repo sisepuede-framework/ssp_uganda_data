@@ -2,9 +2,10 @@
 # run_loop_parallel.sh
 # Runs the 100k_run_postprocessing_parallel.py script for multiple DIR_ID values
 
-# Activate your conda environment (adjust path if needed)
-# source ~/anaconda3/etc/profile.d/conda.sh
-# conda activate ssp_la
+# Activate the conda environment (debe ser SIEMPRE ssp_uganda_env)
+source /opt/anaconda3/etc/profile.d/conda.sh
+conda activate ssp_uganda_env || { echo "ERROR: no se pudo activar ssp_uganda_env"; exit 1; }
+echo "Python en uso: $(which python)"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 LOG_DIR="${SCRIPT_DIR}/logs"
@@ -16,9 +17,72 @@ mkdir -p "$LOG_DIR"
 FAILED_IDS=()
 SUCCESS_IDS=()
 
-# Loop over the directory IDs you want to process
-# For a full run use: for i in {400..621}
-for i in 568 569 570 571 572 573 574 575 576 577 578 579 580 581 582 583 584 585 586 587 588 589 590 591 592 593 594 595 596 597 598 599 600 601 602 603 604 605 606 607 608 609 610 611 612 613 614 615 616 617 618 619 620 621 #{373..621}
+# --- AWS / run config (debe coincidir con el .py) ---
+AWS_PROFILE="alexa"
+BUCKET="sisepuede-data"
+RUN_ID="sisepuede_run_2026-05-30t21;35;56.244639"
+
+# --- Modo de corrida ---
+# Uso: bash run_loop_parallel.sh [emissions|cb]   (por defecto: emissions)
+#   emissions -> corre SOLO emisiones (--no-cb, rápido); "hecho" = decomposed_emissions_<id>
+#   cb        -> corre con costo-beneficio;             "hecho" = cba/cb_<id>
+MODE="${1:-emissions}"
+WORKERS=7
+
+if [ "$MODE" = "emissions" ]; then
+    PY_FLAGS="--no-cb"
+    DONE_LIST_URL="s3://${BUCKET}/run_database/${RUN_ID}/model_output_decomposed/region=uganda/"
+    DONE_GREP='decomposed_emissions_[0-9]+'
+    DONE_SED='s/decomposed_emissions_//'
+elif [ "$MODE" = "cb" ]; then
+    PY_FLAGS=""
+    DONE_LIST_URL="s3://${BUCKET}/run_database/${RUN_ID}/cba/region=uganda/"
+    DONE_GREP='cb_[0-9]+'
+    DONE_SED='s/cb_//'
+else
+    echo "ERROR: modo inválido '$MODE'. Usa 'emissions' o 'cb'."
+    exit 1
+fi
+echo "MODO: $MODE  |  flags python: '${PY_FLAGS:-(con CB)}'  |  workers: $WORKERS"
+
+# Deriva la lista de dir_ids directamente de S3 (NO son contiguos: hay huecos).
+# Cada subcarpeta model_output_<N> es una instancia a procesar.
+echo "Listando dir_ids desde S3…"
+ALL_DIR_IDS=$(aws s3 ls "s3://${BUCKET}/run_database/${RUN_ID}/model_output/region=uganda/" --profile "$AWS_PROFILE" \
+    | grep -oE 'model_output_[0-9]+' | sed 's/model_output_//' | sort -n)
+
+if [ -z "$ALL_DIR_IDS" ]; then
+    echo "ERROR: no se encontraron dir_ids en S3. Revisa RUN_ID/perfil/bucket."
+    exit 1
+fi
+
+# Lista los dir_ids YA procesados para este MODO (marca de "completado" en S3).
+echo "Listando dir_ids ya procesados para modo '$MODE'…"
+DONE_DIR_IDS=$(aws s3 ls "$DONE_LIST_URL" --profile "$AWS_PROFILE" \
+    | grep -oE "$DONE_GREP" | sed "$DONE_SED" | sort -n)
+
+# dir_ids pendientes = todos − ya procesados.
+# comm compara líneas como TEXTO, así que ambas listas deben venir con el mismo
+# orden lexicográfico; reordenamos el resultado a numérico al final.
+DIR_IDS=$(comm -23 <(echo "$ALL_DIR_IDS" | sort) <(echo "$DONE_DIR_IDS" | sort) | sort -n)
+
+TOTAL_ALL=$(echo "$ALL_DIR_IDS" | grep -c .)
+TOTAL_DONE=$(echo "$DONE_DIR_IDS" | grep -c .)
+TOTAL_PENDING=$(echo "$DIR_IDS" | grep -c .)
+echo "Total instancias: ${TOTAL_ALL} | ya procesadas (${MODE}): ${TOTAL_DONE} | pendientes: ${TOTAL_PENDING}"
+
+# Guarda la lista de pendientes de este modo a un archivo (referencia / reanudación)
+PENDING_FILE="${LOG_DIR}/pending_${MODE}_${TIMESTAMP}.txt"
+echo "$DIR_IDS" > "$PENDING_FILE"
+echo "Lista de pendientes guardada en: $PENDING_FILE"
+
+if [ -z "$DIR_IDS" ]; then
+    echo "Nada pendiente para modo '$MODE': todas las instancias ya tienen salida."
+    exit 0
+fi
+
+# Loop over the directory IDs found in S3
+for i in $DIR_IDS
 do
     RUN_LOG="${LOG_DIR}/dir_id_${i}_${TIMESTAMP}.txt"
 
@@ -28,10 +92,22 @@ do
     echo "==========================================="
 
     # Run the Python script — output goes to console AND individual log file
-    python "${SCRIPT_DIR}/100k_run_postprocessing_parallel.py" --dir-id "$i" --workers 6 2>&1 | tee "$RUN_LOG"
+    python "${SCRIPT_DIR}/100k_run_postprocessing_parallel.py" --dir-id "$i" --workers "$WORKERS" $PY_FLAGS 2>&1 | tee "$RUN_LOG"
     EXIT_CODE=${PIPESTATUS[0]}
 
     if [ $EXIT_CODE -ne 0 ]; then
+        # Si el fallo es por credenciales/token de AWS expirado, ABORTAR todo el loop
+        # (si no, quemaría todas las instancias restantes fallando en segundos).
+        if grep -qE "TokenRetrievalError|ExpiredToken|InvalidGrantException|Token has expired|Unable to locate credentials" "$RUN_LOG"; then
+            echo ""
+            echo "############################################################"
+            echo "ABORTANDO: credenciales de AWS expiradas en DIR_ID=$i."
+            echo "Renueva con:  aws sso login --profile ${AWS_PROFILE}"
+            echo "Luego vuelve a lanzar el script; retomará donde quedó."
+            echo "############################################################"
+            FAILED_IDS+=("$i")
+            break
+        fi
         echo "WARNING: DIR_ID=$i failed (exit code $EXIT_CODE). Continuing to next..."
         FAILED_IDS+=("$i")
     else

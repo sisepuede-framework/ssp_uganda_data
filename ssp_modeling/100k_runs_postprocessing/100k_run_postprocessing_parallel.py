@@ -382,16 +382,19 @@ PROC_STATE = {
     "attribute_strategy_df":    None,
     "baseline_decomposed_df":   None,
     "canonical_emission_cols":  None,
+    "NO_CB":                    False,
 }
 
 def worker_init(
     pid_cache_dir: str,
     cache_dir: str,
     config_dir: str,
+    no_cb: bool = False,
 ):
     """Runs once per worker process. Loads shared data into memory; per-pid data is read per task."""
     PROC_STATE["PID_CACHE_DIR"] = pid_cache_dir
     PROC_STATE["CONFIG_DIR"]    = config_dir
+    PROC_STATE["NO_CB"]         = no_cb
     # Load shared tables once per worker process (not once per task)
     PROC_STATE["attribute_primary_df"]   = pd.read_pickle(os.path.join(cache_dir, "attribute_primary_df.pkl"))
     PROC_STATE["attribute_strategy_df"]  = pd.read_pickle(os.path.join(cache_dir, "attribute_strategy_df.pkl"))
@@ -403,21 +406,24 @@ def worker_init(
     # Patch CostBenefits.initialize_session to use a per-process unique tmp DB file.
     # The default implementation writes to a single shared tmp_cb_data.db; when multiple
     # worker processes run concurrently they overwrite each other → "malformed" / "no such table".
-    import inspect as _inspect, shutil as _shutil
-    from sqlalchemy import create_engine as _create_engine
-    from sqlalchemy.orm import sessionmaker as _sessionmaker
-    from costs_benefits_ssp.cb_calculate import CostBenefits as _CB
+    # Skipped entirely in --no-cb mode so emissions-only runs don't require the
+    # costs_benefits_ssp package to be installed in the active environment.
+    if not no_cb:
+        import inspect as _inspect, shutil as _shutil
+        from sqlalchemy import create_engine as _create_engine
+        from sqlalchemy.orm import sessionmaker as _sessionmaker
+        from costs_benefits_ssp.cb_calculate import CostBenefits as _CB
 
-    def _per_process_initialize_session(self):
-        _lib_dir = os.path.dirname(os.path.abspath(_inspect.getfile(type(self))))
-        _src_db  = os.path.join(_lib_dir, "database", "backup", "cb_data.db")
-        _tmp_db  = os.path.join(_lib_dir, "database", f"tmp_cb_data_{os.getpid()}.db")
-        _shutil.copyfile(_src_db, _tmp_db)
-        _engine  = _create_engine(f"sqlite:///{_tmp_db}")
-        _Session = _sessionmaker(bind=_engine)
-        return _Session()
+        def _per_process_initialize_session(self):
+            _lib_dir = os.path.dirname(os.path.abspath(_inspect.getfile(type(self))))
+            _src_db  = os.path.join(_lib_dir, "database", "backup", "cb_data.db")
+            _tmp_db  = os.path.join(_lib_dir, "database", f"tmp_cb_data_{os.getpid()}.db")
+            _shutil.copyfile(_src_db, _tmp_db)
+            _engine  = _create_engine(f"sqlite:///{_tmp_db}")
+            _Session = _sessionmaker(bind=_engine)
+            return _Session()
 
-    _CB.initialize_session = _per_process_initialize_session
+        _CB.initialize_session = _per_process_initialize_session
 
 
 
@@ -479,6 +485,11 @@ def run_decomposition_worker(
         # Add future_id to emissions for traceability (if available)
         if future_id is not None:
             emissions_df["future_id"] = future_id
+
+        # Fast path: emissions-only run (CB disabled via --no-cb). Skips the
+        # expensive CostBenefits computation entirely — emissions still uploaded.
+        if PROC_STATE.get("NO_CB"):
+            return primary_id_to_decompose, emissions_df, None, None
 
         # --- Cost Benefits (optional — skipped when strategy_code unavailable) ---
         if strategy_code is None:
@@ -546,6 +557,7 @@ def main():
     parser.add_argument("--profile", default=None, help="AWS profile name (overrides YAML)")
     parser.add_argument("--run-id", default=None, help="Override RUN_ID (else use value in script)")
     parser.add_argument("--keep-tmp", action="store_true", help="Keep files in tmp/ (skip cleanup)")
+    parser.add_argument("--no-cb", action="store_true", help="Skip cost-benefit calculation (emissions only — much faster)")
     args = parser.parse_args()
 
     # Paths
@@ -573,7 +585,7 @@ def main():
     BUCKET_NAME  = aws_config["bucket_name"]
 
     # RUN/Prefixes
-    RUN_ID              = args.run_id or "sisepuede_run_2026-03-10t13;27;53.264959"
+    RUN_ID              = args.run_id or "sisepuede_run_2026-05-30t21;35;56.244639"
     RUN_DB_PREFIX       = f'run_database/{RUN_ID}/'
     MODEL_OUTPUT_PREFIX = f'{RUN_DB_PREFIX}model_output/region=uganda/model_output_{args.dir_id}/'
     MODEL_INPUT_PREFIX  = f'{RUN_DB_PREFIX}model_input/region=uganda/model_input_{args.dir_id}/'
@@ -581,7 +593,7 @@ def main():
 
     # Decomposition params
     TARGET_COUNTRY            = "UGA"
-    EMISSION_TARGETS_CSV_PATH = os.path.join(CW_DIR_PATH, 'emission_targets_uganda_2019_LULUCF.csv')
+    EMISSION_TARGETS_CSV_PATH = os.path.join(CW_DIR_PATH, 'emission_targets_uganda_2019.csv')
     TIME_PERIOD_REF           = 4
     S3_DECOMPOSED_DIR_PREFIX  = f"{RUN_DB_PREFIX}model_output_decomposed/"
     S3_CB_DIR_PREFIX          = f"{RUN_DB_PREFIX}cba/"
@@ -720,8 +732,11 @@ def main():
         PID_CACHE_DIR,
         CACHE_DIR,
         CONFIG_DIR_PATH,
+        args.no_cb,
     )
 
+    if args.no_cb:
+        logger.info("CB DISABLED (--no-cb): emissions-only fast run.")
     logger.info(f"Starting pool with {args.workers} workers…")
     with mp.get_context("spawn").Pool(
         processes=args.workers,
