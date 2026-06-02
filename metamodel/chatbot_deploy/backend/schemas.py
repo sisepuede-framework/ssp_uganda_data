@@ -53,6 +53,8 @@ class SimulationResponse(BaseModel):
     comparison: dict[str, float] | None = None
     # Sector-level breakdown from SectorPredictor — used by the stacked area chart
     sector_comparison: dict | None = None
+    # Cost/benefit disaggregated by year × type — used by the diverging bar chart
+    cost_benefit_comparison: dict | None = None
 
 
 # ── Chat ────────────────────────────────────────────────────────────────────

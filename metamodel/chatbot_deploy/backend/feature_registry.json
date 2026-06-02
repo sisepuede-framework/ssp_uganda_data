@@ -2175,89 +2175,35 @@
       },
       "policy_context": "Represents Uganda's long-term emission pathway at near-full policy implementation. Wide range (62–206 Mt/yr) shows transformative impact of ambitious vs. weak policies."
     },
-    "2025_2035_mean_benefits": {
-      "display_name": "Near-Term Annual Co-Benefits (2025–2035 average)",
-      "unit": "Billion USD per year",
-      "description": "Average annual monetary value of non-climate co-benefits from 2025–2035: air quality improvements, health benefits, reduced congestion, and avoided health costs.",
+    "annual_benefits_by_year": {
+      "display_name": "Annual Co-Benefits by Year (2030/2040/2050/2070)",
+      "unit": "Billion USD per year (positive)",
+      "description": "Total annual monetary co-benefits at each reporting year, disaggregated into 14 types (air quality, human health, congestion, road safety, consumer/technical savings, crop/livestock/industrial value, ecosystem services, and pollution reductions).",
       "training_range": {
-        "min": 2.77,
-        "max": 3.34
+        "min": 2.6794,
+        "max": 64.9711
       },
-      "policy_context": "Co-benefits often exceed mitigation costs. A near-term focus on co-benefits (especially air pollution and health) can build political support for climate action."
+      "policy_context": "Co-benefits grow over time and typically dwarf implementation costs, underpinning the economic case for action."
     },
-    "2025_2070_mean_benefits": {
-      "display_name": "Long-Term Annual Co-Benefits (2025–2070 average)",
-      "unit": "Billion USD per year",
-      "description": "Average annual monetary value of co-benefits across the full 2025–2070 period.",
+    "annual_costs_by_year": {
+      "display_name": "Annual Implementation Costs by Year (2030/2040/2050/2070)",
+      "unit": "Billion USD per year (negative = net cost)",
+      "description": "Total annual implementation cost at each reporting year, disaggregated into technical, system, and fuel costs. Stored as negative values (cash outflow).",
       "training_range": {
-        "min": 16.47,
-        "max": 25.03
+        "min": -3.3153,
+        "max": -0.045
       },
-      "policy_context": "Over the full period, co-benefits range from 16–25 billion USD/year, dwarfing implementation costs. This is a powerful argument for ambitious climate policy."
+      "policy_context": "Annual costs are modest in absolute terms and small as a share of GDP; some years show net savings."
     },
-    "2025_2035_mean_costs": {
-      "display_name": "Near-Term Annual Implementation Costs (2025–2035 average)",
-      "unit": "Billion USD per year",
-      "description": "Average annual cost of implementing climate policies from 2025–2035, including both technical and system costs.",
-      "training_range": {
-        "min": 0.39,
-        "max": 0.52
-      },
-      "policy_context": "Near-term costs are modest (0.39–0.52 billion USD/year) relative to co-benefits (2.77–3.34 billion USD/year), suggesting a strong economic case for early action."
-    },
-    "2025_2070_mean_costs": {
-      "display_name": "Long-Term Annual Implementation Costs (2025–2070 average)",
-      "unit": "Billion USD per year",
-      "description": "Average annual cost of implementing climate policies over the full 2025–2070 period.",
-      "training_range": {
-        "min": 0.56,
-        "max": 1.62
-      },
-      "policy_context": "Long-term costs vary significantly (0.56–1.62 billion/year) depending on ambition level. Even at maximum, costs represent a small fraction of projected GDP."
-    },
-    "2025_2035_max_costs_rel_to_gdp": {
-      "display_name": "Peak Near-Term Cost as % of GDP (2025–2035)",
+    "cost_pct_gdp_by_year": {
+      "display_name": "Annual Cost as % of GDP by Year (2030/2040/2050/2070)",
       "unit": "% of GDP",
-      "description": "Maximum single-year implementation cost as a fraction of GDP in the 2025–2035 period. Model outputs this as a decimal fraction (e.g. 0.003 = 0.3%). The UI multiplies by 100 for display.",
+      "description": "Absolute total annual implementation cost divided by GDP at each reporting year.",
       "training_range": {
-        "min": 0.002848,
-        "max": 0.005367
+        "min": 0.0081,
+        "max": 0.7137
       },
-      "display_multiplier": 100,
-      "policy_context": "Even at maximum ambition, peak costs are under 0.54% of GDP in the near term — comparable to international climate finance commitments."
-    },
-    "2025_2070_max_costs_rel_to_gdp": {
-      "display_name": "Peak Long-Term Cost as % of GDP (2025–2070)",
-      "unit": "% of GDP",
-      "description": "Maximum single-year implementation cost as a fraction of GDP across the full 2025–2070 period. Model outputs as decimal fraction.",
-      "training_range": {
-        "min": 0.00336,
-        "max": 0.007137
-      },
-      "display_multiplier": 100,
-      "policy_context": "Long-term peak cost reaches at most 0.71% of GDP — well within the range of what Uganda could finance with domestic revenues plus international climate finance."
-    },
-    "2025_2035_cumulative_cost_rel_to_gdp": {
-      "display_name": "Cumulative Near-Term Cost as % of GDP (2025–2035)",
-      "unit": "% of GDP",
-      "description": "Total cumulative implementation costs from 2025–2035 expressed as fraction of annual GDP. Model outputs as decimal fraction.",
-      "training_range": {
-        "min": 0.002002,
-        "max": 0.003095
-      },
-      "display_multiplier": 100,
-      "policy_context": "Cumulative costs of 0.20–0.31% of GDP over 10 years represent a manageable public investment, particularly given access to international climate finance."
-    },
-    "2025_2070_cumulative_cost_rel_to_gdp": {
-      "display_name": "Cumulative Long-Term Cost as % of GDP (2025–2070)",
-      "unit": "% of GDP",
-      "description": "Total cumulative implementation costs from 2025–2070 expressed as fraction of annual GDP. Model outputs as decimal fraction.",
-      "training_range": {
-        "min": 0.001178,
-        "max": 0.003978
-      },
-      "display_multiplier": 100,
-      "policy_context": "Over the full 45-year period, cumulative costs decline as a GDP fraction because Uganda's economy grows faster than costs. This confirms the long-term affordability of ambitious climate action."
+      "policy_context": "Implementation cost stays well under ~1% of GDP across scenarios and years."
     }
   },
   "preset_scenarios": {

@@ -488,7 +488,7 @@
         <td><code>5a</code></td>
         <td><span class="tag green">Tool: run_simulation</span></td>
         <td><span class="filepath">agent.py → predictor.py</span></td>
-        <td>Claude calls <code>run_simulation</code> with <code>lever_overrides</code> and <code>exogenous_overrides</code>. Predictor builds 92-feature vector → XGBoost returns <strong>11 aggregate outputs</strong> (emissions, costs, co-benefits). A second sector predictor returns <strong>48 sector values</strong> (12 sectors × 4 time points: 2030/2040/2050/2070) for the stacked chart. BAU baseline also runs for comparison.</td>
+        <td>Claude calls <code>run_simulation</code> with <code>lever_overrides</code> and <code>exogenous_overrides</code>. The single sector predictor builds a 68-feature named DataFrame → XGBoost returns <strong>123 outputs</strong>: 3 emission aggregates, 48 sector×year emissions (for the stacked chart), and cost/benefit disaggregated by type × year + per-year GDP (for the diverging bar chart). BAU baseline also runs for comparison.</td>
       </tr>
       <tr>
         <td><code>5b</code></td>
@@ -830,22 +830,21 @@ Simulation structure: key finding → table → main driver → chart block.</di
 <!-- ═══════════════════════════════════════════════════════ TAB 4: SURROGATE -->
 <div class="tab-pane" id="tab-surrogate">
   <h2>Surrogate Model</h2>
-  <p class="lead">Two separate XGBoost models: a <strong>main aggregate model</strong> (1,933 scenarios → 11 outputs) and a <strong>sector model</strong> (1,840 scenarios after outlier removal → 48 sector×year outputs). Both approximate SISEPUEDE in milliseconds.</p>
+  <p class="lead">A single XGBoost <strong>sector model</strong> (1,840 scenarios after outlier removal → 123 outputs) serves everything: 3 emission aggregates, 48 sector×year emissions, cost &amp; benefit disaggregated by type × year (14 benefit + 3 cost types), and per-year GDP — all for 2030/2040/2050/2070. It approximates SISEPUEDE in milliseconds.</p>
 
   <div class="stats">
-    <div class="stat"><div class="num">1,933</div><div class="lbl">Main model scenarios</div></div>
-    <div class="stat"><div class="num">1,840</div><div class="lbl">Sector model scenarios</div></div>
+    <div class="stat"><div class="num">1,840</div><div class="lbl">Training scenarios</div></div>
     <div class="stat"><div class="num">92</div><div class="lbl">Input features</div></div>
     <div class="stat"><div class="num">83</div><div class="lbl">L (lever) features</div></div>
     <div class="stat"><div class="num">9</div><div class="lbl">X (exogenous) features</div></div>
     <div class="stat"><div class="num">59</div><div class="lbl">Total outputs</div></div>
-    <div class="stat"><div class="num">11</div><div class="lbl">Aggregate (main model)</div></div>
+    <div class="stat"><div class="num">11</div><div class="lbl">Aggregate metrics</div></div>
     <div class="stat"><div class="num">48</div><div class="lbl">Sector × year (12×4)</div></div>
   </div>
 
   <h3>Model File</h3>
-  <p><span class="filepath">metamodel/surrogate_model/trained_models/xgb_pipeline_2025-11-12t22;19;28.194097.pkl</span></p>
-  <p>Loaded at server startup via <code>joblib.load()</code>. Wrapped in a <code>SurrogatePredictor</code> singleton (<span class="filepath">backend/services/predictor.py</span>).</p>
+  <p><span class="filepath">metamodel/surrogate_model_sector/trained_models/xgb_pipeline_sector_independent_2025-11-12t22;19;28.194097.pkl</span></p>
+  <p>Loaded once at server startup via <code>joblib.load()</code>, wrapped in a <code>SectorPredictor</code> singleton (<span class="filepath">backend/services/predictor.py</span>). The predictor feeds the pipeline a <strong>named DataFrame</strong> so features align by name (via <code>feature_names_in_</code>) rather than position. Target column order and the aggregate-metric training distributions (for the "percentile in training" display) come from <span class="filepath">backend/target_distributions.json</span> — the training parquet is not loaded at runtime.</p>
 
   <h3>Feature Space</h3>
 
@@ -961,7 +960,7 @@ T is the TARGET at 2070, not an immediate jump.</code></pre>
   </div>
 
   <h3>XGBoost Model Variants — Comparison</h3>
-  <p>Two variants of the <strong>sector model</strong> were trained and evaluated on a held-out test set (N = 368, from 1,840 cleaned scenarios). The sector model outputs 48 sector×year targets (12 sectors × 4 time points) plus 11 aggregate metrics = 59 total — only the 48 sector×year values are used in production (the main model handles the 11 aggregates).</p>
+  <p>Two variants of the <strong>sector model</strong> were originally trained and evaluated on a held-out test set (N = 368, from 1,840 cleaned scenarios). The R² figures below are from that original 59-target comparison used to <em>select</em> the architecture (MultiOutputRegressor, Variant A). The deployed model was later extended to 123 targets (adding disaggregated cost/benefit + per-year GDP); on the current model mean R² across all 123 targets is ~0.98.</p>
 
   <div class="card-row">
     <div class="card">
@@ -1066,7 +1065,7 @@ T is the TARGET at 2070, not an immediate jump.</code></pre>
 
   <div class="callout">
     <strong>Sector model file:</strong> <span class="filepath">surrogate_model_sector/trained_models/xgb_pipeline_sector_independent_2025-11-12t22;19;28.194097.pkl</span><br>
-    Trained on <strong>1,840 scenarios</strong> (1,933 raw minus 93 zscore outliers). Predicts 59 targets: 11 aggregate metrics + 48 sector×year breakdowns (12 sectors × 4 time points: 2030, 2040, 2050, 2070). Only the 48 sector×year values are consumed by <code>SectorPredictor</code> — the 11 aggregate outputs are predicted but discarded (handled by the main model).
+    Trained on <strong>1,840 scenarios</strong> (1,933 raw minus 93 zscore outliers). Predicts 123 targets: 3 emission aggregates + 48 sector×year emissions + cost/benefit disaggregated by type × year (14 benefit + 3 cost types) + per-year GDP (years 2030/2040/2050/2070). All are consumed by <code>SectorPredictor</code> — emissions drive the headline metrics + stacked-area chart, and the disaggregated cost/benefit drive the diverging bar chart (with cost-as-%-of-GDP derived from the GDP targets).
   </div>
 
   <h3>Output Metrics (11)</h3>
@@ -1115,15 +1114,16 @@ group_values.update({gid: -1.0 for gid in range(60, 69)})  # X groups
 # 4. Apply locked_overrides from UI sliders (always win)
 
 # 5. Map group_id → training column name via feature_registry.json
-# 6. Build ordered vector matching model.feature_names_in_ exactly
-X = np.array([vector[col] for col in feature_columns]).reshape(1, -1)
-predictions = model.predict(X)[0]   # shape: (11,)</code></pre>
+# 6. Build a NAMED one-row DataFrame; the pipeline aligns columns by name
+#    (feature_columns = model.feature_names_in_) — never by position.
+X = pd.DataFrame([vector])[feature_columns]
+predictions = model.predict(X)[0]   # shape: (123,) — emissions + sector×year + cost/benefit/GDP</code></pre>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════ TAB 5: AWS -->
 <div class="tab-pane" id="tab-aws">
   <h2>AWS &amp; Data Layer</h2>
-  <p class="lead">The chatbot reads from S3 for variable-level detail lookups. The surrogate model and training data are local files. AWS credentials use the <code>alexa</code> SSO profile.</p>
+  <p class="lead">The chatbot reads from S3 for variable-level detail lookups. The surrogate model is a local file. AWS credentials use the <code>alexa</code> SSO profile.</p>
 
   <h3>AWS Configuration</h3>
   <table>
@@ -1172,14 +1172,14 @@ predictions = model.predict(X)[0]   # shape: (11,)</code></pre>
     <thead><tr><th>File</th><th>Required</th><th>Purpose</th></tr></thead>
     <tbody>
       <tr>
-        <td><span class="filepath">chatbot_deploy/training.parquet</span></td>
+        <td><span class="filepath">chatbot_deploy/backend/target_distributions.json</span></td>
         <td><span class="tag">Required</span></td>
-        <td>1,933-row training dataset. Used at startup to load feature column order and compute target percentiles for the "percentile in training" display.</td>
+        <td>Sidecar generated by <span class="filepath">scripts/build_target_distributions.py</span>: target column order + aggregate-metric training distributions for the "percentile in training" display. Replaces the runtime training-parquet load.</td>
       </tr>
       <tr>
-        <td><span class="filepath">surrogate_model/trained_models/xgb_pipeline_2025-11-12t22;19;28.194097.pkl</span></td>
+        <td><span class="filepath">surrogate_model_sector/trained_models/xgb_pipeline_sector_independent_2025-11-12t22;19;28.194097.pkl</span></td>
         <td><span class="tag">Required</span></td>
-        <td>Trained XGBoost MultiOutputRegressor pipeline. Loaded via <code>joblib.load()</code>.</td>
+        <td>Trained XGBoost MultiOutputRegressor sector pipeline (123 targets). Loaded via <code>joblib.load()</code>; feature order read from <code>feature_names_in_</code>.</td>
       </tr>
       <tr>
         <td><span class="filepath">chatbot_deploy/backend/feature_registry.json</span></td>

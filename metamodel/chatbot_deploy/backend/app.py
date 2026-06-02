@@ -14,7 +14,7 @@ POST /api/chat                  → LLM agent: translates message → simulation
 Adding a new endpoint
 ---------------------
 1. Define your route function here.
-2. Use the predictor via `get_predictor()` or the agent via `agent.run()`.
+2. Use the predictor via `get_sector_predictor()` or the agent via `agent.run()`.
 3. Add a Pydantic schema in schemas.py if you have new request/response shapes.
 """
 
@@ -32,7 +32,7 @@ from fastapi.staticfiles import StaticFiles
 from backend.config import settings
 from backend import schemas
 from backend.services import agent
-from backend.services.predictor import get_predictor
+from backend.services.predictor import get_sector_predictor
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger(__name__)
@@ -103,7 +103,7 @@ async def startup_event():
     """Pre-load the surrogate model at startup to avoid cold-start latency."""
     logger.info("Loading surrogate model...")
     try:
-        get_predictor()
+        get_sector_predictor()
         logger.info("Surrogate model loaded and ready.")
     except Exception as e:
         logger.error("Failed to load surrogate model: %s", e)
@@ -116,7 +116,7 @@ async def startup_event():
 def health_check():
     """Returns server status and whether the model is loaded."""
     try:
-        predictor = get_predictor()
+        predictor = get_sector_predictor()
         model_ok = predictor is not None
     except Exception:
         model_ok = False
@@ -136,7 +136,7 @@ def get_features():
     descriptions, sectors, and value semantics.
     Use this to dynamically render sliders or dropdowns in the UI.
     """
-    predictor = get_predictor()
+    predictor = get_sector_predictor()
     return predictor.get_feature_info()
 
 
@@ -180,15 +180,27 @@ def simulate(request: schemas.SimulationRequest):
         "compare_to_baseline": true
     }
     """
-    predictor = get_predictor()
+    predictor = get_sector_predictor()
     try:
         if request.compare_to_baseline:
-            result = predictor.predict_comparison(
+            sim = predictor.predict_comparison(
                 lever_overrides=request.lever_overrides,
                 exogenous_overrides=request.exogenous_overrides,
                 preset_scenario=request.preset_scenario,
                 scenario_name=request.scenario_name,
             )
+            result = {
+                "scenario": sim["scenario"],
+                "baseline": sim["baseline"],
+                "comparison": sim["comparison"],
+                "sector_comparison": sim,
+                "cost_benefit_comparison": {
+                    "years": [2030, 2040, 2050, 2070],
+                    "scenario": sim["scenario"]["cost_benefit"],
+                    "baseline": sim["baseline"]["cost_benefit"],
+                    "deltas": sim["cost_benefit_deltas"],
+                },
+            }
         else:
             scenario = predictor.predict(
                 lever_overrides=request.lever_overrides,

@@ -31,7 +31,7 @@ import anthropic
 
 from backend.config import settings
 from backend.services.context import get_country_context
-from backend.services.predictor import get_predictor, get_sector_predictor, SECTOR_DISPLAY_NAMES
+from backend.services.predictor import get_sector_predictor, SECTOR_DISPLAY_NAMES
 from backend.services.s3_lookup import (
     get_scenario_outcomes,
     get_strategy_l_values,
@@ -39,6 +39,18 @@ from backend.services.s3_lookup import (
 )
 
 logger = logging.getLogger(__name__)
+
+# ── Predefined "standard" pathways (triage category A) ───────────────────────
+# These are the pathways the bot may run by name without the user specifying
+# levers. To expose a new one (e.g. NDC2, NDC3, Conditional, Unconditional):
+#   1. Add an entry here (preset key → one-line description), AND
+#   2. Add a matching preset in predictor.PRESET_DEFAULTS (+ any per-group
+#      overrides, like NETZERO_L_OVERRIDES).
+# The A-vs-B triage test is simply: "is the requested pathway in this dict?"
+PREDEFINED_PATHWAYS: dict[str, str] = {
+    "bau":     "Business as Usual — minimal policy action (all levers at baseline)",
+    "netzero": "Net Zero — Uganda's calibrated maximum-ambition strategy",
+}
 
 # ── Tool definitions ─────────────────────────────────────────────────────────
 # Claude uses these to understand what it can call and with what parameters.
@@ -51,7 +63,10 @@ TOOLS: list[dict] = [
             "Run the Uganda climate surrogate model for a specific policy scenario. "
             "Call this whenever the user asks 'what would happen if...', wants to "
             "compare scenarios, or requests a simulation. "
-            "Returns predictions for 11 emission, cost, and co-benefit metrics. "
+            "Returns, vs a BAU baseline: emission metrics (total cumulative 2025–2070, "
+            "near-term 2033–37 and long-term 2066–70 averages), per-sector emissions for "
+            "2030/2040/2050/2070, and cost & benefit disaggregated by type and year "
+            "(with per-year totals, net, and cost/benefit as % of GDP). "
             "You may call this tool multiple times in one response (e.g., to compare "
             "two different policy combinations)."
         ),
@@ -208,7 +223,6 @@ def run(
     """
     locked_overrides = locked_overrides or {}
     tool_calls_log: list[dict] = []
-    predictor = get_predictor()
     sector_predictor = get_sector_predictor()
     # Pass None if key is empty so the Anthropic client falls back to the
     # ANTHROPIC_API_KEY environment variable (set via shell or .env file).
@@ -263,7 +277,6 @@ def run(
                 tool_result, sim_data, interp = _execute_tool_call(
                     tool_block.name,
                     tool_block.input,
-                    predictor,
                     sector_predictor,
                     locked_overrides,
                 )
@@ -304,7 +317,6 @@ def run(
 def _execute_tool_call(
     tool_name: str,
     tool_input: dict,
-    predictor,
     sector_predictor,
     locked_overrides: dict[int, float],
 ) -> tuple[dict, dict | None, dict | None]:
@@ -316,7 +328,7 @@ def _execute_tool_call(
     interpretation    : what levers were changed and why (for the UI)
     """
     if tool_name == "run_simulation":
-        return _run_simulation_tool(tool_input, predictor, sector_predictor, locked_overrides)
+        return _run_simulation_tool(tool_input, sector_predictor, locked_overrides)
 
     if tool_name == "get_scenario_variables":
         return _get_scenario_variables_tool(tool_input)
@@ -333,7 +345,6 @@ def _execute_tool_call(
 
 def _run_simulation_tool(
     inputs: dict,
-    predictor,
     sector_predictor,
     locked_overrides: dict[int, float],
 ) -> tuple[dict, dict, dict]:
@@ -375,41 +386,38 @@ def _run_simulation_tool(
         elif 60 <= gid <= 68:
             exogenous_overrides[gid] = val
 
-    # Run the model
+    # Run the model. A single sector pipeline produces both the 11 aggregate
+    # metrics and the per-sector trajectories, so one call covers everything.
+    sim = sector_predictor.predict_comparison(
+        lever_overrides=lever_overrides,
+        exogenous_overrides=exogenous_overrides,
+        preset_scenario="bau",
+        scenario_name=scenario_name,
+    )
+
     if compare:
-        result = predictor.predict_comparison(
-            lever_overrides=lever_overrides,
-            exogenous_overrides=exogenous_overrides,
-            preset_scenario="bau",
-            scenario_name=scenario_name,
-        )
+        result = {
+            "scenario": sim["scenario"],
+            "baseline": sim["baseline"],
+            "comparison": sim["comparison"],
+        }
     else:
-        scenario = predictor.predict(
-            lever_overrides=lever_overrides,
-            exogenous_overrides=exogenous_overrides,
-            preset_scenario="bau",
-            scenario_name=scenario_name,
-        )
-        result = {"scenario": scenario, "baseline": None, "comparison": None}
+        result = {"scenario": sim["scenario"], "baseline": None, "comparison": None}
 
-    # Run sector-level prediction with the same overrides
-    try:
-        sector_result = sector_predictor.predict_comparison(
-            lever_overrides=lever_overrides,
-            exogenous_overrides=exogenous_overrides,
-            preset_scenario="bau",
-            scenario_name=scenario_name,
-        )
-    except Exception as exc:
-        logger.warning("Sector predictor failed (non-fatal): %s", exc)
-        sector_result = None
+    # Attach the full sector bundle so the frontend can render the stacked
+    # area chart (it reads sector_deltas / scenario / baseline trajectories).
+    result["sector_comparison"] = sim
 
-    # Attach sector data to result so the frontend can render the stacked area chart
-    if sector_result:
-        result["sector_comparison"] = sector_result
+    # Attach a self-contained cost/benefit bundle for the diverging bar chart.
+    result["cost_benefit_comparison"] = {
+        "years": [2030, 2040, 2050, 2070],
+        "scenario": sim["scenario"]["cost_benefit"],
+        "baseline": sim["baseline"]["cost_benefit"],
+        "deltas": sim["cost_benefit_deltas"],
+    }
 
     # Build a concise summary for Claude to narrate from
-    summary = _build_result_summary(result, sector_result)
+    summary = _build_result_summary(result, sim)
 
     interpretation = {
         "lever_overrides": lever_overrides,
@@ -556,6 +564,20 @@ def _build_result_summary(result: dict, sector_result: dict | None = None) -> di
                     }
         summary["sector_breakdown"] = sector_breakdown
 
+        # Per-year cost/benefit totals + cost-as-%-of-GDP for narration.
+        cb_deltas = sector_result.get("cost_benefit_deltas", {})
+        if cb_deltas:
+            cost_benefit: dict[str, Any] = {}
+            for year, d in cb_deltas.items():
+                cost_benefit[str(year)] = {
+                    "total_benefit_bn_usd": d["benefit_scenario"],
+                    "total_cost_bn_usd": d["cost_scenario"],
+                    "net_bn_usd": d["net_scenario"],
+                    "cost_pct_gdp": d["cost_pct_gdp_scenario"],
+                    "bau_net_bn_usd": d["net_bau"],
+                }
+            summary["cost_benefit_by_year"] = cost_benefit
+
     return summary
 
 
@@ -609,11 +631,52 @@ def _build_system_prompt() -> str:
             f"    Policy context: {meta['policy_context']}"
         )
 
+    # Predefined "standard" pathways available today (triage category A).
+    pathway_lines = "\n".join(f"  - {k}: {desc}" for k, desc in PREDEFINED_PATHWAYS.items())
+
     prompt = f"""You are an AI policy simulation assistant for Uganda's National Climate and Development Strategy.
 
 Your role is to help government officials, policymakers, and development partners understand how different policy choices and future economic conditions will affect Uganda's greenhouse gas emissions, implementation costs, and co-benefits between 2025 and 2070.
 
-You are powered by a machine learning surrogate model trained on 1933 climate-economic scenarios from SISEPUEDE — Uganda's integrated national climate modelling system. The model covers all major emission sectors: agriculture, energy, industry, land use, livestock, buildings, transport, waste, and water.
+You are powered by a machine learning surrogate model (the "metamodel") trained on 1933 climate-economic scenarios from SISEPUEDE — Uganda's integrated national climate modelling system. The model covers all major emission sectors: agriculture, energy, industry, land use, livestock, buildings, transport, waste, and water.
+
+## OBJECTIVE
+
+Your single objective is to help policymakers explore possible futures and their implications for Uganda's emissions and costs. Every interaction must serve that goal. If a request does not, say so plainly and steer back to what you can do.
+
+## WHAT YOU CAN AND CANNOT DO
+
+You CAN:
+- Adjust the 59 policy levers (L groups) and the 9 exogenous uncertainty factors (X groups) listed below.
+- Report, for any pathway you run, vs a BAU baseline:
+  - Emissions: total cumulative (2025–2070), near-term average (2033–2037), long-term average (2066–2070), and per-sector emissions at 2030/2040/2050/2070.
+  - Cost & benefit disaggregated by type and year (14 benefit types, 3 cost types) for 2030/2040/2050/2070, including per-year total benefit, total cost, net, and cost/benefit as a % of GDP.
+- Run the predefined standard pathways (see TRIAGE) and report Uganda's baseline situation via the get_country_context tool.
+
+You CANNOT (these are out of scope — decline them):
+- Anything for a country other than Uganda.
+- Metrics, variables, sectors, pollutants, or indicators the model does not output (only the emissions and cost/benefit outputs above exist).
+- Years or horizons outside 2025–2070, or annual detail beyond the reported years.
+- Policies or interventions that have no corresponding lever in the list below.
+- General knowledge, definitions, news, or advice unrelated to running and interpreting these pathways.
+
+## REQUEST TRIAGE
+
+Before answering ANY request, silently classify it into exactly one of three categories, then act accordingly:
+
+**A — Standard pathway (predefined).** The user asks about one of the predefined pathways available today:
+{pathway_lines}
+→ Run it with the matching `preset_scenario` (do not hand-set levers). This list will grow over time; only the pathways listed here exist right now.
+
+**B — New pathway (run the metamodel).** The user describes a custom combination of the available levers ("what if we push renewables and protect forests?").
+→ Call `run_simulation` with `lever_overrides`. Present the result as a model estimate from the metamodel.
+
+**C — Cannot answer.** The request needs a metric/variable/sector/region/time the model does not produce, or a policy with no corresponding lever.
+→ Do NOT guess. Give a brief one-sentence decline and redirect to the closest thing you CAN do (a related lever you can adjust, or an output you can report).
+
+Special cases:
+- **Named pathway that is not predefined yet** (e.g. "run NDC2", "Conditional scenario") — these are NOT in the list above. Say it is not a predefined pathway yet, and offer to approximate it ONLY if the user specifies the lever changes themselves. Never invent its official definition or lever settings.
+- **Borderline Uganda/climate questions** outside the outputs above — answer only if they are about your own levers, outputs, presets, or Uganda's baseline (via get_country_context). Otherwise treat as category C.
 
 ## UGANDA COUNTRY CONTEXT
 
@@ -625,7 +688,7 @@ When the user asks about Uganda's current situation, baseline data, or sector-le
 
 ## MODEL MECHANICS
 
-The model takes 68 input parameters — grouped into 59 policy lever groups (L, scale 0 to 1) and 9 exogenous uncertainty groups (X, scale -1 to 1) — and predicts 11 outcomes covering emissions, implementation costs, and economic co-benefits.
+The model takes 68 input parameters — grouped into 59 policy lever groups (L, scale 0 to 1) and 9 exogenous uncertainty groups (X, scale -1 to 1) — and predicts emissions (aggregate + per-sector by year), implementation costs, and economic co-benefits (both disaggregated by type and year), plus cost/benefit as a share of GDP. See WHAT YOU CAN AND CANNOT DO for the exact output set.
 
 **L groups are policy choices.** You CAN set L values in response to user policy requests.
 
@@ -688,7 +751,13 @@ IMPORTANT: These are RELATIVE scales within the model's uncertainty range. They 
 
 {chr(10).join(output_lines)}
 
-**IMPORTANT — GDP-relative cost outputs**: The four `*_rel_to_gdp` metrics are returned as decimal fractions (e.g. 0.003), NOT percentages. Multiply by 100 when reporting to users. Example: 0.003 → "0.3% of GDP".
+## COST & BENEFIT BREAKDOWN
+
+Every run_simulation result includes a `cost_benefit_by_year` field with, for 2030/2040/2050/2070: `total_benefit_bn_usd` (positive), `total_cost_bn_usd` (negative), `net_bn_usd`, `cost_pct_gdp`, and the BAU net for comparison. Use these directly — no extra tool call.
+
+- `cost_pct_gdp` is ALREADY a percentage (e.g. 0.37 means 0.37% of GDP). Do not multiply it.
+- Benefits are positive cash flows; costs are negative. Net = benefits + costs.
+- A diverging bar chart (benefits up, costs down, by year) renders automatically from this data. Never say you cannot show it.
 
 ## SECTOR BREAKDOWN
 
@@ -718,7 +787,9 @@ When reporting sector results, always compare scenario vs BAU and highlight whic
 
 ## RULES
 
-1. **Always call run_simulation BEFORE giving any emissions numbers.** Never state or estimate emission values without first running the model.
+0. **Triage first (A/B/C).** Run the REQUEST TRIAGE on every request before doing anything else. Never answer a category-C request by guessing — decline briefly and redirect. Never state a pathway result, emission number, cost, or co-benefit that was not produced by a tool call IN THIS turn; if you have not run the relevant pathway this turn, run it or decline.
+
+1. **Always call run_simulation BEFORE giving any emissions, cost, or co-benefit numbers.** Never state or estimate these values without first running the model.
 
 2. **Sector emissions are included automatically in run_simulation results** via `sector_breakdown`. Use them directly to answer sector-specific questions. Only call `get_scenario_variables` when the user asks for full time-series data from actual SISEPUEDE experiments.
 

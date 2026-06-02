@@ -166,6 +166,11 @@ function appendMessage(role, content, simulationData = null) {
     renderProjectedTotals(contentDiv, effectiveSimData.sector_comparison);
   }
 
+  // Cost/benefit diverging bar chart — benefits up, costs down, by year
+  if (effectiveSimData && effectiveSimData.cost_benefit_comparison) {
+    renderCostBenefitChart(contentDiv, effectiveSimData.cost_benefit_comparison);
+  }
+
   // Follow-up suggestion chips — outside the bubble, below the message row
   if (hasSectors) {
     renderFollowUpChips(container, msgDiv);
@@ -853,6 +858,168 @@ function renderStackedSectorChart(container, sectorComparison) {
     legendDiv.appendChild(item);
   }
 
+  outerDiv.appendChild(legendDiv);
+  container.appendChild(outerDiv);
+}
+
+// ── Cost / benefit diverging bar chart ────────────────────────────────────
+
+// Benefit types (positive, stack up) in render order, with display labels + colors.
+const CB_BENEFIT_META = [
+  { key: "human_health",       label: "Human Health",        color: "#2E8B57" },
+  { key: "air_pollution",      label: "Air Quality",         color: "#3CB371" },
+  { key: "consumer_savings",   label: "Consumer Savings",    color: "#8FBC6A" },
+  { key: "technical_savings",  label: "Technical Savings",   color: "#9ACD32" },
+  { key: "congestion",         label: "Reduced Congestion",  color: "#5F9EA0" },
+  { key: "road_safety",        label: "Road Safety",         color: "#4682B4" },
+  { key: "crop_value",         label: "Crop Value",          color: "#E8C547" },
+  { key: "lvst_value",         label: "Livestock Value",     color: "#DAA520" },
+  { key: "ippu_value",         label: "Industrial Value",    color: "#B8860B" },
+  { key: "ecosystem_services", label: "Ecosystem Services",  color: "#66CDAA" },
+  { key: "env_pollution",      label: "Env. Pollution",      color: "#20B2AA" },
+  { key: "land_pollution",     label: "Land Pollution",      color: "#8FBC8F" },
+  { key: "water_pollution",    label: "Water Pollution",     color: "#7EC8C8" },
+  { key: "sector_specific",    label: "Sector-Specific",     color: "#9370DB" },
+];
+
+// Cost types (negative, stack down) with display labels + colors.
+const CB_COST_META = [
+  { key: "technical", label: "Technical Cost", color: "#C0392B" },
+  { key: "system",    label: "System Cost",    color: "#E67E22" },
+  { key: "fuel",      label: "Fuel Cost",      color: "#A93226" },
+];
+
+/**
+ * Diverging stacked bar chart of the Policy Scenario's cost/benefit by year:
+ * benefits stack upward (positive), costs stack downward (negative), with a net
+ * line and a dashed BAU-net line for comparison. Cost-as-%-of-GDP per year is
+ * shown in the tooltip footer.
+ *
+ * costBenefitComparison shape:
+ *   { years: [2030,2040,2050,2070],
+ *     scenario: { "<year>": {benefits:{type:val}, costs:{type:val}, net, cost_pct_gdp, ...} },
+ *     baseline: { "<year>": {...} } }
+ */
+function renderCostBenefitChart(container, cbc) {
+  if (!cbc || !cbc.scenario) return;
+
+  const MUTED = "#6B5E50", BORDER = "#DDD5C4";
+  const MONO = "'JetBrains Mono', monospace", SANS = "'Epilogue', sans-serif";
+  const YEARS = (cbc.years || [2030, 2040, 2050, 2070]).map(Number);
+  const scen = cbc.scenario, base = cbc.baseline || {};
+  const at = (obj, y) => obj[String(y)] || obj[y] || {};
+
+  const benDatasets = CB_BENEFIT_META.map(m => ({
+    label: m.label, _cbkey: m.key, stack: "cb", order: 1,
+    data: YEARS.map(y => (at(scen, y).benefits || {})[m.key] ?? 0),
+    backgroundColor: m.color + "DD", borderColor: m.color, borderWidth: 0.5,
+  }));
+  const costDatasets = CB_COST_META.map(m => ({
+    label: m.label, _cbkey: m.key, stack: "cb", order: 1,
+    data: YEARS.map(y => (at(scen, y).costs || {})[m.key] ?? 0),
+    backgroundColor: m.color + "DD", borderColor: m.color, borderWidth: 0.5,
+  }));
+
+  const netLine = {
+    type: "line", label: "Net (benefits − costs)", _cbkey: "__net__", order: 0,
+    yAxisID: "y2", data: YEARS.map(y => at(scen, y).net ?? 0),
+    borderColor: "#26211A", borderWidth: 2.5, pointRadius: 3, pointHoverRadius: 5,
+    pointBackgroundColor: "#26211A", fill: false, tension: 0,
+  };
+  const bauNetLine = {
+    type: "line", label: "BAU net", _cbkey: "__baunet__", order: 0,
+    yAxisID: "y2", data: YEARS.map(y => at(base, y).net ?? 0),
+    borderColor: "#26211A", borderWidth: 1.5, borderDash: [5, 4],
+    pointRadius: 2, pointBackgroundColor: "#26211A", fill: false, tension: 0,
+  };
+
+  const datasets = [...benDatasets, ...costDatasets, netLine, bauNetLine];
+
+  // Y bounds from stacked sums (benefits up, costs down) + net line.
+  let posMax = 0, negMin = 0;
+  YEARS.forEach(y => {
+    posMax = Math.max(posMax, at(scen, y).total_benefit ?? 0);
+    negMin = Math.min(negMin, at(scen, y).total_cost ?? 0,
+                              at(scen, y).net ?? 0, at(base, y).net ?? 0);
+  });
+  const yMax = Math.ceil(posMax * 1.08 / 5) * 5;
+  const yMin = Math.floor(negMin * 1.2 / 5) * 5;
+
+  const outerDiv = document.createElement("div");
+  outerDiv.className = "stacked-chart-outer";
+  const panelRow = document.createElement("div");
+  panelRow.className = "stacked-chart-panels";
+  outerDiv.appendChild(panelRow);
+
+  const wrap = document.createElement("div");
+  wrap.className = "stacked-chart-panel";
+  const canvas = document.createElement("canvas");
+  wrap.appendChild(canvas);
+  panelRow.appendChild(wrap);
+
+  const chart = new Chart(canvas, {
+    type: "bar",
+    data: { labels: YEARS, datasets },
+    options: {
+      responsive: true, maintainAspectRatio: false,
+      animation: { duration: 500, easing: "easeInOutQuart" },
+      interaction: { mode: "index", intersect: false },
+      plugins: {
+        title: {
+          display: true, text: "Annual Cost & Benefit by Year (Policy Scenario)",
+          color: "#26211A", font: { family: SANS, size: 11, weight: "600" },
+          padding: { bottom: 6 },
+        },
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: "rgba(255,255,255,0.92)", borderColor: BORDER, borderWidth: 1,
+          titleColor: "#26211A", bodyColor: MUTED, footerColor: "#26211A",
+          titleFont: { family: MONO, size: 10 }, bodyFont: { family: MONO, size: 10 },
+          footerFont: { family: MONO, size: 10, weight: "600" },
+          filter: ctx => ctx.parsed.y !== 0 && ctx.parsed.y != null,
+          callbacks: {
+            label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)} B USD`,
+            footer: items => {
+              const y = items[0]?.label;
+              const d = at(scen, y);
+              return `cost: ${(d.cost_pct_gdp ?? 0).toFixed(2)}% of GDP`;
+            },
+          },
+        },
+      },
+      scales: {
+        x: { stacked: true, ticks: { color: MUTED, font: { family: MONO, size: 9 } },
+             grid: { display: false }, border: { color: BORDER } },
+        y: { stacked: true, min: yMin, max: yMax,
+             title: { display: true, text: "Billion USD / yr", color: MUTED, font: { family: SANS, size: 10 } },
+             ticks: { color: MUTED, font: { family: MONO, size: 9 } },
+             grid: { color: "#E4DDD0" }, border: { color: BORDER } },
+        y2: { stacked: false, min: yMin, max: yMax, display: false, grid: { display: false } },
+      },
+    },
+  });
+
+  // Right-side legend with click toggle (benefits, then costs, then net).
+  const legendDiv = document.createElement("div");
+  legendDiv.className = "stacked-chart-legend-right";
+  const legendItems = [
+    ...CB_BENEFIT_META, ...CB_COST_META,
+    { key: "__net__", label: "Net", color: "#26211A" },
+  ];
+  for (const m of legendItems) {
+    const item = document.createElement("div");
+    item.className = "stacked-legend-item";
+    item.innerHTML =
+      `<span class="stacked-legend-swatch" style="background:${m.color}"></span>` +
+      `<span class="stacked-legend-label">${m.label}</span>`;
+    item.addEventListener("click", () => {
+      item.classList.toggle("legend-hidden");
+      const hidden = item.classList.contains("legend-hidden");
+      const idx = chart.data.datasets.findIndex(d => d._cbkey === m.key);
+      if (idx !== -1) { chart.getDatasetMeta(idx).hidden = hidden; chart.update("none"); }
+    });
+    legendDiv.appendChild(item);
+  }
   outerDiv.appendChild(legendDiv);
   container.appendChild(outerDiv);
 }
