@@ -4,7 +4,7 @@ import sys
 import argparse
 import logging
 import traceback
-from io import StringIO
+from io import StringIO, BytesIO
 from typing import List, Optional, Tuple
 import multiprocessing as mp
 import shutil
@@ -19,11 +19,33 @@ import pandas as pd
 import numpy as np
 import yaml
 import boto3
+from boto3.s3.transfer import TransferConfig
+from botocore.config import Config as BotoConfig
 
 try:
     from tqdm import tqdm
 except Exception:
     tqdm = lambda x, **k: x
+
+# --------------------------
+# S3 transport tuning
+# --------------------------
+# The one-time per-instance fetch pulls hundreds of MiB (model_output ~210 MiB,
+# model_input ~275 MiB). A single-stream .read() over a high-latency link crawls
+# (~100 KB/s observed) and can hang indefinitely if the socket stalls. Concurrent
+# ranged GETs (multipart) saturate the link, and bounded timeouts + retries make a
+# stalled connection fail fast and recover instead of blocking the whole loop.
+_S3_TRANSFER_CONFIG = TransferConfig(
+    multipart_threshold=8 * 1024 * 1024,   # split files >8 MiB into parts
+    multipart_chunksize=8 * 1024 * 1024,   # 8 MiB per part
+    max_concurrency=10,                    # parallel part downloads
+    use_threads=True,
+)
+_S3_CLIENT_CONFIG = BotoConfig(
+    connect_timeout=15,
+    read_timeout=120,
+    retries={"max_attempts": 5, "mode": "adaptive"},
+)
 
 # --------------------------
 # Logging
@@ -48,9 +70,12 @@ def read_yaml(file_path):
         return yaml.safe_load(f)
 
 def fetch_csv_from_s3(s3_resource, bucket_name, key):
-    obj = s3_resource.Object(bucket_name, key)
-    content = obj.get()['Body'].read().decode('utf-8')
-    return pd.read_csv(StringIO(content))
+    # Concurrent multipart download into memory (same bytes as a single .read(),
+    # just faster + resilient via _S3_TRANSFER_CONFIG / client timeouts).
+    buf = BytesIO()
+    s3_resource.Object(bucket_name, key).download_fileobj(buf, Config=_S3_TRANSFER_CONFIG)
+    buf.seek(0)
+    return pd.read_csv(buf)
 
 def upload_df_to_s3(df, s3_resource, bucket, key):
     buf = StringIO()
@@ -599,7 +624,7 @@ def main():
     S3_CB_DIR_PREFIX          = f"{RUN_DB_PREFIX}cba/"
 
     session = boto3.Session(profile_name=PROFILE_NAME)
-    s3      = session.resource('s3')
+    s3      = session.resource('s3', config=_S3_CLIENT_CONFIG)
 
     # Fetch data once from S3
     logger.info("Fetching inputs from S3 (one-time)…")

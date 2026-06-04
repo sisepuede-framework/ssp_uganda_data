@@ -3,7 +3,18 @@
 # Runs the 100k_run_postprocessing_parallel.py script for multiple DIR_ID values
 
 # Activate the conda environment (debe ser SIEMPRE ssp_uganda_env)
-source /opt/anaconda3/etc/profile.d/conda.sh
+# Detecta la ruta de conda.sh automáticamente (anaconda3/miniconda3, en /opt o en $HOME).
+CONDA_SH=""
+for c in /opt/miniconda3 /opt/anaconda3 "$HOME/miniconda3" "$HOME/anaconda3"; do
+    if [ -f "$c/etc/profile.d/conda.sh" ]; then CONDA_SH="$c/etc/profile.d/conda.sh"; break; fi
+done
+if [ -z "$CONDA_SH" ] && [ -n "$CONDA_EXE" ]; then
+    CONDA_SH="$(dirname "$(dirname "$CONDA_EXE")")/etc/profile.d/conda.sh"
+fi
+if [ -z "$CONDA_SH" ] || [ ! -f "$CONDA_SH" ]; then
+    echo "ERROR: no se encontró conda.sh. Ajusta la ruta manualmente en el script."; exit 1
+fi
+source "$CONDA_SH"
 conda activate ssp_uganda_env || { echo "ERROR: no se pudo activar ssp_uganda_env"; exit 1; }
 echo "Python en uso: $(which python)"
 
@@ -27,7 +38,7 @@ RUN_ID="sisepuede_run_2026-05-30t21;35;56.244639"
 #   emissions -> corre SOLO emisiones (--no-cb, rápido); "hecho" = decomposed_emissions_<id>
 #   cb        -> corre con costo-beneficio;             "hecho" = cba/cb_<id>
 MODE="${1:-emissions}"
-WORKERS=7
+WORKERS=10
 
 if [ "$MODE" = "emissions" ]; then
     PY_FLAGS="--no-cb"
