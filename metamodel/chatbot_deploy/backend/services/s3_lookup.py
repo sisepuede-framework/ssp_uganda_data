@@ -6,7 +6,7 @@ for a given set of group values.
 
 Public API
 ----------
-find_nearest_lhs_trial(group_values, design_id=3) -> int
+find_nearest_lhs_trial(group_values, design_id=4) -> int
     Return the primary_id of the LHS trial closest (Euclidean) to
     the given lever values.
 
@@ -18,11 +18,14 @@ get_changed_variables(group_ids, l_values) -> dict
     High-level call: given a list of changed group IDs and their L values,
     return the raw SISEPUEDE variable values from the nearest matching trial.
 
-Design ID rules (CLAUDE.md)
-----------------------------
-design_id=3  vary_l=1, vary_x=0  — use for L-only lookups
-design_id=0  vary_l=0, vary_x=1  — use for X-only lookups
-NEVER mix L and X variable lookups in the same row.
+Design ID rules (2026-05-30 run)
+--------------------------------
+design_id=4  the 100,001 LHS scenarios — BOTH L and X vary together (NZ strategy).
+design_id=0  a single baseline/reference scenario (primary_id=0, strategy_id=0).
+
+This run has NO L-only design (the old design_id=3). So nearest-trial lookups use
+design_id=4: the match is closest by L values, but its X is also perturbed — it is
+the best available pre-computed scenario, not a clean L-only counterfactual.
 """
 
 import io
@@ -198,23 +201,20 @@ def list_strategies() -> list[dict]:
 
 def get_strategy_l_values(strategy_id: int) -> dict[int, float]:
     """
-    Return the L group values (groups 1–59) for the given strategy_id.
+    Return the L group values (groups 1–54) for the given strategy_id.
 
     Mechanism
     ---------
     1. Looks up strategy_id in ATTRIBUTE_PRIMARY to find (design_id, future_id).
     2. Retrieves the matching LHS row from ATTRIBUTE_LHC_SAMPLES_LEVER_EFFECTS.
-       For design_id=0 (X-only), L values are identical across all rows in that
-       design — future_id=0 is a deterministic sentinel not stored in the LHS, so
-       the first available row for that design_id is used instead.
+       For the baseline design (no per-future variation), the first available row
+       for that design_id is used instead.
     3. Returns {group_id: l_value} for all L columns present in the LHS.
 
     Notes
     -----
-    - Strategy 6009 (NDC_2.5) lives in design_id=0 with all L groups = 1.0,
-      reflecting comprehensive maximum-ambition policy action.
-    - Strategy 6004 (NZ) lives in design_id=3 (L-varying); for any specific L
-      lookup you should use find_nearest_lhs_trial instead.
+    - This run defines only two strategies: 0 (baseline, design_id=0) and
+      6007 (Net Zero, design_id=4 where L and X vary).
 
     Raises
     ------
@@ -253,9 +253,9 @@ def get_strategy_l_values(strategy_id: int) -> dict[int, float]:
     else:
         lhs_row = lhs_exact.iloc[0]
 
-    # Columns named '1'..'59' hold the L group values.
+    # Columns named '1'..'54' hold the L group values.
     l_values: dict[int, float] = {}
-    for gid in range(1, 60):
+    for gid in range(1, 55):
         col = str(gid)
         if col in lhs_row.index:
             l_values[gid] = float(lhs_row[col])
@@ -269,7 +269,7 @@ def get_strategy_l_values(strategy_id: int) -> dict[int, float]:
 
 def find_nearest_lhs_trial(
     group_values: dict[int, float],
-    design_id: int = 3,
+    design_id: int = 4,
 ) -> int:
     """
     Find the LHS trial whose lever values are closest (Euclidean) to
@@ -278,11 +278,11 @@ def find_nearest_lhs_trial(
     Parameters
     ----------
     group_values : {group_id: x_value}
-        Group IDs 1–59 mapped to values in [0, 1]. Only groups present in
+        Group IDs 1–54 mapped to values in [0, 1]. Only groups present in
         the LHS CSV columns are used for distance computation.
     design_id : int
-        3 = L-only design (default for lever lookups).
-        0 = X-only design (for exogenous uncertainty lookups).
+        4 = the LHS design where L (and X) vary (default; this run's only
+        varying design). 0 = the single baseline scenario.
 
     Returns
     -------
@@ -307,34 +307,37 @@ def find_nearest_lhs_trial(
 
     query_vec = np.array([query_cols[c] for c in available_cols])
     candidate_matrix = subset[available_cols].to_numpy(dtype=float)
-
     distances = np.sqrt(((candidate_matrix - query_vec) ** 2).sum(axis=1))
-    nearest_pos = int(np.argmin(distances))
-    nearest_future_id = int(subset.iloc[nearest_pos]["future_id"])
 
-    logger.debug(
-        "Nearest LHS trial: future_id=%d  distance=%.4f  design_id=%d  "
-        "cols_used=%d",
-        nearest_future_id,
-        float(distances[nearest_pos]),
-        design_id,
-        len(available_cols),
-    )
+    # ~0.2% of scenarios failed to simulate and have no S3 output. Walk candidates
+    # nearest-first and return the first whose primary_id was actually simulated
+    # (present in the directory index). Fall back to the absolute nearest if the
+    # index is unavailable, so this still works without it.
+    try:
+        sim_index = _load_s3_dir_index()
+    except FileNotFoundError:
+        sim_index = None
 
-    # Resolve future_id → primary_id via ATTRIBUTE_PRIMARY.
-    # For design_id=3 every future_id maps to exactly one primary_id
-    # (strategy_id=6004 only). For other designs, take the first match.
-    match = attr_primary[
-        (attr_primary["design_id"] == design_id)
-        & (attr_primary["future_id"] == nearest_future_id)
-    ]
-    if match.empty:
-        raise LookupError(
-            f"ATTRIBUTE_PRIMARY has no row for "
-            f"design_id={design_id}, future_id={nearest_future_id}"
-        )
+    ap_design = attr_primary[attr_primary["design_id"] == design_id]
+    fut_to_pid = dict(zip(ap_design["future_id"], ap_design["primary_id"]))
 
-    return int(match.iloc[0]["primary_id"])
+    fallback_pid = None
+    for pos in np.argsort(distances):
+        fut = int(subset.iloc[int(pos)]["future_id"])
+        pid = fut_to_pid.get(fut)
+        if pid is None:
+            continue
+        pid = int(pid)
+        if fallback_pid is None:
+            fallback_pid = pid
+        if sim_index is None or str(pid) in sim_index:
+            logger.debug("Nearest simulated trial: future_id=%d primary_id=%d "
+                         "distance=%.4f design_id=%d", fut, pid, float(distances[pos]), design_id)
+            return pid
+
+    if fallback_pid is not None:
+        return fallback_pid
+    raise LookupError(f"No ATTRIBUTE_PRIMARY rows for design_id={design_id}")
 
 
 @lru_cache(maxsize=50)
@@ -408,6 +411,35 @@ def _infer_sector(variable_name: str) -> str | None:
     return None
 
 
+# Map a transformation's TX:<SECTOR>: prefix to the emission subsector it shows up
+# in. Most map 1:1; a few cross-cutting codes route to their emitting subsector.
+_TX_TO_EMISSION_SECTOR = {
+    "agrc": "agrc", "ccsq": "ccsq", "entc": "entc", "fgtv": "fgtv", "frst": "frst",
+    "inen": "inen", "ippu": "ippu", "lndu": "lndu", "lsmm": "lsmm", "lvst": "lvst",
+    "scoe": "scoe", "soil": "soil", "trns": "trns", "trww": "trww", "waso": "waso",
+    "trde": "trns",   # transport demand → transport emissions
+    "wali": "trww",   # water/liquid-waste treatment → wastewater emissions
+    "pflo": None,     # cross-sector (diet/CCS/paradigm) — no single subsector
+}
+
+
+def _sector_for_group(meta: dict) -> str | None:
+    """Best-effort emission subsector for a lever group: prefer its transformation
+    code (TX:<SECTOR>:...), fall back to inferring from variable names."""
+    tcode = meta.get("transformation_code", "") or ""
+    if tcode.startswith("TX:"):
+        parts = tcode.split(":")
+        if len(parts) > 1:
+            mapped = _TX_TO_EMISSION_SECTOR.get(parts[1].lower(), parts[1].lower())
+            if mapped:
+                return mapped
+    for var_name in meta.get("variables", []):
+        sector = _infer_sector(var_name)
+        if sector:
+            return sector
+    return None
+
+
 def get_scenario_outcomes(
     group_ids: list[int],
     l_values: dict[int, float],
@@ -416,14 +448,14 @@ def get_scenario_outcomes(
     Return SISEPUEDE simulation output trajectories (emissions by sector) for
     the sectors affected by the requested lever groups.
 
-    Uses the nearest LHS trial (design_id=3, L-only) to find the closest
+    Uses the nearest LHS trial (design_id=4; L and X vary) to find the closest
     pre-computed simulation, then extracts emission_co2e_subsector_total_{sector}
     columns for every sector touched by the changed groups.
 
     Parameters
     ----------
     group_ids : list[int]
-        Lever group IDs (1–59) whose sectors should be reported.
+        Lever group IDs (1–54) whose sectors should be reported.
     l_values  : dict[int, float]
         Full L override dict used to find the nearest LHS trial.
 
@@ -448,14 +480,12 @@ def get_scenario_outcomes(
         if meta is None:
             logger.warning("Group %d not in feature registry — skipping", gid)
             continue
-        for var_name in meta.get("variables", []):
-            sector = _infer_sector(var_name)
-            if sector:
-                sectors_needed.add(sector)
-                sectors_by_group[gid] = sector
-                break
+        sector = _sector_for_group(meta)
+        if sector:
+            sectors_needed.add(sector)
+            sectors_by_group[gid] = sector
 
-    primary_id = find_nearest_lhs_trial(l_values, design_id=3)
+    primary_id = find_nearest_lhs_trial(l_values, design_id=4)
     logger.info(
         "get_scenario_outcomes: groups=%s → primary_id=%d, sectors=%s",
         group_ids, primary_id, sorted(sectors_needed),
@@ -475,7 +505,7 @@ def get_scenario_outcomes(
         "primary_id": primary_id,
         "sector_emissions": sector_emissions,
         "sectors_by_group": {gid: s for gid, s in sorted(sectors_by_group.items())},
-        "design_note": "L-only lookup design_id=3. Do not mix with X variables.",
+        "design_note": "Nearest match in design_id=4 (L and X both vary); not a clean L-only counterfactual.",
     }
 
 
@@ -558,14 +588,14 @@ def get_changed_variables(
     """
     Return SISEPUEDE model input variable values for the groups that changed.
 
-    Uses the nearest LHS trial (design_id=3, L-only) to find the closest
+    Uses the nearest LHS trial (design_id=4; L and X vary) to find the closest
     pre-computed simulation row, then extracts only the variables that belong
     to the requested groups.
 
     Parameters
     ----------
     group_ids : list[int]
-        Lever group IDs (1–59) whose variables should be returned.
+        Lever group IDs (1–54) whose variables should be returned.
     l_values  : dict[int, float]
         Full L override dict {group_id: x_value} used to find the nearest
         LHS trial via Euclidean distance. Values should be in [0, 1].
@@ -609,7 +639,7 @@ def get_changed_variables(
         )
 
     # Find the nearest LHS trial and fetch its model inputs
-    primary_id = find_nearest_lhs_trial(l_values, design_id=3)
+    primary_id = find_nearest_lhs_trial(l_values, design_id=4)
     logger.info(
         "get_changed_variables: groups=%s → primary_id=%d", group_ids, primary_id
     )
@@ -635,6 +665,6 @@ def get_changed_variables(
             gid: vars_ for gid, vars_ in sorted(group_to_vars.items())
         },
         "design_note": (
-            "L-only lookup design_id=3. Do not mix with X variables."
+            "Nearest match in design_id=4 (L and X both vary); not a clean L-only counterfactual."
         ),
     }

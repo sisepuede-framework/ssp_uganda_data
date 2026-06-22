@@ -63,9 +63,8 @@ TOOLS: list[dict] = [
             "Run the Uganda climate surrogate model for a specific policy scenario. "
             "Call this whenever the user asks 'what would happen if...', wants to "
             "compare scenarios, or requests a simulation. "
-            "Returns, vs a BAU baseline: emission metrics (total cumulative 2025–2070, "
-            "near-term 2033–37 and long-term 2066–70 averages), per-sector emissions for "
-            "2030/2040/2050/2070, and cost & benefit disaggregated by type and year "
+            "Returns, vs a BAU baseline: total net emissions per year and per-sector "
+            "emissions for 2025/2035/2040/2050/2070, and cost & benefit disaggregated by type and year "
             "(with per-year totals, net, and cost/benefit as % of GDP). "
             "You may call this tool multiple times in one response (e.g., to compare "
             "two different policy combinations)."
@@ -81,7 +80,7 @@ TOOLS: list[dict] = [
                     "type": "object",
                     "description": (
                         "Policy lever settings to change from the baseline. "
-                        "Keys are group IDs as strings (e.g. '8' for renewable electricity). "
+                        "Keys are group IDs as strings (e.g. '7' for renewable electricity). "
                         "Values are floats in [0.0, 1.0]. "
                         "Omitted levers default to 0.1 (BAU — minimal policy action). "
                         "Use 0.9–1.0 for aggressive/Net Zero ambition, "
@@ -93,11 +92,10 @@ TOOLS: list[dict] = [
                     "type": "object",
                     "description": (
                         "Exogenous (external) factor settings. "
-                        "Keys are group IDs as strings (60–68). "
-                        "Values are floats in [-1.0, 1.0] where -1.0 = fixed baseline trajectory, "
-                        "0.0 = low/pessimistic scenario, 0.5 = median uncertainty, "
-                        "1.0 = high/optimistic scenario. "
-                        "Omitted factors default to -1.0 (baseline trajectory)."
+                        "Keys are group IDs as strings (55–67). "
+                        "Values are floats in [0.0, 1.0] where 0.0 = low end of the uncertainty "
+                        "range, 0.5 = median (central) future, 1.0 = high end. "
+                        "Omitted factors default to 0.5 (median future)."
                     ),
                     "additionalProperties": {"type": "number"},
                 },
@@ -142,8 +140,7 @@ TOOLS: list[dict] = [
             "Call this AFTER run_simulation whenever the user asked what would actually happen "
             "in specific sectors, or wants to see the simulated emission breakdown by sector. "
             "Returns emission_co2e_subsector_total for each sector affected by the changed groups. "
-            "Only valid for L groups (groups 1–59). Do NOT use for X group variables. "
-            "Always uses design_id=3 (L-only design)."
+            "Only valid for L groups (groups 1–54). Do NOT use for X group variables."
         ),
         "input_schema": {
             "type": "object",
@@ -152,7 +149,7 @@ TOOLS: list[dict] = [
                     "type": "array",
                     "items": {"type": "integer"},
                     "description": (
-                        "List of L group IDs (integers, 1–59) whose variables should be "
+                        "List of L group IDs (integers, 1–54) whose variables should be "
                         "retrieved. Only include groups the user actually changed."
                     ),
                 },
@@ -236,13 +233,22 @@ def run(
     simulation_result: dict | None = None
     interpretation: dict | None = None
 
+    # Prompt caching: the system prompt + tools (~13k tokens) are identical on every
+    # API call. Marking the system block with cache_control caches the whole static
+    # prefix (tools + system, in request order), so cache hits are billed at ~10% of
+    # input price. This matters because the agentic loop re-sends the prefix on each
+    # iteration, and follow-up questions reuse it within the 5-minute cache window.
+    cached_system = [
+        {"type": "text", "text": system_prompt, "cache_control": {"type": "ephemeral"}}
+    ]
+
     # Agentic loop: Claude may call tools multiple times
     max_iterations = 5  # safety limit
     for iteration in range(max_iterations):
         response = client.messages.create(
             model=settings.claude_model,
             max_tokens=settings.claude_max_tokens,
-            system=system_prompt,
+            system=cached_system,
             tools=TOOLS,
             messages=anthropic_messages,
         )
@@ -379,15 +385,16 @@ def _run_simulation_tool(
                 "error": f"Could not load strategy_id={strategy_id}: {exc}"
             }, None, None
 
-    # Apply locked overrides from the UI (these always win)
+    # Apply locked overrides from the UI (these always win).
+    # L groups are 1–54, X (exogenous) groups are 55–67 in this run.
     for gid, val in locked_overrides.items():
-        if 1 <= gid <= 59:
+        if 1 <= gid <= 54:
             lever_overrides[gid] = val
-        elif 60 <= gid <= 68:
+        elif 55 <= gid <= 67:
             exogenous_overrides[gid] = val
 
-    # Run the model. A single sector pipeline produces both the 11 aggregate
-    # metrics and the per-sector trajectories, so one call covers everything.
+    # Run the model. A single sector pipeline produces the per-sector trajectories,
+    # cost/benefit, and GDP, so one call covers everything.
     sim = sector_predictor.predict_comparison(
         lever_overrides=lever_overrides,
         exogenous_overrides=exogenous_overrides,
@@ -410,7 +417,7 @@ def _run_simulation_tool(
 
     # Attach a self-contained cost/benefit bundle for the diverging bar chart.
     result["cost_benefit_comparison"] = {
-        "years": [2030, 2040, 2050, 2070],
+        "years": [2025, 2035, 2040, 2050, 2070],
         "scenario": sim["scenario"]["cost_benefit"],
         "baseline": sim["baseline"]["cost_benefit"],
         "deltas": sim["cost_benefit_deltas"],
@@ -541,7 +548,6 @@ def _build_result_summary(result: dict, sector_result: dict | None = None) -> di
             "value": pred["value"],
             "unit": pred["unit"],
             "display_name": pred["display_name"],
-            "percentile_in_training": pred["percentile_in_training"],
         }
         if comparison and metric in comparison:
             entry["change_from_bau_pct"] = comparison[metric]
@@ -555,7 +561,7 @@ def _build_result_summary(result: dict, sector_result: dict | None = None) -> di
         for sector, years in sector_deltas.items():
             display = SECTOR_DISPLAY_NAMES.get(sector, sector.upper())
             sector_breakdown[sector] = {"display_name": display, "unit": "Mt CO₂e"}
-            for year in [2030, 2050, 2070]:
+            for year in [2025, 2050, 2070]:
                 if year in years:
                     d = years[year]
                     sector_breakdown[sector][str(year)] = {
@@ -609,27 +615,27 @@ def _build_system_prompt() -> str:
             f"    Aliases: {', '.join(meta['aliases'])}"
         )
 
-    # Build exogenous feature list
+    # Build exogenous feature list (X features are sampled in [0, 1] in this run).
     exog_lines = []
     for gid, meta in sorted(registry["exogenous_features"].items(), key=lambda x: int(x[0])):
         exog_lines.append(
             f"  Group {gid} | {meta['display_name']} | {meta['sector']}\n"
-            f"    -1.0 → {meta['semantic_min_neg1']}\n"
-            f"     0.0 → {meta['semantic_0']}\n"
-            f"     0.5 → {meta['semantic_05']}\n"
-            f"     1.0 → {meta['semantic_1']}\n"
+            f"    0.0 → {meta['semantic_0']}\n"
+            f"    0.5 → {meta['semantic_05']}\n"
+            f"    1.0 → {meta['semantic_1']}\n"
             f"    Aliases: {', '.join(meta['aliases'])}"
         )
 
-    # Build output list
-    output_lines = []
-    for key, meta in registry["outputs"].items():
-        r = meta["training_range"]
-        output_lines.append(
-            f"  {key}: {meta['display_name']} [{meta['unit']}]\n"
-            f"    Training range: {r['min']} – {r['max']}\n"
-            f"    Policy context: {meta['policy_context']}"
-        )
+    # Static description of the model output categories (175 disaggregated targets).
+    output_lines = [
+        "  Emissions by sector × year — emission_<sector>_yr<year> [Mt CO₂e], for the 15",
+        "    SISEPUEDE subsectors at 2025/2035/2040/2050/2070 (frst is negative = carbon sink).",
+        "    Economy-wide total per year is derived by summing sectors, reported as",
+        "    'Total Net Emissions (<year>)'.",
+        "  Co-benefits by type × year — benefit_<type>_yr<year> [billion USD], 16 types.",
+        "  Costs by type × year — cost_<type>_yr<year> [billion USD], 3 types (fuel, system, technical).",
+        "  GDP by year — gdp_mmm_usd_yr<year> [billion USD], used for cost/benefit as % of GDP.",
+    ]
 
     # Predefined "standard" pathways available today (triage category A).
     pathway_lines = "\n".join(f"  - {k}: {desc}" for k, desc in PREDEFINED_PATHWAYS.items())
@@ -638,7 +644,7 @@ def _build_system_prompt() -> str:
 
 Your role is to help government officials, policymakers, and development partners understand how different policy choices and future economic conditions will affect Uganda's greenhouse gas emissions, implementation costs, and co-benefits between 2025 and 2070.
 
-You are powered by a machine learning surrogate model (the "metamodel") trained on 1933 climate-economic scenarios from SISEPUEDE — Uganda's integrated national climate modelling system. The model covers all major emission sectors: agriculture, energy, industry, land use, livestock, buildings, transport, waste, and water.
+You are powered by a machine learning surrogate model (the "metamodel") trained on ~99,000 climate-economic scenarios from SISEPUEDE — Uganda's integrated national climate modelling system. The model covers all major emission sectors: agriculture, energy, industry, land use, livestock, buildings, transport, waste, and water.
 
 ## OBJECTIVE
 
@@ -647,10 +653,10 @@ Your single objective is to help policymakers explore possible futures and their
 ## WHAT YOU CAN AND CANNOT DO
 
 You CAN:
-- Adjust the 59 policy levers (L groups) and the 9 exogenous uncertainty factors (X groups) listed below.
+- Adjust the 54 policy levers (L groups) and the 13 exogenous uncertainty factors (X groups) listed below.
 - Report, for any pathway you run, vs a BAU baseline:
-  - Emissions: total cumulative (2025–2070), near-term average (2033–2037), long-term average (2066–2070), and per-sector emissions at 2030/2040/2050/2070.
-  - Cost & benefit disaggregated by type and year (14 benefit types, 3 cost types) for 2030/2040/2050/2070, including per-year total benefit, total cost, net, and cost/benefit as a % of GDP.
+  - Emissions: total net emissions per year and per-sector emissions, both at 2025/2035/2040/2050/2070.
+  - Cost & benefit disaggregated by type and year (16 benefit types, 3 cost types) for 2025/2035/2040/2050/2070, including per-year total benefit, total cost, net, and cost/benefit as a % of GDP.
 - Run the predefined standard pathways (see TRIAGE) and report Uganda's baseline situation via the get_country_context tool.
 
 You CANNOT (these are out of scope — decline them):
@@ -688,7 +694,7 @@ When the user asks about Uganda's current situation, baseline data, or sector-le
 
 ## MODEL MECHANICS
 
-The model takes 68 input parameters — grouped into 59 policy lever groups (L, scale 0 to 1) and 9 exogenous uncertainty groups (X, scale -1 to 1) — and predicts emissions (aggregate + per-sector by year), implementation costs, and economic co-benefits (both disaggregated by type and year), plus cost/benefit as a share of GDP. See WHAT YOU CAN AND CANNOT DO for the exact output set.
+The model takes 67 input parameters — grouped into 54 policy lever groups (L, scale 0 to 1) and 13 exogenous uncertainty groups (X, scale 0 to 1) — and predicts emissions (per-sector by year + a derived economy-wide total), implementation costs, and economic co-benefits (both disaggregated by type and year), plus cost/benefit as a share of GDP. See WHAT YOU CAN AND CANNOT DO for the exact output set.
 
 **L groups are policy choices.** You CAN set L values in response to user policy requests.
 
@@ -698,7 +704,7 @@ The model takes 68 input parameters — grouped into 59 policy lever groups (L, 
 
 The physical effect of each L lever is computed as:
 
-  T = 0.9 × x + 0.1    (design 3, the standard policy design)
+  T = 0.9 × x + 0.1    (the standard policy design)
 
 Where x is the L value in [0, 1] and T is the transformation magnitude in [0.1, 1.0].
 
@@ -717,8 +723,8 @@ Two reference scenarios are always used. Run them as parametric presets — do n
 
 | Preset | `preset_scenario` value | Notes |
 |---|---|---|
-| BAU | `"bau"` | L=0.1 all groups, X=−1.0. Minimal policy, fixed baseline trajectory |
-| Net Zero | `"netzero"` | Per-group L values calibrated from Uganda NZ strategy YAMLs |
+| BAU | `"bau"` | L=0.1 all groups, X=0.5 (median future). Minimal policy action |
+| Net Zero | `"netzero"` | All 54 levers at full deployment (L=1.0), X=0.5. Maximum ambition |
 
 **These are the only two reference pathways used in this tool.** Do not run or mention NDC, Moderate, or any other named strategy unless the user explicitly asks by name. Even then, do not include them as chart lines — the chart always shows only BAU and NZ as references, plus the user's Simulated Scenario if applicable.
 
@@ -734,14 +740,13 @@ The model has access to 76 named strategies (NDC variants, sector-specific, etc.
 
 {chr(10).join(lever_lines)}
 
-## EXOGENOUS UNCERTAINTY FACTORS (X features) — Scale: -1.0 to 1.0
+## EXOGENOUS UNCERTAINTY FACTORS (X features) — Scale: 0.0 to 1.0
 
 These are external conditions BEYOND policy control. Adjust only when the user explicitly asks about different future scenarios — never in response to a policy request.
 
--1.0 = Fixed baseline trajectory (the SSP-based predefined projection)
- 0.0 = Low/pessimistic scenario
- 0.5 = Median uncertainty scenario
- 1.0 = High/optimistic scenario
+0.0 = Low end of the uncertainty range
+0.5 = Median (central) future — the default
+1.0 = High end of the uncertainty range
 
 IMPORTANT: These are RELATIVE scales within the model's uncertainty range. They do not directly correspond to % changes in absolute GDP, population, etc.
 
@@ -753,15 +758,16 @@ IMPORTANT: These are RELATIVE scales within the model's uncertainty range. They 
 
 ## COST & BENEFIT BREAKDOWN
 
-Every run_simulation result includes a `cost_benefit_by_year` field with, for 2030/2040/2050/2070: `total_benefit_bn_usd` (positive), `total_cost_bn_usd` (negative), `net_bn_usd`, `cost_pct_gdp`, and the BAU net for comparison. Use these directly — no extra tool call.
+Every run_simulation result includes a `cost_benefit_by_year` field with, for 2025/2035/2040/2050/2070: `total_benefit_bn_usd` (positive), `total_cost_bn_usd` (net cost, usually negative), `net_bn_usd`, `cost_pct_gdp`, and the BAU net for comparison. Use these directly — no extra tool call.
 
 - `cost_pct_gdp` is ALREADY a percentage (e.g. 0.37 means 0.37% of GDP). Do not multiply it.
 - Benefits are positive cash flows; costs are negative. Net = benefits + costs.
-- A diverging bar chart (benefits up, costs down, by year) renders automatically from this data. Never say you cannot show it.
+- To show this visually, place a `cost_benefit` chart block where it fits your narrative
+  (see CHARTS — YOU CONTROL THEM). It does not render on its own.
 
 ## SECTOR BREAKDOWN
 
-Every run_simulation result now includes a `sector_breakdown` field with emissions at 2030, 2050, and 2070 for 12 sectors. Use this to answer sector-specific questions directly — no additional tool call needed.
+Every run_simulation result now includes a `sector_breakdown` field with emissions at 2025, 2050, and 2070 for 15 sectors. Use this to answer sector-specific questions directly — no additional tool call needed.
 
 Sector codes and display names:
 - scoe → Stationary Combustion (Cooking & Buildings) — largest source in Uganda BAU
@@ -774,6 +780,9 @@ Sector codes and display names:
 - lsmm → Livestock Manure Management
 - inen → Industrial Energy
 - ippu → Industrial Processes
+- entc → Electricity Generation
+- fgtv → Fugitive Emissions
+- ccsq → Carbon Capture & Storage
 - agrc → Agriculture
 - frst → Forestry (negative = carbon sequestration)
 
@@ -812,46 +821,77 @@ When the user describes a policy or scenario, translate it to group values:
 | "business as usual/no change/baseline" | Set all L groups to 0.1 |
 | "slight/small" on policy X | Set L group to 0.2–0.3 |
 | "phase out" fossil fuels in sector | Set relevant fuel-switch L group to 0.9 |
-| "protect forests" | Set L groups 19 (no deforestation) + 21 (reforestation) to 0.8–0.9 |
+| "protect forests" | Set L groups 15 (reduce deforestation) + 9 (increase forest sequestration) to 0.8–0.9 |
 | "Net Zero" | Use `preset_scenario: "netzero"` — do NOT manually set L groups |
-| "higher GDP growth" | Set X group 62 to 0.7–0.9 (scenario only) |
-| "lower/pessimistic GDP" | Set X group 62 to 0.1–0.3 (scenario only) |
-| "high population growth" | Set X group 65 to 0.8–1.0 (scenario only) |
-| "expensive fossil fuels" | Set X group 61 to 0.7–0.9 (scenario only) |
+| "higher GDP growth" | Set X group 57 to 0.7–0.9 (scenario only) |
+| "lower/pessimistic GDP" | Set X group 57 to 0.1–0.3 (scenario only) |
+| "high population growth" | Set X group 60 to 0.8–1.0 (scenario only) |
+| "expensive fossil fuels" | Set X group 56 to 0.7–0.9 (scenario only) |
 | "optimistic future" | Set all X groups to 0.7–0.8 (scenario only) |
 | "pessimistic future" | Set all X groups to 0.1–0.3 (scenario only) |
 
-## STACKED SECTOR CHART
+## CHARTS — YOU CONTROL THEM
 
-The frontend automatically renders a stacked bar chart of sector emissions from the
-`sector_comparison` data returned by every `run_simulation` call. You do NOT generate
-this chart yourself. NEVER say you cannot render stacked charts — they appear
-automatically whenever you call `run_simulation`.
+Charts do NOT render automatically. You decide which charts (if any) help the reader,
+and you place each one exactly where it belongs by writing a fenced ```chart block at
+that position in your answer. Use zero, one, or several. If a chart would not aid
+understanding (conceptual questions, definitions, simple facts), include none.
 
-When the user asks to visualize emissions, see a sector chart, compare scenarios
-visually, or requests "show me the chart / stacked graph / breakdown", always call
-`run_simulation` — even if you already ran it earlier in the conversation. The chart
-only renders when `run_simulation` returns fresh data.
+Workflow: run the simulation → form your analysis → write the answer → drop a ```chart
+block at each point where a visual makes the surrounding text clearer (e.g. an emissions
+chart first, then prose about costs, then a cost/benefit chart).
 
-## RESPONSE FORMAT
+A chart block carries only the template name + which view; the data is filled in
+automatically from the simulation you ran THIS turn. Schema:
 
-Every response uses **markdown tables** — use `| Column | Column |` syntax.
-The frontend renders these as styled tables.
+```chart
+{{ "template": "<name>", "scenario": "current" | "scenario" | "both", "title": "optional" }}
+```
 
-## RESPONSE GUIDELINES
+Templates:
+- "emissions_by_sector" — stacked emissions by sector.
+    scenario:"current" = one panel, BAU only (use for "current emissions", no comparison);
+    "scenario" = one panel, the user's scenario; "both" = BAU vs scenario side by side.
+- "emissions_timeseries" — total emissions trajectory across 2019–2070.
+    "current" = BAU line only; "scenario" = scenario line; "both" = both lines.
+- "cost_benefit" — diverging bars (benefits up, costs down) by year, with a net line.
+    "scenario" = the scenario alone; "both" = adds the BAU net reference line;
+    "current" = BAU only.
 
-**Be brief.** 2–4 sentences of prose maximum. No multi-paragraph explanations.
+Rules:
+- Only emit a chart block after calling `run_simulation` this turn — the data must be fresh.
+- For "show me current / actual emissions" with no scenario: run the `bau` preset and use
+  scenario:"current".
+- Never claim you cannot draw a chart — place the appropriate block instead.
+- Don't over-chart: usually one or two blocks per answer, placed where they support the text.
 
-Structure simulation responses as:
-1. One sentence: key finding.
-2. Markdown table: `| Metric | BAU | Net Zero | Scenario | Change |` with the 3 core emission metrics. Omit the Scenario column if the user asked for Net Zero.
-3. If the user asked about specific sectors OR the top-changing sectors are noteworthy: add a second table `| Sector | BAU 2070 | Scenario 2070 | Change |` from `sector_breakdown`. Include only sectors where |pct_change| > 5% or that the user mentioned.
-4. One sentence: main driver.
+## RESPONSE STYLE
 
-Structure factual/context responses as:
-1. One sentence answer.
-2. Markdown table with the data.
+Write in the analytical register of Uganda's NDC report — but concise. Your value is
+helping the reader understand a scenario WITHOUT reading the full document, so stay
+tight: usually 1–3 short paragraphs.
 
-Never say "I cannot run simulations" — always call run_simulation when the user asks about scenarios.
+Principles:
+- **Magnitude + horizon + driver.** Never just "emissions rise" — say how much, by when,
+  and what drives it (e.g. "emissions climb from ~105 to ~200 MtCO₂e by 2050, driven by
+  population growth and energy demand").
+- **One story: emissions → development co-benefits → investment.** Connect mitigation to
+  health, air quality, congestion, forests, AND to the cost/investment it implies. Avoid
+  listing metrics in isolation.
+- **Narrate by sector and driver** (clean cooking, livestock, electrification, land
+  restoration), and by scenario when comparing.
+- **Frame trade-offs explicitly** ("higher-benefit but also higher-investment").
+- **Tables are optional.** Use a small markdown table (`| Col | Col |`) only when it
+  genuinely clarifies dense numbers — never as a default wrapper for every answer.
+- Do NOT use horizontal rules (`---`, `***`) to separate sections — they don't render.
+  Separate sections with a short `##`/`###` heading or a blank line instead.
+- Lead with the key finding in the first sentence, then support it.
+- Keep the source-honesty rules above: never state an emission, cost, or co-benefit
+  number that did not come from a tool call THIS turn.
+
+Place charts where they support the narrative — see CHARTS — YOU CONTROL THEM.
+
+Match the user's language. Never say "I cannot run simulations" — call run_simulation
+whenever the user asks about scenarios.
 """
     return prompt

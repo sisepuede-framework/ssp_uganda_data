@@ -45,27 +45,19 @@ logger = logging.getLogger(__name__)
 # Kept here (not only in the registry) because the predictor needs units to
 # build PredictionResult objects without importing the full registry.
 
-# The 3 emission aggregates are still dedicated model targets with a training
-# distribution (for percentile-in-training). Cost/benefit are no longer aggregate
-# targets — they come disaggregated by year × type (see COST_BENEFIT_* below) and
-# the headline cost/benefit numbers are derived per-year totals.
-TARGET_METADATA: dict[str, dict] = {
-    "emission_total_sum": {
-        "display_name": "Total Cumulative Emissions (2025–2070)",
-        "unit": "Mt CO₂e",
-    },
-    "2033_2037_mean_emission": {
-        "display_name": "Near-Term Annual Emissions (2033–2037 avg)",
-        "unit": "Mt CO₂e/yr",
-    },
-    "2066_2070_mean_emission": {
-        "display_name": "Long-Term Annual Emissions (2066–2070 avg)",
-        "unit": "Mt CO₂e/yr",
-    },
-}
+# Target years this model reports (matches the training parquet).
+TARGET_YEARS: list[int] = [2025, 2035, 2040, 2050, 2070]
+
+EMISSION_UNIT = "Mt CO₂e"
+
+# This run has NO dedicated aggregate-emission targets — the headline economy-wide
+# emission metrics (total per year) are DERIVED at runtime by summing the per-sector
+# trajectories. TARGET_METADATA is kept (empty) for back-compat with code/tools that
+# iterate it; predict() builds the derived `predictions` instead.
+TARGET_METADATA: dict[str, dict] = {}
 
 # Years the disaggregated cost/benefit targets are reported for.
-COST_BENEFIT_YEARS: list[int] = [2030, 2040, 2050, 2070]
+COST_BENEFIT_YEARS: list[int] = TARGET_YEARS
 
 # Display labels for the raw cost/benefit type codes (column suffixes).
 COST_BENEFIT_LABELS: dict[str, str] = {
@@ -84,28 +76,31 @@ COST_BENEFIT_LABELS: dict[str, str] = {
     "land_pollution": "Land Pollution",
     "water_pollution": "Water Pollution",
     "sector_specific": "Sector-Specific",
-    # costs (negative)
+    "ecosystem_services_grasslands": "Ecosystem Services (Grasslands)",
+    "ecosystem_services_wetlands": "Ecosystem Services (Wetlands)",
+    # costs
     "technical": "Technical Cost",
     "system": "System Cost",
     "fuel": "Fuel Cost",
 }
 
-# Defaults applied when a group is not overridden by the caller.
-# L features: 0.1 = minimal policy (BAU baseline)
-# X features: -1.0 = fixed baseline trajectory (no uncertainty variation)
+# Defaults applied when a group is not overridden by the caller. In this run ALL
+# features (L and X) are sampled in [0, 1]:
+#   L = 0.1 → minimal policy (BAU);  L = 1.0 → full Net-Zero deployment.
+#   X = 0.5 → median (central) uncertainty future (there is no -1 baseline anymore).
 BAU_L_DEFAULT: float = 0.1
-BAU_X_DEFAULT: float = -1.0
+BAU_X_DEFAULT: float = 0.5
 
 MODERATE_L_DEFAULT: float = 0.5
 MODERATE_X_DEFAULT: float = 0.5
 
-# Groups not in the NZ strategy stay at BAU (0.1).
-NETZERO_L_DEFAULT: float = 0.1
+# Every L group in this run IS a Net-Zero-strategy transformation, so Net Zero is
+# simply all levers at full deployment (1.0). No per-group override table needed.
+NETZERO_L_DEFAULT: float = 1.0
 NETZERO_X_DEFAULT: float = 0.5
 
-# Per-group L values derived from the NZ strategy YAML files.
-# Formula: T = NZ_magnitude / transformer_default; L = (T - 0.1) / 0.9, clamped [0,1].
-# Groups absent from the NZ strategy (22, 29, 5) remain at BAU = 0.1.
+# DEPRECATED (unused): per-group NZ overrides from the old run's strategy YAMLs.
+# Kept only to avoid a large diff; netzero now uses NETZERO_L_DEFAULT=1.0 for all groups.
 NETZERO_L_OVERRIDES: dict[int, float] = {
     1:  1.0,     # Rice Paddy Methane Reduction
     2:  1.0,     # Agricultural Food Loss Reduction
@@ -179,6 +174,9 @@ PRESET_DEFAULTS = {
 
 SECTOR_DISPLAY_NAMES: dict[str, str] = {
     "agrc": "Agriculture",
+    "ccsq": "Carbon Capture & Storage",
+    "entc": "Electricity Generation",
+    "fgtv": "Fugitive Emissions",
     "frst": "Forestry (Carbon Sequestration)",
     "inen": "Industrial Energy",
     "ippu": "Industrial Processes",
@@ -207,10 +205,11 @@ def _load_sector_emissions_2019() -> dict[str, float]:
     if _EMISSIONS_2019_CACHE is not None:
         return _EMISSIONS_2019_CACHE
 
-    from backend.services.s3_lookup import find_nearest_lhs_trial, get_model_outputs_row
+    from backend.services.s3_lookup import get_model_outputs_row
 
-    bau_l_values = {gid: BAU_L_DEFAULT for gid in range(1, 60)}
-    primary_id = find_nearest_lhs_trial(bau_l_values, design_id=3)
+    # 2019 is historical (pre-policy) and identical across scenarios, so read it
+    # from the baseline scenario (primary_id=0, design_id=0).
+    primary_id = 0
     outputs = get_model_outputs_row(primary_id)  # {col: [val_tp0, ..., val_tp55]}
 
     _EMISSIONS_2019_CACHE = {}
@@ -283,33 +282,14 @@ class SectorPredictor:
 
         l_default, x_default = PRESET_DEFAULTS.get(preset_scenario, (BAU_L_DEFAULT, BAU_X_DEFAULT))
 
-        # For netzero, seed lever values from per-group NZ overrides, then let
-        # caller's explicit lever_overrides take priority on top.
-        if preset_scenario == "netzero":
-            lever_overrides = {**NETZERO_L_OVERRIDES, **lever_overrides}
-
+        # Net Zero = all levers at full deployment, which the l_default=1.0 preset
+        # already applies; caller's explicit lever_overrides still take priority.
         group_values = self._build_group_values(lever_overrides, exogenous_overrides, l_default, x_default)
         feature_vector = self._build_feature_vector(group_values)
 
         # Named DataFrame → the pipeline aligns features by name (NOT position).
         X = pd.DataFrame([feature_vector])[self._feature_columns]
         raw_predictions = self._model.predict(X)[0]  # shape: (n_targets,)
-
-        # Aggregate emission metrics (3) — indexed by target-column name.
-        predictions = {}
-        for target_name in TARGET_METADATA:
-            value = float(raw_predictions[self._target_index[target_name]])
-            dist = self._target_distributions.get(target_name, {})
-            vals = dist.get("values") or [value]
-            predictions[target_name] = {
-                "value": round(value, 4),
-                "unit": TARGET_METADATA[target_name]["unit"],
-                "display_name": TARGET_METADATA[target_name]["display_name"],
-                "training_range": dist.get("range", {"min": 0, "max": 0}),
-                "percentile_in_training": round(
-                    float(stats.percentileofscore(vals, value)), 1
-                ),
-            }
 
         # Sector × year trajectories AND disaggregated cost/benefit (+ GDP).
         sector_trajectories: dict[str, dict[int, float]] = {}
@@ -328,6 +308,18 @@ class SectorPredictor:
             elif col.startswith("gdp_mmm_usd_yr"):
                 yr = col[len("gdp_mmm_usd_yr"):]
                 cost_benefit.setdefault(int(yr), {})["gdp"] = round(val, 4)
+
+        # Derived economy-wide emission headline metrics (one per target year) =
+        # sum of all sector emissions that year. This model has no dedicated
+        # aggregate-emission targets, so we compute them from the sectors.
+        predictions: dict[str, dict] = {}
+        for year in TARGET_YEARS:
+            total = sum(traj.get(year, 0.0) for traj in sector_trajectories.values())
+            predictions[f"emission_total_yr{year}"] = {
+                "value": round(total, 3),
+                "unit": EMISSION_UNIT,
+                "display_name": f"Total Net Emissions ({year})",
+            }
 
         # Per-year totals + cost/benefit as % of GDP (benefits +, costs −).
         for yr, d in cost_benefit.items():
@@ -365,11 +357,11 @@ class SectorPredictor:
         scenario = self.predict(lever_overrides, exogenous_overrides, preset_scenario, scenario_name)
         baseline = self.predict({}, {}, "bau", "Business as Usual (Baseline)")
 
-        # Aggregate % change vs BAU.
+        # % change vs BAU for the derived economy-wide emission metrics.
         comparison: dict[str, float] = {}
-        for metric in TARGET_METADATA:
-            scenario_val = scenario["predictions"][metric]["value"]
-            baseline_val = baseline["predictions"][metric]["value"]
+        for metric, pred in scenario["predictions"].items():
+            scenario_val = pred["value"]
+            baseline_val = baseline["predictions"].get(metric, {}).get("value", 0.0)
             comparison[metric] = (
                 round(100 * (scenario_val - baseline_val) / abs(baseline_val), 2)
                 if baseline_val != 0
@@ -480,6 +472,10 @@ class SectorPredictor:
         group_to_column: dict[int, str] = {}
         for gid, meta in {**registry["lever_features"], **registry["exogenous_features"]}.items():
             group_to_column[int(gid)] = meta["training_column"]
+        # Group-id sets for default-filling (L vs X), read from the registry so we
+        # never hardcode the numbering (it changes per run).
+        self._lever_gids = sorted(int(g) for g in registry["lever_features"])
+        self._exog_gids = sorted(int(g) for g in registry["exogenous_features"])
 
         logger.info(
             "Metadata loaded. Features: %d, Targets: %d", len(feature_columns), len(target_columns)
@@ -499,12 +495,12 @@ class SectorPredictor:
         Values are clamped to their valid ranges.
         """
         group_values: dict[int, float] = {}
-        # L features: groups 1–59
-        for gid in range(1, 60):
+        # L features (policy levers) — group ids from the registry; all in [0,1].
+        for gid in self._lever_gids:
             group_values[gid] = float(np.clip(lever_overrides.get(gid, l_default), 0.0, 1.0))
-        # X features: groups 60–68
-        for gid in range(60, 69):
-            group_values[gid] = float(np.clip(exogenous_overrides.get(gid, x_default), -1.0, 1.0))
+        # X features (exogenous uncertainties) — also sampled in [0,1] in this run.
+        for gid in self._exog_gids:
+            group_values[gid] = float(np.clip(exogenous_overrides.get(gid, x_default), 0.0, 1.0))
         return group_values
 
     def _build_feature_vector(self, group_values: dict[int, float]) -> dict[str, float]:

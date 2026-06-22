@@ -124,7 +124,7 @@ def health_check():
     return {
         "status": "ok" if model_ok else "degraded",
         "model_loaded": model_ok,
-        "model_run_id": "2025-11-12t22;19;28.194097",
+        "model_run_id": settings.model_sector_path.stem.replace("xgb_pipeline_sector_independent_", ""),
         "region": "Uganda",
     }
 

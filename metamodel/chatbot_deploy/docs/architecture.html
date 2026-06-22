@@ -316,11 +316,11 @@
   <p class="lead">End-to-end flow from user message to rendered chart. The backend is stateless — the frontend holds all conversation history and sends it with every request.</p>
 
   <div class="stats">
-    <div class="stat"><div class="num">92</div><div class="lbl">Model features</div></div>
-    <div class="stat"><div class="num">11</div><div class="lbl">Model outputs</div></div>
-    <div class="stat"><div class="num">12</div><div class="lbl">Emission sectors</div></div>
-    <div class="stat"><div class="num">1,933</div><div class="lbl">Main model scenarios</div></div>
-    <div class="stat"><div class="num">1,840</div><div class="lbl">Sector model scenarios</div></div>
+    <div class="stat"><div class="num">67</div><div class="lbl">Model features</div></div>
+    <div class="stat"><div class="num">175</div><div class="lbl">Model outputs</div></div>
+    <div class="stat"><div class="num">15</div><div class="lbl">Emission sectors</div></div>
+    <div class="stat"><div class="num">~99k</div><div class="lbl">Training scenarios</div></div>
+    <div class="stat"><div class="num">5</div><div class="lbl">Reporting years</div></div>
     <div class="stat"><div class="num">4</div><div class="lbl">Agent tools</div></div>
     <div class="stat"><div class="num">5</div><div class="lbl">Max tool iterations</div></div>
     <div class="stat"><div class="num">2025–2070</div><div class="lbl">Simulation horizon</div></div>
@@ -341,7 +341,7 @@
     <rect x="200" y="14" width="520" height="68" rx="8" fill="#e8eef7" stroke="#1e4d8c" stroke-width="1.5"/>
     <text x="460" y="42"  text-anchor="middle" font-size="13" font-weight="600" fill="#1c2433">Browser / Frontend</text>
     <text x="460" y="60"  text-anchor="middle" font-size="11" fill="#6b7685">app.js · Chart.js · state.messages[] — session held entirely in browser</text>
-    <text x="460" y="74"  text-anchor="middle" font-size="10" fill="#1e4d8c" font-style="italic">renders chart ← extractChartBlock() ← ChatResponse JSON</text>
+    <text x="460" y="74"  text-anchor="middle" font-size="10" fill="#1e4d8c" font-style="italic">renders charts inline ← parseChartSegments() ← ChatResponse JSON</text>
 
     <!-- Arrow ① -->
     <line x1="460" y1="82" x2="460" y2="130" stroke="#6b7685" stroke-width="1.5" marker-end="url(#ah)"/>
@@ -420,7 +420,7 @@
     <rect x="20"  y="467" width="186" height="68" rx="6" fill="#fef9e7" stroke="#c98f00" stroke-width="1.5"/>
     <text x="113" y="490" text-anchor="middle" font-size="11" font-weight="600" fill="#7b4f12">XGBoost Surrogate</text>
     <text x="113" y="506" text-anchor="middle" font-size="10" fill="#888">predictor.py</text>
-    <text x="113" y="521" text-anchor="middle" font-size="10" fill="#888">92 features → 59 outputs</text>
+    <text x="113" y="521" text-anchor="middle" font-size="10" fill="#888">67 features → 175 outputs</text>
     <text x="113" y="529" text-anchor="middle" font-size="9"  fill="#c98f00" font-style="italic">training.parquet · model.pkl</text>
 
     <!-- S3 / LHS -->
@@ -488,7 +488,7 @@
         <td><code>5a</code></td>
         <td><span class="tag green">Tool: run_simulation</span></td>
         <td><span class="filepath">agent.py → predictor.py</span></td>
-        <td>Claude calls <code>run_simulation</code> with <code>lever_overrides</code> and <code>exogenous_overrides</code>. The single sector predictor builds a 68-feature named DataFrame → XGBoost returns <strong>123 outputs</strong>: 3 emission aggregates, 48 sector×year emissions (for the stacked chart), and cost/benefit disaggregated by type × year + per-year GDP (for the diverging bar chart). BAU baseline also runs for comparison.</td>
+        <td>Claude calls <code>run_simulation</code> with <code>lever_overrides</code> and <code>exogenous_overrides</code>. The single sector predictor builds a 67-feature named DataFrame → XGBoost returns <strong>175 outputs</strong>: 15 sector×year emissions (the economy-wide total is <em>derived</em> by summing sectors — there is no dedicated aggregate target), plus cost &amp; benefit disaggregated by type × year and per-year GDP. All for 2025/2035/2040/2050/2070. BAU baseline also runs for comparison.</td>
       </tr>
       <tr>
         <td><code>5b</code></td>
@@ -524,7 +524,7 @@
         <td><code>8</code></td>
         <td><span class="tag">Frontend</span></td>
         <td><span class="filepath">frontend/app.js</span></td>
-        <td><code>extractChartBlock()</code> strips the <code>```chart```</code> fence from reply text. <code>renderInlineChart()</code> creates Chart.js line chart. Loading indicator stops.</td>
+        <td><code>parseChartSegments()</code> splits the reply into ordered text/chart segments. Each <code>```chart```</code> block is routed by <code>renderChartFromSpec()</code> to one of three templates (sector stacked / emissions timeseries / cost-benefit), rendered inline at its position. Loading indicator stops.</td>
       </tr>
     </tbody>
   </table>
@@ -544,11 +544,11 @@
   <div class="card-row">
     <div class="card">
       <h4>Surrogate ≠ SISEPUEDE</h4>
-      <p>The XGBoost model is a statistical approximation trained on 1,933 SISEPUEDE runs. It predicts means of 5-year emission windows, not full year-by-year trajectories.</p>
+      <p>The XGBoost model is a statistical approximation trained on ~99,000 SISEPUEDE scenarios. It predicts per-sector emissions and cost/benefit at five reporting years (2025/2035/2040/2050/2070), not full year-by-year trajectories.</p>
     </div>
     <div class="card">
-      <h4>Chart = 2 Points Only</h4>
-      <p>Charts show emissions at <strong>2035</strong> (2033–37 mean) and <strong>2070</strong> (2066–70 mean). The straight line between them is visual interpolation — <em>not</em> a model projection of intermediate years.</p>
+      <h4>Assistant-Controlled Charts</h4>
+      <p>Charts are <strong>not</strong> auto-rendered. The assistant decides which (if any) help and places each one inline by writing a <code>```chart```</code> block. Three templates exist: stacked emissions by sector, total-emissions timeseries, and a cost/benefit diverging bar chart.</p>
     </div>
   </div>
 </div>
@@ -562,7 +562,7 @@
   <table>
     <thead><tr><th>File</th><th>Purpose</th></tr></thead>
     <tbody>
-      <tr><td><span class="filepath">frontend/index.html</span></td><td>Shell: imports Google Fonts, Chart.js 4.4.0 CDN, app.js. Dark-theme chat UI layout.</td></tr>
+      <tr><td><span class="filepath">frontend/index.html</span></td><td>Shell: imports Google Fonts, Chart.js 4.4.0 CDN, app.js. Chat UI layout (header, preset bar, message list, input).</td></tr>
       <tr><td><span class="filepath">frontend/app.js</span></td><td>All application logic: state, API calls, message rendering, chart rendering.</td></tr>
       <tr><td><span class="filepath">frontend/style.css</span></td><td>Design tokens, layout, chat bubbles, chart card styling.</td></tr>
     </tbody>
@@ -572,63 +572,62 @@
   <table>
     <thead><tr><th>Function</th><th>Line</th><th>Description</th></tr></thead>
     <tbody>
-      <tr><td><code>sendChatRequest(messages)</code></td><td>~60</td><td>Fetches <code>POST /api/chat</code>. Returns parsed JSON or throws on HTTP error.</td></tr>
-      <tr><td><code>sendMessage()</code></td><td>~75</td><td>Entry point for user send action. Validates, appends user message to state, calls <code>sendChatRequest</code>.</td></tr>
-      <tr><td><code>THINKING_PHRASES[]</code></td><td>249</td><td>10 phrases shown in rotation while waiting. Cycles every 3s via <code>setInterval</code>.</td></tr>
-      <tr><td><code>setLoading(bool)</code></td><td>264</td><td>Shows/hides typing indicator. Disables input + send button during requests.</td></tr>
-      <tr><td><code>extractChartBlock(text)</code></td><td>~412</td><td>Regex <code>/```chart\s*([\s\S]*?)```/</code> extracts JSON from Claude's reply. Returns <code>{cleanText, chartData}</code>.</td></tr>
-      <tr><td><code>renderInlineChart(container, chartData)</code></td><td>~437</td><td>Creates a Chart.js <code>type:"line"</code> instance. Always plots 2 x-axis points: 2035 and 2070.</td></tr>
-      <tr><td><code>renderChartMetrics(container, metrics)</code></td><td>~577</td><td>Renders 3 summary cards below the chart: total, near-term, long-term % vs BAU.</td></tr>
-      <tr><td><code>renderVariableTable(container, pairs)</code></td><td>~200</td><td>Renders Markdown pipe tables from Claude's response as styled HTML tables.</td></tr>
+      <tr><td><code>sendChatRequest(messages)</code></td><td>~61</td><td>Fetches <code>POST /api/chat</code>. Returns parsed JSON or throws on HTTP error.</td></tr>
+      <tr><td><code>sendMessage()</code></td><td>~85</td><td>Entry point for user send action. Appends the user message to <code>state.conversationHistory</code>, calls <code>sendChatRequest</code>.</td></tr>
+      <tr><td><code>appendMessage(role, content, sim)</code></td><td>116</td><td>Builds a chat bubble. For assistant replies, runs the chart/segment pipeline and attaches the latest simulation bundle.</td></tr>
+      <tr><td><code>parseChartSegments(text)</code></td><td>443</td><td>Splits the reply into ordered segments, extracting each fenced <code>```chart```</code> block as a spec so it can be rendered in place.</td></tr>
+      <tr><td><code>renderChartFromSpec(container, spec, simData)</code></td><td>470</td><td>Dispatches on <code>spec.template</code> → the matching render fn, pulling data from the attached <code>simulation</code> bundle.</td></tr>
+      <tr><td><code>renderStackedSectorChart(...)</code></td><td>762</td><td><code>emissions_by_sector</code>: stacked area by sector. 1 panel for current/scenario, 2 panels side-by-side for <code>both</code>; clickable right-side legend.</td></tr>
+      <tr><td><code>renderEmissionsTimeseries(...)</code></td><td>648</td><td><code>emissions_timeseries</code>: aggregate emissions line (sums the per-sector trajectories).</td></tr>
+      <tr><td><code>renderCostBenefitChart(...)</code></td><td>1007</td><td><code>cost_benefit</code>: diverging bars (benefits up, costs down) by year; BAU net line only when <code>both</code>.</td></tr>
+      <tr><td><code>renderProjectedTotals(...)</code></td><td>708</td><td>Renders the BAU-vs-scenario projected-totals table (shown with <code>emissions_by_sector</code> when view is <code>both</code>).</td></tr>
+      <tr><td><code>renderVariableTable(container, pairs)</code></td><td>371</td><td>Renders the "variables changed" table for a scenario.</td></tr>
+      <tr><td><code>renderFollowUpChips(container, node)</code></td><td>406</td><td>Renders suggested follow-up question chips after a reply.</td></tr>
+      <tr><td><code>setLoading(bool)</code></td><td>292</td><td>Shows/hides typing indicator and cycles "thinking" phrases. Disables input + send button during requests.</td></tr>
     </tbody>
   </table>
+  <div class="callout">
+    <strong>Note:</strong> the old <code>extractChartBlock()</code> (single end-of-reply chart) no longer exists; charts are now placed inline by the assistant. <code>renderChartMetrics()</code> (line 1147) is defined but currently unused.
+  </div>
 
-  <h3>Chart JSON Format</h3>
-  <p>Claude embeds this block in its reply. The frontend extracts and removes it from the displayed prose.</p>
+  <h3>Chart Block Format</h3>
+  <p>The assistant places one or more fenced <code>```chart```</code> blocks inline, wherever a visual supports the text. The block carries <em>only</em> the template name and which view — the data is NOT in the block; it is pulled from the <code>simulation</code> bundle returned by the run the assistant did this turn (<code>sector_comparison</code> / <code>cost_benefit_comparison</code>).</p>
   <pre><code>```chart
 {
-  "years": [2035, 2070],
-  "bau":      [149.5, 185.1],     // 2033–37 mean and 2066–70 mean emissions (Mt CO₂e/yr)
-  "nz":       [45.2,  12.8],     // Net Zero pathway — always present
-  "scenario": [120.3, 98.5],     // User's simulated scenario (null if user asked for Net Zero)
-  "scenario_label": "Simulated Scenario",
-  "metrics": {
-    "total_reduction_pct":   -23.5,    // emission_total_sum % change vs BAU
-    "near_term_vs_bau_pct":  -18.2,    // 2033–37 % change vs BAU
-    "long_term_vs_bau_pct":  -46.8     // 2066–70 % change vs BAU
-  }
+  "template": "emissions_by_sector" | "emissions_timeseries" | "cost_benefit",
+  "scenario": "current" | "scenario" | "both",
+  "title": "optional heading"
 }
 ```</code></pre>
 
-  <div class="callout warn">
-    <strong>Important:</strong> The two-point line is NOT an interpolated trajectory. It is two independent model predictions for different time windows. Intermediate years (2038–2065) cannot be estimated by the surrogate.
-  </div>
-
-  <h3>Chart Rendering Detail</h3>
+  <h3>Chart Templates</h3>
   <table>
-    <thead><tr><th>Series</th><th>Color</th><th>Style</th></tr></thead>
+    <thead><tr><th>template</th><th>Render fn</th><th>What it shows</th></tr></thead>
     <tbody>
-      <tr><td>Business as Usual (BAU)</td><td><code>#A8222E</code> red</td><td>Dashed line, <code>borderDash: [6,4]</code></td></tr>
-      <tr><td>Net Zero Pathway</td><td><code>#007A6F</code> teal</td><td>Solid line, 2px</td></tr>
-      <tr><td>Simulated Scenario</td><td><code>#B8860B</code> amber</td><td>Solid line, 2px (when present)</td></tr>
+      <tr><td><code>emissions_by_sector</code></td><td><code>renderStackedSectorChart</code></td><td>Stacked emissions area by sector. <code>current</code>/<code>scenario</code> = 1 panel; <code>both</code> = BAU vs scenario side-by-side (+ a projected-totals table).</td></tr>
+      <tr><td><code>emissions_timeseries</code></td><td><code>renderEmissionsTimeseries</code></td><td>Aggregate emissions line over 2019–2070 (sums the per-sector trajectories). <code>current</code> = BAU line, <code>scenario</code> = scenario line, <code>both</code> = both.</td></tr>
+      <tr><td><code>cost_benefit</code></td><td><code>renderCostBenefitChart</code></td><td>Diverging bars by year — benefits up, costs down — with a net line. <code>both</code> adds the BAU net reference line.</td></tr>
     </tbody>
   </table>
+  <div class="callout">
+    <strong>scenario values:</strong> <code>current</code> = BAU baseline only (use for "current/actual emissions"), <code>scenario</code> = the user's run, <code>both</code> = compare BAU vs scenario. A chart block is only valid after <code>run_simulation</code> ran this turn, so the data is fresh.
+  </div>
 
   <h3>State Object</h3>
   <pre><code>const state = {
-  messages:   [],        // Full conversation history — sent with every request
-  isLoading:  false,
-  simulation: null,      // Last SimulationResponse from backend
+  conversationHistory: [],     // [{role, content}] — full history, sent every turn
+  isLoading:           false,
+  lastSimulation:      null,   // most recent simulation bundle, for follow-up chart renders
 };</code></pre>
 
-  <h3>Preset Scenarios (UI)</h3>
-  <p>The UI exposes three preset buttons that populate <code>locked_overrides</code> — these force-override Claude's decisions:</p>
+  <h3>Preset Buttons (UI)</h3>
+  <p>The UI exposes three preset buttons (<code>PRESETS</code> in <code>app.js</code>). They do <strong>not</strong> set overrides — each just pre-fills the input with a natural-language prompt and sends it, so the agent triages it like any other message:</p>
   <table>
-    <thead><tr><th>Preset</th><th>Effect</th></tr></thead>
+    <thead><tr><th>Preset</th><th>Sends</th></tr></thead>
     <tbody>
-      <tr><td>BAU</td><td>All L groups = 0.1, all X groups = −1.0</td></tr>
-      <tr><td>Net Zero</td><td>Uses <code>preset_scenario: "netzero"</code> (per-group L values from NZ strategy YAMLs)</td></tr>
-      <tr><td>Compare</td><td>Runs BAU vs Net Zero side-by-side</td></tr>
+      <tr><td>BAU</td><td>"Run a Business as Usual simulation…" → agent runs the <code>bau</code> preset (L=0.1, X=0.5).</td></tr>
+      <tr><td>Net Zero</td><td>"Run a Net Zero scenario…" → agent runs the <code>netzero</code> preset (all L=1.0, X=0.5).</td></tr>
+      <tr><td>Compare</td><td>"Compare Business as Usual against Net Zero…" → BAU vs Net Zero side-by-side.</td></tr>
     </tbody>
   </table>
 </div>
@@ -679,8 +678,8 @@
   <div class="callout">
     <strong>Concrete example — "What if Uganda aggressively protects its forests?"</strong><br><br>
     <strong>1.</strong> <code>anthropic_messages</code> = <code>[{"role": "user", "content": "What if Uganda aggressively protects its forests?"}]</code><br>
-    <strong>2.</strong> Claude API call (iteration 0) → <code>stop_reason = "tool_use"</code>. Claude calls <code>run_simulation(scenario_name="Forest Protection", lever_overrides={"19": 0.9, "21": 0.9})</code>.<br>
-    <strong>3.</strong> Backend executes <code>_run_simulation_tool</code>: builds 92-feature vector, runs XGBoost for scenario + BAU baseline, runs sector predictor. Tool result (JSON summary) appended to <code>anthropic_messages</code> as a <code>tool_result</code> message.<br>
+    <strong>2.</strong> Claude API call (iteration 0) → <code>stop_reason = "tool_use"</code>. Claude calls <code>run_simulation(scenario_name="Forest Protection", lever_overrides={"15": 0.9, "9": 0.9})</code> — group 15 (reduce deforestation) + group 9 (increase forest sequestration).<br>
+    <strong>3.</strong> Backend executes <code>_run_simulation_tool</code>: builds the 67-feature vector, runs XGBoost for scenario + BAU baseline. Tool result (JSON summary incl. <code>sector_breakdown</code> + <code>cost_benefit_by_year</code>) appended to <code>anthropic_messages</code> as a <code>tool_result</code> message.<br>
     <strong>4.</strong> Claude API call (iteration 1) → <code>stop_reason = "end_turn"</code>. Claude reads the numeric results and writes the markdown narrative response.<br>
     <strong>5.</strong> Loop exits. Returns <code>{reply, simulation, scenario_interpretation, tool_calls_log}</code> to FastAPI.<br><br>
     In this example the loop runs <strong>2 iterations</strong>. If the user had also asked "and what does current deforestation look like?", Claude would insert a second <code>get_country_context(topic="agriculture")</code> call at step 2, making it 3 iterations total.
@@ -693,12 +692,12 @@
       <tr>
         <td><code>run_simulation</code></td>
         <td>Any question about emissions, costs, or policy outcomes. Called first.</td>
-        <td>70 output metrics for scenario + BAU baseline + % changes (11 aggregate emissions/costs/co-benefits + 59 sector×year breakdowns).</td>
+        <td><strong>175 outputs</strong> for scenario + BAU baseline + % changes: 15 sector×year emissions (economy-wide total derived by summing sectors), cost &amp; benefit disaggregated by type × year (16 benefit + 3 cost types), and per-year GDP — all for 2025/2035/2040/2050/2070. Also returns the <code>sector_breakdown</code> and <code>cost_benefit_by_year</code> summaries.</td>
       </tr>
       <tr>
         <td><code>get_scenario_variables</code></td>
         <td>After <code>run_simulation</code> when user asked about a specific policy. Gets variable-level detail.</td>
-        <td>Raw SISEPUEDE variable values from nearest LHS trial in S3 (design_id=3).</td>
+        <td>Raw SISEPUEDE variable values from nearest LHS trial in S3 (design_id=4).</td>
       </tr>
       <tr>
         <td><code>get_country_context</code></td>
@@ -718,12 +717,12 @@
   <pre><code>L values  {group_id: float in [0,1]}   ← raw policy values, NOT T-transformed
   │
   │  1-NN Euclidean search against all rows in ATTRIBUTE_LHC_SAMPLES_LEVER_EFFECTS
-  │     where design_id = 3 (L-only design). Joint distance across all changed groups
-  │     simultaneously: dist = sqrt( Σᵢ (trial_i − query_i)² )
+  │     where design_id = 4 (the ~100k LHS scenarios — L and X vary together; this run
+  │     has NO L-only design). Joint L distance: dist = sqrt( Σᵢ (trial_i − query_i)² )
   ↓
 nearest future_id                       ← intermediate identifier, never leaves s3_lookup.py
   │
-  │  Join ATTRIBUTE_PRIMARY on (design_id=3, future_id)
+  │  Join ATTRIBUTE_PRIMARY on (design_id=4, future_id)
   ↓
 primary_id  (int)                       ← stable experiment identifier used for all S3 reads
   │
@@ -736,211 +735,221 @@ s3://sisepuede-data/run_database/{run_id}/model_output/region=uganda/model_outpu
   ↓
 sector emission trajectories  [Mt CO₂e × 56 time periods]   ← returned to Claude</code></pre>
   <div class="callout warn">
-    <strong>Note:</strong> The L→T formula (T = 0.9×x + 0.1) is <em>not applied</em> in the lookup. The LHS CSV stores raw L values in [0,1], so the search compares like-with-like. T is only computed by <code>predictor.py</code> when building the XGBoost input vector.
+    <strong>Note:</strong> The L→T formula (T = 0.9×x + 0.1) is <em>not applied</em> in the lookup. The LHS CSV stores raw L values in [0,1], so the search compares like-with-like. T is only computed by <code>predictor.py</code> when building the XGBoost input vector. Because design_id=4 perturbs X alongside L, the matched trial is the closest by L but its X is also varied — so <code>get_scenario_variables</code> returns an <em>approximate</em> nearest experiment, not an exact L-only match.
   </div>
 
   <h3>System Prompt Structure</h3>
   <p>Built dynamically at each call from <span class="filepath">backend/feature_registry.json</span>. Contains the following sections:</p>
 
-  <div class="prompt-block"><span class="prompt-section">## UGANDA COUNTRY CONTEXT</span>
+  <div class="prompt-block"><span class="prompt-section">## OBJECTIVE</span>
+Help policymakers explore possible futures for Uganda's emissions and costs (2025–2070).
+If a request doesn't serve that, say so plainly and steer back.
+
+<span class="prompt-section">## REQUEST TRIAGE  (classify every request: A / B / C)</span>
+<span class="prompt-rule">A — Standard pathway: a predefined preset (bau, netzero). Run with preset_scenario.</span>
+<span class="prompt-rule">B — New pathway: a custom combo of levers → call run_simulation with lever_overrides.</span>
+<span class="prompt-warn">C — Cannot answer: needs a metric/sector/region/year the model doesn't produce → decline briefly, redirect.</span>
+
+<span class="prompt-section">## UGANDA COUNTRY CONTEXT</span>
 Uganda, 47M people, GDP ~40B USD, 85% hydropower, 72% workforce in agriculture.
-NDC target: 22% GHG reduction by 2030 vs BAU.
+NDC target: 22% GHG reduction by 2030 vs BAU. (Baseline stats come from get_country_context.)
 
 <span class="prompt-section">## MODEL MECHANICS</span>
-68 input parameters: 59 policy lever groups (L, 0–1) + 9 exogenous uncertainty groups (X, −1 to 1).
-Predicts 11 outcomes: emissions, costs, co-benefits.
+67 input parameters: 54 policy lever groups (L, scale 0–1) + 13 exogenous uncertainty groups (X, scale 0–1).
+Predicts per-sector emissions (+ a derived economy-wide total), costs, and co-benefits — all
+disaggregated by type and year, plus cost/benefit as a share of GDP.
 
 <span class="prompt-rule">L groups = policy choices. Claude CAN set L values.</span>
 <span class="prompt-warn">X groups = external conditions. Claude MUST NOT set X values in response to policy requests.</span>
 
 <span class="prompt-section">## L TRANSFORM FORMULA</span>
-T = 0.9 × x + 0.1   (design 3 — standard)
-Reverse: x = (T − 0.1) / 0.9
-Physical effect = transformer_default_magnitude × T
-Ramp: progressive transition from baseline to T over ~20–30 years (SISEPUEDE vec_implementation_ramp).
+T = 0.9 × x + 0.1   (standard policy design).  Reverse: x = (T − 0.1) / 0.9
+Physical effect = transformer_default_magnitude × T.  T is the TARGET at 2070 (SISEPUEDE ramp).
 
 <span class="prompt-section">## SCENARIO PRESETS</span>
-BAU:      preset_scenario = "bau"     L=0.1 all groups, X=−1.0
-Net Zero: preset_scenario = "netzero" Per-group L values from Uganda NZ strategy YAMLs
+BAU:      preset_scenario = "bau"     L=0.1 all groups, X=0.5 (median future)
+Net Zero: preset_scenario = "netzero" all 54 levers at full deployment (L=1.0), X=0.5
 
-<span class="prompt-section">## POLICY LEVERS — 59 L groups, scale 0–1</span>
-[Dynamic list from feature_registry.json — sectors: Agriculture, Energy, Industry,
- Land Use, Livestock, Buildings, Transport, Waste, Water]
+<span class="prompt-section">## POLICY LEVERS (L) — 54 groups, scale 0.0–1.0</span>
+0.0 = no action · 0.5 = moderate · 0.9–1.0 = max / Net Zero
+[Dynamic list from feature_registry.json — Agriculture, Electricity, Forestry, Industry,
+ Land Use, Livestock, Buildings, Transport, Wastewater, Solid Waste, …]
 
-<span class="prompt-section">## EXOGENOUS UNCERTAINTY FACTORS — 9 X groups, scale −1 to 1</span>
-[Dynamic list: GDP trajectory (62), population (65), fossil fuel prices (61), etc.]
+<span class="prompt-section">## EXOGENOUS UNCERTAINTY FACTORS (X) — 13 groups, scale 0.0–1.0</span>
+0.0 = low end · 0.5 = median (default) · 1.0 = high end
+[Dynamic list: GDP growth (57), population (60), fossil fuel prices (56), tech costs, etc.]
+
+<span class="prompt-section">## MODEL OUTPUTS / COST &amp; BENEFIT / SECTOR BREAKDOWN</span>
+Each run returns: net emissions per year + per-sector emissions; cost_benefit_by_year
+(total_benefit, total_cost, net, cost_pct_gdp — cost_pct_gdp is ALREADY a %, don't multiply);
+and sector_breakdown (scenario vs bau, delta, pct_change) for 15 sectors.
 
 <span class="prompt-section">## RULES</span>
-<span class="prompt-rule">1. Always call run_simulation BEFORE giving any emissions numbers.</span>
-<span class="prompt-rule">2. Call get_scenario_variables AFTER run_simulation for specific policy questions.</span>
+<span class="prompt-rule">0. Triage first (A/B/C). Never state a number not produced by a tool call THIS turn.</span>
+<span class="prompt-rule">1. Always call run_simulation BEFORE giving any emissions/cost/co-benefit numbers.</span>
+<span class="prompt-rule">2. Sector emissions arrive automatically via sector_breakdown — use them directly.</span>
 <span class="prompt-rule">3. Call get_country_context for Uganda baseline stats. Never invent numbers.</span>
 <span class="prompt-warn">4. Never hallucinate values — all numbers from tool calls only.</span>
 <span class="prompt-warn">5. Never set X groups in response to a policy request.</span>
 <span class="prompt-rule">6. Flag any non-tool-sourced information explicitly.</span>
 
 <span class="prompt-section">## TRANSLATION RULES</span>
-"aggressive/ambitious/maximum" → L group = 0.9
-"moderate/some/partial"        → L group = 0.5
+"aggressive/ambitious/maximum" → L group = 0.9      "moderate/partial" → 0.5
 "business as usual/baseline"   → all L groups = 0.1
-"phase out" fossil fuels        → fuel-switch L group = 0.9
-"protect forests"               → L19 (deforestation) + L21 (reforestation) = 0.8–0.9
-"Net Zero"                      → preset_scenario: "netzero" — do NOT manually set L groups
-"higher GDP growth"             → X62 = 0.7–0.9 (scenario context only)
-"optimistic future"             → all X groups = 0.7–0.8 (scenario context only)
+"protect forests"              → L15 (reduce deforestation) + L9 (forest sequestration) = 0.8–0.9
+"Net Zero"                     → preset_scenario: "netzero" — do NOT manually set L groups
+"higher GDP growth"            → X57 = 0.7–0.9 (scenario context only)
+"high population growth"       → X60 = 0.8–1.0      "expensive fossil fuels" → X56 = 0.7–0.9
 
-<span class="prompt-section">## RESPONSE FORMAT</span>
-Every response includes either:
-A) ```chart``` block — for any response with simulation output
-B) Markdown table — for factual/context responses
+<span class="prompt-section">## CHARTS — YOU CONTROL THEM</span>
+Charts do NOT render automatically. Place a fenced ```chart block where a visual helps.
+Schema: { "template": "<name>", "scenario": "current"|"scenario"|"both", "title": "optional" }
+Templates: emissions_by_sector · emissions_timeseries · cost_benefit. Only after run_simulation this turn.
 
-Be brief: 2–4 sentences of prose maximum.
-Simulation structure: key finding → table → main driver → chart block.</div>
+<span class="prompt-section">## RESPONSE STYLE</span>
+Analytical but concise (usually 1–3 short paragraphs): magnitude + horizon + driver; link
+emissions → co-benefits → investment. Tables are OPTIONAL, not a default wrapper. No `---` rules.
+Lead with the key finding.</div>
 
   <h3>Interaction Log Format</h3>
   <p>Written to <span class="filepath">chatbot_deploy/logs/interactions.jsonl</span> after every successful request:</p>
   <pre><code>{
-  "ts": "2026-05-03T18:42:11.234Z",
+  "ts": "2026-06-18T18:42:11.234567+00:00",
   "user_message": "What happens if Uganda aggressively expands renewables?",
   "tool_calls": [
-    {
-      "tool": "run_simulation",
-      "inputs": {
-        "lever_overrides": {"8": 0.9},
-        "exogenous_overrides": {},
-        "preset_scenario": "bau",
-        "compare_to_baseline": true,
-        "scenario_name": "High Renewables"
-      }
-    },
-    { "tool": "get_scenario_variables", "inputs": {"group_ids": [8], "l_values": {"8": 0.9}} }
+    { "tool": "run_simulation",
+      "inputs": { "lever_overrides": {"7": 0.9}, "exogenous_overrides": {},
+                  "scenario_name": "High Renewables" } }
   ],
-  "lever_overrides":     {"8": 0.9},
+  "lever_overrides":     {"7": 0.9},
   "exogenous_overrides": {},
+  "preset_scenario":     null,
   "simulation_outputs": {
-    "emission_total_sum":        7210.5,
-    "2033_2037_mean_emission":    142.3,
-    "2066_2070_mean_emission":    158.7,
-    ...
+    "emission_total_yr2025": 134.8,        // from scenario.predictions
+    "emission_total_yr2070": 251.3,
+    "emission_trns_yr2070":  18.4,         // flattened sector trajectories
+    "emission_scoe_yr2070":  61.2
+    // ... one key per (sector × year)
   },
   "reply_snippet": "Aggressively expanding Uganda's renewable electricity target to...",
   "latency_s": 4.21
 }</code></pre>
+  <p><code>simulation_outputs</code> = the scenario's derived <code>predictions</code> (per-year economy-wide totals) merged with every per-sector trajectory point, keyed <code>emission_&lt;sector&gt;_yr&lt;year&gt;</code> (the 2019 anchor is excluded).</p>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════ TAB 4: SURROGATE -->
 <div class="tab-pane" id="tab-surrogate">
   <h2>Surrogate Model</h2>
-  <p class="lead">A single XGBoost <strong>sector model</strong> (1,840 scenarios after outlier removal → 123 outputs) serves everything: 3 emission aggregates, 48 sector×year emissions, cost &amp; benefit disaggregated by type × year (14 benefit + 3 cost types), and per-year GDP — all for 2030/2040/2050/2070. It approximates SISEPUEDE in milliseconds.</p>
+  <p class="lead">A single XGBoost <strong>sector model</strong> (~99,000 SISEPUEDE scenarios → 175 outputs) serves everything: 15 sector×year emissions (the economy-wide total is <em>derived</em> by summing sectors — there are no dedicated aggregate-emission targets), cost &amp; benefit disaggregated by type × year (16 benefit + 3 cost types), and per-year GDP — all for 2025/2035/2040/2050/2070. It approximates SISEPUEDE in milliseconds.</p>
 
   <div class="stats">
-    <div class="stat"><div class="num">1,840</div><div class="lbl">Training scenarios</div></div>
-    <div class="stat"><div class="num">92</div><div class="lbl">Input features</div></div>
-    <div class="stat"><div class="num">83</div><div class="lbl">L (lever) features</div></div>
-    <div class="stat"><div class="num">9</div><div class="lbl">X (exogenous) features</div></div>
-    <div class="stat"><div class="num">59</div><div class="lbl">Total outputs</div></div>
-    <div class="stat"><div class="num">11</div><div class="lbl">Aggregate metrics</div></div>
-    <div class="stat"><div class="num">48</div><div class="lbl">Sector × year (12×4)</div></div>
+    <div class="stat"><div class="num">~99k</div><div class="lbl">Training scenarios</div></div>
+    <div class="stat"><div class="num">67</div><div class="lbl">Input features</div></div>
+    <div class="stat"><div class="num">54</div><div class="lbl">L (lever) features</div></div>
+    <div class="stat"><div class="num">13</div><div class="lbl">X (exogenous) features</div></div>
+    <div class="stat"><div class="num">175</div><div class="lbl">Total outputs</div></div>
+    <div class="stat"><div class="num">75</div><div class="lbl">Sector × year (15×5)</div></div>
+    <div class="stat"><div class="num">100</div><div class="lbl">Cost/benefit/GDP (20×5)</div></div>
   </div>
 
   <h3>Model File</h3>
-  <p><span class="filepath">metamodel/surrogate_model_sector/trained_models/xgb_pipeline_sector_independent_2025-11-12t22;19;28.194097.pkl</span></p>
-  <p>Loaded once at server startup via <code>joblib.load()</code>, wrapped in a <code>SectorPredictor</code> singleton (<span class="filepath">backend/services/predictor.py</span>). The predictor feeds the pipeline a <strong>named DataFrame</strong> so features align by name (via <code>feature_names_in_</code>) rather than position. Target column order and the aggregate-metric training distributions (for the "percentile in training" display) come from <span class="filepath">backend/target_distributions.json</span> — the training parquet is not loaded at runtime.</p>
+  <p><span class="filepath">metamodel/surrogate_model_sector/trained_models/xgb_pipeline_sector_independent_2026-05-30t21;35;56.244639.pkl</span></p>
+  <p>Loaded once at server startup via <code>joblib.load()</code>, wrapped in a <code>SectorPredictor</code> singleton (<span class="filepath">backend/services/predictor.py</span>). The predictor feeds the pipeline a <strong>named DataFrame</strong> so features align by name (via <code>feature_names_in_</code>) rather than position. Target column order and the training distributions (for the "percentile in training" display) come from <span class="filepath">backend/target_distributions.json</span> — the training parquet is not loaded at runtime.</p>
 
   <h3>Feature Space</h3>
 
-  <h4>L Groups — Policy Levers (59 groups, 83 training columns)</h4>
+  <h4>L Groups — Policy Levers (54 groups)</h4>
   <div class="callout">
-    <strong>Scale:</strong> 0.0 = no policy action (BAU) · 0.5 = moderate ambition · 0.9–1.0 = maximum / Net Zero ambition<br>
-    <strong>BAU default:</strong> all L groups = 0.1
+    <strong>Scale (0.0–1.0):</strong> 0.1 = BAU / minimal action · 0.5 = moderate ambition · 1.0 = maximum / Net Zero deployment<br>
+    <strong>BAU default:</strong> all L groups = 0.1 · <strong>Net Zero:</strong> all L groups = 1.0
   </div>
   <table>
     <thead><tr><th>Group</th><th>Display Name</th><th>Sector</th></tr></thead>
     <tbody>
-      <tr><td>1</td><td>Rice Paddy Methane Reduction</td><td>Agriculture</td></tr>
-      <tr><td>2</td><td>Agricultural Food Loss Reduction</td><td>Agriculture</td></tr>
-      <tr><td>3</td><td>Conservation Agriculture</td><td>Agriculture</td></tr>
-      <tr><td>4</td><td>Crop Yield Improvement</td><td>Agriculture</td></tr>
-      <tr><td>5</td><td>Carbon Capture &amp; Storage (CCS)</td><td>Energy</td></tr>
-      <tr><td>6</td><td>Electricity Grid Efficiency</td><td>Energy</td></tr>
-      <tr><td>7</td><td>Clean Hydrogen Production</td><td>Energy</td></tr>
-      <tr><td>8</td><td>Renewable Electricity Target</td><td>Energy</td></tr>
-      <tr><td>9</td><td>Fugitive Gas Leak Reduction</td><td>Energy</td></tr>
-      <tr><td>10</td><td>Methane Flaring Reduction</td><td>Energy</td></tr>
-      <tr><td>11</td><td>Forest Carbon Sequestration</td><td>Land Use</td></tr>
-      <tr><td>12</td><td>Industrial Fuel Efficiency</td><td>Industry</td></tr>
-      <tr><td>13</td><td>Industrial Production Efficiency</td><td>Industry</td></tr>
-      <tr><td>14</td><td>Industrial Fuel Mix Shift</td><td>Industry</td></tr>
-      <tr><td>15</td><td>Low-Clinker Cement</td><td>Industry</td></tr>
-      <tr><td>16</td><td>Industrial Production Demand Reduction</td><td>Industry</td></tr>
-      <tr><td>17</td><td>Industrial N₂O Process Emissions</td><td>Industry</td></tr>
-      <tr><td>18</td><td>Industrial PFC Emissions</td><td>Industry</td></tr>
-      <tr><td>19</td><td>Deforestation Reduction</td><td>Land Use</td></tr>
-      <tr><td>20</td><td>Wetland Protection</td><td>Land Use</td></tr>
-      <tr><td>21</td><td>Reforestation</td><td>Land Use</td></tr>
-      <tr><td>22</td><td>Silvopasture</td><td>Livestock</td></tr>
-      <tr><td>23</td><td>Livestock Manure Biogas Capture</td><td>Livestock</td></tr>
-      <tr><td>24</td><td>Cattle &amp; Pig Manure Management</td><td>Livestock</td></tr>
-      <tr><td>25</td><td>Other Livestock Manure Management</td><td>Livestock</td></tr>
-      <tr><td>26</td><td>Poultry Manure Management</td><td>Livestock</td></tr>
-      <tr><td>27</td><td>Livestock Enteric Fermentation</td><td>Livestock</td></tr>
-      <tr><td>28</td><td>Livestock Productivity</td><td>Livestock</td></tr>
-      <tr><td>29</td><td>Diet Shift</td><td>Agriculture</td></tr>
-      <tr><td>30</td><td>Industrial CO₂ Capture</td><td>Industry</td></tr>
-      <tr><td>31</td><td>Building Heat Demand Reduction</td><td>Buildings</td></tr>
-      <tr><td>32</td><td>Building Appliance Efficiency</td><td>Buildings</td></tr>
-      <tr><td>33</td><td>Biomass Cooking Stove Efficiency</td><td>Buildings</td></tr>
-      <tr><td>34</td><td>Building Fuel Mix Shift</td><td>Buildings</td></tr>
-      <tr><td>35</td><td>Agricultural Liming Reduction</td><td>Agriculture</td></tr>
-      <tr><td>36</td><td>Nitrogen Fertilizer Reduction</td><td>Agriculture</td></tr>
-      <tr><td>37</td><td>Transport Demand Reduction</td><td>Transport</td></tr>
-      <tr><td>38</td><td>Electric Vehicle Efficiency</td><td>Transport</td></tr>
-      <tr><td>39</td><td>Non-Electric Vehicle Efficiency</td><td>Transport</td></tr>
-      <tr><td>40</td><td>Passenger Vehicle Occupancy</td><td>Transport</td></tr>
-      <tr><td>41</td><td>Light Duty Vehicle Electrification</td><td>Transport</td></tr>
-      <tr><td>42</td><td>Maritime Fuel Shift</td><td>Transport</td></tr>
-      <tr><td>43</td><td>Medium Duty Vehicle Electrification</td><td>Transport</td></tr>
-      <tr><td>44</td><td>Rail Electrification</td><td>Transport</td></tr>
-      <tr><td>45</td><td>Freight Mode Shift</td><td>Transport</td></tr>
-      <tr><td>46</td><td>Passenger Mode Shift</td><td>Transport</td></tr>
-      <tr><td>47</td><td>Regional Transport Mode Shift</td><td>Transport</td></tr>
-      <tr><td>48</td><td>Wastewater Biogas Capture</td><td>Waste</td></tr>
-      <tr><td>49</td><td>Septic System Compliance</td><td>Waste</td></tr>
-      <tr><td>50</td><td>Industrial Wastewater Treatment</td><td>Waste</td></tr>
-      <tr><td>51</td><td>Rural Wastewater Treatment</td><td>Waste</td></tr>
-      <tr><td>52</td><td>Urban Wastewater Treatment</td><td>Waste</td></tr>
-      <tr><td>53</td><td>Consumer Food Waste Reduction</td><td>Waste</td></tr>
-      <tr><td>54</td><td>Organic Waste Composting</td><td>Waste</td></tr>
-      <tr><td>55</td><td>Landfill Gas Capture</td><td>Waste</td></tr>
-      <tr><td>56</td><td>Landfill Gas Energy Recovery</td><td>Waste</td></tr>
-      <tr><td>57</td><td>Waste Incineration Energy Recovery</td><td>Waste</td></tr>
-      <tr><td>58</td><td>Controlled Landfilling</td><td>Waste</td></tr>
-      <tr><td>59</td><td>Solid Waste Recycling</td><td>Waste</td></tr>
+      <tr><td>1</td><td>Reduce CH4 RICE</td><td>Agriculture</td></tr>
+      <tr><td>2</td><td>Reduce LOSSES SUPPLY CHAIN</td><td>Agriculture</td></tr>
+      <tr><td>3</td><td>Increase CONSERVATION AGRICULTURE</td><td>Agriculture</td></tr>
+      <tr><td>4</td><td>Increase PRODUCTIVITY</td><td>Agriculture</td></tr>
+      <tr><td>5</td><td>Reduce LOSSES</td><td>Electricity</td></tr>
+      <tr><td>6</td><td>Target CLEAN HYDROGEN</td><td>Electricity</td></tr>
+      <tr><td>7</td><td>Target RENEWABLE ELEC</td><td>Electricity</td></tr>
+      <tr><td>8</td><td>Reduce LEAKS</td><td>Fugitive Emissions</td></tr>
+      <tr><td>9</td><td>Increase SEQUESTRATION</td><td>Forestry</td></tr>
+      <tr><td>10</td><td>Increase EFFICIENCY ENERGY</td><td>Industrial Energy</td></tr>
+      <tr><td>11</td><td>Shift FUEL HEAT</td><td>Industrial Energy</td></tr>
+      <tr><td>12</td><td>Reduce CLINKER</td><td>Industrial Processes</td></tr>
+      <tr><td>13</td><td>Reduce N2O</td><td>Industrial Processes</td></tr>
+      <tr><td>14</td><td>Reduce PFCS</td><td>Industrial Processes</td></tr>
+      <tr><td>15</td><td>Reduce DEFORESTATION</td><td>Land Use</td></tr>
+      <tr><td>16</td><td>Increase SILVOPASTURE</td><td>Land Use</td></tr>
+      <tr><td>17</td><td>Set FORESTS SECONDARY MAX</td><td>Land Use</td></tr>
+      <tr><td>18</td><td>Set WETLANDS MINIMUM</td><td>Land Use</td></tr>
+      <tr><td>19</td><td>Increase CAPTURE BIOGAS</td><td>Livestock Manure Management</td></tr>
+      <tr><td>20</td><td>Increase MANAGEMENT CATTLE PIGS</td><td>Livestock Manure Management</td></tr>
+      <tr><td>21</td><td>Increase MANAGEMENT OTHER</td><td>Livestock Manure Management</td></tr>
+      <tr><td>22</td><td>Increase MANAGEMENT POULTRY</td><td>Livestock Manure Management</td></tr>
+      <tr><td>23</td><td>Reduce ENTERIC FERMENTATION</td><td>Livestock</td></tr>
+      <tr><td>24</td><td>Increase PRODUCTIVITY</td><td>Livestock</td></tr>
+      <tr><td>25</td><td>Increase HEALTHIER DIETS</td><td>Cross-Sector</td></tr>
+      <tr><td>26</td><td>Increase IND CCS</td><td>Cross-Sector</td></tr>
+      <tr><td>27</td><td>Reduce DEMAND HEAT</td><td>Buildings &amp; Other Combustion</td></tr>
+      <tr><td>28</td><td>Increase EFFICIENCY APPLIANCE</td><td>Buildings &amp; Other Combustion</td></tr>
+      <tr><td>29</td><td>Increase EFFICIENCY HEAT</td><td>Buildings &amp; Other Combustion</td></tr>
+      <tr><td>30</td><td>Shift FUEL HEAT</td><td>Buildings &amp; Other Combustion</td></tr>
+      <tr><td>31</td><td>Reduce DEMAND</td><td>Transport Demand</td></tr>
+      <tr><td>32</td><td>Increase EFFICIENCY ELECTRIC</td><td>Transportation</td></tr>
+      <tr><td>33</td><td>Increase EFFICIENCY NON ELECTRIC</td><td>Transportation</td></tr>
+      <tr><td>34</td><td>Increase OCCUPANCY LIGHT DUTY</td><td>Transportation</td></tr>
+      <tr><td>35</td><td>Shift FUEL LIGHT DUTY</td><td>Transportation</td></tr>
+      <tr><td>36</td><td>Shift FUEL MARITIME</td><td>Transportation</td></tr>
+      <tr><td>37</td><td>Shift FUEL MEDIUM DUTY</td><td>Transportation</td></tr>
+      <tr><td>38</td><td>Shift FUEL POWERED BIKES</td><td>Transportation</td></tr>
+      <tr><td>39</td><td>Shift FUEL RAIL</td><td>Transportation</td></tr>
+      <tr><td>40</td><td>Shift MODE FREIGHT</td><td>Transportation</td></tr>
+      <tr><td>41</td><td>Shift MODE PASSENGER</td><td>Transportation</td></tr>
+      <tr><td>42</td><td>Shift MODE REGIONAL</td><td>Transportation</td></tr>
+      <tr><td>43</td><td>Increase CAPTURE BIOGAS</td><td>Wastewater</td></tr>
+      <tr><td>44</td><td>Increase COMPLIANCE SEPTIC</td><td>Wastewater</td></tr>
+      <tr><td>45</td><td>Increase TREATMENT INDUSTRIAL</td><td>Water &amp; Wastewater Treatment</td></tr>
+      <tr><td>46</td><td>Increase TREATMENT RURAL</td><td>Water &amp; Wastewater Treatment</td></tr>
+      <tr><td>47</td><td>Increase TREATMENT URBAN</td><td>Water &amp; Wastewater Treatment</td></tr>
+      <tr><td>48</td><td>Reduce CONSUMER FOOD WASTE</td><td>Solid Waste</td></tr>
+      <tr><td>49</td><td>Increase ANAEROBIC AND COMPOST</td><td>Solid Waste</td></tr>
+      <tr><td>50</td><td>Increase CAPTURE BIOGAS</td><td>Solid Waste</td></tr>
+      <tr><td>51</td><td>Increase ENERGY FROM BIOGAS</td><td>Solid Waste</td></tr>
+      <tr><td>52</td><td>Increase ENERGY FROM INCINERATION</td><td>Solid Waste</td></tr>
+      <tr><td>53</td><td>Increase LANDFILLING</td><td>Solid Waste</td></tr>
+      <tr><td>54</td><td>Increase RECYCLING</td><td>Solid Waste</td></tr>
     </tbody>
   </table>
 
-  <h4>X Groups — Exogenous Uncertainty (9 groups)</h4>
+  <h4>X Groups — Exogenous Uncertainty (13 groups, id 55–67)</h4>
   <div class="callout">
-    <strong>Scale:</strong> −1.0 = fixed baseline trajectory · 0.0 = pessimistic · 0.5 = median · 1.0 = optimistic<br>
-    <strong>BAU default:</strong> all X groups = −1.0
+    <strong>Scale (0.0–1.0):</strong> 0.0 = low end of the uncertainty range · 0.5 = median (central) future — the default · 1.0 = high end<br>
+    <strong>BAU &amp; Net Zero default:</strong> all X groups = 0.5. These are relative positions within the model's uncertainty range, not direct % changes.
   </div>
   <table>
-    <thead><tr><th>Group</th><th>Description</th><th>Notes</th></tr></thead>
+    <thead><tr><th>Group</th><th>Description</th><th>Category</th></tr></thead>
     <tbody>
-      <tr><td>60</td><td>Energy demand trajectory</td><td>Overall energy intensity of the economy</td></tr>
-      <tr><td>61</td><td>Fossil fuel price trajectory</td><td>International fossil fuel price uncertainty</td></tr>
-      <tr><td>62</td><td>GDP growth trajectory</td><td>Economic development pathway</td></tr>
-      <tr><td>63</td><td>Agricultural productivity</td><td>Crop yield growth under climate change</td></tr>
-      <tr><td>64</td><td>Technology cost decline</td><td>Clean energy and transport cost curves</td></tr>
-      <tr><td>65</td><td>Population growth</td><td>Demographic projection</td></tr>
-      <tr><td>66</td><td>Industrial output trajectory</td><td>Manufacturing and construction growth</td></tr>
-      <tr><td>67</td><td>Livestock demand</td><td>Per-capita meat and dairy consumption trends</td></tr>
-      <tr><td>68</td><td>Urbanisation rate</td><td>Rural-to-urban migration pace</td></tr>
+      <tr><td>55</td><td>Agricultural Export Volumes</td><td>Macroeconomic / Trade</td></tr>
+      <tr><td>56</td><td>Fossil Fuel Prices</td><td>Energy Markets</td></tr>
+      <tr><td>57</td><td>GDP Growth Trajectory</td><td>Macroeconomic</td></tr>
+      <tr><td>58</td><td>Industrial Output Elasticity (to GDP)</td><td>Industry</td></tr>
+      <tr><td>59</td><td>Industrial Product-Use Elasticity (to GDP/cap)</td><td>Industry</td></tr>
+      <tr><td>60</td><td>Population Growth</td><td>Demographics</td></tr>
+      <tr><td>61</td><td>Building Energy-Demand Elasticity (to GDP/cap)</td><td>Buildings</td></tr>
+      <tr><td>62</td><td>Battery Storage Capital Cost</td><td>Energy Technology</td></tr>
+      <tr><td>63</td><td>Coal Power Plant Capital Cost</td><td>Energy Technology</td></tr>
+      <tr><td>64</td><td>Nuclear Power Plant Capital Cost</td><td>Energy Technology</td></tr>
+      <tr><td>65</td><td>Geothermal Power Plant Capital Cost</td><td>Energy Technology</td></tr>
+      <tr><td>66</td><td>Freight Transport Demand Elasticity</td><td>Transport Demand</td></tr>
+      <tr><td>67</td><td>Passenger Transport Demand Elasticity</td><td>Transport Demand</td></tr>
     </tbody>
   </table>
 
   <h3>L Transform Formula</h3>
   <div class="card">
-    <pre style="border:none; padding:0; background:none; margin:0; font-size:13px;"><code><strong>T = 0.9 × x + 0.1</strong>   (design 3 — standard, confirmed by modeler)
+    <pre style="border:none; padding:0; background:none; margin:0; font-size:13px;"><code><strong>T = 0.9 × x + 0.1</strong>   (the standard policy design)
 
 x = L feature value ∈ [0, 1]
 T = transformation magnitude ∈ [0.1, 1.0]
@@ -960,7 +969,9 @@ T is the TARGET at 2070, not an immediate jump.</code></pre>
   </div>
 
   <h3>XGBoost Model Variants — Comparison</h3>
-  <p>Two variants of the <strong>sector model</strong> were originally trained and evaluated on a held-out test set (N = 368, from 1,840 cleaned scenarios). The R² figures below are from that original 59-target comparison used to <em>select</em> the architecture (MultiOutputRegressor, Variant A). The deployed model was later extended to 123 targets (adding disaggregated cost/benefit + per-year GDP); on the current model mean R² across all 123 targets is ~0.98.</p>
+  <div class="callout warn">
+    <strong>Historical comparison.</strong> The R² tables in this section come from an <em>earlier</em> architecture-selection run: two variants of the sector model trained on the then-1,840-scenario dataset and evaluated on a held-out test set (N = 368), against 59 targets. They were used to <em>pick</em> the architecture (MultiOutputRegressor, Variant A) — they are NOT the current model's metrics. The deployed model was since retrained on the current ~99,000-scenario run and expanded to <strong>175 targets</strong> (5 reporting years, 15 sectors, disaggregated cost/benefit + per-year GDP). Per-target R² for the current model is printed by <span class="filepath">retrain_sector.py</span>.
+  </div>
 
   <div class="card-row">
     <div class="card">
@@ -982,7 +993,7 @@ T is the TARGET at 2070, not an immediate jump.</code></pre>
     <strong>Why Variant A was selected:</strong> It dominates on every sector×year target by R² gaps of 0.2–0.6. Variant B has a slight edge on 3 aggregate emission totals (<code>emission_total_sum</code>, <code>2066_2070_mean_emission</code>) but performs catastrophically on cost, co-benefit, and sector breakdown outputs — making it unsuitable for a policy tool where financial metrics and sector attribution matter.
   </div>
 
-  <h4>11 Aggregate Metrics</h4>
+  <h4>11 Aggregate Metrics <span style="font-weight:400;color:var(--muted);">(historical 59-target comparison)</span></h4>
   <table>
     <thead>
       <tr><th>Target</th><th>R² A</th><th>R² B</th><th>MAE A</th><th>MAE B</th><th>Winner</th></tr>
@@ -1002,8 +1013,8 @@ T is the TARGET at 2070, not an immediate jump.</code></pre>
     </tbody>
   </table>
 
-  <h4>48 Sector × Year Targets (12 sectors × 4 time points: 2030 / 2040 / 2050 / 2070)</h4>
-  <p>These outputs feed the stacked area chart. Sector codes: <code>agrc</code>=Agriculture, <code>frst</code>=Forestry, <code>inen</code>=Industry/Energy, <code>ippu</code>=Industrial Processes, <code>lndu</code>=Land Use, <code>lsmm</code>=Livestock Manure, <code>lvst</code>=Livestock, <code>scoe</code>=Buildings, <code>soil</code>=Soil/N₂O, <code>trns</code>=Transport, <code>trww</code>=Wastewater, <code>waso</code>=Waste.</p>
+  <h4>48 Sector × Year Targets <span style="font-weight:400;color:var(--muted);">(historical: 12 sectors × 4 time points 2030/2040/2050/2070)</span></h4>
+  <p>In the historical comparison these fed the stacked area chart. <strong>The current model has 15 sectors × 5 years</strong> (see the sector list under "Output Metrics" below); the table here is the original 12-sector evaluation.</p>
   <table>
     <thead>
       <tr><th>Target</th><th>R² A</th><th>R² B</th><th>MAE A</th><th>MAE B</th><th>Winner</th></tr>
@@ -1064,80 +1075,82 @@ T is the TARGET at 2070, not an immediate jump.</code></pre>
   </table>
 
   <div class="callout">
-    <strong>Sector model file:</strong> <span class="filepath">surrogate_model_sector/trained_models/xgb_pipeline_sector_independent_2025-11-12t22;19;28.194097.pkl</span><br>
-    Trained on <strong>1,840 scenarios</strong> (1,933 raw minus 93 zscore outliers). Predicts 123 targets: 3 emission aggregates + 48 sector×year emissions + cost/benefit disaggregated by type × year (14 benefit + 3 cost types) + per-year GDP (years 2030/2040/2050/2070). All are consumed by <code>SectorPredictor</code> — emissions drive the headline metrics + stacked-area chart, and the disaggregated cost/benefit drive the diverging bar chart (with cost-as-%-of-GDP derived from the GDP targets).
+    <strong>Sector model file:</strong> <span class="filepath">surrogate_model_sector/trained_models/xgb_pipeline_sector_independent_2026-05-30t21;35;56.244639.pkl</span><br>
+    Trained on the current <strong>~99,000-scenario</strong> SISEPUEDE run (z-score outlier removal, thresh 3.0). Predicts <strong>175 targets</strong>: 15 sector×year emissions (the economy-wide total is derived by summing sectors — no dedicated aggregate target), cost/benefit disaggregated by type × year (16 benefit + 3 cost types) + per-year GDP, for 2025/2035/2040/2050/2070. All consumed by <code>SectorPredictor</code> — emissions drive the headline totals + stacked-area chart, and the disaggregated cost/benefit drive the diverging bar chart (cost-as-%-of-GDP derived from the GDP targets).
   </div>
 
-  <h3>Output Metrics (11)</h3>
+  <h3>Output Metrics (175 targets)</h3>
+  <p>Every target is reported for five years: <strong>2025 · 2035 · 2040 · 2050 · 2070</strong>. Column names follow the patterns below (see <span class="filepath">backend/target_distributions.json</span> for the full ordered list).</p>
   <table>
-    <thead><tr><th>Key</th><th>Display Name</th><th>Unit</th></tr></thead>
+    <thead><tr><th>Family</th><th>Column pattern</th><th>Count</th><th>Unit</th></tr></thead>
     <tbody>
-      <tr><td><code>emission_total_sum</code></td><td>Total Cumulative Emissions (2025–2070)</td><td>Mt CO₂e</td></tr>
-      <tr><td><code>2033_2037_mean_emission</code></td><td>Near-Term Annual Emissions (2033–37 avg)</td><td>Mt CO₂e/yr</td></tr>
-      <tr><td><code>2066_2070_mean_emission</code></td><td>Long-Term Annual Emissions (2066–70 avg)</td><td>Mt CO₂e/yr</td></tr>
-      <tr><td><code>2025_2035_mean_benefits</code></td><td>Near-Term Annual Co-Benefits (2025–35 avg)</td><td>Billion USD/yr</td></tr>
-      <tr><td><code>2025_2070_mean_benefits</code></td><td>Long-Term Annual Co-Benefits (2025–70 avg)</td><td>Billion USD/yr</td></tr>
-      <tr><td><code>2025_2035_mean_costs</code></td><td>Near-Term Annual Implementation Costs (2025–35)</td><td>Billion USD/yr</td></tr>
-      <tr><td><code>2025_2070_mean_costs</code></td><td>Long-Term Annual Implementation Costs (2025–70)</td><td>Billion USD/yr</td></tr>
-      <tr><td><code>2025_2035_max_costs_rel_to_gdp</code></td><td>Peak Near-Term Cost as % of GDP (2025–35)</td><td>Fraction × 100 = %</td></tr>
-      <tr><td><code>2025_2070_max_costs_rel_to_gdp</code></td><td>Peak Long-Term Cost as % of GDP (2025–70)</td><td>Fraction × 100 = %</td></tr>
-      <tr><td><code>2025_2035_cumulative_cost_rel_to_gdp</code></td><td>Cumulative Near-Term Cost / GDP (2025–35)</td><td>Fraction × 100 = %</td></tr>
-      <tr><td><code>2025_2070_cumulative_cost_rel_to_gdp</code></td><td>Cumulative Long-Term Cost / GDP (2025–70)</td><td>Fraction × 100 = %</td></tr>
+      <tr><td>Per-sector emissions</td><td><code>emission_&lt;sector&gt;_yr&lt;year&gt;</code></td><td>15 × 5 = 75</td><td>Mt CO₂e</td></tr>
+      <tr><td>Co-benefits by type</td><td><code>benefit_&lt;type&gt;_yr&lt;year&gt;</code></td><td>16 × 5 = 80</td><td>Billion USD (positive)</td></tr>
+      <tr><td>Costs by type</td><td><code>cost_&lt;type&gt;_yr&lt;year&gt;</code></td><td>3 × 5 = 15</td><td>Billion USD (negative)</td></tr>
+      <tr><td>GDP</td><td><code>gdp_mmm_usd_yr&lt;year&gt;</code></td><td>5</td><td>Billion USD</td></tr>
+      <tr style="background:var(--tag-bg); font-weight:600;"><td>Total</td><td>—</td><td>175</td><td>—</td></tr>
     </tbody>
   </table>
 
+  <h4>15 Emission Sectors</h4>
+  <p><code>agrc</code>=Agriculture · <code>ccsq</code>=Carbon Capture &amp; Storage · <code>entc</code>=Electricity Generation · <code>fgtv</code>=Fugitive Emissions · <code>frst</code>=Forestry (negative = sequestration) · <code>inen</code>=Industrial Energy · <code>ippu</code>=Industrial Processes · <code>lndu</code>=Land Use · <code>lsmm</code>=Livestock Manure Management · <code>lvst</code>=Livestock · <code>scoe</code>=Stationary Combustion (Cooking &amp; Buildings) · <code>soil</code>=Soil Emissions · <code>trns</code>=Transportation · <code>trww</code>=Wastewater Treatment · <code>waso</code>=Solid Waste</p>
+
+  <h4>Cost &amp; Benefit Types <span style="font-weight:400;color:var(--muted);">(labels from <code>COST_BENEFIT_LABELS</code>)</span></h4>
+  <p><strong>16 benefits:</strong> Air Quality, Human Health, Reduced Congestion, Road Safety, Consumer Savings, Technical Savings, Crop Value, Livestock Value, Industrial Value, Ecosystem Services, Environmental Pollution, Land Pollution, Water Pollution, Sector-Specific, Ecosystem Services (Grasslands), Ecosystem Services (Wetlands).<br>
+  <strong>3 costs:</strong> Technical Cost, System Cost, Fuel Cost.</p>
+
   <div class="callout warn">
-    <strong>GDP-relative metrics:</strong> Returned as decimal fractions (e.g. 0.003). Multiply by 100 before displaying to users (0.003 → "0.3% of GDP").
+    <strong>Sign &amp; GDP convention:</strong> benefits are positive, costs negative — net = benefit + cost; do not re-negate. The per-year <code>cost_pct_gdp</code> / <code>benefit_pct_gdp</code> in the API response are <strong>already percentages</strong> (e.g. 0.37 = 0.37% of GDP) — do NOT multiply by 100.
   </div>
 
   <h3>BAU Reference Values</h3>
-  <p>Pre-computed at startup and cached in <span class="filepath">backend/bau_trajectory.json</span>:</p>
+  <p>Pre-computed at startup and cached in <span class="filepath">backend/bau_trajectory.json</span> (regenerated by <code>scripts/precompute_bau.py</code>). Current values for the BAU pathway (all L = 0.1, all X = 0.5):</p>
   <table>
-    <thead><tr><th>Metric</th><th>BAU Value</th></tr></thead>
+    <thead><tr><th>Year</th><th>Net emissions (Mt CO₂e)</th><th>Co-benefits (B USD)</th><th>Net benefit (B USD)</th><th>GDP (B USD)</th></tr></thead>
     <tbody>
-      <tr><td>Total cumulative emissions 2025–2070</td><td>7,759 Mt CO₂e</td></tr>
-      <tr><td>Near-term annual emissions (2033–37 avg)</td><td>149.5 Mt CO₂e/yr</td></tr>
-      <tr><td>Long-term annual emissions (2066–70 avg)</td><td>185.1 Mt CO₂e/yr</td></tr>
-      <tr><td>Near-term co-benefits (2025–35 avg)</td><td>2.91 B USD/yr</td></tr>
-      <tr><td>Long-term co-benefits (2025–70 avg)</td><td>19.26 B USD/yr</td></tr>
-      <tr><td>Near-term costs (2025–35 avg)</td><td>0.42 B USD/yr</td></tr>
+      <tr><td>2025</td><td>135.2</td><td>0.40</td><td>0.39</td><td>128.4</td></tr>
+      <tr><td>2035</td><td>158.0</td><td>7.97</td><td>9.84</td><td>244.6</td></tr>
+      <tr><td>2040</td><td>163.4</td><td>12.06</td><td>15.91</td><td>352.0</td></tr>
+      <tr><td>2050</td><td>184.8</td><td>22.35</td><td>24.09</td><td>537.8</td></tr>
+      <tr><td>2070</td><td>273.0</td><td>54.84</td><td>63.76</td><td>778.2</td></tr>
     </tbody>
   </table>
+  <p style="font-size:12px;color:var(--muted);">Net emissions are the sum of the 15 per-sector trajectories. Net benefit = total benefit + total cost (costs negative). Figures from the deployed model's BAU run; re-read <code>bau_trajectory.json</code> after any retrain.</p>
 
   <h3>How the Feature Vector is Built</h3>
   <pre><code># 1. Start with BAU defaults
-group_values = {gid: 0.1 for gid in range(1, 60)}   # L groups
-group_values.update({gid: -1.0 for gid in range(60, 69)})  # X groups
+group_values = {gid: 0.1 for gid in range(1, 55)}        # 54 L groups → 0.1
+group_values.update({gid: 0.5 for gid in range(55, 68)})  # 13 X groups → 0.5 (median)
 
-# 2. Apply preset (netzero: per-group NETZERO_L_OVERRIDES dict)
+# 2. Apply preset (netzero: all 54 L groups → 1.0)
 # 3. Apply caller's overrides (Claude's lever_overrides / exogenous_overrides)
-# 4. Apply locked_overrides from UI sliders (always win)
+# 4. Apply locked_overrides from UI (always win)
 
 # 5. Map group_id → training column name via feature_registry.json
 # 6. Build a NAMED one-row DataFrame; the pipeline aligns columns by name
 #    (feature_columns = model.feature_names_in_) — never by position.
 X = pd.DataFrame([vector])[feature_columns]
-predictions = model.predict(X)[0]   # shape: (123,) — emissions + sector×year + cost/benefit/GDP</code></pre>
+predictions = model.predict(X)[0]   # shape: (175,) — sector emissions + cost/benefit/GDP</code></pre>
 </div>
 
 <!-- ═══════════════════════════════════════════════════════ TAB 5: AWS -->
 <div class="tab-pane" id="tab-aws">
   <h2>AWS &amp; Data Layer</h2>
-  <p class="lead">The chatbot reads from S3 for variable-level detail lookups. The surrogate model is a local file. AWS credentials use the <code>alexa</code> SSO profile.</p>
+  <p class="lead">The chatbot reads from S3 for variable-level detail lookups. The surrogate model is a local file. AWS credentials come from the boto3 chain (or a named SSO profile via <code>AWS_PROFILE</code>).</p>
 
   <h3>AWS Configuration</h3>
   <table>
     <thead><tr><th>Setting</th><th>Value</th><th>Source</th></tr></thead>
     <tbody>
-      <tr><td>Credential method</td><td>SSO profile <code>alexa</code></td><td><span class="filepath">chatbot_deploy/.env</span> → <code>AWS_PROFILE=alexa</code></td></tr>
-      <tr><td>Region</td><td><code>us-east-1</code></td><td><span class="filepath">.env</span> → <code>AWS_DEFAULT_REGION=us-east-1</code></td></tr>
-      <tr><td>Bucket</td><td><code>sisepuede-data</code></td><td><span class="filepath">backend/config.py</span></td></tr>
-      <tr><td>Run ID</td><td><code>sisepuede_run_2025-11-12T22:19:28.194097</code></td><td><span class="filepath">backend/config.py</span></td></tr>
+      <tr><td>Credential method</td><td>boto3 default chain, or <code>AWS_PROFILE</code> if set</td><td><span class="filepath">backend/config.py</span> (<code>aws_profile</code> default empty) / <span class="filepath">.env</span></td></tr>
+      <tr><td>Region</td><td><code>us-west-2</code></td><td><span class="filepath">config.py</span> → <code>aws_default_region</code> (the <code>sisepuede-data</code> bucket lives in us-west-2)</td></tr>
+      <tr><td>Bucket</td><td><code>sisepuede-data</code></td><td><span class="filepath">config.py</span> → <code>s3_bucket</code></td></tr>
+      <tr><td>Run ID</td><td><code>sisepuede_run_2026-05-30T21:35:56.244639</code></td><td><span class="filepath">config.py</span> → <code>s3_run_id</code></td></tr>
     </tbody>
   </table>
 
   <div class="callout warn">
-    <strong>S3 key format vs Run ID:</strong> S3 keys use lowercase <code>t</code> and semicolons: <code>sisepuede_run_2025-11-12t22;19;28.194097</code>. The config stores the original ISO format and normalises it at startup.
+    <strong>S3 key format vs Run ID:</strong> S3 keys use lowercase <code>t</code> and semicolons: <code>sisepuede_run_2026-05-30t21;35;56.244639</code>. The config stores the original ISO format and normalises it at startup.
   </div>
 
   <h3>S3 Paths</h3>
@@ -1177,14 +1190,14 @@ predictions = model.predict(X)[0]   # shape: (123,) — emissions + sector×year
         <td>Sidecar generated by <span class="filepath">scripts/build_target_distributions.py</span>: target column order + aggregate-metric training distributions for the "percentile in training" display. Replaces the runtime training-parquet load.</td>
       </tr>
       <tr>
-        <td><span class="filepath">surrogate_model_sector/trained_models/xgb_pipeline_sector_independent_2025-11-12t22;19;28.194097.pkl</span></td>
+        <td><span class="filepath">surrogate_model_sector/trained_models/xgb_pipeline_sector_independent_2026-05-30t21;35;56.244639.pkl</span></td>
         <td><span class="tag">Required</span></td>
-        <td>Trained XGBoost MultiOutputRegressor sector pipeline (123 targets). Loaded via <code>joblib.load()</code>; feature order read from <code>feature_names_in_</code>.</td>
+        <td>Trained XGBoost MultiOutputRegressor sector pipeline (175 targets). Loaded via <code>joblib.load()</code>; feature order read from <code>feature_names_in_</code>.</td>
       </tr>
       <tr>
         <td><span class="filepath">chatbot_deploy/backend/feature_registry.json</span></td>
         <td><span class="tag">Required</span></td>
-        <td>Master registry of all 92 feature groups: display names, sectors, variables, transform defaults. Read on every request to build system prompt.</td>
+        <td>Master registry of all 67 feature groups (54 L + 13 X): display names, sectors, training columns, transform defaults. Read on every request to build system prompt.</td>
       </tr>
       <tr>
         <td><span class="filepath">chatbot_deploy/backend/s3_model_input_index.json</span></td>
@@ -1216,21 +1229,21 @@ predictions = model.predict(X)[0]   # shape: (123,) — emissions + sector×year
 
   <h3>Design ID Rules</h3>
   <div class="callout warn">
-    <strong>Critical constraint from modeler:</strong> Never mix L and X variable lookups in the same row.
+    <strong>This run's designs:</strong> there is no L-only design anymore. The LHS scenarios vary L and X <em>together</em>, so <code>get_scenario_variables</code> returns the nearest-by-L trial (with X also perturbed).
   </div>
   <table>
     <thead><tr><th>design_id</th><th>vary_l</th><th>vary_x</th><th>Use for</th></tr></thead>
     <tbody>
-      <tr><td><code>3</code></td><td>1</td><td>0</td><td>L-only lookups — <code>get_scenario_variables</code> always uses this</td></tr>
-      <tr><td><code>0</code></td><td>0</td><td>1</td><td>X-only lookups (not currently used by chatbot)</td></tr>
+      <tr><td><code>4</code></td><td>1</td><td>1</td><td>The ~100k LHS scenarios (L &amp; X vary together) — <code>get_scenario_variables</code> uses this</td></tr>
+      <tr><td><code>0</code></td><td>0</td><td>0</td><td>Single baseline/reference scenario (primary_id=0, strategy_id=0)</td></tr>
     </tbody>
   </table>
 
   <h3>LHS Trial Lookup Flow</h3>
   <pre><code># When get_scenario_variables is called:
 
-1. load ATTRIBUTE_LHC_SAMPLES_LEVER_EFFECTS.csv  (local, ~350KB)
-2. Filter to design_id=3 rows
+1. load ATTRIBUTE_LHC_SAMPLES_LEVER_EFFECTS.csv  (local)
+2. Filter to design_id=4 rows
 3. Compute Euclidean distance from requested L values to each trial row
 4. Select the nearest trial → future_id
 
@@ -1248,7 +1261,7 @@ predictions = model.predict(X)[0]   # shape: (123,) — emissions + sector×year
 if settings.aws_access_key_id and settings.aws_secret_access_key:
     # Explicit keys (not recommended — use profile instead)
 elif settings.aws_profile:
-    # Named profile from .env: AWS_PROFILE=alexa  ← current setup
+    # Named profile from .env: AWS_PROFILE=<your-sso-profile>
 else:
     # Default boto3 chain: env vars → ~/.aws/credentials → instance role</code></pre>
 </div>

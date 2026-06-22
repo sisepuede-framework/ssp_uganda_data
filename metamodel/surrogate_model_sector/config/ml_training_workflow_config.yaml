@@ -1,3 +1,11 @@
-profile_name: alexa
+# Workflow config for the surrogate-model training pipeline (checked into git).
+# AWS credentials live separately in aws_config.yaml (git-ignored).
+#
+# To process a different run or country, change run_id / region and re-run:
+#   python athena/run_extracts.py --apply-ddl   &&   python athena/assemble_training_data.py
+
+run_id: "2026-05-30t21;35;56.244639"   # NOTE: update for each run
+region: uganda                          # Hive partition in S3 (run_database/<run>/<table>/region=<x>/)
 bucket_name: sisepuede-data
-run_id: "2025-11-12t22;19;28.194097" #NOTE: Update this for each run
+
+profile_name: alexa                     # kept for the legacy notebook; the Athena pipeline reads aws_config.yaml

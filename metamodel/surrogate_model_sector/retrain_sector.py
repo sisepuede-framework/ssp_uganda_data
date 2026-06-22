@@ -22,7 +22,7 @@ from utils.eda_utils import DataCleaningUtils
 from utils.ml_utils_v2 import XGBMultiOutputPipeline
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-RUN_ID = "2025-11-12t22;19;28.194097"
+RUN_ID = "2026-05-30t21;35;56.244639"
 TRAINING_DATA_PATH = os.path.join(SCRIPT_DIR, "..", "data", "training", f"training_data_sector_{RUN_ID}.parquet")
 TRAINED_MODELS_DIR = os.path.join(SCRIPT_DIR, "trained_models")
 MODEL_PATH = os.path.join(TRAINED_MODELS_DIR, f"xgb_pipeline_sector_independent_{RUN_ID}.pkl")

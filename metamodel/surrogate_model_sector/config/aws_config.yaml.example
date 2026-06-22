@@ -1,0 +1,8 @@
+# Copy this file to aws_config.yaml (git-ignored) and fill in your AWS profile.
+# Credentials themselves stay in ~/.aws/credentials -- we only reference a profile,
+# never store raw keys in the repo.
+#
+#   cp aws_config.yaml.example aws_config.yaml
+
+profile_name: alexa        # a profile from `aws configure list-profiles`
+region_name: us-west-2     # AWS region where Athena/Glue/S3 live (sisepuede-data is in us-west-2)

@@ -126,25 +126,39 @@ function appendMessage(role, content, simulationData = null) {
   const contentDiv = document.createElement("div");
   contentDiv.className = "message-content";
 
-  // Strip chart block and variable lines from text before rendering (assistant only)
-  let chartData = null;
+  // Assistant messages are split into ordered segments (prose + inline ```chart blocks)
+  // so charts render exactly where the model placed them. Variable lines are pulled out
+  // globally and shown once, before the body.
   let varPairs  = [];
-  let displayContent = content;
+  let segments  = [{ type: "text", text: content }];
   if (role === "assistant") {
-    const extracted = extractChartBlock(content);
-    displayContent  = extracted.cleanText;
-    chartData       = extracted.chartData;
-
-    const varExtracted = extractVariableLines(displayContent);
-    displayContent = varExtracted.cleanText;
-    varPairs       = varExtracted.pairs;
+    const varExtracted = extractVariableLines(content);
+    varPairs = varExtracted.pairs;
+    segments = parseChartSegments(varExtracted.cleanText);
   }
 
-  contentDiv.innerHTML = formatMessageContent(displayContent);
-
-  // Variable table — rendered before the chart, directly below prose
+  // Variable table — rendered first, directly below the avatar
   if (varPairs.length > 0) {
     renderVariableTable(contentDiv, varPairs);
+  }
+
+  // Fall back to last simulation when this response carries no new simulation data
+  const effectiveSimData = simulationData || (role === "assistant" ? state.lastSimulation : null);
+
+  // Render text and charts in order. Charts are placeholders here; they are drawn after
+  // DOM insertion (below) so Chart.js can read real canvas dimensions.
+  const pendingCharts = [];
+  for (const seg of segments) {
+    if (seg.type === "text") {
+      if (!seg.text.trim()) continue;
+      const block = document.createElement("div");
+      block.innerHTML = formatMessageContent(seg.text.trim());
+      contentDiv.appendChild(block);
+    } else if (seg.type === "chart") {
+      const mount = document.createElement("div");
+      contentDiv.appendChild(mount);
+      if (seg.spec) pendingCharts.push({ mount, spec: seg.spec });
+    }
   }
 
   // Insert into DOM first so Chart.js can read canvas dimensions correctly
@@ -152,27 +166,17 @@ function appendMessage(role, content, simulationData = null) {
   msgDiv.appendChild(contentDiv);
   container.appendChild(msgDiv);
 
-  // Fall back to last simulation when this response has no new simulation data
-  const effectiveSimData = simulationData || (role === "assistant" ? state.lastSimulation : null);
-
-  // Sector stacked area chart — rendered after DOM insertion so canvas has real dimensions
-  const hasSectors = effectiveSimData && effectiveSimData.sector_comparison;
-  if (hasSectors) {
-    renderStackedSectorChart(contentDiv, effectiveSimData.sector_comparison);
+  // Now draw each chart into its in-place mount point.
+  let renderedAnyChart = false;
+  for (const { mount, spec } of pendingCharts) {
+    if (effectiveSimData) {
+      renderChartFromSpec(mount, spec, effectiveSimData);
+      renderedAnyChart = true;
+    }
   }
 
-  // Projected year totals — shown below stacked chart when sector data present
-  if (hasSectors) {
-    renderProjectedTotals(contentDiv, effectiveSimData.sector_comparison);
-  }
-
-  // Cost/benefit diverging bar chart — benefits up, costs down, by year
-  if (effectiveSimData && effectiveSimData.cost_benefit_comparison) {
-    renderCostBenefitChart(contentDiv, effectiveSimData.cost_benefit_comparison);
-  }
-
-  // Follow-up suggestion chips — outside the bubble, below the message row
-  if (hasSectors) {
+  // Follow-up suggestion chips — only when the message produced at least one chart.
+  if (renderedAnyChart) {
     renderFollowUpChips(container, msgDiv);
   }
 
@@ -185,6 +189,13 @@ function appendMessage(role, content, simulationData = null) {
  * Supports: tables, **bold**, *italic*, bullet lists, numbered lists, line breaks.
  */
 function formatMessageContent(text) {
+  // Drop markdown horizontal rules (---, ***, ___ on their own line). We don't render
+  // them as dividers, and unhandled they'd show up as literal dashes between sections.
+  text = text
+    .replace(/^[ \t]*([-*_])\1{2,}[ \t]*$/gm, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
+
   // Escape HTML
   let html = text
     .replace(/&/g, "&amp;")
@@ -422,22 +433,70 @@ function renderFollowUpChips(container, afterNode) {
 }
 
 /**
- * Find and strip the first ```chart ... ``` fenced block from raw text.
- * Returns { cleanText: string, chartData: object|null }.
- * On JSON parse failure the block is stripped but chartData is null.
+ * Split assistant text into ordered segments so charts render inline, exactly where
+ * the model placed each ```chart block — not all bunched at the end.
+ *
+ * Returns an array of { type:"text", text } and { type:"chart", spec } in document
+ * order. A chart block whose JSON fails to parse becomes { type:"chart", spec:null }
+ * and is skipped at render time (the rest of the message still renders).
  */
-function extractChartBlock(text) {
-  // Match ```chart ... ``` (greedy-safe, handles Windows line endings)
-  const re = /```chart\s*([\s\S]*?)```/;
-  const match = text.match(re);
-  if (!match) return { cleanText: text, chartData: null };
+function parseChartSegments(text) {
+  const re = /```chart\s*([\s\S]*?)```/g;
+  const segments = [];
+  let lastIndex = 0;
+  let m;
+  while ((m = re.exec(text)) !== null) {
+    if (m.index > lastIndex) {
+      segments.push({ type: "text", text: text.slice(lastIndex, m.index) });
+    }
+    let spec = null;
+    try { spec = JSON.parse(m[1].trim()); } catch { spec = null; }
+    segments.push({ type: "chart", spec });
+    lastIndex = m.index + m[0].length;
+  }
+  if (lastIndex < text.length) {
+    segments.push({ type: "text", text: text.slice(lastIndex) });
+  }
+  return segments;
+}
 
-  const cleanText = text.replace(match[0], "").replace(/\n{3,}/g, "\n\n").trim();
-  try {
-    const chartData = JSON.parse(match[1].trim());
-    return { cleanText, chartData };
-  } catch {
-    return { cleanText, chartData: null };
+/**
+ * Render a single chart from an assistant-authored spec, pulling the data from the
+ * attached simulation bundle. Spec shape:
+ *   { template: "emissions_by_sector" | "emissions_timeseries" | "cost_benefit",
+ *     scenario: "current" | "scenario" | "both", title?: string }
+ * Unknown templates / missing data render nothing.
+ */
+function renderChartFromSpec(container, spec, simData) {
+  if (!spec || !simData) return;
+
+  // Back-compat: a raw line-chart block ({years, bau, scenario, ...}) with no template.
+  if (!spec.template && Array.isArray(spec.years)) {
+    renderInlineChart(container, spec);
+    return;
+  }
+
+  const view = spec.scenario || "both";
+  const opts = { view, title: spec.title };
+
+  switch (spec.template) {
+    case "emissions_by_sector":
+      if (simData.sector_comparison) {
+        renderStackedSectorChart(container, simData.sector_comparison, opts);
+        // The BAU-vs-scenario totals table only makes sense with a comparison.
+        if (view === "both") renderProjectedTotals(container, simData.sector_comparison);
+      }
+      break;
+    case "emissions_timeseries":
+      if (simData.sector_comparison) {
+        renderEmissionsTimeseries(container, simData.sector_comparison, opts);
+      }
+      break;
+    case "cost_benefit":
+      if (simData.cost_benefit_comparison) {
+        renderCostBenefitChart(container, simData.cost_benefit_comparison, opts);
+      }
+      break;
   }
 }
 
@@ -581,6 +640,38 @@ function renderInlineChart(container, chartData) {
 
 }
 
+/**
+ * Aggregate total-emissions trajectory (sum across all sectors per year), drawn as a
+ * line chart via renderInlineChart. opts.view selects which lines to show:
+ *   "current"  → BAU only   "scenario" → scenario only   "both" → both
+ */
+function renderEmissionsTimeseries(container, sectorComparison, opts = {}) {
+  const view = opts.view || "both";
+  const YEARS = [2019, 2025, 2035, 2040, 2050, 2070];
+
+  const sumTraj = (trajectories) => {
+    const t = trajectories || {};
+    return YEARS.map((y) => {
+      let sum = 0, any = false;
+      for (const sector in t) {
+        const v = t[sector][y];
+        if (v != null) { sum += v; any = true; }
+      }
+      return any ? Math.round(sum * 10) / 10 : null;
+    });
+  };
+
+  const bauT  = sectorComparison.baseline?.sector_trajectories || {};
+  const scenT = sectorComparison.scenario?.sector_trajectories || {};
+
+  const chartData = { years: YEARS };
+  if (view === "current" || view === "both")  chartData.bau = sumTraj(bauT);
+  if (view === "scenario" || view === "both") chartData.scenario = sumTraj(scenT);
+  if (view === "current") chartData.scenario_label = "Current (BAU)";
+
+  renderInlineChart(container, chartData);
+}
+
 // ── Sector stacked area chart ─────────────────────────────────────────────
 
 const SECTOR_META = {
@@ -594,12 +685,15 @@ const SECTOR_META = {
   lsmm:  { label: "Manure Management",         short: "Manure Mgmt",       color: "#C8A87A" },
   inen:  { label: "Industrial Energy",         short: "Ind. Energy",       color: "#9370DB" },
   ippu:  { label: "Industrial Processes",      short: "Ind. Processes",    color: "#C8A2C8" },
+  entc:  { label: "Electricity Generation",    short: "Electricity",       color: "#CD5C5C" },
+  fgtv:  { label: "Fugitive Emissions",        short: "Fugitive",          color: "#8B7355" },
   agrc:  { label: "Agriculture",               short: "Agriculture",       color: "#FF8C00" },
+  ccsq:  { label: "Carbon Capture & Storage",  short: "CCS",               color: "#5F9EA0" },
   frst:  { label: "Forestry (sequestration)",  short: "Forestry (seq.)",   color: "#2E8B57" },
 };
 
-// Ordered for stacking — frst last so it renders below zero
-const SECTOR_STACK_ORDER = ["scoe","lndu","lvst","trww","trns","soil","waso","lsmm","inen","ippu","agrc","frst"];
+// Ordered for stacking — frst/ccsq last so they render below zero (sinks/removals)
+const SECTOR_STACK_ORDER = ["scoe","lndu","lvst","trww","trns","soil","waso","lsmm","inen","ippu","entc","fgtv","agrc","ccsq","frst"];
 
 /**
  * Render two side-by-side stacked area charts: BAU (left) and Policy Scenario (right).
@@ -618,7 +712,7 @@ function renderProjectedTotals(container, sectorComparison) {
   // Collect years dynamically from data (exclude 2019 anchor — delta is always 0 there)
   const years = [...new Set(
     Object.values(deltas).flatMap(s => Object.keys(s).map(Number))
-  )].sort((a, b) => a - b).filter(yr => yr >= 2030);
+  )].sort((a, b) => a - b).filter(yr => yr >= 2025);
 
   // Sum scenario and BAU totals per year across all sectors
   const totals = {};
@@ -665,10 +759,12 @@ function renderProjectedTotals(container, sectorComparison) {
   container.appendChild(wrap);
 }
 
-function renderStackedSectorChart(container, sectorComparison) {
+function renderStackedSectorChart(container, sectorComparison, opts = {}) {
   if (!sectorComparison) return;
 
-  const YEARS = [2019, 2030, 2040, 2050, 2070];
+  // view: "both" (BAU + scenario panels) | "current" (BAU only) | "scenario" (scenario only)
+  const view = opts.view || "both";
+  const YEARS = [2019, 2025, 2035, 2040, 2050, 2070];
   const MUTED  = "#6B5E50";
   const GRID   = "#E4DDD0";
   const BORDER = "#DDD5C4";
@@ -830,8 +926,14 @@ function renderStackedSectorChart(container, sectorComparison) {
     return chart;
   }
 
-  makePanel(buildDatasets(bauTrajectories,       true),  "Business as Usual", true);
-  makePanel(buildDatasets(scenarioTrajectories,  false), "Policy Scenario",   false);
+  if (view === "current") {
+    makePanel(buildDatasets(bauTrajectories, true), opts.title || "Current Emissions (BAU)", true);
+  } else if (view === "scenario") {
+    makePanel(buildDatasets(scenarioTrajectories, false), opts.title || "Policy Scenario", true);
+  } else {
+    makePanel(buildDatasets(bauTrajectories,       true),  "Business as Usual", true);
+    makePanel(buildDatasets(scenarioTrajectories,  false), "Policy Scenario",   false);
+  }
 
   // Right-side legend with click toggle
   const legendDiv = document.createElement("div");
@@ -876,6 +978,8 @@ const CB_BENEFIT_META = [
   { key: "lvst_value",         label: "Livestock Value",     color: "#DAA520" },
   { key: "ippu_value",         label: "Industrial Value",    color: "#B8860B" },
   { key: "ecosystem_services", label: "Ecosystem Services",  color: "#66CDAA" },
+  { key: "ecosystem_services_grasslands", label: "Ecosystem Svcs (Grasslands)", color: "#7FBF7F" },
+  { key: "ecosystem_services_wetlands",   label: "Ecosystem Svcs (Wetlands)",   color: "#4FB0A5" },
   { key: "env_pollution",      label: "Env. Pollution",      color: "#20B2AA" },
   { key: "land_pollution",     label: "Land Pollution",      color: "#8FBC8F" },
   { key: "water_pollution",    label: "Water Pollution",     color: "#7EC8C8" },
@@ -900,29 +1004,34 @@ const CB_COST_META = [
  *     scenario: { "<year>": {benefits:{type:val}, costs:{type:val}, net, cost_pct_gdp, ...} },
  *     baseline: { "<year>": {...} } }
  */
-function renderCostBenefitChart(container, cbc) {
+function renderCostBenefitChart(container, cbc, opts = {}) {
   if (!cbc || !cbc.scenario) return;
 
+  // view: "both" (scenario bars + BAU net reference) | "scenario" (scenario, no reference)
+  //       | "current" (BAU bars only)
+  const view = opts.view || "both";
   const MUTED = "#6B5E50", BORDER = "#DDD5C4";
   const MONO = "'JetBrains Mono', monospace", SANS = "'Epilogue', sans-serif";
-  const YEARS = (cbc.years || [2030, 2040, 2050, 2070]).map(Number);
+  const YEARS = (cbc.years || [2025, 2035, 2040, 2050, 2070]).map(Number);
   const scen = cbc.scenario, base = cbc.baseline || {};
   const at = (obj, y) => obj[String(y)] || obj[y] || {};
+  // Which series fills the bars: BAU for "current", otherwise the scenario.
+  const primary = (view === "current") ? base : scen;
 
   const benDatasets = CB_BENEFIT_META.map(m => ({
     label: m.label, _cbkey: m.key, stack: "cb", order: 1,
-    data: YEARS.map(y => (at(scen, y).benefits || {})[m.key] ?? 0),
+    data: YEARS.map(y => (at(primary, y).benefits || {})[m.key] ?? 0),
     backgroundColor: m.color + "DD", borderColor: m.color, borderWidth: 0.5,
   }));
   const costDatasets = CB_COST_META.map(m => ({
     label: m.label, _cbkey: m.key, stack: "cb", order: 1,
-    data: YEARS.map(y => (at(scen, y).costs || {})[m.key] ?? 0),
+    data: YEARS.map(y => (at(primary, y).costs || {})[m.key] ?? 0),
     backgroundColor: m.color + "DD", borderColor: m.color, borderWidth: 0.5,
   }));
 
   const netLine = {
     type: "line", label: "Net (benefits − costs)", _cbkey: "__net__", order: 0,
-    yAxisID: "y2", data: YEARS.map(y => at(scen, y).net ?? 0),
+    yAxisID: "y2", data: YEARS.map(y => at(primary, y).net ?? 0),
     borderColor: "#26211A", borderWidth: 2.5, pointRadius: 3, pointHoverRadius: 5,
     pointBackgroundColor: "#26211A", fill: false, tension: 0,
   };
@@ -933,14 +1042,16 @@ function renderCostBenefitChart(container, cbc) {
     pointRadius: 2, pointBackgroundColor: "#26211A", fill: false, tension: 0,
   };
 
-  const datasets = [...benDatasets, ...costDatasets, netLine, bauNetLine];
+  // BAU net reference line only when explicitly comparing against BAU.
+  const datasets = [...benDatasets, ...costDatasets, netLine];
+  if (view === "both") datasets.push(bauNetLine);
 
   // Y bounds from stacked sums (benefits up, costs down) + net line.
   let posMax = 0, negMin = 0;
   YEARS.forEach(y => {
-    posMax = Math.max(posMax, at(scen, y).total_benefit ?? 0);
-    negMin = Math.min(negMin, at(scen, y).total_cost ?? 0,
-                              at(scen, y).net ?? 0, at(base, y).net ?? 0);
+    posMax = Math.max(posMax, at(primary, y).total_benefit ?? 0);
+    negMin = Math.min(negMin, at(primary, y).total_cost ?? 0, at(primary, y).net ?? 0);
+    if (view === "both") negMin = Math.min(negMin, at(base, y).net ?? 0);
   });
   const yMax = Math.ceil(posMax * 1.08 / 5) * 5;
   const yMin = Math.floor(negMin * 1.2 / 5) * 5;
@@ -966,7 +1077,10 @@ function renderCostBenefitChart(container, cbc) {
       interaction: { mode: "index", intersect: false },
       plugins: {
         title: {
-          display: true, text: "Annual Cost & Benefit by Year (Policy Scenario)",
+          display: true,
+          text: opts.title || (view === "current"
+            ? "Annual Cost & Benefit by Year (Current / BAU)"
+            : "Annual Cost & Benefit by Year (Policy Scenario)"),
           color: "#26211A", font: { family: SANS, size: 11, weight: "600" },
           padding: { bottom: 6 },
         },
@@ -981,7 +1095,7 @@ function renderCostBenefitChart(container, cbc) {
             label: ctx => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(2)} B USD`,
             footer: items => {
               const y = items[0]?.label;
-              const d = at(scen, y);
+              const d = at(primary, y);
               return `cost: ${(d.cost_pct_gdp ?? 0).toFixed(2)}% of GDP`;
             },
           },

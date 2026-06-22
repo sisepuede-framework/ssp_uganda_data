@@ -1,0 +1,135 @@
+"""
+assemble_training_data.py
+-------------------------
+Turn the Athena result CSVs + the pandas-built features into the final training
+parquet that retrain_sector.py consumes.
+
+Inputs (produced by run_extracts.py, in cfg.query_csv_dir):
+  * emissions_and_gdp.csv  -- primary_id, time_period, 15 subsector emissions, gdp_mmm_usd
+  * cost_benefit.csv       -- primary_id, time_period, 19 cost/benefit fields
+Plus features (group_*) from features.build_features().
+
+Output:
+  * data/training/training_data_sector_<run>.parquet   (local; what we retrain on)
+  * s3://.../queries/<run>/training_data_for_surrogate.parquet  (shared copy)
+
+Target naming (long -> wide over the 5 target years):
+  emission_<sector>_yr<year>   (15 x 5 = 75)
+  benefit_<type>_yr<year>      (16 x 5 = 80, positive)
+  cost_<type>_yr<year>         (3  x 5 = 15, negative -- not re-negated)
+  gdp_mmm_usd_yr<year>         (5)
+Features = the group_* columns. retrain_sector.py splits targets vs features by
+the `group_` prefix, so nothing else needs to know the count (175 targets here).
+"""
+
+import os
+
+import pandas as pd
+
+from config import load_config, TARGET_TPS, TARGET_YEARS
+import athena_client as ac
+from features import build_features
+
+TP_TO_YEAR = dict(zip(TARGET_TPS, TARGET_YEARS))
+EMISSION_PREFIX = "emission_co2e_subsector_total_"
+
+
+def _pivot_to_years(long_df: pd.DataFrame, value_col: str, out_prefix: str) -> pd.DataFrame:
+    """primary_id x year long -> wide with columns `<out_prefix>_yr<year>`."""
+    piv = long_df.pivot_table(index="primary_id", columns="year", values=value_col, aggfunc="first")
+    piv = piv[[y for y in TARGET_YEARS if y in piv.columns]]
+    piv.columns = [f"{out_prefix}_yr{int(y)}" for y in piv.columns]
+    return piv
+
+
+def build_emissions_and_gdp(csv_path: str) -> pd.DataFrame:
+    df = pd.read_csv(csv_path)
+    df["year"] = df["time_period"].map(TP_TO_YEAR)
+    sectors = [c[len(EMISSION_PREFIX):] for c in df.columns if c.startswith(EMISSION_PREFIX)]
+    frames = [_pivot_to_years(df, f"{EMISSION_PREFIX}{s}", f"emission_{s}") for s in sectors]
+    frames.append(_pivot_to_years(df, "gdp_mmm_usd", "gdp_mmm_usd"))
+    out = pd.concat(frames, axis=1).reset_index()
+    print(f"  emissions+gdp: {len(sectors)} sectors x {len(TARGET_YEARS)} yrs + gdp -> {out.shape[1] - 1} cols")
+    return out
+
+
+def build_cost_benefit(csv_path: str) -> pd.DataFrame:
+    df = pd.read_csv(csv_path).fillna(0)
+    df["year"] = df["time_period"].map(TP_TO_YEAR)
+    cost_fields = [c for c in df.columns if "cost" in c]                       # *_cost
+    skip = set(cost_fields) | {"primary_id", "time_period", "year"}
+    benefit_fields = [c for c in df.columns if c not in skip]
+    frames = [_pivot_to_years(df, f, f"benefit_{f}") for f in benefit_fields]
+    frames += [_pivot_to_years(df, f, f"cost_{f.replace('_cost', '')}") for f in cost_fields]
+    out = pd.concat(frames, axis=1).reset_index()
+    print(f"  cost/benefit: {len(benefit_fields)} benefits + {len(cost_fields)} costs -> {out.shape[1] - 1} cols")
+    return out
+
+
+def main():
+    cfg = load_config()
+    session = ac.make_session(cfg)
+
+    emi_csv = os.path.join(cfg.query_csv_dir, "emissions_and_gdp.csv")
+    cb_csv = os.path.join(cfg.query_csv_dir, "cost_benefit.csv")
+    for path in (emi_csv, cb_csv):
+        if not os.path.exists(path):
+            raise SystemExit(f"Missing {path}. Run run_extracts.py first.")
+
+    print("Building targets from Athena results ...")
+    emi = build_emissions_and_gdp(emi_csv)
+    cb = build_cost_benefit(cb_csv)
+
+    print("Building features (LHC X/L) ...")
+    feats = build_features(session, cfg)
+
+    # Merge on primary_id. Features carry future_id + group_*; targets are keyed by primary_id.
+    for frame in (emi, cb):
+        frame["primary_id"] = frame["primary_id"].astype(int)
+    feats["primary_id"] = feats["primary_id"].astype(int)
+
+    df = feats.merge(emi, on="primary_id", how="inner").merge(cb, on="primary_id", how="inner")
+
+    target_cols = [c for c in df.columns if not c.startswith("group_") and c not in ("future_id", "primary_id")]
+    n_features = sum(c.startswith("group_") for c in df.columns)
+
+    # A small fraction of scenarios are incomplete in the source (e.g. a missing
+    # fgtv emission or gdp input). Drop those rows rather than fabricate targets;
+    # bail out if it's a large fraction (that would signal a real extraction bug).
+    nan_by_col = df[target_cols].isnull().sum()
+    nan_total = int(nan_by_col.sum())
+    if nan_total:
+        bad = df[target_cols].isnull().any(axis=1)
+        frac = bad.sum() / len(df)
+        print(f"  {nan_total} NaN target cells across {int(bad.sum())} rows ({frac:.2%}) -- dropping those rows.")
+        print("  NaNs by column:", {c: int(v) for c, v in nan_by_col[nan_by_col > 0].items()})
+        if frac > 0.05:
+            raise SystemExit(f"ERROR: {frac:.1%} of rows missing targets (>5%) -- investigate the source first.")
+        df = df[~bad].reset_index(drop=True)
+
+    # Drop scenarios with invalid GDP (gdp_mmm_usd <= 0). These are a source glitch
+    # where population_gnrl_total collapses to ~0, which zeroes GDP and makes emissions
+    # ~1000x too small -- corrupt rows, not legitimate extreme scenarios. The X (LHS)
+    # inputs for these rows are normal, so they would mislead the surrogate.
+    gdp_cols = [c for c in df.columns if c.startswith("gdp_mmm_usd")]
+    invalid = (df[gdp_cols] <= 0).any(axis=1)
+    if invalid.any():
+        frac = invalid.sum() / len(df)
+        print(f"  {int(invalid.sum())} rows ({frac:.2%}) with gdp_mmm_usd <= 0 -- dropping (source glitch).")
+        if frac > 0.05:
+            raise SystemExit(f"ERROR: {frac:.1%} of rows have invalid GDP (>5%) -- investigate the source first.")
+        df = df[~invalid].reset_index(drop=True)
+
+    print(f"\nFinal: {df.shape[0]} rows | {n_features} features | {len(target_cols)} targets")
+
+    os.makedirs(cfg.training_dir, exist_ok=True)
+    df.to_parquet(cfg.training_parquet, index=False)
+    print(f"Saved local:  {cfg.training_parquet}")
+
+    key = f"queries/{cfg.run_dir_name}/training_data_for_surrogate.parquet"
+    session.client("s3").upload_file(cfg.training_parquet, cfg.bucket, key)
+    print(f"Uploaded:     s3://{cfg.bucket}/{key}")
+
+
+if __name__ == "__main__":
+    main()

@@ -1,131 +1,172 @@
 {
   "outputs": {
-    "emission_total_sum": 8036.8672,
-    "2033_2037_mean_emission": 152.6666,
-    "2066_2070_mean_emission": 184.9092
+    "emission_total_yr2025": 135.179,
+    "emission_total_yr2035": 158.006,
+    "emission_total_yr2040": 163.387,
+    "emission_total_yr2050": 184.833,
+    "emission_total_yr2070": 272.995
   },
   "cost_benefit": {
-    "2030": {
+    "2025": {
+      "gdp": 128.3532,
       "benefits": {
-        "air_pollution": 0.0,
-        "congestion": 0.0,
-        "consumer_savings": 1.4789,
+        "air_pollution": -0.0,
+        "congestion": -0.0,
+        "consumer_savings": 0.2098,
         "crop_value": 0.0,
         "ecosystem_services": 0.0,
         "env_pollution": 0.0,
-        "human_health": 1.3126,
+        "human_health": 0.1907,
         "ippu_value": 0.0,
         "land_pollution": 0.0,
         "lvst_value": 0.0,
-        "road_safety": 0.0,
+        "road_safety": -0.0,
         "sector_specific": 0.0,
         "technical_savings": 0.0,
-        "water_pollution": 0.0
+        "water_pollution": 0.0,
+        "ecosystem_services_grasslands": -0.0,
+        "ecosystem_services_wetlands": -0.0
       },
       "costs": {
         "fuel": 0.0,
-        "system": 0.0,
-        "technical": -0.3865
+        "system": -0.0,
+        "technical": -0.0108
       },
-      "gdp": 200.4692,
-      "total_benefit": 2.7915,
-      "total_cost": -0.3865,
-      "net": 2.405,
-      "cost_pct_gdp": 0.1928,
-      "benefit_pct_gdp": 1.3925
+      "total_benefit": 0.4005,
+      "total_cost": -0.0108,
+      "net": 0.3897,
+      "cost_pct_gdp": 0.0084,
+      "benefit_pct_gdp": 0.312
+    },
+    "2035": {
+      "gdp": 244.6085,
+      "benefits": {
+        "air_pollution": 0.3999,
+        "congestion": 0.1121,
+        "consumer_savings": 3.0429,
+        "crop_value": 0.3467,
+        "ecosystem_services": 0.0175,
+        "env_pollution": 0.2073,
+        "human_health": 2.8028,
+        "ippu_value": 0.6615,
+        "land_pollution": 0.0002,
+        "lvst_value": -0.1005,
+        "road_safety": 0.1628,
+        "sector_specific": 0.0885,
+        "technical_savings": -0.0499,
+        "water_pollution": -0.3419,
+        "ecosystem_services_grasslands": -0.0709,
+        "ecosystem_services_wetlands": 0.6924
+      },
+      "costs": {
+        "fuel": 0.0192,
+        "system": 1.8146,
+        "technical": 0.0378
+      },
+      "total_benefit": 7.9714,
+      "total_cost": 1.8716,
+      "net": 9.843,
+      "cost_pct_gdp": 0.7651,
+      "benefit_pct_gdp": 3.2588
     },
     "2040": {
+      "gdp": 352.0464,
       "benefits": {
-        "air_pollution": 0.0,
-        "congestion": 0.0,
-        "consumer_savings": 5.1905,
-        "crop_value": 0.0,
-        "ecosystem_services": 0.0,
-        "env_pollution": 0.0,
-        "human_health": 4.5085,
-        "ippu_value": 0.0,
-        "land_pollution": 0.0,
-        "lvst_value": 0.0,
-        "road_safety": 0.0,
-        "sector_specific": 0.0,
-        "technical_savings": 0.0,
-        "water_pollution": 0.0
+        "air_pollution": 0.7281,
+        "congestion": 0.192,
+        "consumer_savings": 4.988,
+        "crop_value": 0.018,
+        "ecosystem_services": 0.0657,
+        "env_pollution": 0.3545,
+        "human_health": 4.6544,
+        "ippu_value": 1.2672,
+        "land_pollution": 0.0009,
+        "lvst_value": -0.4431,
+        "road_safety": 0.2792,
+        "sector_specific": 0.1299,
+        "technical_savings": -0.3383,
+        "water_pollution": -0.47,
+        "ecosystem_services_grasslands": -0.2031,
+        "ecosystem_services_wetlands": 0.8381
       },
       "costs": {
-        "fuel": 0.0,
-        "system": 0.0,
-        "technical": -1.4233
+        "fuel": 0.0435,
+        "system": 2.8652,
+        "technical": 0.935
       },
-      "gdp": 434.497,
-      "total_benefit": 9.699,
-      "total_cost": -1.4233,
-      "net": 8.2757,
-      "cost_pct_gdp": 0.3276,
-      "benefit_pct_gdp": 2.2322
+      "total_benefit": 12.0615,
+      "total_cost": 3.8437,
+      "net": 15.9052,
+      "cost_pct_gdp": 1.0918,
+      "benefit_pct_gdp": 3.4261
     },
     "2050": {
+      "gdp": 537.7908,
       "benefits": {
-        "air_pollution": 0.0,
-        "congestion": 0.0,
-        "consumer_savings": 10.4,
-        "crop_value": 0.0,
-        "ecosystem_services": 0.0,
-        "env_pollution": 0.0,
-        "human_health": 9.0097,
-        "ippu_value": 0.0,
-        "land_pollution": 0.0,
-        "lvst_value": 0.0,
-        "road_safety": 0.0,
-        "sector_specific": 0.0,
-        "technical_savings": 0.0,
-        "water_pollution": 0.0
+        "air_pollution": 1.2475,
+        "congestion": 0.3816,
+        "consumer_savings": 9.8289,
+        "crop_value": -1.107,
+        "ecosystem_services": 0.1941,
+        "env_pollution": 0.6435,
+        "human_health": 9.2212,
+        "ippu_value": 2.2729,
+        "land_pollution": 0.0032,
+        "lvst_value": -1.396,
+        "road_safety": 0.5399,
+        "sector_specific": 0.0984,
+        "technical_savings": -0.7197,
+        "water_pollution": -0.7024,
+        "ecosystem_services_grasslands": 0.4041,
+        "ecosystem_services_wetlands": 1.4399
       },
       "costs": {
-        "fuel": 0.0,
-        "system": 0.0,
-        "technical": -2.5197
+        "fuel": 0.1281,
+        "system": 5.1628,
+        "technical": -3.5491
       },
-      "gdp": 679.0778,
-      "total_benefit": 19.4097,
-      "total_cost": -2.5197,
-      "net": 16.89,
-      "cost_pct_gdp": 0.371,
-      "benefit_pct_gdp": 2.8582
+      "total_benefit": 22.3501,
+      "total_cost": 1.7418,
+      "net": 24.0919,
+      "cost_pct_gdp": 0.3239,
+      "benefit_pct_gdp": 4.1559
     },
     "2070": {
+      "gdp": 778.1509,
       "benefits": {
-        "air_pollution": 0.0,
-        "congestion": 0.0,
-        "consumer_savings": 25.5653,
-        "crop_value": 0.0,
-        "ecosystem_services": 0.0,
-        "env_pollution": 0.0,
-        "human_health": 21.9854,
-        "ippu_value": 0.0,
-        "land_pollution": 0.0,
-        "lvst_value": 0.0,
-        "road_safety": 0.0,
-        "sector_specific": 0.0,
-        "technical_savings": 0.0,
-        "water_pollution": 0.0
+        "air_pollution": 1.5648,
+        "congestion": 0.5859,
+        "consumer_savings": 23.4492,
+        "crop_value": -2.8522,
+        "ecosystem_services": 0.1709,
+        "env_pollution": 1.3201,
+        "human_health": 22.3213,
+        "ippu_value": 3.6284,
+        "land_pollution": 0.0057,
+        "lvst_value": -2.3679,
+        "road_safety": 0.8782,
+        "sector_specific": 0.1543,
+        "technical_savings": -1.3649,
+        "water_pollution": -1.7233,
+        "ecosystem_services_grasslands": 6.862,
+        "ecosystem_services_wetlands": 2.2081
       },
       "costs": {
-        "fuel": 0.0,
-        "system": 0.0,
-        "technical": -0.3468
+        "fuel": 0.487,
+        "system": 10.2262,
+        "technical": -1.7909
       },
-      "gdp": 1037.3755,
-      "total_benefit": 47.5507,
-      "total_cost": -0.3468,
-      "net": 47.2039,
-      "cost_pct_gdp": 0.0334,
-      "benefit_pct_gdp": 4.5838
+      "total_benefit": 54.8406,
+      "total_cost": 8.9223,
+      "net": 63.7629,
+      "cost_pct_gdp": 1.1466,
+      "benefit_pct_gdp": 7.0476
     }
   },
-  "generated_at": "2026-06-02T20:07:37.739339+00:00",
-  "model": "xgb_pipeline_sector_independent_2025-11-12t22;19;28.194097.pkl",
+  "generated_at": "2026-06-18T21:57:12.245262+00:00",
+  "model": "xgb_pipeline_sector_independent_2026-05-30t21;35;56.244639.pkl",
   "bau_defaults": {
     "L_groups_1_to_59": 0.1,
-    "X_groups_60_to_68": -1.0
+    "X_groups_60_to_68": 0.5
   }
 }

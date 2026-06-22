@@ -16,8 +16,8 @@ class SimulationRequest(BaseModel):
     Direct simulation endpoint — bypasses the LLM agent.
     Useful for programmatic access or building custom UIs on top of the model.
 
-    lever_overrides:    group_id (int 1–59) → value in [0.0, 1.0]
-    exogenous_overrides: group_id (int 60–68) → value in [-1.0, 1.0]
+    lever_overrides:    group_id (int 1–54) → value in [0.0, 1.0]
+    exogenous_overrides: group_id (int 55–67) → value in [0.0, 1.0]
     Unspecified groups use the scenario defaults (see preset_scenario).
     """
     scenario_name: str = "Custom Scenario"
@@ -29,12 +29,17 @@ class SimulationRequest(BaseModel):
 
 
 class PredictionResult(BaseModel):
-    """Single prediction for one output metric."""
+    """Single prediction for one output metric.
+
+    training_range / percentile_in_training are optional: this run's headline
+    emission metrics are derived (sum of sectors), so they have no dedicated
+    training distribution.
+    """
     value: float
     unit: str
     display_name: str
-    training_range: dict[str, float]  # {"min": ..., "max": ...}
-    percentile_in_training: float     # 0–100: where this prediction sits
+    training_range: dict[str, float] | None = None  # {"min": ..., "max": ...}
+    percentile_in_training: float | None = None     # 0–100: where this prediction sits
 
 
 class SimulationResult(BaseModel):
