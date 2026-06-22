@@ -226,3 +226,5 @@ employment_estimates/
 inventory_summary_excel/
 metamodel/chatbot_deploy/docs/
 ssp_modeling/
+*.pkl
+metamodel/chatbot_deploy/model.pkl
