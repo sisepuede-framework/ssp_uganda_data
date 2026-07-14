@@ -1,5 +1,46 @@
 # Changelog — chatbot_deploy
 
+## 2026-07-14 — Process trace: show the user HOW an answer was produced
+
+### Summary
+Every assistant answer now carries a **process trace** — an always-visible source badge
+(*Real SISEPUEDE run* / *Surrogate estimate* / *Reference lookup*) plus a collapsible
+"How I got this answer" list of the exact steps the agent took: which tool ran, whether the
+data came from the stored 6-pathway runs or the XGBoost surrogate, what external data was
+consulted (AWS run database, stored CSVs), and what was compared. It is transparency the user
+can *verify* — the same information that goes to the logs, surfaced in the UI.
+
+### Why
+Users (and reviewers) need to confirm the agent's process looks sound, not just trust the
+prose. Logs aren't visible to them mid-conversation.
+
+### Key design decision
+The trace is built from **actual tool execution**, never from the model narrating its own
+steps. The model cannot author or fabricate it — so it is trustworthy for verification.
+
+### What changed
+**`backend/services/agent.py`** — new `_build_trace_event(step, tool, input, result, interp)`
+turns each real tool call into a `{step, tool, label, data_source, origin, details, status}`
+event (plain-language "logical source": stored pathway data / surrogate / AWS run database /
+registry). `run()` accumulates a `trace` list across the agentic loop and returns it;
+`_run_simulation_tool` now reports `data_source` / `compared` / `baseline_source` in its
+interpretation so the trace can state what the surrogate was compared against.
+
+**`backend/schemas.py`** — new `TraceStep` model; `ChatResponse.trace: list[TraceStep]`.
+**`backend/app.py`** — `/api/chat` returns `trace`.
+
+**`frontend/app.js` + `style.css`** — `renderTrace()` draws the badge + collapsible step
+timeline under each assistant message (real=teal, surrogate=amber, reference=muted; error
+steps flagged). Wired through `appendMessage(…, traceData)`. Cache version bumped to `20260714b`.
+
+### Verification
+`tests/test_pathways_lookup.py` **7/7** — new Test 7 locks the trace: surrogate step →
+`surrogate_xgboost` noting the real BAU/HBLE compare; named pathway → `real_run`; bad pathway →
+`status="error"` with the failure surfaced; all `TraceStep`-valid. `renderTrace` driven under a
+JavaScriptCore DOM shim across real/surrogate/error/empty cases (headline badge priority,
+step count, no-op on empty) — no runtime errors. `app.js` parses; full FastAPI app imports.
+Live browser eyeball still to do.
+
 ## 2026-07-14 — Named pathways in the UI + real-BAU/HBLE comparisons
 
 ### Summary

@@ -69,8 +69,9 @@ the S3 copies), the data-dependent tests **skip** rather than fail.
 | 4 — `_attach_real_references` | local CSVs | The shared injector adds real BAU+HBLE references to a surrogate-shaped result's chart bundles without mutating the surrogate scenario, and is a safe no-op on a result with no chart bundles. |
 | 5 — `compare_series` (surrogate-like) | local CSVs | The shared delta helper, fed a surrogate-shaped scenario with an OFF-anchor year, keys `sector_deltas` by the fixed anchor years only (drops the stray year), carries the real BAU value in each delta, and computes a ≈-50% headline when the scenario is half of BAU. |
 | 6 — `run_simulation` rewire | local CSVs | Drives `agent._execute_tool_call("run_simulation", …)` with a fake predictor: the throwaway surrogate baseline is replaced by the **real BAU** run (@2070=277.59), the summary carries `bau_value` + `hble_value` + `change_from_bau_pct`, real BAU+HBLE references are on both chart bundles, and the payload is `SimulationResponse`-valid. |
+| 7 — process trace | local CSVs | `agent._build_trace_event` produces `TraceStep`-valid provenance: a surrogate `run_simulation` step → `data_source="surrogate_xgboost"` noting the real BAU/HBLE comparison; a named pathway → `real_run`; a bad pathway → `status="error"` with the failure surfaced in `details`. |
 
-Run: `python -m tests.test_pathways_lookup` (6/6 pass).
+Run: `python -m tests.test_pathways_lookup` (7/7 pass).
 
 The live `/api/chat` LLM-routing check (does Claude actually pick `get_pathway_results`
 over `run_simulation` when a pathway is named?) and the browser eyeball are **not** in

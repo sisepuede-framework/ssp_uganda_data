@@ -576,6 +576,127 @@ body {
   background: var(--amber-dim);
 }
 
+/* Process trace — "How I got this answer" */
+.trace {
+  margin: 10px 0 2px;
+  font-family: "Epilogue", sans-serif;
+}
+
+.trace-summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  padding: 2px 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.trace-badge {
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.trace-badge--real      { color: var(--teal);  background: var(--teal-dim);  border-color: rgba(0, 122, 111, 0.25); }
+.trace-badge--surrogate { color: var(--amber); background: var(--amber-dim); border-color: rgba(184, 134, 11, 0.25); }
+.trace-badge--ref       { color: var(--text-muted); background: var(--surface-2); border-color: var(--border); }
+
+.trace-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+.trace-count {
+  font-size: 0.68rem;
+  color: var(--text-muted);
+  opacity: 0.7;
+}
+.trace-caret {
+  font-size: 0.7rem;
+  transition: transform 0.18s ease;
+}
+.trace--open .trace-caret { transform: rotate(180deg); }
+.trace-summary:hover .trace-toggle { color: var(--text); }
+
+.trace-body { display: none; }
+.trace--open .trace-body {
+  display: block;
+  margin-top: 8px;
+  animation: fadeSlideIn 0.2s ease both;
+}
+
+.trace-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 2px solid var(--border);
+}
+.trace-step {
+  position: relative;
+  padding: 6px 0 8px 14px;
+  margin-left: 2px;
+}
+.trace-step::before {
+  content: "";
+  position: absolute;
+  left: -5px;
+  top: 11px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--text-muted);
+  border: 2px solid var(--surface);
+}
+.trace-step--error::before { background: var(--red); }
+
+.trace-step-head {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.trace-step-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+}
+.trace-tag {
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  padding: 1px 6px;
+  border-radius: 999px;
+}
+.trace-tag--real      { color: var(--teal);  background: var(--teal-dim); }
+.trace-tag--surrogate { color: var(--amber); background: var(--amber-dim); }
+.trace-tag--ref       { color: var(--text-muted); background: var(--surface-2); }
+
+.trace-step-origin {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.trace-step-details {
+  margin: 4px 0 0;
+  padding-left: 16px;
+}
+.trace-step-details li {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin: 1px 0;
+}
+.trace-step--error .trace-step-details li:last-child { color: var(--red); }
+
 /* Inline chart */
 .inline-chart-container {
   margin-top: 14px;

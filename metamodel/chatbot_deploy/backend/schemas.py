@@ -80,6 +80,20 @@ class ChatRequest(BaseModel):
     locked_overrides: dict[int, float] = Field(default_factory=dict)
 
 
+class TraceStep(BaseModel):
+    """One recorded step of the agent's process, surfaced to the user for
+    transparency. Built from ACTUAL tool execution (not the model's narration) so
+    the user can verify how an answer was produced.
+    """
+    step: int                              # 1-based order in which the step ran
+    tool: str                              # the tool that ran (run_simulation, …)
+    label: str                             # human-readable summary of the step
+    data_source: str                       # real_run | surrogate_xgboost | reference | context | lookup
+    origin: str                            # plain-language where the data came from
+    details: list[str] = Field(default_factory=list)  # extra notes (comparisons, counts)
+    status: str = "ok"                     # ok | error
+
+
 class ChatResponse(BaseModel):
     """
     Non-streaming response. For streaming use GET /api/chat/stream.
@@ -89,6 +103,8 @@ class ChatResponse(BaseModel):
     simulation: SimulationResponse | None = None
     # Metadata about what the agent decided to change
     scenario_interpretation: dict[str, Any] | None = None
+    # Ordered, factual record of the steps the agent took (for transparency).
+    trace: list[TraceStep] = Field(default_factory=list)
 
 
 # ── Features ────────────────────────────────────────────────────────────────

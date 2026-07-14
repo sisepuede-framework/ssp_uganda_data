@@ -107,7 +107,7 @@ async function sendMessage() {
 
     // Add assistant reply to UI + history
     if (response.simulation) state.lastSimulation = response.simulation;
-    appendMessage("assistant", response.reply, response.simulation || null);
+    appendMessage("assistant", response.reply, response.simulation || null, response.trace || null);
     state.conversationHistory.push({ role: "assistant", content: response.reply });
 
   } catch (error) {
@@ -119,7 +119,7 @@ async function sendMessage() {
 
 // ── UI rendering ──────────────────────────────────────────────────────────
 
-function appendMessage(role, content, simulationData = null) {
+function appendMessage(role, content, simulationData = null, traceData = null) {
   const container = document.getElementById("chat-messages");
 
   const msgDiv = document.createElement("div");
@@ -179,6 +179,12 @@ function appendMessage(role, content, simulationData = null) {
       renderChartFromSpec(mount, spec, effectiveSimData);
       renderedAnyChart = true;
     }
+  }
+
+  // Process trace — the factual record of how this answer was produced (source
+  // badge + collapsible steps). Assistant messages only, when the backend sent one.
+  if (role === "assistant" && Array.isArray(traceData) && traceData.length > 0) {
+    renderTrace(contentDiv, traceData);
   }
 
   // Follow-up suggestion chips — only when the message produced at least one chart.
@@ -403,6 +409,78 @@ function renderVariableTable(container, pairs) {
 
   wrapper.appendChild(table);
   container.appendChild(wrapper);
+}
+
+// Per-data-source display metadata for the process trace. `cls` maps to the CSS
+// colour variants (real=teal, surrogate=amber, everything else=muted).
+const TRACE_SOURCE_META = {
+  real_run:          { badge: "Real SISEPUEDE run", cls: "real",      tag: "Real run" },
+  surrogate_xgboost: { badge: "Surrogate estimate", cls: "surrogate", tag: "Surrogate" },
+  reference:         { badge: "Reference lookup",   cls: "ref",       tag: "Reference" },
+  context:           { badge: "Baseline context",   cls: "ref",       tag: "Context" },
+  lookup:            { badge: "Registry lookup",    cls: "ref",       tag: "Lookup" },
+};
+// The headline badge reflects the strongest data source the answer relied on.
+const TRACE_BADGE_PRIORITY = ["real_run", "surrogate_xgboost", "reference", "context", "lookup"];
+
+/**
+ * Render the agent's process trace: an always-visible source badge plus a
+ * collapsible ordered list of the steps the agent actually took. The data is the
+ * backend's factual record of execution (schemas.TraceStep) — NOT the model
+ * narrating itself — so the user can verify how an answer was produced.
+ */
+function renderTrace(container, trace) {
+  if (!Array.isArray(trace) || trace.length === 0) return;
+
+  let headline = TRACE_BADGE_PRIORITY.find(src => trace.some(s => s.data_source === src));
+  const meta = TRACE_SOURCE_META[headline] || { badge: "Process", cls: "ref" };
+  const n = trace.length;
+
+  const wrap = document.createElement("div");
+  wrap.className = "trace";
+
+  const summary = document.createElement("button");
+  summary.type = "button";
+  summary.className = "trace-summary";
+  summary.setAttribute("aria-expanded", "false");
+  summary.innerHTML =
+    `<span class="trace-badge trace-badge--${meta.cls}">${meta.badge}</span>` +
+    `<span class="trace-toggle">How I got this answer` +
+    `<span class="trace-count">${n} step${n > 1 ? "s" : ""}</span>` +
+    `<span class="trace-caret" aria-hidden="true">▾</span></span>`;
+
+  const body = document.createElement("div");
+  body.className = "trace-body";
+  const ol = document.createElement("ol");
+  ol.className = "trace-steps";
+
+  for (const step of trace) {
+    const sm = TRACE_SOURCE_META[step.data_source] || { cls: "ref", tag: step.data_source };
+    const li = document.createElement("li");
+    li.className = "trace-step" + (step.status === "error" ? " trace-step--error" : "");
+    let html =
+      `<div class="trace-step-head">` +
+      `<span class="trace-step-label">${escapeHtml(step.label)}</span>` +
+      `<span class="trace-tag trace-tag--${sm.cls}">${escapeHtml(sm.tag || "")}</span>` +
+      `</div>` +
+      `<div class="trace-step-origin">${escapeHtml(step.origin)}</div>`;
+    if (Array.isArray(step.details) && step.details.length) {
+      html += `<ul class="trace-step-details">` +
+        step.details.map(d => `<li>${escapeHtml(d)}</li>`).join("") + `</ul>`;
+    }
+    li.innerHTML = html;
+    ol.appendChild(li);
+  }
+  body.appendChild(ol);
+
+  summary.addEventListener("click", () => {
+    const open = wrap.classList.toggle("trace--open");
+    summary.setAttribute("aria-expanded", open ? "true" : "false");
+  });
+
+  wrap.appendChild(summary);
+  wrap.appendChild(body);
+  container.appendChild(wrap);
 }
 
 /**

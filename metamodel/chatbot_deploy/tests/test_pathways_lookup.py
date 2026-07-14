@@ -52,7 +52,7 @@ sys.path.insert(0, str(_CHATBOT_DIR))
 from tests.test_s3_lookup import _Result
 
 from backend.services import agent, pathways_lookup as pl
-from backend.schemas import SimulationResponse
+from backend.schemas import SimulationResponse, TraceStep
 
 
 def _data_available() -> str | None:
@@ -423,6 +423,66 @@ def test_run_simulation_real_bau_baseline() -> _Result:
     return r.fail(*details, *failures) if failures else r.ok(*details)
 
 
+# ── Test 7: process trace (provenance) events ─────────────────────────────────
+
+def test_process_trace() -> _Result:
+    r = _Result("Test 7 — process trace (surrogate / real_run / error steps)")
+    skip = _data_available()
+    if skip:
+        return r.skip(skip)
+
+    failures: list[str] = []
+    details: list[str] = []
+
+    # (a) Surrogate run_simulation → surrogate_xgboost, notes the real-BAU/HBLE compare.
+    hble = pl._build_series(pl.HBLE_PID, "Fake")
+
+    class _FakePredictor:
+        def predict_comparison(self, **kw):
+            return {"scenario": {**hble, "scenario_name": kw.get("scenario_name", "S")},
+                    "baseline": hble, "comparison": {}, "sector_deltas": {}, "cost_benefit_deltas": {}}
+
+    inp = {"scenario_name": "Grid decarb", "lever_overrides": {"5": 0.9, "7": 0.8},
+           "exogenous_overrides": {"57": 0.7}}
+    _res, _sim, interp = agent._execute_tool_call(
+        "run_simulation", inp, sector_predictor=_FakePredictor(), locked_overrides={})
+    ev = agent._build_trace_event(1, "run_simulation", inp, _res, interp)
+    TraceStep.model_validate(ev)
+    if ev["data_source"] != "surrogate_xgboost":
+        failures.append(f"ASSERTION FAILED: run_simulation data_source={ev['data_source']!r}")
+    if not any("real BAU" in d and "HBLE" in d for d in ev["details"]):
+        failures.append(f"ASSERTION FAILED: surrogate step doesn't note the real BAU/HBLE compare: {ev['details']}")
+    if ev["status"] != "ok":
+        failures.append("ASSERTION FAILED: surrogate step should be status ok")
+    details.append(f"run_simulation → {ev['data_source']}; details={ev['details']}")
+
+    # (b) Named pathway → real_run, notes the compare + driver detail.
+    inp2 = {"pathway": "NDC 2.5", "groups_changed": [4]}
+    _res2, _sim2, interp2 = agent._execute_tool_call(
+        "get_pathway_results", inp2, sector_predictor=None, locked_overrides={})
+    ev2 = agent._build_trace_event(2, "get_pathway_results", inp2, _res2, interp2)
+    TraceStep.model_validate(ev2)
+    if ev2["data_source"] != "real_run":
+        failures.append(f"ASSERTION FAILED: pathway data_source={ev2['data_source']!r}")
+    if ev2["status"] != "ok":
+        failures.append("ASSERTION FAILED: pathway step should be status ok")
+    details.append(f"get_pathway_results → {ev2['data_source']}; label={ev2['label']!r}")
+
+    # (c) Bad pathway → status error, failure surfaced in details.
+    inp3 = {"pathway": "not a pathway"}
+    _res3, _s3, interp3 = agent._execute_tool_call(
+        "get_pathway_results", inp3, sector_predictor=None, locked_overrides={})
+    ev3 = agent._build_trace_event(3, "get_pathway_results", inp3, _res3, interp3)
+    TraceStep.model_validate(ev3)
+    if ev3["status"] != "error":
+        failures.append(f"ASSERTION FAILED: bad pathway step status={ev3['status']!r}, expected error")
+    if not any("failed" in d.lower() for d in ev3["details"]):
+        failures.append(f"ASSERTION FAILED: error step doesn't surface the failure: {ev3['details']}")
+    details.append("bad pathway → status=error with failure surfaced")
+
+    return r.fail(*details, *failures) if failures else r.ok(*details)
+
+
 # ── pytest-compatible wrappers ────────────────────────────────────────────────
 
 def _as_pytest(res: _Result) -> None:
@@ -456,6 +516,10 @@ def test_run_simulation_real_bau_baseline_pytest():
     _as_pytest(test_run_simulation_real_bau_baseline())
 
 
+def test_process_trace_pytest():
+    _as_pytest(test_process_trace())
+
+
 # ── Standalone runner ─────────────────────────────────────────────────────────
 
 def _run_all() -> int:
@@ -466,6 +530,7 @@ def _run_all() -> int:
         test_attach_real_references,
         test_compare_series_surrogate_like,
         test_run_simulation_real_bau_baseline,
+        test_process_trace,
     ]
     results = [t() for t in tests]
 

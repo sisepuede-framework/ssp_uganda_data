@@ -246,6 +246,7 @@ def chat(request: schemas.ChatRequest):
             reply=result["reply"],
             simulation=result.get("simulation"),
             scenario_interpretation=result.get("scenario_interpretation"),
+            trace=result.get("trace", []),
         )
     except Exception as e:
         logger.exception("Agent failed")

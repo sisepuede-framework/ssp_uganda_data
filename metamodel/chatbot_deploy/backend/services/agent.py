@@ -264,6 +264,9 @@ def run(
 
     simulation_result: dict | None = None
     interpretation: dict | None = None
+    # Ordered, factual record of every tool the agent ran this turn — surfaced to
+    # the user for transparency (see _build_trace_event). Ground truth, not narration.
+    trace: list[dict] = []
 
     # Prompt caching: the system prompt + tools (~13k tokens) are identical on every
     # API call. Marking the system block with cache_control caches the whole static
@@ -303,6 +306,7 @@ def run(
                 "simulation": simulation_result,
                 "scenario_interpretation": interpretation,
                 "tool_calls_log": tool_calls_log,
+                "trace": trace,
             }
 
         if response.stop_reason == "tool_use":
@@ -327,6 +331,9 @@ def run(
                     "tool": tool_block.name,
                     "inputs": tool_block.input,
                 })
+                trace.append(_build_trace_event(
+                    len(trace) + 1, tool_block.name, tool_block.input, tool_result, interp,
+                ))
 
                 tool_results.append({
                     "type": "tool_result",
@@ -347,10 +354,101 @@ def run(
         "simulation": simulation_result,
         "scenario_interpretation": interpretation,
         "tool_calls_log": tool_calls_log,
+        "trace": trace,
     }
 
 
 # ── Tool execution ───────────────────────────────────────────────────────────
+
+def _build_trace_event(
+    step: int,
+    tool_name: str,
+    tool_input: dict,
+    tool_result: dict,
+    interp: dict | None,
+) -> dict:
+    """Build one user-facing process-trace event from an ACTUAL tool execution.
+
+    The trace exists for transparency: it lets the user verify HOW an answer was
+    produced (real pre-run vs surrogate, what was consulted, what was compared).
+    It is derived from what the code really did — never from the model narrating
+    its own steps — so it cannot be fabricated. See schemas.TraceStep.
+    """
+    interp = interp or {}
+    result = tool_result if isinstance(tool_result, dict) else {}
+    errored = "error" in result
+    details: list[str] = []
+
+    if tool_name == "run_simulation":
+        scenario = interp.get("scenario_name") or tool_input.get("scenario_name", "scenario")
+        n_lev = len(interp.get("lever_overrides") or {})
+        n_exo = len(interp.get("exogenous_overrides") or {})
+        label = f"Ran the XGBoost surrogate for “{scenario}”"
+        data_source = "surrogate_xgboost"
+        origin = "XGBoost surrogate metamodel (trained on ~99k SISEPUEDE scenarios)"
+        if n_lev or n_exo:
+            bits = []
+            if n_lev:
+                bits.append(f"{n_lev} policy lever group(s)")
+            if n_exo:
+                bits.append(f"{n_exo} exogenous condition(s)")
+            details.append("Set " + " and ".join(bits))
+        if interp.get("compared"):
+            if interp.get("baseline_source") == "real_bau":
+                details.append("Compared against the real BAU baseline and real HBLE frontier (stored runs)")
+            else:
+                details.append("Compared against the surrogate's own BAU (real runs unavailable)")
+
+    elif tool_name == "get_pathway_results":
+        pathway = interp.get("scenario_name") or tool_input.get("pathway", "pathway")
+        label = f"Retrieved the stored “{pathway}” pathway"
+        data_source = "real_run"
+        origin = "Stored SISEPUEDE pre-run — the 6 named-pathway dataset"
+        if not errored:
+            details.append("Compared against the real BAU baseline and real HBLE frontier")
+            if tool_input.get("groups_changed"):
+                details.append("Included real driver-variable detail for the changed levers")
+
+    elif tool_name == "get_scenario_variables":
+        label = "Looked up the physical driver & output variables"
+        data_source = "reference"
+        origin = "AWS run database — nearest SISEPUEDE experiment (design_id=4)"
+        pid = result.get("primary_id")
+        if pid is not None:
+            details.append(f"Matched the nearest experiment (primary_id={pid})")
+
+    elif tool_name == "get_country_context":
+        topic = tool_input.get("topic", "")
+        label = "Retrieved Uganda baseline context" + (f" ({topic})" if topic else "")
+        data_source = "context"
+        origin = "Uganda baseline dataset (loaded from AWS at startup)"
+
+    elif tool_name == "list_strategies":
+        label = "Listed the available SISEPUEDE strategies"
+        data_source = "lookup"
+        origin = "SISEPUEDE strategy registry (ATTRIBUTE_STRATEGY)"
+        strategies = result.get("strategies")
+        if strategies:
+            details.append(f"{len(strategies)} strategies available")
+
+    else:
+        label = f"Called {tool_name}"
+        data_source = "lookup"
+        origin = tool_name
+
+    if errored:
+        details.append(f"Step failed: {result.get('error')}")
+
+    return {
+        "step": step,
+        "tool": tool_name,
+        "label": label,
+        "data_source": data_source,
+        "origin": origin,
+        "details": details,
+        "status": "error" if errored else "ok",
+    }
+
 
 def _execute_tool_call(
     tool_name: str,
@@ -517,6 +615,10 @@ def _run_simulation_tool(
         "lever_overrides": lever_overrides,
         "exogenous_overrides": exogenous_overrides,
         "scenario_name": scenario_name,
+        # Provenance for the user-facing process trace.
+        "data_source": "surrogate_xgboost",
+        "compared": bool(compare),
+        "baseline_source": "real_bau" if refs else "surrogate_bau",
     }
 
     return summary, result, interpretation
