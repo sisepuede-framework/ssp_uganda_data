@@ -4,11 +4,17 @@
 
 ### Summary
 Every assistant answer now carries a **process trace** — an always-visible source badge
-(*Real SISEPUEDE run* / *Surrogate estimate* / *Reference lookup*) plus a collapsible
+(*Official pathway* / *Surrogate estimate* / *Reference lookup*) plus a collapsible
 "How I got this answer" list of the exact steps the agent took: which tool ran, whether the
 data came from the stored 6-pathway runs or the XGBoost surrogate, what external data was
-consulted (AWS run database, stored CSVs), and what was compared. It is transparency the user
-can *verify* — the same information that goes to the logs, surfaced in the UI.
+consulted (AWS run database, stored CSVs), and what was compared. For a surrogate run the trace
+**names the specific levers/conditions changed and their values** (e.g. "Policy levers set —
+Reduce LOSSES: 0.90; Target RENEWABLE ELEC: 0.80"), resolved from the feature registry. It is
+transparency the user can *verify* — the same information that goes to the logs, surfaced in the UI.
+
+(Badge naming: the official named-pathway runs are labelled *"Official pathway"*, not "Real …",
+so the surrogate isn't implied to be fake — the honest distinction is a full stored model run vs
+its ML approximation.)
 
 ### Why
 Users (and reviewers) need to confirm the agent's process looks sound, not just trust the
@@ -31,7 +37,7 @@ interpretation so the trace can state what the surrogate was compared against.
 
 **`frontend/app.js` + `style.css`** — `renderTrace()` draws the badge + collapsible step
 timeline under each assistant message (real=teal, surrogate=amber, reference=muted; error
-steps flagged). Wired through `appendMessage(…, traceData)`. Cache version bumped to `20260714b`.
+steps flagged). Wired through `appendMessage(…, traceData)`. Cache version bumped to `20260714c`.
 
 ### Verification
 `tests/test_pathways_lookup.py` **7/7** — new Test 7 locks the trace: surrogate step →

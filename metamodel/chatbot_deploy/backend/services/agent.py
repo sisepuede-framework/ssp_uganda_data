@@ -25,6 +25,7 @@ horizontally scalable with no session state.
 
 import json
 import logging
+from functools import lru_cache
 from typing import Any
 
 import anthropic
@@ -360,6 +361,40 @@ def run(
 
 # ── Tool execution ───────────────────────────────────────────────────────────
 
+@lru_cache(maxsize=1)
+def _feature_group_names() -> dict[str, dict[str, str]]:
+    """Group-id → display-name maps for policy levers and exogenous conditions,
+    read once from the feature registry. Used to name the variables a surrogate
+    run changed in the user-facing process trace.
+    """
+    try:
+        with open(settings.feature_registry_path) as fh:
+            reg = json.load(fh)
+    except Exception as exc:  # registry missing/unreadable — names simply degrade
+        logger.warning("Could not load feature registry for trace names: %s", exc)
+        return {"lever": {}, "exogenous": {}}
+
+    def _names(section: str) -> dict[str, str]:
+        return {
+            str(gid): meta.get("display_name", f"Group {gid}")
+            for gid, meta in (reg.get(section) or {}).items()
+        }
+
+    return {"lever": _names("lever_features"), "exogenous": _names("exogenous_features")}
+
+
+def _name_changed_groups(overrides: dict, kind: str, cap: int = 12) -> list[str]:
+    """Turn {group_id: value} overrides into readable "Name: 0.90" trace lines,
+    capped so a max-ambition run doesn't flood the trace (the rest go to the log).
+    """
+    names = _feature_group_names().get(kind, {})
+    items = list((overrides or {}).items())
+    lines = [f"{names.get(str(gid), f'Group {gid}')}: {float(val):.2f}" for gid, val in items[:cap]]
+    if len(items) > cap:
+        lines.append(f"…and {len(items) - cap} more")
+    return lines
+
+
 def _build_trace_event(
     step: int,
     tool_name: str,
@@ -381,33 +416,33 @@ def _build_trace_event(
 
     if tool_name == "run_simulation":
         scenario = interp.get("scenario_name") or tool_input.get("scenario_name", "scenario")
-        n_lev = len(interp.get("lever_overrides") or {})
-        n_exo = len(interp.get("exogenous_overrides") or {})
         label = f"Ran the XGBoost surrogate for “{scenario}”"
         data_source = "surrogate_xgboost"
         origin = "XGBoost surrogate metamodel (trained on ~99k SISEPUEDE scenarios)"
-        if n_lev or n_exo:
-            bits = []
-            if n_lev:
-                bits.append(f"{n_lev} policy lever group(s)")
-            if n_exo:
-                bits.append(f"{n_exo} exogenous condition(s)")
-            details.append("Set " + " and ".join(bits))
+        # Name the specific variables the run changed (0–1 ambition value each).
+        lever_lines = _name_changed_groups(interp.get("lever_overrides") or {}, "lever")
+        exo_lines = _name_changed_groups(interp.get("exogenous_overrides") or {}, "exogenous")
+        if lever_lines:
+            details.append("Policy levers set — " + "; ".join(lever_lines))
+        if exo_lines:
+            details.append("Exogenous conditions set — " + "; ".join(exo_lines))
+        if not lever_lines and not exo_lines:
+            details.append("No levers changed from BAU (all at their default)")
         if interp.get("compared"):
             if interp.get("baseline_source") == "real_bau":
-                details.append("Compared against the real BAU baseline and real HBLE frontier (stored runs)")
+                details.append("Compared against the BAU and HBLE official pathway runs")
             else:
-                details.append("Compared against the surrogate's own BAU (real runs unavailable)")
+                details.append("Compared against the surrogate's own BAU (official runs unavailable)")
 
     elif tool_name == "get_pathway_results":
         pathway = interp.get("scenario_name") or tool_input.get("pathway", "pathway")
-        label = f"Retrieved the stored “{pathway}” pathway"
+        label = f"Retrieved the “{pathway}” official pathway"
         data_source = "real_run"
-        origin = "Stored SISEPUEDE pre-run — the 6 named-pathway dataset"
+        origin = "Stored SISEPUEDE model run — the 6 official named-pathway dataset"
         if not errored:
-            details.append("Compared against the real BAU baseline and real HBLE frontier")
+            details.append("Compared against the BAU and HBLE official pathway runs")
             if tool_input.get("groups_changed"):
-                details.append("Included real driver-variable detail for the changed levers")
+                details.append("Included the pathway's own driver-variable detail for the changed levers")
 
     elif tool_name == "get_scenario_variables":
         label = "Looked up the physical driver & output variables"

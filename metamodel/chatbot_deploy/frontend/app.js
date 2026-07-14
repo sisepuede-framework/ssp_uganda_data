@@ -414,7 +414,7 @@ function renderVariableTable(container, pairs) {
 // Per-data-source display metadata for the process trace. `cls` maps to the CSS
 // colour variants (real=teal, surrogate=amber, everything else=muted).
 const TRACE_SOURCE_META = {
-  real_run:          { badge: "Real SISEPUEDE run", cls: "real",      tag: "Real run" },
+  real_run:          { badge: "Official pathway",   cls: "real",      tag: "Official" },
   surrogate_xgboost: { badge: "Surrogate estimate", cls: "surrogate", tag: "Surrogate" },
   reference:         { badge: "Reference lookup",   cls: "ref",       tag: "Reference" },
   context:           { badge: "Baseline context",   cls: "ref",       tag: "Context" },
