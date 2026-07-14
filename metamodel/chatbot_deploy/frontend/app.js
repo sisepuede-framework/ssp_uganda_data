@@ -286,46 +286,19 @@ function _parseMdTable(block) {
   return html;
 }
 
-const THINKING_PHRASES = [
-  "Running the model…",
-  "Crunching 1,933 scenarios…",
-  "Consulting the surrogate…",
-  "Simulating Uganda's future…",
-  "Checking the LHS samples…",
-  "Computing emissions trajectory…",
-  "Asking the XGBoost oracle…",
-  "Projecting to 2070…",
-  "Comparing against BAU…",
-  "Almost there…",
-];
-
-let _thinkingTimer = null;
-
 function setLoading(loading) {
   state.isLoading = loading;
   const indicator = document.getElementById("typing-indicator");
   const btn       = document.getElementById("send-btn");
   const input     = document.getElementById("chat-input");
-  const textEl    = document.getElementById("thinking-text");
 
   if (loading) {
-    // Pick a random starting phrase, then cycle every 3 s
-    let idx = Math.floor(Math.random() * THINKING_PHRASES.length);
-    textEl.textContent = THINKING_PHRASES[idx];
-
-    _thinkingTimer = setInterval(() => {
-      idx = (idx + 1) % THINKING_PHRASES.length;
-      textEl.textContent = THINKING_PHRASES[idx];
-    }, 3000);
-
+    // Wordless bouncing-dots indicator (see .typing-dots in style.css).
     indicator.classList.remove("hidden");
     btn.disabled   = true;
     input.disabled = true;
     document.getElementById("chat-messages").scrollTop = 99999;
   } else {
-    clearInterval(_thinkingTimer);
-    _thinkingTimer = null;
-
     indicator.classList.add("hidden");
     btn.disabled   = false;
     input.disabled = false;
@@ -604,11 +577,11 @@ function renderInlineChart(container, chartData) {
   wrapper.appendChild(canvas);
   container.appendChild(wrapper);
 
-  const MUTED  = "#6B5E50";
-  const GRID   = "#E4DDD0";
-  const BORDER = "#DDD5C4";
-  const MONO   = "'JetBrains Mono', monospace";
-  const SANS   = "'Epilogue', sans-serif";
+  const MUTED  = "#6E6455";
+  const GRID   = "#F2EADD";
+  const BORDER = "#E5D9C8";
+  const MONO   = "'IBM Plex Mono', monospace";
+  const SANS   = "'Libre Franklin', system-ui, sans-serif";
 
   const datasets = [];
 
@@ -617,7 +590,7 @@ function renderInlineChart(container, chartData) {
     datasets.push({
       label: "Business as Usual",
       data: bau,
-      borderColor: "#A8222E",
+      borderColor: "#B0413E",
       borderWidth: 1.5,
       borderDash: [6, 4],
       pointRadius: 0,
@@ -632,7 +605,7 @@ function renderInlineChart(container, chartData) {
     datasets.push({
       label: "HBLE",
       data: nz,
-      borderColor: "#007A6F",
+      borderColor: "#4E8F5B",
       borderWidth: 2,
       borderDash: [],
       pointRadius: 0,
@@ -647,7 +620,7 @@ function renderInlineChart(container, chartData) {
     datasets.push({
       label: chartData.scenario_label || "Simulated Scenario",
       data: scenario,
-      borderColor: "#B8860B",
+      borderColor: "#E3B505",
       borderWidth: 2.5,
       borderDash: [],
       pointRadius: 0,
@@ -684,7 +657,7 @@ function renderInlineChart(container, chartData) {
           borderColor: BORDER,
           borderWidth: 1,
           titleColor: MUTED,
-          bodyColor: "#26211A",
+          bodyColor: "#262421",
           titleFont: { family: MONO, size: 10 },
           bodyFont: { family: MONO, size: 11 },
           callbacks: {
@@ -758,22 +731,26 @@ function renderEmissionsTimeseries(container, sectorComparison, opts = {}) {
 
 // ── Sector stacked area chart ─────────────────────────────────────────────
 
+// Colours follow the Design Guide sector palette — grouped into its hue families
+// (energy=terracotta, agriculture/livestock=gold-amber, transport=taupe,
+// waste/IPPU=mauve, buildings=slate-blue, land=green, forest sink=deep green),
+// using tints of the SAME hue when a family has several sectors — never new hues.
 const SECTOR_META = {
-  scoe:  { label: "Cooking & Buildings",       short: "Cooking/Bldgs",    color: "#E8C547" },
-  lndu:  { label: "Land Use",                  short: "Land Use",          color: "#8FBC6A" },
-  lvst:  { label: "Livestock",                 short: "Livestock",         color: "#F4A460" },
-  trww:  { label: "Wastewater",                short: "Wastewater",        color: "#B0C9E0" },
-  trns:  { label: "Transportation",            short: "Transport",         color: "#A0A0A0" },
-  soil:  { label: "Soil",                      short: "Soil",              color: "#E8913A" },
-  waso:  { label: "Solid Waste",               short: "Solid Waste",       color: "#D2B48C" },
-  lsmm:  { label: "Manure Management",         short: "Manure Mgmt",       color: "#C8A87A" },
-  inen:  { label: "Industrial Energy",         short: "Ind. Energy",       color: "#9370DB" },
-  ippu:  { label: "Industrial Processes",      short: "Ind. Processes",    color: "#C8A2C8" },
-  entc:  { label: "Electricity Generation",    short: "Electricity",       color: "#CD5C5C" },
-  fgtv:  { label: "Fugitive Emissions",        short: "Fugitive",          color: "#8B7355" },
-  agrc:  { label: "Agriculture",               short: "Agriculture",       color: "#FF8C00" },
-  ccsq:  { label: "Carbon Capture & Storage",  short: "CCS",               color: "#5F9EA0" },
-  frst:  { label: "Forestry (sequestration)",  short: "Forestry (seq.)",   color: "#2E8B57" },
+  scoe:  { label: "Cooking & Buildings",       short: "Cooking/Bldgs",    color: "#7A93AC" },  // buildings
+  lndu:  { label: "Land Use",                  short: "Land Use",          color: "#7FB069" },  // land use (source)
+  lvst:  { label: "Livestock",                 short: "Livestock",         color: "#EAC086" },  // agri/livestock tint
+  trww:  { label: "Wastewater",                short: "Wastewater",        color: "#86688A" },  // waste/IPPU tint
+  trns:  { label: "Transportation",            short: "Transport",         color: "#8A7D68" },  // transport
+  soil:  { label: "Soil",                      short: "Soil",              color: "#C98A3E" },  // agri/livestock tint
+  waso:  { label: "Solid Waste",               short: "Solid Waste",       color: "#B096AE" },  // waste/IPPU tint
+  lsmm:  { label: "Manure Management",         short: "Manure Mgmt",       color: "#D8A96A" },  // agri/livestock tint
+  inen:  { label: "Industrial Energy",         short: "Ind. Energy",       color: "#D5836F" },  // energy/industry tint
+  ippu:  { label: "Industrial Processes",      short: "Ind. Processes",    color: "#9C7B9A" },  // waste/IPPU
+  entc:  { label: "Electricity Generation",    short: "Electricity",       color: "#C96A5C" },  // energy/industry
+  fgtv:  { label: "Fugitive Emissions",        short: "Fugitive",          color: "#B85548" },  // energy/industry tint
+  agrc:  { label: "Agriculture",               short: "Agriculture",       color: "#E0A458" },  // agriculture
+  ccsq:  { label: "Carbon Capture & Storage",  short: "CCS",               color: "#5E8A68" },  // removal (green tint)
+  frst:  { label: "Forestry (sequestration)",  short: "Forestry (seq.)",   color: "#3E6B47" },  // forest sink
 };
 
 // Ordered for stacking — frst/ccsq last so they render below zero (sinks/removals)
@@ -849,11 +826,11 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
   // view: "both" (BAU + scenario panels) | "current" (BAU only) | "scenario" (scenario only)
   const view = opts.view || "both";
   const YEARS = [2019, 2025, 2035, 2040, 2050, 2070];
-  const MUTED  = "#6B5E50";
-  const GRID   = "#E4DDD0";
-  const BORDER = "#DDD5C4";
-  const MONO   = "'JetBrains Mono', monospace";
-  const SANS   = "'Epilogue', sans-serif";
+  const MUTED  = "#6E6455";
+  const GRID   = "#F2EADD";
+  const BORDER = "#E5D9C8";
+  const MONO   = "'IBM Plex Mono', monospace";
+  const SANS   = "'Libre Franklin', system-ui, sans-serif";
 
   const scenarioTrajectories = sectorComparison.scenario?.sector_trajectories || {};
   const bauTrajectories      = sectorComparison.baseline?.sector_trajectories || {};
@@ -874,7 +851,7 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
         tension:         0,
         order:           1,
         stack:           sector === "frst" ? "negative" : "positive",
-        backgroundColor: meta.color + "CC",
+        backgroundColor: meta.color + "D9",
         borderColor:     meta.color,
         borderWidth:     1,
         pointRadius:     0,
@@ -887,7 +864,7 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
     const totals = YEARS.map(y =>
       SECTOR_STACK_ORDER.reduce((sum, s) => sum + ((trajectories[s] || {})[y] ?? 0), 0)
     );
-    const totalColor = "#26211A";
+    const totalColor = "#262421";
     datasets.push({
       label:           isBau ? "BAU net total" : "Scenario net total",
       _sector:         "__total__",
@@ -898,7 +875,7 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
       tension:         0,
       borderColor:     totalColor,
       borderWidth:     2.5,
-      borderDash:      isBau ? [5, 4] : [],
+      borderDash:      isBau ? [6, 4] : [],
       pointRadius:     3,
       pointHoverRadius: 5,
       pointBackgroundColor: totalColor,
@@ -911,8 +888,8 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
   // Real BAU + HBLE reference net-total lines. These are attached to every payload
   // (both real-pathway and surrogate results). Guarded: a surrogate-only payload
   // without `references` simply renders without them.
-  const HBLE_COLOR    = "#007A6F";   // teal — the aggressive frontier
-  const BAU_REF_COLOR = "#26211A";
+  const HBLE_COLOR    = "#4E8F5B";   // action green — the aggressive frontier
+  const BAU_REF_COLOR = "#C9BBA4";   // reference tan — ghost/comparison line
   const refs = sectorComparison.references || {};
   const refNet = series => {
     const traj = series?.sector_trajectories || {};
@@ -922,7 +899,7 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
   if (refs.bau) referenceLines.push({
     label: "Real BAU net", _sector: "__refbau__", data: refNet(refs.bau),
     yAxisID: "y2", order: 0, fill: false, tension: 0, backgroundColor: "transparent",
-    borderColor: BAU_REF_COLOR, borderWidth: 1.5, borderDash: [5, 4],
+    borderColor: BAU_REF_COLOR, borderWidth: 1.5, borderDash: [6, 4],
     pointRadius: 0, pointHoverRadius: 4, pointBackgroundColor: BAU_REF_COLOR,
   });
   if (refs.hble) referenceLines.push({
@@ -964,7 +941,7 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
         title: {
           display: true,
           text: title,
-          color: "#26211A",
+          color: "#262421",
           font: { family: SANS, size: 11, weight: "600" },
           padding: { bottom: 6 },
         },
@@ -973,7 +950,7 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
           backgroundColor: "rgba(255, 255, 255, 0.6)",
           borderColor: BORDER,
           borderWidth: 1,
-          titleColor: "#26211A",
+          titleColor: "#262421",
           bodyColor: MUTED,
           titleFont: { family: MONO, size: 10 },
           bodyFont: { family: MONO, size: 10 },
@@ -1089,31 +1066,33 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
 // ── Cost / benefit diverging bar chart ────────────────────────────────────
 
 // Benefit types (positive, stack up) in render order, with display labels + colors.
+// Benefits stack upward in the guide's gold→amber→terracotta co-benefit ramp
+// (all warm, within #E3B505 → #E0A458 → #C96A5C and its tints — never new hues).
 const CB_BENEFIT_META = [
-  { key: "human_health",       label: "Human Health",        color: "#2E8B57" },
-  { key: "air_pollution",      label: "Air Quality",         color: "#3CB371" },
-  { key: "indoor_air_pollution", label: "Indoor Air Quality", color: "#3FA34D" },
-  { key: "consumer_savings",   label: "Consumer Savings",    color: "#8FBC6A" },
-  { key: "technical_savings",  label: "Technical Savings",   color: "#9ACD32" },
-  { key: "congestion",         label: "Reduced Congestion",  color: "#5F9EA0" },
-  { key: "road_safety",        label: "Road Safety",         color: "#4682B4" },
-  { key: "crop_value",         label: "Crop Value",          color: "#E8C547" },
-  { key: "lvst_value",         label: "Livestock Value",     color: "#DAA520" },
-  { key: "ippu_value",         label: "Industrial Value",    color: "#B8860B" },
-  { key: "ecosystem_services", label: "Ecosystem Services",  color: "#66CDAA" },
-  { key: "ecosystem_services_grasslands", label: "Grasslands", color: "#7FBF7F" },
-  { key: "ecosystem_services_wetlands",   label: "Wetlands",   color: "#4FB0A5" },
-  { key: "env_pollution",      label: "Env. Pollution",      color: "#20B2AA" },
-  { key: "land_pollution",     label: "Land Pollution",      color: "#8FBC8F" },
-  { key: "water_pollution",    label: "Water Pollution",     color: "#7EC8C8" },
-  { key: "sector_specific",    label: "Sector-Specific",     color: "#9370DB" },
+  { key: "human_health",       label: "Human Health",        color: "#E3B505" },
+  { key: "air_pollution",      label: "Air Quality",         color: "#E0AB2E" },
+  { key: "indoor_air_pollution", label: "Indoor Air Quality", color: "#DDA141" },
+  { key: "consumer_savings",   label: "Consumer Savings",    color: "#E0A458" },
+  { key: "technical_savings",  label: "Technical Savings",   color: "#DC9A54" },
+  { key: "congestion",         label: "Reduced Congestion",  color: "#D89150" },
+  { key: "road_safety",        label: "Road Safety",         color: "#D4884E" },
+  { key: "crop_value",         label: "Crop Value",          color: "#D07F4D" },
+  { key: "lvst_value",         label: "Livestock Value",     color: "#CD774E" },
+  { key: "ippu_value",         label: "Industrial Value",    color: "#C96A5C" },
+  { key: "ecosystem_services", label: "Ecosystem Services",  color: "#CB7466" },
+  { key: "ecosystem_services_grasslands", label: "Grasslands", color: "#D08172" },
+  { key: "ecosystem_services_wetlands",   label: "Wetlands",   color: "#D8907F" },
+  { key: "env_pollution",      label: "Env. Pollution",      color: "#DC9C8B" },
+  { key: "land_pollution",     label: "Land Pollution",      color: "#E0AC9E" },
+  { key: "water_pollution",    label: "Water Pollution",     color: "#E4B8AC" },
+  { key: "sector_specific",    label: "Sector-Specific",     color: "#E8C4BB" },
 ];
 
-// Cost types (negative, stack down) with display labels + colors.
+// Costs stack downward in slate (guide: #7A93AC) + tints.
 const CB_COST_META = [
-  { key: "technical", label: "Technical Cost", color: "#C0392B" },
-  { key: "system",    label: "System Cost",    color: "#E67E22" },
-  { key: "fuel",      label: "Fuel Cost",      color: "#A93226" },
+  { key: "technical", label: "Technical Cost", color: "#7A93AC" },
+  { key: "system",    label: "System Cost",    color: "#93A7BC" },
+  { key: "fuel",      label: "Fuel Cost",      color: "#64809A" },
 ];
 
 /**
@@ -1133,8 +1112,8 @@ function renderCostBenefitChart(container, cbc, opts = {}) {
   // view: "both" (scenario bars + BAU net reference) | "scenario" (scenario, no reference)
   //       | "current" (BAU bars only)
   const view = opts.view || "both";
-  const MUTED = "#6B5E50", BORDER = "#DDD5C4";
-  const MONO = "'JetBrains Mono', monospace", SANS = "'Epilogue', sans-serif";
+  const MUTED = "#6E6455", BORDER = "#E5D9C8";
+  const MONO = "'IBM Plex Mono', monospace", SANS = "'Libre Franklin', system-ui, sans-serif";
   const YEARS = (cbc.years || [2025, 2035, 2040, 2050, 2070]).map(Number);
   const scen = cbc.scenario, base = cbc.baseline || {};
   const at = (obj, y) => obj[String(y)] || obj[y] || {};
@@ -1144,19 +1123,19 @@ function renderCostBenefitChart(container, cbc, opts = {}) {
   const benDatasets = CB_BENEFIT_META.map(m => ({
     label: m.label, _cbkey: m.key, stack: "cb", order: 1,
     data: YEARS.map(y => (at(primary, y).benefits || {})[m.key] ?? 0),
-    backgroundColor: m.color + "DD", borderColor: m.color, borderWidth: 0.5,
+    backgroundColor: m.color + "D9", borderColor: m.color, borderWidth: 0.5,
   }));
   const costDatasets = CB_COST_META.map(m => ({
     label: m.label, _cbkey: m.key, stack: "cb", order: 1,
     data: YEARS.map(y => (at(primary, y).costs || {})[m.key] ?? 0),
-    backgroundColor: m.color + "DD", borderColor: m.color, borderWidth: 0.5,
+    backgroundColor: m.color + "D9", borderColor: m.color, borderWidth: 0.5,
   }));
 
   const netLine = {
     type: "line", label: "Net (benefits − costs)", _cbkey: "__net__", order: 0,
     yAxisID: "y2", data: YEARS.map(y => at(primary, y).net ?? 0),
-    borderColor: "#26211A", borderWidth: 2.5, pointRadius: 3, pointHoverRadius: 5,
-    pointBackgroundColor: "#26211A", fill: false, tension: 0,
+    borderColor: "#262421", borderWidth: 2.5, pointRadius: 3, pointHoverRadius: 5,
+    pointBackgroundColor: "#262421", fill: false, tension: 0,
   };
   // Real BAU + HBLE reference net-lines (per-year cost_benefit maps). Attached to
   // every payload; guarded so surrogate-only payloads still render. Draw the BAU
@@ -1167,14 +1146,14 @@ function renderCostBenefitChart(container, cbc, opts = {}) {
   const bauNetLine = {
     type: "line", label: "Real BAU net", _cbkey: "__baunet__", order: 0,
     yAxisID: "y2", data: YEARS.map(y => at(refBau, y).net ?? 0),
-    borderColor: "#26211A", borderWidth: 1.5, borderDash: [5, 4],
-    pointRadius: 2, pointBackgroundColor: "#26211A", fill: false, tension: 0,
+    borderColor: "#C9BBA4", borderWidth: 1.5, borderDash: [6, 4],
+    pointRadius: 2, pointBackgroundColor: "#C9BBA4", fill: false, tension: 0,
   };
   const hbleNetLine = cbRefs.hble ? {
     type: "line", label: "HBLE net (frontier)", _cbkey: "__hblenet__", order: 0,
     yAxisID: "y2", data: YEARS.map(y => at(cbRefs.hble, y).net ?? 0),
-    borderColor: "#007A6F", borderWidth: 1.5, borderDash: [2, 3],
-    pointRadius: 2, pointBackgroundColor: "#007A6F", fill: false, tension: 0,
+    borderColor: "#4E8F5B", borderWidth: 1.5, borderDash: [2, 3],
+    pointRadius: 2, pointBackgroundColor: "#4E8F5B", fill: false, tension: 0,
   } : null;
 
   // Reference net lines only when explicitly comparing against BAU ("both").
@@ -1223,13 +1202,13 @@ function renderCostBenefitChart(container, cbc, opts = {}) {
           text: opts.title || (view === "current"
             ? "Annual Cost & Benefit by Year (Current / BAU)"
             : "Annual Cost & Benefit by Year (Policy Scenario)"),
-          color: "#26211A", font: { family: SANS, size: 11, weight: "600" },
+          color: "#262421", font: { family: SANS, size: 11, weight: "600" },
           padding: { bottom: 6 },
         },
         legend: { display: false },
         tooltip: {
           backgroundColor: "rgba(255,255,255,0.92)", borderColor: BORDER, borderWidth: 1,
-          titleColor: "#26211A", bodyColor: MUTED, footerColor: "#26211A",
+          titleColor: "#262421", bodyColor: MUTED, footerColor: "#262421",
           titleFont: { family: MONO, size: 10 }, bodyFont: { family: MONO, size: 10 },
           footerFont: { family: MONO, size: 10, weight: "600" },
           filter: ctx => ctx.parsed.y !== 0 && ctx.parsed.y != null,
@@ -1249,7 +1228,7 @@ function renderCostBenefitChart(container, cbc, opts = {}) {
         y: { stacked: true, min: yMin, max: yMax,
              title: { display: true, text: "Billion USD / yr", color: MUTED, font: { family: SANS, size: 10 } },
              ticks: { color: MUTED, font: { family: MONO, size: 9 } },
-             grid: { color: "#E4DDD0" }, border: { color: BORDER } },
+             grid: { color: "#F2EADD" }, border: { color: BORDER } },
         y2: { stacked: false, min: yMin, max: yMax, display: false, grid: { display: false } },
       },
     },
@@ -1260,10 +1239,10 @@ function renderCostBenefitChart(container, cbc, opts = {}) {
   legendDiv.className = "stacked-chart-legend-right";
   const legendItems = [
     ...CB_BENEFIT_META, ...CB_COST_META,
-    { key: "__net__", label: "Net", color: "#26211A" },
+    { key: "__net__", label: "Net", color: "#262421" },
     ...(view === "both" ? [
-      { key: "__baunet__", label: "Real BAU net", color: "#26211A" },
-      ...(cbRefs.hble ? [{ key: "__hblenet__", label: "HBLE net", color: "#007A6F" }] : []),
+      { key: "__baunet__", label: "Real BAU net", color: "#C9BBA4" },
+      ...(cbRefs.hble ? [{ key: "__hblenet__", label: "HBLE net", color: "#4E8F5B" }] : []),
     ] : []),
   ];
   for (const m of legendItems) {

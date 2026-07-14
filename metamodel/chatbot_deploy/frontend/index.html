@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Uganda Climate Policy Simulator</title>
-  <!-- Fonts: Epilogue (prose/labels) + JetBrains Mono (data/code) -->
+  <!-- Fonts: Newsreader (serif headlines) + Libre Franklin (sans) + IBM Plex Mono (model voice) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=Libre+Franklin:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <!-- Bump ?v= on every app.js/style.css change to bust the browser cache. -->
-  <link rel="stylesheet" href="/style.css?v=20260714c" />
+  <link rel="stylesheet" href="/style.css?v=20260714d" />
   <!-- Chart.js for results visualisation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"
           crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -68,9 +68,8 @@
       <!-- Typing indicator -->
       <div class="typing-indicator hidden" id="typing-indicator">
         <div class="message-avatar">UG</div>
-        <div class="thinking-bubble">
-          <span class="thinking-text" id="thinking-text">Running the model…</span>
-          <span class="thinking-cursor">▋</span>
+        <div class="thinking-bubble" aria-label="Working">
+          <span class="typing-dots"><span></span><span></span><span></span></span>
         </div>
       </div>
 
@@ -82,12 +81,12 @@
           rows="2"
           onkeydown="handleInputKey(event)"
         ></textarea>
-        <button class="send-btn" id="send-btn" onclick="sendMessage()">Send ↵</button>
+        <button class="send-btn" id="send-btn" onclick="sendMessage()" aria-label="Send" title="Send">↑</button>
       </div>
     </section>
 
   </div>
 
-  <script src="/app.js?v=20260714c"></script>
+  <script src="/app.js?v=20260714d"></script>
 </body>
 </html>

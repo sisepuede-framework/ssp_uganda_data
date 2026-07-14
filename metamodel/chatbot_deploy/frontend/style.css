@@ -1,43 +1,56 @@
 /* ============================================================
-   Uganda Climate Policy Simulator — Policy Document Theme
+   Decarbonization Explorer — Design Guide v1.0 house style
    ============================================================
-   Palette:
-     --bg          : #F0EAD6  warm parchment background
-     --surface     : #FFFFFF  card / message surfaces
-     --surface-2   : #F7F3EC  slightly warmer surface
-     --border      : #DDD5C4  subtle warm borders
-     --text        : #26211A  primary text
-     --text-muted  : #6B5E50  secondary text
-
-   Accent:
-     --amber       : #B8860B  dark goldenrod, Uganda flag tones
-     --teal        : #007A6F  positive outcomes
-     --red         : #A8222E  BAU / high-emissions
+   A warm paper base with editorial ink. Two semantic data
+   colours carry all meaning in charts: red = rising/BAU,
+   green = falling/action. Gold is Uganda's accent (highlights
+   only — never data). Variable NAMES are kept where they were
+   to minimise churn; their VALUES now follow the guide.
    ============================================================ */
 
 :root {
-  --bg:          #F0EAD6;
-  --surface:     #FFFFFF;
-  --surface-2:   #F7F3EC;
-  --border:      #DDD5C4;
-  --text:        #26211A;
-  --text-muted:  #6B5E50;
+  /* Foundation */
+  --bg:          #FFF9F2;   /* Paper — app background */
+  --surface:     #FFFFFF;   /* Card white — cards, inputs */
+  --surface-2:   #FBF4E9;   /* Parchment — panels, chat dock */
+  --ink:         #262421;   /* Ink — text, user bubbles, rules */
 
-  --amber:       #B8860B;
-  --amber-dim:   rgba(184, 134, 11, 0.10);
-  --teal:        #007A6F;
-  --teal-dim:    rgba(0, 122, 111, 0.10);
-  --red:         #A8222E;
-  --red-dim:     rgba(168, 34, 46, 0.09);
+  /* Text & lines */
+  --text:        #262421;   /* ink for primary text */
+  --text-body:   #40392E;   /* body copy */
+  --text-muted:  #6E6455;   /* secondary */
+  --text-faint:  #8A7D68;   /* muted / labels */
+  --border:      #E5D9C8;   /* hairline borders */
+  --border-input:#D9CCB8;   /* input borders */
+  --gridline:    #F2EADD;   /* chart gridlines */
 
-  --radius:      5px;
-  --shadow:      0 2px 12px rgba(0, 0, 0, 0.07);
+  /* Data / semantic */
+  --red:         #B0413E;   /* Crane red — BAU, rising, warnings, send */
+  --red-dim:     rgba(176, 65, 62, 0.10);
+  --teal:        #4E8F5B;   /* Action green — falling, co-benefits (name kept) */
+  --teal-dim:    rgba(78, 143, 91, 0.12);
+  --amber:       #E3B505;   /* Uganda gold — highlights only (name kept) */
+  --amber-dim:   rgba(227, 181, 5, 0.12);
+  --tan:         #C9BBA4;   /* reference / ghost lines */
+  --red-tint-1:  #C96A5C;
+  --red-tint-2:  #D8907F;
+  --red-tint-3:  #E0AC9E;
+
+  /* Typography — three families, three jobs */
+  --font-serif:  'Newsreader', Georgia, serif;      /* headlines, findings, big numbers */
+  --font-sans:   'Libre Franklin', system-ui, sans-serif;  /* body, chat, nav, chips */
+  --font-mono:   'IBM Plex Mono', ui-monospace, monospace; /* the model's voice */
+
+  --radius:      8px;       /* cards; 10px outer frames, 6px small elements */
+  --radius-sm:   6px;
+  --radius-lg:   10px;
+  --shadow:      none;      /* no drop shadows inside the app */
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 body {
-  font-family: "Epilogue", sans-serif;
+  font-family: var(--font-sans);
   background: var(--bg);
   color: var(--text);
   height: 100vh;
@@ -67,7 +80,7 @@ body {
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
-  border-bottom: 2px solid var(--amber);
+  border-bottom: 3px solid var(--ink);   /* the signature editorial rule */
   box-shadow: var(--shadow);
 }
 
@@ -75,23 +88,23 @@ body {
 .header-logo { font-size: 1.9rem; line-height: 1; }
 
 .header-title h1 {
-  font-family: "Epilogue", sans-serif;
-  font-size: 1.05rem;
+  font-family: var(--font-serif);
+  font-size: 1.28rem;                    /* ~20px display serif */
   font-weight: 700;
-  letter-spacing: 0.01em;
-  color: var(--text);
+  letter-spacing: 0.005em;
+  color: var(--ink);
 }
 .header-title h1 span { color: var(--amber); }
 
 .header-title p {
-  font-family: "Epilogue", sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.75rem;
   color: var(--text-muted);
   margin-top: 2px;
 }
 
 .model-badge {
-  font-family: "JetBrains Mono", monospace;
+  font-family: var(--font-mono);
   background: var(--surface-2);
   border: 1px solid var(--border);
   color: var(--text-muted);
@@ -140,7 +153,7 @@ body {
 }
 
 .preset-label {
-  font-family: "Epilogue", sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.72rem;
   color: var(--text-muted);
   font-weight: 600;
@@ -152,9 +165,9 @@ body {
 .preset-btn {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: 20px;                 /* white pill chip (guide) */
   padding: 5px 14px;
-  font-family: "Epilogue", sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.76rem;
   font-weight: 500;
   cursor: pointer;
@@ -196,7 +209,7 @@ body {
   background: rgba(247, 243, 236, 0.5);
   border: 1px solid var(--border);
   color: var(--text-muted);
-  font-family: "Epilogue", sans-serif;
+  font-family: var(--font-sans);
   letter-spacing: 0.02em;
 }
 
@@ -207,17 +220,18 @@ body {
   color: var(--amber);
 }
 
+/* Model message: NO bubble — plain body text on parchment (guide). */
 .message-content {
-  background: rgba(255, 255, 255, 0.55);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 14px 18px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 2px 0;
   max-width: calc(100% - 48px);
-  line-height: 1.65;
-  font-family: "Epilogue", sans-serif;
-  font-size: 0.9rem;
-  color: var(--text);
-  box-shadow: var(--shadow);
+  line-height: 1.6;
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  color: var(--text-body);
+  box-shadow: none;
 }
 
 .message-content p        { margin-bottom: 9px; }
@@ -225,15 +239,16 @@ body {
 .message-content ul       { padding-left: 20px; margin-bottom: 9px; }
 .message-content li       { margin-bottom: 5px; }
 .message-content em       { color: var(--amber); font-style: normal; font-weight: 600; }
-.message-content strong   { color: var(--text); font-weight: 700; }
-.message-content h1       { font-size: 1.05rem; font-weight: 700; margin: 12px 0 6px; color: var(--text); }
-.message-content h2       { font-size: 0.97rem; font-weight: 700; margin: 10px 0 5px; color: var(--text); }
-.message-content h3       { font-size: 0.9rem;  font-weight: 700; margin: 8px 0 4px;  color: var(--amber); }
+.message-content strong   { color: var(--ink); font-weight: 700; }   /* bold for figures */
+/* Findings/headlines — editorial serif, state the finding (guide voice). */
+.message-content h1       { font-family: var(--font-serif); font-size: 1.4rem;  font-weight: 700; margin: 14px 0 7px; color: var(--ink); line-height: 1.2; }
+.message-content h2       { font-family: var(--font-serif); font-size: 1.18rem; font-weight: 700; margin: 12px 0 6px; color: var(--ink); line-height: 1.25; }
+.message-content h3       { font-family: var(--font-serif); font-size: 1.02rem; font-weight: 600; margin: 9px 0 4px;  color: var(--ink); }
 
 /* Numbers, variable names, units: monospace */
 .message-content code,
 .message-content .num {
-  font-family: "JetBrains Mono", monospace;
+  font-family: var(--font-mono);
   font-size: 0.82rem;
   color: var(--teal);
   background: var(--teal-dim);
@@ -242,7 +257,7 @@ body {
 }
 
 .message-content pre {
-  font-family: "JetBrains Mono", monospace;
+  font-family: var(--font-mono);
   font-size: 0.8rem;
   background: var(--surface-2);
   border: 1px solid var(--border);
@@ -263,12 +278,16 @@ body {
   border-color: var(--border);
   color: var(--text-muted);
 }
+/* User message: ink bubble, paper text, guide's asymmetric radius. */
 .user-message .message-content {
-  background: var(--surface-2);
-  border-color: var(--border);
-  color: var(--text);
+  background: var(--ink);
+  border: none;
+  color: var(--bg);
   box-shadow: none;
+  padding: 10px 14px;
+  border-radius: 12px 12px 3px 12px;
 }
+.user-message .message-content strong { color: var(--bg); }
 
 /* Typing indicator */
 .typing-indicator {
@@ -283,80 +302,84 @@ body {
 .thinking-bubble {
   display: flex;
   align-items: center;
-  gap: 2px;
-  padding: 9px 14px;
-  background: var(--surface);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
+  padding: 8px 4px;
 }
 
-.thinking-text {
-  font-family: "Epilogue", sans-serif;
-  font-size: 0.87rem;
-  color: var(--text-muted);
-  font-style: italic;
+/* Wordless "working" indicator — three bouncing dots, no phrases. */
+.typing-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
-
-.thinking-cursor {
-  font-family: "JetBrains Mono", monospace;
-  font-size: 0.85rem;
-  color: var(--amber);
-  animation: blink 1s step-start infinite;
-  line-height: 1;
+.typing-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-faint);
+  animation: dotBounce 1.2s infinite ease-in-out both;
 }
+.typing-dots span:nth-child(1) { animation-delay: -0.24s; }
+.typing-dots span:nth-child(2) { animation-delay: -0.12s; }
+.typing-dots span:nth-child(3) { animation-delay: 0s; }
 
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
+@keyframes dotBounce {
+  0%, 80%, 100% { transform: translateY(0);    opacity: 0.35; }
+  40%           { transform: translateY(-5px); opacity: 1; }
 }
 
 /* Input area — pinned to bottom */
 .chat-input-area {
   display: flex;
-  gap: 8px;
+  gap: 10px;
+  align-items: flex-end;
   padding: 14px 20px 16px;
   border-top: 1px solid var(--border);
-  background: var(--surface);
+  background: var(--surface-2);
   flex-shrink: 0;
 }
 
 #chat-input {
   flex: 1;
-  border: 1px solid var(--border);
+  border: 1px solid var(--border-input);
   border-radius: var(--radius);
   padding: 10px 14px;
-  font-family: "Epilogue", sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.9rem;
   resize: none;
   outline: none;
   transition: border-color 0.15s, box-shadow 0.15s;
   line-height: 1.5;
-  background: var(--surface-2);
+  background: var(--surface);
   color: var(--text);
 }
-#chat-input::placeholder { color: var(--text-muted); }
+#chat-input::placeholder { color: var(--text-faint); }
 #chat-input:focus {
-  border-color: var(--amber);
-  box-shadow: 0 0 0 3px var(--amber-dim);
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px var(--red-dim);
 }
 
+/* Send: 38px crane-red circle (guide). */
 .send-btn {
-  background: var(--amber);
+  background: var(--red);
   color: #fff;
   border: none;
-  border-radius: var(--radius);
-  padding: 10px 22px;
-  font-family: "Epilogue", sans-serif;
-  font-size: 0.85rem;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
   font-weight: 700;
+  line-height: 1;
   cursor: pointer;
   transition: background 0.15s, opacity 0.15s;
-  white-space: nowrap;
-  letter-spacing: 0.02em;
 }
-.send-btn:hover    { background: #9A7009; }
-.send-btn:disabled { background: var(--border); color: var(--text-muted); cursor: not-allowed; }
+.send-btn:hover    { background: #963532; }
+.send-btn:disabled { background: var(--border-input); color: var(--text-faint); cursor: not-allowed; }
 
 /* ── Results panel ───────────────────────────────────────────────────── */
 
@@ -384,12 +407,12 @@ body {
   color: var(--text-muted);
 }
 .results-placeholder-icon { font-size: 2.2rem; margin-bottom: 12px; opacity: 0.4; }
-.results-placeholder p    { font-family: "Epilogue", sans-serif; font-size: 0.88rem; margin-bottom: 6px; }
+.results-placeholder p    { font-family: var(--font-sans); font-size: 0.88rem; margin-bottom: 6px; }
 .results-placeholder .hint { font-size: 0.78rem; color: var(--text-muted); opacity: 0.7; }
 
 /* Scenario title */
 .scenario-title {
-  font-family: "Epilogue", sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.92rem;
   font-weight: 700;
   color: var(--amber);
@@ -416,7 +439,7 @@ body {
 }
 
 .metric-label {
-  font-family: "Epilogue", sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.68rem;
   color: var(--text-muted);
   text-transform: uppercase;
@@ -425,21 +448,21 @@ body {
 }
 
 .metric-value {
-  font-family: "JetBrains Mono", monospace;
+  font-family: var(--font-mono);
   font-size: 1.1rem;
   font-weight: 600;
   color: var(--text);
 }
 
 .metric-unit {
-  font-family: "JetBrains Mono", monospace;
+  font-family: var(--font-mono);
   font-size: 0.68rem;
   color: var(--text-muted);
   font-weight: 400;
 }
 
 .metric-change {
-  font-family: "JetBrains Mono", monospace;
+  font-family: var(--font-mono);
   font-size: 0.73rem;
   font-weight: 500;
   margin-top: 4px;
@@ -451,7 +474,7 @@ body {
 .metric-card.emissions { border-left: 3px solid var(--red); }
 .metric-card.benefits  { border-left: 3px solid var(--teal); }
 .metric-card.costs     { border-left: 3px solid var(--amber); }
-.metric-card.gdp-costs { border-left: 3px solid #5c8fe0; }
+.metric-card.gdp-costs { border-left: 3px solid #7A93AC; }
 
 /* Chart */
 .chart-container {
@@ -461,7 +484,7 @@ body {
 }
 
 .chart-title {
-  font-family: "Epilogue", sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.72rem;
   color: var(--text-muted);
   text-transform: uppercase;
@@ -474,7 +497,7 @@ body {
 .md-table {
   width: 100%;
   border-collapse: collapse;
-  font-family: "Epilogue", sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.84rem;
   margin: 10px 0;
 }
@@ -509,7 +532,7 @@ body {
 }
 
 .var-table-label {
-  font-family: "Epilogue", sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.07em;
@@ -523,7 +546,7 @@ body {
 .var-table {
   width: 100%;
   border-collapse: collapse;
-  font-family: "JetBrains Mono", monospace;
+  font-family: var(--font-mono);
   font-size: 0.78rem;
 }
 
@@ -557,13 +580,13 @@ body {
 }
 
 .followup-chip {
-  font-family: "Epilogue", sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.75rem;
   font-weight: 500;
   color: var(--text-muted);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: 20px;                 /* white pill chip (guide) */
   padding: 4px 12px;
   cursor: pointer;
   transition: border-color 0.15s, color 0.15s, background 0.15s;
@@ -579,7 +602,7 @@ body {
 /* Process trace — "How I got this answer" */
 .trace {
   margin: 10px 0 2px;
-  font-family: "Epilogue", sans-serif;
+  font-family: var(--font-sans);
 }
 
 .trace-summary {
@@ -776,7 +799,7 @@ body {
 }
 
 .stacked-legend-label {
-  font-family: "JetBrains Mono", monospace;
+  font-family: var(--font-mono);
   font-size: 9px;
   color: var(--text-muted);
   white-space: nowrap;
@@ -788,7 +811,7 @@ body {
 }
 
 .pt-title {
-  font-family: "Epilogue", sans-serif;
+  font-family: var(--font-sans);
   font-size: 10px;
   font-weight: 600;
   text-transform: uppercase;
@@ -800,7 +823,7 @@ body {
 .pt-table {
   width: 100%;
   border-collapse: collapse;
-  font-family: "JetBrains Mono", monospace;
+  font-family: var(--font-mono);
   font-size: 11px;
 }
 
@@ -856,7 +879,7 @@ body {
 }
 
 .chart-metric-value {
-  font-family: "JetBrains Mono", monospace;
+  font-family: var(--font-mono);
   font-size: 20px;
   font-weight: 600;
   color: var(--amber);
@@ -865,7 +888,7 @@ body {
 }
 
 .chart-metric-label {
-  font-family: "Epilogue", sans-serif;
+  font-family: var(--font-sans);
   font-size: 11px;
   color: var(--text-muted);
   margin-top: 4px;
@@ -876,7 +899,7 @@ body {
 
 /* Disclaimer */
 .disclaimer {
-  font-family: "Epilogue", sans-serif;
+  font-family: var(--font-sans);
   font-size: 0.71rem;
   color: var(--text-muted);
   background: var(--surface);
