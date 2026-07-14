@@ -76,8 +76,8 @@ COST_BENEFIT_LABELS: dict[str, str] = {
     "land_pollution": "Land Pollution",
     "water_pollution": "Water Pollution",
     "sector_specific": "Sector-Specific",
-    "ecosystem_services_grasslands": "Ecosystem Services (Grasslands)",
-    "ecosystem_services_wetlands": "Ecosystem Services (Wetlands)",
+    "ecosystem_services_grasslands": "Grasslands",
+    "ecosystem_services_wetlands": "Wetlands",
     # costs
     "technical": "Technical Cost",
     "system": "System Cost",

@@ -30,27 +30,22 @@ from typing import Any
 import anthropic
 
 from backend.config import settings
+from backend.services import pathways_lookup
 from backend.services.context import get_country_context
 from backend.services.predictor import get_sector_predictor, SECTOR_DISPLAY_NAMES
 from backend.services.s3_lookup import (
-    get_scenario_outcomes,
+    get_scenario_variable_trajectories,
     get_strategy_l_values,
     list_strategies as _list_strategies,
 )
 
 logger = logging.getLogger(__name__)
 
-# ── Predefined "standard" pathways (triage category A) ───────────────────────
-# These are the pathways the bot may run by name without the user specifying
-# levers. To expose a new one (e.g. NDC2, NDC3, Conditional, Unconditional):
-#   1. Add an entry here (preset key → one-line description), AND
-#   2. Add a matching preset in predictor.PRESET_DEFAULTS (+ any per-group
-#      overrides, like NETZERO_L_OVERRIDES).
-# The A-vs-B triage test is simply: "is the requested pathway in this dict?"
-PREDEFINED_PATHWAYS: dict[str, str] = {
-    "bau":     "Business as Usual — minimal policy action (all levers at baseline)",
-    "netzero": "Net Zero — Uganda's calibrated maximum-ambition strategy",
-}
+# The 6 officially named pathways served from REAL pre-run data (not the surrogate).
+# Order + names come from the single source of truth in pathways_lookup so the tool
+# enum, the triage list, and the reference lines never drift apart. These are the
+# triage category-A pathways — a request naming one routes to get_pathway_results.
+NAMED_PATHWAYS: list[str] = list(pathways_lookup.PATHWAY_REGISTRY.keys())
 
 # ── Tool definitions ─────────────────────────────────────────────────────────
 # Claude uses these to understand what it can call and with what parameters.
@@ -83,7 +78,7 @@ TOOLS: list[dict] = [
                         "Keys are group IDs as strings (e.g. '7' for renewable electricity). "
                         "Values are floats in [0.0, 1.0]. "
                         "Omitted levers default to 0.1 (BAU — minimal policy action). "
-                        "Use 0.9–1.0 for aggressive/Net Zero ambition, "
+                        "Use 0.9–1.0 for aggressive/HBLE (maximum) ambition, "
                         "0.4–0.6 for moderate, 0.1–0.2 for BAU/no action."
                     ),
                     "additionalProperties": {"type": "number"},
@@ -119,6 +114,41 @@ TOOLS: list[dict] = [
         },
     },
     {
+        "name": "get_pathway_results",
+        "description": (
+            "Return REAL pre-run SISEPUEDE results for one of Uganda's 6 officially named "
+            "pathways. ALWAYS call this (NEVER run_simulation) when the user names one of: "
+            + ", ".join(NAMED_PATHWAYS) + " (Candidate NDC3 is also called HBLE). "
+            "These are ACTUAL model runs, not surrogate estimates — and they are the only "
+            "accurate source for the aggressive pathways, which the surrogate cannot reproduce. "
+            "Returns, vs a real BAU baseline: total net emissions per year and per-sector "
+            "emissions for 2019/2025/2035/2040/2050/2070, and cost & benefit disaggregated by "
+            "type and year (per-year totals, net, and cost/benefit as % of GDP). BAU itself has "
+            "zero cost-benefit (it is the baseline the others are measured against). Every result "
+            "also carries real BAU and HBLE reference lines for the charts."
+        ),
+        "input_schema": {
+            "type": "object",
+            "properties": {
+                "pathway": {
+                    "type": "string",
+                    "enum": NAMED_PATHWAYS,
+                    "description": "Which named pathway to retrieve. Must be one of the 6 official pathways.",
+                },
+                "groups_changed": {
+                    "type": "array",
+                    "items": {"type": "integer"},
+                    "description": (
+                        "Optional. L group IDs (1–54) to ALSO return this pathway's real driver / "
+                        "downstream-output variable trajectories for — the physical 'how' behind "
+                        "the levers, read from the pathway's own run (no nearest-neighbour match)."
+                    ),
+                },
+            },
+            "required": ["pathway"],
+        },
+    },
+    {
         "name": "list_strategies",
         "description": (
             "Return all predefined SISEPUEDE strategy scenarios available for simulation. "
@@ -135,12 +165,14 @@ TOOLS: list[dict] = [
     {
         "name": "get_scenario_variables",
         "description": (
-            "Retrieve SISEPUEDE simulation outputs (sector-level CO2e emission trajectories) "
-            "for the nearest pre-computed experiment matching the given L values. "
-            "Call this AFTER run_simulation whenever the user asked what would actually happen "
-            "in specific sectors, or wants to see the simulated emission breakdown by sector. "
-            "Returns emission_co2e_subsector_total for each sector affected by the changed groups. "
-            "Only valid for L groups (groups 1–54). Do NOT use for X group variables."
+            "Explain the physical 'how' behind a lever: the actual SISEPUEDE model variables "
+            "each changed lever moves and how they evolve over time. Returns, per lever, the "
+            "INPUT driver variables it directly changes (2015→2070, available for all groups) "
+            "and the DOWNSTREAM OUTPUT variables it affects (2019→2070, where they exist), "
+            "taken from the nearest pre-computed experiment matching the given L values. "
+            "Call this AFTER run_simulation when the user asks WHY/HOW a lever works, what "
+            "physically changes, or which variables move. Headline emissions/GDP/cost come "
+            "from run_simulation, NOT this tool. Only valid for L groups (groups 1–54)."
         ),
         "input_schema": {
             "type": "object",
@@ -336,6 +368,9 @@ def _execute_tool_call(
     if tool_name == "run_simulation":
         return _run_simulation_tool(tool_input, sector_predictor, locked_overrides)
 
+    if tool_name == "get_pathway_results":
+        return _get_pathway_results_tool(tool_input)
+
     if tool_name == "get_scenario_variables":
         return _get_scenario_variables_tool(tool_input)
 
@@ -393,38 +428,90 @@ def _run_simulation_tool(
         elif 55 <= gid <= 67:
             exogenous_overrides[gid] = val
 
-    # Run the model. A single sector pipeline produces the per-sector trajectories,
-    # cost/benefit, and GDP, so one call covers everything.
+    # Run the surrogate for the SCENARIO only. We compare it against the REAL BAU
+    # run (not the surrogate's own BAU) and carry the REAL HBLE run as the ambition
+    # frontier, so policymakers get a real comparison for their what-ifs. This
+    # knowingly folds the surrogate's model error into the headline comparison for
+    # now (to be revisited). If the curated real runs can't be loaded we fall back
+    # to the surrogate's own BAU baseline so a run never breaks.
     sim = sector_predictor.predict_comparison(
         lever_overrides=lever_overrides,
         exogenous_overrides=exogenous_overrides,
         preset_scenario="bau",
         scenario_name=scenario_name,
     )
+    scenario_series = sim["scenario"]
 
-    if compare:
+    try:
+        refs = pathways_lookup.build_reference_bundle()
+    except Exception as exc:  # curated CSVs unavailable — degrade, don't break
+        logger.warning(
+            "run_simulation: real BAU/HBLE unavailable (%s) — falling back to the "
+            "surrogate's own BAU baseline", exc,
+        )
+        refs = None
+
+    logger.info(
+        "run_simulation: data_source=surrogate_xgboost (scenario=%s, levers=%d, "
+        "exog=%d, baseline=%s)",
+        scenario_name, len(lever_overrides), len(exogenous_overrides),
+        "real_bau" if refs else "surrogate_bau",
+    )
+
+    if compare and refs:
+        # Surrogate scenario vs the REAL BAU baseline. Same delta math the named
+        # pathways use (pathways_lookup.compare_series), iterating anchor years so
+        # the surrogate's denser year grid lines up with the anchor-only real BAU.
+        real_bau = refs["bau"]
+        deltas = pathways_lookup.compare_series(scenario_series, real_bau)
         result = {
-            "scenario": sim["scenario"],
+            "scenario": scenario_series,
+            "baseline": real_bau,
+            "comparison": deltas["comparison"],
+        }
+        result["sector_comparison"] = {
+            "scenario": scenario_series,
+            "baseline": real_bau,
+            **deltas,
+        }
+        result["cost_benefit_comparison"] = {
+            "years": pathways_lookup.CB_YEARS,
+            "scenario": scenario_series["cost_benefit"],
+            "baseline": real_bau["cost_benefit"],
+            "deltas": deltas["cost_benefit_deltas"],
+        }
+    elif compare:
+        # Fallback: real runs unavailable → surrogate-vs-surrogate (prior behaviour).
+        result = {
+            "scenario": scenario_series,
             "baseline": sim["baseline"],
             "comparison": sim["comparison"],
         }
+        result["sector_comparison"] = sim
+        result["cost_benefit_comparison"] = {
+            "years": pathways_lookup.CB_YEARS,
+            "scenario": scenario_series["cost_benefit"],
+            "baseline": sim["baseline"]["cost_benefit"],
+            "deltas": sim["cost_benefit_deltas"],
+        }
     else:
-        result = {"scenario": sim["scenario"], "baseline": None, "comparison": None}
+        # No baseline comparison requested.
+        result = {"scenario": scenario_series, "baseline": None, "comparison": None}
+        result["sector_comparison"] = {"scenario": scenario_series, "baseline": None}
+        result["cost_benefit_comparison"] = {
+            "years": pathways_lookup.CB_YEARS,
+            "scenario": scenario_series["cost_benefit"],
+            "baseline": None,
+        }
 
-    # Attach the full sector bundle so the frontend can render the stacked
-    # area chart (it reads sector_deltas / scenario / baseline trajectories).
-    result["sector_comparison"] = sim
+    # Draw the real BAU + HBLE reference lines on both charts whenever the real runs
+    # loaded (incl. the fallback / no-compare paths, for frontier context).
+    if refs:
+        _attach_real_references(result)
 
-    # Attach a self-contained cost/benefit bundle for the diverging bar chart.
-    result["cost_benefit_comparison"] = {
-        "years": [2025, 2035, 2040, 2050, 2070],
-        "scenario": sim["scenario"]["cost_benefit"],
-        "baseline": sim["baseline"]["cost_benefit"],
-        "deltas": sim["cost_benefit_deltas"],
-    }
-
-    # Build a concise summary for Claude to narrate from
-    summary = _build_result_summary(result, sim)
+    # Build a concise summary for Claude to narrate from. sector_comparison carries
+    # the sector/cost deltas and the real references (for the HBLE frontier value).
+    summary = _build_result_summary(result, result.get("sector_comparison"))
 
     interpretation = {
         "lever_overrides": lever_overrides,
@@ -435,73 +522,195 @@ def _run_simulation_tool(
     return summary, result, interpretation
 
 
+def _attach_real_references(result: dict) -> None:
+    """Attach real BAU + HBLE reference series to a result's chart bundles (in place).
+
+    Shared by the surrogate flow (run_simulation) and available to any chart: the
+    sector chart wants the full series (it reads sector_trajectories); the cost/benefit
+    chart wants just the per-year cost_benefit maps. Non-fatal — a data hiccup simply
+    omits the reference lines and the charts still render.
+    """
+    try:
+        refs = pathways_lookup.build_reference_bundle()
+    except Exception as exc:
+        logger.warning("Could not attach real reference lines (non-fatal): %s", exc)
+        return
+    if isinstance(result.get("sector_comparison"), dict):
+        result["sector_comparison"]["references"] = {
+            "bau": refs["bau"], "hble": refs["hble"],
+        }
+    if isinstance(result.get("cost_benefit_comparison"), dict):
+        result["cost_benefit_comparison"]["references"] = {
+            "bau": refs["bau"]["cost_benefit"], "hble": refs["hble"]["cost_benefit"],
+        }
+
+
+def _get_pathway_results_tool(inputs: dict) -> tuple[dict, dict | None, dict | None]:
+    """Return REAL pre-run results for one of the 6 named pathways.
+
+    Mirrors _run_simulation_tool's result shape (scenario/baseline/comparison +
+    sector_comparison + cost_benefit_comparison) so the schema, _build_result_summary,
+    and both charts are reused unchanged — the only difference is the data is a real
+    SISEPUEDE run, flagged data_source="real_run".
+    """
+    pathway = inputs.get("pathway", "")
+    try:
+        bundle = pathways_lookup.build_pathway_comparison(pathway)
+    except LookupError as exc:
+        return {"error": str(exc)}, None, None
+    except FileNotFoundError as exc:
+        logger.error("Pathway data unavailable: %s", exc)
+        return {"error": f"Real pathway data is unavailable: {exc}"}, None, None
+
+    result: dict = {
+        "scenario": bundle["scenario"],
+        "baseline": bundle["baseline"],
+        "comparison": bundle["comparison"],
+    }
+    # Full sector bundle (scenario/baseline trajectories + sector_deltas) for the
+    # stacked chart; it already carries the real BAU+HBLE reference series.
+    result["sector_comparison"] = bundle
+    result["cost_benefit_comparison"] = {
+        "years": pathways_lookup.CB_YEARS,
+        "scenario": bundle["scenario"]["cost_benefit"],
+        "baseline": bundle["baseline"]["cost_benefit"],
+        "deltas": bundle["cost_benefit_deltas"],
+        "references": {
+            "bau": bundle["references"]["bau"]["cost_benefit"],
+            "hble": bundle["references"]["hble"]["cost_benefit"],
+        },
+    }
+
+    # Same compact summary Claude narrates from, plus a real-run flag.
+    summary = _build_result_summary(result, bundle)
+    summary["data_source"] = "real_run"
+
+    # Optional: real driver/output variable detail for the named levers.
+    groups_changed = [int(g) for g in (inputs.get("groups_changed") or [])]
+    if groups_changed:
+        try:
+            dv = pathways_lookup.get_pathway_driver_variables(pathway, groups_changed)
+            summary["driver_detail"] = _format_driver_detail(dv, groups_changed)
+        except Exception as exc:
+            logger.warning("pathway driver detail failed: %s", exc)
+
+    interpretation = {
+        "pathway": pathway,
+        "scenario_name": bundle["scenario"]["scenario_name"],
+        "data_source": "real_run",
+    }
+    logger.info("get_pathway_results: %s (data_source=real_run)", pathway)
+    return summary, result, interpretation
+
+
+def _format_driver_detail(dv: dict, groups_changed: list[int]) -> str:
+    """Format real driver/output variable trajectories (same layout the
+    get_scenario_variables tool uses) for a named pathway."""
+    primary_id = dv.get("primary_id")
+    groups: dict = dv.get("groups", {})
+
+    def _fmt_record(rec: dict) -> str:
+        years = rec["by_year"]
+        parts = [f"{y}={years[y]:g}" for y in sorted(years)]
+        pct = rec.get("pct_change")
+        pct_str = f"  ({pct:+.1f}%)" if pct is not None else ""
+        return f"    • {rec['name']} [{rec['field']}]: " + ", ".join(parts) + pct_str
+
+    def _section(title: str, recs: list, total: int) -> list[str]:
+        out = [f"  {title} — {total} total:"]
+        if recs:
+            out.extend(_fmt_record(r) for r in recs)
+            if total > len(recs):
+                out.append(f"    …and {total - len(recs)} more")
+        else:
+            out.append("    (none mapped for this lever)")
+        return out
+
+    lines: list[str] = [f"Real pathway run: primary_id={primary_id}", ""]
+    for gid in groups_changed:
+        g = groups.get(gid) or groups.get(str(gid))
+        if not g:
+            continue
+        counts = g.get("counts", {})
+        lines.append(f"Group {gid} — {g['display_name']} ({g.get('transformation_code', '')})")
+        lines += _section("Input variables (2019→2070)", g.get("inputs", []), counts.get("inputs", 0))
+        lines += _section("Downstream output variables (2019→2070)", g.get("outputs", []), counts.get("outputs", 0))
+        lines.append("")
+    lines.append(dv.get("design_note", ""))
+    return "\n".join(lines).rstrip()
+
+
 def _get_scenario_variables_tool(inputs: dict) -> tuple[dict, None, None]:
     """
-    Retrieve SISEPUEDE simulation outputs (sector-level CO2e emissions) for the
-    nearest pre-computed LHS trial matching the requested L values (design_id=3).
-
-    Returns sector emission trajectories (tp 0–55, years 2015–2070) for every
-    sector touched by the changed lever groups.
+    Explain the physical 'how' behind the changed levers: the INPUT driver
+    variables each lever moves (2015→2070, all groups) and the DOWNSTREAM OUTPUT
+    variables it affects (2019→2070, where present), taken from the nearest
+    pre-computed SISEPUEDE experiment (design_id=4).
     """
     groups_changed: list[int] = [int(g) for g in inputs.get("groups_changed", [])]
     l_values: dict[int, float] = {
         int(k): float(v) for k, v in (inputs.get("l_values") or {}).items()
     }
 
-    with open(settings.feature_registry_path) as fh:
-        registry = json.load(fh)
-    lever_features = registry.get("lever_features", {})
-
     try:
-        result = get_scenario_outcomes(group_ids=groups_changed, l_values=l_values)
+        result = get_scenario_variable_trajectories(
+            group_ids=groups_changed, l_values=l_values
+        )
     except Exception as exc:
         logger.error("get_scenario_variables_tool failed: %s", exc)
-        return {"error": str(exc), "formatted_output": f"Could not retrieve outcomes: {exc}"}, None, None
+        return {
+            "error": str(exc),
+            "formatted_output": f"Could not retrieve variable trajectories: {exc}",
+        }, None, None
 
     primary_id = result.get("primary_id")
-    sector_emissions: dict[str, list] = result.get("sector_emissions", {})
-    sectors_by_group: dict[int, str] = result.get("sectors_by_group", {})
+    groups: dict = result.get("groups", {})
+
+    def _fmt_record(rec: dict) -> str:
+        years = rec["by_year"]
+        parts = [f"{y}={years[y]:g}" for y in sorted(years)]
+        pct = rec.get("pct_change")
+        pct_str = f"  ({pct:+.1f}%)" if pct is not None else ""
+        return f"    • {rec['name']} [{rec['field']}]: " + ", ".join(parts) + pct_str
+
+    def _section(title: str, recs: list, total: int) -> list[str]:
+        out = [f"  {title} — {total} total:"]
+        if recs:
+            out.extend(_fmt_record(r) for r in recs)
+            if total > len(recs):
+                out.append(f"    …and {total - len(recs)} more")
+        else:
+            out.append("    (none mapped for this lever)")
+        return out
 
     lines: list[str] = [
         f"Nearest matched scenario: primary_id={primary_id}",
-        "(design_id=3 — L-only; SISEPUEDE simulation outputs)",
+        "(design_id=4 — L and X both vary; real SISEPUEDE input & output variable trajectories)",
         "",
     ]
-
     for gid in groups_changed:
-        meta = lever_features.get(str(gid))
-        display_name = meta["display_name"] if meta else f"Group {gid}"
-        l_val = l_values.get(gid, 0.1)
-        sector = sectors_by_group.get(gid)
-        lines.append(f"Group {gid} ({display_name}) at L={l_val:.2f} → sector: {sector or 'unknown'}")
-
-    lines.append("")
-    lines.append("Sector emission trajectories (Mt CO2e, time periods 0–55 = 2015–2070):")
-    lines.append("")
-
-    for sector, vals in sorted(sector_emissions.items()):
-        if not vals:
-            lines.append(f"  {sector}: (empty)")
+        g = groups.get(gid) or groups.get(str(gid))
+        if not g:
             continue
-        val_2030 = vals[15] if len(vals) > 15 else None
-        val_2050 = vals[35] if len(vals) > 35 else None
-        val_2070 = vals[-1]
-        parts = [f"2070={val_2070:.2f}"]
-        if val_2050 is not None:
-            parts.insert(0, f"2050={val_2050:.2f}")
-        if val_2030 is not None:
-            parts.insert(0, f"2030={val_2030:.2f}")
-        lines.append(f"  {sector}: {', '.join(parts)}")
+        counts = g.get("counts", {})
+        lines.append(f"Group {gid} — {g['display_name']} ({g.get('transformation_code', '')})")
+        lines += _section("Input variables changed (2015→2070)",
+                          g.get("inputs", []), counts.get("inputs", 0))
+        lines += _section("Downstream output variables affected (2019→2070)",
+                          g.get("outputs", []), counts.get("outputs", 0))
+        lines.append("")
 
+    lines.append(result.get("design_note", ""))
     formatted = "\n".join(lines).rstrip()
+
     logger.info(
-        "get_scenario_variables_tool: primary_id=%d, groups=%s, sectors=%d",
-        primary_id, groups_changed, len(sector_emissions),
+        "get_scenario_variables_tool: primary_id=%s, groups=%s",
+        primary_id, groups_changed,
     )
     return {
         "formatted_output": formatted,
         "primary_id": primary_id,
-        "sector_emissions": {k: v for k, v in sector_emissions.items()},
+        "groups": groups,
     }, None, None
 
 
@@ -538,6 +747,13 @@ def _build_result_summary(result: dict, sector_result: dict | None = None) -> di
     baseline = result.get("baseline")
     comparison = result.get("comparison")
 
+    # Real HBLE frontier headline values, for narrating where a scenario lands
+    # relative to the aggressive frontier (BAU stays the % baseline). Present on
+    # both the surrogate and named-pathway bundles via the real references.
+    hble_ref = None
+    if sector_result and isinstance(sector_result.get("references"), dict):
+        hble_ref = sector_result["references"].get("hble")
+
     summary: dict[str, Any] = {
         "scenario_name": scenario["scenario_name"],
         "predictions": {},
@@ -553,6 +769,8 @@ def _build_result_summary(result: dict, sector_result: dict | None = None) -> di
             entry["change_from_bau_pct"] = comparison[metric]
         if baseline and metric in baseline["predictions"]:
             entry["bau_value"] = baseline["predictions"][metric]["value"]
+        if hble_ref and metric in hble_ref.get("predictions", {}):
+            entry["hble_value"] = hble_ref["predictions"][metric]["value"]
         summary["predictions"][metric] = entry
 
     if sector_result:
@@ -637,8 +855,17 @@ def _build_system_prompt() -> str:
         "  GDP by year — gdp_mmm_usd_yr<year> [billion USD], used for cost/benefit as % of GDP.",
     ]
 
-    # Predefined "standard" pathways available today (triage category A).
-    pathway_lines = "\n".join(f"  - {k}: {desc}" for k, desc in PREDEFINED_PATHWAYS.items())
+    # The 6 officially named pathways served from REAL pre-run data via
+    # get_pathway_results (triage category A). Built from pathways_lookup so the
+    # prompt, the tool enum, and the reference lines share one source of truth.
+    named_pathway_lines = "\n".join(
+        f"  - {name} (primary_id {meta['primary_id']}"
+        + (", the BAU baseline — zero cost-benefit" if meta["is_baseline"]
+           else f", strategy {meta['strategy_code']}")
+        + (", a.k.a. HBLE — the aggressive frontier" if meta["primary_id"] == pathways_lookup.HBLE_PID else "")
+        + ")"
+        for name, meta in pathways_lookup.PATHWAY_REGISTRY.items()
+    )
 
     prompt = f"""You are an AI policy simulation assistant for Uganda's National Climate and Development Strategy.
 
@@ -670,19 +897,19 @@ You CANNOT (these are out of scope — decline them):
 
 Before answering ANY request, silently classify it into exactly one of three categories, then act accordingly:
 
-**A — Standard pathway (predefined).** The user asks about one of the predefined pathways available today:
-{pathway_lines}
-→ Run it with the matching `preset_scenario` (do not hand-set levers). This list will grow over time; only the pathways listed here exist right now.
+**A — Named pathway (REAL pre-run data).** The user names one of Uganda's 6 official pathways:
+{named_pathway_lines}
+→ Call `get_pathway_results` with that pathway. These return ACTUAL SISEPUEDE runs — accurate, and the ONLY correct source for the aggressive pathways (the surrogate cannot reproduce them). NEVER use `run_simulation` for these, and never hand-set levers to approximate them.
 
-**B — New pathway (run the metamodel).** The user describes a custom combination of the available levers ("what if we push renewables and protect forests?").
-→ Call `run_simulation` with `lever_overrides`. Present the result as a model estimate from the metamodel.
+**B — Custom pathway (run the surrogate metamodel).** The user describes a custom combination of the available levers ("what if we push renewables and protect forests?").
+→ Call `run_simulation` with `lever_overrides`. Present the result as a surrogate model estimate. It is reliable near BAU. Its emissions/costs are the surrogate's; the "% vs BAU" and the comparison are measured against the REAL BAU run, and the REAL HBLE run is shown as the ambition frontier (see REFERENCE PATHWAYS). Do NOT use it to approximate a named pathway from category A.
 
 **C — Cannot answer.** The request needs a metric/variable/sector/region/time the model does not produce, or a policy with no corresponding lever.
 → Do NOT guess. Give a brief one-sentence decline and redirect to the closest thing you CAN do (a related lever you can adjust, or an output you can report).
 
 Special cases:
-- **Named pathway that is not predefined yet** (e.g. "run NDC2", "Conditional scenario") — these are NOT in the list above. Say it is not a predefined pathway yet, and offer to approximate it ONLY if the user specifies the lever changes themselves. Never invent its official definition or lever settings.
-- **Borderline Uganda/climate questions** outside the outputs above — answer only if they are about your own levers, outputs, presets, or Uganda's baseline (via get_country_context). Otherwise treat as category C.
+- **Other SISEPUEDE strategies** beyond the 6 named pathways (e.g. a specific sector-only strategy by code) — these are NOT pre-served. They remain lookup-only via `list_strategies`; do not invent their results. Offer the closest named pathway, or a custom `run_simulation` if the user specifies the levers.
+- **Borderline Uganda/climate questions** outside the outputs above — answer only if they are about your own levers, outputs, pathways, or Uganda's baseline (via get_country_context). Otherwise treat as category C.
 
 ## UGANDA COUNTRY CONTEXT
 
@@ -711,22 +938,29 @@ Where x is the L value in [0, 1] and T is the transformation magnitude in [0.1, 
 Reverse mapping (if you know the physical target T and need the L value):
   x = (T − 0.1) / 0.9
 
-Physical effect = transformer_default_magnitude × T
+To describe what a lever setting means in physical terms, use the per-group fields in feature_registry.json: `semantic_min` (what L=0 means), `semantic_max` (what L=1 means), and `policy_description`. For the ACTUAL physical numbers — which model variables the lever moves and their values over time — call get_scenario_variables, which returns the real input-variable trajectories from the nearest SISEPUEDE experiment.
 
-The transformer_default_magnitude for each group is stored in feature_registry.json. Consult it when explaining what a lever setting means in physical terms.
+The SISEPUEDE ramp mechanism means T is not applied instantly — it is the magnitude TARGET at the end of the simulation (2070). A linear or sigmoid ramp transitions each policy variable progressively from its baseline toward the 2070 target over approximately 20–30 years. get_scenario_variables shows this ramp directly (the driver trajectory 2015→2070).
 
-The SISEPUEDE ramp mechanism means T is not applied instantly — it is the magnitude TARGET at the end of the simulation (2070). A linear or sigmoid ramp transitions each policy variable progressively from its baseline toward the 2070 target over approximately 20–30 years.
+## REFERENCE PATHWAYS ON CHARTS
 
-## SCENARIO PRESETS
+Every chart is anchored by two REAL reference lines, attached automatically to every
+result (both get_pathway_results and run_simulation):
+- **BAU** — the real business-as-usual run (primary_id 0). Minimal policy action.
+- **HBLE / Candidate NDC3** — the real aggressive-frontier run (primary_id 5005). Maximum ambition.
 
-Two reference scenarios are always used. Run them as parametric presets — do not manually set L values.
+**These are the only two reference lines.** They come from REAL runs, not the surrogate.
+You do not set or run them — they are always present in the payload. Do not add other
+named strategies as chart lines. A user's custom `run_simulation` scenario appears as its
+own line on top of these two references.
 
-| Preset | `preset_scenario` value | Notes |
-|---|---|---|
-| BAU | `"bau"` | L=0.1 all groups, X=0.5 (median future). Minimal policy action |
-| Net Zero | `"netzero"` | All 54 levers at full deployment (L=1.0), X=0.5. Maximum ambition |
-
-**These are the only two reference pathways used in this tool.** Do not run or mention NDC, Moderate, or any other named strategy unless the user explicitly asks by name. Even then, do not include them as chart lines — the chart always shows only BAU and NZ as references, plus the user's Simulated Scenario if applicable.
+Note on custom runs: a `run_simulation` scenario is now compared against the REAL BAU run
+(the baseline for the stated "% vs BAU") and the REAL HBLE run (the ambition frontier).
+This gives policymakers a real what-if comparison. Caveat to keep in mind (do not belabour
+it to the user unless asked): the scenario's own numbers come from the surrogate, so the
+comparison folds in the surrogate's model error — this is an accepted, temporary trade-off.
+When helpful, note where the scenario lands between real BAU and the HBLE frontier
+(the `hble_value` in the result).
 
 ## NAMED SISEPUEDE STRATEGIES
 
@@ -736,7 +970,7 @@ The model has access to 76 named strategies (NDC variants, sector-specific, etc.
 
 0.0 = No policy action / business as usual
 0.5 = Moderate ambition
-0.9–1.0 = Maximum / Net Zero ambition
+0.9–1.0 = Maximum / HBLE ambition
 
 {chr(10).join(lever_lines)}
 
@@ -800,7 +1034,7 @@ When reporting sector results, always compare scenario vs BAU and highlight whic
 
 1. **Always call run_simulation BEFORE giving any emissions, cost, or co-benefit numbers.** Never state or estimate these values without first running the model.
 
-2. **Sector emissions are included automatically in run_simulation results** via `sector_breakdown`. Use them directly to answer sector-specific questions. Only call `get_scenario_variables` when the user asks for full time-series data from actual SISEPUEDE experiments.
+2. **Sector emissions are included automatically in run_simulation results** via `sector_breakdown`. Use them directly to answer sector-specific questions. Call `get_scenario_variables` only to explain the physical "how" — which specific input variables a lever changes and the downstream output variables it moves, and their trajectories over time. It does NOT return headline emissions (those come from run_simulation).
 
 3. **Call get_country_context when the user asks about Uganda's current situation**, baseline conditions, or sector-level statistics (energy mix, GDP, population, agriculture, transport). Never invent baseline numbers — always retrieve them.
 
@@ -809,6 +1043,8 @@ When reporting sector results, always compare scenario vs BAU and highlight whic
 5. **Never set X groups in response to a policy request.** X groups are scenario context only. If the user says "what if GDP is higher", you may adjust group 62 — but not in the same run as a policy lever change unless the user explicitly asked for both.
 
 6. **Be transparent about information sources.** Any fact, statistic, or context that did NOT come from a tool call must be explicitly flagged. Use phrasing like "Based on general knowledge (not from the model):" or "From my training data, not verified against Uganda's input data:". Never blend tool-sourced and general-knowledge data in the same sentence without distinguishing them.
+
+7. **Named pathways use real data; custom scenarios use the surrogate — route each correctly.** A request for one of the 6 named pathways → `get_pathway_results` (real run). A request for custom lever settings → `run_simulation` (surrogate estimate). Do not use `run_simulation` to approximate a named pathway, and when a scenario's own numbers are surrogate-produced, don't imply they came from a real SISEPUEDE run. Both flows now compare against the SAME real anchors — real BAU (the baseline, zero cost-benefit by construction) and real HBLE (the frontier) — so a custom scenario and a named pathway can be read on the same axes. The only caveat: a custom scenario's own values carry the surrogate's model error (accepted, temporary); flag that only if the user asks how the comparison is made.
 
 ## TRANSLATION RULES
 
@@ -822,7 +1058,7 @@ When the user describes a policy or scenario, translate it to group values:
 | "slight/small" on policy X | Set L group to 0.2–0.3 |
 | "phase out" fossil fuels in sector | Set relevant fuel-switch L group to 0.9 |
 | "protect forests" | Set L groups 15 (reduce deforestation) + 9 (increase forest sequestration) to 0.8–0.9 |
-| "Net Zero" | Use `preset_scenario: "netzero"` — do NOT manually set L groups |
+| "Net Zero" / "HBLE" / "maximum ambition" (by name) | Call `get_pathway_results` with "Candidate NDC3" — the REAL aggressive pathway. Do NOT approximate it with `run_simulation`. |
 | "higher GDP growth" | Set X group 57 to 0.7–0.9 (scenario only) |
 | "lower/pessimistic GDP" | Set X group 57 to 0.1–0.3 (scenario only) |
 | "high population growth" | Set X group 60 to 0.8–1.0 (scenario only) |

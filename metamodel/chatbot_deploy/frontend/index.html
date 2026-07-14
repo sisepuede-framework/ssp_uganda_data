@@ -35,12 +35,15 @@
     <!-- ─── LEFT: Chat panel ──────────────────────────────────────────── -->
     <section class="chat-panel">
 
-      <!-- Preset scenario buttons -->
+      <!-- Preset scenario buttons — the 6 official named pathways (real runs) -->
       <div class="preset-bar">
         <span class="preset-label">Quick start:</span>
-        <button class="preset-btn" onclick="sendPreset('bau')">📊 Business as Usual</button>
-        <button class="preset-btn" onclick="sendPreset('netzero')">🌿 Net Zero</button>
-        <button class="preset-btn" onclick="sendPreset('compare')">⚖️ Compare Both</button>
+        <button class="preset-btn" onclick="sendPreset('bau')">📊 BAU</button>
+        <button class="preset-btn" onclick="sendPreset('ndc20')">NDC 2.0</button>
+        <button class="preset-btn" onclick="sendPreset('ndc25')">NDC 2.5</button>
+        <button class="preset-btn" onclick="sendPreset('unconditional')">NDC2 Unconditional</button>
+        <button class="preset-btn" onclick="sendPreset('unconditional_alt')">NDC2 Uncond. (Alt)</button>
+        <button class="preset-btn" onclick="sendPreset('hble')">🌿 HBLE</button>
       </div>
 
       <!-- Chat messages -->
@@ -49,9 +52,9 @@
           <div class="message-avatar">UG</div>
           <div class="message-content">
             <p>Welcome. This tool simulates how Uganda's climate policy choices affect greenhouse gas emissions, implementation costs, and co-benefits between 2025 and 2070.</p>
-            <p>Each simulation compares your scenario against Business as Usual and the Net Zero pathway. Try asking:</p>
+            <p>Each simulation compares your scenario against Business as Usual and the HBLE pathway. Try asking:</p>
             <ul>
-              <li>"What happens if Uganda reaches Net Zero by 2070?"</li>
+              <li>"What happens if Uganda follows the HBLE pathway by 2070?"</li>
               <li>"What if Uganda fully decarbonizes its electricity grid and transport sector?"</li>
               <li>"How much do emissions change if deforestation is halted and forests are restored?"</li>
               <li>"What if Uganda's GDP grows faster than expected — how does that affect emissions?"</li>

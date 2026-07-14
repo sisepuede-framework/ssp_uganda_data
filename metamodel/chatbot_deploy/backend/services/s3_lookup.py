@@ -14,9 +14,11 @@ get_model_inputs_row(primary_id) -> dict
     Fetch the model inputs CSV for one primary_id from S3.
     Result is cached (lru_cache, maxsize=50).
 
-get_changed_variables(group_ids, l_values) -> dict
-    High-level call: given a list of changed group IDs and their L values,
-    return the raw SISEPUEDE variable values from the nearest matching trial.
+get_scenario_variable_trajectories(group_ids, l_values) -> dict
+    High-level call: given changed group IDs and their L values, return the
+    trajectories of the model variables each lever moves — the input drivers
+    (from model_input, all groups) plus the downstream output variables (from
+    model_output, where they exist) — for the nearest matching trial.
 
 Design ID rules (2026-05-30 run)
 --------------------------------
@@ -31,6 +33,7 @@ the best available pre-computed scenario, not a clean L-only counterfactual.
 import io
 import json
 import logging
+import re
 from functools import lru_cache
 from pathlib import Path
 
@@ -54,10 +57,19 @@ _METAMODEL_DIR = _BACKEND_DIR.parent.parent   # .../metamodel/
 # but S3 (and local data/) uses "sisepuede_run_2025-11-12t22;19;28.194097".
 _S3_RUN_KEY: str = settings.s3_run_id.lower().replace(":", ";")
 
-_LOCAL_DATA_DIR = _METAMODEL_DIR / "data" / "ssp" / _S3_RUN_KEY
+_SSP_DIR = _METAMODEL_DIR / "data" / "ssp"        # parent of the per-run dir
+_LOCAL_DATA_DIR = _SSP_DIR / _S3_RUN_KEY
 _LHS_CSV_LOCAL = _LOCAL_DATA_DIR / "ATTRIBUTE_LHC_SAMPLES_LEVER_EFFECTS.csv"
 _ATTR_PRIMARY_LOCAL = _LOCAL_DATA_DIR / "ATTRIBUTE_PRIMARY.csv"
 _ATTR_STRATEGY_LOCAL = _LOCAL_DATA_DIR / "ATTRIBUTE_STRATEGY.csv"
+
+# transformation → model-variable maps (which variable_field columns each lever
+# moves). Input drivers (read from model_input) and downstream outputs (read from
+# model_output). VARIABLE_TRAJECTORY_GROUPS_L is the input fallback keyed directly
+# by integer group, guaranteeing all 54 lever groups resolve to ≥1 driver.
+_INPUT_VAR_MAP_CSV = _SSP_DIR / "transformation_variable_map.csv"
+_OUTPUT_VAR_MAP_CSV = _SSP_DIR / "transformation_output_variable_map.csv"
+_VTL_CSV_LOCAL = _LOCAL_DATA_DIR / "VARIABLE_TRAJECTORY_GROUPS_L.csv"
 
 # Pre-built index: primary_id (str) → S3 directory number (int).
 # Generated from the Athena query and stored as a static file.
@@ -394,117 +406,184 @@ def get_model_outputs_row(primary_id: int) -> dict:
     return df.to_dict(orient="list")
 
 
-# Sector codes embedded in SISEPUEDE variable names (e.g. ef_agrc_* → agrc).
-# Only the codes that have a corresponding subsector_total column in outputs.
-_VARIABLE_SECTOR_CODES = [
-    "agrc", "ccsq", "entc", "fgtv", "frst", "inen",
-    "ippu", "lndu", "lsmm", "lvst", "scoe", "soil",
-    "trns", "trww", "waso",
-]
+# ── Transformation → variable maps (the "how": which variables each lever moves) ──
+
+@lru_cache(maxsize=1)
+def _load_variable_maps() -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Load the input-driver and downstream-output transformation→variable maps.
+    Both have columns: transformation_code, variable, variable_field."""
+    input_map = pd.read_csv(_INPUT_VAR_MAP_CSV)
+    output_map = pd.read_csv(_OUTPUT_VAR_MAP_CSV)
+    logger.info(
+        "Loaded variable maps: %d input rows, %d output rows",
+        len(input_map), len(output_map),
+    )
+    return input_map, output_map
 
 
-def _infer_sector(variable_name: str) -> str | None:
-    """Return the SISEPUEDE sector code embedded in a variable name, or None."""
-    for code in _VARIABLE_SECTOR_CODES:
-        if f"_{code}_" in variable_name or variable_name.startswith(code + "_"):
-            return code
-    return None
+@lru_cache(maxsize=1)
+def _load_vtl() -> pd.DataFrame:
+    """VARIABLE_TRAJECTORY_GROUPS_L.csv — input drivers keyed directly by integer
+    variable_trajectory_group. Used as the input fallback (covers all 54 groups)."""
+    return pd.read_csv(_VTL_CSV_LOCAL)
 
 
-# Map a transformation's TX:<SECTOR>: prefix to the emission subsector it shows up
-# in. Most map 1:1; a few cross-cutting codes route to their emitting subsector.
-_TX_TO_EMISSION_SECTOR = {
-    "agrc": "agrc", "ccsq": "ccsq", "entc": "entc", "fgtv": "fgtv", "frst": "frst",
-    "inen": "inen", "ippu": "ippu", "lndu": "lndu", "lsmm": "lsmm", "lvst": "lvst",
-    "scoe": "scoe", "soil": "soil", "trns": "trns", "trww": "trww", "waso": "waso",
-    "trde": "trns",   # transport demand → transport emissions
-    "wali": "trww",   # water/liquid-waste treatment → wastewater emissions
-    "pflo": None,     # cross-sector (diet/CCS/paradigm) — no single subsector
-}
+def _normalize_tcode(code: str) -> str:
+    """Strip the strategy suffix so a registry transformation_code
+    (TX:AGRC:DEC_CH4_RICE_STRATEGY_NZ) matches the maps' base code
+    (TX:AGRC:DEC_CH4_RICE)."""
+    return re.sub(r"(_STRATEGY)?(_NZ)?$", "", code or "")
 
 
-def _sector_for_group(meta: dict) -> str | None:
-    """Best-effort emission subsector for a lever group: prefer its transformation
-    code (TX:<SECTOR>:...), fall back to inferring from variable names."""
-    tcode = meta.get("transformation_code", "") or ""
-    if tcode.startswith("TX:"):
-        parts = tcode.split(":")
-        if len(parts) > 1:
-            mapped = _TX_TO_EMISSION_SECTOR.get(parts[1].lower(), parts[1].lower())
-            if mapped:
-                return mapped
-    for var_name in meta.get("variables", []):
-        sector = _infer_sector(var_name)
-        if sector:
-            return sector
-    return None
+def _dedup_field_pairs(fields, variables) -> list[tuple[str, str]]:
+    """Zip parallel field/variable columns into ordered, de-duplicated
+    (variable_field, display_name) pairs, dropping blanks/NaN."""
+    seen: set[str] = set()
+    out: list[tuple[str, str]] = []
+    for field, var in zip(fields, variables):
+        f = str(field)
+        if f and f.lower() != "nan" and f not in seen:
+            seen.add(f)
+            out.append((f, str(var)))
+    return out
 
 
-def get_scenario_outcomes(
+def _input_fields_for_group(gid: int, lever_features: dict) -> list[tuple[str, str]]:
+    """Input driver (variable_field, display_name) pairs for a lever group.
+    Falls back to VARIABLE_TRAJECTORY_GROUPS_L (by group id) so all 54 resolve."""
+    input_map, _ = _load_variable_maps()
+    meta = lever_features.get(str(gid)) or {}
+    base = _normalize_tcode(meta.get("transformation_code", ""))
+    rows = input_map[input_map["transformation_code"] == base]
+    pairs = _dedup_field_pairs(rows["variable_field"], rows["variable"])
+    if pairs:
+        return pairs
+    # Fallback: VARIABLE_TRAJECTORY_GROUPS_L keyed by integer group.
+    vtl = _load_vtl()
+    vrows = vtl[vtl["variable_trajectory_group"] == gid]
+    return _dedup_field_pairs(vrows["variable_field"], vrows["variable"])
+
+
+def _output_fields_for_group(gid: int, lever_features: dict) -> list[tuple[str, str]]:
+    """Downstream output (variable_field, display_name) pairs for a lever group.
+    Empty for the ~10 groups with no mapped outputs (no fallback)."""
+    _, output_map = _load_variable_maps()
+    meta = lever_features.get(str(gid)) or {}
+    base = _normalize_tcode(meta.get("transformation_code", ""))
+    rows = output_map[output_map["transformation_code"] == base]
+    return _dedup_field_pairs(rows["variable_field"], rows["variable"])
+
+
+# Time-period → year: year = 2015 + time_period. Outputs are predictions from 2019 on.
+_INPUT_ANCHORS = [(0, 2015), (15, 2030), (35, 2050), (55, 2070)]
+_OUTPUT_ANCHORS = [(4, 2019), (15, 2030), (35, 2050), (55, 2070)]
+
+
+def _summarize_field(values: list, anchors: list[tuple[int, int]]) -> dict | None:
+    """Given a full tp0..tp55 trajectory, return {year: value} at the anchor time
+    periods plus pct_change (last vs first anchor). None if unusable."""
+    if not values:
+        return None
+    n = len(values)
+    series: dict[int, float] = {}
+    for tp, year in anchors:
+        idx = tp if tp >= 0 else n + tp
+        if 0 <= idx < n:
+            try:
+                series[year] = round(float(values[idx]), 4)
+            except (TypeError, ValueError):
+                return None
+    if len(series) < 2:
+        return None
+    first = series[anchors[0][1]]
+    last = series[anchors[-1][1]]
+    pct = round((last - first) / abs(first) * 100.0, 1) if first not in (0, 0.0) else None
+    return {"by_year": series, "pct_change": pct}
+
+
+def _collect_trajectories(
+    fields: list[tuple[str, str]],
+    row: dict,
+    anchors: list[tuple[int, int]],
+    top_n: int,
+) -> tuple[list[dict], int]:
+    """Summarize the fields present in `row`, sort by |pct_change|, and return
+    (top_n records, total matched count)."""
+    recs: list[dict] = []
+    for field, name in fields:
+        summ = _summarize_field(row.get(field), anchors)
+        if summ is None:
+            continue
+        recs.append({
+            "field": field,
+            "name": name,
+            "by_year": summ["by_year"],
+            "pct_change": summ["pct_change"],
+        })
+    recs.sort(
+        key=lambda r: abs(r["pct_change"]) if r["pct_change"] is not None else -1.0,
+        reverse=True,
+    )
+    return recs[:top_n], len(recs)
+
+
+def get_scenario_variable_trajectories(
     group_ids: list[int],
     l_values: dict[int, float],
+    top_n: int = 6,
 ) -> dict:
     """
-    Return SISEPUEDE simulation output trajectories (emissions by sector) for
-    the sectors affected by the requested lever groups.
+    For each changed lever group, return the trajectories of the model variables
+    that transformation moves:
+      - input drivers      (from model_input; all 54 groups; anchored 2015→2070)
+      - downstream outputs (from model_output; the 44 groups that have them; 2019→2070)
 
-    Uses the nearest LHS trial (design_id=4; L and X vary) to find the closest
-    pre-computed simulation, then extracts emission_co2e_subsector_total_{sector}
-    columns for every sector touched by the changed groups.
-
-    Parameters
-    ----------
-    group_ids : list[int]
-        Lever group IDs (1–54) whose sectors should be reported.
-    l_values  : dict[int, float]
-        Full L override dict used to find the nearest LHS trial.
+    Uses the nearest LHS trial (design_id=4; L and X vary) to pick the closest
+    pre-computed scenario, then reads its input and output rows from S3.
 
     Returns
     -------
-    dict with keys:
-        primary_id      (int)  — matched LHS trial
-        sector_emissions (dict) — {sector_code: [co2e_tp0, ..., co2e_tp55]}
-                                  for each sector touched by group_ids
-        sectors_by_group (dict) — {group_id: sector_code} for traceability
-        design_note     (str)
+    dict:
+        primary_id (int)
+        groups (dict) — {group_id: {
+            display_name, transformation_code,
+            inputs:  [ {field, name, by_year, pct_change}, ... ]  (≤ top_n),
+            outputs: [ ... ]  (≤ top_n, may be empty),
+            counts: {inputs, outputs},
+            has_outputs (bool),
+        }}
+        design_note (str)
     """
     with open(settings.feature_registry_path) as fh:
-        registry = json.load(fh)
-    lever_features = registry.get("lever_features", {})
-
-    sectors_needed: set[str] = set()
-    sectors_by_group: dict[int, str] = {}
-
-    for gid in group_ids:
-        meta = lever_features.get(str(gid))
-        if meta is None:
-            logger.warning("Group %d not in feature registry — skipping", gid)
-            continue
-        sector = _sector_for_group(meta)
-        if sector:
-            sectors_needed.add(sector)
-            sectors_by_group[gid] = sector
+        lever_features = json.load(fh).get("lever_features", {})
 
     primary_id = find_nearest_lhs_trial(l_values, design_id=4)
+    inputs_row = get_model_inputs_row(primary_id)
+    outputs_row = get_model_outputs_row(primary_id)
+
+    groups: dict[int, dict] = {}
+    for gid in group_ids:
+        meta = lever_features.get(str(gid)) or {}
+        in_fields = _input_fields_for_group(gid, lever_features)
+        out_fields = _output_fields_for_group(gid, lever_features)
+        in_recs, in_total = _collect_trajectories(in_fields, inputs_row, _INPUT_ANCHORS, top_n)
+        out_recs, out_total = _collect_trajectories(out_fields, outputs_row, _OUTPUT_ANCHORS, top_n)
+        groups[gid] = {
+            "display_name": meta.get("display_name", f"Group {gid}"),
+            "transformation_code": meta.get("transformation_code", ""),
+            "inputs": in_recs,
+            "outputs": out_recs,
+            "counts": {"inputs": in_total, "outputs": out_total},
+            "has_outputs": out_total > 0,
+        }
+
     logger.info(
-        "get_scenario_outcomes: groups=%s → primary_id=%d, sectors=%s",
-        group_ids, primary_id, sorted(sectors_needed),
+        "get_scenario_variable_trajectories: groups=%s → primary_id=%d",
+        group_ids, primary_id,
     )
-
-    model_outputs = get_model_outputs_row(primary_id)
-
-    sector_emissions: dict[str, list] = {}
-    for sector in sorted(sectors_needed):
-        col = f"emission_co2e_subsector_total_{sector}"
-        if col in model_outputs:
-            sector_emissions[sector] = model_outputs[col]
-        else:
-            logger.warning("Output column '%s' not found (primary_id=%d)", col, primary_id)
-
     return {
         "primary_id": primary_id,
-        "sector_emissions": sector_emissions,
-        "sectors_by_group": {gid: s for gid, s in sorted(sectors_by_group.items())},
+        "groups": groups,
         "design_note": "Nearest match in design_id=4 (L and X both vary); not a clean L-only counterfactual.",
     }
 
@@ -579,92 +658,3 @@ def get_model_inputs_row(primary_id: int) -> dict:
         df = df.sort_values("time_period").reset_index(drop=True)
 
     return df.to_dict(orient="list")
-
-
-def get_changed_variables(
-    group_ids: list[int],
-    l_values: dict[int, float],
-) -> dict:
-    """
-    Return SISEPUEDE model input variable values for the groups that changed.
-
-    Uses the nearest LHS trial (design_id=4; L and X vary) to find the closest
-    pre-computed simulation row, then extracts only the variables that belong
-    to the requested groups.
-
-    Parameters
-    ----------
-    group_ids : list[int]
-        Lever group IDs (1–54) whose variables should be returned.
-    l_values  : dict[int, float]
-        Full L override dict {group_id: x_value} used to find the nearest
-        LHS trial via Euclidean distance. Values should be in [0, 1].
-
-    Returns
-    -------
-    dict with keys:
-        primary_id    (int)   — matched LHS trial
-        variables     (dict)  — {variable_name: [values by time_period]}
-                                for all variables in the requested groups
-        groups_matched (dict) — {group_id: [variable_names]} for traceability
-        design_note   (str)   — advisory about design constraints
-
-    Raises
-    ------
-    FileNotFoundError  if the local LHS CSV or ATTRIBUTE_PRIMARY is missing
-    LookupError        if no ATTRIBUTE_PRIMARY row matches the nearest trial
-    FileNotFoundError  if the S3 model input key does not exist
-    """
-    with open(settings.feature_registry_path) as fh:
-        registry = json.load(fh)
-
-    lever_features = registry.get("lever_features", {})
-
-    # Resolve group_id → SISEPUEDE variable names
-    group_to_vars: dict[int, list[str]] = {}
-    all_target_vars: set[str] = set()
-
-    for gid in group_ids:
-        meta = lever_features.get(str(gid))
-        if meta is None:
-            logger.warning("Group %d not in feature registry — skipping", gid)
-            continue
-        vars_for_group: list[str] = meta.get("variables", [])
-        group_to_vars[gid] = vars_for_group
-        all_target_vars.update(vars_for_group)
-
-    if not all_target_vars:
-        logger.warning(
-            "get_changed_variables: no variables resolved for groups %s", group_ids
-        )
-
-    # Find the nearest LHS trial and fetch its model inputs
-    primary_id = find_nearest_lhs_trial(l_values, design_id=4)
-    logger.info(
-        "get_changed_variables: groups=%s → primary_id=%d", group_ids, primary_id
-    )
-
-    model_inputs = get_model_inputs_row(primary_id)
-
-    # Extract only the variables that belong to the requested groups
-    variables: dict[str, list] = {}
-    for var in sorted(all_target_vars):
-        if var in model_inputs:
-            variables[var] = model_inputs[var]
-        else:
-            logger.warning(
-                "Variable '%s' not found in model inputs (primary_id=%d)",
-                var,
-                primary_id,
-            )
-
-    return {
-        "primary_id": primary_id,
-        "variables": variables,
-        "groups_matched": {
-            gid: vars_ for gid, vars_ in sorted(group_to_vars.items())
-        },
-        "design_note": (
-            "Nearest match in design_id=4 (L and X both vary); not a clean L-only counterfactual."
-        ),
-    }

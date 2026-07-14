@@ -28,10 +28,16 @@ const state = {
 
 // ── Preset messages ───────────────────────────────────────────────────────
 
+// One entry per quick-start button. Each message NAMES its pathway explicitly so
+// the agent routes it to get_pathway_results (the real SISEPUEDE run), not the
+// surrogate. Keys match the onclick("sendPreset('<key>')") calls in index.html.
 const PRESETS = {
-  bau: "Run a Business as Usual simulation — what happens to Uganda's emissions, costs, and co-benefits if current minimal policies continue?",
-  netzero: "Run a Net Zero scenario — what would Uganda's emissions and costs look like if all climate policies are implemented at maximum ambition?",
-  compare: "Compare Business as Usual against Net Zero. Show me the difference in emissions, costs, and co-benefits.",
+  bau: "Show me the Business as Usual (BAU) pathway — Uganda's emissions, costs, and co-benefits under minimal policy action.",
+  ndc20: "Show me the NDC 2.0 pathway — emissions, costs, and co-benefits vs BAU.",
+  ndc25: "Show me the NDC 2.5 pathway — emissions, costs, and co-benefits vs BAU.",
+  unconditional: "Show me the NDC2 Unconditional pathway — emissions, costs, and co-benefits vs BAU.",
+  unconditional_alt: "Show me the NDC2 Unconditional (Alt) pathway — emissions, costs, and co-benefits vs BAU.",
+  hble: "Show me the HBLE pathway (Candidate NDC3) — Uganda's maximum-ambition emissions, costs, and co-benefits vs BAU.",
 };
 
 function sendPreset(key) {
@@ -543,10 +549,10 @@ function renderInlineChart(container, chartData) {
     });
   }
 
-  // 2. Net Zero pathway — teal solid reference
+  // 2. HBLE pathway — teal solid reference
   if (Array.isArray(nz)) {
     datasets.push({
-      label: "Net Zero Pathway",
+      label: "HBLE",
       data: nz,
       borderColor: "#007A6F",
       borderWidth: 2,
@@ -824,6 +830,30 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
     return datasets;
   }
 
+  // Real BAU + HBLE reference net-total lines. These are attached to every payload
+  // (both real-pathway and surrogate results). Guarded: a surrogate-only payload
+  // without `references` simply renders without them.
+  const HBLE_COLOR    = "#007A6F";   // teal — the aggressive frontier
+  const BAU_REF_COLOR = "#26211A";
+  const refs = sectorComparison.references || {};
+  const refNet = series => {
+    const traj = series?.sector_trajectories || {};
+    return YEARS.map(y => SECTOR_STACK_ORDER.reduce((s, sec) => s + ((traj[sec] || {})[y] ?? 0), 0));
+  };
+  const referenceLines = [];
+  if (refs.bau) referenceLines.push({
+    label: "Real BAU net", _sector: "__refbau__", data: refNet(refs.bau),
+    yAxisID: "y2", order: 0, fill: false, tension: 0, backgroundColor: "transparent",
+    borderColor: BAU_REF_COLOR, borderWidth: 1.5, borderDash: [5, 4],
+    pointRadius: 0, pointHoverRadius: 4, pointBackgroundColor: BAU_REF_COLOR,
+  });
+  if (refs.hble) referenceLines.push({
+    label: "HBLE net (frontier)", _sector: "__refhble__", data: refNet(refs.hble),
+    yAxisID: "y2", order: 0, fill: false, tension: 0, backgroundColor: "transparent",
+    borderColor: HBLE_COLOR, borderWidth: 1.5, borderDash: [2, 3],
+    pointRadius: 0, pointHoverRadius: 4, pointBackgroundColor: HBLE_COLOR,
+  });
+
   // Compute shared Y bounds across both views
   function stackBounds(traj) {
     let posMax = 0, negMin = 0;
@@ -839,8 +869,12 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
     return { posMax, negMin };
   }
   const b1 = stackBounds(bauTrajectories), b2 = stackBounds(scenarioTrajectories);
-  const yMax = Math.ceil(Math.max(b1.posMax, b2.posMax) * 1.08 / 50) * 50;
-  const yMin = Math.floor(Math.min(b1.negMin, b2.negMin) * 1.2 / 10) * 10;
+  // Fold the reference net lines into the bounds so the dashed lines never clip.
+  const refVals = referenceLines.flatMap(d => d.data).filter(v => v != null);
+  const refMax = refVals.length ? Math.max(...refVals) : 0;
+  const refMin = refVals.length ? Math.min(...refVals) : 0;
+  const yMax = Math.ceil(Math.max(b1.posMax, b2.posMax, refMax) * 1.08 / 50) * 50;
+  const yMin = Math.floor(Math.min(b1.negMin, b2.negMin, refMin) * 1.2 / 10) * 10;
 
   function makeOptions(title, showYAxis) {
     return {
@@ -929,10 +963,10 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
   if (view === "current") {
     makePanel(buildDatasets(bauTrajectories, true), opts.title || "Current Emissions (BAU)", true);
   } else if (view === "scenario") {
-    makePanel(buildDatasets(scenarioTrajectories, false), opts.title || "Policy Scenario", true);
+    makePanel([...buildDatasets(scenarioTrajectories, false), ...referenceLines], opts.title || "Policy Scenario", true);
   } else {
     makePanel(buildDatasets(bauTrajectories,       true),  "Business as Usual", true);
-    makePanel(buildDatasets(scenarioTrajectories,  false), "Policy Scenario",   false);
+    makePanel([...buildDatasets(scenarioTrajectories, false), ...referenceLines], "Policy Scenario", false);
   }
 
   // Right-side legend with click toggle
@@ -960,6 +994,16 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
     legendDiv.appendChild(item);
   }
 
+  // Static legend entries for the real BAU + HBLE reference net-lines (dashed).
+  for (const rl of referenceLines) {
+    const item = document.createElement("div");
+    item.className = "stacked-legend-item";
+    item.innerHTML =
+      `<span class="stacked-legend-swatch" style="background:${rl.borderColor}"></span>` +
+      `<span class="stacked-legend-label">${rl.label}</span>`;
+    legendDiv.appendChild(item);
+  }
+
   outerDiv.appendChild(legendDiv);
   container.appendChild(outerDiv);
 }
@@ -970,6 +1014,7 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
 const CB_BENEFIT_META = [
   { key: "human_health",       label: "Human Health",        color: "#2E8B57" },
   { key: "air_pollution",      label: "Air Quality",         color: "#3CB371" },
+  { key: "indoor_air_pollution", label: "Indoor Air Quality", color: "#3FA34D" },
   { key: "consumer_savings",   label: "Consumer Savings",    color: "#8FBC6A" },
   { key: "technical_savings",  label: "Technical Savings",   color: "#9ACD32" },
   { key: "congestion",         label: "Reduced Congestion",  color: "#5F9EA0" },
@@ -978,8 +1023,8 @@ const CB_BENEFIT_META = [
   { key: "lvst_value",         label: "Livestock Value",     color: "#DAA520" },
   { key: "ippu_value",         label: "Industrial Value",    color: "#B8860B" },
   { key: "ecosystem_services", label: "Ecosystem Services",  color: "#66CDAA" },
-  { key: "ecosystem_services_grasslands", label: "Ecosystem Svcs (Grasslands)", color: "#7FBF7F" },
-  { key: "ecosystem_services_wetlands",   label: "Ecosystem Svcs (Wetlands)",   color: "#4FB0A5" },
+  { key: "ecosystem_services_grasslands", label: "Grasslands", color: "#7FBF7F" },
+  { key: "ecosystem_services_wetlands",   label: "Wetlands",   color: "#4FB0A5" },
   { key: "env_pollution",      label: "Env. Pollution",      color: "#20B2AA" },
   { key: "land_pollution",     label: "Land Pollution",      color: "#8FBC8F" },
   { key: "water_pollution",    label: "Water Pollution",     color: "#7EC8C8" },
@@ -1035,23 +1080,42 @@ function renderCostBenefitChart(container, cbc, opts = {}) {
     borderColor: "#26211A", borderWidth: 2.5, pointRadius: 3, pointHoverRadius: 5,
     pointBackgroundColor: "#26211A", fill: false, tension: 0,
   };
+  // Real BAU + HBLE reference net-lines (per-year cost_benefit maps). Attached to
+  // every payload; guarded so surrogate-only payloads still render. Draw the BAU
+  // reference from the REAL run (references.bau), falling back to the payload
+  // baseline if references are absent.
+  const cbRefs = cbc.references || {};
+  const refBau = cbRefs.bau || base;
   const bauNetLine = {
-    type: "line", label: "BAU net", _cbkey: "__baunet__", order: 0,
-    yAxisID: "y2", data: YEARS.map(y => at(base, y).net ?? 0),
+    type: "line", label: "Real BAU net", _cbkey: "__baunet__", order: 0,
+    yAxisID: "y2", data: YEARS.map(y => at(refBau, y).net ?? 0),
     borderColor: "#26211A", borderWidth: 1.5, borderDash: [5, 4],
     pointRadius: 2, pointBackgroundColor: "#26211A", fill: false, tension: 0,
   };
+  const hbleNetLine = cbRefs.hble ? {
+    type: "line", label: "HBLE net (frontier)", _cbkey: "__hblenet__", order: 0,
+    yAxisID: "y2", data: YEARS.map(y => at(cbRefs.hble, y).net ?? 0),
+    borderColor: "#007A6F", borderWidth: 1.5, borderDash: [2, 3],
+    pointRadius: 2, pointBackgroundColor: "#007A6F", fill: false, tension: 0,
+  } : null;
 
-  // BAU net reference line only when explicitly comparing against BAU.
+  // Reference net lines only when explicitly comparing against BAU ("both").
   const datasets = [...benDatasets, ...costDatasets, netLine];
-  if (view === "both") datasets.push(bauNetLine);
+  if (view === "both") {
+    datasets.push(bauNetLine);
+    if (hbleNetLine) datasets.push(hbleNetLine);
+  }
 
-  // Y bounds from stacked sums (benefits up, costs down) + net line.
+  // Y bounds from stacked sums (benefits up, costs down) + net line + references.
   let posMax = 0, negMin = 0;
   YEARS.forEach(y => {
     posMax = Math.max(posMax, at(primary, y).total_benefit ?? 0);
     negMin = Math.min(negMin, at(primary, y).total_cost ?? 0, at(primary, y).net ?? 0);
-    if (view === "both") negMin = Math.min(negMin, at(base, y).net ?? 0);
+    if (view === "both") {
+      const bn = at(refBau, y).net ?? 0, hn = at(cbRefs.hble || {}, y).net ?? 0;
+      negMin = Math.min(negMin, bn, hn);
+      posMax = Math.max(posMax, bn, hn);
+    }
   });
   const yMax = Math.ceil(posMax * 1.08 / 5) * 5;
   const yMin = Math.floor(negMin * 1.2 / 5) * 5;
@@ -1119,6 +1183,10 @@ function renderCostBenefitChart(container, cbc, opts = {}) {
   const legendItems = [
     ...CB_BENEFIT_META, ...CB_COST_META,
     { key: "__net__", label: "Net", color: "#26211A" },
+    ...(view === "both" ? [
+      { key: "__baunet__", label: "Real BAU net", color: "#26211A" },
+      ...(cbRefs.hble ? [{ key: "__hblenet__", label: "HBLE net", color: "#007A6F" }] : []),
+    ] : []),
   ];
   for (const m of legendItems) {
     const item = document.createElement("div");
