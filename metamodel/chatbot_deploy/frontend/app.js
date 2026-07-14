@@ -738,22 +738,27 @@ function renderEmissionsTimeseries(container, sectorComparison, opts = {}) {
 // deliberately overrides the Design Guide's sector palette for the emissions chart;
 // the cost-benefit chart keeps the guide's gold/slate palette.
 const SECTOR_META = {
-  scoe:  { label: "Cooking & Buildings",       short: "Cooking/Bldgs",    color: "#4E7CB5" },  // Commercial (blue)
-  lndu:  { label: "Land Use",                  short: "Land Use",          color: "#72C266" },  // Land Use Conversion (green)
-  lvst:  { label: "Livestock",                 short: "Livestock",         color: "#F6CD97" },  // Livestock (peach)
-  trww:  { label: "Wastewater",                short: "Wastewater",        color: "#DAC6B4" },  // Wastewater Treatment (tan)
-  trns:  { label: "Transportation",            short: "Transport",         color: "#8C8C8C" },  // Transportation (grey)
-  soil:  { label: "Soil",                      short: "Soil",              color: "#E9B45C" },  // Managed Soil (orange tint)
-  waso:  { label: "Solid Waste",               short: "Solid Waste",       color: "#A97F5C" },  // Solid Waste (brown)
-  lsmm:  { label: "Manure Management",         short: "Manure Mgmt",       color: "#F0BE88" },  // Livestock/manure (peach tint)
-  inen:  { label: "Industrial Energy",         short: "Ind. Energy",       color: "#9E82AC" },  // Industrial Combustion (purple)
-  ippu:  { label: "Industrial Processes",      short: "Ind. Processes",    color: "#DCC7E2" },  // IPPU (lavender)
-  entc:  { label: "Electricity Generation",    short: "Electricity",       color: "#F3E3A6" },  // Electricity & Heat (yellow)
-  fgtv:  { label: "Fugitive Emissions",        short: "Fugitive",          color: "#E8726A" },  // Fugitive Emissions (coral red)
-  agrc:  { label: "Agriculture",               short: "Agriculture",       color: "#F2A63C" },  // Agriculture & Managed Soil (orange)
-  ccsq:  { label: "Carbon Capture & Storage",  short: "CCS",               color: "#EF9E2E" },  // Carbon Capture Industries (orange)
-  frst:  { label: "Forestry (sequestration)",  short: "Forestry (seq.)",   color: "#3F8E47" },  // Forest Land - Sequestration (dark green)
+  scoe:  { label: "Cooking & Buildings",       short: "Cooking/Bldgs",    color: "#4E7CB5" },  // blue
+  lndu:  { label: "Land Use",                  short: "Land Use",          color: "#72C266" },  // green
+  lvst:  { label: "Livestock",                 short: "Livestock",         color: "#F6CD97" },  // peach
+  trww:  { label: "Wastewater",                short: "Wastewater",        color: "#DAC6B4" },  // tan
+  trns:  { label: "Transportation",            short: "Transport",         color: "#8C8C8C" },  // grey
+  soil:  { label: "Soil",                      short: "Soil",              color: "#B5942E" },  // olive
+  waso:  { label: "Solid Waste",               short: "Solid Waste",       color: "#A97F5C" },  // brown
+  lsmm:  { label: "Manure Management",         short: "Manure Mgmt",       color: "#F6CBD1" },  // light pink
+  inen:  { label: "Industrial Energy",         short: "Ind. Energy",       color: "#9E82AC" },  // purple
+  ippu:  { label: "Industrial Processes",      short: "Ind. Processes",    color: "#DCC7E2" },  // lavender
+  entc:  { label: "Electricity Generation",    short: "Electricity",       color: "#EBCF57" },  // yellow
+  fgtv:  { label: "Fugitive Emissions",        short: "Fugitive",          color: "#E8726A" },  // coral red
+  agrc:  { label: "Agriculture",               short: "Agriculture",       color: "#F2A63C" },  // orange
+  ccsq:  { label: "Carbon Capture & Storage",  short: "CCS",               color: "#46A99E" },  // teal
+  frst:  { label: "Forestry (sequestration)",  short: "Forestry (seq.)",   color: "#3F8E47" },  // dark green
 };
+// Colours drawn from the team's Tableau emissions scale, but spread across
+// DISTINCT hues (blue, green, peach, tan, grey, olive, brown, pink, purple,
+// lavender, yellow, coral, orange, teal, dark-green) so no two adjacent bands
+// read as the same colour — distinguishability is prioritised over exact
+// family-matching for the near-identical warm sectors.
 
 // Ordered for stacking — frst/ccsq last so they render below zero (sinks/removals)
 const SECTOR_STACK_ORDER = ["scoe","lndu","lvst","trww","trns","soil","waso","lsmm","inen","ippu","entc","fgtv","agrc","ccsq","frst"];
