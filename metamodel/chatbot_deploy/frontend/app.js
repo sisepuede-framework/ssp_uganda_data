@@ -731,26 +731,28 @@ function renderEmissionsTimeseries(container, sectorComparison, opts = {}) {
 
 // ── Sector stacked area chart ─────────────────────────────────────────────
 
-// Colours follow the Design Guide sector palette — grouped into its hue families
-// (energy=terracotta, agriculture/livestock=gold-amber, transport=taupe,
-// waste/IPPU=mauve, buildings=slate-blue, land=green, forest sink=deep green),
-// using tints of the SAME hue when a family has several sectors — never new hues.
+// Emissions chart uses the team's Tableau SUBSECTOR colour scale — each app sector
+// takes the colour of its closest Tableau subsector, with distinct shades within a
+// family (energy=red/yellow, buildings=blue, transport=grey, industry=purple,
+// waste=brown/tan, agriculture/livestock=orange/peach, land/forest=green). This
+// deliberately overrides the Design Guide's sector palette for the emissions chart;
+// the cost-benefit chart keeps the guide's gold/slate palette.
 const SECTOR_META = {
-  scoe:  { label: "Cooking & Buildings",       short: "Cooking/Bldgs",    color: "#7A93AC" },  // buildings
-  lndu:  { label: "Land Use",                  short: "Land Use",          color: "#7FB069" },  // land use (source)
-  lvst:  { label: "Livestock",                 short: "Livestock",         color: "#EAC086" },  // agri/livestock tint
-  trww:  { label: "Wastewater",                short: "Wastewater",        color: "#86688A" },  // waste/IPPU tint
-  trns:  { label: "Transportation",            short: "Transport",         color: "#8A7D68" },  // transport
-  soil:  { label: "Soil",                      short: "Soil",              color: "#C98A3E" },  // agri/livestock tint
-  waso:  { label: "Solid Waste",               short: "Solid Waste",       color: "#B096AE" },  // waste/IPPU tint
-  lsmm:  { label: "Manure Management",         short: "Manure Mgmt",       color: "#D8A96A" },  // agri/livestock tint
-  inen:  { label: "Industrial Energy",         short: "Ind. Energy",       color: "#D5836F" },  // energy/industry tint
-  ippu:  { label: "Industrial Processes",      short: "Ind. Processes",    color: "#9C7B9A" },  // waste/IPPU
-  entc:  { label: "Electricity Generation",    short: "Electricity",       color: "#C96A5C" },  // energy/industry
-  fgtv:  { label: "Fugitive Emissions",        short: "Fugitive",          color: "#B85548" },  // energy/industry tint
-  agrc:  { label: "Agriculture",               short: "Agriculture",       color: "#E0A458" },  // agriculture
-  ccsq:  { label: "Carbon Capture & Storage",  short: "CCS",               color: "#5E8A68" },  // removal (green tint)
-  frst:  { label: "Forestry (sequestration)",  short: "Forestry (seq.)",   color: "#3E6B47" },  // forest sink
+  scoe:  { label: "Cooking & Buildings",       short: "Cooking/Bldgs",    color: "#4E7CB5" },  // Commercial (blue)
+  lndu:  { label: "Land Use",                  short: "Land Use",          color: "#72C266" },  // Land Use Conversion (green)
+  lvst:  { label: "Livestock",                 short: "Livestock",         color: "#F6CD97" },  // Livestock (peach)
+  trww:  { label: "Wastewater",                short: "Wastewater",        color: "#DAC6B4" },  // Wastewater Treatment (tan)
+  trns:  { label: "Transportation",            short: "Transport",         color: "#8C8C8C" },  // Transportation (grey)
+  soil:  { label: "Soil",                      short: "Soil",              color: "#E9B45C" },  // Managed Soil (orange tint)
+  waso:  { label: "Solid Waste",               short: "Solid Waste",       color: "#A97F5C" },  // Solid Waste (brown)
+  lsmm:  { label: "Manure Management",         short: "Manure Mgmt",       color: "#F0BE88" },  // Livestock/manure (peach tint)
+  inen:  { label: "Industrial Energy",         short: "Ind. Energy",       color: "#9E82AC" },  // Industrial Combustion (purple)
+  ippu:  { label: "Industrial Processes",      short: "Ind. Processes",    color: "#DCC7E2" },  // IPPU (lavender)
+  entc:  { label: "Electricity Generation",    short: "Electricity",       color: "#F3E3A6" },  // Electricity & Heat (yellow)
+  fgtv:  { label: "Fugitive Emissions",        short: "Fugitive",          color: "#E8726A" },  // Fugitive Emissions (coral red)
+  agrc:  { label: "Agriculture",               short: "Agriculture",       color: "#F2A63C" },  // Agriculture & Managed Soil (orange)
+  ccsq:  { label: "Carbon Capture & Storage",  short: "CCS",               color: "#EF9E2E" },  // Carbon Capture Industries (orange)
+  frst:  { label: "Forestry (sequestration)",  short: "Forestry (seq.)",   color: "#3F8E47" },  // Forest Land - Sequestration (dark green)
 };
 
 // Ordered for stacking — frst/ccsq last so they render below zero (sinks/removals)
