@@ -1068,29 +1068,32 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
 // ── Cost / benefit diverging bar chart ────────────────────────────────────
 
 // Benefit types (positive, stack up) in render order, with display labels + colors.
-// Benefits stack upward in the guide's gold→amber→terracotta co-benefit ramp
-// (all warm, within #E3B505 → #E0A458 → #C96A5C and its tints — never new hues).
+// Benefits use the team's Tableau cost-benefit legend colours — each key takes the
+// colour of its matching legend entry by name. The four keys with no legend entry
+// (congestion, road_safety, water_pollution, sector_specific) borrow the legend's
+// "Other costs/benefits" teal / "Fuel cost savings" peach or a close tint.
 const CB_BENEFIT_META = [
-  { key: "human_health",       label: "Human Health",        color: "#E3B505" },
-  { key: "air_pollution",      label: "Air Quality",         color: "#E0AB2E" },
-  { key: "indoor_air_pollution", label: "Indoor Air Quality", color: "#DDA141" },
-  { key: "consumer_savings",   label: "Consumer Savings",    color: "#E0A458" },
-  { key: "technical_savings",  label: "Technical Savings",   color: "#DC9A54" },
-  { key: "congestion",         label: "Reduced Congestion",  color: "#D89150" },
-  { key: "road_safety",        label: "Road Safety",         color: "#D4884E" },
-  { key: "crop_value",         label: "Crop Value",          color: "#D07F4D" },
-  { key: "lvst_value",         label: "Livestock Value",     color: "#CD774E" },
-  { key: "ippu_value",         label: "Industrial Value",    color: "#C96A5C" },
-  { key: "ecosystem_services", label: "Ecosystem Services",  color: "#CB7466" },
-  { key: "ecosystem_services_grasslands", label: "Grasslands", color: "#D08172" },
-  { key: "ecosystem_services_wetlands",   label: "Wetlands",   color: "#D8907F" },
-  { key: "env_pollution",      label: "Env. Pollution",      color: "#DC9C8B" },
-  { key: "land_pollution",     label: "Land Pollution",      color: "#E0AC9E" },
-  { key: "water_pollution",    label: "Water Pollution",     color: "#E4B8AC" },
-  { key: "sector_specific",    label: "Sector-Specific",     color: "#E8C4BB" },
+  { key: "human_health",       label: "Human Health",        color: "#5FA84C" },  // Human Health (green)
+  { key: "air_pollution",      label: "Air Quality",         color: "#85C6C3" },  // Pollution (air) — light teal
+  { key: "indoor_air_pollution", label: "Indoor Air Quality", color: "#9E4A86" },  // Air pollution (indoor) — magenta
+  { key: "consumer_savings",   label: "Consumer Savings",    color: "#4E7CB5" },  // Consumer savings (blue)
+  { key: "technical_savings",  label: "Technical Savings",   color: "#E6D24E" },  // O&M savings (yellow)
+  { key: "congestion",         label: "Reduced Congestion",  color: "#2E8B85" },  // Other costs/benefits (teal)
+  { key: "road_safety",        label: "Road Safety",         color: "#57A8A2" },  // Other (teal tint)
+  { key: "crop_value",         label: "Crop Value",          color: "#A9CCE8" },  // Crop value (light blue)
+  { key: "lvst_value",         label: "Livestock Value",     color: "#AF922B" },  // Livestock value (olive)
+  { key: "ippu_value",         label: "Industrial Value",    color: "#ADD99E" },  // IPPU value (light green)
+  { key: "ecosystem_services", label: "Ecosystem Services",  color: "#E8862E" },  // Ecosystem services (orange)
+  { key: "ecosystem_services_grasslands", label: "Grasslands", color: "#E3C4DD" },  // Ecosystem services grasslands (pink)
+  { key: "ecosystem_services_wetlands",   label: "Wetlands",   color: "#8B6D58" },  // Ecosystem services wetlands (brown)
+  { key: "env_pollution",      label: "Env. Pollution",      color: "#D74A4A" },  // Pollution (environment) — red
+  { key: "land_pollution",     label: "Land Pollution",      color: "#F2A0A0" },  // Pollution (land) — salmon
+  { key: "water_pollution",    label: "Water Pollution",     color: "#9CCFCC" },  // pollution-family teal tint
+  { key: "sector_specific",    label: "Sector-Specific",     color: "#F5C99A" },  // Fuel cost savings (peach) — generic
 ];
 
-// Costs stack downward in slate (guide: #7A93AC) + tints.
+// SISEPUEDE's monetary costs (technical/system/fuel) aren't in the Tableau
+// cost-benefit legend, so they stay slate — distinct from the benefit stack.
 const CB_COST_META = [
   { key: "technical", label: "Technical Cost", color: "#7A93AC" },
   { key: "system",    label: "System Cost",    color: "#93A7BC" },
