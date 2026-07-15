@@ -49,18 +49,17 @@ function sendPreset(key) {
 // ── API calls ─────────────────────────────────────────────────────────────
 
 async function checkHealth() {
+  // The visible status badge was removed from the header; this still pings the
+  // server and updates the badge only if one is present (guarded, no-ops otherwise).
+  const badge = document.getElementById("model-status");
   try {
     const res = await fetch(`${API_BASE}/api/health`);
     const data = await res.json();
-    const badge = document.getElementById("model-status");
-    if (data.model_loaded) {
-      badge.textContent = "✓ Model ready";
-      badge.classList.add("ready");
-    } else {
-      badge.textContent = "⚠ Model not loaded";
-    }
+    if (!badge) return;
+    badge.textContent = data.model_loaded ? "✓ Model ready" : "⚠ Model not loaded";
+    if (data.model_loaded) badge.classList.add("ready");
   } catch {
-    document.getElementById("model-status").textContent = "⚠ Server offline";
+    if (badge) badge.textContent = "⚠ Server offline";
   }
 }
 
