@@ -561,12 +561,15 @@ def _run_simulation_tool(
         elif 55 <= gid <= 67:
             exogenous_overrides[gid] = val
 
-    # Run the surrogate for the SCENARIO only. We compare it against the REAL BAU
-    # run (not the surrogate's own BAU) and carry the REAL HBLE run as the ambition
-    # frontier, so policymakers get a real comparison for their what-ifs. This
-    # knowingly folds the surrogate's model error into the headline comparison for
-    # now (to be revisited). If the curated real runs can't be loaded we fall back
-    # to the surrogate's own BAU baseline so a run never breaks.
+    # Run the surrogate for the SCENARIO. The headline emissions % and the
+    # cost-benefit block are compared against the REAL BAU run (+ real HBLE as the
+    # frontier), so policymakers get a real comparison — knowingly folding the
+    # surrogate's model error into those totals for now. The sector-stack COMPOSITION,
+    # however, uses the surrogate's own BAU: the surrogate and the real runs attribute
+    # sub-sector emissions differently (energy sits in `entc` in the real runs but in
+    # `scoe` in the surrogate), so the two stack panels must share one source or they
+    # disagree even at the 2019 historical anchor. If the real runs can't be loaded we
+    # fall back to the surrogate's own BAU for everything so a run never breaks.
     sim = sector_predictor.predict_comparison(
         lever_overrides=lever_overrides,
         exogenous_overrides=exogenous_overrides,
@@ -592,9 +595,9 @@ def _run_simulation_tool(
     )
 
     if compare and refs:
-        # Surrogate scenario vs the REAL BAU baseline. Same delta math the named
-        # pathways use (pathways_lookup.compare_series), iterating anchor years so
-        # the surrogate's denser year grid lines up with the anchor-only real BAU.
+        # Headline emissions %, and the cost-benefit block, are measured against the
+        # REAL BAU run (totals are comparable across sources; this is the "real
+        # comparison" policymakers asked for). Same delta math the named pathways use.
         real_bau = refs["bau"]
         deltas = pathways_lookup.compare_series(scenario_series, real_bau)
         result = {
@@ -602,11 +605,14 @@ def _run_simulation_tool(
             "baseline": real_bau,
             "comparison": deltas["comparison"],
         }
-        result["sector_comparison"] = {
-            "scenario": scenario_series,
-            "baseline": real_bau,
-            **deltas,
-        }
+        # BUT the sector STACK composition must come from ONE source: the surrogate
+        # and the real runs attribute sub-sector emissions differently (e.g. energy
+        # sits in `entc` in the real runs but in `scoe` in the surrogate), so mixing
+        # them makes the two panels disagree even at 2019 (shared history). So the
+        # stacked chart shows surrogate scenario vs surrogate BAU — internally
+        # consistent and sharing the 2019 anchor — with real BAU/HBLE net-total
+        # reference LINES overlaid (added by _attach_real_references below).
+        result["sector_comparison"] = sim
         result["cost_benefit_comparison"] = {
             "years": pathways_lookup.CB_YEARS,
             "scenario": scenario_series["cost_benefit"],

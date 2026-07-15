@@ -1,5 +1,30 @@
 # Changelog — chatbot_deploy
 
+## 2026-07-14 — Fix: surrogate what-if sector panels disagreed at 2019
+
+### Problem
+On a custom (surrogate) what-if, the stacked emissions chart's two panels (BAU vs Policy
+Scenario) showed completely different sector compositions — even at 2019, which is shared
+pre-policy history and identical across all real pathways.
+
+### Cause
+The **surrogate model and the real-run pathways attribute sub-sector emissions differently**:
+energy sits in `entc` (~62 Mt @2019) in the real runs but in `scoe` (~59 Mt @2019) in the
+surrogate's own 2019 baseline (`_load_sector_emissions_2019`). The 2026-07-14 real-BAU rewire
+had made the BAU panel = *real* BAU while the Policy panel = *surrogate* — so the two stacks no
+longer lined up (energy showed as `entc` in one panel and `scoe` in the other).
+
+### Fix (`backend/services/agent.py` `_run_simulation_tool`)
+The sector-stack **composition** must come from one source, so the two panels are now surrogate
+scenario vs **surrogate BAU** (`result["sector_comparison"] = sim`) — internally consistent and
+sharing the 2019 anchor. Real BAU + HBLE remain as overlaid net-total reference lines. The
+**headline emissions %** and the **cost-benefit** block still compare against the **real BAU** run
+(totals are comparable across sources; compositions are not). No frontend change.
+
+Follow-up (not done here): harmonise the surrogate's per-sector convention with the real runs'
+so a surrogate what-if's BAU panel matches a real pathway's — a data question (which mapping is
+canonical), out of scope for this fix.
+
 ## 2026-07-14 — Process trace: show the user HOW an answer was produced
 
 ### Summary
