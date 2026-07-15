@@ -63,6 +63,10 @@ cover/
 # Django stuff:
 *.log
 local_settings.py
+
+# Chatbot interaction logs (contain user messages — keep local, never commit)
+logs/
+metamodel/chatbot*/logs/interactions.jsonl
 db.sqlite3
 db.sqlite3-journal
 
