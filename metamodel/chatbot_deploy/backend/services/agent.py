@@ -430,10 +430,9 @@ def _build_trace_event(
         if not lever_lines and not exo_lines:
             details.append("No levers changed from BAU (all at their default)")
         if interp.get("compared"):
-            if interp.get("baseline_source") == "real_bau":
-                details.append("Compared against the BAU and HBLE official pathway runs")
-            else:
-                details.append("Compared against the surrogate's own BAU (official runs unavailable)")
+            details.append("Compared against the surrogate's own BAU (clean policy delta)")
+            if interp.get("real_refs"):
+                details.append("Real BAU + HBLE official runs shown as reference lines")
 
     elif tool_name == "get_pathway_results":
         pathway = interp.get("scenario_name") or tool_input.get("pathway", "pathway")
@@ -587,40 +586,17 @@ def _run_simulation_tool(
 
     logger.info(
         "run_simulation: data_source=surrogate_xgboost (scenario=%s, levers=%d, "
-        "exog=%d, baseline=%s)",
+        "exog=%d, baseline=surrogate_bau, real_refs=%s)",
         scenario_name, len(lever_overrides), len(exogenous_overrides),
-        "real_bau" if refs else "surrogate_bau",
+        bool(refs),
     )
 
-    if compare and refs:
-        # Headline emissions %, and the cost-benefit block, are measured against the
-        # REAL BAU run (totals are comparable across sources; this is the "real
-        # comparison" policymakers asked for). Same delta math the named pathways use.
-        real_bau = refs["bau"]
-        deltas = pathways_lookup.compare_series(scenario_series, real_bau)
-        result = {
-            "scenario": scenario_series,
-            "baseline": real_bau,
-            "comparison": deltas["comparison"],
-        }
-        # The sector stack shows surrogate scenario vs REAL BAU. Both now use the 23
-        # official inventory categories and share the 2019 anchor, so the panels line
-        # up honestly (no more surrogate-vs-surrogate workaround). sector_meta_overrides
-        # carries the labels/colours for all 23 categories to the frontend.
-        result["sector_comparison"] = {
-            "scenario": scenario_series,
-            "baseline": real_bau,
-            "sector_meta_overrides": sector_crosswalk.SECTOR_META,
-            **deltas,
-        }
-        result["cost_benefit_comparison"] = {
-            "years": pathways_lookup.CB_YEARS,
-            "scenario": scenario_series["cost_benefit"],
-            "baseline": real_bau["cost_benefit"],
-            "deltas": deltas["cost_benefit_deltas"],
-        }
-    elif compare:
-        # Fallback: real runs unavailable → surrogate-vs-surrogate (prior behaviour).
+    if compare:
+        # Compare the surrogate POLICY scenario against the surrogate's OWN BAU — a clean
+        # policy delta from a single model (no surrogate-vs-real level bias). Both share
+        # the 23 inventory categories and the 2019 anchor. The real BAU + HBLE runs are
+        # overlaid as reference LINES by _attach_real_references below (frontier context),
+        # NOT used as the comparison baseline.
         result = {
             "scenario": scenario_series,
             "baseline": sim["baseline"],
@@ -662,7 +638,8 @@ def _run_simulation_tool(
         # Provenance for the user-facing process trace.
         "data_source": "surrogate_xgboost",
         "compared": bool(compare),
-        "baseline_source": "real_bau" if refs else "surrogate_bau",
+        "baseline_source": "surrogate_bau",   # what-if compares vs the surrogate's own BAU
+        "real_refs": bool(refs),               # real BAU + HBLE shown as reference lines
     }
 
     return summary, result, interpretation

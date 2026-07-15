@@ -373,7 +373,7 @@ def test_compare_series_surrogate_like() -> _Result:
 # ── Test 6: run_simulation rewire — surrogate scenario vs REAL BAU baseline ────
 
 def test_run_simulation_real_bau_baseline() -> _Result:
-    r = _Result("Test 6 — run_simulation compares against real BAU + HBLE (rewire)")
+    r = _Result("Test 6 — run_simulation compares vs the surrogate's OWN BAU; real BAU+HBLE as reference lines")
     skip = _data_available()
     if skip:
         return r.skip(skip)
@@ -381,18 +381,23 @@ def test_run_simulation_real_bau_baseline() -> _Result:
     failures: list[str] = []
     details: list[str] = []
 
-    # A fake surrogate predictor: its scenario reuses the real HBLE series (any
-    # plausible numbers), and its baseline is a THROWAWAY that must be discarded in
-    # favour of the real BAU run.
+    # A fake surrogate predictor: its scenario + baseline are the surrogate's own series.
+    # We reuse real pathway series only as stand-in numbers; the point is that the
+    # comparison baseline must be the SURROGATE's baseline, not a real run.
     scenario_series = pl._build_series(pl.HBLE_PID, "Fake what-if")
-    throwaway_baseline = pl._build_series(pl.HBLE_PID, "throwaway (not real BAU)")
+    surrogate_bau = pl._build_series(pl.HBLE_PID, "Surrogate BAU")
+
+    # predict_comparison fills the headline % dict; mirror that (scenario==baseline here
+    # so the % change is 0) so the summary can carry change_from_bau_pct.
+    from backend.services.predictor import TARGET_YEARS
+    _cmp = {f"emission_total_yr{y}": 0.0 for y in TARGET_YEARS}
 
     class _FakePredictor:
         def predict_comparison(self, **kw):
             return {
                 "scenario": {**scenario_series, "scenario_name": kw.get("scenario_name", "S")},
-                "baseline": throwaway_baseline,
-                "comparison": {}, "sector_deltas": {}, "cost_benefit_deltas": {},
+                "baseline": surrogate_bau,
+                "comparison": _cmp, "sector_deltas": {}, "cost_benefit_deltas": {},
             }
 
     summary, result, interp = agent._execute_tool_call(
@@ -403,12 +408,22 @@ def test_run_simulation_real_bau_baseline() -> _Result:
         locked_overrides={},
     )
 
-    # (a) Baseline is now the REAL BAU run (≈277.59 @2070), NOT the throwaway.
+    # (a) Baseline is the SURROGATE's own BAU (from predict_comparison), NOT the real run.
     base_2070 = result["baseline"]["predictions"]["emission_total_yr2070"]["value"]
-    real_bau_2070 = pl._build_series(pl.BAU_PID, "BAU")["predictions"]["emission_total_yr2070"]["value"]
-    if abs(base_2070 - real_bau_2070) > 1e-6:
-        failures.append(f"ASSERTION FAILED: baseline @2070 = {base_2070}, expected real BAU {real_bau_2070}")
-    details.append(f"baseline swapped to real BAU (@2070 = {base_2070})")
+    surrogate_bau_2070 = surrogate_bau["predictions"]["emission_total_yr2070"]["value"]
+    if abs(base_2070 - surrogate_bau_2070) > 1e-6:
+        failures.append(f"ASSERTION FAILED: baseline @2070 = {base_2070}, expected surrogate BAU {surrogate_bau_2070}")
+    if interp.get("baseline_source") != "surrogate_bau":
+        failures.append(f"ASSERTION FAILED: baseline_source={interp.get('baseline_source')}, expected surrogate_bau")
+    details.append(f"baseline is the surrogate's own BAU (@2070 = {base_2070})")
+
+    # (a2) Real BAU + HBLE are still attached as REFERENCE LINES on the sector chart.
+    sec_refs = (result.get("sector_comparison") or {}).get("references") or {}
+    if set(sec_refs) != {"bau", "hble"}:
+        failures.append(f"ASSERTION FAILED: sector reference lines={sorted(sec_refs)}, expected bau+hble")
+    else:
+        real_bau_2070 = pl._build_series(pl.BAU_PID, "BAU")["predictions"]["emission_total_yr2070"]["value"]
+        details.append(f"real BAU/HBLE overlaid as reference lines (real BAU @2070 = {real_bau_2070})")
 
     # (b) Summary narrates the HBLE frontier value alongside the BAU baseline.
     yr = summary["predictions"]["emission_total_yr2070"]
