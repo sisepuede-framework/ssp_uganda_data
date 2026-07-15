@@ -842,11 +842,18 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
   const scenarioTrajectories = sectorComparison.scenario?.sector_trajectories || {};
   const bauTrajectories      = sectorComparison.baseline?.sector_trajectories || {};
 
+  // Per-result label/colour corrections (e.g. real pathways relabel `entc` →
+  // "Forest Land - Removals"); merged over the default SECTOR_META. Surrogate
+  // results send no overrides, so they keep the defaults.
+  const overrides = sectorComparison.sector_meta_overrides || {};
+  const sectorMeta = sector =>
+    ({ ...(SECTOR_META[sector] || { label: sector, color: "#888" }), ...(overrides[sector] || {}) });
+
   // Build stacked area datasets + net-total line
   function buildDatasets(trajectories, isBau) {
     // Sector area datasets (order: 1 renders behind the total line)
     const datasets = SECTOR_STACK_ORDER.map(sector => {
-      const meta   = SECTOR_META[sector] || { label: sector, color: "#888" };
+      const meta   = sectorMeta(sector);
       const traj   = trajectories[sector] || {};
       const values = YEARS.map(y => traj[y] ?? null);
       return {
@@ -1036,7 +1043,7 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
   legendDiv.className = "stacked-chart-legend-right";
 
   for (const sector of SECTOR_STACK_ORDER) {
-    const meta = SECTOR_META[sector] || { label: sector, color: "#888" };
+    const meta = sectorMeta(sector);
     const item = document.createElement("div");
     item.className = "stacked-legend-item";
     item.innerHTML =

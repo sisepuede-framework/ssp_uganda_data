@@ -225,6 +225,14 @@ def test_get_pathway_results_handler() -> _Result:
         failures.append(f"ASSERTION FAILED: cost_benefit_comparison.references keys={sorted(cb_refs)}, expected bau+hble")
     details.append("real BAU+HBLE references attached to both sector and cost-benefit bundles")
 
+    # (c2) Real-pathway sector relabel: `entc` corrected to Forest Land - Removals
+    # (biomass), carried on the bundle for the frontend to merge over SECTOR_META.
+    ov = (sim_data.get("sector_comparison") or {}).get("sector_meta_overrides") or {}
+    if ov.get("entc", {}).get("label") != "Forest Land - Removals":
+        failures.append(f"ASSERTION FAILED: entc sector override missing/wrong: {ov.get('entc')}")
+    else:
+        details.append("entc relabelled → 'Forest Land - Removals' on the pathway bundle")
+
     # (d) groups_changed=[4] attaches real driver detail (no nearest-neighbour).
     dd = summary.get("driver_detail")
     if not dd:

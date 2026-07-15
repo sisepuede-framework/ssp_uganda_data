@@ -119,6 +119,23 @@ _COST_KEY_MAP: dict[str, str] = {c: c[: -len("_cost")] for c in COST_CB_TYPES}
 _EMISSION_COL_PREFIX = "emission_co2e_subsector_total_"
 _SECTOR_CODES = list(SECTOR_DISPLAY_NAMES.keys())
 
+# ── Real-pathway sector-label corrections ─────────────────────────────────────
+# uganda_pathways.csv's `entc` column actually holds "Forest Land - Removals" — the
+# carbon from biomass fuelwood, booked under LULUCF (Uganda is ~89% biomass energy;
+# grid electricity ≈0.08 Mt). Verified against the authoritative emissions CSV across
+# ALL years (path entc == auth Forest-Land-Removals: 2019 61.9/61.8 … 2070 13.3/12.6).
+# These overrides correct the chart LABEL + COLOUR for the REAL-PATHWAY charts only;
+# they ride on the pathway result bundle and the frontend merges them over SECTOR_META.
+# The surrogate uses a DIFFERENT column mapping (biomass sits in `scoe` there) — its
+# relabel is pending team confirmation, so it is intentionally NOT touched here.
+PATHWAY_SECTOR_META_OVERRIDES: dict[str, dict] = {
+    "entc": {
+        "label": "Forest Land - Removals",
+        "short": "Forest Removals",
+        "color": "#ABD99C",   # authoritative "Forest Land - Removals" green
+    },
+}
+
 # Where the curated pathways CSVs live (local-first, S3 fallback).
 _PATHWAYS_LOCAL_DIR = s3_lookup._LOCAL_DATA_DIR / "pathways"
 _PATHWAYS_CSV = "uganda_pathways.csv"
@@ -438,6 +455,9 @@ def build_pathway_comparison(name_or_id) -> dict:
         "scenario": scenario,
         "baseline": baseline,
         "references": build_reference_bundle(),
+        # Corrects `entc`→"Forest Land - Removals" (biomass) on the stacked chart for
+        # real pathways only; the frontend merges these over SECTOR_META.
+        "sector_meta_overrides": PATHWAY_SECTOR_META_OVERRIDES,
         **deltas,
     }
 

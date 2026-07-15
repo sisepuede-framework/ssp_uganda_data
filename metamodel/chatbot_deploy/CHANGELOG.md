@@ -1,5 +1,26 @@
 # Changelog — chatbot_deploy
 
+## 2026-07-14 — Relabel `entc` → "Forest Land - Removals" on real-pathway charts
+
+### Why
+Verified against the authoritative emissions CSV (`emissions_uganda_2019.csv`) that
+`uganda_pathways.csv`'s `entc` column holds **Forest Land - Removals** (biomass fuelwood carbon,
+booked under LULUCF), NOT electricity — matches across all years (2019 61.9/61.8 … 2070 13.3/12.6).
+Uganda is ~89% biomass energy (web-verified); grid electricity ≈0.08 Mt. So the ~62 Mt block the
+chart labelled "Electricity Generation" is really biomass/forest removal.
+
+### What
+`pathways_lookup.PATHWAY_SECTOR_META_OVERRIDES` (`entc` → label "Forest Land - Removals", short
+"Forest Removals", colour `#ABD99C`) rides on the pathway result bundle
+(`build_pathway_comparison` → `sector_meta_overrides`); the frontend `renderStackedSectorChart`
+merges it over `SECTOR_META` (datasets + legend). **Scoped to real-pathway charts only** — surrogate
+what-ifs send no overrides and keep the default labels (their column mapping differs — biomass sits
+in `scoe` there — pending team confirmation before relabel).
+
+Test 3 asserts the override rides on the pathway bundle; JSC render smoke confirms the pathway legend
+shows "Forest Land - Removals" while a surrogate result still shows "Electricity Generation". Tests
+7/7. Cache bump 20260714h.
+
 ## 2026-07-14 — Fix: surrogate what-if sector panels disagreed at 2019
 
 ### Problem
