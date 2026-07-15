@@ -3,8 +3,8 @@
 -- Cost/benefit fields for the surrogate-model training set.
 --
 -- Source table: cb  (one row per primary_id x time_period).
--- We keep only the 5 target years, encoded as time_period (= year - 2015):
---     time_period 10/20/25/35/55  ->  years 2025/2035/2040/2050/2070
+-- We keep only the 6 target years, encoded as time_period (= year - 2015):
+--     time_period 10/20/25/35/45/55  ->  years 2025/2035/2040/2050/2060/2070
 --
 -- Sign convention: in the source, COSTS are already negative and BENEFITS
 -- positive (diverging convention). Do NOT re-negate downstream.
@@ -38,4 +38,4 @@ SELECT
     ecosystem_services_wetlands
 FROM cb
 WHERE region = '{region}'
-AND time_period IN (10, 20, 25, 35, 55);
+AND time_period IN (10, 20, 25, 35, 45, 55);

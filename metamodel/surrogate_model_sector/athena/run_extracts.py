@@ -28,7 +28,7 @@ QUERIES = {
     "emissions_and_gdp": "emissions_and_gdp.sql",
     "cost_benefit": "cost_benefit.sql",
 }
-TABLES = ["model_output", "cb"]
+TABLES = ["model_output", "cb", "decomposed_emissions"]
 
 
 def _load_sql(name: str, region: str) -> str:

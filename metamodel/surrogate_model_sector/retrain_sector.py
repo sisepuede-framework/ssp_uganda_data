@@ -16,13 +16,25 @@ os.environ.setdefault("MPLBACKEND", "Agg")
 import joblib
 import numpy as np
 import pandas as pd
+import yaml
 from sklearn.metrics import r2_score
 
 from utils.eda_utils import DataCleaningUtils
 from utils.ml_utils_v2 import XGBMultiOutputPipeline
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-RUN_ID = "2026-05-30t21;35;56.244639"
+# Single source of truth for the run id: the same YAML the Athena pipeline uses.
+# We read just `run_id` directly (rather than athena.config.load_config) so retrain
+# stays offline -- it has no need for the AWS profile that load_config requires.
+WORKFLOW_CONFIG = os.path.join(SCRIPT_DIR, "config", "ml_training_workflow_config.yaml")
+
+
+def _load_run_id() -> str:
+    with open(WORKFLOW_CONFIG) as f:
+        return str(yaml.safe_load(f)["run_id"])
+
+
+RUN_ID = _load_run_id()
 TRAINING_DATA_PATH = os.path.join(SCRIPT_DIR, "..", "data", "training", f"training_data_sector_{RUN_ID}.parquet")
 TRAINED_MODELS_DIR = os.path.join(SCRIPT_DIR, "trained_models")
 MODEL_PATH = os.path.join(TRAINED_MODELS_DIR, f"xgb_pipeline_sector_independent_{RUN_ID}.pkl")

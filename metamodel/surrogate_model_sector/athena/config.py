@@ -30,8 +30,8 @@ WORKFLOW_CONFIG = os.path.join(CONFIG_DIR, "ml_training_workflow_config.yaml")
 AWS_CONFIG = os.path.join(CONFIG_DIR, "aws_config.yaml")
 
 # Target years (and their SISEPUEDE time_period = year - 2015).
-TARGET_YEARS = [2025, 2035, 2040, 2050, 2070]
-TARGET_TPS = [y - 2015 for y in TARGET_YEARS]                      # [10, 20, 25, 35, 55]
+TARGET_YEARS = [2025, 2035, 2040, 2050, 2060, 2070]
+TARGET_TPS = [y - 2015 for y in TARGET_YEARS]                      # [10, 20, 25, 35, 45, 55]
 
 
 def _sanitize_db_name(name: str) -> str:
