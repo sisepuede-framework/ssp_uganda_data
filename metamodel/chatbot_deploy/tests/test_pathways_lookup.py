@@ -13,7 +13,7 @@ Test 1 — resolve_pathway (pure registry, no data)
     resolve; an unknown name raises LookupError naming the valid pathways.
 
 Test 2 — reader contract (local CSVs)
-    The reason this module exists: HBLE @2070 is the REAL 6.35 MtCO₂e, not the
+    The reason this module exists: HBLE @2070 is the REAL ~8.21 MtCO₂e, not the
     surrogate's ~115. BAU is far higher; BAU cost-benefit is identically zero with
     GDP still present; NDC 2.5's cost keys are exactly the 3 *_cost types mapped to
     {technical, system, fuel} (technical_savings stays a benefit); indoor_air_pollution
@@ -127,15 +127,18 @@ def test_reader_contract() -> _Result:
     failures: list[str] = []
     details: list[str] = []
 
-    # (a) The headline reason this module exists: real HBLE @2070 ≈ 6.35, not ~115.
+    # (a) The headline reason this module exists: real HBLE @2070 is single-digit, not
+    # the surrogate's ~115. The corrected pathways file (2026-07-15, biomass counted
+    # consistently) puts it at ≈8.21 MtCO₂e — computed from the 23 crosswalk categories,
+    # which now reconcile to the file's subsector totals at every year.
     hble = pl._build_series(pl.HBLE_PID, "HBLE")
     bau = pl._build_series(pl.BAU_PID, "BAU")
     hble_2070 = hble["predictions"]["emission_total_yr2070"]["value"]
     bau_2070 = bau["predictions"]["emission_total_yr2070"]["value"]
     details.append(f"HBLE @2070 = {hble_2070} MtCO₂e   BAU @2070 = {bau_2070} MtCO₂e")
-    if not (5.0 <= hble_2070 <= 8.0):
+    if not (6.0 <= hble_2070 <= 12.0):
         failures.append(
-            f"ASSERTION FAILED: HBLE @2070 = {hble_2070}, expected the real ~6.35 "
+            f"ASSERTION FAILED: HBLE @2070 = {hble_2070}, expected the real ~8.21 "
             "(a value near ~115 means the surrogate leaked in)"
         )
     if bau_2070 <= 100:
@@ -225,13 +228,19 @@ def test_get_pathway_results_handler() -> _Result:
         failures.append(f"ASSERTION FAILED: cost_benefit_comparison.references keys={sorted(cb_refs)}, expected bau+hble")
     details.append("real BAU+HBLE references attached to both sector and cost-benefit bundles")
 
-    # (c2) Real-pathway sector relabel: `entc` corrected to Forest Land - Removals
-    # (biomass), carried on the bundle for the frontend to merge over SECTOR_META.
+    # (c2) The bundle carries label/colour meta for the 23 official inventory categories
+    # (from sector_categories.json), which the frontend merges over its SECTOR_META. The
+    # old per-source `entc`→"Forest Land - Removals" relabel is gone — both surrogate and
+    # real pathways now use the same categories, so "Forest Land - Removals" is a real
+    # category slug (forest_land_removals), not an override.
     ov = (sim_data.get("sector_comparison") or {}).get("sector_meta_overrides") or {}
-    if ov.get("entc", {}).get("label") != "Forest Land - Removals":
-        failures.append(f"ASSERTION FAILED: entc sector override missing/wrong: {ov.get('entc')}")
+    from backend.services import sector_crosswalk
+    if set(ov) != set(sector_crosswalk.CATEGORIES):
+        failures.append(f"ASSERTION FAILED: sector_meta_overrides has {len(ov)} keys, expected the 23 categories")
+    elif ov.get("forest_land_removals", {}).get("label") != "Forest Land - Removals":
+        failures.append(f"ASSERTION FAILED: forest_land_removals label wrong: {ov.get('forest_land_removals')}")
     else:
-        details.append("entc relabelled → 'Forest Land - Removals' on the pathway bundle")
+        details.append("bundle carries all 23 category labels/colours (incl. Forest Land - Removals)")
 
     # (d) groups_changed=[4] attaches real driver detail (no nearest-neighbour).
     dd = summary.get("driver_detail")

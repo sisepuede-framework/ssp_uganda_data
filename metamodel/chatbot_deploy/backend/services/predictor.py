@@ -45,8 +45,8 @@ logger = logging.getLogger(__name__)
 # Kept here (not only in the registry) because the predictor needs units to
 # build PredictionResult objects without importing the full registry.
 
-# Target years this model reports (matches the training parquet).
-TARGET_YEARS: list[int] = [2025, 2035, 2040, 2050, 2070]
+# Target years this model reports (matches the training parquet: 6 years incl. 2060).
+TARGET_YEARS: list[int] = [2025, 2035, 2040, 2050, 2060, 2070]
 
 EMISSION_UNIT = "Mt CO₂e"
 
@@ -171,54 +171,39 @@ PRESET_DEFAULTS = {
 
 
 # ── Sector metadata ───────────────────────────────────────────────────────────
+# The model now outputs the 23 OFFICIAL inventory categories (slugs from the
+# crosswalk sidecar), so display names come from there — same source the real
+# pathways and the frontend use. `SECTOR_DISPLAY_NAMES` keeps its name for the
+# modules that import it (pathways_lookup, agent).
+from backend.services import sector_crosswalk
 
-SECTOR_DISPLAY_NAMES: dict[str, str] = {
-    "agrc": "Agriculture",
-    "ccsq": "Carbon Capture & Storage",
-    "entc": "Electricity Generation",
-    "fgtv": "Fugitive Emissions",
-    "frst": "Forestry (Carbon Sequestration)",
-    "inen": "Industrial Energy",
-    "ippu": "Industrial Processes",
-    "lndu": "Land Use",
-    "lsmm": "Livestock Manure Management",
-    "lvst": "Livestock",
-    "scoe": "Stationary Combustion (Cooking & Buildings)",
-    "soil": "Soil Emissions",
-    "trns": "Transportation",
-    "trww": "Wastewater Treatment",
-    "waso": "Solid Waste",
-}
+SECTOR_DISPLAY_NAMES: dict[str, str] = dict(sector_crosswalk.DISPLAY)
 
-_SECTOR_CODES = list(SECTOR_DISPLAY_NAMES.keys())
+_SECTOR_CODES = list(sector_crosswalk.CATEGORIES)
 _EMISSIONS_2019_CACHE: dict[str, float] | None = None
 
 
 def _load_sector_emissions_2019() -> dict[str, float]:
-    """Return per-sector MtCO2e for 2019 from the BAU-nearest S3 baseline run.
+    """Per-category MtCO2e for 2019 (the shared historical anchor).
 
-    Finds the LHS trial closest to BAU (all L=0.1, design_id=3) and reads
-    time_period=4 (year 2019 = 2015 + 4) from the S3 model_outputs.
+    2019 is pre-policy and identical across scenarios, so we read it from the real
+    BAU pathway (primary_id=0), which re-aggregates the granular fields into the
+    same 23 categories via the crosswalk. This replaces the old S3 model_output
+    read (which returned raw subsector totals that no longer match the categories).
     Result is cached at module level.
     """
     global _EMISSIONS_2019_CACHE
     if _EMISSIONS_2019_CACHE is not None:
         return _EMISSIONS_2019_CACHE
 
-    from backend.services.s3_lookup import get_model_outputs_row
+    # Late import avoids a circular import (pathways_lookup imports this module).
+    from backend.services import pathways_lookup
 
-    # 2019 is historical (pre-policy) and identical across scenarios, so read it
-    # from the baseline scenario (primary_id=0, design_id=0).
-    primary_id = 0
-    outputs = get_model_outputs_row(primary_id)  # {col: [val_tp0, ..., val_tp55]}
-
-    _EMISSIONS_2019_CACHE = {}
-    for s in _SECTOR_CODES:
-        col = f"emission_co2e_subsector_total_{s}"
-        values = outputs.get(col, [])
-        _EMISSIONS_2019_CACHE[s] = round(float(values[4]), 3) if len(values) > 4 else 0.0
-
-    logger.info("Loaded 2019 sector baseline from S3 (primary_id=%d)", primary_id)
+    trajectories = pathways_lookup.get_pathway_emissions(0)  # {slug: {year: MtCO2e}}
+    _EMISSIONS_2019_CACHE = {
+        s: round(float(traj.get(2019, 0.0)), 3) for s, traj in trajectories.items()
+    }
+    logger.info("Loaded 2019 sector baseline (categories) from the real BAU pathway")
     return _EMISSIONS_2019_CACHE
 
 

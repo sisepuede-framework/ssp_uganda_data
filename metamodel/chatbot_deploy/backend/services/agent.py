@@ -34,6 +34,7 @@ from backend.config import settings
 from backend.services import pathways_lookup
 from backend.services.context import get_country_context
 from backend.services.predictor import get_sector_predictor, SECTOR_DISPLAY_NAMES
+from backend.services import sector_crosswalk
 from backend.services.s3_lookup import (
     get_scenario_variable_trajectories,
     get_strategy_l_values,
@@ -561,15 +562,12 @@ def _run_simulation_tool(
         elif 55 <= gid <= 67:
             exogenous_overrides[gid] = val
 
-    # Run the surrogate for the SCENARIO. The headline emissions % and the
-    # cost-benefit block are compared against the REAL BAU run (+ real HBLE as the
-    # frontier), so policymakers get a real comparison — knowingly folding the
-    # surrogate's model error into those totals for now. The sector-stack COMPOSITION,
-    # however, uses the surrogate's own BAU: the surrogate and the real runs attribute
-    # sub-sector emissions differently (energy sits in `entc` in the real runs but in
-    # `scoe` in the surrogate), so the two stack panels must share one source or they
-    # disagree even at the 2019 historical anchor. If the real runs can't be loaded we
-    # fall back to the surrogate's own BAU for everything so a run never breaks.
+    # Run the surrogate for the SCENARIO. The surrogate now predicts the SAME 23
+    # official inventory categories the real runs use, so the sector stack can honestly
+    # show the surrogate scenario against the REAL BAU (they share the category scheme
+    # AND the 2019 historical anchor). Headline emissions % and cost-benefit are also
+    # measured vs real BAU. If the real runs can't be loaded we fall back to the
+    # surrogate's own BAU so a run never breaks.
     sim = sector_predictor.predict_comparison(
         lever_overrides=lever_overrides,
         exogenous_overrides=exogenous_overrides,
@@ -605,14 +603,16 @@ def _run_simulation_tool(
             "baseline": real_bau,
             "comparison": deltas["comparison"],
         }
-        # BUT the sector STACK composition must come from ONE source: the surrogate
-        # and the real runs attribute sub-sector emissions differently (e.g. energy
-        # sits in `entc` in the real runs but in `scoe` in the surrogate), so mixing
-        # them makes the two panels disagree even at 2019 (shared history). So the
-        # stacked chart shows surrogate scenario vs surrogate BAU — internally
-        # consistent and sharing the 2019 anchor — with real BAU/HBLE net-total
-        # reference LINES overlaid (added by _attach_real_references below).
-        result["sector_comparison"] = sim
+        # The sector stack shows surrogate scenario vs REAL BAU. Both now use the 23
+        # official inventory categories and share the 2019 anchor, so the panels line
+        # up honestly (no more surrogate-vs-surrogate workaround). sector_meta_overrides
+        # carries the labels/colours for all 23 categories to the frontend.
+        result["sector_comparison"] = {
+            "scenario": scenario_series,
+            "baseline": real_bau,
+            "sector_meta_overrides": sector_crosswalk.SECTOR_META,
+            **deltas,
+        }
         result["cost_benefit_comparison"] = {
             "years": pathways_lookup.CB_YEARS,
             "scenario": scenario_series["cost_benefit"],
@@ -626,7 +626,7 @@ def _run_simulation_tool(
             "baseline": sim["baseline"],
             "comparison": sim["comparison"],
         }
-        result["sector_comparison"] = sim
+        result["sector_comparison"] = {**sim, "sector_meta_overrides": sector_crosswalk.SECTOR_META}
         result["cost_benefit_comparison"] = {
             "years": pathways_lookup.CB_YEARS,
             "scenario": scenario_series["cost_benefit"],
@@ -636,7 +636,10 @@ def _run_simulation_tool(
     else:
         # No baseline comparison requested.
         result = {"scenario": scenario_series, "baseline": None, "comparison": None}
-        result["sector_comparison"] = {"scenario": scenario_series, "baseline": None}
+        result["sector_comparison"] = {
+            "scenario": scenario_series, "baseline": None,
+            "sector_meta_overrides": sector_crosswalk.SECTOR_META,
+        }
         result["cost_benefit_comparison"] = {
             "years": pathways_lookup.CB_YEARS,
             "scenario": scenario_series["cost_benefit"],
@@ -1144,24 +1147,34 @@ Every run_simulation result includes a `cost_benefit_by_year` field with, for 20
 
 ## SECTOR BREAKDOWN
 
-Every run_simulation result now includes a `sector_breakdown` field with emissions at 2025, 2050, and 2070 for 15 sectors. Use this to answer sector-specific questions directly — no additional tool call needed.
+Every run_simulation result includes a `sector_breakdown` field with emissions at the
+target years for the **23 official inventory categories** (the same categories the
+official pathways / Tableau use). Use this to answer sector-specific questions directly
+— no additional tool call needed.
 
-Sector codes and display names:
-- scoe → Stationary Combustion (Cooking & Buildings) — largest source in Uganda BAU
-- lndu → Land Use (deforestation)
-- lvst → Livestock
-- trww → Wastewater Treatment
-- trns → Transportation
-- soil → Soil Emissions
-- waso → Solid Waste
-- lsmm → Livestock Manure Management
-- inen → Industrial Energy
-- ippu → Industrial Processes
-- entc → Electricity Generation
-- fgtv → Fugitive Emissions
-- ccsq → Carbon Capture & Storage
-- agrc → Agriculture
-- frst → Forestry (negative = carbon sequestration)
+The sector KEYS are category slugs → display names:
+- `forest_land_removals` → Forest Land - Removals — **Uganda's LARGEST source (~62 Mt).**
+  This is the CO₂ from burning biomass for energy (firewood + charcoal; Uganda is ~89%
+  biomass energy). Under IPCC/LULUCF accounting this carbon is booked as forest-land
+  removals, NOT as electricity. To cut it, the levers are CLEAN COOKING (efficient/
+  modern stoves, fuel switching) and AFFORESTATION — **not** power plants.
+- `electricity_and_heat_generation` → Electricity and Heat Generation — TINY for Uganda
+  (~0.08 Mt, grid is ~85% hydro). Do NOT attribute the biomass block to this.
+- `residential`, `commercial`, `other_combustion` → non-biomass stationary combustion
+  in buildings (the biomass part of buildings is already in Forest Land - Removals).
+- `livestock` → Livestock (enteric fermentation + manure); `agriculture_and_managed_soil`
+  → Agriculture & Managed Soil.
+- `deforestation`, `other_land_use_conversion`, `wetlands` → land-use change (LULUCF).
+- `forest_land_sequestration` → Forest Land - Sequestration (NEGATIVE = carbon sink);
+  `forest_land_methane` → forest CH₄.
+- `industrial_combustion` → Industrial Combustion (non-biomass); `ippu` → Industrial
+  Processes; `fuel_production` → Fuel Production; `fugitive_emissions` → Fugitive.
+- `transportation`, `solid_waste`, `wastewater_treatment` → as named.
+- `carbon_capture_industries` → CCS; `other_not_estimated_*` → small residual categories.
+
+LULUCF categories (land sector): forest_land_removals, forest_land_sequestration,
+forest_land_methane, deforestation, other_land_use_conversion, wetlands, and the
+other_not_estimated_* ones. The rest are non-LULUCF (energy/industry/waste/ag).
 
 Each sector entry in `sector_breakdown` has:
 - `scenario`: predicted Mt CO₂e for the user's scenario

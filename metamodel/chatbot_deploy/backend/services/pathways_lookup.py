@@ -48,7 +48,7 @@ import pandas as pd
 from botocore.exceptions import ClientError
 
 from backend.config import settings
-from backend.services import s3_lookup
+from backend.services import s3_lookup, sector_crosswalk
 from backend.services.predictor import (
     COST_BENEFIT_LABELS,
     EMISSION_UNIT,
@@ -101,9 +101,10 @@ BAU_PID: int = 0
 HBLE_PID: int = 5005
 
 # Emission anchors: (time_period, year); year = 2015 + time_period. 2019 (tp4) is
-# the shared historical anchor both pathways share pre-divergence.
+# the shared historical anchor both pathways share pre-divergence. 2060 (tp45) is
+# included so real pathways line up with the surrogate's 6 reported years.
 EMISSION_ANCHORS: list[tuple[int, int]] = [
-    (4, 2019), (10, 2025), (20, 2035), (25, 2040), (35, 2050), (55, 2070),
+    (4, 2019), (10, 2025), (20, 2035), (25, 2040), (35, 2050), (45, 2060), (55, 2070),
 ]
 EMISSION_YEARS: list[int] = [y for _, y in EMISSION_ANCHORS]
 
@@ -116,25 +117,12 @@ COST_CB_TYPES: set[str] = {"technical_cost", "system_cost", "fuel_cost"}
 # Strip `_cost` so keys match the surrogate/frontend cost keys (technical/system/fuel).
 _COST_KEY_MAP: dict[str, str] = {c: c[: -len("_cost")] for c in COST_CB_TYPES}
 
-_EMISSION_COL_PREFIX = "emission_co2e_subsector_total_"
-_SECTOR_CODES = list(SECTOR_DISPLAY_NAMES.keys())
-
-# ── Real-pathway sector-label corrections ─────────────────────────────────────
-# uganda_pathways.csv's `entc` column actually holds "Forest Land - Removals" — the
-# carbon from biomass fuelwood, booked under LULUCF (Uganda is ~89% biomass energy;
-# grid electricity ≈0.08 Mt). Verified against the authoritative emissions CSV across
-# ALL years (path entc == auth Forest-Land-Removals: 2019 61.9/61.8 … 2070 13.3/12.6).
-# These overrides correct the chart LABEL + COLOUR for the REAL-PATHWAY charts only;
-# they ride on the pathway result bundle and the frontend merges them over SECTOR_META.
-# The surrogate uses a DIFFERENT column mapping (biomass sits in `scoe` there) — its
-# relabel is pending team confirmation, so it is intentionally NOT touched here.
-PATHWAY_SECTOR_META_OVERRIDES: dict[str, dict] = {
-    "entc": {
-        "label": "Forest Land - Removals",
-        "short": "Forest Removals",
-        "color": "#ABD99C",   # authoritative "Forest Land - Removals" green
-    },
-}
+# Real pathways are re-aggregated into the 23 official inventory categories from
+# their granular `emission_co2e_*` fields — the SAME crosswalk the surrogate trains
+# on — so both flows label sectors identically (no per-source relabel hack needed).
+# This is what fixed the old mismatch where uganda_pathways.csv's raw `entc` column
+# held "Forest Land - Removals" (Uganda's ~62 Mt biomass energy) while the surrogate
+# put that carbon elsewhere.
 
 # Where the curated pathways CSVs live (local-first, S3 fallback).
 _PATHWAYS_LOCAL_DIR = s3_lookup._LOCAL_DATA_DIR / "pathways"
@@ -224,27 +212,29 @@ def resolve_pathway(name_or_id) -> tuple[str, dict]:
 # ── Emissions ─────────────────────────────────────────────────────────────────
 
 def get_pathway_emissions(pid: int) -> dict[str, dict[int, float]]:
-    """Per-sector emissions at the anchor years for one primary_id.
+    """Per-category emissions at the anchor years for one primary_id.
 
-    Returns {sector: {year: MtCO₂e}}. Indexed by `time_period` (NOT row position —
-    the file starts at tp4). `frst` stays negative (carbon sink).
+    Returns {category_slug: {year: MtCO₂e}}, re-aggregating the granular
+    `emission_co2e_*` fields into the 23 official inventory categories via the
+    crosswalk (same as the surrogate). Indexed by `time_period` (NOT row position —
+    the file starts at tp4). Sequestration categories stay negative (carbon sinks).
     """
     df = _load_pathways_df()
     sub = df[df["primary_id"] == pid]
     if sub.empty:
         raise LookupError(f"primary_id={pid} not present in {_PATHWAYS_CSV}")
 
-    trajectories: dict[str, dict[int, float]] = {}
-    for sector in _SECTOR_CODES:
-        col = f"{_EMISSION_COL_PREFIX}{sector}"
-        if col not in sub.columns:
+    # One row per time_period → a dict getter over its granular fields.
+    row_by_tp = {int(tp): row for tp, row in zip(sub["time_period"], sub.to_dict("records"))}
+
+    trajectories: dict[str, dict[int, float]] = {slug: {} for slug in sector_crosswalk.CATEGORIES}
+    for tp, year in EMISSION_ANCHORS:
+        row = row_by_tp.get(tp)
+        if row is None:
             continue
-        by_tp = dict(zip(sub["time_period"], sub[col]))
-        series: dict[int, float] = {}
-        for tp, year in EMISSION_ANCHORS:
-            if tp in by_tp and pd.notna(by_tp[tp]):
-                series[year] = round(float(by_tp[tp]), 3)
-        trajectories[sector] = series
+        cats = sector_crosswalk.categories_from_fields(row.get)  # NaN-safe, COALESCE-like
+        for slug, val in cats.items():
+            trajectories[slug][year] = round(float(val), 3)
     return trajectories
 
 
@@ -455,9 +445,9 @@ def build_pathway_comparison(name_or_id) -> dict:
         "scenario": scenario,
         "baseline": baseline,
         "references": build_reference_bundle(),
-        # Corrects `entc`→"Forest Land - Removals" (biomass) on the stacked chart for
-        # real pathways only; the frontend merges these over SECTOR_META.
-        "sector_meta_overrides": PATHWAY_SECTOR_META_OVERRIDES,
+        # Full label/colour/order for the 23 categories (from the crosswalk sidecar);
+        # the frontend merges these over its built-in SECTOR_META.
+        "sector_meta_overrides": sector_crosswalk.SECTOR_META,
         **deltas,
     }
 

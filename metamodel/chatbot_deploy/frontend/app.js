@@ -704,7 +704,7 @@ function renderInlineChart(container, chartData) {
  */
 function renderEmissionsTimeseries(container, sectorComparison, opts = {}) {
   const view = opts.view || "both";
-  const YEARS = [2019, 2025, 2035, 2040, 2050, 2070];
+  const YEARS = [2019, 2025, 2035, 2040, 2050, 2060, 2070];
 
   const sumTraj = (trajectories) => {
     const t = trajectories || {};
@@ -737,22 +737,34 @@ function renderEmissionsTimeseries(container, sectorComparison, opts = {}) {
 // waste=brown/tan, agriculture/livestock=orange/peach, land/forest=green). This
 // deliberately overrides the Design Guide's sector palette for the emissions chart;
 // the cost-benefit chart keeps the guide's gold/slate palette.
+// 23 official inventory categories — source of truth: backend/sector_categories.json
+// (generated from the team's crosswalk + Tableau legend). The backend also delivers
+// these via `sector_meta_overrides` on every result bundle, which is merged OVER this
+// map — so this is the built-in fallback; keep the two in sync.
 const SECTOR_META = {
-  scoe:  { label: "Cooking & Buildings",       short: "Cooking/Bldgs",    color: "#4E7CB5" },  // blue
-  lndu:  { label: "Land Use",                  short: "Land Use",          color: "#72C266" },  // green
-  lvst:  { label: "Livestock",                 short: "Livestock",         color: "#F6CD97" },  // peach
-  trww:  { label: "Wastewater",                short: "Wastewater",        color: "#DAC6B4" },  // tan
-  trns:  { label: "Transportation",            short: "Transport",         color: "#8C8C8C" },  // grey
-  soil:  { label: "Soil",                      short: "Soil",              color: "#B5942E" },  // olive
-  waso:  { label: "Solid Waste",               short: "Solid Waste",       color: "#A97F5C" },  // brown
-  lsmm:  { label: "Manure Management",         short: "Manure Mgmt",       color: "#F6CBD1" },  // light pink
-  inen:  { label: "Industrial Energy",         short: "Ind. Energy",       color: "#9E82AC" },  // purple
-  ippu:  { label: "Industrial Processes",      short: "Ind. Processes",    color: "#DCC7E2" },  // lavender
-  entc:  { label: "Electricity Generation",    short: "Electricity",       color: "#EBCF57" },  // yellow
-  fgtv:  { label: "Fugitive Emissions",        short: "Fugitive",          color: "#E8726A" },  // coral red
-  agrc:  { label: "Agriculture",               short: "Agriculture",       color: "#F2A63C" },  // orange
-  ccsq:  { label: "Carbon Capture & Storage",  short: "CCS",               color: "#46A99E" },  // teal
-  frst:  { label: "Forestry (sequestration)",  short: "Forestry (seq.)",   color: "#3F8E47" },  // dark green
+  fugitive_emissions:                 { label: "Fugitive Emissions",              short: "Fugitive",          color: "#E15759" },
+  fuel_production:                    { label: "Fuel Production",                 short: "Fuel Production",   color: "#FF9DA7" },
+  electricity_and_heat_generation:    { label: "Electricity and Heat Generation", short: "Electricity",       color: "#EDC948" },
+  commercial:                         { label: "Commercial",                      short: "Commercial",        color: "#4E79A7" },
+  residential:                        { label: "Residential",                     short: "Residential",       color: "#A0CBE8" },
+  transportation:                     { label: "Transportation",                  short: "Transport",         color: "#79706E" },
+  industrial_combustion:              { label: "Industrial Combustion",           short: "Ind. Combustion",   color: "#B07AA1" },
+  ippu:                               { label: "IPPU",                            short: "IPPU",              color: "#D4A6C8" },
+  solid_waste:                        { label: "Solid Waste",                     short: "Solid Waste",       color: "#9D7660" },
+  wastewater_treatment:               { label: "Wastewater Treatment",            short: "Wastewater",        color: "#D7B5A6" },
+  agriculture_and_managed_soil:       { label: "Agriculture and Managed Soil",    short: "Agriculture",       color: "#F28E2B" },
+  livestock:                          { label: "Livestock",                       short: "Livestock",         color: "#FFBE7D" },
+  deforestation:                      { label: "Deforestation",                   short: "Deforestation",     color: "#C7E9B4" },
+  forest_land_removals:               { label: "Forest Land - Removals",          short: "Forest Removals",   color: "#A1D99B" },
+  forest_land_methane:                { label: "Forest Land Methane",             short: "Forest CH4",        color: "#74C476" },
+  other_land_use_conversion:          { label: "Other Land Use Conversion",       short: "Other Land Use",    color: "#4CAF50" },
+  other_not_estimated_conversion:     { label: "Other Not Estimated Conversion",  short: "Other Conversion",  color: "#41A845" },
+  other_not_estimated_sequestration:  { label: "Other Not Estimated Sequestration", short: "Other Seq.",      color: "#2E8B37" },
+  other_not_estimated_soils:          { label: "Other Not Estimated Soils",       short: "Other Soils",       color: "#237A2E" },
+  forest_land_sequestration:          { label: "Forest Land - Sequestration",     short: "Forest Seq.",       color: "#14602A" },
+  carbon_capture_industries:          { label: "Carbon Capture Industries",       short: "Carbon Capture",    color: "#F5921B" },
+  other_combustion:                   { label: "Other Combustion",                short: "Other Combustion",  color: "#B07AA1" },
+  wetlands:                           { label: "Wetlands",                        short: "Wetlands",          color: "#86BCDA" },
 };
 // Colours drawn from the team's Tableau emissions scale, but spread across
 // DISTINCT hues (blue, green, peach, tan, grey, olive, brown, pink, purple,
@@ -760,8 +772,11 @@ const SECTOR_META = {
 // read as the same colour — distinguishability is prioritised over exact
 // family-matching for the near-identical warm sectors.
 
-// Ordered for stacking — frst/ccsq last so they render below zero (sinks/removals)
-const SECTOR_STACK_ORDER = ["scoe","lndu","lvst","trww","trns","soil","waso","lsmm","inen","ippu","entc","fgtv","agrc","ccsq","frst"];
+// Stacking order = the team's legend order (from backend/sector_categories.json).
+const SECTOR_STACK_ORDER = ["fugitive_emissions","fuel_production","electricity_and_heat_generation","commercial","residential","transportation","industrial_combustion","ippu","solid_waste","wastewater_treatment","agriculture_and_managed_soil","livestock","deforestation","forest_land_removals","forest_land_methane","other_land_use_conversion","other_not_estimated_conversion","other_not_estimated_sequestration","other_not_estimated_soils","forest_land_sequestration","carbon_capture_industries","other_combustion","wetlands"];
+// Carbon-sink categories render in the "negative" stack (below zero). These are the
+// sequestration categories; everything else (incl. Forest Land - Removals, a +source) is positive.
+const SECTOR_NEGATIVE = new Set(["forest_land_sequestration","other_not_estimated_sequestration"]);
 
 /**
  * Render two side-by-side stacked area charts: BAU (left) and Policy Scenario (right).
@@ -832,7 +847,7 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
 
   // view: "both" (BAU + scenario panels) | "current" (BAU only) | "scenario" (scenario only)
   const view = opts.view || "both";
-  const YEARS = [2019, 2025, 2035, 2040, 2050, 2070];
+  const YEARS = [2019, 2025, 2035, 2040, 2050, 2060, 2070];
   const MUTED  = "#6E6455";
   const GRID   = "#F2EADD";
   const BORDER = "#E5D9C8";
@@ -842,9 +857,9 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
   const scenarioTrajectories = sectorComparison.scenario?.sector_trajectories || {};
   const bauTrajectories      = sectorComparison.baseline?.sector_trajectories || {};
 
-  // Per-result label/colour corrections (e.g. real pathways relabel `entc` →
-  // "Forest Land - Removals"); merged over the default SECTOR_META. Surrogate
-  // results send no overrides, so they keep the defaults.
+  // Per-result label/colour for the 23 inventory categories, sent by the backend
+  // on every bundle (surrogate + real pathways) and merged over the built-in
+  // SECTOR_META. Both flows now use the same categories, so no per-source relabel.
   const overrides = sectorComparison.sector_meta_overrides || {};
   const sectorMeta = sector =>
     ({ ...(SECTOR_META[sector] || { label: sector, color: "#888" }), ...(overrides[sector] || {}) });
@@ -864,7 +879,7 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
         fill:            true,
         tension:         0,
         order:           1,
-        stack:           sector === "frst" ? "negative" : "positive",
+        stack:           SECTOR_NEGATIVE.has(sector) ? "negative" : "positive",
         backgroundColor: meta.color + "D9",
         borderColor:     meta.color,
         borderWidth:     1,
@@ -930,7 +945,7 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
       let pos = 0;
       for (const s of SECTOR_STACK_ORDER) {
         const v = (traj[s] || {})[y] ?? 0;
-        if (s === "frst") negMin = Math.min(negMin, v);
+        if (SECTOR_NEGATIVE.has(s)) negMin = Math.min(negMin, v);
         else pos += v;
       }
       posMax = Math.max(posMax, pos);
