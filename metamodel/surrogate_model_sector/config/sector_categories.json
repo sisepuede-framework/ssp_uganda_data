@@ -1,0 +1,140 @@
+{
+  "agriculture_and_managed_soil": {
+    "display": "Agriculture and Managed Soil",
+    "lead_code": "agrc",
+    "lulucf": false,
+    "n_fields": 33
+  },
+  "carbon_capture_industries": {
+    "display": "Carbon Capture Industries",
+    "lead_code": "ccsq",
+    "lulucf": false,
+    "n_fields": 3
+  },
+  "commercial": {
+    "display": "Commercial",
+    "lead_code": "scoe",
+    "lulucf": false,
+    "n_fields": 3
+  },
+  "deforestation": {
+    "display": "Deforestation",
+    "lead_code": "lndu",
+    "lulucf": true,
+    "n_fields": 24
+  },
+  "electricity_and_heat_generation": {
+    "display": "Electricity and Heat Generation",
+    "lead_code": "entc",
+    "lulucf": false,
+    "n_fields": 41
+  },
+  "forest_land_removals": {
+    "display": "Forest Land - Removals",
+    "lead_code": "entc",
+    "lulucf": true,
+    "n_fields": 27
+  },
+  "forest_land_sequestration": {
+    "display": "Forest Land - Sequestration",
+    "lead_code": "frst",
+    "lulucf": true,
+    "n_fields": 3
+  },
+  "forest_land_methane": {
+    "display": "Forest Land Methane",
+    "lead_code": "frst",
+    "lulucf": true,
+    "n_fields": 3
+  },
+  "fuel_production": {
+    "display": "Fuel Production",
+    "lead_code": "entc",
+    "lulucf": false,
+    "n_fields": 33
+  },
+  "fugitive_emissions": {
+    "display": "Fugitive Emissions",
+    "lead_code": "fgtv",
+    "lulucf": false,
+    "n_fields": 36
+  },
+  "ippu": {
+    "display": "IPPU",
+    "lead_code": "ippu",
+    "lulucf": false,
+    "n_fields": 35
+  },
+  "industrial_combustion": {
+    "display": "Industrial Combustion",
+    "lead_code": "inen",
+    "lulucf": false,
+    "n_fields": 63
+  },
+  "livestock": {
+    "display": "Livestock",
+    "lead_code": "lvst",
+    "lulucf": false,
+    "n_fields": 31
+  },
+  "other_combustion": {
+    "display": "Other Combustion",
+    "lead_code": "scoe",
+    "lulucf": false,
+    "n_fields": 3
+  },
+  "other_land_use_conversion": {
+    "display": "Other Land Use Conversion",
+    "lead_code": "lndu",
+    "lulucf": true,
+    "n_fields": 56
+  },
+  "other_not_estimated_conversion": {
+    "display": "Other Not Estimated Conversion",
+    "lead_code": "soil",
+    "lulucf": true,
+    "n_fields": 1
+  },
+  "other_not_estimated_sequestration": {
+    "display": "Other Not Estimated Sequestration",
+    "lead_code": "lndu",
+    "lulucf": true,
+    "n_fields": 4
+  },
+  "other_not_estimated_soils": {
+    "display": "Other Not Estimated Soils",
+    "lead_code": "soil",
+    "lulucf": true,
+    "n_fields": 1
+  },
+  "residential": {
+    "display": "Residential",
+    "lead_code": "scoe",
+    "lulucf": false,
+    "n_fields": 3
+  },
+  "solid_waste": {
+    "display": "Solid Waste",
+    "lead_code": "waso",
+    "lulucf": false,
+    "n_fields": 38
+  },
+  "transportation": {
+    "display": "Transportation",
+    "lead_code": "trns",
+    "lulucf": false,
+    "n_fields": 30
+  },
+  "wastewater_treatment": {
+    "display": "Wastewater Treatment",
+    "lead_code": "trww",
+    "lulucf": false,
+    "n_fields": 30
+  },
+  "wetlands": {
+    "display": "Wetlands",
+    "lead_code": "lndu",
+    "lulucf": true,
+    "n_fields": 4
+  }
+}

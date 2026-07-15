@@ -20,14 +20,21 @@ with:
 
 | Block | Count | Columns |
 |---|---|---|
-| Emissions, by subsector × year | 75 | `emission_<sector>_yr<year>` (15 sectors × 5 years) |
-| Benefits | 80 | `benefit_<type>_yr<year>` (16 types × 5 years, positive) |
-| Costs | 15 | `cost_<type>_yr<year>` (3 types × 5 years, **negative — already signed**) |
-| GDP | 5 | `gdp_mmm_usd_yr<year>` |
-| **Targets total** | **175** | |
+| Emissions, by inventory category × year | 138 | `emission_<category>_yr<year>` (23 official categories × 6 years) |
+| Benefits | 96 | `benefit_<type>_yr<year>` (16 types × 6 years, positive) |
+| Costs | 18 | `cost_<type>_yr<year>` (3 types × 6 years, **negative — already signed**) |
+| GDP | 6 | `gdp_mmm_usd_yr<year>` |
+| **Targets total** | **258** | |
+
+> **Sector categories come from the team's official inventory crosswalk**
+> (`config/crosswalk_inventory_to_sisepuede_20260510.csv`), which re-aggregates the
+> ~620 granular `emission_co2e_*` fields into 23 named categories (e.g. "Forest Land -
+> Removals", "Electricity and Heat Generation"). `athena/gen_emissions_sql.py`
+> **generates** `emissions_and_gdp.sql` + `config/sector_categories.json` from it — do
+> not hand-edit the SQL; re-run the generator if the crosswalk changes.
 | Features | varies | `group_*` (the X exogenous uncertainties + L lever effects) |
 
-Target years: **2025, 2035, 2040, 2050, 2070** (SISEPUEDE `time_period` 10/20/25/35/55,
+Target years: **2025, 2035, 2040, 2050, 2060, 2070** (SISEPUEDE `time_period` 10/20/25/35/45/55,
 since `year = time_period + 2015`). `retrain_sector.py` splits features vs targets by
 the `group_` prefix, so no downstream code hardcodes the target count.
 
@@ -37,13 +44,16 @@ the `group_` prefix, so no downstream code hardcodes the target count.
 
 ```
                        S3 (run_database/<run>/)
-                       ├── model_output/region=uganda/...   (emissions + gdp inputs)
+                       ├── decomposed_emissions/region=uganda/...  (FINAL emissions)
+                       ├── model_output/region=uganda/...   (gdp inputs)
                        └── cb/region=uganda/...              (cost/benefit)
                                    │
             ┌──────────────────────┴───────────── Athena (server-side) ─────────┐
             │  emissions_and_gdp.sql          cost_benefit.sql                   │
-            │  (15 subsector totals +         (19 cost/benefit fields)           │
-            │   gdp = per_capita*pop/1e9)                                        │
+            │  (23 inventory categories       (19 cost/benefit fields)           │
+            │   summed from granular fields                                      │
+            │   in decomposed_emissions,                                         │
+            │   JOIN model_output for gdp)                                       │
             └──────────────────────┬─────────────────────────────────────────── ┘
                                    │  result CSVs -> s3://.../queries/<run>/
                                    ▼
@@ -54,12 +64,17 @@ the `group_` prefix, so no downstream code hardcodes the target count.
                                    training_data_sector_<run>.parquet
 ```
 
-**Why `model_output` and not `decomposed_emissions`:** we only need subsector-level
-emissions, and `model_output` already has `emission_co2e_subsector_total_<sector>`
-(15 sectors) *plus* the GDP inputs — so **one** query returns emissions + GDP from a
-single scan, with trivially simple SQL. (`decomposed_emissions` has 654 gas×process
-columns; summing them would be complex SQL and an extra scan, for the same subsector
-totals.) It's there if you ever want finer-grained targets.
+**Why `decomposed_emissions` for emissions, `model_output` for GDP:** the emissions in
+`model_output` are *pre*-post-processing. The **final** emissions are produced by a
+post-processing step and land in `decomposed_emissions`, which carries both the 15
+`emission_co2e_subsector_total_<sector>` columns **and** the ~620 granular
+`emission_co2e_*` fields. We sum the granular fields into the 23 official inventory
+categories (per the crosswalk) rather than using the raw subsector totals — the raw
+codes don't line up with the official pathways (e.g. Uganda's ~62 Mt biomass energy is
+"Forest Land - Removals", not "Electricity"). GDP is **not** in `decomposed_emissions`,
+so we still derive it from `model_output`'s per-capita GDP × population. The single
+`emissions_and_gdp.sql` therefore **joins** the two on `primary_id`+`time_period`
+(server-side); the pandas reshaping is unchanged (it's prefix-driven).
 
 **Why features in pandas, not Athena:** the LHC files live as single CSVs per prefix
 in `transfers/` (awkward to register as partitioned tables), and the final step is a
@@ -131,10 +146,12 @@ generated `CREATE EXTERNAL TABLE` statements before any Glue catalog object is c
 
 ## 6. The two queries
 
-- **`queries/emissions_and_gdp.sql`** — from `model_output`: the 15
-  `emission_co2e_subsector_total_*` columns + `gdp_mmm_usd` derived as
-  `gdp_per_capita_usd * population_gnrl_total / 1e9` (there is no direct GDP column).
-  Filtered to the 5 target `time_period`s.
+- **`queries/emissions_and_gdp.sql`** — *generated* by `gen_emissions_sql.py`; sums the
+  granular `emission_co2e_*` fields in `decomposed_emissions` into the 23 official
+  inventory categories (`emission_co2e_category_*`), **joined** to `model_output` on
+  `primary_id`+`time_period` for `gdp_mmm_usd`, derived as
+  `gdp_per_capita_usd * population_gnrl_total / 1e9` (there is no direct GDP column, and
+  GDP is not in `decomposed_emissions`). Filtered to the 6 target `time_period`s.
 - **`queries/cost_benefit.sql`** — from `cb`: the 17 original + 2 new
   (`ecosystem_services_grasslands/_wetlands`) cost/benefit fields, same year filter.
 
@@ -146,11 +163,13 @@ Hive partition, so the filter also **prunes the scan** to that region's files.
 ## 7. Cost
 
 Athena bills **$5/TB scanned**. CSV tables are **full-scan** (no columnar pruning),
-so each query reads the whole table even though we only keep a few columns. For the
-Uganda 100k run: `model_output` ≈ **103 GB** and `cb` ≈ **1.6 GB** → **≈ $0.55 per
-full build** (dominated by `model_output`, which we must scan because it is the only
-source of GDP inputs). `run_extracts.py` prints the bytes scanned + a `$` estimate per
-query, so there are no surprises.
+so each query reads the whole table even though we only keep a few columns. The
+`emissions_and_gdp.sql` JOIN now scans **both** `decomposed_emissions` (the final
+emissions) **and** `model_output` (still full-scanned for the GDP inputs), so the
+per-build cost is higher than the old single-table query — roughly the sum of both
+tables' sizes (`model_output` ≈ **103 GB** for the Uganda 100k run, plus
+`decomposed_emissions`, which is wide). `run_extracts.py` prints the bytes scanned + a
+`$` estimate per query, so there are no surprises.
 
 This is a **one-time** cost: the result CSVs are cached locally, so you only pay it
 again if you rebuild. If you expect to re-run repeatedly (or for many countries),
@@ -191,6 +210,6 @@ run adds/removes columns. The SQL is versioned here in git (it is **not** upload
 | `athena_client.py` | Thin boto3 wrappers: run/poll query, download result, sniff S3 headers. |
 | `ddl.py` | Generates `CREATE EXTERNAL TABLE` / `MSCK REPAIR` from a CSV header. |
 | `features.py` | Downloads LHC X/L + builds the `group_*` features (ports the notebook logic). |
-| `run_extracts.py` | Orchestrator: DDL gate → register tables → run queries → download. |
+| `run_extracts.py` | Orchestrator: DDL gate → register tables (`model_output`, `cb`, `decomposed_emissions`) → run queries → download. |
 | `assemble_training_data.py` | Reshape + merge → training parquet (+ upload shared copy). |
 | `queries/*.sql` | The two Athena queries (versioned here, not in S3). |
