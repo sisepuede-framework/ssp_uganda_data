@@ -121,8 +121,10 @@ def main() -> None:
                 "transformation_code": tcode,
                 "scale_min": 0.0,
                 "scale_max": 1.0,
-                "semantic_min": f"Baseline — no {name.lower()} action.",
-                "semantic_max": f"Maximum ambition — full deployment of: {name.lower()}.",
+                "semantic_min": f'No policy action (baseline): the "{name}" measure is not '
+                                f"pursued; the {sector} sector stays on its business-as-usual path.",
+                "semantic_max": f'Maximum ambition: "{name}" is deployed to its full technically '
+                                f"feasible extent by 2070.",
                 "policy_description": f"Policy lever ({sector}). 0 = no action, 1 = maximum "
                                      f"technically feasible deployment by 2070 ({tcode}).",
                 "aliases": _aliases(name, [sector]),
