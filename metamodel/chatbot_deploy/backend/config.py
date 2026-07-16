@@ -54,6 +54,12 @@ class Settings(BaseSettings):
     # order + aggregate-metric training distributions (for percentile/range).
     target_distributions_path: Path = _BACKEND_DIR / "target_distributions.json"
     feature_registry_path: Path = _BACKEND_DIR / "feature_registry.json"
+    # Root dir for the SISEPUEDE data CSVs (attributes, transformation maps,
+    # pathways) read from local disk by the variable-trajectory & pathways tools.
+    # For local dev this is the repo's data/ssp/ tree. In containers that tree
+    # isn't present, so assets are downloaded here at boot (see
+    # scripts/download_assets.py). Override with SSP_DATA_DIR=/app/data/ssp.
+    ssp_data_dir: Path = _METAMODEL_DIR / "data" / "ssp"
 
     # ── AWS / S3 ───────────────────────────────────────────────────────────
     # Key/secret are optional — leave blank to use the default credential chain

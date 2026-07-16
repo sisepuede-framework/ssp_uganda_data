@@ -11,19 +11,21 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# model.pkl is the sector pipeline (serves both the 11 aggregate metrics and the
-# 48 sector×year trajectories). Target metadata travels in
-# backend/target_distributions.json, copied with backend/ — no training parquet
-# is needed at runtime.
+# The model.pkl and the SISEPUEDE data CSVs are NOT baked into the image — they
+# are pulled from S3 at boot by entrypoint.sh (backend/scripts/download_assets.py)
+# to the paths below. Only code + small JSON sidecars ship in the image.
 COPY backend/  ./backend/
 COPY frontend/ ./frontend/
-COPY run.py model.pkl ./
+COPY run.py entrypoint.sh ./
+RUN chmod +x entrypoint.sh
 
 ENV HOST=0.0.0.0 \
     PORT=8080 \
     RELOAD=false \
-    MODEL_SECTOR_PATH=/app/model.pkl
+    MODEL_SECTOR_PATH=/app/model.pkl \
+    SSP_DATA_DIR=/app/data/ssp
 
 EXPOSE 8080
 
-CMD ["uvicorn", "backend.app:app", "--host", "0.0.0.0", "--port", "8080"]
+# entrypoint.sh downloads assets from S3, then execs uvicorn on $PORT.
+CMD ["./entrypoint.sh"]

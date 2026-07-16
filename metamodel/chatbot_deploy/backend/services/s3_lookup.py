@@ -57,7 +57,8 @@ _METAMODEL_DIR = _BACKEND_DIR.parent.parent   # .../metamodel/
 # but S3 (and local data/) uses "sisepuede_run_2025-11-12t22;19;28.194097".
 _S3_RUN_KEY: str = settings.s3_run_id.lower().replace(":", ";")
 
-_SSP_DIR = _METAMODEL_DIR / "data" / "ssp"        # parent of the per-run dir
+_SSP_DIR = settings.ssp_data_dir                  # parent of the per-run dir
+                                                  # (env-overridable: SSP_DATA_DIR)
 _LOCAL_DATA_DIR = _SSP_DIR / _S3_RUN_KEY
 _LHS_CSV_LOCAL = _LOCAL_DATA_DIR / "ATTRIBUTE_LHC_SAMPLES_LEVER_EFFECTS.csv"
 _ATTR_PRIMARY_LOCAL = _LOCAL_DATA_DIR / "ATTRIBUTE_PRIMARY.csv"
