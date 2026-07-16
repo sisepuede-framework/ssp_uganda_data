@@ -37,7 +37,7 @@ from backend.services.predictor import get_sector_predictor
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
 logger = logging.getLogger(__name__)
 
-_LOG_FILE = Path(__file__).parent.parent / "logs" / "interactions.jsonl"
+_LOG_FILE = settings.log_dir / "interactions.jsonl"
 
 
 def _log_interaction(user_message: str, result: dict, latency: float) -> None:
@@ -70,7 +70,7 @@ def _log_interaction(user_message: str, result: dict, latency: float) -> None:
         "latency_s": round(latency, 2),
     }
     try:
-        _LOG_FILE.parent.mkdir(exist_ok=True)
+        _LOG_FILE.parent.mkdir(parents=True, exist_ok=True)
         with open(_LOG_FILE, "a") as fh:
             fh.write(json.dumps(record) + "\n")
     except Exception as exc:

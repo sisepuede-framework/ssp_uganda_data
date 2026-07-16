@@ -23,7 +23,10 @@ ENV HOST=0.0.0.0 \
     PORT=8080 \
     RELOAD=false \
     MODEL_SECTOR_PATH=/app/model.pkl \
-    SSP_DATA_DIR=/app/data/ssp
+    SSP_DATA_DIR=/app/data/ssp \
+    LOG_DIR=/app/logs
+# Mount a Railway persistent Volume at LOG_DIR so interactions.jsonl survives
+# restarts/redeploys (the container filesystem is otherwise ephemeral).
 
 EXPOSE 8080
 

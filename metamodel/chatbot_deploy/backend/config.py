@@ -81,6 +81,12 @@ class Settings(BaseSettings):
     port: int = 8000
     reload: bool = True
 
+    # Directory for interaction logs (interactions.jsonl). Defaults to the repo's
+    # logs/ for local dev. In containers the filesystem is ephemeral, so mount a
+    # persistent volume and point here to keep logs across restarts/redeploys:
+    #   LOG_DIR=/app/logs   (or /data, wherever the volume is mounted)
+    log_dir: Path = _BACKEND_DIR.parent / "logs"
+
     # ── CORS ───────────────────────────────────────────────────────────────
     # Origins allowed to call the API. In development, the frontend is served
     # from the same origin (via FastAPI static files), so this is permissive.
