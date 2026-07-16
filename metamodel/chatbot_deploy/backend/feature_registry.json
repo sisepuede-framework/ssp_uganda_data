@@ -23,9 +23,6 @@
     "ch4",
     "rice",
     "agriculture"
-   ],
-   "variables": [
-    ":math:\\text{CH}_4 Crop Anaerobic Decomposition Emission Factor"
    ]
   },
   "2": {
@@ -45,9 +42,6 @@
     "supply",
     "chain",
     "agriculture"
-   ],
-   "variables": [
-    "Fraction of Food Produced Lost Before Consumption"
    ]
   },
   "3": {
@@ -65,16 +59,6 @@
     "increase",
     "conservation",
     "agriculture"
-   ],
-   "variables": [
-    "Fraction of Residues Burned",
-    "Fraction of Residues Removed",
-    "No Till Crop Fraction",
-    "No Till Crop Fraction",
-    "No Till Crop Fraction",
-    "No Till Crop Fraction",
-    "No Till Crop Fraction",
-    "No Till Crop Fraction"
    ]
   },
   "4": {
@@ -92,21 +76,6 @@
     "increase",
     "productivity",
     "agriculture"
-   ],
-   "variables": [
-    "Crop Yield Factor",
-    "Crop Yield Factor",
-    "Crop Yield Factor",
-    "Crop Yield Factor",
-    "Crop Yield Factor",
-    "Crop Yield Factor",
-    "Crop Yield Factor",
-    "Crop Yield Factor",
-    "Crop Yield Factor",
-    "Crop Yield Factor",
-    "Crop Yield Factor",
-    "Crop Yield Factor",
-    "Crop Yield Factor"
    ]
   },
   "5": {
@@ -124,9 +93,6 @@
     "reduce",
     "losses",
     "electricity"
-   ],
-   "variables": [
-    "Electrical Transmission Loss Fraction"
    ]
   },
   "6": {
@@ -145,9 +111,6 @@
     "clean",
     "hydrogen",
     "electricity"
-   ],
-   "variables": [
-    "NemoMod MinShareProduction"
    ]
   },
   "7": {
@@ -166,21 +129,6 @@
     "renewable",
     "elec",
     "electricity"
-   ],
-   "variables": [
-    "NemoMod REMinProductionTarget",
-    "NemoMod MinShareProduction",
-    "NemoMod MinShareProduction",
-    "NemoMod MinShareProduction",
-    "NemoMod MinShareProduction",
-    "NemoMod MinShareProduction",
-    "NemoMod MinShareProduction",
-    "NemoMod MinShareProduction",
-    "NemoMod MinShareProduction",
-    "NemoMod RETagTechnology",
-    "NemoMod RETagTechnology",
-    "NemoMod RETagTechnology",
-    "NemoMod RETagTechnology"
    ]
   },
   "8": {
@@ -198,10 +146,6 @@
     "reduce",
     "leaks",
     "fugitive emissions"
-   ],
-   "variables": [
-    "Reduction in Fugitive Leaks",
-    ":math:\\text{CH}_4 Fuel Production NemoMod EmissionsActivityRatio"
    ]
   },
   "9": {
@@ -219,9 +163,6 @@
     "increase",
     "sequestration",
     "forestry"
-   ],
-   "variables": [
-    "Forest Sequestration Emission Factor"
    ]
   },
   "10": {
@@ -240,21 +181,6 @@
     "efficiency",
     "energy",
     "industrial energy"
-   ],
-   "variables": [
-    "Average Industrial Energy Fuel Efficiency Factor",
-    "Average Industrial Energy Fuel Efficiency Factor",
-    "Average Industrial Energy Fuel Efficiency Factor",
-    "Average Industrial Energy Fuel Efficiency Factor",
-    "Average Industrial Energy Fuel Efficiency Factor",
-    "Average Industrial Energy Fuel Efficiency Factor",
-    "Average Industrial Energy Fuel Efficiency Factor",
-    "Average Industrial Energy Fuel Efficiency Factor",
-    "Average Industrial Energy Fuel Efficiency Factor",
-    "Average Industrial Energy Fuel Efficiency Factor",
-    "Average Industrial Energy Fuel Efficiency Factor",
-    "Average Industrial Energy Fuel Efficiency Factor",
-    "Average Industrial Energy Fuel Efficiency Factor"
    ]
   },
   "11": {
@@ -273,194 +199,6 @@
     "fuel",
     "heat",
     "industrial energy"
-   ],
-   "variables": [
-    "Industrial Energy Fuel Fraction Diesel",
-    "Industrial Energy Fuel Fraction Electricity",
-    "Industrial Energy Fuel Fraction Furnace Gas",
-    "Industrial Energy Fuel Fraction Gasoline",
-    "Industrial Energy Fuel Fraction Kerosene",
-    "Industrial Energy Fuel Fraction Natural Gas",
-    "Industrial Energy Fuel Fraction Oil",
-    "Industrial Energy Fuel Fraction Solid Biomass",
-    "Industrial Energy Fuel Fraction Coal",
-    "Industrial Energy Fuel Fraction Coke",
-    "Industrial Energy Fuel Fraction Diesel",
-    "Industrial Energy Fuel Fraction Electricity",
-    "Industrial Energy Fuel Fraction Furnace Gas",
-    "Industrial Energy Fuel Fraction Gasoline",
-    "Industrial Energy Fuel Fraction Hydrogen",
-    "Industrial Energy Fuel Fraction Kerosene",
-    "Industrial Energy Fuel Fraction Natural Gas",
-    "Industrial Energy Fuel Fraction Oil",
-    "Industrial Energy Fuel Fraction Solid Biomass",
-    "Industrial Energy Fuel Fraction Coal",
-    "Industrial Energy Fuel Fraction Coke",
-    "Industrial Energy Fuel Fraction Diesel",
-    "Industrial Energy Fuel Fraction Electricity",
-    "Industrial Energy Fuel Fraction Furnace Gas",
-    "Industrial Energy Fuel Fraction Gasoline",
-    "Industrial Energy Fuel Fraction Hydrogen",
-    "Industrial Energy Fuel Fraction Kerosene",
-    "Industrial Energy Fuel Fraction Natural Gas",
-    "Industrial Energy Fuel Fraction Oil",
-    "Industrial Energy Fuel Fraction Solid Biomass",
-    "Industrial Energy Fuel Fraction Coal",
-    "Industrial Energy Fuel Fraction Coke",
-    "Industrial Energy Fuel Fraction Diesel",
-    "Industrial Energy Fuel Fraction Electricity",
-    "Industrial Energy Fuel Fraction Furnace Gas",
-    "Industrial Energy Fuel Fraction Gasoline",
-    "Industrial Energy Fuel Fraction Kerosene",
-    "Industrial Energy Fuel Fraction Natural Gas",
-    "Industrial Energy Fuel Fraction Oil",
-    "Industrial Energy Fuel Fraction Solar",
-    "Industrial Energy Fuel Fraction Solid Biomass",
-    "Industrial Energy Fuel Fraction Coal",
-    "Industrial Energy Fuel Fraction Coke",
-    "Industrial Energy Fuel Fraction Diesel",
-    "Industrial Energy Fuel Fraction Electricity",
-    "Industrial Energy Fuel Fraction Furnace Gas",
-    "Industrial Energy Fuel Fraction Gasoline",
-    "Industrial Energy Fuel Fraction Hydrocarbon Gas Liquids",
-    "Industrial Energy Fuel Fraction Hydrogen",
-    "Industrial Energy Fuel Fraction Kerosene",
-    "Industrial Energy Fuel Fraction Natural Gas",
-    "Industrial Energy Fuel Fraction Oil",
-    "Industrial Energy Fuel Fraction Solid Biomass",
-    "Industrial Energy Fuel Fraction Coal",
-    "Industrial Energy Fuel Fraction Coke",
-    "Industrial Energy Fuel Fraction Diesel",
-    "Industrial Energy Fuel Fraction Electricity",
-    "Industrial Energy Fuel Fraction Furnace Gas",
-    "Industrial Energy Fuel Fraction Gasoline",
-    "Industrial Energy Fuel Fraction Hydrocarbon Gas Liquids",
-    "Industrial Energy Fuel Fraction Hydrogen",
-    "Industrial Energy Fuel Fraction Kerosene",
-    "Industrial Energy Fuel Fraction Natural Gas",
-    "Industrial Energy Fuel Fraction Oil",
-    "Industrial Energy Fuel Fraction Solid Biomass",
-    "Industrial Energy Fuel Fraction Coke",
-    "Industrial Energy Fuel Fraction Electricity",
-    "Industrial Energy Fuel Fraction Hydrogen",
-    "Industrial Energy Fuel Fraction Coal",
-    "Industrial Energy Fuel Fraction Coke",
-    "Industrial Energy Fuel Fraction Diesel",
-    "Industrial Energy Fuel Fraction Electricity",
-    "Industrial Energy Fuel Fraction Gasoline",
-    "Industrial Energy Fuel Fraction Hydrocarbon Gas Liquids",
-    "Industrial Energy Fuel Fraction Kerosene",
-    "Industrial Energy Fuel Fraction Natural Gas",
-    "Industrial Energy Fuel Fraction Oil",
-    "Industrial Energy Fuel Fraction Solid Biomass",
-    "Industrial Energy Fuel Fraction Coal",
-    "Industrial Energy Fuel Fraction Coke",
-    "Industrial Energy Fuel Fraction Diesel",
-    "Industrial Energy Fuel Fraction Electricity",
-    "Industrial Energy Fuel Fraction Furnace Gas",
-    "Industrial Energy Fuel Fraction Gasoline",
-    "Industrial Energy Fuel Fraction Kerosene",
-    "Industrial Energy Fuel Fraction Natural Gas",
-    "Industrial Energy Fuel Fraction Oil",
-    "Industrial Energy Fuel Fraction Solid Biomass",
-    "Industrial Energy Fuel Fraction Electricity",
-    "Industrial Energy Fuel Fraction Furnace Gas",
-    "Industrial Energy Fuel Fraction Hydrogen",
-    "Industrial Energy Fuel Fraction Solar",
-    "Industrial Energy Fuel Fraction Solid Biomass",
-    "Industrial Energy Fuel Fraction Coal",
-    "Industrial Energy Fuel Fraction Coke",
-    "Industrial Energy Fuel Fraction Diesel",
-    "Industrial Energy Fuel Fraction Electricity",
-    "Industrial Energy Fuel Fraction Furnace Gas",
-    "Industrial Energy Fuel Fraction Gasoline",
-    "Industrial Energy Fuel Fraction Kerosene",
-    "Industrial Energy Fuel Fraction Natural Gas",
-    "Industrial Energy Fuel Fraction Oil",
-    "Industrial Energy Fuel Fraction Solar",
-    "Industrial Energy Fuel Fraction Solid Biomass",
-    "Industrial Energy Fuel Fraction Coal",
-    "Industrial Energy Fuel Fraction Coke",
-    "Industrial Energy Fuel Fraction Diesel",
-    "Industrial Energy Fuel Fraction Electricity",
-    "Industrial Energy Fuel Fraction Furnace Gas",
-    "Industrial Energy Fuel Fraction Gasoline",
-    "Industrial Energy Fuel Fraction Kerosene",
-    "Industrial Energy Fuel Fraction Natural Gas",
-    "Industrial Energy Fuel Fraction Oil",
-    "Industrial Energy Fuel Fraction Solid Biomass",
-    "Industrial Energy Fuel Fraction Coal",
-    "Industrial Energy Fuel Fraction Coke",
-    "Industrial Energy Fuel Fraction Diesel",
-    "Industrial Energy Fuel Fraction Electricity",
-    "Industrial Energy Fuel Fraction Furnace Gas",
-    "Industrial Energy Fuel Fraction Gasoline",
-    "Industrial Energy Fuel Fraction Kerosene",
-    "Industrial Energy Fuel Fraction Natural Gas",
-    "Industrial Energy Fuel Fraction Oil",
-    "Industrial Energy Fuel Fraction Solar",
-    "Industrial Energy Fuel Fraction Solid Biomass",
-    "Industrial Energy Fuel Fraction Electricity",
-    "Industrial Energy Fuel Fraction Furnace Gas",
-    "Industrial Energy Fuel Fraction Solar",
-    "Industrial Energy Fuel Fraction Solid Biomass",
-    "Industrial Energy Fuel Fraction Coal",
-    "Industrial Energy Fuel Fraction Coke",
-    "Industrial Energy Fuel Fraction Diesel",
-    "Industrial Energy Fuel Fraction Electricity",
-    "Industrial Energy Fuel Fraction Furnace Gas",
-    "Industrial Energy Fuel Fraction Gasoline",
-    "Industrial Energy Fuel Fraction Kerosene",
-    "Industrial Energy Fuel Fraction Natural Gas",
-    "Industrial Energy Fuel Fraction Oil",
-    "Industrial Energy Fuel Fraction Solar",
-    "Industrial Energy Fuel Fraction Solid Biomass",
-    "Industrial Energy Fuel Fraction Coal",
-    "Industrial Energy Fuel Fraction Coke",
-    "Industrial Energy Fuel Fraction Diesel",
-    "Industrial Energy Fuel Fraction Electricity",
-    "Industrial Energy Fuel Fraction Furnace Gas",
-    "Industrial Energy Fuel Fraction Gasoline",
-    "Industrial Energy Fuel Fraction Kerosene",
-    "Industrial Energy Fuel Fraction Oil",
-    "Industrial Energy Fuel Fraction Solar",
-    "Industrial Energy Fuel Fraction Solid Biomass",
-    "Industrial Energy Fuel Fraction Coal",
-    "Industrial Energy Fuel Fraction Coke",
-    "Industrial Energy Fuel Fraction Diesel",
-    "Industrial Energy Fuel Fraction Electricity",
-    "Industrial Energy Fuel Fraction Furnace Gas",
-    "Industrial Energy Fuel Fraction Gasoline",
-    "Industrial Energy Fuel Fraction Kerosene",
-    "Industrial Energy Fuel Fraction Oil",
-    "Industrial Energy Fuel Fraction Solar",
-    "Industrial Energy Fuel Fraction Solid Biomass",
-    "Industrial Energy Fuel Fraction Electricity",
-    "Industrial Energy Fuel Fraction Furnace Gas",
-    "Industrial Energy Fuel Fraction Solid Biomass",
-    "Industrial Energy Fuel Fraction Coal",
-    "Industrial Energy Fuel Fraction Coke",
-    "Industrial Energy Fuel Fraction Diesel",
-    "Industrial Energy Fuel Fraction Electricity",
-    "Industrial Energy Fuel Fraction Furnace Gas",
-    "Industrial Energy Fuel Fraction Gasoline",
-    "Industrial Energy Fuel Fraction Kerosene",
-    "Industrial Energy Fuel Fraction Oil",
-    "Industrial Energy Fuel Fraction Solar",
-    "Industrial Energy Fuel Fraction Solid Biomass",
-    "Industrial Energy Fuel Fraction Coal",
-    "Industrial Energy Fuel Fraction Coke",
-    "Industrial Energy Fuel Fraction Diesel",
-    "Industrial Energy Fuel Fraction Electricity",
-    "Industrial Energy Fuel Fraction Furnace Gas",
-    "Industrial Energy Fuel Fraction Gasoline",
-    "Industrial Energy Fuel Fraction Kerosene",
-    "Industrial Energy Fuel Fraction Oil",
-    "Industrial Energy Fuel Fraction Solar",
-    "Industrial Energy Fuel Fraction Solid Biomass",
-    "Industrial Energy Fuel Fraction Electricity",
-    "Industrial Energy Fuel Fraction Furnace Gas",
-    "Industrial Energy Fuel Fraction Solid Biomass"
    ]
   },
   "12": {
@@ -478,9 +216,6 @@
     "reduce",
     "clinker",
     "industrial processes"
-   ],
-   "variables": [
-    "Clinker Fraction of Cement"
    ]
   },
   "13": {
@@ -498,11 +233,6 @@
     "reduce",
     "n2o",
     "industrial processes"
-   ],
-   "variables": [
-    ":math:\\text{N}_2\\text{O} GDP Production Process Emission Factor",
-    ":math:\\text{N}_2\\text{O} Production Process Emission Factor",
-    ":math:\\text{N}_2\\text{O} Production Process Emission Factor"
    ]
   },
   "14": {
@@ -520,10 +250,6 @@
     "reduce",
     "pfcs",
     "industrial processes"
-   ],
-   "variables": [
-    "PFC-1114 Production Process Emission Factor",
-    "PFC-C-1418 Production Process Emission Factor"
    ]
   },
   "15": {
@@ -541,87 +267,6 @@
     "reduce",
     "deforestation",
     "land use"
-   ],
-   "variables": [
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability",
-    "Unadjusted Land Use Transition Probability"
    ]
   },
   "16": {
@@ -639,9 +284,6 @@
     "increase",
     "silvopasture",
     "land use"
-   ],
-   "variables": [
-    "Land Use Biomass Sequestration Factor"
    ]
   },
   "17": {
@@ -661,9 +303,6 @@
     "secondary",
     "max",
     "land use"
-   ],
-   "variables": [
-    "Maximum Area"
    ]
   },
   "18": {
@@ -682,9 +321,6 @@
     "wetlands",
     "minimum",
     "land use"
-   ],
-   "variables": [
-    "Minimum Area"
    ]
   },
   "19": {
@@ -703,10 +339,6 @@
     "capture",
     "biogas",
     "livestock manure management"
-   ],
-   "variables": [
-    "Biogas Recovery Factor at LSMM Anaerobic Facilities",
-    "Biogas Recovery Factor at LSMM Anaerobic Facilities"
    ]
   },
   "20": {
@@ -726,30 +358,6 @@
     "cattle",
     "pigs",
     "livestock manure management"
-   ],
-   "variables": [
-    "Livestock Manure Management Fraction Anaerobic Digester",
-    "Livestock Manure Management Fraction Composting",
-    "Livestock Manure Management Fraction Daily Spread",
-    "Livestock Manure Management Fraction Dry Lot",
-    "Livestock Manure Management Fraction Incineration",
-    "Livestock Manure Management Fraction Paddock Pasture Range",
-    "Livestock Manure Management Fraction Solid Storage",
-    "Livestock Manure Management Fraction Anaerobic Digester",
-    "Livestock Manure Management Fraction Composting",
-    "Livestock Manure Management Fraction Daily Spread",
-    "Livestock Manure Management Fraction Dry Lot",
-    "Livestock Manure Management Fraction Incineration",
-    "Livestock Manure Management Fraction Paddock Pasture Range",
-    "Livestock Manure Management Fraction Solid Storage",
-    "Livestock Manure Management Fraction Anaerobic Digester",
-    "Livestock Manure Management Fraction Anaerobic Lagoon",
-    "Livestock Manure Management Fraction Composting",
-    "Livestock Manure Management Fraction Daily Spread",
-    "Livestock Manure Management Fraction Dry Lot",
-    "Livestock Manure Management Fraction Liquid Slurry",
-    "Livestock Manure Management Fraction Paddock Pasture Range",
-    "Livestock Manure Management Fraction Solid Storage"
    ]
   },
   "21": {
@@ -768,41 +376,6 @@
     "management",
     "other",
     "livestock manure management"
-   ],
-   "variables": [
-    "Livestock Manure Management Fraction Anaerobic Digester",
-    "Livestock Manure Management Fraction Composting",
-    "Livestock Manure Management Fraction Daily Spread",
-    "Livestock Manure Management Fraction Dry Lot",
-    "Livestock Manure Management Fraction Incineration",
-    "Livestock Manure Management Fraction Paddock Pasture Range",
-    "Livestock Manure Management Fraction Solid Storage",
-    "Livestock Manure Management Fraction Anaerobic Digester",
-    "Livestock Manure Management Fraction Composting",
-    "Livestock Manure Management Fraction Daily Spread",
-    "Livestock Manure Management Fraction Dry Lot",
-    "Livestock Manure Management Fraction Paddock Pasture Range",
-    "Livestock Manure Management Fraction Solid Storage",
-    "Livestock Manure Management Fraction Anaerobic Digester",
-    "Livestock Manure Management Fraction Composting",
-    "Livestock Manure Management Fraction Daily Spread",
-    "Livestock Manure Management Fraction Dry Lot",
-    "Livestock Manure Management Fraction Incineration",
-    "Livestock Manure Management Fraction Paddock Pasture Range",
-    "Livestock Manure Management Fraction Solid Storage",
-    "Livestock Manure Management Fraction Anaerobic Digester",
-    "Livestock Manure Management Fraction Composting",
-    "Livestock Manure Management Fraction Daily Spread",
-    "Livestock Manure Management Fraction Dry Lot",
-    "Livestock Manure Management Fraction Incineration",
-    "Livestock Manure Management Fraction Paddock Pasture Range",
-    "Livestock Manure Management Fraction Solid Storage",
-    "Livestock Manure Management Fraction Anaerobic Digester",
-    "Livestock Manure Management Fraction Composting",
-    "Livestock Manure Management Fraction Daily Spread",
-    "Livestock Manure Management Fraction Dry Lot",
-    "Livestock Manure Management Fraction Paddock Pasture Range",
-    "Livestock Manure Management Fraction Solid Storage"
    ]
   },
   "22": {
@@ -821,13 +394,6 @@
     "management",
     "poultry",
     "livestock manure management"
-   ],
-   "variables": [
-    "Livestock Manure Management Fraction Anaerobic Digester",
-    "Livestock Manure Management Fraction Daily Spread",
-    "Livestock Manure Management Fraction Liquid Slurry",
-    "Livestock Manure Management Fraction Paddock Pasture Range",
-    "Livestock Manure Management Fraction Poultry Manure"
    ]
   },
   "23": {
@@ -846,12 +412,6 @@
     "enteric",
     "fermentation",
     "livestock"
-   ],
-   "variables": [
-    ":math:\\text{CH}_4 Enteric Fermentation Emission Factor",
-    ":math:\\text{CH}_4 Enteric Fermentation Emission Factor",
-    ":math:\\text{CH}_4 Enteric Fermentation Emission Factor",
-    ":math:\\text{CH}_4 Enteric Fermentation Emission Factor"
    ]
   },
   "24": {
@@ -869,9 +429,6 @@
     "increase",
     "productivity",
     "livestock"
-   ],
-   "variables": [
-    "Carrying Capacity Scalar"
    ]
   },
   "25": {
@@ -890,9 +447,6 @@
     "healthier",
     "diets",
     "cross-sector"
-   ],
-   "variables": [
-    "Fraction Eating Red Meat"
    ]
   },
   "26": {
@@ -911,12 +465,6 @@
     "ind",
     "ccs",
     "cross-sector"
-   ],
-   "variables": [
-    "Industrial :math:\\text{CO}_2 Capture Prevalence",
-    "Industrial :math:\\text{CO}_2 Capture Prevalence",
-    "Industrial :math:\\text{CO}_2 Capture Prevalence",
-    "Industrial :math:\\text{CO}_2 Capture Prevalence"
    ]
   },
   "27": {
@@ -935,11 +483,6 @@
     "demand",
     "heat",
     "buildings & other combustion"
-   ],
-   "variables": [
-    "SCOE Heat Energy Demand Scalar",
-    "SCOE Heat Energy Demand Scalar",
-    "SCOE Heat Energy Demand Scalar"
    ]
   },
   "28": {
@@ -958,11 +501,6 @@
     "efficiency",
     "appliance",
     "buildings & other combustion"
-   ],
-   "variables": [
-    "SCOE Appliance Energy Demand Scalar",
-    "SCOE Appliance Energy Demand Scalar",
-    "SCOE Appliance Energy Demand Scalar"
    ]
   },
   "29": {
@@ -981,11 +519,6 @@
     "efficiency",
     "heat",
     "buildings & other combustion"
-   ],
-   "variables": [
-    "SCOE Efficiency Factor for Heat Energy from Solid Biomass",
-    "SCOE Efficiency Factor for Heat Energy from Solid Biomass",
-    "SCOE Efficiency Factor for Heat Energy from Solid Biomass"
    ]
   },
   "30": {
@@ -1004,18 +537,6 @@
     "fuel",
     "heat",
     "buildings & other combustion"
-   ],
-   "variables": [
-    "SCOE Fraction Heat Energy Demand Electricity",
-    "SCOE Fraction Heat Energy Demand Hydrocarbon Gas Liquids",
-    "SCOE Fraction Heat Energy Demand Solid Biomass",
-    "SCOE Fraction Heat Energy Demand Electricity",
-    "SCOE Fraction Heat Energy Demand Hydrocarbon Gas Liquids",
-    "SCOE Fraction Heat Energy Demand Solid Biomass",
-    "SCOE Fraction Heat Energy Demand Electricity",
-    "SCOE Fraction Heat Energy Demand Hydrocarbon Gas Liquids",
-    "SCOE Fraction Heat Energy Demand Kerosene",
-    "SCOE Fraction Heat Energy Demand Solid Biomass"
    ]
   },
   "31": {
@@ -1033,11 +554,6 @@
     "reduce",
     "demand",
     "transport demand"
-   ],
-   "variables": [
-    "Transportation Demand Scalar",
-    "Transportation Demand Scalar",
-    "Transportation Demand Scalar"
    ]
   },
   "32": {
@@ -1056,17 +572,6 @@
     "efficiency",
     "electric",
     "transportation"
-   ],
-   "variables": [
-    "Electrical Vehicle Efficiency",
-    "Electrical Vehicle Efficiency",
-    "Electrical Vehicle Efficiency",
-    "Electrical Vehicle Efficiency",
-    "Electrical Vehicle Efficiency",
-    "Electrical Vehicle Efficiency",
-    "Electrical Vehicle Efficiency",
-    "Electrical Vehicle Efficiency",
-    "Electrical Vehicle Efficiency"
    ]
   },
   "33": {
@@ -1086,44 +591,6 @@
     "non",
     "electric",
     "transportation"
-   ],
-   "variables": [
-    "Fuel Efficiency Hydrogen",
-    "Fuel Efficiency Kerosene",
-    "Fuel Efficiency Gasoline",
-    "Fuel Efficiency Biofuels",
-    "Fuel Efficiency Diesel",
-    "Fuel Efficiency Gasoline",
-    "Fuel Efficiency Hydrocarbon Gas Liquids",
-    "Fuel Efficiency Hydrogen",
-    "Fuel Efficiency Natural Gas",
-    "Fuel Efficiency Diesel",
-    "Fuel Efficiency Hydrogen",
-    "Fuel Efficiency Natural Gas",
-    "Fuel Efficiency Diesel",
-    "Fuel Efficiency Hydrogen",
-    "Fuel Efficiency Natural Gas",
-    "Fuel Efficiency Biofuels",
-    "Fuel Efficiency Diesel",
-    "Fuel Efficiency Gasoline",
-    "Fuel Efficiency Hydrocarbon Gas Liquids",
-    "Fuel Efficiency Hydrogen",
-    "Fuel Efficiency Natural Gas",
-    "Fuel Efficiency Biofuels",
-    "Fuel Efficiency Diesel",
-    "Fuel Efficiency Gasoline",
-    "Fuel Efficiency Hydrocarbon Gas Liquids",
-    "Fuel Efficiency Hydrogen",
-    "Fuel Efficiency Natural Gas",
-    "Fuel Efficiency Biofuels",
-    "Fuel Efficiency Diesel",
-    "Fuel Efficiency Gasoline",
-    "Fuel Efficiency Hydrocarbon Gas Liquids",
-    "Fuel Efficiency Hydrogen",
-    "Fuel Efficiency Natural Gas",
-    "Fuel Efficiency Diesel",
-    "Fuel Efficiency Hydrogen",
-    "Fuel Efficiency Natural Gas"
    ]
   },
   "34": {
@@ -1143,9 +610,6 @@
     "light",
     "duty",
     "transportation"
-   ],
-   "variables": [
-    "Average Passenger Vehicle Occupancy Rate"
    ]
   },
   "35": {
@@ -1165,12 +629,6 @@
     "light",
     "duty",
     "transportation"
-   ],
-   "variables": [
-    "Transportation Mode Fuel Fraction Biofuels",
-    "Transportation Mode Fuel Fraction Diesel",
-    "Transportation Mode Fuel Fraction Electricity",
-    "Transportation Mode Fuel Fraction Gasoline"
    ]
   },
   "36": {
@@ -1189,11 +647,6 @@
     "fuel",
     "maritime",
     "transportation"
-   ],
-   "variables": [
-    "Transportation Mode Fuel Fraction Electricity",
-    "Transportation Mode Fuel Fraction Gasoline",
-    "Transportation Mode Fuel Fraction Hydrogen"
    ]
   },
   "37": {
@@ -1213,23 +666,6 @@
     "medium",
     "duty",
     "transportation"
-   ],
-   "variables": [
-    "Transportation Mode Fuel Fraction Biofuels",
-    "Transportation Mode Fuel Fraction Diesel",
-    "Transportation Mode Fuel Fraction Electricity",
-    "Transportation Mode Fuel Fraction Gasoline",
-    "Transportation Mode Fuel Fraction Hydrogen",
-    "Transportation Mode Fuel Fraction Biofuels",
-    "Transportation Mode Fuel Fraction Diesel",
-    "Transportation Mode Fuel Fraction Electricity",
-    "Transportation Mode Fuel Fraction Gasoline",
-    "Transportation Mode Fuel Fraction Hydrogen",
-    "Transportation Mode Fuel Fraction Biofuels",
-    "Transportation Mode Fuel Fraction Diesel",
-    "Transportation Mode Fuel Fraction Electricity",
-    "Transportation Mode Fuel Fraction Gasoline",
-    "Transportation Mode Fuel Fraction Hydrogen"
    ]
   },
   "38": {
@@ -1249,10 +685,6 @@
     "powered",
     "bikes",
     "transportation"
-   ],
-   "variables": [
-    "Transportation Mode Fuel Fraction Electricity",
-    "Transportation Mode Fuel Fraction Gasoline"
    ]
   },
   "39": {
@@ -1271,12 +703,6 @@
     "fuel",
     "rail",
     "transportation"
-   ],
-   "variables": [
-    "Transportation Mode Fuel Fraction Diesel",
-    "Transportation Mode Fuel Fraction Electricity",
-    "Transportation Mode Fuel Fraction Diesel",
-    "Transportation Mode Fuel Fraction Electricity"
    ]
   },
   "40": {
@@ -1295,11 +721,6 @@
     "mode",
     "freight",
     "transportation"
-   ],
-   "variables": [
-    "Freight Transportation Mode Share",
-    "Freight Transportation Mode Share",
-    "Freight Transportation Mode Share"
    ]
   },
   "41": {
@@ -1318,12 +739,6 @@
     "mode",
     "passenger",
     "transportation"
-   ],
-   "variables": [
-    "Private and Public Transportation Mode Share",
-    "Private and Public Transportation Mode Share",
-    "Private and Public Transportation Mode Share",
-    "Private and Public Transportation Mode Share"
    ]
   },
   "42": {
@@ -1342,11 +757,6 @@
     "mode",
     "regional",
     "transportation"
-   ],
-   "variables": [
-    "Regional Transportation Mode Share",
-    "Regional Transportation Mode Share",
-    "Regional Transportation Mode Share"
    ]
   },
   "43": {
@@ -1365,12 +775,6 @@
     "capture",
     "biogas",
     "wastewater"
-   ],
-   "variables": [
-    "Biogas Recovery Factor at Wastewater Treatment Plants",
-    "Biogas Recovery Factor at Wastewater Treatment Plants",
-    "Biogas Recovery Factor at Wastewater Treatment Plants",
-    "Biogas Recovery Factor at Wastewater Treatment Plants"
    ]
   },
   "44": {
@@ -1389,9 +793,6 @@
     "compliance",
     "septic",
     "wastewater"
-   ],
-   "variables": [
-    "Septic Sludge Compliance Fraction"
    ]
   },
   "45": {
@@ -1410,13 +811,6 @@
     "treatment",
     "industrial",
     "water & wastewater treatment"
-   ],
-   "variables": [
-    "Treatment Fraction Advanced Anaerobic",
-    "Treatment Fraction Secondary Aerobic",
-    "Treatment Fraction Secondary Anaerobic",
-    "Treatment Fraction Untreated No Sewerage",
-    "Treatment Fraction Untreated With Sewerage"
    ]
   },
   "46": {
@@ -1435,12 +829,6 @@
     "treatment",
     "rural",
     "water & wastewater treatment"
-   ],
-   "variables": [
-    "Treatment Fraction Improved Latrine",
-    "Treatment Fraction Unimproved Latrine",
-    "Treatment Fraction Septic",
-    "Treatment Fraction Untreated No Sewerage"
    ]
   },
   "47": {
@@ -1459,15 +847,6 @@
     "treatment",
     "urban",
     "water & wastewater treatment"
-   ],
-   "variables": [
-    "Treatment Fraction Advanced Aerobic",
-    "Treatment Fraction Advanced Anaerobic",
-    "Treatment Fraction Improved Latrine",
-    "Treatment Fraction Unimproved Latrine",
-    "Treatment Fraction Secondary Aerobic",
-    "Treatment Fraction Secondary Anaerobic",
-    "Treatment Fraction Untreated No Sewerage"
    ]
   },
   "48": {
@@ -1487,9 +866,6 @@
     "food",
     "waste",
     "solid waste"
-   ],
-   "variables": [
-    "Waste Per Capita Scale Factor"
    ]
   },
   "49": {
@@ -1509,14 +885,6 @@
     "and",
     "compost",
     "solid waste"
-   ],
-   "variables": [
-    "Fraction of Waste Treated Anaerobically",
-    "Fraction of Waste Treated Anaerobically",
-    "Fraction of Waste Treated Anaerobically",
-    "Fraction of Waste Composted",
-    "Fraction of Waste Composted",
-    "Fraction of Waste Composted"
    ]
   },
   "50": {
@@ -1535,9 +903,6 @@
     "capture",
     "biogas",
     "solid waste"
-   ],
-   "variables": [
-    "Fraction of Landfill Gas Recovered at Landfills"
    ]
   },
   "51": {
@@ -1557,9 +922,6 @@
     "from",
     "biogas",
     "solid waste"
-   ],
-   "variables": [
-    "Fraction of Landfill Gas Recovered for Energy"
    ]
   },
   "52": {
@@ -1579,10 +941,6 @@
     "from",
     "incineration",
     "solid waste"
-   ],
-   "variables": [
-    "Fraction of ISW Incineration Recovered for Energy",
-    "Fraction of MSW Incineration Recovered for Energy"
    ]
   },
   "53": {
@@ -1600,10 +958,6 @@
     "increase",
     "landfilling",
     "solid waste"
-   ],
-   "variables": [
-    "Fraction of Non-Recycled Solid Waste Landfilled",
-    "Fraction of Non-Recycled Solid Waste Open Dumps"
    ]
   },
   "54": {
@@ -1621,15 +975,6 @@
     "increase",
     "recycling",
     "solid waste"
-   ],
-   "variables": [
-    "Fraction of Waste Recycled",
-    "Fraction of Waste Recycled",
-    "Fraction of Waste Recycled",
-    "Fraction of Waste Recycled",
-    "Fraction of Waste Recycled",
-    "Fraction of Waste Recycled",
-    "Fraction of Waste Recycled"
    ]
   }
  },
@@ -1650,30 +995,6 @@
     "export",
     "volumes",
     "macroeconomic / trade"
-   ],
-   "variables": [
-    "exports_agrc_bevs_and_spices_tonne",
-    "exports_agrc_cereals_tonne",
-    "exports_agrc_fibers_tonne",
-    "exports_agrc_fruits_tonne",
-    "exports_agrc_herbs_and_other_perennial_crops_tonne",
-    "exports_agrc_nuts_tonne",
-    "exports_agrc_other_annual_tonne",
-    "exports_agrc_other_woody_perennial_tonne",
-    "exports_agrc_pulses_tonne",
-    "exports_agrc_rice_tonne",
-    "exports_agrc_sugar_cane_tonne",
-    "exports_agrc_tubers_tonne",
-    "exports_agrc_vegetables_and_vines_tonne",
-    "exports_lvst_buffalo",
-    "exports_lvst_cattle_dairy",
-    "exports_lvst_cattle_nondairy",
-    "exports_lvst_chickens",
-    "exports_lvst_goats",
-    "exports_lvst_horses",
-    "exports_lvst_mules",
-    "exports_lvst_pigs",
-    "exports_lvst_sheep"
    ]
   },
   "56": {
@@ -1692,17 +1013,6 @@
     "fuel",
     "prices",
     "energy markets"
-   ],
-   "variables": [
-    "cost_enfu_fuel_coal_usd_per_tonne",
-    "cost_enfu_fuel_coke_usd_per_tonne",
-    "cost_enfu_fuel_hydrocarbon_gas_liquids_usd_per_mmbtu",
-    "cost_enfu_fuel_natural_gas_usd_per_mmbtu",
-    "cost_enfu_fuel_crude_usd_per_m3",
-    "cost_enfu_fuel_diesel_usd_per_m3",
-    "cost_enfu_fuel_gasoline_usd_per_m3",
-    "cost_enfu_fuel_kerosene_usd_per_m3",
-    "cost_enfu_fuel_oil_usd_per_m3"
    ]
   },
   "57": {
@@ -1721,9 +1031,6 @@
     "growth",
     "trajectory",
     "macroeconomic"
-   ],
-   "variables": [
-    "gdp_mmm_usd"
    ]
   },
   "58": {
@@ -1743,20 +1050,6 @@
     "elasticity",
     "gdp",
     "industry"
-   ],
-   "variables": [
-    "elasticity_ippu_cement_production_to_gdp",
-    "elasticity_ippu_chemicals_production_to_gdp",
-    "elasticity_ippu_electronics_production_to_gdp",
-    "elasticity_ippu_glass_production_to_gdp",
-    "elasticity_ippu_lime_and_carbonite_production_to_gdp",
-    "elasticity_ippu_metals_production_to_gdp",
-    "elasticity_ippu_mining_production_to_gdp",
-    "elasticity_ippu_paper_production_to_gdp",
-    "elasticity_ippu_plastic_production_to_gdp",
-    "elasticity_ippu_rubber_and_leather_production_to_gdp",
-    "elasticity_ippu_textiles_production_to_gdp",
-    "elasticity_ippu_wood_production_to_gdp"
    ]
   },
   "59": {
@@ -1778,12 +1071,6 @@
     "gdp",
     "cap",
     "industry"
-   ],
-   "variables": [
-    "elasticity_ippu_product_use_lubricants_product_use_rate_to_gdppc",
-    "elasticity_ippu_product_use_ods_other_product_use_rate_to_gdppc",
-    "elasticity_ippu_product_use_ods_refrigeration_product_use_rate_to_gdppc",
-    "elasticity_ippu_product_use_paraffin_wax_product_use_rate_to_gdppc"
    ]
   },
   "60": {
@@ -1801,10 +1088,6 @@
     "population",
     "growth",
     "demographics"
-   ],
-   "variables": [
-    "population_gnrl_rural",
-    "population_gnrl_urban"
    ]
   },
   "61": {
@@ -1826,14 +1109,6 @@
     "gdp",
     "cap",
     "buildings"
-   ],
-   "variables": [
-    "elasticity_scoe_enerdem_per_mmmgdp_commercial_municipal_elec_appliances_to_gdppc",
-    "elasticity_scoe_enerdem_per_mmmgdp_other_se_elec_appliances_to_gdppc",
-    "elasticity_scoe_enerdem_per_mmmgdp_commercial_municipal_heat_energy_to_gdppc",
-    "elasticity_scoe_enerdem_per_mmmgdp_other_se_heat_energy_to_gdppc",
-    "elasticity_scoe_enerdem_per_hh_residential_elec_appliances_to_gdppc",
-    "elasticity_scoe_enerdem_per_hh_residential_heat_energy_to_gdppc"
    ]
   },
   "62": {
@@ -1853,12 +1128,6 @@
     "capital",
     "cost",
     "energy technology"
-   ],
-   "variables": [
-    "nemomod_enst_capital_cost_st_batteries_usd_per_kwh",
-    "nemomod_enst_capital_cost_st_compressed_air_usd_per_kwh",
-    "nemomod_enst_capital_cost_st_flywheels_usd_per_kwh",
-    "nemomod_enst_capital_cost_st_pumped_hydro_usd_per_kwh"
    ]
   },
   "63": {
@@ -1879,23 +1148,6 @@
     "capital",
     "cost",
     "energy technology"
-   ],
-   "variables": [
-    "nemomod_entc_capital_cost_pp_coal_mm_usd_per_gw",
-    "nemomod_entc_capital_cost_pp_coal_ccs_mm_usd_per_gw",
-    "nemomod_entc_capital_cost_pp_gas_mm_usd_per_gw",
-    "nemomod_entc_capital_cost_pp_gas_ccs_mm_usd_per_gw",
-    "nemomod_entc_capital_cost_pp_oil_mm_usd_per_gw",
-    "nemomod_entc_fixed_cost_pp_coal_mm_usd_per_gw",
-    "nemomod_entc_fixed_cost_pp_coal_ccs_mm_usd_per_gw",
-    "nemomod_entc_fixed_cost_pp_gas_mm_usd_per_gw",
-    "nemomod_entc_fixed_cost_pp_gas_ccs_mm_usd_per_gw",
-    "nemomod_entc_fixed_cost_pp_oil_mm_usd_per_gw",
-    "nemomod_entc_variable_cost_pp_coal_usd_per_mwh",
-    "nemomod_entc_variable_cost_pp_coal_ccs_usd_per_mwh",
-    "nemomod_entc_variable_cost_pp_gas_usd_per_mwh",
-    "nemomod_entc_variable_cost_pp_gas_ccs_usd_per_mwh",
-    "nemomod_entc_variable_cost_pp_oil_usd_per_mwh"
    ]
   },
   "64": {
@@ -1916,11 +1168,6 @@
     "capital",
     "cost",
     "energy technology"
-   ],
-   "variables": [
-    "nemomod_entc_capital_cost_pp_nuclear_mm_usd_per_gw",
-    "nemomod_entc_fixed_cost_pp_nuclear_mm_usd_per_gw",
-    "nemomod_entc_variable_cost_pp_nuclear_usd_per_mwh"
    ]
   },
   "65": {
@@ -1941,20 +1188,6 @@
     "capital",
     "cost",
     "energy technology"
-   ],
-   "variables": [
-    "nemomod_entc_capital_cost_pp_geothermal_mm_usd_per_gw",
-    "nemomod_entc_capital_cost_pp_hydropower_mm_usd_per_gw",
-    "nemomod_entc_capital_cost_pp_solar_mm_usd_per_gw",
-    "nemomod_entc_capital_cost_pp_wind_mm_usd_per_gw",
-    "nemomod_entc_fixed_cost_pp_geothermal_mm_usd_per_gw",
-    "nemomod_entc_fixed_cost_pp_hydropower_mm_usd_per_gw",
-    "nemomod_entc_fixed_cost_pp_solar_mm_usd_per_gw",
-    "nemomod_entc_fixed_cost_pp_wind_mm_usd_per_gw",
-    "nemomod_entc_variable_cost_pp_geothermal_usd_per_mwh",
-    "nemomod_entc_variable_cost_pp_hydropower_usd_per_mwh",
-    "nemomod_entc_variable_cost_pp_solar_usd_per_mwh",
-    "nemomod_entc_variable_cost_pp_wind_usd_per_mwh"
    ]
   },
   "66": {
@@ -1974,9 +1207,6 @@
     "demand",
     "elasticity",
     "transport demand"
-   ],
-   "variables": [
-    "elasticity_trde_mtkm_to_gdp_freight"
    ]
   },
   "67": {
@@ -1996,10 +1226,6 @@
     "demand",
     "elasticity",
     "transport demand"
-   ],
-   "variables": [
-    "elasticity_trde_pkm_to_gdppc_private_and_public",
-    "elasticity_trde_pkm_to_gdppc_regional"
    ]
   }
  },

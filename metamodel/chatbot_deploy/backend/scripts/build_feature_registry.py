@@ -101,10 +101,6 @@ def main() -> None:
     l_tcode = vt_l.groupby("variable_trajectory_group")["transformation_code"].first().to_dict()
     vt_x = pd.read_csv(_SSP_DIR / "VARIABLE_TRAJECTORY_GROUPS_X.csv")
     x_var = vt_x.groupby("variable_trajectory_group")["variable"].first().to_dict()
-    # Full list of SISEPUEDE variable names per group (used by s3_lookup to infer
-    # which sector/variables a lever group touches).
-    l_vars = vt_l.groupby("variable_trajectory_group")["variable"].apply(list).to_dict()
-    x_vars = vt_x.groupby("variable_trajectory_group")["variable"].apply(list).to_dict()
 
     lever_features: dict[str, dict] = {}
     exogenous_features: dict[str, dict] = {}
@@ -130,7 +126,6 @@ def main() -> None:
                 "policy_description": f"Policy lever ({sector}). 0 = no action, 1 = maximum "
                                      f"technically feasible deployment by 2070 ({tcode}).",
                 "aliases": _aliases(name, [sector]),
-                "variables": l_vars.get(gid, []),
             }
         else:  # X
             name, sector = _x_meta(x_var.get(gid, suffix))
@@ -147,7 +142,6 @@ def main() -> None:
                 "policy_description": f"Exogenous uncertainty ({sector}) — external condition "
                                      f"beyond policy control. Sampled in [0,1].",
                 "aliases": _aliases(name, [sector]),
-                "variables": x_vars.get(gid, []),
             }
 
     payload = {
