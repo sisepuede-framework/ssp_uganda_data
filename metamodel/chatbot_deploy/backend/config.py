@@ -39,7 +39,7 @@ class Settings(BaseSettings):
     # ── Model paths ────────────────────────────────────────────────────────
     # Defaults resolve relative to the repo for local dev.
     # In production (Docker/App Runner) override via env vars:
-    #   MODEL_SECTOR_PATH=/app/model.pkl
+    #   MODEL_SECTOR_PATH=/data/model.pkl   (on the mounted Volume, so it persists)
     #
     # A single sector pipeline serves everything (11 aggregate metrics + 48
     # sector×year emissions). The training parquet is NOT loaded at runtime —
@@ -58,7 +58,8 @@ class Settings(BaseSettings):
     # pathways) read from local disk by the variable-trajectory & pathways tools.
     # For local dev this is the repo's data/ssp/ tree. In containers that tree
     # isn't present, so assets are downloaded here at boot (see
-    # scripts/download_assets.py). Override with SSP_DATA_DIR=/app/data/ssp.
+    # scripts/download_assets.py). Override with SSP_DATA_DIR=/data/ssp so the
+    # downloaded CSVs land on the persistent Volume and survive restarts.
     ssp_data_dir: Path = _METAMODEL_DIR / "data" / "ssp"
 
     # ── AWS / S3 ───────────────────────────────────────────────────────────
@@ -84,7 +85,7 @@ class Settings(BaseSettings):
     # Directory for interaction logs (interactions.jsonl). Defaults to the repo's
     # logs/ for local dev. In containers the filesystem is ephemeral, so mount a
     # persistent volume and point here to keep logs across restarts/redeploys:
-    #   LOG_DIR=/app/logs   (or /data, wherever the volume is mounted)
+    #   LOG_DIR=/data/logs   (under the same Volume as the model + data assets)
     log_dir: Path = _BACKEND_DIR.parent / "logs"
 
     # ── CORS ───────────────────────────────────────────────────────────────

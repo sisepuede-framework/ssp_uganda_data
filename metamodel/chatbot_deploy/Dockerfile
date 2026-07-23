@@ -22,11 +22,16 @@ RUN chmod +x entrypoint.sh
 ENV HOST=0.0.0.0 \
     PORT=8080 \
     RELOAD=false \
-    MODEL_SECTOR_PATH=/app/model.pkl \
-    SSP_DATA_DIR=/app/data/ssp \
-    LOG_DIR=/app/logs
-# Mount a Railway persistent Volume at LOG_DIR so interactions.jsonl survives
-# restarts/redeploys (the container filesystem is otherwise ephemeral).
+    MODEL_SECTOR_PATH=/data/model.pkl \
+    SSP_DATA_DIR=/data/ssp \
+    LOG_DIR=/data/logs
+# Mount a single Railway persistent Volume at /data. Everything that must survive
+# restarts/redeploys lives under it: the S3-downloaded model + data CSVs AND the
+# interaction logs (the container filesystem is otherwise ephemeral). Because
+# download_assets.py is idempotent — it skips any file already present with the
+# same byte size — the ~370 MB model+data download only happens on the FIRST boot;
+# later boots (and serverless wake-ups) find the assets already on the volume and
+# skip straight to starting the server, so cold starts are fast.
 
 EXPOSE 8080
 
