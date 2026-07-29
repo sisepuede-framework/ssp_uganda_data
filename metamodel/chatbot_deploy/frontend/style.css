@@ -67,7 +67,8 @@ body {
 }
 
 .app-header  { animation: fadeSlideIn 0.3s ease both; animation-delay: 0.05s; }
-.preset-bar  { animation: fadeSlideIn 0.3s ease both; animation-delay: 0.15s; }
+.tab-bar     { animation: fadeSlideIn 0.3s ease both; animation-delay: 0.15s; }
+.launcher    { animation: fadeSlideIn 0.3s ease both; animation-delay: 0.2s; }
 .chat-messages .message:first-child { animation: fadeSlideIn 0.35s ease both; animation-delay: 0.25s; }
 
 /* ── Header ──────────────────────────────────────────────────────────── */
@@ -75,12 +76,15 @@ body {
 .app-header {
   background: var(--surface);
   color: var(--text);
-  padding: 14px 28px;
+  /* Gutter is declared on .chat-panel, so repeat the formula here — the header
+     sits outside that element but must share its left edge. */
+  padding: 14px max(20px, calc((100% - 1240px) / 2));
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
-  border-bottom: 3px solid var(--ink);   /* the signature editorial rule */
+  /* No rule here — the single editorial line sits under the TAB BAR, so the
+     header and tabs read as one unit rather than two stacked bars. */
   box-shadow: var(--shadow);
 }
 
@@ -129,62 +133,500 @@ body {
 
 /* ── Chat panel ──────────────────────────────────────────────────────── */
 
+/* Full-bleed shell, single content column.
+   Backgrounds and rules span the whole window; everything you READ — header,
+   tabs, panels, conversation — lines up in one 1240px column. That width is the
+   usable measure on the laptops this is shown on (1366, 1440 and 1512 CSS px
+   wide): it leaves a real margin on all of them without shrinking the six cards.
+   Prose inside the conversation is capped again at 78ch, since a 1240px line of
+   text is far past what the eye tracks comfortably. */
 .chat-panel {
   display: flex;
   flex-direction: column;
   flex: 1;
   background: var(--bg);
   overflow: hidden;
-  max-width: 1080px;
-  margin: 0 auto;
   width: 100%;
+  --content-gutter: max(20px, calc((100% - 1240px) / 2));
 }
 
-/* Preset bar */
-.preset-bar {
-  padding: 10px 20px;
+/* ── Tab bar ─────────────────────────────────────────────────────────────
+   Three tabs switch the launcher panel below; the conversation is shared. */
+.tab-bar {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  padding: 0 var(--content-gutter);    /* same column as the header and panels */
+  background: var(--surface);
+  border-bottom: 2px solid var(--ink); /* the one editorial rule on the page */
+  flex-shrink: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tab-bar::-webkit-scrollbar { display: none; }
+
+.tab {
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -2px;                 /* sit on the ink rule */
+  padding: 11px 14px 9px;
+  font-family: var(--font-sans);
+  font-size: 0.83rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.15s, border-color 0.15s;
+}
+.tab:hover { color: var(--ink); }
+.tab--active {
+  color: var(--ink);
+  font-weight: 600;
+  border-bottom-color: var(--red);
+}
+.tab-mark { font-size: 0.72rem; margin-left: 2px; }
+.tab-mark--official { color: var(--teal); }
+.tab-mark--explore  { color: var(--amber); }
+
+.panel-toggle {
+  margin-left: auto;
+  align-self: center;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 3px 11px;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--text-faint);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s;
+}
+.panel-toggle:hover { border-color: var(--amber); color: var(--amber); }
+
+/* ── Launcher panel ──────────────────────────────────────────────────── */
+/* Semi-transparent so the paper background reads through and the panel sits
+   lighter over the conversation. */
+.launcher {
+  background: rgba(251, 244, 233, 0.55);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  /* Tall enough that a tab's content ends where it ends — a row of chips sliced
+     in half by the fold reads as broken, not as "scroll for more". */
+  max-height: 46vh;
+  overflow-y: auto;
+  transition: max-height 0.25s ease, padding 0.25s ease, opacity 0.2s ease;
+}
+/* "How this works" is a reading page, not a launcher — give it the room. */
+.launcher--tall { max-height: 68vh; }
+/* Collapsed: folded away after the first question, reopened from the tab bar. */
+.launcher--collapsed {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  border-bottom-color: transparent;
+}
+
+.panel { padding: 11px var(--content-gutter) 14px; }
+.panel.hidden { display: none; }
+
+/* One compact line: title · lede · provenance badge, all on the same baseline. */
+.panel-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  margin-bottom: 9px;
+}
+.panel-title {
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.panel-lede {
+  flex: 1;
+  min-width: 260px;
+  font-size: 0.755rem;
+  line-height: 1.45;
+  color: var(--text-body);
+}
+.panel-loading {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  color: var(--text-faint);
+  padding: 12px 0;
+}
+
+/* Provenance badges — the SAME two labels the trace panel uses, so the
+   official / estimate distinction is learned once. */
+.prov-badge {
+  justify-self: end;
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+}
+.prov-badge--official { background: var(--teal-dim);  color: var(--teal);  border: 1px solid var(--teal); }
+.prov-badge--estimate { background: var(--amber-dim); color: #8A6D00;      border: 1px solid var(--amber); }
+
+/* ── Tab 1 — pathway cards ───────────────────────────────────────────── */
+.pathway-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.pathway-card {
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 11px 9px;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  transition: border-color 0.15s, transform 0.15s;
+}
+.pathway-card:hover { border-color: var(--amber); transform: translateY(-1px); }
+.pathway-card--baseline { border-left: 3px solid var(--red); }
+.pathway-card--bare { min-height: 0; }
+
+.pc-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.pc-name { font-size: 0.8rem; font-weight: 600; color: var(--ink); }
+.pc-spark { flex-shrink: 0; opacity: 0.9; }
+/* Two lines maximum — the description supports the card, it doesn't own it. */
+.pc-desc {
+  font-size: 0.7rem;
+  line-height: 1.4;
+  color: var(--text-muted);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.pc-figs { display: flex; align-items: baseline; gap: 6px; margin-top: auto; padding-top: 2px; }
+.pc-value {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+.pc-unit { font-family: var(--font-mono); font-size: 0.63rem; color: var(--text-faint); }
+.pc-delta {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  color: var(--teal);
+  margin-left: auto;
+}
+.pc-delta--base { color: var(--text-faint); }
+
+/* Question chips under the cards */
+.chip-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  border-bottom: 1px solid var(--border);
   flex-wrap: wrap;
-  background: var(--surface-2);
-  flex-shrink: 0;
+  gap: 6px;
+  margin-top: 9px;
 }
-
-.preset-label {
+.chip-row-label {
   font-family: var(--font-sans);
-  font-size: 0.72rem;
-  color: var(--text-muted);
+  font-size: 0.66rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.07em;
-  white-space: nowrap;
+  color: var(--text-faint);
+  margin-right: 4px;
 }
-
-.preset-btn {
+.q-chip {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 20px;                 /* white pill chip (guide) */
-  padding: 5px 14px;
+  border-radius: 20px;
+  padding: 5px 13px;
   font-family: var(--font-sans);
-  font-size: 0.76rem;
-  font-weight: 500;
-  cursor: pointer;
+  font-size: 0.75rem;
   color: var(--text-muted);
+  cursor: pointer;
   transition: border-color 0.15s, color 0.15s, background 0.15s;
 }
-.preset-btn:hover {
-  border-color: var(--amber);
-  color: var(--amber);
-  background: var(--amber-dim);
+.q-chip:hover { border-color: var(--amber); color: var(--amber); background: var(--amber-dim); }
+
+/* ── Tab 2 — Explore ─────────────────────────────────────────────────── */
+.explore-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.explore-col {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 9px 12px 10px;
 }
+/* L and X are colour-coded consistently: green = what Uganda decides,
+   red = what the world decides. Same semantics as the charts. */
+.explore-col--ambition   { border-top-color: var(--teal); }
+.explore-col--conditions { border-top-color: var(--red); }
+
+.explore-col-head { display: flex; align-items: baseline; gap: 8px; }
+.explore-col-head h3 { font-family: var(--font-sans); font-size: 0.83rem; font-weight: 600; color: var(--ink); }
+.explore-count { font-family: var(--font-mono); font-size: 0.66rem; color: var(--text-faint); }
+.explore-sub { font-size: 0.71rem; color: var(--text-muted); margin: 3px 0 7px; }
+
+.q-btn {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  margin-bottom: 4px;
+  font-family: var(--font-sans);
+  font-size: 0.755rem;
+  line-height: 1.35;
+  color: var(--text-body);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+.q-btn:hover { border-color: var(--amber); background: var(--amber-dim); }
+.q-btn strong { font-weight: 600; color: var(--ink); }
+
+.mini-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 9px; }
+.mini-chip {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 3px 8px;
+  font-family: var(--font-sans);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.mini-chip:hover { border-color: var(--amber); color: var(--amber); }
+.mini-chip-n { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-faint); }
+.mini-chip--more { border-style: dashed; }
+
+/* ── Tab 3 — How this works: document styling ────────────────────────── */
+.panel--doc { padding-top: 22px; padding-bottom: 40px; }
+
+.doc-layout {
+  display: grid;
+  grid-template-columns: 178px minmax(0, 1fr);
+  gap: 34px;
+  align-items: start;
+}
+
+/* Section nav — sticky inside the panel's own scroll container */
+.doc-nav {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding-top: 4px;
+}
+.doc-nav-label {
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin-bottom: 6px;
+}
+.doc-nav-link {
+  text-align: left;
+  background: none;
+  border: none;
+  border-left: 2px solid var(--border);
+  padding: 5px 10px;
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+.doc-nav-link:hover { color: var(--ink); border-left-color: var(--text-faint); }
+.doc-nav-link--active { color: var(--ink); font-weight: 600; border-left-color: var(--red); }
+
+.doc-body > section { margin-bottom: 26px; scroll-margin-top: 12px; }
+.doc-title {
+  font-family: var(--font-serif);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.15;
+}
+.doc-lede {
+  font-size: 0.86rem;
+  line-height: 1.55;
+  color: var(--text-body);
+  margin: 6px 0 24px;
+  max-width: 74ch;
+}
+.doc-h {
+  font-family: var(--font-serif);
+  font-size: 1.06rem;
+  font-weight: 700;
+  color: var(--ink);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 5px;
+  margin-bottom: 9px;
+}
+.doc-count { font-family: var(--font-mono); font-size: 0.68rem; font-weight: 400; color: var(--text-faint); }
+.doc-p { font-size: 0.82rem; line-height: 1.6; color: var(--text-body); margin-bottom: 9px; max-width: 82ch; }
+.doc-p--muted { color: var(--text-muted); font-size: 0.78rem; }
+
+/* L / X definitions — text, not boxes */
+.doc-defs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 26px; margin-top: 10px; }
+.doc-defs dt { font-size: 0.83rem; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+.doc-defs dd { font-size: 0.8rem; line-height: 1.5; color: var(--text-body); }
+.doc-key {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0 6px;
+  border-radius: 3px;
+  margin-right: 6px;
+}
+.doc-key--l { background: var(--teal-dim); color: var(--teal); }
+.doc-key--x { background: var(--red-dim);  color: var(--red); }
+
+/* Lever filter */
+.doc-filter { display: flex; align-items: center; gap: 10px; margin: 10px 0 8px; }
+.doc-filter input {
+  flex: 1;
+  max-width: 380px;
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  color: var(--text);
+  background: var(--surface);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-sm);
+  padding: 6px 11px;
+}
+.doc-filter input:focus { outline: none; border-color: var(--amber); }
+.doc-filter-count { font-family: var(--font-mono); font-size: 0.68rem; color: var(--text-faint); }
+.filtered-out { display: none !important; }
+
+/* Ask hand-off buttons */
+.cat-ask {
+  margin-left: auto;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 20px;
+  padding: 1px 9px;
+  font-family: var(--font-sans);
+  font-size: 0.66rem;
+  color: var(--text-faint);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s, color 0.15s, border-color 0.15s;
+}
+.cat-list li:hover .cat-ask,
+.cat-group summary:hover .cat-ask,
+.cat-ask:focus-visible { opacity: 1; }
+.cat-ask:hover { color: var(--amber); border-color: var(--amber); }
+.cat-ask--sector { font-size: 0.64rem; }
+.cat-name { flex: 0 1 auto; }
+
+.how-two-up { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+.how-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 12px 10px;
+}
+.how-card--official   { border-left-color: var(--teal); }
+.how-card--estimate   { border-left-color: var(--amber); }
+.how-card--ambition   { border-left-color: var(--teal); }
+.how-card--conditions { border-left-color: var(--red); }
+.how-card p { font-size: 0.76rem; line-height: 1.5; color: var(--text-body); margin-top: 7px; }
+.how-card h4 { font-family: var(--font-sans); font-size: 0.8rem; font-weight: 600; color: var(--ink); }
+.how-card .prov-badge { justify-self: start; display: inline-block; }
+
+/* (.how-h / .how-p / .how-note / .how-end replaced by the .doc-* document styles
+   above when the reference tab stopped being a launcher panel.) */
+
+/* Lever / uncertainty catalogue */
+.catalogue { display: grid; grid-template-columns: repeat(2, 1fr); gap: 4px 14px; }
+.cat-group {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+}
+.cat-group summary {
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--ink);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.cat-group summary::-webkit-details-marker { display: none; }
+.cat-group summary::before { content: "▸ "; color: var(--text-faint); }
+.cat-group[open] summary::before { content: "▾ "; }
+.cat-count { font-family: var(--font-mono); font-size: 0.65rem; color: var(--text-faint); }
+.cat-list { list-style: none; margin: 6px 0 2px; padding-left: 14px; }
+.cat-list li {
+  font-size: 0.74rem;
+  line-height: 1.65;
+  color: var(--text-body);
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.cat-list--flat { grid-column: 1 / -1; columns: 2; padding-left: 0; }
+.cat-id { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-faint); min-width: 16px; }
+.cat-code { font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-faint); }
+.cat-domain { font-family: var(--font-mono); font-size: 0.62rem; color: var(--text-faint); }
+
+/* Answer prose fills the content column. It runs wider than the classic 75-character
+   measure, but answers sit between full-width charts and tables — matching them
+   reads better than a half-width column of text beside a full-width chart. */
+
+/* "How this works" is a document: the panel is the page, and the conversation and
+   its input step aside entirely. Questions asked there hand off to Explore. */
+.chat-panel--reading .chat-messages,
+.chat-panel--reading .chat-input-area,
+.chat-panel--reading .typing-indicator { display: none; }
+.chat-panel--reading .launcher {
+  max-height: none;
+  flex: 1 1 auto;
+  background: var(--bg);          /* paper, not the parchment launcher tint */
+  border-bottom: none;
+}
+.panel-toggle.hidden { display: none; }
+
+/* Intro blocks — the per-tab welcome, replaced by the conversation */
+.intro-headline {
+  font-family: var(--font-serif);
+  font-size: 1.18rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+.intro-block.hidden { display: none; }
 
 /* Messages */
 .chat-messages {
   flex: 1;
   overflow-y: auto;
-  padding: 24px 20px;
+  /* Content starts directly under the launcher — the first message should read as
+     the continuation of the panel above it, not float in the middle of the page. */
+  padding: 16px var(--content-gutter) 22px;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -332,7 +774,8 @@ body {
   display: flex;
   gap: 10px;
   align-items: flex-end;
-  padding: 14px 20px 16px;
+  /* Bar spans the window; the field lines up with the conversation above it. */
+  padding: 14px var(--content-gutter) 16px;
   border-top: 1px solid var(--border);
   background: var(--surface-2);
   flex-shrink: 0;
@@ -571,33 +1014,8 @@ body {
   white-space: nowrap;
 }
 
-/* Follow-up suggestion chips */
-.followup-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  padding: 6px 0 2px 44px;
-}
-
-.followup-chip {
-  font-family: var(--font-sans);
-  font-size: 0.75rem;
-  font-weight: 500;
-  color: var(--text-muted);
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 20px;                 /* white pill chip (guide) */
-  padding: 4px 12px;
-  cursor: pointer;
-  transition: border-color 0.15s, color 0.15s, background 0.15s;
-  white-space: nowrap;
-}
-
-.followup-chip:hover {
-  border-color: var(--amber);
-  color: var(--amber);
-  background: var(--amber-dim);
-}
+/* (Follow-up suggestion chips removed — canned questions live in the Explore tab
+   now, so nothing follows "How I got this answer" under an answer.) */
 
 /* Process trace — "How I got this answer" */
 .trace {
@@ -732,11 +1150,14 @@ body {
 }
 
 /* Stacked sector chart — side-by-side panels */
+/* Legend sits UNDER the chart, not beside it: with 23 inventory categories the
+   list is taller than the plot, so a right-hand column stretched the whole block
+   and squeezed the chart. Below, it wraps across the full width instead. */
 .stacked-chart-outer {
   margin-top: 14px;
   display: flex;
-  gap: 12px;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .stacked-chart-panels {
@@ -759,14 +1180,13 @@ body {
   position: relative;
 }
 
-/* Right-side legend column */
+/* Legend below the chart — wraps across the available width.
+   (Class name kept: app.js and the chart renderers reference it.) */
 .stacked-chart-legend-right {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
-  padding-top: 26px;
-  flex-shrink: 0;
-  width: 148px;
+  flex-wrap: wrap;
+  gap: 1px 4px;
+  padding: 2px 4px 0;
 }
 
 .stacked-legend-item {
@@ -921,5 +1341,20 @@ body {
 .results-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
 
 @media (max-width: 900px) {
-  .chat-panel { max-width: 100%; }
+  .doc-layout { grid-template-columns: 1fr; gap: 14px; }
+  .doc-nav { position: static; flex-direction: row; flex-wrap: wrap; }
+  .doc-defs { grid-template-columns: 1fr; }
+  .cat-ask { opacity: 1; }              /* no hover on touch — always show Ask */
+
+  /* The launcher stacks rather than squeezing: cards, Explore columns and the
+     catalogue all drop to one column, and the panel head becomes linear. */
+  .panel { padding: 14px 16px 16px; }
+  .panel-head { grid-template-columns: 1fr; gap: 8px; }
+  .prov-badge { justify-self: start; }
+  .pathway-grid { grid-template-columns: 1fr; }
+  .explore-columns { grid-template-columns: 1fr; }
+  .how-two-up { grid-template-columns: 1fr; }
+  .catalogue { grid-template-columns: 1fr; }
+  .cat-list--flat { columns: 1; }
+  .launcher { max-height: 52vh; }
 }

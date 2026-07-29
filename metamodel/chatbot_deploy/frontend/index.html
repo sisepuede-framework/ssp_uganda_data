@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Uganda Climate Policy Simulator</title>
+  <title>Uganda Climate Pathways Explorer</title>
   <!-- Fonts: Newsreader (serif headlines) + Libre Franklin (sans) + IBM Plex Mono (model voice) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=Libre+Franklin:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <!-- Bump ?v= on every app.js/style.css change to bust the browser cache. -->
-  <link rel="stylesheet" href="/style.css?v=20260714h" />
+  <link rel="stylesheet" href="/style.css?v=20260729j" />
   <!-- Chart.js for results visualisation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"
           crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -21,44 +21,248 @@
     <div class="header-left">
       <div class="header-logo">🇺🇬</div>
       <div class="header-title">
-        <h1><span>Uganda</span> Climate Policy Simulator</h1>
+        <h1><span>Uganda</span> Climate Pathways Explorer</h1>
       </div>
     </div>
   </header>
 
   <!-- ═══════════════════════════ MAIN LAYOUT ══════════════════════════ -->
   <div class="app-layout">
-
-    <!-- ─── LEFT: Chat panel ──────────────────────────────────────────── -->
     <section class="chat-panel">
 
-      <!-- Preset scenario buttons — the 6 official named pathways (real runs) -->
-      <div class="preset-bar">
-        <span class="preset-label">Quick start:</span>
-        <button class="preset-btn" onclick="sendPreset('bau')">📊 BAU</button>
-        <button class="preset-btn" onclick="sendPreset('ndc20')">NDC 2.0</button>
-        <button class="preset-btn" onclick="sendPreset('ndc25')">NDC 2.5</button>
-        <button class="preset-btn" onclick="sendPreset('unconditional')">NDC2 Unconditional</button>
-        <button class="preset-btn" onclick="sendPreset('unconditional_alt')">NDC2 Uncond. (Alt)</button>
-        <button class="preset-btn" onclick="sendPreset('hble')">🌿 HBLE</button>
+      <!-- ─── Tab bar ──────────────────────────────────────────────────
+           Three tabs switch the LAUNCHER panel below. The conversation is
+           shared across all three — switching tabs never clears it. -->
+      <nav class="tab-bar" role="tablist" aria-label="Sections">
+        <button class="tab tab--active" role="tab" data-tab="official" aria-selected="true">
+          Official pathways <span class="tab-mark tab-mark--official" aria-hidden="true">◆</span>
+        </button>
+        <button class="tab" role="tab" data-tab="explore" aria-selected="false">
+          Explore <span class="tab-mark tab-mark--explore" aria-hidden="true">≈</span>
+        </button>
+        <button class="tab" role="tab" data-tab="how" aria-selected="false">
+          How this works
+        </button>
+        <button class="panel-toggle" id="panel-toggle" aria-expanded="true"
+                aria-controls="launcher" title="Show or hide this section">Hide ▴</button>
+      </nav>
+
+      <!-- ─── Launcher panel ───────────────────────────────────────────
+           Collapses to the tab bar alone once the first question is asked,
+           so charts and the trace panel get the full height. -->
+      <div class="launcher" id="launcher">
+
+        <!-- ······ TAB 1 — Official pathways ······························ -->
+        <section class="panel" id="panel-official" role="tabpanel">
+          <div class="panel-head">
+            <h2 class="panel-title">Uganda's six official pathways</h2>
+            <p class="panel-lede">
+              Stored simulations from Uganda's <strong>Country Development Pathway Model (CDPM)</strong>,
+              built with <strong>SISEPUEDE</strong>. The fullest detail in the tool — nothing here is estimated.
+            </p>
+            <span class="prov-badge prov-badge--official">◆ Official pathway result</span>
+          </div>
+
+          <!-- Cards are rendered from /api/pathways/summary — every figure comes
+               from the same stored run the card opens. -->
+          <div class="pathway-grid" id="pathway-cards">
+            <p class="panel-loading">Loading the official pathways…</p>
+          </div>
+
+          <div class="chip-row">
+            <span class="chip-row-label">Or ask across all six</span>
+            <button class="q-chip" data-ask="Compare all six official pathways on emissions and cost.">Compare all six on emissions and cost</button>
+            <button class="q-chip" data-ask="How does the HBLE pathway differ from Business as Usual?">How does HBLE differ from Business as Usual?</button>
+            <button class="q-chip" data-ask="Which sectors separate the NDC 2.5 pathway from the HBLE pathway?">Which sectors separate NDC 2.5 from HBLE?</button>
+          </div>
+        </section>
+
+        <!-- ······ TAB 2 — Explore ········································ -->
+        <section class="panel hidden" id="panel-explore" role="tabpanel">
+          <div class="panel-head">
+            <h2 class="panel-title">Explore beyond the six</h2>
+            <p class="panel-lede">
+              Combinations that were <strong>never officially simulated</strong>, estimated by a live
+              <strong>metamodel</strong> trained on ~99,000 CDPM runs — broader strokes than an official
+              run, always shown against BAU and HBLE.
+            </p>
+            <span class="prov-badge prov-badge--estimate">≈ Metamodel estimate</span>
+          </div>
+
+          <div class="explore-columns">
+            <!-- L — what Uganda decides -->
+            <div class="explore-col explore-col--ambition">
+              <div class="explore-col-head">
+                <h3>Ambition — the sectoral transitions</h3>
+                <span class="explore-count" id="ambition-count">54 L · 16 sectors</span>
+              </div>
+              <p class="explore-sub">What Uganda decides: how far and how fast each sector transitions.</p>
+              <button class="q-btn" data-ask="What happens if Uganda reaches only part of the HBLE ambition in transport and electricity?">
+                What happens if Uganda reaches only <strong>part</strong> of the HBLE ambition in transport and electricity?
+              </button>
+              <button class="q-btn" data-ask="What are the effects of delaying the transition in one or more sectors?">
+                What are the effects of <strong>delaying</strong> the transition in one or more sectors?
+              </button>
+              <button class="q-btn" data-ask="Which sectoral transitions contribute most to emissions reductions and development benefits?">
+                Which sectoral transitions contribute most to reductions <strong>and</strong> development benefits?
+              </button>
+              <div class="mini-chips" id="explore-sectors"></div>
+            </div>
+
+            <!-- X — what the world decides -->
+            <div class="explore-col explore-col--conditions">
+              <div class="explore-col-head">
+                <h3>Conditions — the country assumptions</h3>
+                <span class="explore-count" id="conditions-count">13 X</span>
+              </div>
+              <p class="explore-sub">What the world decides: the futures Uganda has to deliver in.</p>
+              <button class="q-btn" data-ask="How would faster GDP growth affect emissions and implementation costs?">
+                How would <strong>faster GDP growth</strong> affect emissions and implementation costs?
+              </button>
+              <button class="q-btn" data-ask="What if fossil fuel prices stay at the high end of their range through 2070?">
+                What if <strong>fossil fuel prices</strong> stay high through 2070?
+              </button>
+              <button class="q-btn" data-ask="How does higher population growth change emissions and costs compared with the median future?">
+                How does higher <strong>population growth</strong> change the picture?
+              </button>
+              <div class="mini-chips" id="explore-conditions"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ······ TAB 3 — How this works ·································
+             A DOCUMENT, not a launcher: no chat, no collapse control, paper
+             background, section nav. Anything here can be asked about — the
+             question hands off to Explore, where the one conversation lives. -->
+        <section class="panel panel--doc hidden" id="panel-how" role="tabpanel">
+          <div class="doc-layout">
+
+            <!-- Section nav — jumps within the page -->
+            <nav class="doc-nav" aria-label="On this page">
+              <span class="doc-nav-label">On this page</span>
+              <button class="doc-nav-link" data-section="sec-answers">The two answer types</button>
+              <button class="doc-nav-link" data-section="sec-rdm">Why it's built this way</button>
+              <button class="doc-nav-link" data-section="sec-ambition">Ambition — the levers</button>
+              <button class="doc-nav-link" data-section="sec-conditions">Conditions</button>
+              <button class="doc-nav-link" data-section="sec-outputs">What you get back</button>
+            </nav>
+
+            <div class="doc-body">
+              <h2 class="doc-title">How this works</h2>
+              <p class="doc-lede">
+                Where each answer comes from, and everything you can change. Ask about anything on this
+                page — the question opens in <strong>Explore</strong>, with the rest of your conversation.
+              </p>
+
+              <!-- 1. The two kinds of answer — the same badges the trace panel uses -->
+              <section id="sec-answers">
+                <h3 class="doc-h">The two kinds of answer</h3>
+                <div class="how-two-up">
+                  <div class="how-card how-card--official">
+                    <span class="prov-badge prov-badge--official">◆ Official pathway result</span>
+                    <p>One of the six stored CDPM simulations, read straight from the run. Nothing estimated.</p>
+                  </div>
+                  <div class="how-card how-card--estimate">
+                    <span class="prov-badge prov-badge--estimate">≈ Metamodel estimate</span>
+                    <p>A combination never officially simulated, estimated by a metamodel trained on
+                      ~99,000 CDPM runs — broader strokes than an official run.</p>
+                  </div>
+                </div>
+                <p class="doc-p doc-p--muted">
+                  Each answer carries its badge, and “How I got this answer” beneath it lists the steps
+                  actually executed.
+                </p>
+              </section>
+
+              <!-- 2. RDM / XLRM -->
+              <section id="sec-rdm">
+                <h3 class="doc-h">Why it is built this way</h3>
+                <p class="doc-p">
+                  Nobody can put probabilities on Uganda's 2070 economy, population or fuel prices. So
+                  rather than predict one future, the tool explores many — Robust Decision Making —
+                  splitting what you can change in two:
+                </p>
+                <dl class="doc-defs">
+                  <div>
+                    <dt><span class="doc-key doc-key--l">L</span> what Uganda decides</dt>
+                    <dd>The sectoral transitions: how far and how fast each part of the economy changes.</dd>
+                  </div>
+                  <div>
+                    <dt><span class="doc-key doc-key--x">X</span> what the world decides</dt>
+                    <dd>The conditions Uganda cannot legislate: growth, population, prices, technology costs.</dd>
+                  </div>
+                </dl>
+              </section>
+
+              <!-- 3. The levers, from /api/features -->
+              <section id="sec-ambition">
+                <h3 class="doc-h">Ambition — the levers <span id="how-levers-count" class="doc-count"></span></h3>
+                <p class="doc-p">
+                  <strong>0 = no action</strong> → <strong>1 = maximum feasible deployment by 2070</strong>,
+                  reached by a ramp over 20–30 years rather than a switch thrown today. Any number can
+                  move at once.
+                </p>
+                <div class="doc-filter">
+                  <input id="lever-filter" type="search" autocomplete="off"
+                         placeholder="Filter levers — try “forest”, “cooking”, “transport”" />
+                  <span class="doc-filter-count" id="lever-filter-count"></span>
+                </div>
+                <div class="catalogue" id="how-levers"></div>
+              </section>
+
+              <!-- 4. The uncertainties -->
+              <section id="sec-conditions">
+                <h3 class="doc-h">Conditions — the uncertainties <span id="how-conditions-count" class="doc-count"></span></h3>
+                <p class="doc-p">
+                  <strong>0 = low end</strong> · <strong>0.5 = median future</strong> (the default) ·
+                  <strong>1 = high end</strong>. Positions within the model's range — not percentage changes.
+                </p>
+                <div class="catalogue" id="how-conditions"></div>
+              </section>
+
+              <!-- 5. Outputs and limits -->
+              <section id="sec-outputs">
+                <h3 class="doc-h">What you get back</h3>
+                <p class="doc-p">
+                  Emissions across 23 inventory categories, 3 cost types, 16 development-benefit types,
+                  and cost and benefit as a share of GDP — at 2025, 2035, 2040, 2050 and 2070, always
+                  against BAU with HBLE as the frontier.
+                </p>
+                <p class="doc-p doc-p--muted">
+                  Out of scope: other countries, metrics the model does not produce, years beyond
+                  2025–2070, and interventions with no lever above.
+                </p>
+              </section>
+            </div>
+          </div>
+        </section>
       </div>
 
-      <!-- Chat messages -->
+      <!-- ─── Conversation (shared across all three tabs) ───────────────── -->
       <div class="chat-messages" id="chat-messages">
-        <div class="message assistant-message">
+
+        <!-- Per-tab intro. Replaced by the conversation once anything is asked. -->
+        <div class="message assistant-message intro-block" id="intro-official">
           <div class="message-avatar">UG</div>
           <div class="message-content">
-            <p>Welcome. This tool simulates how Uganda's climate policy choices affect greenhouse gas emissions, implementation costs, and co-benefits between 2025 and 2070.</p>
-            <p>Each simulation compares your scenario against Business as Usual and the HBLE pathway. Try asking:</p>
-            <ul>
-              <li>"What happens if Uganda follows the HBLE pathway by 2070?"</li>
-              <li>"What if Uganda fully decarbonizes its electricity grid and transport sector?"</li>
-              <li>"How much do emissions change if deforestation is halted and forests are restored?"</li>
-              <li>"What if Uganda's GDP grows faster than expected — how does that affect emissions?"</li>
-            </ul>
-            <p>Or use the scenario buttons above to run a preset simulation.</p>
+            <h2 class="intro-headline">Six official pathways that used to live in a document. Now you can ask them questions — and then go beyond them.</h2>
+            <p>Pick one above, ask about several at once, or move to <strong>Explore</strong> for
+              combinations nobody has simulated.</p>
           </div>
         </div>
+
+        <div class="message assistant-message intro-block hidden" id="intro-explore">
+          <div class="message-avatar">UG</div>
+          <div class="message-content">
+            <h2 class="intro-headline">Ask for a combination nobody has simulated.</h2>
+            <p>Set the ambition of any sectoral transition, change any country condition, or both at
+              once — an answer takes about 10–30 seconds.</p>
+          </div>
+        </div>
+
+        <!-- No intro for "How this works": that tab is a document with no chat.
+             Questions asked there hand off to Explore. -->
+
       </div>
 
       <!-- Typing indicator -->
@@ -73,16 +277,15 @@
       <div class="chat-input-area">
         <textarea
           id="chat-input"
-          placeholder="Describe a policy scenario or ask a question..."
+          placeholder="Ask about one of the six official pathways..."
           rows="2"
           onkeydown="handleInputKey(event)"
         ></textarea>
         <button class="send-btn" id="send-btn" onclick="sendMessage()" aria-label="Send" title="Send">↑</button>
       </div>
     </section>
-
   </div>
 
-  <script src="/app.js?v=20260714h"></script>
+  <script src="/app.js?v=20260729j"></script>
 </body>
 </html>

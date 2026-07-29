@@ -8,6 +8,7 @@ Endpoints
 GET  /                          → Serves the chat UI (frontend/index.html)
 GET  /api/health                → Health check + model status
 GET  /api/features              → Returns full feature registry (for UI rendering)
+GET  /api/pathways/summary      → Headline figures for the 6 official pathway cards
 POST /api/simulate              → Direct simulation (no LLM, for programmatic use)
 POST /api/chat                  → LLM agent: translates message → simulation → narrative
 
@@ -22,6 +23,7 @@ import json
 import logging
 import time
 from datetime import datetime, timezone
+from functools import lru_cache
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
@@ -79,7 +81,7 @@ def _log_interaction(user_message: str, result: dict, latency: float) -> None:
 # ── App setup ────────────────────────────────────────────────────────────────
 
 app = FastAPI(
-    title="Uganda Climate Simulation Chatbot",
+    title="Uganda Climate Pathways Explorer",
     description=(
         "AI-powered chatbot for exploring Uganda's climate policy scenarios "
         "using a trained XGBoost surrogate model of SISEPUEDE."
@@ -138,6 +140,27 @@ def get_features():
     """
     predictor = get_sector_predictor()
     return predictor.get_feature_info()
+
+
+@app.get("/api/pathways/summary", tags=["Model"])
+def get_pathway_summary():
+    """
+    Headline figures for the six official-pathway cards: name, provisional
+    description, net-emissions trajectory (sparkline), 2070 total and % vs BAU.
+
+    Read from the SAME stored CDPM runs `get_pathway_results` serves, so a card can
+    never show a figure that disagrees with the answer it opens. Nothing here is
+    estimated by the metamodel.
+    """
+    from backend.services import pathways_lookup
+
+    try:
+        return {"pathways": list(pathways_lookup.build_pathway_cards())}
+    except FileNotFoundError as exc:
+        raise HTTPException(
+            status_code=503,
+            detail=f"Official pathway data is unavailable: {exc}",
+        ) from exc
 
 
 _BAU_PATH = Path(__file__).parent / "bau_trajectory.json"

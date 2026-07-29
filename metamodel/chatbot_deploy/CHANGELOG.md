@@ -1,5 +1,97 @@
 # Changelog — chatbot_deploy
 
+## 2026-07-29 (later) — Reference tab becomes a document; layout and reading fixes
+
+### Why
+Review of the built tabs. Three problems: answer prose was capped at 78ch and looked half-width beside
+full-width charts; "How this works" was a reference document wearing launcher chrome (panel tint,
+collapse control, a chat it never used); and the shell put tabs and panels in a 1080px column, leaving
+the content boxes both too wide for their content and misaligned with the conversation.
+
+### What
+- **Single content column at 1240px** (`--content-gutter` on `.chat-panel`, repeated on `.app-header`):
+  header, tabs, panels, conversation and input now share one left edge. Backgrounds and the ink rule
+  under the tab bar stay full-bleed. 1240 fits 1366/1440/1512-wide laptops with a real margin.
+- **Answer prose fills the column** — the 78ch cap is gone; text now matches the charts and tables it
+  sits between.
+- **Tab 3 is a document**: paper background, no collapse control, no transcript or input, a sticky
+  section nav, a filter box over the 54 levers, and typographic hierarchy instead of boxes
+  (`.doc-*` styles; `.chat-panel--reading`).
+- **Ask hand-off**: every lever, sector and condition has an Ask button that composes a question,
+  switches to Explore, and sends it into the single conversation (`askFromReference`). Rejected the
+  alternative of a second conversation on that tab — a hidden thread whose answers appear to vanish.
+- Chart legends moved below the plots (23 categories made the right-hand column taller than the chart);
+  follow-up chips under answers removed; launcher folds away on every launcher click, not just the
+  first; the collapse control now names what it restores; transformation codes are hover-only.
+
+### Fixed
+`escapeHtml` does not escape quotes, so any attribute containing one was silently truncated — the
+lever hand-off questions quote the lever's own name and were being cut to "What does the ". Added
+`escapeAttr` for attribute contexts.
+
+## 2026-07-29 — Three-tab workspace: Official pathways · Explore · How this works
+
+### Why
+The 07-28 pass fixed the words but not the shape: one column of buttons over a chat, so the question
+space (54 levers across 16 sectors, 13 uncertainties) was invisible and nothing said which answers
+are stored CDPM runs and which are metamodel estimates. Alexa approved a tabbed layout from mockups;
+the mockups' *content* was invented (wrong sector counts, an uncertainty that doesn't exist, made-up
+emission figures), so every number and name on the new screen is loaded from the API instead.
+
+### What
+- **Tab bar + launcher panel** (`frontend/index.html`, `style.css`, `app.js`). One conversation shared
+  across all three tabs. The panel auto-collapses on the first question so charts and the trace panel
+  get full height; the tab bar stays and reopens it. `?tab=explore` deep links.
+- **Tab 1 — Official pathways:** six cards with description, sparkline, **2070 net emissions and %
+  vs BAU**, from the new `GET /api/pathways/summary`. Built on `pathways_lookup._build_series()`, so a
+  card reads from the same stored run the card opens — verified: the NDC 2.5 card and the NDC 2.5
+  answer both give 125.8 Mt.
+- **Tab 2 — Explore:** ambition (L) and conditions (X) columns with the reviewers' questions, plus
+  sector/condition chips built from `/api/features` — real counts (Transportation 11, not 5).
+- **Tab 3 — How this works:** the two answer badges, RDM/XLRM in brief, all 54 levers by sector and
+  all 13 uncertainties (from `/api/features`), what the tool reports and what it cannot.
+- `pathways_lookup.PATHWAY_CARD_META` holds the provisional card descriptions — deliberately
+  modelling-factual, flagged for expert sign-off in `change_proposal.md` §8.
+- Docs: `change_proposal.md` §7 documents the built layout with screenshots (`docs/images/tab-*.png`),
+  §8 adds the NDC 2.0 / NDC 2.5 question; design brief marked as decided.
+
+### Found while building
+The stored runs put **NDC 2.0 at 97.9 Mt in 2070 and NDC 2.5 at 125.8 Mt** — the higher-numbered
+pathway is the higher-emitting one at the horizon. Not a display bug; raised with the experts.
+
+## 2026-07-28 — Renamed to "Uganda Climate Pathways Explorer" + one vocabulary rule
+
+### Why
+Reviewer feedback (David Groves, Edmundo, 24 Jul 2026) before wider circulation. The tool called
+itself a *Simulator* and every answer a *simulation*, but only the 6 named pathways are real CDPM
+(SISEPUEDE) runs — everything else is a metamodel estimate. Calling both "simulation" is indefensible
+in front of World Bank reviewers, and it hid what is actually novel here: the official pathways can
+now be interrogated conversationally AND extended to combinations that were never officially run.
+
+### What
+- **Name:** `Uganda Climate Policy Simulator` → `Uganda Climate Pathways Explorer`, with a
+  "formerly…" line in the header so the rename is on the record (`frontend/index.html`,
+  `backend/app.py`, `run.py`).
+- **Vocabulary, applied to the screen *and* the system prompt:** *official pathway result* (the 6
+  stored CDPM runs) vs *metamodel estimate* (everything else); no generic "simulation"; "a very large
+  range of pathway combinations" instead of "infinite"; HBLE always expanded and tied to NDC 3.0;
+  "Quick start" → "Official pathways". The prompt half matters — otherwise the answers contradict the
+  buttons.
+- **Discoverability:** new `WHAT THE USER CAN ASK YOU` prompt section, with the 16 L sectors and the
+  13 X factors built from `feature_registry.json` so the capability answer cannot drift.
+- **Fix:** `RULES` 5 pointed "what if GDP is higher" at group 62 (Battery Storage Capital Cost);
+  GDP Growth Trajectory is group 57.
+- **Docs:** `docs/change_proposal.md` (the reviewable before → after record),
+  `docs/rdm_levers_and_uncertainties.md` (RDM/XLRM primer + generated catalogue of all 54 L / 13 X),
+  `docs/design_brief_claude_design.md` (three layout options). New scripts:
+  `backend/scripts/build_rdm_catalogue.py` and `backend/scripts/md_to_docx.py`.
+
+### Not done here
+Layout work (sidebar / grouped prompt buttons / tutorial) is specified as options only — see the
+design brief. Pathway display names (HBLE vs Candidate NDC3, the "(Alt)" label) are an open proposal
+in `change_proposal.md` §8; renaming them requires adding aliases in `pathways_lookup.PATHWAY_REGISTRY`
+or name-based routing breaks.
+
 ## 2026-07-14 — Relabel `entc` → "Forest Land - Removals" on real-pathway charts
 
 ### Why

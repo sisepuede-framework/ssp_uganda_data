@@ -1,5 +1,5 @@
 /**
- * Uganda Climate Policy Simulator — Frontend
+ * Uganda Climate Pathways Explorer — Frontend
  * ============================================
  * Pure vanilla JS — no framework, no build step.
  * Edit freely. Each function has a single responsibility.
@@ -24,26 +24,170 @@ const state = {
   conversationHistory: [],  // [{role, content}] — sent to server each turn
   isLoading: false,
   lastSimulation: null,     // persists the most recent simulation result for follow-up renders
+  activeTab: "official",    // official | explore | how
+  started: false,           // true once the user has asked anything (hides intros, collapses panel)
 };
 
 // ── Preset messages ───────────────────────────────────────────────────────
 
-// One entry per quick-start button. Each message NAMES its pathway explicitly so
-// the agent routes it to get_pathway_results (the real SISEPUEDE run), not the
-// surrogate. Keys match the onclick("sendPreset('<key>')") calls in index.html.
-const PRESETS = {
-  bau: "Show me the Business as Usual (BAU) pathway — Uganda's emissions, costs, and co-benefits under minimal policy action.",
-  ndc20: "Show me the NDC 2.0 pathway — emissions, costs, and co-benefits vs BAU.",
-  ndc25: "Show me the NDC 2.5 pathway — emissions, costs, and co-benefits vs BAU.",
-  unconditional: "Show me the NDC2 Unconditional pathway — emissions, costs, and co-benefits vs BAU.",
-  unconditional_alt: "Show me the NDC2 Unconditional (Alt) pathway — emissions, costs, and co-benefits vs BAU.",
-  hble: "Show me the HBLE pathway (Candidate NDC3) — Uganda's maximum-ambition emissions, costs, and co-benefits vs BAU.",
+// One entry per official pathway, keyed by the EXACT display name the backend
+// registry uses (pathways_lookup.PATHWAY_REGISTRY), so the cards rendered from
+// /api/pathways/summary map straight onto these. Each message NAMES its pathway
+// verbatim — the agent routes to get_pathway_results (the real CDPM run) by that
+// name, so do not paraphrase them.
+const PATHWAY_PRESETS = {
+  "BAU": "Show me the official Business as Usual (BAU) pathway result — Uganda's emissions, costs, and development benefits under minimal policy action.",
+  "NDC 2.0": "Show me the official NDC 2.0 pathway result — emissions, costs, and development benefits vs BAU.",
+  "NDC 2.5": "Show me the official NDC 2.5 pathway result — emissions, costs, and development benefits vs BAU.",
+  "NDC2 Unconditional": "Show me the official NDC2 Unconditional pathway result — emissions, costs, and development benefits vs BAU.",
+  "NDC2 Unconditional (Alt)": "Show me the official NDC2 Unconditional (Alt) pathway result — emissions, costs, and development benefits vs BAU.",
+  "Candidate NDC3": "Show me the official HBLE pathway result (Candidate NDC3, the analytical basis for Uganda's NDC 3.0) — emissions, costs, and development benefits vs BAU.",
 };
 
-function sendPreset(key) {
-  const message = PRESETS[key];
-  document.getElementById("chat-input").value = message;
+/** Put text in the input and send it. Every launcher button goes through here.
+ *  Asking always folds the launcher away: it has done its job, and the answer —
+ *  with its charts and its trace — is what the reader now wants the space for. */
+function ask(text) {
+  if (!text) return;
+  setPanelCollapsed(true);
+  document.getElementById("chat-input").value = text;
   sendMessage();
+}
+
+function sendPathway(name) {
+  ask(PATHWAY_PRESETS[name] ||
+      `Show me the official ${name} pathway result — emissions, costs, and development benefits vs BAU.`);
+}
+
+// ── Tabs & launcher panel ─────────────────────────────────────────────────
+
+// Each tab swaps the launcher panel, its intro block, and the input placeholder.
+// The CONVERSATION is shared — switching tabs never clears it.
+const TAB_META = {
+  official: {
+    panel: "panel-official", intro: "intro-official", shortName: "pathways",
+    placeholder: "Ask about one of the six official pathways...",
+  },
+  explore: {
+    panel: "panel-explore", intro: "intro-explore", shortName: "questions",
+    placeholder: "Describe a combination to explore — an ambition level, a delay, a country condition...",
+  },
+  // No intro and no input: the reference tab is a document, and asking from it
+  // hands off to Explore.
+  how: {
+    panel: "panel-how", intro: null, shortName: "reference",
+    placeholder: "Describe a combination to explore...",
+  },
+};
+
+function switchTab(tab) {
+  if (!TAB_META[tab]) tab = "official";
+  state.activeTab = tab;
+
+  for (const [key, meta] of Object.entries(TAB_META)) {
+    const isActive = key === tab;
+    document.getElementById(meta.panel).classList.toggle("hidden", !isActive);
+    // Intro blocks only exist while the conversation is empty.
+    if (meta.intro) {
+      document.getElementById(meta.intro).classList.toggle("hidden", !isActive || state.started);
+    }
+  }
+  document.querySelectorAll(".tab").forEach(btn => {
+    const isActive = btn.dataset.tab === tab;
+    btn.classList.toggle("tab--active", isActive);
+    btn.setAttribute("aria-selected", isActive ? "true" : "false");
+  });
+
+  document.getElementById("chat-input").placeholder = TAB_META[tab].placeholder;
+  document.getElementById("launcher").scrollTop = 0;   // start each tab at its top
+  applyReadingMode();
+  setPanelCollapsed(false);            // switching tabs always reveals the panel
+
+  // Shareable deep link (?tab=explore) — handy for pointing a reviewer at one section.
+  const url = new URL(window.location);
+  url.searchParams.set("tab", tab);
+  window.history.replaceState({}, "", url);
+}
+
+/**
+ * "How this works" is a document, always: the panel owns the whole height, the
+ * transcript and the input step aside, and the collapse control disappears —
+ * there is nothing to collapse it for. Questions asked from it hand off to
+ * Explore (see askFromReference), so the single conversation stays in one place.
+ */
+function applyReadingMode() {
+  const panel = document.querySelector(".chat-panel");
+  const reading = state.activeTab === "how";
+  panel.classList.toggle("chat-panel--reading", reading);
+  document.getElementById("launcher").classList.toggle("launcher--tall", reading);
+  document.getElementById("panel-toggle").classList.toggle("hidden", reading);
+}
+
+/**
+ * Hand-off: a question asked from the reference page opens in Explore, where the
+ * conversation lives. Switching tabs IS the feedback — it shows the reader where
+ * answers land, every time, instead of hiding a second conversation behind a tab.
+ */
+function askFromReference(text) {
+  switchTab("explore");
+  ask(text);
+}
+
+function setPanelCollapsed(collapsed) {
+  const launcher = document.getElementById("launcher");
+  const toggle = document.getElementById("panel-toggle");
+  launcher.classList.toggle("launcher--collapsed", collapsed);
+  // Name what the control does — a bare "Show" gives no clue what comes back.
+  const label = TAB_META[state.activeTab]?.shortName || "section";
+  toggle.textContent = collapsed ? `Show ${label} ▾` : "Hide ▴";
+  toggle.setAttribute("aria-expanded", collapsed ? "false" : "true");
+  document.querySelector(".chat-panel").classList.toggle("chat-panel--folded", collapsed);
+}
+
+function initTabs() {
+  document.querySelectorAll(".tab").forEach(btn => {
+    btn.addEventListener("click", () => {
+      // Clicking the tab you are already on folds the panel away and back —
+      // the tab itself is the most obvious thing to reach for.
+      if (btn.dataset.tab === state.activeTab) {
+        const collapsed = document.getElementById("launcher").classList.contains("launcher--collapsed");
+        setPanelCollapsed(!collapsed);
+        return;
+      }
+      switchTab(btn.dataset.tab);
+    });
+  });
+  document.getElementById("panel-toggle").addEventListener("click", () => {
+    const collapsed = document.getElementById("launcher").classList.contains("launcher--collapsed");
+    setPanelCollapsed(!collapsed);
+  });
+  // Any launcher button carrying data-ask sends that question; data-ask-ref comes
+  // from the reference page and hands off to Explore first.
+  document.addEventListener("click", (event) => {
+    const handoff = event.target.closest("[data-ask-ref]");
+    if (handoff) {
+      event.preventDefault();     // Ask buttons live inside <summary>; don't toggle it
+      askFromReference(handoff.dataset.askRef);
+      return;
+    }
+    const btn = event.target.closest("[data-ask]");
+    if (btn) ask(btn.dataset.ask);
+  });
+
+  initDocNav();
+  document.getElementById("launcher").addEventListener("scroll", updateDocNavHighlight);
+
+  const requested = new URLSearchParams(window.location.search).get("tab");
+  switchTab(requested || "official");
+}
+
+/** Hide the intro blocks and fold the launcher away — called on the first question. */
+function markConversationStarted() {
+  if (state.started) return;
+  state.started = true;
+  document.querySelectorAll(".intro-block").forEach(el => el.classList.add("hidden"));
+  applyReadingMode();   // reading mode ends — the transcript takes the space back
+  setPanelCollapsed(true);
 }
 
 // ── API calls ─────────────────────────────────────────────────────────────
@@ -77,6 +221,299 @@ async function sendChatRequest(messages) {
   return res.json();
 }
 
+// ── Launcher content (loaded from the API — never hardcoded) ──────────────
+
+/**
+ * Official-pathway cards. Every figure comes from /api/pathways/summary, which
+ * reads the same stored CDPM runs the cards open — so a card can never show a
+ * number that disagrees with the answer behind it.
+ */
+async function loadPathwayCards() {
+  const mount = document.getElementById("pathway-cards");
+  let pathways;
+  try {
+    const res = await fetch(`${API_BASE}/api/pathways/summary`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    ({ pathways } = await res.json());
+  } catch (err) {
+    // Degrade to plain buttons rather than showing nothing — the pathways still work.
+    mount.innerHTML = "";
+    for (const name of Object.keys(PATHWAY_PRESETS)) {
+      const btn = document.createElement("button");
+      btn.className = "pathway-card pathway-card--bare";
+      btn.innerHTML = `<span class="pc-name">${escapeHtml(name)}</span>`;
+      btn.addEventListener("click", () => sendPathway(name));
+      mount.appendChild(btn);
+    }
+    return;
+  }
+
+  // One shared vertical scale across all six sparklines, so the cards are
+  // comparable at a glance (HBLE really does sit near the floor).
+  const peak = Math.max(...pathways.flatMap(p => p.net_by_year));
+  mount.innerHTML = "";
+
+  for (const p of pathways) {
+    const card = document.createElement("button");
+    card.className = "pathway-card" + (p.is_baseline ? " pathway-card--baseline" : "");
+    card.title = `${p.name} · strategy ${p.strategy_code}`;
+
+    const delta = p.pct_vs_bau_2070 == null
+      ? `<span class="pc-delta pc-delta--base">baseline</span>`
+      : `<span class="pc-delta">${p.pct_vs_bau_2070 < 0 ? "−" : "+"}${Math.abs(Math.round(p.pct_vs_bau_2070))}% vs BAU</span>`;
+
+    card.innerHTML =
+      `<div class="pc-top">
+         <span class="pc-name">${p.icon ? escapeHtml(p.icon) + " " : ""}${escapeHtml(p.short_label)}</span>
+         ${sparklineSVG(p.net_by_year, peak, p.is_baseline)}
+       </div>
+       <p class="pc-desc">${escapeHtml(p.description)}</p>
+       <div class="pc-figs">
+         <span class="pc-value">${p.net_2070}</span>
+         <span class="pc-unit">${escapeHtml(p.unit || "Mt CO₂e")} · 2070</span>
+         ${delta}
+       </div>`;
+    card.addEventListener("click", () => sendPathway(p.name));
+    mount.appendChild(card);
+  }
+}
+
+/**
+ * Tiny inline SVG trajectory. Baseline (BAU) draws in the rising red; every other
+ * pathway falls relative to it and draws in the action green (Design Guide: red =
+ * rising/BAU, green = falling/action).
+ */
+function sparklineSVG(series, peak, isBaseline) {
+  const W = 92, H = 30, PAD = 3;
+  const max = peak > 0 ? peak : 1;
+  const points = series.map((v, i) => {
+    const x = PAD + (i * (W - 2 * PAD)) / (series.length - 1);
+    const y = H - PAD - (Math.max(v, 0) / max) * (H - 2 * PAD);
+    return `${x.toFixed(1)},${y.toFixed(1)}`;
+  }).join(" ");
+  const colour = isBaseline ? "#B0413E" : "#4E8F5B";
+  return `<svg class="pc-spark" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" aria-hidden="true">
+      <polyline points="${points}" fill="none" stroke="${colour}" stroke-width="1.6"
+                stroke-linecap="round" stroke-linejoin="round" />
+    </svg>`;
+}
+
+/**
+ * Explore chips and the How-this-works catalogue, both built from /api/features —
+ * the same registry the assistant reads. Counts on screen therefore cannot drift
+ * from the levers that actually exist.
+ */
+async function loadFeatureRegistry() {
+  let registry;
+  try {
+    const res = await fetch(`${API_BASE}/api/features`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    registry = await res.json();
+  } catch (err) {
+    console.warn("Could not load the feature registry:", err);
+    return;
+  }
+
+  const levers = Object.values(registry.lever_features || {});
+  const exogenous = Object.values(registry.exogenous_features || {})
+    .sort((a, b) => a.group_id - b.group_id);
+
+  // Chip order for the conditions: the ones a policymaker recognises come first
+  // (growth, population, fuel prices, exports), then technology costs and the
+  // elasticities. The full list stays behind "N more" and in the catalogue.
+  const X_HEADLINE = [57, 60, 56, 55];
+  const exogenousForChips = [...exogenous].sort((a, b) => {
+    const rank = x => {
+      const i = X_HEADLINE.indexOf(x.group_id);
+      return i === -1 ? X_HEADLINE.length + x.group_id : i;
+    };
+    return rank(a) - rank(b);
+  });
+
+  // sector → levers, biggest sector first
+  const bySector = new Map();
+  for (const lever of levers) {
+    if (!bySector.has(lever.sector)) bySector.set(lever.sector, []);
+    bySector.get(lever.sector).push(lever);
+  }
+  const sectors = [...bySector.entries()].sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0]));
+
+  document.getElementById("ambition-count").textContent = `${levers.length} L · ${sectors.length} sectors`;
+  document.getElementById("conditions-count").textContent = `${exogenous.length} X`;
+  document.getElementById("how-levers-count").textContent = `${levers.length} across ${sectors.length} sectors`;
+  document.getElementById("how-conditions-count").textContent = `${exogenous.length} in total`;
+
+  renderSectorChips(sectors);
+  renderConditionChips(exogenousForChips);
+  renderLeverCatalogue(sectors);
+  renderConditionCatalogue(exogenous);
+  initLeverFilter();          // wired after the rows exist
+}
+
+const CHIPS_SHOWN = 6;   // the rest hide behind a "N more" chip
+
+function renderSectorChips(sectors) {
+  const mount = document.getElementById("explore-sectors");
+  mount.innerHTML = "";
+  const makeChip = ([sector, group]) => {
+    const chip = document.createElement("button");
+    chip.className = "mini-chip";
+    chip.innerHTML = `${escapeHtml(sector)} <span class="mini-chip-n">${group.length}</span>`;
+    chip.dataset.ask =
+      `What can Uganda change in the ${sector} sector, and what would maximum ambition there ` +
+      `do to emissions, costs and development benefits?`;
+    return chip;
+  };
+  sectors.slice(0, CHIPS_SHOWN).forEach(entry => mount.appendChild(makeChip(entry)));
+
+  const rest = sectors.slice(CHIPS_SHOWN);
+  if (!rest.length) return;
+  const more = document.createElement("button");
+  more.className = "mini-chip mini-chip--more";
+  more.textContent = `${rest.length} more sectors`;
+  more.addEventListener("click", () => {
+    more.remove();
+    rest.forEach(entry => mount.appendChild(makeChip(entry)));
+  });
+  mount.appendChild(more);
+}
+
+function renderConditionChips(exogenous) {
+  const mount = document.getElementById("explore-conditions");
+  mount.innerHTML = "";
+  const makeChip = (x) => {
+    const chip = document.createElement("button");
+    chip.className = "mini-chip";
+    chip.textContent = x.display_name;
+    chip.dataset.ask =
+      `What happens to emissions, costs and development benefits if ${x.display_name} sits at the ` +
+      `high end of its uncertainty range instead of the median future?`;
+    return chip;
+  };
+  exogenous.slice(0, CHIPS_SHOWN).forEach(x => mount.appendChild(makeChip(x)));
+
+  const rest = exogenous.slice(CHIPS_SHOWN);
+  if (!rest.length) return;
+  const more = document.createElement("button");
+  more.className = "mini-chip mini-chip--more";
+  more.textContent = `${rest.length} more`;
+  more.addEventListener("click", () => {
+    more.remove();
+    rest.forEach(x => mount.appendChild(makeChip(x)));
+  });
+  mount.appendChild(more);
+}
+
+function renderLeverCatalogue(sectors) {
+  const mount = document.getElementById("how-levers");
+  mount.innerHTML = "";
+  for (const [sector, group] of sectors) {
+    const details = document.createElement("details");
+    details.className = "cat-group";
+    // Clean names only. The raw SISEPUEDE transformation code
+    // (TX:TRNS:INC_EFFICIENCY_ELECTRIC_STRATEGY_NZ) means nothing to a reader and
+    // its _NZ suffix is unexplained jargon — it stays on hover for the modellers.
+    // Each row carries an Ask that hands the question off to Explore.
+    const rows = group
+      .sort((a, b) => a.group_id - b.group_id)
+      .map(l => {
+        const q = `What does the "${l.display_name}" lever (${l.sector}) actually change, and what ` +
+                  `happens to emissions, costs and development benefits at maximum ambition?`;
+        return `<li title="${escapeAttr(l.transformation_code || "")}">
+                  <span class="cat-id">${l.group_id}</span>
+                  <span class="cat-name">${escapeHtml(l.display_name)}</span>
+                  <button class="cat-ask" data-ask-ref="${escapeAttr(q)}">Ask</button>
+                </li>`;
+      })
+      .join("");
+    const sectorQ = `What can Uganda change in the ${sector} sector, and what would maximum ambition ` +
+                    `there do to emissions, costs and development benefits?`;
+    details.innerHTML =
+      `<summary>${escapeHtml(sector)} <span class="cat-count">${group.length}</span>
+         <button class="cat-ask cat-ask--sector" data-ask-ref="${escapeAttr(sectorQ)}">Ask about this sector</button>
+       </summary>
+       <ul class="cat-list">${rows}</ul>`;
+    mount.appendChild(details);
+  }
+}
+
+function renderConditionCatalogue(exogenous) {
+  const mount = document.getElementById("how-conditions");
+  const rows = exogenous.map(x => {
+    const domain = (x.sector || "").replace("Exogenous / ", "");
+    const q = `What happens to emissions, costs and development benefits if ${x.display_name} sits at ` +
+              `the high end of its uncertainty range instead of the median future?`;
+    return `<li><span class="cat-id">${x.group_id}</span>
+              <span class="cat-name">${escapeHtml(x.display_name)}</span>
+              <span class="cat-domain">${escapeHtml(domain)}</span>
+              <button class="cat-ask" data-ask-ref="${escapeAttr(q)}">Ask</button>
+            </li>`;
+  }).join("");
+  mount.innerHTML = `<ul class="cat-list cat-list--flat">${rows}</ul>`;
+}
+
+/**
+ * Filter over the 54 levers. With 16 collapsed sectors, browsing is the only way
+ * in — and people don't browse, they look for the thing they already have in mind.
+ * A sector-name match reveals that whole sector.
+ */
+function initLeverFilter() {
+  const input = document.getElementById("lever-filter");
+  const countEl = document.getElementById("lever-filter-count");
+  if (!input) return;
+
+  input.addEventListener("input", () => {
+    const q = input.value.trim().toLowerCase();
+    let shown = 0;
+
+    document.querySelectorAll("#how-levers .cat-group").forEach(group => {
+      const summary = group.querySelector("summary");
+      const sectorHit = !!q && summary.textContent.toLowerCase().includes(q);
+      let matches = 0;
+
+      group.querySelectorAll("li").forEach(li => {
+        const hit = !q || sectorHit || li.textContent.toLowerCase().includes(q);
+        li.classList.toggle("filtered-out", !hit);
+        if (hit) matches++;
+      });
+
+      group.classList.toggle("filtered-out", q ? matches === 0 : false);
+      group.open = !!q && matches > 0;      // open what matched, close again when cleared
+      shown += q ? matches : 0;
+    });
+
+    countEl.textContent = q ? `${shown} lever${shown === 1 ? "" : "s"}` : "";
+  });
+}
+
+/** Keep the nav in step with where the reader actually is. */
+function updateDocNavHighlight() {
+  if (state.activeTab !== "how") return;
+  const launcher = document.getElementById("launcher");
+  const links = [...document.querySelectorAll(".doc-nav-link")];
+  let current = links[0];
+  for (const link of links) {
+    const section = document.getElementById(link.dataset.section);
+    if (section && section.getBoundingClientRect().top - launcher.getBoundingClientRect().top <= 60) {
+      current = link;
+    }
+  }
+  links.forEach(l => l.classList.toggle("doc-nav-link--active", l === current));
+}
+
+/** Section navigation — scrolls within the reference page's own scroll container. */
+function initDocNav() {
+  document.querySelectorAll(".doc-nav-link").forEach(link => {
+    link.addEventListener("click", () => {
+      const target = document.getElementById(link.dataset.section);
+      if (!target) return;
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+      document.querySelectorAll(".doc-nav-link").forEach(l => l.classList.remove("doc-nav-link--active"));
+      link.classList.add("doc-nav-link--active");
+    });
+  });
+}
+
 // ── Chat logic ────────────────────────────────────────────────────────────
 
 function handleInputKey(event) {
@@ -96,6 +533,7 @@ async function sendMessage() {
 
   input.value = "";
   setLoading(true);
+  markConversationStarted();   // hide the intros, fold the launcher away
 
   // Add user message to UI + history
   appendMessage("user", text);
@@ -172,23 +610,16 @@ function appendMessage(role, content, simulationData = null, traceData = null) {
   container.appendChild(msgDiv);
 
   // Now draw each chart into its in-place mount point.
-  let renderedAnyChart = false;
   for (const { mount, spec } of pendingCharts) {
-    if (effectiveSimData) {
-      renderChartFromSpec(mount, spec, effectiveSimData);
-      renderedAnyChart = true;
-    }
+    if (effectiveSimData) renderChartFromSpec(mount, spec, effectiveSimData);
   }
 
   // Process trace — the factual record of how this answer was produced (source
   // badge + collapsible steps). Assistant messages only, when the backend sent one.
+  // This is the LAST thing under an answer: nothing follows it competing for the
+  // reader's attention.
   if (role === "assistant" && Array.isArray(traceData) && traceData.length > 0) {
     renderTrace(contentDiv, traceData);
-  }
-
-  // Follow-up suggestion chips — only when the message produced at least one chart.
-  if (renderedAnyChart) {
-    renderFollowUpChips(container, msgDiv);
   }
 
   // Scroll to bottom
@@ -314,6 +745,13 @@ function escapeHtml(text) {
     .replace(/>/g, "&gt;");
 }
 
+/** Escape for use INSIDE an attribute value. escapeHtml leaves quotes alone, which
+ *  silently truncates any attribute containing one — e.g. a lever question that
+ *  quotes the lever's own name. */
+function escapeAttr(text) {
+  return escapeHtml(text).replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+
 /**
  * Find and strip lines matching "variable_name = value" from raw text.
  * A valid line: identifier chars (a-z, 0-9, _) = any non-empty value.
@@ -386,8 +824,8 @@ function renderVariableTable(container, pairs) {
 // Per-data-source display metadata for the process trace. `cls` maps to the CSS
 // colour variants (real=teal, surrogate=amber, everything else=muted).
 const TRACE_SOURCE_META = {
-  real_run:          { badge: "Official pathway",   cls: "real",      tag: "Official" },
-  surrogate_xgboost: { badge: "Surrogate estimate", cls: "surrogate", tag: "Surrogate" },
+  real_run:          { badge: "Official pathway result", cls: "real",      tag: "Official" },
+  surrogate_xgboost: { badge: "Metamodel estimate",      cls: "surrogate", tag: "Metamodel" },
   reference:         { badge: "Reference lookup",   cls: "ref",       tag: "Reference" },
   context:           { badge: "Baseline context",   cls: "ref",       tag: "Context" },
   lookup:            { badge: "Registry lookup",    cls: "ref",       tag: "Lookup" },
@@ -456,37 +894,10 @@ function renderTrace(container, trace) {
 }
 
 /**
- * Render follow-up suggestion chips below a message row (outside the bubble).
- * Each chip fires sendMessage() with its suggestion text when clicked.
+ * (Removed) Follow-up suggestion chips used to appear under every charted answer.
+ * They now live in the Explore tab instead: canned questions belong in the
+ * launcher, not stacked under the trace panel where they crowd the answer.
  */
-function renderFollowUpChips(container, afterNode) {
-  const SUGGESTIONS = [
-    "Show sector breakdown",
-    "What if GDP grows faster?",
-    "What drives the biggest emission reductions?",
-  ];
-
-  const row = document.createElement("div");
-  row.className = "followup-chips";
-
-  for (const text of SUGGESTIONS) {
-    const btn = document.createElement("button");
-    btn.className = "followup-chip";
-    btn.textContent = text;
-    btn.addEventListener("click", () => {
-      document.getElementById("chat-input").value = text;
-      sendMessage();
-    });
-    row.appendChild(btn);
-  }
-
-  // Insert immediately after the message row that triggered this
-  if (afterNode.nextSibling) {
-    container.insertBefore(row, afterNode.nextSibling);
-  } else {
-    container.appendChild(row);
-  }
-}
 
 /**
  * Split assistant text into ordered segments so charts render inline, exactly where
@@ -617,7 +1028,7 @@ function renderInlineChart(container, chartData) {
   // 3. Simulated scenario — amber solid, only for user what-if runs
   if (Array.isArray(scenario)) {
     datasets.push({
-      label: chartData.scenario_label || "Simulated Scenario",
+      label: chartData.scenario_label || "Selected pathway",
       data: scenario,
       borderColor: "#E3B505",
       borderWidth: 2.5,
@@ -1046,10 +1457,10 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
   if (view === "current") {
     makePanel(buildDatasets(bauTrajectories, true), opts.title || "Current Emissions (BAU)", true);
   } else if (view === "scenario") {
-    makePanel([...buildDatasets(scenarioTrajectories, false), ...referenceLines], opts.title || "Policy Scenario", true);
+    makePanel([...buildDatasets(scenarioTrajectories, false), ...referenceLines], opts.title || "Selected pathway", true);
   } else {
     makePanel(buildDatasets(bauTrajectories,       true),  "Business as Usual", true);
-    makePanel([...buildDatasets(scenarioTrajectories, false), ...referenceLines], "Policy Scenario", false);
+    makePanel([...buildDatasets(scenarioTrajectories, false), ...referenceLines], "Selected pathway", false);
   }
 
   // Right-side legend with click toggle
@@ -1232,7 +1643,7 @@ function renderCostBenefitChart(container, cbc, opts = {}) {
           display: true,
           text: opts.title || (view === "current"
             ? "Annual Cost & Benefit by Year (Current / BAU)"
-            : "Annual Cost & Benefit by Year (Policy Scenario)"),
+            : "Annual Cost & Benefit by Year (Selected pathway)"),
           color: "#262421", font: { family: SANS, size: 11, weight: "600" },
           padding: { bottom: 6 },
         },
@@ -1337,5 +1748,8 @@ function renderChartMetrics(container, metrics) {
 
 document.addEventListener("DOMContentLoaded", () => {
   checkHealth();
+  initTabs();
+  loadPathwayCards();
+  loadFeatureRegistry();
   document.getElementById("chat-input").focus();
 });

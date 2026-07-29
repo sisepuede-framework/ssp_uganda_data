@@ -97,6 +97,49 @@ PATHWAY_REGISTRY: dict[str, dict] = {
     },
 }
 
+# ── Card copy for the "Official pathways" tab ────────────────────────────────
+# PROVISIONAL — awaiting expert confirmation (see docs/change_proposal.md §8).
+# Deliberately says what each pathway IS in the model and nothing more: no
+# submission dates, no attributions we cannot source. Two labels are known to be
+# unsettled and are worded neutrally rather than guessed:
+#   · "NDC2 Unconditional" sits on strategy code PFLO:NDC_25_UNCONDITIONAL (2 vs 2.5)
+#   · the "(Alt)" variant's `_CE` suffix has no confirmed expansion
+PATHWAY_CARD_META: dict[str, dict] = {
+    "BAU": {
+        "short_label": "BAU",
+        "icon": "📊",
+        "description": "Business as Usual — minimal policy action. The baseline every "
+                       "other pathway is measured against.",
+    },
+    "NDC 2.0": {
+        "short_label": "NDC 2.0",
+        "icon": "",
+        "description": "Uganda's NDC 2.0 ambition, as represented in the CDPM.",
+    },
+    "NDC 2.5": {
+        "short_label": "NDC 2.5",
+        "icon": "",
+        "description": "The NDC 2.5 ambition — conditional and unconditional measures together.",
+    },
+    "NDC2 Unconditional": {
+        "short_label": "NDC2 Unconditional",
+        "icon": "",
+        "description": "The unconditional portion of the NDC ambition — what Uganda "
+                       "commits to without external support.",
+    },
+    "NDC2 Unconditional (Alt)": {
+        "short_label": "NDC2 Uncond. (Alt)",
+        "icon": "",
+        "description": "An alternative formulation of the same unconditional set.",
+    },
+    "Candidate NDC3": {
+        "short_label": "HBLE (NDC 3.0 basis)",
+        "icon": "🌿",
+        "description": "High Benefits, Low Emission — the maximum-ambition frontier and "
+                       "the analytical basis for Uganda's NDC 3.0.",
+    },
+}
+
 BAU_PID: int = 0
 HBLE_PID: int = 5005
 
@@ -344,6 +387,61 @@ def _build_series(pid: int, name: str) -> dict:
         "sector_trajectories": sector_trajectories,
         "cost_benefit": cost_benefit,
     }
+
+
+def _net_by_year(series: dict) -> dict[int, float]:
+    """Economy-wide net emissions per anchor year = sum across all sector trajectories."""
+    trajectories = series["sector_trajectories"]
+    return {
+        year: sum(traj.get(year, 0.0) for traj in trajectories.values())
+        for year in EMISSION_YEARS
+    }
+
+
+@lru_cache(maxsize=1)
+def build_pathway_cards() -> tuple[dict, ...]:
+    """Headline figures for the six official-pathway cards in the UI.
+
+    One entry per registry pathway: the net-emissions trajectory across the seven
+    anchor years (for the card sparkline), the 2070 total, and % vs BAU at 2070.
+    Every figure comes from the SAME stored runs `get_pathway_results` serves, so a
+    card can never disagree with the answer it opens.
+
+    Cached: the underlying CSV loads are themselves cached, and this response is
+    identical for every visitor. Returned as a tuple so the cached value cannot be
+    mutated by a caller.
+    """
+    bau = _build_series(BAU_PID, "Business as Usual (Real Run)")
+    bau_net = _net_by_year(bau)
+    bau_2070 = bau_net.get(2070) or 0.0
+
+    cards: list[dict] = []
+    for name, meta in PATHWAY_REGISTRY.items():
+        series = bau if meta["primary_id"] == BAU_PID else _build_series(meta["primary_id"], name)
+        net = _net_by_year(series)
+        net_2070 = net.get(2070, 0.0)
+        # BAU is the baseline — "% vs BAU" is meaningless for it (always 0).
+        pct = (
+            None if meta["is_baseline"] or not bau_2070
+            else round((net_2070 - bau_2070) / abs(bau_2070) * 100, 1)
+        )
+        card = PATHWAY_CARD_META.get(name, {})
+        cards.append({
+            "name": name,
+            "short_label": card.get("short_label", name),
+            "icon": card.get("icon", ""),
+            "description": card.get("description", ""),
+            "strategy_code": meta["strategy_code"],
+            "is_baseline": meta["is_baseline"],
+            "years": list(EMISSION_YEARS),
+            "net_by_year": [round(net.get(y, 0.0), 1) for y in EMISSION_YEARS],
+            "net_2070": round(net_2070, 1),
+            "pct_vs_bau_2070": pct,
+            "unit": EMISSION_UNIT,
+        })
+
+    logger.info("build_pathway_cards: %d cards built", len(cards))
+    return tuple(cards)
 
 
 @lru_cache(maxsize=1)

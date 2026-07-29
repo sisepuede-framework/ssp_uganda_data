@@ -228,7 +228,11 @@ ssp_modeling/ssp_run_output/
 data_processing/
 employment_estimates/
 inventory_summary_excel/
-metamodel/chatbot_deploy/docs/
+# Track the review documents (change proposal, RDM reference, design brief) but not
+# their generated .docx, the HTML decks, or the screenshots. Note the trailing /* —
+# ignoring the directory itself would make the negation below unreachable.
+metamodel/chatbot_deploy/docs/*
+!metamodel/chatbot_deploy/docs/*.md
 ssp_modeling/
 *.pkl
 metamodel/chatbot_deploy/model.pkl
