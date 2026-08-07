@@ -36,16 +36,16 @@ OUT = REPO_ROOT / "docs" / "ui_text_inventory.md"
 
 # Question templates. These MIRROR app.js — the assertions below fail loudly if the
 # code changes and this file does not.
-LEVER_Q = ('What does the "{name}" lever ({sector}) actually change, and what happens to '
-           'emissions, costs and development benefits at maximum ambition?')
-SECTOR_Q = ('What can Uganda change in the {sector} sector, and what would maximum ambition '
-            'there do to emissions, costs and development benefits?')
+LEVER_Q = ('What does the "{name}" lever ({sector}) actually change in the model, and what happens to '
+           'emissions, costs and development benefits at the ambitious end of its range?')
+SECTOR_Q = ('What can Uganda change in the {sector} sector, and what would the ambitious end of the '
+            'range there do to emissions, costs and development benefits?')
 CONDITION_Q = ('What happens to emissions, costs and development benefits if {name} sits at '
                'the high end of its uncertainty range instead of the median future?')
 CONDITION_CHIP_Q = ('What happens to emissions, costs and development benefits if {name} sits at the '
                     'high end of its uncertainty range instead of the median future?')
-SECTOR_CHIP_Q = ('What can Uganda change in the {sector} sector, and what would maximum ambition there '
-                 'do to emissions, costs and development benefits?')
+SECTOR_CHIP_Q = ('What can Uganda change in the {sector} sector, and what would the ambitious end of '
+                 'the range there do to emissions, costs and development benefits?')
 
 CHIPS_SHOWN = 6          # mirrors app.js
 X_HEADLINE = [57, 60, 56, 55]
@@ -117,7 +117,9 @@ app_js = APP_JS.read_text()
 registry = json.loads(REGISTRY.read_text())
 
 for snippet, what in [
-    ('actually change, and what', "the lever Ask question"),
+    # Keep snippets short enough to sit inside ONE app.js string literal — the
+    # templates there are split across concatenated lines.
+    ('actually change in the model', "the lever Ask question"),
     ("What can Uganda change in the", "the sector question"),
     ("high end of its uncertainty range instead of the median future", "the condition question"),
 ]:

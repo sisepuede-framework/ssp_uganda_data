@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,600;6..72,700&family=Libre+Franklin:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <!-- Bump ?v= on every app.js/style.css change to bust the browser cache. -->
-  <link rel="stylesheet" href="/style.css?v=20260729j" />
+  <link rel="stylesheet" href="/style.css?v=20260807b" />
   <!-- Chart.js for results visualisation -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"
           crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -57,8 +57,10 @@
           <div class="panel-head">
             <h2 class="panel-title">Uganda's six official pathways</h2>
             <p class="panel-lede">
-              Stored simulations from Uganda's <strong>Country Development Pathway Model (CDPM)</strong>,
-              built with <strong>SISEPUEDE</strong>. The fullest detail in the tool — nothing here is estimated.
+              Six positions on what Uganda's transition could be — drawn from work with policy actors on
+              what is achievable and what is committed to, then run in full through Uganda's
+              <strong>Country Development Pathway Model (CDPM)</strong>, built with
+              <strong>SISEPUEDE</strong>. The fullest detail in the tool; nothing here is estimated.
             </p>
             <span class="prov-badge prov-badge--official">◆ Official pathway result</span>
           </div>
@@ -82,9 +84,10 @@
           <div class="panel-head">
             <h2 class="panel-title">Explore beyond the six</h2>
             <p class="panel-lede">
-              Combinations that were <strong>never officially simulated</strong>, estimated by a live
-              <strong>metamodel</strong> trained on ~99,000 CDPM runs — broader strokes than an official
-              run, always shown against BAU and HBLE.
+              Test a choice against a future no official pathway assumed — a different level of
+              ambition, a different set of conditions, or both. Combinations outside the official
+              pathways are estimated by a live <strong>metamodel</strong> trained on ~99,000 CDPM runs:
+              broader strokes than an official run, always read against BAU and HBLE.
             </p>
             <span class="prov-badge prov-badge--estimate">≈ Metamodel estimate</span>
           </div>
@@ -96,7 +99,8 @@
                 <h3>Ambition — the sectoral transitions</h3>
                 <span class="explore-count" id="ambition-count">54 L · 16 sectors</span>
               </div>
-              <p class="explore-sub">What Uganda decides: how far and how fast each sector transitions.</p>
+              <p class="explore-sub">What Uganda decides: how far and how fast each sector transitions
+                by 2070. A lever is the effect a policy would produce, not the policy itself.</p>
               <button class="q-btn" data-ask="What happens if Uganda reaches only part of the HBLE ambition in transport and electricity?">
                 What happens if Uganda reaches only <strong>part</strong> of the HBLE ambition in transport and electricity?
               </button>
@@ -115,7 +119,8 @@
                 <h3>Conditions — the country assumptions</h3>
                 <span class="explore-count" id="conditions-count">13 X</span>
               </div>
-              <p class="explore-sub">What the world decides: the futures Uganda has to deliver in.</p>
+              <p class="explore-sub">What the world decides: the futures Uganda has to deliver in,
+                whatever it chooses. Nobody can put probabilities on these — so try more than one.</p>
               <button class="q-btn" data-ask="How would faster GDP growth affect emissions and implementation costs?">
                 How would <strong>faster GDP growth</strong> affect emissions and implementation costs?
               </button>
@@ -140,21 +145,140 @@
             <!-- Section nav — jumps within the page -->
             <nav class="doc-nav" aria-label="On this page">
               <span class="doc-nav-label">On this page</span>
-              <button class="doc-nav-link" data-section="sec-answers">The two answer types</button>
-              <button class="doc-nav-link" data-section="sec-rdm">Why it's built this way</button>
+              <button class="doc-nav-link" data-section="sec-uncertainty">The problem this is for</button>
+              <button class="doc-nav-link" data-section="sec-xlrm">What you can change</button>
+              <button class="doc-nav-link" data-section="sec-levers-are-not-policies">Levers aren't policies</button>
+              <button class="doc-nav-link" data-section="sec-scale">What 0 to 1 means</button>
+              <button class="doc-nav-link" data-section="sec-pathways">Where the six come from</button>
+              <button class="doc-nav-link" data-section="sec-answers">The two kinds of answer</button>
               <button class="doc-nav-link" data-section="sec-ambition">Ambition — the levers</button>
               <button class="doc-nav-link" data-section="sec-conditions">Conditions</button>
-              <button class="doc-nav-link" data-section="sec-outputs">What you get back</button>
+              <button class="doc-nav-link" data-section="sec-limits">What it cannot tell you</button>
             </nav>
 
             <div class="doc-body">
               <h2 class="doc-title">How this works</h2>
               <p class="doc-lede">
-                Where each answer comes from, and everything you can change. Ask about anything on this
-                page — the question opens in <strong>Explore</strong>, with the rest of your conversation.
+                What this tool is for, what you can change in it, and what its numbers do and do not
+                mean. Ask about anything on this page — the question opens in <strong>Explore</strong>,
+                with the rest of your conversation.
               </p>
 
-              <!-- 1. The two kinds of answer — the same badges the trace panel uses -->
+              <!-- 1. Deep uncertainty — why the method, before any of the machinery -->
+              <section id="sec-uncertainty">
+                <h3 class="doc-h">The problem this is built for</h3>
+                <p class="doc-p">
+                  Nobody can put a defensible probability on Uganda's economy, population or fuel prices
+                  in 2070. Informed people disagree — not about the arithmetic, but about the premises.
+                  That condition has a name, <strong>deep uncertainty</strong>, and it defeats the usual
+                  method: settle what the future holds, then plan for it. The agreement never arrives,
+                  and the planning waits on it.
+                </p>
+                <p class="doc-p">
+                  So this tool takes the other route, <strong>Robust Decision Making</strong> — one of a
+                  family of approaches for deciding under deep uncertainty. Instead of predicting one
+                  future and optimising for it, it takes the choices as given and asks how they hold up
+                  across many. Parties who cannot agree on 2050 can still agree on what is worth
+                  starting now, because they can see it holds in the futures each of them believes in.
+                </p>
+                <p class="doc-p doc-p--muted">
+                  Nothing here is a forecast. Every number is conditional on the settings behind it.
+                </p>
+              </section>
+
+              <!-- 2. XLRM — and the fact that the split was elicited, not invented -->
+              <section id="sec-xlrm">
+                <h3 class="doc-h">What you can change, and what you cannot</h3>
+                <p class="doc-p">
+                  Robust Decision Making starts by separating what a decision-maker controls from what
+                  they are merely exposed to. That split — the <strong>L</strong> and <strong>X</strong>
+                  of an XLRM framework — is the structure of this entire tool:
+                </p>
+                <dl class="doc-defs">
+                  <div>
+                    <dt><span class="doc-key doc-key--l">L</span> what Uganda decides</dt>
+                    <dd>The sectoral transitions: how far and how fast each part of the economy changes.</dd>
+                  </div>
+                  <div>
+                    <dt><span class="doc-key doc-key--x">X</span> what the world decides</dt>
+                    <dd>The conditions Uganda cannot legislate: growth, population, prices, technology costs.</dd>
+                  </div>
+                </dl>
+                <p class="doc-p doc-p--muted">
+                  This division was not derived from the model. It came out of conversations with policy
+                  actors about which transitions are achievable, which are wanted, and what Uganda is
+                  simply exposed to — so it records who has agency over what.
+                </p>
+              </section>
+
+              <!-- 3. The lever / instrument distinction -->
+              <section id="sec-levers-are-not-policies">
+                <h3 class="doc-h">A lever is an effect, not a policy</h3>
+                <p class="doc-p">
+                  Setting a lever names no law, budget line or programme. It describes where that part
+                  of the economy <em>ends up</em> by 2070 — the effect a policy would be meant to
+                  produce, not the policy.
+                </p>
+                <p class="doc-p">
+                  The distinction cuts both ways. One lever setting could be delivered by a tax, a
+                  performance standard, a subsidy, a procurement rule, a tenure reform, an enforcement
+                  budget, or several together — routes that differ enormously in cost, political
+                  feasibility, administrative burden and who bears them, <strong>none of which this
+                  model represents</strong>. And one real policy usually moves several levers at once: a
+                  serious clean-cooking programme shows up in cooking fuel demand, forest-land removals,
+                  household spending and air quality together.
+                </p>
+                <p class="doc-p doc-p--muted">
+                  So the model can tell you what a transition would be worth if it happened. It cannot
+                  tell you how to make it happen, or which instrument to reach for. That step is yours.
+                </p>
+              </section>
+
+              <!-- 4. The 0–1 scale is a sampling coordinate -->
+              <section id="sec-scale">
+                <h3 class="doc-h">What 0 to 1 actually means</h3>
+                <p class="doc-p">
+                  Every lever and every condition runs 0 to 1 because that is how the underlying
+                  experiment was sampled. Each value is <strong>a position in the range this study
+                  explored</strong> — not a quantity of anything.
+                </p>
+                <p class="doc-p">
+                  A lever at 0.9 sits near the ambitious end of that range. It is not 90% of something:
+                  there is no hundred for it to be ninety percent of, and it names no number of stoves,
+                  no share of a fleet, no budget. The same holds for the conditions — growth at 0.8
+                  means toward the high end of the explored range, not GDP 80% higher.
+                </p>
+                <p class="doc-p">
+                  What the scale is genuinely good for: asking what an <em>effective</em> intervention
+                  does in this system, and what a <em>very</em> effective one does — which sectors move,
+                  what it costs, what comes back, how much of the gap to the frontier it closes.
+                  Comparisons hold. Absolute readings do not.
+                </p>
+                <p class="doc-p doc-p--muted">
+                  When you need the physical answer, ask what a lever actually changes — the tool returns
+                  the real model variables behind it and how they move from today to 2070.
+                </p>
+              </section>
+
+              <!-- 5. Provenance of the six -->
+              <section id="sec-pathways">
+                <h3 class="doc-h">Where the six pathways come from</h3>
+                <p class="doc-p">
+                  The six are curated, not generated. They are not points sampled from the space — they
+                  are positions that came out of work with policy actors on what is achievable, what is
+                  wanted and what has already been committed to: the NDC ambitions, the unconditional
+                  portion Uganda can deliver without external support, and the High Benefits, Low
+                  Emission (HBLE) frontier that provides the analytical basis for NDC 3.0. Each was then
+                  run through the CDPM in full.
+                </p>
+                <p class="doc-p doc-p--muted">
+                  Deliberation does not stop at six, which is why the metamodel exists: to answer the
+                  questions that fall between them, beyond them, or under conditions none of them
+                  assumed.
+                </p>
+              </section>
+
+              <!-- 6. The two kinds of answer — the same badges the trace panel uses -->
               <section id="sec-answers">
                 <h3 class="doc-h">The two kinds of answer</h3>
                 <div class="how-two-up">
@@ -174,33 +298,13 @@
                 </p>
               </section>
 
-              <!-- 2. RDM / XLRM -->
-              <section id="sec-rdm">
-                <h3 class="doc-h">Why it is built this way</h3>
-                <p class="doc-p">
-                  Nobody can put probabilities on Uganda's 2070 economy, population or fuel prices. So
-                  rather than predict one future, the tool explores many — Robust Decision Making —
-                  splitting what you can change in two:
-                </p>
-                <dl class="doc-defs">
-                  <div>
-                    <dt><span class="doc-key doc-key--l">L</span> what Uganda decides</dt>
-                    <dd>The sectoral transitions: how far and how fast each part of the economy changes.</dd>
-                  </div>
-                  <div>
-                    <dt><span class="doc-key doc-key--x">X</span> what the world decides</dt>
-                    <dd>The conditions Uganda cannot legislate: growth, population, prices, technology costs.</dd>
-                  </div>
-                </dl>
-              </section>
-
-              <!-- 3. The levers, from /api/features -->
+              <!-- 7. The levers, from /api/features -->
               <section id="sec-ambition">
                 <h3 class="doc-h">Ambition — the levers <span id="how-levers-count" class="doc-count"></span></h3>
                 <p class="doc-p">
-                  <strong>0 = no action</strong> → <strong>1 = maximum feasible deployment by 2070</strong>,
-                  reached by a ramp over 20–30 years rather than a switch thrown today. Any number can
-                  move at once.
+                  Each lever sets how far its part of the economy moves by 2070 — reached by a ramp over
+                  20–30 years, not a switch thrown today. Any number of them can move at once. On what
+                  the 0-to-1 setting means, see <em>What 0 to 1 actually means</em> above.
                 </p>
                 <div class="doc-filter">
                   <input id="lever-filter" type="search" autocomplete="off"
@@ -210,26 +314,35 @@
                 <div class="catalogue" id="how-levers"></div>
               </section>
 
-              <!-- 4. The uncertainties -->
+              <!-- 8. The uncertainties -->
               <section id="sec-conditions">
                 <h3 class="doc-h">Conditions — the uncertainties <span id="how-conditions-count" class="doc-count"></span></h3>
                 <p class="doc-p">
+                  The conditions Uganda has to deliver in, whatever it decides.
                   <strong>0 = low end</strong> · <strong>0.5 = median future</strong> (the default) ·
-                  <strong>1 = high end</strong>. Positions within the model's range — not percentage changes.
+                  <strong>1 = high end</strong> — positions within the explored range, not percentage
+                  changes.
                 </p>
                 <div class="catalogue" id="how-conditions"></div>
               </section>
 
-              <!-- 5. Outputs and limits -->
-              <section id="sec-outputs">
-                <h3 class="doc-h">What you get back</h3>
+              <!-- 9. Outputs, scope, and the decision-support boundary -->
+              <section id="sec-limits">
+                <h3 class="doc-h">What it can and cannot tell you</h3>
                 <p class="doc-p">
-                  Emissions across 23 inventory categories, 3 cost types, 16 development-benefit types,
-                  and cost and benefit as a share of GDP — at 2025, 2035, 2040, 2050 and 2070, always
-                  against BAU with HBLE as the frontier.
+                  You get back emissions across 23 inventory categories, 3 cost types, 16
+                  development-benefit types, and cost and benefit as a share of GDP — at 2025, 2035,
+                  2040, 2050 and 2070, always against BAU with HBLE as the frontier.
+                </p>
+                <p class="doc-p">
+                  Outside the model entirely: political feasibility, financing and fiscal space,
+                  institutional capacity, who wins and who loses within Uganda, and the policy
+                  instruments themselves. A pathway can look excellent here and be undeliverable for
+                  reasons this tool cannot see. It will not rank the pathways or name a best one — the
+                  criteria that would settle that are not in it.
                 </p>
                 <p class="doc-p doc-p--muted">
-                  Out of scope: other countries, metrics the model does not produce, years beyond
+                  Also out of scope: other countries, metrics the model does not produce, years beyond
                   2025–2070, and interventions with no lever above.
                 </p>
               </section>
@@ -245,18 +358,18 @@
         <div class="message assistant-message intro-block" id="intro-official">
           <div class="message-avatar">UG</div>
           <div class="message-content">
-            <h2 class="intro-headline">Six official pathways that used to live in a document. Now you can ask them questions — and then go beyond them.</h2>
-            <p>Pick one above, ask about several at once, or move to <strong>Explore</strong> for
-              combinations nobody has simulated.</p>
+            <h2 class="intro-headline">Six official pathways that used to live in a document. Here they can be questioned — and tested against futures they did not assume.</h2>
+            <p>Pick one above, ask about several at once, or move to <strong>Explore</strong> to change
+              the level of ambition or the conditions Uganda faces.</p>
           </div>
         </div>
 
         <div class="message assistant-message intro-block hidden" id="intro-explore">
           <div class="message-avatar">UG</div>
           <div class="message-content">
-            <h2 class="intro-headline">Ask for a combination nobody has simulated.</h2>
+            <h2 class="intro-headline">Ask what holds up, and where it stops holding.</h2>
             <p>Set the ambition of any sectoral transition, change any country condition, or both at
-              once — an answer takes about 10–30 seconds.</p>
+              once. Answers here are metamodel estimates, always read against BAU and HBLE.</p>
           </div>
         </div>
 
@@ -286,6 +399,6 @@
     </section>
   </div>
 
-  <script src="/app.js?v=20260729j"></script>
+  <script src="/app.js?v=20260807b"></script>
 </body>
 </html>

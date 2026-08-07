@@ -83,8 +83,11 @@ def _log_interaction(user_message: str, result: dict, latency: float) -> None:
 app = FastAPI(
     title="Uganda Climate Pathways Explorer",
     description=(
-        "AI-powered chatbot for exploring Uganda's climate policy scenarios "
-        "using a trained XGBoost surrogate model of SISEPUEDE."
+        "Decision-support tool for exploring Uganda's climate and development "
+        "pathways under deep uncertainty. Serves official pathway results from "
+        "Uganda's Country Development Pathway Model (CDPM), built with the "
+        "SISEPUEDE framework, and metamodel estimates for combinations that "
+        "were never officially simulated."
     ),
     version="1.0.0",
     docs_url="/api/docs",

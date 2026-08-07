@@ -33,7 +33,7 @@ Two things worth knowing while you read:
 
 **Section heading:** Uganda's six official pathways
 
-**Section text:** Stored simulations from Uganda's Country Development Pathway Model (CDPM), built with SISEPUEDE. The fullest detail in the tool — nothing here is estimated.
+**Section text:** Six positions on what Uganda's transition could be — drawn from work with policy actors on what is achievable and what is committed to, then run in full through Uganda's Country Development Pathway Model (CDPM), built with SISEPUEDE. The fullest detail in the tool; nothing here is estimated.
 
 **Badge on this section:** ◆ Official pathway result
 
@@ -73,15 +73,15 @@ Each card shows a name, a one-line description, its emissions trajectory as a sm
 
 ### 2.3 The assistant's opening message on this tab
 
-> **Six official pathways that used to live in a document. Now you can ask them questions — and then go beyond them.**
+> **Six official pathways that used to live in a document. Here they can be questioned — and tested against futures they did not assume.**
 >
-> Pick one above, ask about several at once, or move to Explore for combinations nobody has simulated.
+> Pick one above, ask about several at once, or move to Explore to change the level of ambition or the conditions Uganda faces.
 
 ## 3. Tab 2 — Explore
 
 **Section heading:** Explore beyond the six
 
-**Section text:** Combinations that were never officially simulated, estimated by a live metamodel trained on ~99,000 CDPM runs — broader strokes than an official run, always shown against BAU and HBLE.
+**Section text:** Test a choice against a future no official pathway assumed — a different level of ambition, a different set of conditions, or both. Combinations outside the official pathways are estimated by a live metamodel trained on ~99,000 CDPM runs: broader strokes than an official run, always read against BAU and HBLE.
 
 **Badge on this section:** ≈ Metamodel estimate
 
@@ -89,7 +89,7 @@ Each card shows a name, a one-line description, its emissions trajectory as a sm
 
 **Heading:** Ambition — the sectoral transitions  ·  **Counter shown:** 54 L · 16 sectors
 
-**Sub-line:** What Uganda decides: how far and how fast each sector transitions.
+**Sub-line:** What Uganda decides: how far and how fast each sector transitions by 2070. A lever is the effect a policy would produce, not the policy itself.
 
 | Button text | Question sent |
 |---|---|
@@ -101,7 +101,7 @@ Each card shows a name, a one-line description, its emissions trajectory as a sm
 
 **Heading:** Conditions — the country assumptions  ·  **Counter shown:** 13 X
 
-**Sub-line:** What the world decides: the futures Uganda has to deliver in.
+**Sub-line:** What the world decides: the futures Uganda has to deliver in, whatever it chooses. Nobody can put probabilities on these — so try more than one.
 
 | Button text | Question sent |
 |---|---|
@@ -115,12 +115,12 @@ The first 6 sectors are shown, then a chip reading “10 more sectors” reveals
 
 | Chip | Question sent |
 |---|---|
-| Transportation 11 | What can Uganda change in the Transportation sector, and what would maximum ambition there do to emissions, costs and development benefits? |
-| Solid Waste 7 | What can Uganda change in the Solid Waste sector, and what would maximum ambition there do to emissions, costs and development benefits? |
-| Agriculture 4 | What can Uganda change in the Agriculture sector, and what would maximum ambition there do to emissions, costs and development benefits? |
-| Buildings & Other Combustion 4 | What can Uganda change in the Buildings & Other Combustion sector, and what would maximum ambition there do to emissions, costs and development benefits? |
-| Land Use 4 | What can Uganda change in the Land Use sector, and what would maximum ambition there do to emissions, costs and development benefits? |
-| Livestock Manure Management 4 | What can Uganda change in the Livestock Manure Management sector, and what would maximum ambition there do to emissions, costs and development benefits? |
+| Transportation 11 | What can Uganda change in the Transportation sector, and what would the ambitious end of the range there do to emissions, costs and development benefits? |
+| Solid Waste 7 | What can Uganda change in the Solid Waste sector, and what would the ambitious end of the range there do to emissions, costs and development benefits? |
+| Agriculture 4 | What can Uganda change in the Agriculture sector, and what would the ambitious end of the range there do to emissions, costs and development benefits? |
+| Buildings & Other Combustion 4 | What can Uganda change in the Buildings & Other Combustion sector, and what would the ambitious end of the range there do to emissions, costs and development benefits? |
+| Land Use 4 | What can Uganda change in the Land Use sector, and what would the ambitious end of the range there do to emissions, costs and development benefits? |
+| Livestock Manure Management 4 | What can Uganda change in the Livestock Manure Management sector, and what would the ambitious end of the range there do to emissions, costs and development benefits? |
 
 ### 3.4 The small condition chips (right column)
 
@@ -137,19 +137,66 @@ The first 6 are shown, then “7 more” reveals the rest.
 
 ### 3.5 The assistant's opening message on this tab
 
-> **Ask for a combination nobody has simulated.**
+> **Ask what holds up, and where it stops holding.**
 >
-> Set the ambition of any sectoral transition, change any country condition, or both at once — an answer takes about 10–30 seconds.
+> Set the ambition of any sectoral transition, change any country condition, or both at once. Answers here are metamodel estimates, always read against BAU and HBLE.
 
 ## 4. Tab 3 — How this works
 
 This tab is a reference document: no conversation on it. Every lever, sector and condition carries an **Ask** button, which opens the question in Explore.
 
-**Section list down the left:** The two answer types · Why it's built this way · Ambition — the levers · Conditions · What you get back
+**Section list down the left:** The problem this is for · What you can change · Levers aren't policies · What 0 to 1 means · Where the six come from · The two kinds of answer · Ambition — the levers · Conditions · What it cannot tell you
 
 **Page title:** How this works
 
-**Page introduction:** Where each answer comes from, and everything you can change. Ask about anything on this page — the question opens in Explore, with the rest of your conversation.
+**Page introduction:** What this tool is for, what you can change in it, and what its numbers do and do not mean. Ask about anything on this page — the question opens in Explore, with the rest of your conversation.
+
+### The problem this is built for
+
+Nobody can put a defensible probability on Uganda's economy, population or fuel prices in 2070. Informed people disagree — not about the arithmetic, but about the premises. That condition has a name, deep uncertainty, and it defeats the usual method: settle what the future holds, then plan for it. The agreement never arrives, and the planning waits on it.
+
+So this tool takes the other route, Robust Decision Making — one of a family of approaches for deciding under deep uncertainty. Instead of predicting one future and optimising for it, it takes the choices as given and asks how they hold up across many. Parties who cannot agree on 2050 can still agree on what is worth starting now, because they can see it holds in the futures each of them believes in.
+
+Nothing here is a forecast. Every number is conditional on the settings behind it.
+
+
+### What you can change, and what you cannot
+
+Robust Decision Making starts by separating what a decision-maker controls from what they are merely exposed to. That split — the L and X of an XLRM framework — is the structure of this entire tool:
+
+- **L — what Uganda decides** — The sectoral transitions: how far and how fast each part of the economy changes.
+
+- **X — what the world decides** — The conditions Uganda cannot legislate: growth, population, prices, technology costs.
+
+This division was not derived from the model. It came out of conversations with policy actors about which transitions are achievable, which are wanted, and what Uganda is simply exposed to — so it records who has agency over what.
+
+
+### A lever is an effect, not a policy
+
+Setting a lever names no law, budget line or programme. It describes where that part of the economy ends up by 2070 — the effect a policy would be meant to produce, not the policy.
+
+The distinction cuts both ways. One lever setting could be delivered by a tax, a performance standard, a subsidy, a procurement rule, a tenure reform, an enforcement budget, or several together — routes that differ enormously in cost, political feasibility, administrative burden and who bears them, none of which this model represents. And one real policy usually moves several levers at once: a serious clean-cooking programme shows up in cooking fuel demand, forest-land removals, household spending and air quality together.
+
+So the model can tell you what a transition would be worth if it happened. It cannot tell you how to make it happen, or which instrument to reach for. That step is yours.
+
+
+### What 0 to 1 actually means
+
+Every lever and every condition runs 0 to 1 because that is how the underlying experiment was sampled. Each value is a position in the range this study explored — not a quantity of anything.
+
+A lever at 0.9 sits near the ambitious end of that range. It is not 90% of something: there is no hundred for it to be ninety percent of, and it names no number of stoves, no share of a fleet, no budget. The same holds for the conditions — growth at 0.8 means toward the high end of the explored range, not GDP 80% higher.
+
+What the scale is genuinely good for: asking what an effective intervention does in this system, and what a very effective one does — which sectors move, what it costs, what comes back, how much of the gap to the frontier it closes. Comparisons hold. Absolute readings do not.
+
+When you need the physical answer, ask what a lever actually changes — the tool returns the real model variables behind it and how they move from today to 2070.
+
+
+### Where the six pathways come from
+
+The six are curated, not generated. They are not points sampled from the space — they are positions that came out of work with policy actors on what is achievable, what is wanted and what has already been committed to: the NDC ambitions, the unconditional portion Uganda can deliver without external support, and the High Benefits, Low Emission (HBLE) frontier that provides the analytical basis for NDC 3.0. Each was then run through the CDPM in full.
+
+Deliberation does not stop at six, which is why the metamodel exists: to answer the questions that fall between them, beyond them, or under conditions none of them assumed.
+
 
 ### The two kinds of answer
 
@@ -160,32 +207,25 @@ This tab is a reference document: no conversation on it. Every lever, sector and
 Each answer carries its badge, and “How I got this answer” beneath it lists the steps actually executed.
 
 
-### Why it is built this way
-
-Nobody can put probabilities on Uganda's 2070 economy, population or fuel prices. So rather than predict one future, the tool explores many — Robust Decision Making — splitting what you can change in two:
-
-- **L — what Uganda decides** — The sectoral transitions: how far and how fast each part of the economy changes.
-
-- **X — what the world decides** — The conditions Uganda cannot legislate: growth, population, prices, technology costs.
-
-
 ### Ambition — the levers
 
-0 = no action → 1 = maximum feasible deployment by 2070, reached by a ramp over 20–30 years rather than a switch thrown today. Any number can move at once.
+Each lever sets how far its part of the economy moves by 2070 — reached by a ramp over 20–30 years, not a switch thrown today. Any number of them can move at once. On what the 0-to-1 setting means, see What 0 to 1 actually means above.
 
 **Filter box placeholder:** Filter levers — try “forest”, “cooking”, “transport”
 
 
 ### Conditions — the uncertainties
 
-0 = low end · 0.5 = median future (the default) · 1 = high end. Positions within the model's range — not percentage changes.
+The conditions Uganda has to deliver in, whatever it decides. 0 = low end · 0.5 = median future (the default) · 1 = high end — positions within the explored range, not percentage changes.
 
 
-### What you get back
+### What it can and cannot tell you
 
-Emissions across 23 inventory categories, 3 cost types, 16 development-benefit types, and cost and benefit as a share of GDP — at 2025, 2035, 2040, 2050 and 2070, always against BAU with HBLE as the frontier.
+You get back emissions across 23 inventory categories, 3 cost types, 16 development-benefit types, and cost and benefit as a share of GDP — at 2025, 2035, 2040, 2050 and 2070, always against BAU with HBLE as the frontier.
 
-Out of scope: other countries, metrics the model does not produce, years beyond 2025–2070, and interventions with no lever above.
+Outside the model entirely: political feasibility, financing and fiscal space, institutional capacity, who wins and who loses within Uganda, and the policy instruments themselves. A pathway can look excellent here and be undeliverable for reasons this tool cannot see. It will not rank the pathways or name a best one — the criteria that would settle that are not in it.
+
+Also out of scope: other countries, metrics the model does not produce, years beyond 2025–2070, and interventions with no lever above.
 
 
 ### 4.1 Every lever, and what its Ask button asks
@@ -194,169 +234,169 @@ Out of scope: other countries, metrics the model does not produce, years beyond 
 
 #### Transportation (11 levers)
 
-*“Ask about this sector” sends:* What can Uganda change in the Transportation sector, and what would maximum ambition there do to emissions, costs and development benefits?
+*“Ask about this sector” sends:* What can Uganda change in the Transportation sector, and what would the ambitious end of the range there do to emissions, costs and development benefits?
 
 | ID | Lever name shown | Question its Ask button sends |
 |---|---|---|
-| 32 | Increase EFFICIENCY ELECTRIC | What does the "Increase EFFICIENCY ELECTRIC" lever (Transportation) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 33 | Increase EFFICIENCY NON ELECTRIC | What does the "Increase EFFICIENCY NON ELECTRIC" lever (Transportation) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 34 | Increase OCCUPANCY LIGHT DUTY | What does the "Increase OCCUPANCY LIGHT DUTY" lever (Transportation) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 35 | Shift FUEL LIGHT DUTY | What does the "Shift FUEL LIGHT DUTY" lever (Transportation) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 36 | Shift FUEL MARITIME | What does the "Shift FUEL MARITIME" lever (Transportation) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 37 | Shift FUEL MEDIUM DUTY | What does the "Shift FUEL MEDIUM DUTY" lever (Transportation) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 38 | Shift FUEL POWERED BIKES | What does the "Shift FUEL POWERED BIKES" lever (Transportation) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 39 | Shift FUEL RAIL | What does the "Shift FUEL RAIL" lever (Transportation) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 40 | Shift MODE FREIGHT | What does the "Shift MODE FREIGHT" lever (Transportation) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 41 | Shift MODE PASSENGER | What does the "Shift MODE PASSENGER" lever (Transportation) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 42 | Shift MODE REGIONAL | What does the "Shift MODE REGIONAL" lever (Transportation) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
+| 32 | Increase EFFICIENCY ELECTRIC | What does the "Increase EFFICIENCY ELECTRIC" lever (Transportation) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 33 | Increase EFFICIENCY NON ELECTRIC | What does the "Increase EFFICIENCY NON ELECTRIC" lever (Transportation) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 34 | Increase OCCUPANCY LIGHT DUTY | What does the "Increase OCCUPANCY LIGHT DUTY" lever (Transportation) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 35 | Shift FUEL LIGHT DUTY | What does the "Shift FUEL LIGHT DUTY" lever (Transportation) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 36 | Shift FUEL MARITIME | What does the "Shift FUEL MARITIME" lever (Transportation) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 37 | Shift FUEL MEDIUM DUTY | What does the "Shift FUEL MEDIUM DUTY" lever (Transportation) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 38 | Shift FUEL POWERED BIKES | What does the "Shift FUEL POWERED BIKES" lever (Transportation) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 39 | Shift FUEL RAIL | What does the "Shift FUEL RAIL" lever (Transportation) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 40 | Shift MODE FREIGHT | What does the "Shift MODE FREIGHT" lever (Transportation) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 41 | Shift MODE PASSENGER | What does the "Shift MODE PASSENGER" lever (Transportation) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 42 | Shift MODE REGIONAL | What does the "Shift MODE REGIONAL" lever (Transportation) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
 
 #### Solid Waste (7 levers)
 
-*“Ask about this sector” sends:* What can Uganda change in the Solid Waste sector, and what would maximum ambition there do to emissions, costs and development benefits?
+*“Ask about this sector” sends:* What can Uganda change in the Solid Waste sector, and what would the ambitious end of the range there do to emissions, costs and development benefits?
 
 | ID | Lever name shown | Question its Ask button sends |
 |---|---|---|
-| 48 | Reduce CONSUMER FOOD WASTE | What does the "Reduce CONSUMER FOOD WASTE" lever (Solid Waste) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 49 | Increase ANAEROBIC AND COMPOST | What does the "Increase ANAEROBIC AND COMPOST" lever (Solid Waste) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 50 | Increase CAPTURE BIOGAS | What does the "Increase CAPTURE BIOGAS" lever (Solid Waste) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 51 | Increase ENERGY FROM BIOGAS | What does the "Increase ENERGY FROM BIOGAS" lever (Solid Waste) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 52 | Increase ENERGY FROM INCINERATION | What does the "Increase ENERGY FROM INCINERATION" lever (Solid Waste) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 53 | Increase LANDFILLING | What does the "Increase LANDFILLING" lever (Solid Waste) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 54 | Increase RECYCLING | What does the "Increase RECYCLING" lever (Solid Waste) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
+| 48 | Reduce CONSUMER FOOD WASTE | What does the "Reduce CONSUMER FOOD WASTE" lever (Solid Waste) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 49 | Increase ANAEROBIC AND COMPOST | What does the "Increase ANAEROBIC AND COMPOST" lever (Solid Waste) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 50 | Increase CAPTURE BIOGAS | What does the "Increase CAPTURE BIOGAS" lever (Solid Waste) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 51 | Increase ENERGY FROM BIOGAS | What does the "Increase ENERGY FROM BIOGAS" lever (Solid Waste) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 52 | Increase ENERGY FROM INCINERATION | What does the "Increase ENERGY FROM INCINERATION" lever (Solid Waste) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 53 | Increase LANDFILLING | What does the "Increase LANDFILLING" lever (Solid Waste) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 54 | Increase RECYCLING | What does the "Increase RECYCLING" lever (Solid Waste) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
 
 #### Agriculture (4 levers)
 
-*“Ask about this sector” sends:* What can Uganda change in the Agriculture sector, and what would maximum ambition there do to emissions, costs and development benefits?
+*“Ask about this sector” sends:* What can Uganda change in the Agriculture sector, and what would the ambitious end of the range there do to emissions, costs and development benefits?
 
 | ID | Lever name shown | Question its Ask button sends |
 |---|---|---|
-| 1 | Reduce CH4 RICE | What does the "Reduce CH4 RICE" lever (Agriculture) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 2 | Reduce LOSSES SUPPLY CHAIN | What does the "Reduce LOSSES SUPPLY CHAIN" lever (Agriculture) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 3 | Increase CONSERVATION AGRICULTURE | What does the "Increase CONSERVATION AGRICULTURE" lever (Agriculture) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 4 | Increase PRODUCTIVITY | What does the "Increase PRODUCTIVITY" lever (Agriculture) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
+| 1 | Reduce CH4 RICE | What does the "Reduce CH4 RICE" lever (Agriculture) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 2 | Reduce LOSSES SUPPLY CHAIN | What does the "Reduce LOSSES SUPPLY CHAIN" lever (Agriculture) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 3 | Increase CONSERVATION AGRICULTURE | What does the "Increase CONSERVATION AGRICULTURE" lever (Agriculture) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 4 | Increase PRODUCTIVITY | What does the "Increase PRODUCTIVITY" lever (Agriculture) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
 
 #### Buildings & Other Combustion (4 levers)
 
-*“Ask about this sector” sends:* What can Uganda change in the Buildings & Other Combustion sector, and what would maximum ambition there do to emissions, costs and development benefits?
+*“Ask about this sector” sends:* What can Uganda change in the Buildings & Other Combustion sector, and what would the ambitious end of the range there do to emissions, costs and development benefits?
 
 | ID | Lever name shown | Question its Ask button sends |
 |---|---|---|
-| 27 | Reduce DEMAND HEAT | What does the "Reduce DEMAND HEAT" lever (Buildings & Other Combustion) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 28 | Increase EFFICIENCY APPLIANCE | What does the "Increase EFFICIENCY APPLIANCE" lever (Buildings & Other Combustion) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 29 | Increase EFFICIENCY HEAT | What does the "Increase EFFICIENCY HEAT" lever (Buildings & Other Combustion) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 30 | Shift FUEL HEAT | What does the "Shift FUEL HEAT" lever (Buildings & Other Combustion) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
+| 27 | Reduce DEMAND HEAT | What does the "Reduce DEMAND HEAT" lever (Buildings & Other Combustion) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 28 | Increase EFFICIENCY APPLIANCE | What does the "Increase EFFICIENCY APPLIANCE" lever (Buildings & Other Combustion) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 29 | Increase EFFICIENCY HEAT | What does the "Increase EFFICIENCY HEAT" lever (Buildings & Other Combustion) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 30 | Shift FUEL HEAT | What does the "Shift FUEL HEAT" lever (Buildings & Other Combustion) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
 
 #### Land Use (4 levers)
 
-*“Ask about this sector” sends:* What can Uganda change in the Land Use sector, and what would maximum ambition there do to emissions, costs and development benefits?
+*“Ask about this sector” sends:* What can Uganda change in the Land Use sector, and what would the ambitious end of the range there do to emissions, costs and development benefits?
 
 | ID | Lever name shown | Question its Ask button sends |
 |---|---|---|
-| 15 | Reduce DEFORESTATION | What does the "Reduce DEFORESTATION" lever (Land Use) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 16 | Increase SILVOPASTURE | What does the "Increase SILVOPASTURE" lever (Land Use) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 17 | Set FORESTS SECONDARY MAX | What does the "Set FORESTS SECONDARY MAX" lever (Land Use) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 18 | Set WETLANDS MINIMUM | What does the "Set WETLANDS MINIMUM" lever (Land Use) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
+| 15 | Reduce DEFORESTATION | What does the "Reduce DEFORESTATION" lever (Land Use) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 16 | Increase SILVOPASTURE | What does the "Increase SILVOPASTURE" lever (Land Use) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 17 | Set FORESTS SECONDARY MAX | What does the "Set FORESTS SECONDARY MAX" lever (Land Use) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 18 | Set WETLANDS MINIMUM | What does the "Set WETLANDS MINIMUM" lever (Land Use) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
 
 #### Livestock Manure Management (4 levers)
 
-*“Ask about this sector” sends:* What can Uganda change in the Livestock Manure Management sector, and what would maximum ambition there do to emissions, costs and development benefits?
+*“Ask about this sector” sends:* What can Uganda change in the Livestock Manure Management sector, and what would the ambitious end of the range there do to emissions, costs and development benefits?
 
 | ID | Lever name shown | Question its Ask button sends |
 |---|---|---|
-| 19 | Increase CAPTURE BIOGAS | What does the "Increase CAPTURE BIOGAS" lever (Livestock Manure Management) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 20 | Increase MANAGEMENT CATTLE PIGS | What does the "Increase MANAGEMENT CATTLE PIGS" lever (Livestock Manure Management) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 21 | Increase MANAGEMENT OTHER | What does the "Increase MANAGEMENT OTHER" lever (Livestock Manure Management) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 22 | Increase MANAGEMENT POULTRY | What does the "Increase MANAGEMENT POULTRY" lever (Livestock Manure Management) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
+| 19 | Increase CAPTURE BIOGAS | What does the "Increase CAPTURE BIOGAS" lever (Livestock Manure Management) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 20 | Increase MANAGEMENT CATTLE PIGS | What does the "Increase MANAGEMENT CATTLE PIGS" lever (Livestock Manure Management) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 21 | Increase MANAGEMENT OTHER | What does the "Increase MANAGEMENT OTHER" lever (Livestock Manure Management) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 22 | Increase MANAGEMENT POULTRY | What does the "Increase MANAGEMENT POULTRY" lever (Livestock Manure Management) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
 
 #### Electricity (3 levers)
 
-*“Ask about this sector” sends:* What can Uganda change in the Electricity sector, and what would maximum ambition there do to emissions, costs and development benefits?
+*“Ask about this sector” sends:* What can Uganda change in the Electricity sector, and what would the ambitious end of the range there do to emissions, costs and development benefits?
 
 | ID | Lever name shown | Question its Ask button sends |
 |---|---|---|
-| 5 | Reduce LOSSES | What does the "Reduce LOSSES" lever (Electricity) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 6 | Target CLEAN HYDROGEN | What does the "Target CLEAN HYDROGEN" lever (Electricity) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 7 | Target RENEWABLE ELEC | What does the "Target RENEWABLE ELEC" lever (Electricity) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
+| 5 | Reduce LOSSES | What does the "Reduce LOSSES" lever (Electricity) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 6 | Target CLEAN HYDROGEN | What does the "Target CLEAN HYDROGEN" lever (Electricity) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 7 | Target RENEWABLE ELEC | What does the "Target RENEWABLE ELEC" lever (Electricity) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
 
 #### Industrial Processes (3 levers)
 
-*“Ask about this sector” sends:* What can Uganda change in the Industrial Processes sector, and what would maximum ambition there do to emissions, costs and development benefits?
+*“Ask about this sector” sends:* What can Uganda change in the Industrial Processes sector, and what would the ambitious end of the range there do to emissions, costs and development benefits?
 
 | ID | Lever name shown | Question its Ask button sends |
 |---|---|---|
-| 12 | Reduce CLINKER | What does the "Reduce CLINKER" lever (Industrial Processes) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 13 | Reduce N2O | What does the "Reduce N2O" lever (Industrial Processes) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 14 | Reduce PFCS | What does the "Reduce PFCS" lever (Industrial Processes) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
+| 12 | Reduce CLINKER | What does the "Reduce CLINKER" lever (Industrial Processes) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 13 | Reduce N2O | What does the "Reduce N2O" lever (Industrial Processes) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 14 | Reduce PFCS | What does the "Reduce PFCS" lever (Industrial Processes) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
 
 #### Water & Wastewater Treatment (3 levers)
 
-*“Ask about this sector” sends:* What can Uganda change in the Water & Wastewater Treatment sector, and what would maximum ambition there do to emissions, costs and development benefits?
+*“Ask about this sector” sends:* What can Uganda change in the Water & Wastewater Treatment sector, and what would the ambitious end of the range there do to emissions, costs and development benefits?
 
 | ID | Lever name shown | Question its Ask button sends |
 |---|---|---|
-| 45 | Increase TREATMENT INDUSTRIAL | What does the "Increase TREATMENT INDUSTRIAL" lever (Water & Wastewater Treatment) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 46 | Increase TREATMENT RURAL | What does the "Increase TREATMENT RURAL" lever (Water & Wastewater Treatment) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 47 | Increase TREATMENT URBAN | What does the "Increase TREATMENT URBAN" lever (Water & Wastewater Treatment) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
+| 45 | Increase TREATMENT INDUSTRIAL | What does the "Increase TREATMENT INDUSTRIAL" lever (Water & Wastewater Treatment) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 46 | Increase TREATMENT RURAL | What does the "Increase TREATMENT RURAL" lever (Water & Wastewater Treatment) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 47 | Increase TREATMENT URBAN | What does the "Increase TREATMENT URBAN" lever (Water & Wastewater Treatment) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
 
 #### Cross-Sector (2 levers)
 
-*“Ask about this sector” sends:* What can Uganda change in the Cross-Sector sector, and what would maximum ambition there do to emissions, costs and development benefits?
+*“Ask about this sector” sends:* What can Uganda change in the Cross-Sector sector, and what would the ambitious end of the range there do to emissions, costs and development benefits?
 
 | ID | Lever name shown | Question its Ask button sends |
 |---|---|---|
-| 25 | Increase HEALTHIER DIETS | What does the "Increase HEALTHIER DIETS" lever (Cross-Sector) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 26 | Increase IND CCS | What does the "Increase IND CCS" lever (Cross-Sector) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
+| 25 | Increase HEALTHIER DIETS | What does the "Increase HEALTHIER DIETS" lever (Cross-Sector) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 26 | Increase IND CCS | What does the "Increase IND CCS" lever (Cross-Sector) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
 
 #### Industrial Energy (2 levers)
 
-*“Ask about this sector” sends:* What can Uganda change in the Industrial Energy sector, and what would maximum ambition there do to emissions, costs and development benefits?
+*“Ask about this sector” sends:* What can Uganda change in the Industrial Energy sector, and what would the ambitious end of the range there do to emissions, costs and development benefits?
 
 | ID | Lever name shown | Question its Ask button sends |
 |---|---|---|
-| 10 | Increase EFFICIENCY ENERGY | What does the "Increase EFFICIENCY ENERGY" lever (Industrial Energy) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 11 | Shift FUEL HEAT | What does the "Shift FUEL HEAT" lever (Industrial Energy) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
+| 10 | Increase EFFICIENCY ENERGY | What does the "Increase EFFICIENCY ENERGY" lever (Industrial Energy) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 11 | Shift FUEL HEAT | What does the "Shift FUEL HEAT" lever (Industrial Energy) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
 
 #### Livestock (2 levers)
 
-*“Ask about this sector” sends:* What can Uganda change in the Livestock sector, and what would maximum ambition there do to emissions, costs and development benefits?
+*“Ask about this sector” sends:* What can Uganda change in the Livestock sector, and what would the ambitious end of the range there do to emissions, costs and development benefits?
 
 | ID | Lever name shown | Question its Ask button sends |
 |---|---|---|
-| 23 | Reduce ENTERIC FERMENTATION | What does the "Reduce ENTERIC FERMENTATION" lever (Livestock) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 24 | Increase PRODUCTIVITY | What does the "Increase PRODUCTIVITY" lever (Livestock) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
+| 23 | Reduce ENTERIC FERMENTATION | What does the "Reduce ENTERIC FERMENTATION" lever (Livestock) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 24 | Increase PRODUCTIVITY | What does the "Increase PRODUCTIVITY" lever (Livestock) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
 
 #### Wastewater (2 levers)
 
-*“Ask about this sector” sends:* What can Uganda change in the Wastewater sector, and what would maximum ambition there do to emissions, costs and development benefits?
+*“Ask about this sector” sends:* What can Uganda change in the Wastewater sector, and what would the ambitious end of the range there do to emissions, costs and development benefits?
 
 | ID | Lever name shown | Question its Ask button sends |
 |---|---|---|
-| 43 | Increase CAPTURE BIOGAS | What does the "Increase CAPTURE BIOGAS" lever (Wastewater) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
-| 44 | Increase COMPLIANCE SEPTIC | What does the "Increase COMPLIANCE SEPTIC" lever (Wastewater) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
+| 43 | Increase CAPTURE BIOGAS | What does the "Increase CAPTURE BIOGAS" lever (Wastewater) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
+| 44 | Increase COMPLIANCE SEPTIC | What does the "Increase COMPLIANCE SEPTIC" lever (Wastewater) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
 
 #### Forestry (1 levers)
 
-*“Ask about this sector” sends:* What can Uganda change in the Forestry sector, and what would maximum ambition there do to emissions, costs and development benefits?
+*“Ask about this sector” sends:* What can Uganda change in the Forestry sector, and what would the ambitious end of the range there do to emissions, costs and development benefits?
 
 | ID | Lever name shown | Question its Ask button sends |
 |---|---|---|
-| 9 | Increase SEQUESTRATION | What does the "Increase SEQUESTRATION" lever (Forestry) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
+| 9 | Increase SEQUESTRATION | What does the "Increase SEQUESTRATION" lever (Forestry) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
 
 #### Fugitive Emissions (1 levers)
 
-*“Ask about this sector” sends:* What can Uganda change in the Fugitive Emissions sector, and what would maximum ambition there do to emissions, costs and development benefits?
+*“Ask about this sector” sends:* What can Uganda change in the Fugitive Emissions sector, and what would the ambitious end of the range there do to emissions, costs and development benefits?
 
 | ID | Lever name shown | Question its Ask button sends |
 |---|---|---|
-| 8 | Reduce LEAKS | What does the "Reduce LEAKS" lever (Fugitive Emissions) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
+| 8 | Reduce LEAKS | What does the "Reduce LEAKS" lever (Fugitive Emissions) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
 
 #### Transport Demand (1 levers)
 
-*“Ask about this sector” sends:* What can Uganda change in the Transport Demand sector, and what would maximum ambition there do to emissions, costs and development benefits?
+*“Ask about this sector” sends:* What can Uganda change in the Transport Demand sector, and what would the ambitious end of the range there do to emissions, costs and development benefits?
 
 | ID | Lever name shown | Question its Ask button sends |
 |---|---|---|
-| 31 | Reduce DEMAND | What does the "Reduce DEMAND" lever (Transport Demand) actually change, and what happens to emissions, costs and development benefits at maximum ambition? |
+| 31 | Reduce DEMAND | What does the "Reduce DEMAND" lever (Transport Demand) actually change in the model, and what happens to emissions, costs and development benefits at the ambitious end of its range? |
 
 ### 4.2 Every condition, and what its Ask button asks
 

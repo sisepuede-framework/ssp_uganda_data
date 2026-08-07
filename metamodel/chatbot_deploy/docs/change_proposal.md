@@ -73,6 +73,18 @@ This rule was applied both to the screen and to the assistant's own instructions
 matters: had we only changed the buttons, the assistant would have kept writing "this simulation
 shows…" underneath them.
 
+**Extended 7 August 2026.** Four further rows were added when the tool's copy was rewritten to carry
+its own method. The reasoning is in the companion primer,
+[`dmdu_rdm_xlrm_primer.md`](dmdu_rdm_xlrm_primer.md) §12, which is now the reference for any future
+copy edit.
+
+| Never say | Say instead | Why |
+|---|---|---|
+| "predicts", "will be", "forecast", "projection" | **estimates**, "under these settings", "in this future" | The CDPM is used exploratorily, not predictively. A run is a conditional consequence, not a forecast — the whole point of Robust Decision Making |
+| "recommends", "the best pathway", "you should", "the optimal…" | describe the outcomes and the trade-offs; leave the choice with the reader | The criteria that would settle a ranking — feasibility, financing, capacity, distribution, sequencing — are outside the model |
+| a lever *is* a policy; "the deforestation policy" | a lever is the **modelled effect** a policy is meant to produce | Many instruments could deliver one lever setting, and one real policy usually moves several levers. The model represents the transition, not the instrument |
+| "0.9 = 90% of X"; any percentage gloss on a lever value | **a position in the sampled range** — near the ambitious end of what this study explored | The 0–1 values are Latin Hypercube sample coordinates, not quantities. There is no defined "100%" for them to be a fraction of. `get_scenario_variables` is the honest route to physical numbers |
+
 ---
 
 ## 4. Change 3 — Every wording change

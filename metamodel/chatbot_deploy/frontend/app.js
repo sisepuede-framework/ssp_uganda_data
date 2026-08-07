@@ -360,8 +360,8 @@ function renderSectorChips(sectors) {
     chip.className = "mini-chip";
     chip.innerHTML = `${escapeHtml(sector)} <span class="mini-chip-n">${group.length}</span>`;
     chip.dataset.ask =
-      `What can Uganda change in the ${sector} sector, and what would maximum ambition there ` +
-      `do to emissions, costs and development benefits?`;
+      `What can Uganda change in the ${sector} sector, and what would the ambitious end of the ` +
+      `range there do to emissions, costs and development benefits?`;
     return chip;
   };
   sectors.slice(0, CHIPS_SHOWN).forEach(entry => mount.appendChild(makeChip(entry)));
@@ -417,8 +417,9 @@ function renderLeverCatalogue(sectors) {
     const rows = group
       .sort((a, b) => a.group_id - b.group_id)
       .map(l => {
-        const q = `What does the "${l.display_name}" lever (${l.sector}) actually change, and what ` +
-                  `happens to emissions, costs and development benefits at maximum ambition?`;
+        const q = `What does the "${l.display_name}" lever (${l.sector}) actually change in the model, ` +
+                  `and what happens to emissions, costs and development benefits at the ambitious ` +
+                  `end of its range?`;
         return `<li title="${escapeAttr(l.transformation_code || "")}">
                   <span class="cat-id">${l.group_id}</span>
                   <span class="cat-name">${escapeHtml(l.display_name)}</span>
@@ -426,8 +427,8 @@ function renderLeverCatalogue(sectors) {
                 </li>`;
       })
       .join("");
-    const sectorQ = `What can Uganda change in the ${sector} sector, and what would maximum ambition ` +
-                    `there do to emissions, costs and development benefits?`;
+    const sectorQ = `What can Uganda change in the ${sector} sector, and what would the ambitious end ` +
+                    `of the range there do to emissions, costs and development benefits?`;
     details.innerHTML =
       `<summary>${escapeHtml(sector)} <span class="cat-count">${group.length}</span>
          <button class="cat-ask cat-ask--sector" data-ask-ref="${escapeAttr(sectorQ)}">Ask about this sector</button>
@@ -1336,7 +1337,7 @@ function renderStackedSectorChart(container, sectorComparison, opts = {}) {
   };
   const referenceLines = [];
   if (refs.bau) referenceLines.push({
-    label: "Real BAU net", _sector: "__refbau__", data: refNet(refs.bau),
+    label: "Official BAU net", _sector: "__refbau__", data: refNet(refs.bau),
     yAxisID: "y2", order: 0, fill: false, tension: 0, backgroundColor: "transparent",
     borderColor: BAU_REF_COLOR, borderWidth: 1.5, borderDash: [6, 4],
     pointRadius: 0, pointHoverRadius: 4, pointBackgroundColor: BAU_REF_COLOR,
@@ -1586,7 +1587,7 @@ function renderCostBenefitChart(container, cbc, opts = {}) {
   const cbRefs = cbc.references || {};
   const refBau = cbRefs.bau || base;
   const bauNetLine = {
-    type: "line", label: "Real BAU net", _cbkey: "__baunet__", order: 0,
+    type: "line", label: "Official BAU net", _cbkey: "__baunet__", order: 0,
     yAxisID: "y2", data: YEARS.map(y => at(refBau, y).net ?? 0),
     borderColor: "#C9BBA4", borderWidth: 1.5, borderDash: [6, 4],
     pointRadius: 2, pointBackgroundColor: "#C9BBA4", fill: false, tension: 0,
@@ -1683,7 +1684,7 @@ function renderCostBenefitChart(container, cbc, opts = {}) {
     ...CB_BENEFIT_META, ...CB_COST_META,
     { key: "__net__", label: "Net", color: "#262421" },
     ...(view === "both" ? [
-      { key: "__baunet__", label: "Real BAU net", color: "#C9BBA4" },
+      { key: "__baunet__", label: "Official BAU net", color: "#C9BBA4" },
       ...(cbRefs.hble ? [{ key: "__hblenet__", label: "HBLE net", color: "#4E8F5B" }] : []),
     ] : []),
   ];
