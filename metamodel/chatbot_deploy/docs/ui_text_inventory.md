@@ -168,8 +168,6 @@ Robust Decision Making starts by separating what a decision-maker controls from 
 
 - **X — what the world decides** — The conditions Uganda cannot legislate: growth, population, prices, technology costs.
 
-This division was not derived from the model. It came out of conversations with policy actors about which transitions are achievable, which are wanted, and what Uganda is simply exposed to — so it records who has agency over what.
-
 
 ### A lever is an effect, not a policy
 
