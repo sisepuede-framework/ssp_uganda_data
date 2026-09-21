@@ -140,21 +140,6 @@ TOOLS: list[dict] = [
         },
     },
     {
-        "name": "list_strategies",
-        "description": (
-            "Return the CATALOGUE of named SISEPUEDE strategies — a reference list only. "
-            "These strategies CANNOT be run: no results exist for them in this model run. "
-            "Use it only to tell the user which strategy names exist. To produce numbers, "
-            "use get_pathway_results (for the 6 official pathways) or run_simulation with "
-            "explicit lever_overrides. Each entry has a strategy_id, strategy_code and "
-            "description."
-        ),
-        "input_schema": {
-            "type": "object",
-            "properties": {},
-        },
-    },
-    {
         "name": "get_scenario_variables",
         "description": (
             "Explain the physical 'how' behind a lever: the SISEPUEDE model variables it "
@@ -457,14 +442,6 @@ def _build_trace_event(
         data_source = "context"
         origin = "Uganda baseline dataset (SISEPUEDE model inputs, primary_id 0)"
 
-    elif tool_name == "list_strategies":
-        label = "Listed the available SISEPUEDE strategies"
-        data_source = "lookup"
-        origin = "SISEPUEDE strategy registry (ATTRIBUTE_STRATEGY)"
-        strategies = result.get("strategies")
-        if strategies:
-            details.append(f"{len(strategies)} strategies available")
-
     else:
         label = f"Called {tool_name}"
         data_source = "lookup"
@@ -508,9 +485,6 @@ def _execute_tool_call(
 
     if tool_name == "get_country_context":
         return _get_country_context_tool(tool_input)
-
-    if tool_name == "list_strategies":
-        return _list_strategies_tool(tool_input)
 
     logger.error("Unknown tool: %s", tool_name)
     return {"error": f"Unknown tool: {tool_name}"}, None, None
@@ -913,17 +887,6 @@ def _get_scenario_variables_tool(inputs: dict) -> tuple[dict, None, None]:
     }, None, None
 
 
-def _list_strategies_tool(_inputs: dict) -> tuple[dict, None, None]:
-    """Return all SISEPUEDE strategies from ATTRIBUTE_STRATEGY.csv."""
-    try:
-        strategies = _list_strategies()
-    except Exception as exc:
-        logger.error("list_strategies_tool failed: %s", exc)
-        return {"error": str(exc)}, None, None
-    logger.info("list_strategies_tool: returned %d strategies", len(strategies))
-    return {"strategies": strategies}, None, None
-
-
 def _get_country_context_tool(inputs: dict) -> tuple[dict, None, None]:
     """
     Return formatted Uganda baseline context for the requested topic.
@@ -1207,7 +1170,7 @@ Before answering ANY request, silently classify it into exactly one of three cat
 → Do NOT guess. Give a brief one-sentence decline and redirect to the closest thing you CAN do (a related lever you can adjust, or an output you can report).
 
 Special cases:
-- **Other SISEPUEDE strategies** beyond the 6 named pathways (e.g. a specific sector-only strategy by code) — these are NOT pre-served. They remain lookup-only via `list_strategies`; do not invent their results. Offer the closest named pathway, or a custom `run_simulation` if the user specifies the levers.
+- **Other SISEPUEDE strategies** beyond the 6 named pathways (e.g. a specific sector-only strategy by code) — these are NOT pre-served and cannot be run: no results exist for them in this model run. Say so, and do not invent their results. Offer the closest named pathway, or a custom `run_simulation` if the user specifies the levers.
 - **Borderline Uganda/climate questions** outside the outputs above — answer only if they are about your own levers, outputs, pathways, or Uganda's baseline (via get_country_context). Otherwise treat as category C.
 
 ## UGANDA COUNTRY CONTEXT
