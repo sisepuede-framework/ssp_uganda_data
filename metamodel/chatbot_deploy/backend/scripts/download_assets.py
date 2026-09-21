@@ -57,14 +57,11 @@ MANIFEST: list[tuple[str, Path]] = [
      SSP / "transformation_variable_map.csv"),
     (f"run_database/{RUN}/chatbot_assets/transformation_output_variable_map.csv",
      SSP / "transformation_output_variable_map.csv"),
-    # Curated pathways — tableau_levers_table holds the levers of the 6 named
-    # pathways, so it lives with the other pathway files in decomposed_pathways/.
+    # Curated pathways.
     (f"run_database/{RUN}/decomposed_pathways/uganda_pathways.csv",
      RUN_DIR / "pathways" / "uganda_pathways.csv"),
     (f"run_database/{RUN}/decomposed_pathways/cba_data_air_pollution.csv",
      RUN_DIR / "pathways" / "cba_data_air_pollution.csv"),
-    (f"run_database/{RUN}/decomposed_pathways/tableau_levers_table.csv",
-     RUN_DIR / "pathways" / "tableau_levers_table.csv"),
 ]
 
 

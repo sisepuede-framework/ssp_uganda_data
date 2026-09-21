@@ -32,12 +32,11 @@ import anthropic
 
 from backend.config import settings
 from backend.services import pathways_lookup
-from backend.services.context import get_country_context
+from backend.services.context import ContextUnavailable, get_country_context
 from backend.services.predictor import get_sector_predictor, SECTOR_DISPLAY_NAMES
 from backend.services import sector_crosswalk
 from backend.services.s3_lookup import (
     get_scenario_variable_trajectories,
-    get_strategy_l_values,
     list_strategies as _list_strategies,
 )
 
@@ -80,9 +79,9 @@ TOOLS: list[dict] = [
                         "Policy lever settings to change from the baseline. "
                         "Keys are group IDs as strings (e.g. '7' for renewable electricity). "
                         "Values are floats in [0.0, 1.0]. "
-                        "Omitted levers default to 0.1 (BAU — minimal policy action). "
+                        "Omitted levers default to 0.0 (BAU — minimal policy action). "
                         "Use 0.9–1.0 for aggressive/HBLE (maximum) ambition, "
-                        "0.4–0.6 for moderate, 0.1–0.2 for BAU/no action."
+                        "0.4–0.6 for moderate, 0.0–0.1 for BAU/no action."
                     ),
                     "additionalProperties": {"type": "number"},
                 },
@@ -99,21 +98,10 @@ TOOLS: list[dict] = [
                 },
                 "compare_to_baseline": {
                     "type": "boolean",
-                    "description": "If true, also run a BAU baseline and return the % change for each metric. Default true.",
-                },
-                "strategy_id": {
-                    "type": "integer",
-                    "description": (
-                        "Optional. When provided, look up the predefined L group values for "
-                        "this SISEPUEDE strategy from the LHS samples table and use them "
-                        "instead of custom lever_overrides. Any lever_overrides supplied "
-                        "alongside strategy_id are ignored for L groups. "
-                        "Use list_strategies to discover available IDs. "
-                        "Example: strategy_id=6009 runs the NDC_2.5 scenario."
-                    ),
+                    "description": "If true (the default), report the comparison against BAU: per-metric % change, per-sector deltas and cost/benefit deltas. If false, only the scenario values are returned. The baseline is computed either way.",
                 },
             },
-            "required": ["scenario_name"],
+            "required": [],
         },
     },
     {
@@ -121,7 +109,7 @@ TOOLS: list[dict] = [
         "description": (
             "Return REAL pre-run SISEPUEDE results for one of Uganda's 6 officially named "
             "pathways. ALWAYS call this (NEVER run_simulation) when the user names one of: "
-            + ", ".join(NAMED_PATHWAYS) + " (Candidate NDC3 is also called HBLE). "
+            + ", ".join(NAMED_PATHWAYS) + ". "
             "These are ACTUAL official CDPM simulations, not metamodel estimates — and they are the "
             "only accurate source for the aggressive pathways, which the metamodel cannot reproduce. "
             "Returns, vs a real BAU baseline: total net emissions per year and per-sector "
@@ -154,11 +142,12 @@ TOOLS: list[dict] = [
     {
         "name": "list_strategies",
         "description": (
-            "Return all predefined SISEPUEDE strategy scenarios available for simulation. "
-            "Each entry has a strategy_id (integer), strategy_code (short code), and "
-            "description (human-readable name). Call this when the user asks what scenarios "
-            "or strategies are available, or to look up the ID for a named strategy "
-            "before calling run_simulation with strategy_id."
+            "Return the CATALOGUE of named SISEPUEDE strategies — a reference list only. "
+            "These strategies CANNOT be run: no results exist for them in this model run. "
+            "Use it only to tell the user which strategy names exist. To produce numbers, "
+            "use get_pathway_results (for the 6 official pathways) or run_simulation with "
+            "explicit lever_overrides. Each entry has a strategy_id, strategy_code and "
+            "description."
         ),
         "input_schema": {
             "type": "object",
@@ -168,14 +157,20 @@ TOOLS: list[dict] = [
     {
         "name": "get_scenario_variables",
         "description": (
-            "Explain the physical 'how' behind a lever: the actual SISEPUEDE model variables "
-            "each changed lever moves and how they evolve over time. Returns, per lever, the "
-            "INPUT driver variables it directly changes (2015→2070, available for all groups) "
-            "and the DOWNSTREAM OUTPUT variables it affects (2019→2070, where they exist), "
-            "taken from the nearest pre-computed experiment matching the given L values. "
-            "Call this AFTER run_simulation when the user asks WHY/HOW a lever works, what "
-            "physically changes, or which variables move. Headline emissions/GDP/cost come "
-            "from run_simulation, NOT this tool. Only valid for L groups (groups 1–54)."
+            "Explain the physical 'how' behind a lever: the SISEPUEDE model variables it "
+            "moves and how they evolve. Returns, per lever, the INPUT variables it changes "
+            "(2015→2070, all groups) and the DOWNSTREAM OUTPUT variables it affects "
+            "(2019→2070; 10 of the 54 groups have none), showing at most the 6 largest of "
+            "each. "
+            "IMPORTANT — how the match works: this does NOT re-run the model. It retrieves "
+            "the nearest pre-computed experiment, measuring distance ONLY over the levers you "
+            "supply in l_values; every lever you do not supply is UNCONSTRAINED in the "
+            "retrieved run and may differ completely from your scenario, as may its X "
+            "conditions. The result reports the match quality it achieved — pass that on if "
+            "the user relies on the numbers. For this reason the tool accepts at most 5 "
+            "levers at a time and will decline more. "
+            "Call it AFTER run_simulation when the user asks WHY/HOW a lever works. Headline "
+            "emissions/GDP/cost come from run_simulation, NOT this tool. L groups 1–54 only."
         ),
         "input_schema": {
             "type": "object",
@@ -204,10 +199,12 @@ TOOLS: list[dict] = [
     {
         "name": "get_country_context",
         "description": (
-            "Return formatted baseline data about Uganda's current situation. "
-            "Use when the user asks about Uganda's current situation, baseline values, "
-            "energy mix, GDP, population, agriculture, transport, or country context. "
-            "Also use to contextualise a scenario result with real baseline numbers. "
+            "Return Uganda's MODELLED BASELINE ASSUMPTIONS — the SISEPUEDE model inputs "
+            "for the baseline run, at 2025/2030/2040/2050. These are modelling assumptions, "
+            "NOT observed present-day statistics: there is no current-year figure here, the "
+            "earliest value is a 2025 projection. Present them that way. "
+            "Use for baseline context on energy, GDP, population, agriculture or transport, "
+            "and to contextualise a scenario result. "
             "Never answer country fact questions from memory — always call this tool."
         ),
         "input_schema": {
@@ -218,8 +215,9 @@ TOOLS: list[dict] = [
                     "enum": ["energy_mix", "gdp", "population", "agriculture", "transport"],
                     "description": (
                         "The context topic to retrieve. "
-                        "'energy_mix' — electricity generation technology mix. "
-                        "'gdp' — GDP trajectory in billion USD at 2025, 2030, 2040, 2050. "
+                        "'energy_mix' — MINIMUM production-share constraints by generation "
+                        "technology (floor mandates in the model), NOT the actual generation mix. "
+                        "'gdp' — assumed GDP trajectory in billion USD at 2025, 2030, 2040, 2050. "
                         "'population' — rural/urban population at 2025, 2030, 2040, 2050. "
                         "'agriculture' — crop areas (ha) and livestock head counts. "
                         "'transport' — passenger and freight mode share fractions."
@@ -457,7 +455,7 @@ def _build_trace_event(
         topic = tool_input.get("topic", "")
         label = "Retrieved Uganda baseline context" + (f" ({topic})" if topic else "")
         data_source = "context"
-        origin = "Uganda baseline dataset (loaded from AWS at startup)"
+        origin = "Uganda baseline dataset (SISEPUEDE model inputs, primary_id 0)"
 
     elif tool_name == "list_strategies":
         label = "Listed the available SISEPUEDE strategies"
@@ -525,34 +523,34 @@ def _run_simulation_tool(
 ) -> tuple[dict, dict, dict]:
     scenario_name = inputs.get("scenario_name", "Scenario")
     compare = inputs.get("compare_to_baseline", True)
-    strategy_id: int | None = inputs.get("strategy_id")
 
-    # Parse Claude's overrides (keys come in as strings from JSON)
-    lever_overrides: dict[int, float] = {
-        int(k): float(v)
-        for k, v in (inputs.get("lever_overrides") or {}).items()
-    }
-    exogenous_overrides: dict[int, float] = {
-        int(k): float(v)
-        for k, v in (inputs.get("exogenous_overrides") or {}).items()
-    }
+    # Parse Claude's overrides (keys come in as strings from JSON), then VALIDATE.
+    # Unknown group ids used to be dropped silently by _build_group_values while still
+    # appearing in the trace as if they had been applied; out-of-range values were
+    # clipped with no signal. Both are now reported back to the model.
+    valid_l, valid_x = sector_predictor.valid_group_ids()
+    rejected: list[str] = []
+    clipped: list[str] = []
 
-    # When a strategy_id is supplied, replace lever_overrides entirely with
-    # the L values looked up from the LHS samples table for that strategy.
-    # This honours the SISEPUEDE strategy definition rather than custom intensities.
-    if strategy_id is not None:
-        try:
-            strategy_l = get_strategy_l_values(int(strategy_id))
-            lever_overrides = strategy_l
-            logger.info(
-                "run_simulation: strategy_id=%d resolved to %d L group values",
-                strategy_id, len(strategy_l),
-            )
-        except Exception as exc:
-            logger.error("Failed to load strategy_id=%d: %s", strategy_id, exc)
-            return {
-                "error": f"Could not load strategy_id={strategy_id}: {exc}"
-            }, None, None
+    def _parse(raw: dict, valid: set[int], kind: str) -> dict[int, float]:
+        out: dict[int, float] = {}
+        for k, v in (raw or {}).items():
+            try:
+                gid, val = int(k), float(v)
+            except (TypeError, ValueError):
+                rejected.append(f"{k} (not a number)")
+                continue
+            if gid not in valid:
+                rejected.append(f"{gid} (not a valid {kind} group id)")
+                continue
+            if not 0.0 <= val <= 1.0:
+                clipped.append(f"{gid}: {val} → {min(max(val, 0.0), 1.0)}")
+                val = min(max(val, 0.0), 1.0)
+            out[gid] = val
+        return out
+
+    lever_overrides = _parse(inputs.get("lever_overrides"), valid_l, "lever (1-54)")
+    exogenous_overrides = _parse(inputs.get("exogenous_overrides"), valid_x, "exogenous (55-67)")
 
     # Apply locked overrides from the UI (these always win).
     # L groups are 1–54, X (exogenous) groups are 55–67 in this run.
@@ -632,9 +630,20 @@ def _run_simulation_tool(
     # the sector/cost deltas and the real references (for the HBLE frontier value).
     summary = _build_result_summary(result, result.get("sector_comparison"))
 
+    # D6 — report the vector that was actually evaluated, not just what was requested.
+    applied = scenario_series.get("group_values") or {}
+    summary["group_values_applied"] = {str(k): v for k, v in sorted(applied.items())}
+    if rejected:
+        summary["rejected_overrides"] = rejected
+    if clipped:
+        summary["clipped_overrides"] = clipped
+
     interpretation = {
         "lever_overrides": lever_overrides,
         "exogenous_overrides": exogenous_overrides,
+        "group_values_applied": {str(k): v for k, v in sorted(applied.items())},
+        "rejected_overrides": rejected,
+        "clipped_overrides": clipped,
         "scenario_name": scenario_name,
         # Provenance for the user-facing process trace.
         "data_source": "surrogate_xgboost",
@@ -747,7 +756,10 @@ def _format_driver_detail(dv: dict, groups_changed: list[int]) -> str:
             if total > len(recs):
                 out.append(f"    …and {total - len(recs)} more")
         else:
-            out.append("    (none mapped for this lever)")
+            out.append(
+                "    (this lever group has none of this kind mapped — 10 of the 54 L "
+                "groups have no downstream output variables)"
+            )
         return out
 
     lines: list[str] = [f"Real pathway run: primary_id={primary_id}", ""]
@@ -771,10 +783,61 @@ def _get_scenario_variables_tool(inputs: dict) -> tuple[dict, None, None]:
     variables it affects (2019→2070, where present), taken from the nearest
     pre-computed SISEPUEDE experiment (design_id=4).
     """
-    groups_changed: list[int] = [int(g) for g in inputs.get("groups_changed", [])]
+    MAX_GROUPS_FOR_RELIABLE_MATCH = 5
+
+    raw_groups = inputs.get("groups_changed") or []
+    groups_changed: list[int] = []
+    invalid: list[str] = []
+    for g in raw_groups:
+        try:
+            gid = int(g)
+        except (TypeError, ValueError):
+            invalid.append(f"{g} (not an integer)")
+            continue
+        if not 1 <= gid <= 54:
+            invalid.append(f"{gid} (not an L group; L groups are 1-54)")
+            continue
+        groups_changed.append(gid)
+    if invalid:
+        return {
+            "error": "Invalid group ids: " + "; ".join(invalid),
+            "formatted_output": (
+                "get_scenario_variables only accepts L group ids 1-54. Rejected: "
+                + "; ".join(invalid)
+            ),
+        }, None, None
+    if not groups_changed:
+        return {
+            "error": "No valid L group ids supplied.",
+            "formatted_output": "get_scenario_variables needs at least one L group id (1-54).",
+        }, None, None
+
     l_values: dict[int, float] = {
-        int(k): float(v) for k, v in (inputs.get("l_values") or {}).items()
+        int(k): float(v)
+        for k, v in (inputs.get("l_values") or {}).items()
+        if str(k).lstrip("-").isdigit() and 1 <= int(k) <= 54
     }
+
+    # The nearest-trial match degrades sharply with the number of levers supplied, because
+    # distance is computed only over those levers and the rest are unconstrained. Beyond a
+    # handful the retrieved run shares almost nothing with the scenario, so decline rather
+    # than present an unrelated trial as "the physical how".
+    if len(l_values) > MAX_GROUPS_FOR_RELIABLE_MATCH:
+        return {
+            "error": (
+                f"Too many levers for a reliable match: {len(l_values)} supplied, "
+                f"maximum {MAX_GROUPS_FOR_RELIABLE_MATCH}."
+            ),
+            "formatted_output": (
+                f"This scenario changes {len(l_values)} levers. The nearest pre-computed "
+                f"experiment is only a meaningful match for up to {MAX_GROUPS_FOR_RELIABLE_MATCH} "
+                "levers at a time — beyond that the retrieved run differs from the scenario on "
+                "the levers that were not matched, and its variable trajectories would not "
+                "describe this pathway. Ask about at most "
+                f"{MAX_GROUPS_FOR_RELIABLE_MATCH} levers at a time, and say that the physical "
+                "detail is shown one lever group at a time rather than for the whole combination."
+            ),
+        }, None, None
 
     try:
         result = get_scenario_variable_trajectories(
@@ -804,7 +867,10 @@ def _get_scenario_variables_tool(inputs: dict) -> tuple[dict, None, None]:
             if total > len(recs):
                 out.append(f"    …and {total - len(recs)} more")
         else:
-            out.append("    (none mapped for this lever)")
+            out.append(
+                "    (this lever group has none of this kind mapped — 10 of the 54 L "
+                "groups have no downstream output variables)"
+            )
         return out
 
     lines: list[str] = [
@@ -824,6 +890,14 @@ def _get_scenario_variables_tool(inputs: dict) -> tuple[dict, None, None]:
                           g.get("outputs", []), counts.get("outputs", 0))
         lines.append("")
 
+    q = result.get("match_quality") or {}
+    if q:
+        lines.append(
+            f"Match quality: {q.get('groups_matched')} lever(s) matched, "
+            f"{q.get('groups_unconstrained')} unconstrained, per-lever discrepancy "
+            f"{q.get('distance_per_lever', float('nan')):.3f} "
+            "(0.0 = exact match, ~0.33 = no better than a random run)."
+        )
     lines.append(result.get("design_note", ""))
     formatted = "\n".join(lines).rstrip()
 
@@ -835,6 +909,7 @@ def _get_scenario_variables_tool(inputs: dict) -> tuple[dict, None, None]:
         "formatted_output": formatted,
         "primary_id": primary_id,
         "groups": groups,
+        "match_quality": q,
     }, None, None
 
 
@@ -856,9 +931,21 @@ def _get_country_context_tool(inputs: dict) -> tuple[dict, None, None]:
     from S3 at module import time and caches it.
     """
     topic: str = inputs.get("topic", "")
-    text = get_country_context(topic)
+    try:
+        text = get_country_context(topic)
+    except ContextUnavailable as exc:
+        logger.warning("get_country_context_tool: topic=%s unavailable: %s", topic, exc)
+        return {"error": str(exc)}, None, None
     logger.info("get_country_context_tool: topic=%s", topic)
     return {"context": text}, None, None
+
+
+def _training_range(target_column: str) -> dict | None:
+    """Training min/max for one target column, or None if unavailable."""
+    try:
+        return get_sector_predictor().training_range(target_column)
+    except Exception:  # noqa: BLE001 - never fail a summary over a missing sidecar
+        return None
 
 
 def _build_result_summary(result: dict, sector_result: dict | None = None) -> dict:
@@ -900,17 +987,36 @@ def _build_result_summary(result: dict, sector_result: dict | None = None) -> di
     if sector_result:
         sector_deltas = sector_result.get("sector_deltas", {})
         sector_breakdown: dict[str, Any] = {}
-        for sector, years in sector_deltas.items():
+        for sector, years in (sector_deltas or {}).items():
             display = SECTOR_DISPLAY_NAMES.get(sector, sector.upper())
             sector_breakdown[sector] = {"display_name": display, "unit": "Mt CO₂e"}
-            for year in [2025, 2050, 2070]:
-                if year in years:
+            for year in sorted(years):
                     d = years[year]
-                    sector_breakdown[sector][str(year)] = {
+                    entry = {
                         "scenario": d["scenario"], "bau": d["bau"],
                         "delta": d["delta"], "pct_change": d["pct_change"],
                     }
-        summary["sector_breakdown"] = sector_breakdown
+                    # D16 — flag a value outside the range the model was trained on, so an
+                    # extrapolated number is not presented with the same confidence as an
+                    # interpolated one.
+                    rng = _training_range(f"emission_{sector}_yr{year}")
+                    if rng:
+                        lo, hi = rng["min"], rng["max"]
+                        span = hi - lo
+                        # Degenerate ranges carry no information: every 2025 target has
+                        # near-zero variance across scenarios (the levers have barely
+                        # ramped by then), so a rounding difference would otherwise flag
+                        # every 2025 value as extrapolation. Require a real spread, and
+                        # allow a 1% margin beyond the observed extremes.
+                        if span > max(1e-6, 1e-3 * abs(rng["median"])):
+                            margin = 0.01 * span
+                            if not (lo - margin) <= d["scenario"] <= (hi + margin):
+                                entry["outside_training_range"] = {
+                                    "training_min": lo, "training_max": hi,
+                                }
+                    sector_breakdown[sector][str(year)] = entry
+        if sector_breakdown:
+            summary["sector_breakdown"] = sector_breakdown
 
         # Per-year cost/benefit totals + cost-as-%-of-GDP for narration.
         cb_deltas = sector_result.get("cost_benefit_deltas", {})
@@ -931,6 +1037,7 @@ def _build_result_summary(result: dict, sector_result: dict | None = None) -> di
 
 # ── System prompt ─────────────────────────────────────────────────────────────
 
+@lru_cache(maxsize=1)
 def _build_system_prompt() -> str:
     """
     Build the Claude system prompt. This is the single most important piece
@@ -947,25 +1054,22 @@ def _build_system_prompt() -> str:
     with open(registry_path) as f:
         registry = json.load(f)
 
-    # Build lever feature list
+    # Build lever feature list. ONE LINE PER LEVER, on purpose: the per-group
+    # semantic_min/semantic_max strings are generated from a single template (all 54
+    # collapse to the same sentence with the name substituted) and the aliases are the
+    # display name + sector split on whitespace, so they cost ~5,000 tokens and carry no
+    # information the scale header above does not already state once.
     lever_lines = []
     for gid, meta in sorted(registry["lever_features"].items(), key=lambda x: int(x[0])):
         lever_lines.append(
-            f"  Group {gid} | {meta['display_name']} | Sector: {meta['sector']}\n"
-            f"    0.0 → {meta['semantic_min']}\n"
-            f"    1.0 → {meta['semantic_max']}\n"
-            f"    Aliases: {', '.join(meta['aliases'])}"
+            f"  {gid} | {meta['display_name']} | {meta['sector']}"
         )
 
     # Build exogenous feature list (X features are sampled in [0, 1] in this run).
     exog_lines = []
     for gid, meta in sorted(registry["exogenous_features"].items(), key=lambda x: int(x[0])):
         exog_lines.append(
-            f"  Group {gid} | {meta['display_name']} | {meta['sector']}\n"
-            f"    0.0 → {meta['semantic_0']}\n"
-            f"    0.5 → {meta['semantic_05']}\n"
-            f"    1.0 → {meta['semantic_1']}\n"
-            f"    Aliases: {', '.join(meta['aliases'])}"
+            f"  {gid} | {meta['display_name']} | {meta['sector']}"
         )
 
     # Compact L-sector and X-factor rosters, used by the "what can I ask you?" answer
@@ -983,14 +1087,14 @@ def _build_system_prompt() -> str:
         for _, meta in sorted(registry["exogenous_features"].items(), key=lambda x: int(x[0]))
     )
 
-    # Static description of the model output categories (175 disaggregated targets).
+    # Static description of the model output categories (258 disaggregated targets).
     output_lines = [
         "  Emissions by sector × year — emission_<sector>_yr<year> [Mt CO₂e], for the 23",
-        "    official inventory categories at 2025/2035/2040/2050/2070 (forest-land",
+        "    official inventory categories at 2025/2035/2040/2050/2060/2070 (forest-land",
         "    sequestration is negative = carbon sink). Same categories as SECTOR BREAKDOWN.",
         "    Economy-wide total per year is derived by summing sectors, reported as",
         "    'Total Net Emissions (<year>)'.",
-        "  Co-benefits by type × year — benefit_<type>_yr<year> [billion USD], 16 types.",
+        "  Development benefits by type × year — benefit_<type>_yr<year> [billion USD], 16 types.",
         "  Costs by type × year — cost_<type>_yr<year> [billion USD], 3 types (fuel, system, technical).",
         "  GDP by year — gdp_mmm_usd_yr<year> [billion USD], used for cost/benefit as % of GDP.",
     ]
@@ -1007,6 +1111,18 @@ def _build_system_prompt() -> str:
         for name, meta in pathways_lookup.PATHWAY_REGISTRY.items()
     )
 
+    # A2: the catalogue size changes per run — inject it rather than hardcoding.
+    try:
+        _n_strategies = len(_list_strategies())
+    except Exception:  # noqa: BLE001 - never fail prompt construction over this
+        _n_strategies = None
+    strategies_sentence = (
+        f"The model has a catalogue of {_n_strategies} named strategies "
+        "(NDC variants, sector-specific, etc.)."
+        if _n_strategies
+        else "The model has a catalogue of named strategies (NDC variants, sector-specific, etc.)."
+    )
+
     prompt = f"""You are the assistant inside the **Uganda Climate Pathways Explorer** (formerly the Uganda Climate Policy Simulator), the exploration tool for Uganda's National Climate and Development Strategy.
 
 You are a **decision-support** instrument, not an oracle. Your role is to help government officials, policymakers, and development partners explore how different levels of sectoral transition — and different assumptions about Uganda's future development and implementation conditions — could affect greenhouse gas emissions, costs, and wider development benefits between 2025 and 2070. The decision stays with the reader; your job is to make its consequences legible.
@@ -1015,7 +1131,6 @@ The analysis rests on Uganda's **Country Development Pathway Model (CDPM)**, dev
 - **Official pathway results** — a fixed set of official CDPM simulations (Uganda's NDC pathways and the High Benefits, Low Emission (HBLE) pathway, which underpins Uganda's NDC 3.0).
 - **Metamodel estimates** — a live metamodel (XGBoost) trained on ~99,000 CDPM simulations, which estimates results for pathway combinations that were never officially simulated. It covers a very large range of combinations, at a lower level of detail than the official CDPM simulations.
 
-This combination is what the tool is for: the official pathways used to be readable only in a document; here they can be interrogated directly, AND extended to combinations of ambition and country conditions that no official simulation covers.
 
 ## OBJECTIVE
 
@@ -1023,12 +1138,10 @@ Your single objective is to help policymakers explore possible pathways and thei
 
 ## METHOD — WHY THIS TOOL IS SHAPED THIS WAY
 
-This tool sits inside a **Robust Decision Making (RDM)** analysis, one of the family of methods for **Decision Making under Deep Uncertainty (DMDU)**. Deep uncertainty is the condition where the parties to a decision cannot agree on the probabilities, the model, or how to value the outcomes — Uganda's 2070 economy, population and fuel prices are the standard example. Four consequences bind how you answer:
+This tool sits inside a **Robust Decision Making (RDM)** analysis, one of the family of methods for **Decision Making under Deep Uncertainty (DMDU)** — the condition where the parties to a decision cannot agree on the probabilities, the model, or how to value the outcomes. Two consequences bind how you answer:
 
-1. **This is not prediction.** Conventional analysis settles what the future holds, then ranks the options ("predict-then-act", or agree-on-assumptions). RDM inverts it: take the choices as given, stress-test them across many plausible futures, and characterise where each holds up and where it fails. Computation here is used not to make better predictions, but to support better decisions. **Never present a result as a forecast of what will happen** — every number is conditional on the settings behind it.
-2. **The L / X split is the structure of the decision.** L is what Uganda decides; X is what the world decides. That division came out of work with policy actors on what is achievable and what Uganda is merely exposed to — it records who has agency over what, which is why you must never move an X in response to a policy request.
-3. **Robustness is the interesting question.** "Does this still hold if growth is faster?" and "where does this stop working?" are better questions than "what is the best pathway?", and you should encourage them. But you do not score robustness on the reader's behalf — it depends on which futures they chose to test and what they count as acceptable.
-4. **The six official pathways are curated, not sampled.** They are positions that came out of conversations with policy actors about what is achievable, wanted, and already committed to. The metamodel exists to answer what falls between them, beyond them, or under conditions none of them assumed.
+1. **This is not prediction.** RDM takes the choices as given and stress-tests them across many plausible futures, rather than settling what the future holds and then ranking options. **Never present a result as a forecast of what will happen** — every number is conditional on the settings behind it.
+2. **The L / X split records who has agency.** L is what Uganda decides; X is what the world decides. That division came out of work with policy actors on what is achievable and what Uganda is merely exposed to.
 
 ## TERMINOLOGY — USE THESE WORDS EXACTLY
 
@@ -1041,16 +1154,14 @@ This tool sits inside a **Robust Decision Making (RDM)** analysis, one of the fa
 - Prefer **sectoral transition** and **ambition level** over "policy intensity"; prefer **development benefits** over "co-benefits" in user-facing prose.
 - Never write "predicts", "will be", "forecast" or "projection" of a result. Write **estimates**, "under these settings", "in this future". A run is a conditional consequence, not a prediction.
 - Never write "recommends", "the best pathway", "you should", or "the optimal…". Describe outcomes and trade-offs and leave the choice with the reader.
-- Never call a lever a policy. A lever is the **modelled effect** a policy would be meant to produce (see RULE 8).
-- Never gloss a lever or condition value as a percentage or a physical quantity — 0.9 is not "90% of" anything (see RULE 9).
 
 ## WHAT YOU CAN AND CANNOT DO
 
 You CAN:
 - Adjust the 54 policy levers (L groups) and the 13 exogenous uncertainty factors (X groups) listed below.
 - Report, for any pathway you run, vs a BAU baseline:
-  - Emissions: total net emissions per year and per-sector emissions, both at 2025/2035/2040/2050/2070.
-  - Cost & benefit disaggregated by type and year (16 benefit types, 3 cost types) for 2025/2035/2040/2050/2070, including per-year total benefit, total cost, net, and cost/benefit as a % of GDP.
+  - Emissions: total net emissions at 2025/2035/2040/2050/2060/2070, and per-sector emissions at 2019/2025/2035/2040/2050/2060/2070 (2019 is the shared historical anchor, not a policy result).
+  - Cost & benefit as per-year TOTALS (benefits and costs are aggregated before they reach you; the 16 benefit types and 3 cost types are NOT broken out — do not report by type). Years: 2025/2035/2040/2050/2060/2070 for a metamodel estimate, 2025/2035/2040/2050/2070 for an official pathway result. Includes total benefit, total cost, net, and COST as a % of GDP (benefit as % of GDP is not provided).
 - Run the predefined standard pathways (see TRIAGE) and report Uganda's baseline situation via the get_country_context tool.
 
 You CANNOT (these are out of scope — decline them):
@@ -1059,8 +1170,7 @@ You CANNOT (these are out of scope — decline them):
 - Years or horizons outside 2025–2070, or annual detail beyond the reported years.
 - Policies or interventions that have no corresponding lever in the list below.
 - General knowledge, definitions, news, or advice unrelated to running and interpreting these pathways.
-- **Naming the policy instrument** that would deliver a lever setting — a tax, a standard, a subsidy, a mandate. The model represents the transition, not the instrument (RULE 8).
-- **Ranking the pathways or recommending one.** The criteria that would settle that — political feasibility, financing and fiscal space, institutional capacity, distribution within Uganda, sequencing — are all outside the model (RULE 10).
+- Naming the policy instrument behind a lever setting, or ranking/recommending a pathway — see RULES.
 
 ## WHAT THE USER CAN ASK YOU — answer this directly when asked
 
@@ -1091,7 +1201,7 @@ Before answering ANY request, silently classify it into exactly one of three cat
 → Call `get_pathway_results` with that pathway. These return ACTUAL official CDPM (SISEPUEDE) simulations — accurate, and the ONLY correct source for the aggressive pathways (the metamodel cannot reproduce them). NEVER use `run_simulation` for these, and never hand-set levers to approximate them.
 
 **B — Custom pathway (estimate it with the metamodel).** The user describes a custom combination of the available levers ("what if we push renewables and protect forests?").
-→ Call `run_simulation` with `lever_overrides`. Present the result as a METAMODEL ESTIMATE, and say so in your first sentence. It is reliable near BAU. Its emissions/costs are the metamodel's; the "% vs BAU" and the comparison are measured against the official BAU simulation, and the official HBLE simulation is shown as the ambition frontier (see REFERENCE PATHWAYS). Do NOT use it to approximate a named pathway from category A.
+→ Call `run_simulation` with `lever_overrides`. Present the result as a METAMODEL ESTIMATE, and say so in your first sentence. It is reliable near BAU. Its emissions/costs are the metamodel's — and so is the baseline: the "% vs BAU" is measured against the METAMODEL's OWN BAU run, not the official one. That is deliberate: comparing like with like keeps the delta free of surrogate-vs-official level bias. The official BAU and HBLE runs appear on the charts as reference LINES only (see REFERENCE PATHWAYS). Do NOT use it to approximate a named pathway from category A.
 
 **C — Cannot answer.** The request needs a metric/variable/sector/region/time the model does not produce, or a policy with no corresponding lever.
 → Do NOT guess. Give a brief one-sentence decline and redirect to the closest thing you CAN do (a related lever you can adjust, or an output you can report).
@@ -1102,36 +1212,25 @@ Special cases:
 
 ## UGANDA COUNTRY CONTEXT
 
-Uganda has approximately 47 million people and a GDP of roughly 40 billion USD. About 85 percent of Uganda's electricity comes from hydropower, and agriculture employs 72 percent of the workforce.
-
-Uganda's NDC (Nationally Determined Contribution) target is a 22 percent reduction in greenhouse gas emissions by 2030 relative to a business-as-usual baseline. This target is conditional on receiving adequate international financial and technical support.
-
 When the user asks about Uganda's current situation, baseline data, or sector-level statistics, call the get_country_context tool — do not invent numbers.
 
 ## MODEL MECHANICS
 
-The model takes 67 input parameters — grouped into 54 policy lever groups (L, scale 0 to 1) and 13 exogenous uncertainty groups (X, scale 0 to 1) — and predicts emissions (per-sector by year + a derived economy-wide total), implementation costs, and economic co-benefits (both disaggregated by type and year), plus cost/benefit as a share of GDP. See WHAT YOU CAN AND CANNOT DO for the exact output set.
+The model takes 67 input parameters: 54 policy lever groups (L) and 13 exogenous uncertainty groups (X), all on a 0–1 scale. Outputs are listed under MODEL OUTPUTS.
 
-**L groups are policy choices.** You CAN set L values in response to user policy requests.
+**L groups are policy choices** — you CAN set them in response to a policy request.
+**X groups are conditions beyond Uganda's control** (GDP, population, fuel prices…) — describe them as scenario context, not levers. See RULES for when you may move one.
 
-**X groups are exogenous uncertainties** — external conditions beyond Uganda's control (GDP trajectory, population growth, fossil fuel prices, etc.). You must NEVER set X values in response to a policy request. Only adjust X values when the user explicitly asks to explore a different future scenario or uncertainty condition (e.g. "what if GDP grows faster"). When describing X groups, frame them as scenario context, not policy levers.
+## WHAT A LEVER SETTING MEANS
 
-## L TRANSFORM FORMULA
-
-The physical effect of each L lever is computed as:
-
-  T = 0.9 × x + 0.1    (the standard policy design)
-
-Where x is the L value in [0, 1] and T is the transformation magnitude in [0.1, 1.0].
-
-Reverse mapping (if you know the physical target T and need the L value):
-  x = (T − 0.1) / 0.9
-
-To describe what a lever setting means in physical terms, use the per-group fields in feature_registry.json: `semantic_min` (what L=0 means), `semantic_max` (what L=1 means), and `policy_description`. For the ACTUAL physical numbers — which model variables the lever moves and their values over time — call get_scenario_variables, which returns the real input-variable trajectories from the nearest SISEPUEDE experiment.
+There is NO formula converting a lever value into a physical quantity, and you must not
+invent one. To say what a setting means, use the 0.0 / 1.0 semantics printed under each
+lever below. For the ACTUAL physical numbers — which model variables a lever moves and how
+they evolve — call get_scenario_variables.
 
 The SISEPUEDE ramp mechanism means T is not applied instantly — it is the magnitude TARGET at the end of the simulation (2070). A linear or sigmoid ramp transitions each policy variable progressively from its baseline toward the 2070 target over approximately 20–30 years. get_scenario_variables shows this ramp directly (the driver trajectory 2015→2070).
 
-**WHERE THE 0–1 SCALE COMES FROM, AND WHAT IT DOES NOT MEAN.** The L and X values are Latin Hypercube sample coordinates from SISEPUEDE's experimental design, normalised to [0,1]. They are POSITIONS IN THE RANGE THE STUDY EXPLORED, not quantities. A lever at 0.9 sits near the ambitious end of that range; it is NOT "90% of" anything, and it names no number of stoves, share of a fleet, hectares, or budget — there is no defined "100%" for it to be a fraction of. The upper end is a modelling judgement about what was technically feasible by 2070, made when the experiment was designed. This is exactly the same caution already stated for the X groups, and it applies to every L for the same reason. See RULE 9.
+**WHERE THE 0–1 SCALE COMES FROM, AND WHAT IT DOES NOT MEAN.** The L and X values are Latin Hypercube sample coordinates from SISEPUEDE's experimental design, normalised to [0,1]. They are POSITIONS IN THE RANGE THE STUDY EXPLORED, not quantities. A lever at 0.9 sits near the ambitious end of that range; it is NOT "90% of" anything, and it names no number of stoves, share of a fleet, hectares, or budget — there is no defined "100%" for it to be a fraction of. The upper end is a modelling judgement about what was technically feasible by 2070, made when the experiment was designed. The same applies to every X group. See RULE 7.
 
 ## REFERENCE PATHWAYS ON CHARTS
 
@@ -1145,23 +1244,29 @@ You do not set or run them — they are always present in the payload. Do not ad
 named strategies as chart lines. A user's custom `run_simulation` scenario appears as its
 own line on top of these two references.
 
-Note on custom runs: a `run_simulation` scenario is now compared against the REAL BAU run
-(the baseline for the stated "% vs BAU") and the REAL HBLE run (the ambition frontier).
-This gives policymakers a real what-if comparison. Caveat to keep in mind (do not belabour
-it to the user unless asked): the pathway's own numbers come from the metamodel, so the
-comparison folds in the metamodel's error — this is an accepted, temporary trade-off.
-When helpful, note where the scenario lands between real BAU and the HBLE frontier
-(the `hble_value` in the result).
+Note on custom runs: the "% vs BAU" quoted for a `run_simulation` scenario is measured
+against the METAMODEL's own BAU run, NOT against the real BAU run. Both sides of that
+ratio come from the same model, so the metamodel's level bias largely cancels and the
+delta is a clean policy signal. The two real runs above are drawn as reference lines so
+the reader can see where the estimate sits against official anchors.
+If the user asks how the comparison is made, say exactly that. Do NOT claim the
+percentage is measured against the official BAU simulation — it is not.
+When helpful, note where the scenario lands relative to the HBLE frontier
+(the `hble_value` in the result, which IS from the real run).
 
 ## NAMED SISEPUEDE STRATEGIES
 
-The model has access to 76 named strategies (NDC variants, sector-specific, etc.). **Do not use or surface these in responses unless the user explicitly names one.** They are available for lookup only.
+{strategies_sentence} **Do not use or surface these in responses unless the user explicitly names one.** They are available for lookup only — they cannot be run.
 
 ## POLICY LEVERS (L features) — Scale: 0.0 to 1.0
 
-0.0 = No policy action / business as usual
+0.0 = No policy action / business as usual — the default for any lever you do not set
 0.5 = Moderate ambition
 0.9–1.0 = Maximum / HBLE ambition
+(0.0 is both the bottom of the range the study sampled and this tool's business-as-usual
+setting. Note that it does NOT reproduce the official BAU simulation — see REFERENCE
+PATHWAYS — which is why a metamodel estimate is always compared against the metamodel's
+own BAU.)
 
 {chr(10).join(lever_lines)}
 
@@ -1173,7 +1278,6 @@ These are external conditions BEYOND policy control. Adjust only when the user e
 0.5 = Median (central) future — the default
 1.0 = High end of the uncertainty range
 
-IMPORTANT: These are RELATIVE scales within the model's uncertainty range. They do not directly correspond to % changes in absolute GDP, population, etc.
 
 {chr(10).join(exog_lines)}
 
@@ -1183,7 +1287,7 @@ IMPORTANT: These are RELATIVE scales within the model's uncertainty range. They 
 
 ## COST & BENEFIT BREAKDOWN
 
-Every run_simulation result includes a `cost_benefit_by_year` field with, for 2025/2035/2040/2050/2070: `total_benefit_bn_usd` (positive), `total_cost_bn_usd` (net cost, usually negative), `net_bn_usd`, `cost_pct_gdp`, and the BAU net for comparison. Use these directly — no extra tool call.
+Every simulation and pathway result includes a `cost_benefit_by_year` field with `total_benefit_bn_usd` (positive), `total_cost_bn_usd` (net cost, usually negative), `net_bn_usd`, `cost_pct_gdp`, and the BAU net for comparison. Years: 2025/2035/2040/2050/2060/2070 for a metamodel estimate; 2025/2035/2040/2050/2070 for an official pathway result. These are TOTALS — the individual benefit and cost types are not available to you.
 
 - `cost_pct_gdp` is ALREADY a percentage (e.g. 0.37 means 0.37% of GDP). Do not multiply it.
 - Benefits are positive cash flows; costs are negative. Net = benefits + costs.
@@ -1192,30 +1296,33 @@ Every run_simulation result includes a `cost_benefit_by_year` field with, for 20
 
 ## SECTOR BREAKDOWN
 
-Every run_simulation result includes a `sector_breakdown` field with emissions at the
-target years for the **23 official inventory categories** (the same categories the
-official pathways / Tableau use). Use this to answer sector-specific questions directly
-— no additional tool call needed.
+Every simulation and pathway result includes a `sector_breakdown` field with emissions
+for the **23 official inventory categories** (the same categories the official pathways /
+Tableau use), at 2019/2025/2035/2040/2050/2060/2070. Each sector entry lists the years it
+actually carries; use those and do not interpolate between them.
+**2019 is the shared historical anchor** — scenario and BAU are identical there by
+construction (delta 0), so never present it as a result of the policy. 2025 deltas are also
+near zero because the transformations have barely ramped; the signal appears from 2035 on.
 
-The sector KEYS are category slugs → display names:
-- `forest_land_removals` → Forest Land - Removals — **Uganda's LARGEST source (~62 Mt).**
-  This is the CO₂ from burning biomass for energy (firewood + charcoal; Uganda is ~89%
-  biomass energy). Under IPCC/LULUCF accounting this carbon is booked as forest-land
-  removals, NOT as electricity. To cut it, the levers are CLEAN COOKING (efficient/
-  modern stoves, fuel switching) and AFFORESTATION — **not** power plants.
-- `electricity_and_heat_generation` → Electricity and Heat Generation — TINY for Uganda
-  (~0.08 Mt, grid is ~85% hydro). Do NOT attribute the biomass block to this.
-- `residential`, `commercial`, `other_combustion` → non-biomass stationary combustion
-  in buildings (the biomass part of buildings is already in Forest Land - Removals).
-- `livestock` → Livestock (enteric fermentation + manure); `agriculture_and_managed_soil`
-  → Agriculture & Managed Soil.
-- `deforestation`, `other_land_use_conversion`, `wetlands` → land-use change (LULUCF).
-- `forest_land_sequestration` → Forest Land - Sequestration (NEGATIVE = carbon sink);
-  `forest_land_methane` → forest CH₄.
-- `industrial_combustion` → Industrial Combustion (non-biomass); `ippu` → Industrial
-  Processes; `fuel_production` → Fuel Production; `fugitive_emissions` → Fugitive.
-- `transportation`, `solid_waste`, `wastewater_treatment` → as named.
-- `carbon_capture_industries` → CCS; `other_not_estimated_*` → small residual categories.
+**Always use the `display_name` carried in each sector entry** — do not translate the
+slug yourself. What follows is not a naming key; it is the accounting you cannot infer
+from the names:
+
+- `forest_land_removals` — the CO₂ from burning biomass for energy (firewood and
+  charcoal, which dominate Uganda's energy use). Under IPCC/LULUCF accounting this carbon
+  is booked as forest-land removals, NOT as electricity. To cut it, the levers are CLEAN
+  COOKING (efficient/modern stoves, fuel switching) and AFFORESTATION — **not** power
+  plants.
+- `electricity_and_heat_generation` — non-biomass grid generation only. Do NOT attribute
+  the biomass block to this.
+- `residential`, `commercial`, `other_combustion` — non-biomass stationary combustion in
+  buildings; the biomass part of buildings is already inside `forest_land_removals`.
+- `forest_land_sequestration` — NEGATIVE values are a carbon sink, not an error.
+- `industrial_combustion` excludes biomass; `other_not_estimated_*` are small residuals.
+
+**Never assume which sector is largest.** Sector magnitudes and their ranking change a
+great deal between years and between pathways — read them off `sector_breakdown` for the
+year and scenario in question rather than carrying an expectation into the answer.
 
 LULUCF categories (land sector): forest_land_removals, forest_land_sequestration,
 forest_land_methane, deforestation, other_land_use_conversion, wetlands, and the
@@ -1231,27 +1338,23 @@ When reporting sector results, always compare scenario vs BAU and highlight whic
 
 ## RULES
 
-0. **Triage first (A/B/C).** Run the REQUEST TRIAGE on every request before doing anything else. Never answer a category-C request by guessing — decline briefly and redirect. Never state a pathway result, emission number, cost, or co-benefit that was not produced by a tool call IN THIS turn; if you have not run the relevant pathway this turn, run it or decline.
+0. **Triage first (A/B/C), and never state a number you did not just produce.** Run the REQUEST TRIAGE on every request before doing anything else. Never answer a category-C request by guessing — decline briefly and redirect. Never state a pathway result, emission number, cost, or development benefit that was not produced by a tool call IN THIS turn; if you have not run the relevant pathway this turn, run it or decline. If a tool call fails, say so explicitly rather than filling the gap.
 
-1. **Always call run_simulation BEFORE giving any emissions, cost, or co-benefit numbers.** Never state or estimate these values without first running the model.
+1. **Sector emissions and cost/benefit come back automatically** in every simulation and pathway result (`sector_breakdown`, `cost_benefit_by_year`). Use them directly — no extra tool call. Call `get_scenario_variables` only to explain the physical "how": which model variables a lever moves and how they evolve. It does NOT return headline emissions.
 
-2. **Sector emissions are included automatically in run_simulation results** via `sector_breakdown`. Use them directly to answer sector-specific questions. Call `get_scenario_variables` only to explain the physical "how" — which specific input variables a lever changes and the downstream output variables it moves, and their trajectories over time. It does NOT return headline emissions (those come from run_simulation).
+2. **Call `get_country_context` for Uganda's baseline** — energy mix, GDP, population, agriculture, transport. Never invent these numbers.
 
-3. **Call get_country_context when the user asks about Uganda's current situation**, baseline conditions, or sector-level statistics (energy mix, GDP, population, agriculture, transport). Never invent baseline numbers — always retrieve them.
+3. **Never set X groups in response to a policy request.** X groups are scenario context only. If the user says "what if GDP is higher", you may adjust group 57 (GDP Growth Trajectory) — but not in the same run as a policy lever change unless the user explicitly asked for both.
 
-4. **Never hallucinate values.** All emission numbers, costs, co-benefits, and baseline statistics must come from tool calls. If a tool call fails, say so explicitly.
+4. **Be transparent about information sources.** Any fact, statistic, or context that did NOT come from a tool call must be explicitly flagged. Use phrasing like "Based on general knowledge (not from the model):". Never blend tool-sourced and general-knowledge data in the same sentence without distinguishing them.
 
-5. **Never set X groups in response to a policy request.** X groups are scenario context only. If the user says "what if GDP is higher", you may adjust group 57 (GDP Growth Trajectory) — but not in the same run as a policy lever change unless the user explicitly asked for both.
+5. **Route and label the two answer types correctly.** A request for one of the 6 named pathways → `get_pathway_results`, an official pathway result. A request for custom lever settings → `run_simulation`, a metamodel estimate. Never use `run_simulation` to approximate a named pathway, and never let an estimate read as though it came from an official CDPM simulation. (TRIAGE explains the comparison baselines.)
 
-6. **Be transparent about information sources.** Any fact, statistic, or context that did NOT come from a tool call must be explicitly flagged. Use phrasing like "Based on general knowledge (not from the model):" or "From my training data, not verified against Uganda's input data:". Never blend tool-sourced and general-knowledge data in the same sentence without distinguishing them.
+6. **A lever is an effect, not a policy — say so when it matters.** Each lever sets where a part of the economy ENDS UP by 2070; it names no law, budget line or programme. When the user asks "what policy would achieve this?", "should we tax or mandate?", or otherwise asks for the instrument: say plainly that the model represents the transition and not the instrument, that several instruments could deliver the same lever setting and they differ in cost, feasibility, administrative burden and who bears them — none of which the model represents — and that one real policy usually moves several levers at once. Then return to what you CAN show. Never write "the deforestation policy" when you mean the deforestation lever.
 
-7. **Named pathways are official pathway results; custom combinations are metamodel estimates — route each correctly and label each correctly.** A request for one of the 6 named pathways → `get_pathway_results` (an official CDPM simulation). A request for custom lever settings → `run_simulation` (a metamodel estimate). Do not use `run_simulation` to approximate a named pathway, and never let a metamodel estimate read as though it came from an official CDPM simulation. Both flows compare against the SAME official anchors — the official BAU pathway (the baseline, zero cost-benefit by construction) and the official HBLE pathway (the frontier) — so an estimate and an official result can be read on the same axes. The only caveat: an estimate's own values carry the metamodel's error (accepted, temporary); flag that only if the user asks how the comparison is made.
+7. **The 0–1 scale is relative — never gloss it as a quantity.** Do not write "90% of", "a 0.9 reduction in", or any percentage or physical reading of a lever or condition value. Write "an ambitious level of…", "near the ambitious end of the range". If the user asks what a setting means in physical terms — "does 0.9 mean 90% of deforestation stopped?" — the answer is NO: explain that it is a position in the sampled range, then call `get_scenario_variables` to show the actual variable trajectories behind it.
 
-8. **A lever is an effect, not a policy — say so when it matters.** Each lever sets where a part of the economy ENDS UP by 2070; it names no law, budget line or programme. When the user asks "what policy would achieve this?", "should we tax or mandate?", "how do we do this?", or otherwise asks for the instrument: say plainly that the model represents the transition and not the instrument, that several instruments could deliver the same lever setting and they differ in cost, feasibility, administrative burden and who bears them — none of which the model represents — and that one real policy usually moves several levers at once. Then return to what you CAN show: what that transition would be worth in emissions, costs and development benefits. Do not invent or endorse an instrument. Never write "the deforestation policy" when you mean the deforestation lever.
-
-9. **The 0–1 scale is relative — never gloss it as a quantity.** Do not write "90% of", "a 0.9 reduction in", or any percentage or physical reading of a lever or condition value. Write "an ambitious level of…", "near the ambitious end of the range", "toward the high end of the explored range". If the user asks what a setting means in physical terms — "does 0.9 mean 90% of deforestation stopped?" — the answer is NO, explain that it is a position in the sampled range, and then call `get_scenario_variables` to show the actual input-variable trajectories behind it. That tool is the honest bridge from a coordinate to a physical magnitude; use it rather than inventing a percentage.
-
-10. **Do not rank and do not recommend.** Never name a "best" pathway, never tell the user what Uganda should do, never order the six by desirability. Present the outcomes and state the trade-offs explicitly, and leave the choice with the reader — the criteria that would decide it (feasibility, financing, capacity, distribution, sequencing) are outside the model. Robustness framing is encouraged and is the right register: "this holds across the conditions you tried", "here is where it stops holding". But do not certify a strategy as robust — that depends on which futures were tested and what the reader counts as acceptable, and both are theirs to judge.
+8. **Do not rank and do not recommend.** Never name a "best" pathway, never tell the user what Uganda should do, never order the six by desirability. Present the outcomes and state the trade-offs explicitly, and leave the choice with the reader — the criteria that would decide it (feasibility, financing, capacity, distribution, sequencing) are outside the model. Robustness framing is the right register ("this holds across the conditions you tried"), but do not certify a strategy as robust: that depends on which futures were tested and what the reader counts as acceptable.
 
 ## TRANSLATION RULES
 
@@ -1263,7 +1366,7 @@ When the user describes a policy or scenario, translate it to group values.
 |---|---|
 | "aggressive/ambitious/maximum" on policy X | Set L group to 0.9 |
 | "moderate/some/partial" on policy X | Set L group to 0.5 |
-| "business as usual/no change/baseline" | Set all L groups to 0.1 |
+| "business as usual/no change/baseline" | Set all L groups to 0.0 |
 | "slight/small" on policy X | Set L group to 0.2–0.3 |
 | "phase out" fossil fuels in sector | Set relevant fuel-switch L group to 0.9 |
 | "protect forests" | Set L groups 15 (reduce deforestation) + 9 (increase forest sequestration) to 0.8–0.9 |
@@ -1304,7 +1407,7 @@ Templates:
     "current" = BAU only.
 
 Rules:
-- Only emit a chart block after calling `run_simulation` this turn — the data must be fresh.
+- Only emit a chart block after calling `run_simulation` OR `get_pathway_results` this turn — the data must be fresh.
 - For "show me current / actual emissions" with no scenario: run the `bau` preset and use
   scenario:"current".
 - Never claim you cannot draw a chart — place the appropriate block instead.
@@ -1328,9 +1431,9 @@ Principles:
   "emissions will reach…". No forecast verbs anywhere: no "predicts", "will be",
   "forecast", "projection". Every number is conditional on the settings behind it.
 - **Magnitude + horizon + driver.** Never just "emissions rise" — say how much, by when,
-  and what drives it (e.g. "emissions climb from ~105 to ~200 MtCO₂e by 2050, driven by
+  and what drives it (e.g. "emissions climb from ~125 to ~205 MtCO₂e by 2050, driven by
   population growth and energy demand").
-- **One story: emissions → development co-benefits → investment.** Connect mitigation to
+- **One story: emissions → development benefits → investment.** Connect mitigation to
   health, air quality, congestion, forests, AND to the cost/investment it implies. Avoid
   listing metrics in isolation.
 - **Narrate by sector and driver** (clean cooking, livestock, electrification, land
@@ -1345,12 +1448,11 @@ Principles:
 - Do NOT use horizontal rules (`---`, `***`) to separate sections — they don't render.
   Separate sections with a short `##`/`###` heading or a blank line instead.
 - Lead with the key finding in the first sentence, then support it.
-- Keep the source-honesty rules above: never state an emission, cost, or co-benefit
-  number that did not come from a tool call THIS turn.
+- Keep the source-honesty rules above: never state an emission, cost, or development
+  benefit that did not come from a tool call THIS turn.
 
-Place charts where they support the narrative — see CHARTS — YOU CONTROL THEM.
 
-Match the user's language. Never say "I cannot run simulations" — call run_simulation
-whenever the user asks about scenarios.
+Match the user's language. Never decline a scenario question for lack of capability —
+route it per TRIAGE and answer.
 """
     return prompt

@@ -5,7 +5,7 @@ Usage
 -----
   python run.py
 
-This must be run from the metamodel/chatbot/ directory so that
+This must be run from the metamodel/chatbot_deploy/ directory so that
 relative imports resolve correctly.
 
 Alternatively, run with uvicorn directly for more control:

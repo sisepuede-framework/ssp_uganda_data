@@ -24,6 +24,7 @@ import html
 import json
 import re
 import sys
+from datetime import date
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -155,7 +156,8 @@ A = L.append
 
 A("# What the tool says — full text inventory")
 A("")
-A("**Uganda Climate Pathways Explorer · generated 29 July 2026**")
+# Dated on every run, so a re-sent document never carries a stale date.
+A(f"**Uganda Climate Pathways Explorer · generated {date.today().strftime('%-d %B %Y')}**")
 A("")
 A("Every word the tool displays, and — for each button — the exact question it sends to the "
   "assistant on the user's behalf. Please comment directly on any wording you would change, using "
@@ -163,9 +165,11 @@ A("Every word the tool displays, and — for each button — the exact question 
 A("")
 A("Two things worth knowing while you read:")
 A("")
-A("- The questions under each button are **what the assistant receives**, not what the user sees. "
-  "They are written to route correctly (naming a pathway exactly, for instance) as well as to read "
-  "naturally, so if you rewrite one, keep any pathway or sector name intact.")
+A("- Each button carries two pieces of text: the short label printed on it, and the fuller question "
+  "it sends. Both are listed below, and **the reader sees both** — clicking puts the question in the "
+  "chat box and sends it, so it appears in the conversation as their own message. The sent version "
+  "names things more exactly (“the HBLE pathway” rather than “HBLE”) so the assistant matches the "
+  "right pathway, so if you rewrite one, keep any pathway or sector name intact.")
 A("- This document is generated from the running code. If you change wording in it, the change has "
   "to be made in the app as well — mark it clearly and we will apply it.")
 A("")

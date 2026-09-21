@@ -24,7 +24,6 @@ from pathlib import Path
 import pandas as pd
 
 from backend.config import settings
-from backend.services.predictor import TARGET_METADATA
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -53,14 +52,27 @@ def main() -> None:
     feature_cols = [c for c in df.columns if c.startswith("group_")]
     target_cols = [c for c in df.columns if c not in feature_cols and c not in id_cols]
 
+    # Summary statistics for EVERY target the model predicts, so a prediction can be
+    # placed against the range the model was actually trained on. This used to loop
+    # `TARGET_METADATA`, which is empty in this run (headline emissions are derived by
+    # summing sectors and have no training column of their own) — so the file shipped with
+    # an empty `target_distributions` map and the extrapolation flags on PredictionResult
+    # were never populated. The per-target columns DO exist, so they are used instead.
+    #
+    # Percentiles rather than raw value lists: 258 targets x ~99,600 rows would be a
+    # ~200 MB sidecar, and p1/p99 is what an out-of-range check needs.
     distributions: dict[str, dict] = {}
-    for col in TARGET_METADATA:
-        if col not in df.columns:
-            raise KeyError(f"Aggregate target {col!r} missing from training parquet")
-        vals = df[col].dropna().tolist()
+    for col in target_cols:
+        vals = df[col].dropna()
+        if vals.empty:
+            continue
+        q = vals.quantile([0.01, 0.5, 0.99])
         distributions[col] = {
-            "values": [round(float(v), 4) for v in vals],
-            "range": {"min": round(min(vals), 4), "max": round(max(vals), 4)},
+            "min": round(float(vals.min()), 4),
+            "p1": round(float(q.loc[0.01]), 4),
+            "median": round(float(q.loc[0.5]), 4),
+            "p99": round(float(q.loc[0.99]), 4),
+            "max": round(float(vals.max()), 4),
         }
 
     payload = {
@@ -72,7 +84,7 @@ def main() -> None:
         json.dump(payload, fh)
 
     logger.info(
-        "Wrote %s from %s: %d target columns, %d aggregate distributions",
+        "Wrote %s from %s: %d target columns, %d target distributions",
         _OUT_PATH.name,
         parquet.name,
         len(target_cols),

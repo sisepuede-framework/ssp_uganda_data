@@ -1,12 +1,12 @@
 # What the tool says — full text inventory
 
-**Uganda Climate Pathways Explorer · generated 29 July 2026**
+**Uganda Climate Pathways Explorer · generated 31 August 2026**
 
 Every word the tool displays, and — for each button — the exact question it sends to the assistant on the user's behalf. Please comment directly on any wording you would change, using Word's comment tool.
 
 Two things worth knowing while you read:
 
-- The questions under each button are **what the assistant receives**, not what the user sees. They are written to route correctly (naming a pathway exactly, for instance) as well as to read naturally, so if you rewrite one, keep any pathway or sector name intact.
+- Each button carries two pieces of text: the short label printed on it, and the fuller question it sends. Both are listed below, and **the reader sees both** — clicking puts the question in the chat box and sends it, so it appears in the conversation as their own message. The sent version names things more exactly (“the HBLE pathway” rather than “HBLE”) so the assistant matches the right pathway, so if you rewrite one, keep any pathway or sector name intact.
 - This document is generated from the running code. If you change wording in it, the change has to be made in the app as well — mark it clearly and we will apply it.
 
 ---

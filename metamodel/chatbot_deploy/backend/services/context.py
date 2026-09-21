@@ -46,24 +46,38 @@ def _val(row: dict, col: str, tp: int):
     return values[tp]
 
 
-# ── Module-level baseline load ────────────────────────────────────────────────
+# ── Baseline load (lazy, retried) ─────────────────────────────────────────────
+# This used to run at module import inside a try/except with no retry: one cold start
+# without AWS credentials degraded get_country_context() for the whole process lifetime.
+# It is now fetched on first use and re-attempted if it previously failed.
 
 _BASELINE_ROW: dict | None = None
 _LOAD_ERROR: str | None = None
 
-try:
-    _BASELINE_ROW = get_model_inputs_row(primary_id=0)
-    logger.info(
-        "context.py: baseline row loaded (primary_id=0, %d columns)",
-        len(_BASELINE_ROW),
-    )
-except Exception as exc:  # noqa: BLE001
-    _LOAD_ERROR = str(exc)
-    logger.warning(
-        "context.py: could not load baseline row at startup — "
-        "get_country_context() will return fallback text. Error: %s",
-        exc,
-    )
+
+def _baseline_row() -> dict | None:
+    """Return the primary_id=0 model-input row, fetching it on first use.
+
+    Returns None (and records _LOAD_ERROR) if it cannot be loaded; a later call
+    will try again rather than staying degraded for the life of the process.
+    """
+    global _BASELINE_ROW, _LOAD_ERROR
+    if _BASELINE_ROW is not None:
+        return _BASELINE_ROW
+    try:
+        _BASELINE_ROW = get_model_inputs_row(primary_id=0)
+        _LOAD_ERROR = None
+        logger.info(
+            "context.py: baseline row loaded (primary_id=0, %d columns)",
+            len(_BASELINE_ROW),
+        )
+    except Exception as exc:  # noqa: BLE001
+        _LOAD_ERROR = str(exc)
+        logger.warning(
+            "context.py: could not load baseline row — get_country_context() will "
+            "report an error and retry on the next call. Error: %s", exc,
+        )
+    return _BASELINE_ROW
 
 
 # ── Topic formatters ──────────────────────────────────────────────────────────
@@ -273,6 +287,11 @@ def _fmt_transport(row: dict) -> str:
 
 # ── Public API ────────────────────────────────────────────────────────────────
 
+class ContextUnavailable(RuntimeError):
+    """Raised when the baseline row cannot be loaded, so the caller can record the
+    trace step as status='error' instead of reporting a successful lookup."""
+
+
 _SUPPORTED_TOPICS = {"energy_mix", "gdp", "population", "agriculture", "transport"}
 
 
@@ -299,10 +318,11 @@ def get_country_context(topic: str) -> str:
             f"Supported topics: {', '.join(sorted(_SUPPORTED_TOPICS))}."
         )
 
-    if _BASELINE_ROW is None:
-        return (
-            f"Uganda baseline context for '{topic}' is currently unavailable "
-            f"(S3 baseline row could not be loaded at startup: {_LOAD_ERROR})."
+    row = _baseline_row()
+    if row is None:
+        raise ContextUnavailable(
+            f"Uganda baseline context for '{topic}' is unavailable — the S3 baseline "
+            f"row could not be loaded: {_LOAD_ERROR}"
         )
 
     formatters = {
@@ -314,7 +334,7 @@ def get_country_context(topic: str) -> str:
     }
 
     try:
-        return formatters[topic](_BASELINE_ROW)
+        return formatters[topic](row)
     except Exception as exc:  # noqa: BLE001
         logger.exception("get_country_context('%s') failed: %s", topic, exc)
         return (

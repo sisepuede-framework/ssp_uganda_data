@@ -171,7 +171,6 @@ _COST_KEY_MAP: dict[str, str] = {c: c[: -len("_cost")] for c in COST_CB_TYPES}
 _PATHWAYS_LOCAL_DIR = s3_lookup._LOCAL_DATA_DIR / "pathways"
 _PATHWAYS_CSV = "uganda_pathways.csv"
 _CBA_CSV = "cba_data_air_pollution.csv"
-_LEVERS_CSV = "tableau_levers_table.csv"
 
 
 # ── CSV loaders (local-first, then S3) ────────────────────────────────────────

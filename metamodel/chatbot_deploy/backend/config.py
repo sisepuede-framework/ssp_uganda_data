@@ -12,7 +12,7 @@ To add a new config value:
 from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-# Absolute path to this file's directory: metamodel/chatbot/backend/
+# Absolute path to this file's directory: metamodel/chatbot_deploy/backend/
 _BACKEND_DIR = Path(__file__).parent
 # Absolute path to metamodel/ root
 _METAMODEL_DIR = _BACKEND_DIR.parent.parent

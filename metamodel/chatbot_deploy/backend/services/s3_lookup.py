@@ -47,14 +47,17 @@ from backend.config import settings
 
 logger = logging.getLogger(__name__)
 
+# Quality of the most recent nearest-trial match (see find_nearest_lhs_trial).
+_LAST_MATCH_QUALITY: dict | None = None
+
 # ── Paths ─────────────────────────────────────────────────────────────────────
 
 _BACKEND_DIR = Path(__file__).parent.parent   # .../chatbot/backend/
 _METAMODEL_DIR = _BACKEND_DIR.parent.parent   # .../metamodel/
 
 # Normalise run_id to the S3 key format: lowercase 't', semicolons not colons.
-# settings.s3_run_id may be stored as "sisepuede_run_2025-11-12T22:19:28.194097"
-# but S3 (and local data/) uses "sisepuede_run_2025-11-12t22;19;28.194097".
+# settings.s3_run_id may be stored as "sisepuede_run_2026-05-30T21:35:56.244639"
+# but S3 (and local data/) uses "sisepuede_run_2026-05-30t21;35;56.244639".
 _S3_RUN_KEY: str = settings.s3_run_id.lower().replace(":", ";")
 
 _SSP_DIR = settings.ssp_data_dir                  # parent of the per-run dir
@@ -146,7 +149,9 @@ def _load_lhs_data() -> tuple[pd.DataFrame, pd.DataFrame]:
     """Load LHS lever-effects CSV and ATTRIBUTE_PRIMARY from local disk.
 
     Both files are read once and cached for the lifetime of the process.
-    They are small (~350 KB combined) so keeping them in memory is fine.
+    They are NOT small: the LHS lever-effects CSV is ~255 MB and ATTRIBUTE_PRIMARY
+    ~2 MB on disk, and together they are the app's dominant memory cost once loaded.
+    Size this into the container before raising concurrency.
     """
     global _lhs_df, _attr_primary_df
 
@@ -321,6 +326,16 @@ def find_nearest_lhs_trial(
     query_vec = np.array([query_cols[c] for c in available_cols])
     candidate_matrix = subset[available_cols].to_numpy(dtype=float)
     distances = np.sqrt(((candidate_matrix - query_vec) ** 2).sum(axis=1))
+    # Recorded for the caller: distance is computed ONLY over the group columns supplied,
+    # so the levers the caller did not name are unconstrained in the matched trial. The
+    # per-lever figure is what makes that legible (0.0 = exact, ~0.33 = no better than random).
+    global _LAST_MATCH_QUALITY
+    _LAST_MATCH_QUALITY = {
+        "groups_matched": len(available_cols),
+        "groups_unconstrained": 54 - len(available_cols),
+        "distance": float(distances.min()),
+        "distance_per_lever": float(distances.min() / max(len(available_cols), 1) ** 0.5),
+    }
 
     # ~0.2% of scenarios failed to simulate and have no S3 output. Walk candidates
     # nearest-first and return the first whose primary_id was actually simulated
@@ -582,10 +597,19 @@ def get_scenario_variable_trajectories(
         "get_scenario_variable_trajectories: groups=%s → primary_id=%d",
         group_ids, primary_id,
     )
+    q = _LAST_MATCH_QUALITY or {}
     return {
         "primary_id": primary_id,
         "groups": groups,
-        "design_note": "Nearest match in design_id=4 (L and X both vary); not a clean L-only counterfactual.",
+        "match_quality": q,
+        "design_note": (
+            "Nearest match in design_id=4 (L and X both vary); not a clean L-only "
+            "counterfactual. Distance was computed over the "
+            f"{q.get('groups_matched', '?')} lever(s) supplied; the other "
+            f"{q.get('groups_unconstrained', '?')} are unconstrained in the matched trial "
+            f"(per-lever discrepancy {q.get('distance_per_lever', float('nan')):.3f}; "
+            "0.0 is exact, ~0.33 is no better than a random run)."
+        ),
     }
 
 

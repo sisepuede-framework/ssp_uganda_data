@@ -86,9 +86,17 @@ COST_BENEFIT_LABELS: dict[str, str] = {
 
 # Defaults applied when a group is not overridden by the caller. In this run ALL
 # features (L and X) are sampled in [0, 1]:
-#   L = 0.1 → minimal policy (BAU);  L = 1.0 → full Net-Zero deployment.
+#   L = 0.0 → minimal policy (BAU);  L = 1.0 → full Net-Zero deployment.
 #   X = 0.5 → median (central) uncertainty future (there is no -1 baseline anymore).
-BAU_L_DEFAULT: float = 0.1
+#
+# BAU_L_DEFAULT was 0.1 until 2026-09-08. It is now 0.0, the bottom of the sampled
+# range, because 0.0 is measurably closer to the official BAU run at every reported
+# year (mean absolute error 13.2% vs 16.3% for 0.1; see paper1 system_current_state
+# §2.5). Note that NEITHER value reproduces the official BAU: the training set is
+# 100,001 Net-Zero-strategy runs and one baseline run, so the official BAU lies
+# outside the metamodel's reachable range from 2060 on. That is why the "% vs BAU"
+# comparison is made surrogate-against-surrogate (see _run_simulation_tool).
+BAU_L_DEFAULT: float = 0.0
 BAU_X_DEFAULT: float = 0.5
 
 MODERATE_L_DEFAULT: float = 0.5
@@ -404,6 +412,25 @@ class SectorPredictor:
     def get_feature_info(self) -> dict:
         """Return the full feature registry (for /api/features endpoint)."""
         return self._registry
+
+    def training_range(self, target_column: str) -> dict | None:
+        """min / p1 / median / p99 / max seen in training for one target column.
+
+        None when the column has no recorded distribution. Used to flag a prediction
+        that falls outside the range the model was actually fitted on — the sidecar's
+        `target_distributions` map was empty until 2026-09-08, so these flags were
+        dead code (see paper1 system_current_state).
+        """
+        return (self._target_distributions or {}).get(target_column)
+
+    def valid_group_ids(self) -> tuple[set[int], set[int]]:
+        """(valid L group ids, valid X group ids) taken from the feature registry.
+
+        Used by the tool handler to REJECT unknown group ids instead of letting
+        _build_group_values drop them silently — an unknown id used to vanish from the
+        prediction while still appearing in the user-facing trace as if it were applied.
+        """
+        return set(self._lever_gids), set(self._exog_gids)
 
     def get_group_to_column(self) -> dict[int, str]:
         """Map group_id → training column name."""

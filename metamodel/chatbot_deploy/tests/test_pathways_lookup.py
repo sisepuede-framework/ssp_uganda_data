@@ -393,6 +393,9 @@ def test_run_simulation_real_bau_baseline() -> _Result:
     _cmp = {f"emission_total_yr{y}": 0.0 for y in TARGET_YEARS}
 
     class _FakePredictor:
+        def valid_group_ids(self):
+            return set(range(1, 55)), set(range(55, 68))
+
         def predict_comparison(self, **kw):
             return {
                 "scenario": {**scenario_series, "scenario_name": kw.get("scenario_name", "S")},
@@ -470,6 +473,9 @@ def test_process_trace() -> _Result:
     hble = pl._build_series(pl.HBLE_PID, "Fake")
 
     class _FakePredictor:
+        def valid_group_ids(self):
+            return set(range(1, 55)), set(range(55, 68))
+
         def predict_comparison(self, **kw):
             return {"scenario": {**hble, "scenario_name": kw.get("scenario_name", "S")},
                     "baseline": hble, "comparison": {}, "sector_deltas": {}, "cost_benefit_deltas": {}}

@@ -24,9 +24,13 @@ from pathlib import Path
 
 import pandas as pd
 
+from backend.config import settings
+
 _BACKEND_DIR = Path(__file__).parent.parent
 _METAMODEL_DIR = _BACKEND_DIR.parent.parent
-RUN_ID = "2026-05-30t21;35;56.244639"
+# Derived from settings.s3_run_id — the same single source of truth the server uses —
+# so a retrain does not silently rebuild the registry from the previous run's parquet.
+RUN_ID = settings.s3_run_id.lower().replace(":", ";").removeprefix("sisepuede_run_")
 _PARQUET = _METAMODEL_DIR / "data" / "training" / f"training_data_sector_{RUN_ID}.parquet"
 _SSP_DIR = _METAMODEL_DIR / "data" / "ssp" / f"sisepuede_run_{RUN_ID}"
 _OUT = _BACKEND_DIR / "feature_registry.json"
@@ -121,12 +125,16 @@ def main() -> None:
                 "transformation_code": tcode,
                 "scale_min": 0.0,
                 "scale_max": 1.0,
-                "semantic_min": f'No policy action (baseline): the "{name}" measure is not '
-                                f"pursued; the {sector} sector stays on its business-as-usual path.",
+                # Kept short on purpose: this string is injected 54 times into the system
+                # prompt. The BAU convention (0.1) is stated ONCE, globally, in the prompt
+                # header — repeating it per lever would cost ~800 tokens for no information.
+                "semantic_min": f'Low end of the explored range: the least ambition sampled '
+                                f'for "{name}" in the {sector} sector.',
                 "semantic_max": f'Maximum ambition: "{name}" is deployed to its full technically '
                                 f"feasible extent by 2070.",
-                "policy_description": f"Policy lever ({sector}). 0 = no action, 1 = maximum "
-                                     f"technically feasible deployment by 2070 ({tcode}).",
+                "policy_description": f"Policy lever ({sector}). 0.0 = business-as-usual / low "
+                                     f"end of the explored range, 1.0 = maximum technically "
+                                     f"feasible deployment by 2070 ({tcode}).",
                 "aliases": _aliases(name, [sector]),
             }
         else:  # X
@@ -152,13 +160,14 @@ def main() -> None:
             "model_run_id": RUN_ID,
             "n_lever_features": len(lever_features),
             "n_exogenous_features": len(exogenous_features),
-            "note": "Rebuilt for the 2026-05-30 run. L groups 1-54 (NZ transformations), "
-                    "X groups 55-67 sampled in [0,1].",
+            "note": "L groups 1-54 (NZ transformations), X groups 55-67, all sampled in "
+                    "[0,1]. scale_min=0.0 is the bottom of the SAMPLED RANGE; the "
+                    "business-as-usual default is 0.0 (predictor.BAU_L_DEFAULT).",
         },
         "lever_features": lever_features,
         "exogenous_features": exogenous_features,
         "preset_scenarios": {
-            "bau": {"name": "Business as Usual (BAU)", "l_default": 0.1, "x_default": 0.5,
+            "bau": {"name": "Business as Usual (BAU)", "l_default": 0.0, "x_default": 0.5,
                     "description": "Minimal policy action; median (central) uncertainty future."},
             "moderate": {"name": "Moderate Ambition", "l_default": 0.5, "x_default": 0.5,
                          "description": "Moderate policy across all sectors; median future."},
