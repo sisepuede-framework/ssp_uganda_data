@@ -236,3 +236,6 @@ metamodel/chatbot_deploy/docs/*
 ssp_modeling/
 *.pkl
 metamodel/chatbot_deploy/model.pkl
+
+# Paper 1 working documents (drafts, protocol, .docx for review) — kept local for now.
+paper1/
