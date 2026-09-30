@@ -3,3 +3,6 @@ __pycache__/
 *.pyc
 .DS_Store
 logs/
+
+# Regenerable in ~1 min by backend/scripts/build_lever_response_map.py (5.5 MB)
+backend/lever_response_map_full.csv
