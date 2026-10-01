@@ -10,6 +10,34 @@ variables; everything else can start now with the current surrogate and data.
 
 ## 0. Data foundations (Athena)
 
+**Lever definitions and structural maps** (files in `metamodel/data/ssp/`):
+
+- [ ] Validate how `VARIABLE_TRAJECTORY_GROUPS_L.csv` was generated (the run's own definition
+      of the 54 L groups: group → transformation → input fields it sets, 547 rows). It is the
+      source for "which transformation is each lever" and "which inputs it sets", and for
+      Object 1. *(Alexa)*
+- [ ] Document `transformation_output_variable_map.csv`: extracted by Alexa from SISEPUEDE
+      itself; transformation → output variables it affects (5,333 rows, incl. 2,046 emission
+      fields and intermediate variables). Structural: says *which* outputs, not *how much*.
+- [ ] Join the output map to the levers by transformation code, stripping the run's
+      `_STRATEGY_NZ` / `_NZ` suffix. Coverage today: 43 of 54 levers fully covered; group 15
+      only partly (1 of its 3 transformations); 10 levers absent (CH4 rice, grid losses, clean
+      hydrogen, renewable target, leaks, secondary forests max, wetlands minimum, powered bikes,
+      waste capture biogas, waste energy from biogas). Find out why (e.g. the NemoMod
+      electricity model not being traceable this way).
+- [ ] Check why some covered levers list intermediate variables but no emission fields.
+- [ ] Combine: *which* from the structural map where it exists; *how much* and *with which X*
+      from the runs (below); fill the 11 uncovered levers from the runs alone. Report where
+      the two disagree (structurally linked but empirically flat; moved but not listed =
+      indirect coupling).
+- [ ] Use the output map's intermediate variables as the starting list of candidate tangible
+      and mechanism variables per lever.
+- [ ] Prefer `VARIABLE_TRAJECTORY_GROUPS_L.csv` over `transformation_variable_map.csv` for
+      inputs: the latter is generic (150 transformations, incl. NDC/LEP variants) and differs
+      from the run (e.g. group 11: 186 vs 206 fields).
+
+**Run data:**
+
 - [ ] Renew the AWS SSO session (`aws sso login --profile alexa`).
 - [ ] Read the CSV headers of `model_output`, `decomposed_emissions` and `cb` (free) and list
       what the current run actually stores beyond emissions.
@@ -98,6 +126,9 @@ condition) or in a tool payload (the treatment), never both.
     rewrite for the new tools and the A–F categories.
   - The rule on "when you may move an X": replace with principle 2 (X sampled, conditioned only
     on request).
+  - Lever 15 is registered as "Reduce DEFORESTATION" but bundles three transformations
+    (deforestation, wetland loss, reforestation). Fix its name and description in the
+    registry so the agent knows what it moves (applies to every condition, not a treatment).
 - [ ] Diff the C0 prompt against each condition's payload and confirm there is no overlap.
 - [ ] Freeze the prompt with the tools (same commit).
 
