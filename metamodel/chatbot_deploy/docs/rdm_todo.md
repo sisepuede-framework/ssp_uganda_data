@@ -1,5 +1,7 @@
 # RDM agent redesign — to-do list
 
+*Build order: `rdm_build_plan.md` (phases 0–5, run manifest so new runs only change paths).*
+
 *Branch `rdm-tools`. Started 2026-09-30. Draft due before DMDU, 9 November 2026.
 Companion to `rdm_tools_design.md`. Tick items as they land.*
 
