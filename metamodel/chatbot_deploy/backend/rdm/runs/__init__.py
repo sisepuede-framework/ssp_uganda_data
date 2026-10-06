@@ -42,8 +42,12 @@ class Run:
     bucket: str
     run_prefix: str               # S3 key prefix of the run, ending in "/"
     tables: dict = field(hash=False)   # data role → S3 table name
+    glue_database: str            # Athena catalog holding the run's tables
+    query_output: str             # S3 key prefix where Athena writes results
     run_dir: Path                 # local folder: LHC design, group definitions, primary ids
+    cache_dir: Path               # local folder for samples and stores built from S3
     structural_map: Path          # transformation → output variables, extracted from SISEPUEDE
+    registry: Path                # display names and sectors of the L and X groups
     surrogate_path: Path          # trained XGBoost pipeline for this run
     years: tuple = ()             # anchor years reported by the tools
     local_files: dict = field(default_factory=dict, hash=False)   # logical name → file in run_dir
@@ -58,6 +62,9 @@ class Run:
     def s3_table_uri(self, role: str) -> str:
         """s3://… location of a data role's table (parent of its region=<x>/ partitions)."""
         return f"s3://{self.bucket}/{self.run_prefix}{self.table(role)}/"
+
+    def query_output_uri(self) -> str:
+        return f"s3://{self.bucket}/{self.query_output}"
 
     def local(self, name: str) -> Path:
         """Path of a run-level file by logical name (``lhc_levers``, ``groups_l``, …)."""
@@ -106,8 +113,12 @@ def get_run(name: str | None = None, runs_dir: Path = RUNS_DIR, base_dir: Path =
         bucket=str(raw["s3"]["bucket"]),
         run_prefix=sub(raw["s3"]["run_prefix"]).rstrip("/") + "/",
         tables=tables,
+        glue_database=str(raw["s3"]["glue_database"]),
+        query_output=sub(raw["s3"]["query_output"]).rstrip("/") + "/",
         run_dir=resolve(raw["local"]["run_dir"]),
+        cache_dir=resolve(raw["local"]["cache_dir"]),
         structural_map=resolve(raw["local"]["structural_map"]),
+        registry=resolve(raw["local"]["registry"]),
         surrogate_path=resolve(raw["surrogate"]),
         years=tuple(int(y) for y in raw["years"]),
         local_files=dict(raw["local"].get("files", {})),

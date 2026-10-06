@@ -74,7 +74,7 @@ rewrite it.
 |---|---|---|---|
 | 0.1 ✅ | Run manifest + loader (2026-10-06) | `rdm/runs/run_2026_05_30.yaml`, `get_run()`, `tests/rdm/test_runs.py` | A test switches manifests and every path follows (4 tests pass; S3 tables verified) |
 | 0.2 ✅ | Data access: LHC, groups, primary ids (2026-10-06) | `rdm/data/lhc.py`, `groups.py`, `tests/rdm/test_data.py` | 100,000 runs with all 54 L and 13 X in [0, 1]; 2 runs without LHC values (primary 0, future 0) and 5 LHC columns without a group (1682, 1707, 1725, 1734, 1740) reported |
-| 0.3 | **Mapping pipeline** (priority) | `build_mapping.py` → `lever_x_output_map.csv` + review xlsx | Every lever and X has its emissions and variables, each tagged structural / empirical; the 19 incomplete levers filled; Alexa reviews |
+| 0.3 🔶 | **Mapping pipeline** (built 2026-10-06; awaiting Alexa's review) | `rdm/data/sample.py` (5,000-run sample, ≈ $0.73 once), `rdm/mapping/build_mapping.py` → `rdm/mapping/maps/<run>.csv`, `review_xlsx.py` → `docs/lever_x_output_mapping.xlsx` | 4,805 links; 46 of 54 levers move emissions and variables; lever 6 moves nothing; 11 of 13 X move outputs; Alexa signs off the review |
 | 0.4 | Run-level store (development sample first) | Parquet: primary_id, L/X values, year, mapped emissions (from `decomposed_emissions`) and variables (from `model_output`) | Sample of ~2,000 runs locally; full CTAS in Athena later (≈ $1) |
 
 0.3 has two sources: the structural map (which outputs a transformation touches in

@@ -23,7 +23,15 @@ that moves most": everything is stored, and only the tool's reply is filtered.
 - [x] Run manifest + loader (`backend/rdm/runs/`, build plan step 0.1), 2026-10-06.
 - [x] Data access: LHC design and group definitions (`backend/rdm/data/`, step 0.2), 2026-10-06.
 - [ ] Ask the team what LHC lever columns 1682, 1707, 1725, 1734, 1740 are (no group definition).
-- [ ] **Update the lever → output mapping** so every lever has its full list of emissions and
+- [x] Mapping pipeline built (step 0.3, 2026-10-06): structural (SISEPUEDE map) + empirical
+      (Spearman on a 5,000-run sample, |rho| ≥ 0.10). `backend/rdm/mapping/maps/run_2026_05_30.csv`:
+      4,805 links. Levers: 46 of 54 move emissions and variables; 7 emissions only (1, 8, 9, 13,
+      14, 16, 23); lever 6 (clean hydrogen) moves nothing. Uncertainties: 11 of 13 move outputs
+      (59, 61 none above the threshold). 26 sampled runs have NemoMod outputs missing and 11
+      futures are absent from both tables (failed runs?) — ask the team.
+- [ ] **Alexa reviews the mapping** (`docs/lever_x_output_mapping.xlsx`, Review column) and the
+      0.10 threshold.
+- [ ] ~~Update the lever → output mapping~~ (done above; kept for the record): so every lever has its full list of emissions and
       variables in `model_output`. Today (2026-10-06): 35 levers have both, 7 emissions only,
       2 variables only (28, 32), 10 none (1, 5, 6, 7, 8, 17, 18, 38, 50, 51). Fill the gaps
       from the runs (empirical response) and from SISEPUEDE (structural).

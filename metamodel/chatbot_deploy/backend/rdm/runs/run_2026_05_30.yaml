@@ -6,6 +6,8 @@ region: uganda
 s3:
   bucket: sisepuede-data
   run_prefix: "run_database/sisepuede_run_{run_id}/"
+  glue_database: "sisepuede_run_2026_05_30t21_35_56_244639"   # Athena catalog for the tables below
+  query_output: "queries/sisepuede_run_{run_id}/rdm/"          # where Athena writes result CSVs
   tables:
     emissions: decomposed_emissions     # final emissions (post-processed)
     variables: model_output             # intermediate variables that explain the emissions
@@ -14,7 +16,9 @@ s3:
 
 local:
   run_dir: "data/ssp/sisepuede_run_{run_id}"
+  cache_dir: "data/rdm/sisepuede_run_{run_id}"          # samples and stores built from S3 (git-ignored)
   structural_map: "data/ssp/transformation_output_variable_map.csv"
+  registry: "chatbot_deploy/backend/feature_registry.json"   # names and sectors of the L and X groups
   files:
     lhc_levers: ATTRIBUTE_LHC_SAMPLES_LEVER_EFFECTS.csv
     lhc_uncertainties: ATTRIBUTE_LHC_SAMPLES_EXOGENOUS_UNCERTAINTIES.csv
