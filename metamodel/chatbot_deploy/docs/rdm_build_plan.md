@@ -1,6 +1,8 @@
 # RDM agent — build plan
 
-*Branch `rdm-tools`, 2026-10-06. Draft due before DMDU, 9 November 2026 (≈ 5 weeks).
+*Branch `rdm-tools`, 2026-10-06. **Built on the current run (30 May 2026); new runs will keep the same structure.** Draft due before DMDU, 9 November 2026 (≈ 5 weeks).
+**Data sources:** emissions come from `decomposed_emissions` (final, post-processed); the
+variables that explain them come from `model_output`.
 Design: `rdm_tools_design.md` (draft v1). Experiment: `paper1/md_to_claude/study_plan.md` §2.
 Task list: `rdm_todo.md`. This file says **in what order** we build, and how the system stays
 independent of any one SISEPUEDE run.*
@@ -13,13 +15,17 @@ independent of any one SISEPUEDE run.*
 runs arrive, we edit the manifest and re-run the pipeline; no tool, prompt or test changes.
 
 ```yaml
-# backend/rdm/runs/<run_name>.yaml   (one file per run; RDM_RUN=<run_name> selects it)
+# backend/rdm/runs/<run_name>.yaml   (one file per run; RDM_RUN or the ACTIVE file selects it)
 run_id: "2026-05-30t21;35;56.244639"
 region: uganda
 s3:
   bucket: sisepuede-data
   run_prefix: "run_database/sisepuede_run_{run_id}/"
-  tables: [model_input, model_output, decomposed_emissions, cb]
+  tables:
+    emissions: decomposed_emissions   # final emissions
+    variables: model_output           # variables that explain the emissions
+    inputs: model_input
+    costs_benefits: cb
 local:
   run_dir: "data/ssp/sisepuede_run_{run_id}/"     # LHC design, group definitions, primary ids
   structural_map: "data/ssp/transformation_output_variable_map.csv"
@@ -66,10 +72,10 @@ rewrite it.
 
 | # | Step | Output | Done when |
 |---|---|---|---|
-| 0.1 | Run manifest + loader | `rdm/runs/`, `get_run()` | A test switches manifests and every path follows |
+| 0.1 ✅ | Run manifest + loader (2026-10-06) | `rdm/runs/run_2026_05_30.yaml`, `get_run()`, `tests/rdm/test_runs.py` | A test switches manifests and every path follows (4 tests pass; S3 tables verified) |
 | 0.2 | Data access: LHC, groups, primary ids | `rdm/data/lhc.py`, `groups.py` | Returns L/X values per run and variables per group for the current run |
 | 0.3 | **Mapping pipeline** (priority) | `build_mapping.py` → `lever_x_output_map.csv` + review xlsx | Every lever and X has its emissions and variables, each tagged structural / empirical; the 19 incomplete levers filled; Alexa reviews |
-| 0.4 | Run-level store (development sample first) | Parquet: primary_id, L/X values, year, mapped outputs | Sample of ~2,000 runs locally; full CTAS in Athena later (≈ $1) |
+| 0.4 | Run-level store (development sample first) | Parquet: primary_id, L/X values, year, mapped emissions (from `decomposed_emissions`) and variables (from `model_output`) | Sample of ~2,000 runs locally; full CTAS in Athena later (≈ $1) |
 
 0.3 has two sources: the structural map (which outputs a transformation touches in
 SISEPUEDE) and an empirical pass on the runs (which outputs actually move with each L and X).

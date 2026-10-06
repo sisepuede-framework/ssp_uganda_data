@@ -14,12 +14,13 @@ variables; everything else can start now with the current surrogate and data.
 
 **★ Priority — the (L, X) → outputs object (core of the agent's infrastructure)**
 
-The experiment's data is, for every pair (L_i, X_j): how **every** emission and **every**
-variable in `model_output` that L_i moves responds as L_i and X_j vary, with all other L and X
+The experiment's data is, for every pair (L_i, X_j): how **every** emission (from
+`decomposed_emissions`) and **every** variable (from `model_output`) that L_i moves responds as L_i and X_j vary, with all other L and X
 still varying in the background. Only L and X are on the 0–1 scale; emissions and variables
 stay in their original units (Mt CO₂e, PJ, ha, vehicle-km, …). No pre-selection of "the one
 that moves most": everything is stored, and only the tool's reply is filtered.
 
+- [x] Run manifest + loader (`backend/rdm/runs/`, build plan step 0.1), 2026-10-06.
 - [ ] **Update the lever → output mapping** so every lever has its full list of emissions and
       variables in `model_output`. Today (2026-10-06): 35 levers have both, 7 emissions only,
       2 variables only (28, 32), 10 none (1, 5, 6, 7, 8, 17, 18, 38, 50, 51). Fill the gaps

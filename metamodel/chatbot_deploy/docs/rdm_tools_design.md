@@ -37,7 +37,7 @@ is removed; a harness is specified; the experiment is v0 / v1 with a placebo kno
 | LHC design (run folder) | 0–1 value of every L and X group in each of the 100k futures; `ATTRIBUTE_PRIMARY` links runs to futures |
 | Group definitions | Input variables each group sets (547 in L, 93 in X) |
 | Raw runs (S3) | Every input and output per run and year, original units: `model_input` 145 GB, `model_output` 111 GB, `decomposed_emissions` 35 GB, `cb` 2 GB |
-| Lever → output mapping | Which emissions and variables in `model_output` each lever moves (619 emissions, 1,079 variables; 35 of 54 levers complete). Review file: `lever_x_output_mapping.xlsx` |
+| Lever → output mapping | Which emissions (from `decomposed_emissions`) and which variables (from `model_output`, the ones that explain the emissions) each lever moves: 220 distinct emissions and 442 distinct variables, 35 of 54 levers complete. Review file: `lever_x_output_mapping.xlsx` |
 | XGBoost surrogate | 67 L/X → 258 outputs (23 emission categories, costs, benefits, GDP; 6 years) |
 
 **The (L, X) object** (the information under test): for every pair (L_i, X_j), how every

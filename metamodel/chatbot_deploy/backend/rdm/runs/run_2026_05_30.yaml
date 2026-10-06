@@ -1,0 +1,28 @@
+# SISEPUEDE run of 30 May 2026 (Uganda, 100k futures, design 4).
+# Relative paths resolve against metamodel/; {run_id} is substituted everywhere.
+run_id: "2026-05-30t21;35;56.244639"
+region: uganda
+
+s3:
+  bucket: sisepuede-data
+  run_prefix: "run_database/sisepuede_run_{run_id}/"
+  tables:
+    emissions: decomposed_emissions     # final emissions (post-processed)
+    variables: model_output             # intermediate variables that explain the emissions
+    inputs: model_input                 # input variable trajectories
+    costs_benefits: cb
+
+local:
+  run_dir: "data/ssp/sisepuede_run_{run_id}"
+  structural_map: "data/ssp/transformation_output_variable_map.csv"
+  files:
+    lhc_levers: ATTRIBUTE_LHC_SAMPLES_LEVER_EFFECTS.csv
+    lhc_uncertainties: ATTRIBUTE_LHC_SAMPLES_EXOGENOUS_UNCERTAINTIES.csv
+    primary: ATTRIBUTE_PRIMARY.csv
+    strategy: ATTRIBUTE_STRATEGY.csv
+    groups_l: VARIABLE_TRAJECTORY_GROUPS_L.csv
+    groups_x: VARIABLE_TRAJECTORY_GROUPS_X.csv
+
+surrogate: "surrogate_model_sector/trained_models/xgb_pipeline_sector_independent_{run_id}.pkl"
+
+years: [2025, 2035, 2040, 2050, 2060, 2070]
