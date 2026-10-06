@@ -29,6 +29,16 @@ that moves most": everything is stored, and only the tool's reply is filtered.
       14, 16, 23); lever 6 (clean hydrogen) moves nothing. Uncertainties: 11 of 13 move outputs
       (59, 61 none above the threshold). 26 sampled runs have NemoMod outputs missing and 11
       futures are absent from both tables (failed runs?) — ask the team.
+- [x] Run-level store over the 5,000-run sample (`backend/rdm/data/store.py`, step 0.4): curve per
+      group and the 5 × 5 (L, X) grid per output, original units. 2026-10-06.
+- [ ] Full store (100k runs, same format) before the freeze: Athena CTAS to Parquet (≈ $0.73).
+- [ ] Provenance (ask the team): `VARIABLE_TRAJECTORY_GROUPS_L.csv` very likely comes from
+      SISEPUEDE's `Transformations.get_transformations_variable_fields()` (runs each
+      transformation, keeps the INPUT fields that change by ≥ 0.1%, merges transformations that
+      share fields into one sample group — which is why lever 15 bundles three). That function
+      covers inputs only. How `transformation_output_variable_map.csv` (outputs) was extracted
+      is unknown: it was produced by running SISEPUEDE with Claude in an earlier session.
+      Using both as they are for now.
 - [ ] **Alexa reviews the mapping** (`docs/lever_x_output_mapping.xlsx`, Review column) and the
       0.10 threshold.
 - [ ] ~~Update the lever → output mapping~~ (done above; kept for the record): so every lever has its full list of emissions and
