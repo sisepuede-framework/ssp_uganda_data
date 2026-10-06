@@ -32,6 +32,19 @@ that moves most": everything is stored, and only the tool's reply is filtered.
 - [x] Run-level store over the 5,000-run sample (`backend/rdm/data/store.py`, step 0.4): curve per
       group and the 5 × 5 (L, X) grid per output, original units. 2026-10-06.
 - [ ] Full store (100k runs, same format) before the freeze: Athena CTAS to Parquet (≈ $0.73).
+- [ ] **Marginal vs package (design issue, 2026-10-06).** In every run all 54 levers vary at
+      once (LHC), so each (L_i, X_j) cell averages over random levels of the other levers
+      (mean ≈ 0.5). Unbiased for *which* outputs move, direction, relative size and the X axis
+      (LHC columns independent: max |corr| 0.047; other drivers balanced across cells). Not
+      valid as-is for *absolute levels* of a specific package, nor for translating a target
+      when effects multiply (e.g. EV vkm = total light-duty vkm [L41, L31, L34, GDP] × electric
+      share [L35 only]). Options: (a) knowledge tools state they are marginal and the final
+      number always comes from run_experiment (XGBoost, full policy vector); (b) condition the
+      cells on the policy's values of the output's other top drivers (needs the full 100k
+      store); (c) prefer ratio variables that one lever sets alone (electric share) as the
+      translation target. Decide before building solve_lever_level.
+- [ ] Data quality (ask the team): 9 sampled runs in id block 25343366–25343528 have every
+      light-duty vkm-by-fuel field at 1e10 (fill value); cleaned in the store.
 - [ ] Provenance (ask the team): `VARIABLE_TRAJECTORY_GROUPS_L.csv` very likely comes from
       SISEPUEDE's `Transformations.get_transformations_variable_fields()` (runs each
       transformation, keeps the INPUT fields that change by ≥ 0.1%, merges transformations that
