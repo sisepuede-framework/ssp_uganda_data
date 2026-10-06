@@ -6,6 +6,8 @@ Test 2 — curve: bins cover [0, 1], every run lands in one bin, quantiles are o
 Test 3 — pair: a 5 × 5 grid whose cells add up to the runs with that output.
 Test 4 — direction (checked by hand on 2026-10-06): electric light-duty vehicle-km in 2050
          rises with lever 35, and transport emissions fall with it.
+Test 5 — rare 1e10 fill values (broken runs) become missing; the electric share is then in
+         [0, 1] and set by lever 35 alone.
 
 Skipped when the cached sample has not been built (python -m backend.rdm.data.sample).
 """
@@ -59,3 +61,14 @@ def test_lever_35_direction(store):
     em = store.curve(35, TRNS, 2050)["median"]
     assert ev.is_monotonic_increasing and ev.iloc[-1] > ev.iloc[0] * 1.2
     assert em.iloc[-1] < em.iloc[0]
+
+
+def test_rare_fill_values_become_missing(store):
+    removed = store.fill_values_removed
+    assert EV_VKM in removed and len(removed[EV_VKM]) < 50
+    assert (store.values(EV_VKM, 2050) != 1e10).all()
+    total = store.values("vehicle_distance_traveled_trns_road_light", 2050)
+    share = (store.values(EV_VKM, 2050) / total).dropna()
+    assert share.between(0, 1).all()
+    # share of electric light-duty vkm is set by lever 35 alone (checked by hand on 2026-10-06)
+    assert share.corr(store.design.loc[share.index, "L_35"]) > 0.99

@@ -17,6 +17,25 @@ from backend.rdm.runs import Run
 
 QUANTILES = {"p10": 0.10, "median": 0.50, "p90": 0.90}
 
+# SISEPUEDE writes 1e10 as a fill value. In a few fields it is the model's convention in almost
+# every run (e.g. NemoMod storage capacity = "unbounded"); elsewhere it marks a broken run
+# (2026-05-30 run: 9 sampled runs in one id block have every light-duty vkm-by-fuel field at
+# 1e10). A field's 1e10 values count as missing when they occur in fewer than RARE_SHARE of runs.
+SENTINEL = 1e10
+RARE_SHARE = 0.05
+
+
+def clean_sentinels(frame: pd.DataFrame) -> tuple:
+    """Set rare 1e10 fill values to NaN. Returns (clean frame, {field: [primary_ids]})."""
+    hits = (frame == SENTINEL).groupby(level="primary_id").any()
+    n_runs = len(hits)
+    rare = [c for c in hits.columns if 0 < hits[c].sum() < RARE_SHARE * n_runs]
+    report = {c: sorted(int(i) for i in hits.index[hits[c]]) for c in rare}
+    if rare:
+        frame = frame.copy()
+        frame[rare] = frame[rare].mask(frame[rare] == SENTINEL)
+    return frame, report
+
 
 def bin_edges(n_bins: int) -> np.ndarray:
     return np.linspace(0.0, 1.0, n_bins + 1)
@@ -33,7 +52,10 @@ class Store:
             raise NotImplementedError("Only the cached sample exists so far (build plan step 0.4)")
         self.run = run
         self.source = source
-        self._emissions, self._variables = sample.load_sample(run, n, seed)
+        emissions, variables = sample.load_sample(run, n, seed)
+        self._emissions, rep_e = clean_sentinels(emissions)
+        self._variables, rep_v = clean_sentinels(variables)
+        self.fill_values_removed = {**rep_e, **rep_v}     # field → runs whose 1e10 became missing
         self.design = lhc.load_design(run)
 
     # ── catalogue of fields ───────────────────────────────────────────────────
