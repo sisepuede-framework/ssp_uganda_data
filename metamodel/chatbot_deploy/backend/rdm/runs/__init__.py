@@ -41,12 +41,12 @@ class Run:
     region: str
     bucket: str
     run_prefix: str               # S3 key prefix of the run, ending in "/"
-    tables: dict                  # data role → S3 table name
+    tables: dict = field(hash=False)   # data role → S3 table name
     run_dir: Path                 # local folder: LHC design, group definitions, primary ids
     structural_map: Path          # transformation → output variables, extracted from SISEPUEDE
     surrogate_path: Path          # trained XGBoost pipeline for this run
-    years: tuple                  # anchor years reported by the tools
-    local_files: dict = field(default_factory=dict)   # logical name → file in run_dir
+    years: tuple = ()             # anchor years reported by the tools
+    local_files: dict = field(default_factory=dict, hash=False)   # logical name → file in run_dir
 
     def table(self, role: str) -> str:
         """S3 table name for a data role (``emissions``, ``variables``, …)."""

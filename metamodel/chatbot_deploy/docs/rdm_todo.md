@@ -21,6 +21,8 @@ stay in their original units (Mt CO₂e, PJ, ha, vehicle-km, …). No pre-select
 that moves most": everything is stored, and only the tool's reply is filtered.
 
 - [x] Run manifest + loader (`backend/rdm/runs/`, build plan step 0.1), 2026-10-06.
+- [x] Data access: LHC design and group definitions (`backend/rdm/data/`, step 0.2), 2026-10-06.
+- [ ] Ask the team what LHC lever columns 1682, 1707, 1725, 1734, 1740 are (no group definition).
 - [ ] **Update the lever → output mapping** so every lever has its full list of emissions and
       variables in `model_output`. Today (2026-10-06): 35 levers have both, 7 emissions only,
       2 variables only (28, 32), 10 none (1, 5, 6, 7, 8, 17, 18, 38, 50, 51). Fill the gaps

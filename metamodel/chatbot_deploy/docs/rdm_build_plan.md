@@ -73,7 +73,7 @@ rewrite it.
 | # | Step | Output | Done when |
 |---|---|---|---|
 | 0.1 ✅ | Run manifest + loader (2026-10-06) | `rdm/runs/run_2026_05_30.yaml`, `get_run()`, `tests/rdm/test_runs.py` | A test switches manifests and every path follows (4 tests pass; S3 tables verified) |
-| 0.2 | Data access: LHC, groups, primary ids | `rdm/data/lhc.py`, `groups.py` | Returns L/X values per run and variables per group for the current run |
+| 0.2 ✅ | Data access: LHC, groups, primary ids (2026-10-06) | `rdm/data/lhc.py`, `groups.py`, `tests/rdm/test_data.py` | 100,000 runs with all 54 L and 13 X in [0, 1]; 2 runs without LHC values (primary 0, future 0) and 5 LHC columns without a group (1682, 1707, 1725, 1734, 1740) reported |
 | 0.3 | **Mapping pipeline** (priority) | `build_mapping.py` → `lever_x_output_map.csv` + review xlsx | Every lever and X has its emissions and variables, each tagged structural / empirical; the 19 incomplete levers filled; Alexa reviews |
 | 0.4 | Run-level store (development sample first) | Parquet: primary_id, L/X values, year, mapped emissions (from `decomposed_emissions`) and variables (from `model_output`) | Sample of ~2,000 runs locally; full CTAS in Athena later (≈ $1) |
 
@@ -133,6 +133,9 @@ If they arrive after the freeze (≈ 27 Oct), the experiment runs on the current
 run becomes a robustness check. Decide the cut-off date with the team.
 
 ## Open questions for the team
+
+- The lever LHC file has 5 columns with no group definition (1682, 1707, 1725, 1734, 1740).
+  What are they? They are left out of the design for now.
 
 - When will the new runs be ready, and will the L and X groups keep their ids and definitions?
 - Will `model_output` store the same variables (we need the mapped ones at minimum)?
