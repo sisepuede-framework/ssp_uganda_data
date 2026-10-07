@@ -43,6 +43,9 @@ that moves most": everything is stored, and only the tool's reply is filtered.
       cells on the policy's values of the output's other top drivers (needs the full 100k
       store); (c) prefer ratio variables that one lever sets alone (electric share) as the
       translation target. Decide before building solve_lever_level.
+      **Proposed answer (2026-10-06): the response graph** — `docs/rdm_response_graph.md`
+      (L → inputs exact, inputs + X → drivers fitted per node, drivers → emissions structural).
+      Next: decide, then prototype the lever 35 chain.
 - [ ] Data quality (ask the team): 9 sampled runs in id block 25343366–25343528 have every
       light-duty vkm-by-fuel field at 1e10 (fill value); cleaned in the store.
 - [ ] Provenance (ask the team): `VARIABLE_TRAJECTORY_GROUPS_L.csv` very likely comes from

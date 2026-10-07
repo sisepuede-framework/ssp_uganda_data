@@ -81,6 +81,9 @@ rewrite it.
 SISEPUEDE) and an empirical pass on the runs (which outputs actually move with each L and X).
 Where they disagree, both are kept and flagged for review.
 
+**Before Phase 1 (2026-10-07):** decide the knowledge layer's data format — the response graph
+proposed in `rdm_response_graph.md` — and prototype it on the lever 35 chain.
+
 ### Phase 1 · Tools (week 2: 13–19 Oct)
 
 | # | Step | Done when |
