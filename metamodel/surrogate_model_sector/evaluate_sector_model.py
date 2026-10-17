@@ -10,9 +10,9 @@ numbers for the paper would therefore report on an artefact that is no longer th
 one being served, and would break the frozen commit the trials cite. This script
 loads the artefact as it stands and measures it.
 
-The split is reproduced exactly as training built it -- same outlier removal, same
-test_size, same random_state -- so the rows scored here are the rows the model was
-held out from.
+The split is reproduced exactly as training built it -- same cleaning (retrain_sector.clean,
+no outlier filter since 2026-10-16), same test_size, same random_state -- so the rows scored
+here are the rows the model was held out from.
 
 Run:  python evaluate_sector_model.py
 Out:  trained_models/metrics_<RUN_ID>.csv        per-target MAE / RMSE / R2 / SMAPE
@@ -28,7 +28,7 @@ import pandas as pd
 import yaml
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-from utils.eda_utils import DataCleaningUtils
+from retrain_sector import clean
 from utils.ml_utils_v2 import XGBMultiOutputPipeline
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -76,10 +76,7 @@ def main():
     target_col = [c for c in df.columns if not c.startswith("group_")]
     print(f"  rows={len(df)}  features={df.shape[1]-len(target_col)}  targets={len(target_col)}", flush=True)
 
-    print("Removing z-score outliers (thresh=3.0) ...", flush=True)
-    dcu = DataCleaningUtils()
-    df_clean = dcu.remove_outliers(df, method="zscore", z_thresh=3.0)
-    print(f"  before={df.shape}  after={df_clean.shape}  removed={len(df)-len(df_clean)}", flush=True)
+    df_clean = clean(df)
 
     # Rebuild the identical split. preprocess() is pure train_test_split, so the
     # same frame + same random_state gives back the same held-out rows.

@@ -25,6 +25,7 @@ the `group_` prefix, so nothing else needs to know the count (258 targets here).
 
 import os
 
+import numpy as np
 import pandas as pd
 
 from config import load_config, TARGET_TPS, TARGET_YEARS
@@ -36,6 +37,7 @@ TP_TO_YEAR = dict(zip(TARGET_TPS, TARGET_YEARS))
 # gen_emissions_sql.py from the crosswalk), not the 15 raw subsector totals.
 # Strip this prefix -> the parquet target becomes `emission_<category>_yr<year>`.
 EMISSION_PREFIX = "emission_co2e_category_"
+BLOWUP_FACTOR = 10      # see the blow-up check in main()
 
 
 def _pivot_to_years(long_df: pd.DataFrame, value_col: str, out_prefix: str) -> pd.DataFrame:
@@ -123,6 +125,26 @@ def main():
         if frac > 0.05:
             raise SystemExit(f"ERROR: {frac:.1%} of rows have invalid GDP (>5%) -- investigate the source first.")
         df = df[~invalid].reset_index(drop=True)
+
+    # Drop scenarios whose emissions blow up (added 2026-10-16). In the 2026-05-30 run three
+    # runs of one id block (253003xx, the block with broken 1e10 fields in model_output) have a
+    # category trajectory that explodes in the last years, e.g. other-not-estimated conversion
+    # -4 -> -37 -> -219 Mt while every other run stays within -7.8. Flag a run when an emission
+    # target (2035+; 2025 is near-constant) lies more than BLOWUP_FACTOR times the central
+    # 99.8% range beyond that range. Benefits are not checked: their tails (wetland ecosystem
+    # services) are gradual, not isolated spikes. This replaces the old blanket z-score filter.
+    emi_cols = [c for c in target_cols if c.startswith("emission_") and not c.endswith("_yr2025")]
+    lo, hi = df[emi_cols].quantile(0.001), df[emi_cols].quantile(0.999)
+    span = (hi - lo).replace(0, np.nan)
+    beyond = np.maximum(lo - df[emi_cols], df[emi_cols] - hi).clip(lower=0) / span
+    blowup = (beyond > BLOWUP_FACTOR).any(axis=1)
+    if blowup.any():
+        frac = blowup.sum() / len(df)
+        print(f"  {int(blowup.sum())} rows ({frac:.2%}) with exploding emissions -- dropping: "
+              f"primary_id {sorted(df.loc[blowup, 'primary_id'].astype(int).tolist())[:10]}")
+        if frac > 0.01:
+            raise SystemExit(f"ERROR: {frac:.1%} of rows flagged as blow-ups (>1%) -- investigate the source first.")
+        df = df[~blowup].reset_index(drop=True)
 
     print(f"\nFinal: {df.shape[0]} rows | {n_features} features | {len(target_cols)} targets")
 

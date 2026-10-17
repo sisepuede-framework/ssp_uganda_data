@@ -38,6 +38,15 @@ Target years: **2025, 2035, 2040, 2050, 2060, 2070** (SISEPUEDE `time_period` 10
 since `year = time_period + 2015`). `retrain_sector.py` splits features vs targets by
 the `group_` prefix, so no downstream code hardcodes the target count.
 
+**Rows dropped** (by `assemble_training_data.py`, each a specific source glitch, each aborting if it
+hits too many rows): a missing target; GDP ≤ 0 (population collapses); and emission blow-ups — an
+emission target (2035+) more than `BLOWUP_FACTOR` (10) times the central 99.8% range beyond it
+(3 runs of the 253003xx id block in the 2026-05-30 run). Since 2026-10-16 there is **no blanket
+z-score filter** in `retrain_sector.py`: it removed 24% of the futures, all for their targets, and
+`experiments/outlier_filter_ablation.py` found no accuracy gain on an untruncated test set.
+`retrain_sector.py` writes `trained_models/split_<run>.csv` (primary_id → train/test); the two
+halves are also in `s3://sisepuede-data/queries/<run>/surrogate_split/`.
+
 ---
 
 ## 2. How it works (architecture)

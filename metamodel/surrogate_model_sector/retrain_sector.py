@@ -5,7 +5,13 @@ Retrains the sector XGBoost pipeline on the (now disaggregated) training parquet
 and overwrites trained_models/xgb_pipeline_sector_independent_<RUN>.pkl.
 
 Replicates the training cells of model_training_sector.ipynb (tune=False → XGBoost
-defaults, z-score outlier removal at 3.0), but runs headless without plotting/CV.
+defaults), but runs headless without plotting/CV.
+
+No outlier filter (decided 2026-10-16). The notebook's z-score filter (|z| > 3 on any
+column) removed 24% of rows, all on account of the targets (the LHC inputs are uniform on
+0–1, max |z| ≈ 1.73), i.e. it cut the most extreme futures, the ones RDM stress-tests.
+experiments/outlier_filter_ablation.py showed equal or better accuracy without it on an
+untruncated test set. Set OUTLIER_Z_THRESH to a number to turn it back on.
 
 Run:  python retrain_sector.py
 """
@@ -38,22 +44,40 @@ RUN_ID = _load_run_id()
 TRAINING_DATA_PATH = os.path.join(SCRIPT_DIR, "..", "data", "training", f"training_data_sector_{RUN_ID}.parquet")
 TRAINED_MODELS_DIR = os.path.join(SCRIPT_DIR, "trained_models")
 MODEL_PATH = os.path.join(TRAINED_MODELS_DIR, f"xgb_pipeline_sector_independent_{RUN_ID}.pkl")
+SPLIT_PATH = os.path.join(TRAINED_MODELS_DIR, f"split_{RUN_ID}.csv")   # primary_id -> train / test
+OUTLIER_Z_THRESH = None    # None = no outlier filter; evaluate_sector_model.py reads this too
+
+
+def clean(df: pd.DataFrame) -> pd.DataFrame:
+    """The rows the model is trained and evaluated on (the split is taken after this)."""
+    if OUTLIER_Z_THRESH is None:
+        print("No outlier filter (all rows kept).", flush=True)
+        return df
+    print(f"Removing z-score outliers (thresh={OUTLIER_Z_THRESH}) ...", flush=True)
+    out = DataCleaningUtils().remove_outliers(df, method="zscore", z_thresh=OUTLIER_Z_THRESH)
+    print(f"  before={df.shape}  after={out.shape}  removed={len(df)-len(out)}", flush=True)
+    return out
 
 
 def main():
     print("Loading training parquet ...", flush=True)
-    df = pd.read_parquet(TRAINING_DATA_PATH).drop(columns=["primary_id", "future_id"])
+    raw = pd.read_parquet(TRAINING_DATA_PATH)
+    df = raw.drop(columns=["primary_id", "future_id"])
     target_col = [c for c in df.columns if not c.startswith("group_")]
     print(f"  rows={len(df)}  features={df.shape[1]-len(target_col)}  targets={len(target_col)}", flush=True)
 
-    print("Removing z-score outliers (thresh=3.0) ...", flush=True)
-    dcu = DataCleaningUtils()
-    df_clean = dcu.remove_outliers(df, method="zscore", z_thresh=3.0)
-    print(f"  before={df.shape}  after={df_clean.shape}  removed={len(df)-len(df_clean)}", flush=True)
+    df_clean = clean(df)
 
     print("Training MultiOutputRegressor(XGBRegressor) ...", flush=True)
     mulp = XGBMultiOutputPipeline(df=df_clean, targets=target_col)
     mulp.preprocess()
+
+    # Which scenario is in which half (the index survives clean() and the split).
+    split = pd.concat([raw.loc[mulp.X_train.index, ["primary_id"]].assign(split="train"),
+                       raw.loc[mulp.X_test.index, ["primary_id"]].assign(split="test")], ignore_index=True)
+    split.to_csv(SPLIT_PATH, index=False)
+    print(f"  split: {(split.split == 'train').sum()} train / {(split.split == 'test').sum()} test -> {SPLIT_PATH}", flush=True)
+
     mulp.train(log_transform=False)
 
     # Per-target R² on the held-out test split.

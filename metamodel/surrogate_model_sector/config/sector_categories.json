@@ -158,7 +158,7 @@
     "short": "Forest Removals",
     "color": "#A1D99B",
     "order": 14,
-    "lead_code": "entc",
+    "lead_code": "frst",
     "lulucf": true,
     "fields": [
       "emission_co2e_co2_entc_bmass_processing_and_refinement_fp_hydrogen_gasification",
