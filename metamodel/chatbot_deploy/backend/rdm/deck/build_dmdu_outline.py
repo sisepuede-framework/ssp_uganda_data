@@ -405,8 +405,7 @@ trows = [
       (DARK, "what it moves\nv1: p10–median–p90"), (LIGHT, "names, under\neach category"),
       (DARK, "what it moves\nv1: p10–median–p90")]),
     ("output_levers", "reverse look-up: name an output, get the levers",
-     [(DARK, "returns which L and X move it\nv1: + how much"), None,
-      (LIGHT, "start here\n(any one)"), (LIGHT, "start here\n(any one)"), (LIGHT, "start here\n(any one)")]),
+     [(DARK, "② the L and X\nthat move it\nv1: + how much"), "back", "start", "start", "start"]),
     ("4 technical tools", "the XGBoost",
      [(LIGHT, "policy levels +\nsampled futures"), "skip", "skip", "skip",
       (LIGHT, "predicted, + costs,\nbenefits, GDP")]),
@@ -417,7 +416,7 @@ ry, rh, rg = hy + hh + 0.25, 0.68, 0.1
 for name, sub, cells in trows:
     text(s, LM, ry, lab_w - 0.15, rh, f"**{name}**\n{sub}", 13, color=TXT, anchor=MSO_ANCHOR.MIDDLE)
     for i, c in enumerate(cells):
-        if c == "skip":
+        if c in ("skip", "back", "start"):
             continue
         if c is None:
             rect(s, sx[i], ry, sw, rh, fill=None, line=BORDER, dash=True)
@@ -425,8 +424,13 @@ for name, sub, cells in trows:
         kind, label = c
         rect(s, sx[i], ry, sw, rh, fill=ACC_LT if kind == DARK else FILL, line=ACC if kind == DARK else BORDER)
         text(s, sx[i] + 0.08, ry, sw - 0.16, rh, label, 12, color=TXT, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-    if name == "output_levers":     # direction: from the output back to the levers
-        arrow(s, sx[2] - 0.03, ry + rh / 2, sx[0] + sw + 0.03, ry + rh / 2, color=ACC)
+    if name == "output_levers":     # read right to left: ① the agent names an output, ② it gets the levers
+        x0, x1 = sx[2], sx[4] + sw
+        rect(s, x0, ry, x1 - x0, rh, fill=FILL, line=BORDER)
+        text(s, x0 + 0.15, ry, x1 - x0 - 0.3, rh, "① starts here: the agent names one output\n"
+             "a driver, an emission field or a category", 12, color=TXT, align=PP_ALIGN.CENTER,
+             anchor=MSO_ANCHOR.MIDDLE)
+        arrow(s, x0 - 0.03, ry + rh / 2, sx[0] + sw + 0.03, ry + rh / 2, color=ACC, width=2)
     if "skip" in cells:
         x0, x1 = sx[1], sx[3] + sw
         rect(s, x0, ry + 0.12, x1 - x0, rh - 0.24, fill=None, line=MUTED, dash=True)
