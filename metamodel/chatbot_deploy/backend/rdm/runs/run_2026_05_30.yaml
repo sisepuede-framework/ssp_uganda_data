@@ -19,6 +19,8 @@ local:
   cache_dir: "data/rdm/sisepuede_run_{run_id}"          # samples and stores built from S3 (git-ignored)
   structural_map: "data/ssp/transformation_output_variable_map.csv"
   registry: "chatbot_deploy/backend/feature_registry.json"   # names and sectors of the L and X groups
+  surrogate_targets: "chatbot_deploy/backend/target_distributions.json"   # the surrogate's 258 target columns, in order
+  crosswalk: "chatbot_deploy/backend/sector_categories.json"   # 505 emission fields → 23 inventory categories
   files:
     lhc_levers: ATTRIBUTE_LHC_SAMPLES_LEVER_EFFECTS.csv
     lhc_uncertainties: ATTRIBUTE_LHC_SAMPLES_EXOGENOUS_UNCERTAINTIES.csv

@@ -8,7 +8,8 @@ Status: draft for expert review · Last updated: 28 July 2026
 The Explorer lets a user change two kinds of things: **what Uganda decides to do** (levers) and
 **what the world does to Uganda** (uncertainties). That split is not a UI convention — it is the
 core of Robust Decision Making (RDM), the method the Country Development Pathway Model was built to
-support.
+support. The Explorer is not an RDM analysis in itself: it facilitates three of RDM's components
+(section 1).
 
 This document states, in one place, what the chatbot has been told about that structure. Everything
 listed here is what the assistant "knows" when it answers a user. If a definition below is wrong or
@@ -33,16 +34,19 @@ RDM inverts the order. Instead of asking *"what will happen?"*, it asks:
 > **"Which strategies perform acceptably across a very large range of plausible futures — and where
 > exactly do they fail?"**
 
-The practical consequences, all of which show up in the Explorer:
+A robust strategy is one that does well enough across many futures, rather than best in the single
+future we happened to assume. The Explorer facilitates three components of the RDM methodology:
 
-- **Many futures, not one forecast.** The model is run over a large ensemble of futures, each one a
-  different combination of assumptions.
-- **Robustness instead of optimality.** A robust strategy is one that does well enough across many
-  futures, rather than best in the single future we happened to assume.
-- **Vulnerability, not just performance.** The interesting output is often *which* combinations of
-  conditions break a strategy — that is what tells a policymaker what to hedge against.
-- **Exploration is the point.** The user is meant to try combinations, including bad ones. This is
-  why the tool is an *Explorer*, and why it must answer freely rather than serve six fixed answers.
+1. **Exploratory modeling and stress testing.** Run a model across many combinations of uncertain
+   assumptions to see how each strategy performs in different plausible futures. The user is meant
+   to try combinations, including bad ones — this is why the tool is an *Explorer*, and why it must
+   answer freely rather than serve six fixed answers.
+2. **Vulnerability analysis and scenario discovery.** Use statistical analysis and visualization to
+   identify combinations of conditions associated with poor performance. These become
+   decision-relevant scenarios — not necessarily predictions — and they tell a policymaker what to
+   hedge against.
+3. **Trade-off analysis and strategy improvement.** Compare the benefits and disadvantages of
+   alternative responses, revise vulnerable plans, and test them again.
 
 ## 2. XLRM, the framework behind the model
 

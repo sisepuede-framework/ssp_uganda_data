@@ -23,6 +23,11 @@ def _session() -> boto3.Session:
 
 def query(run: Run, sql: str, label: str = "query", poll_seconds: float = 3.0) -> pd.DataFrame:
     """Run ``sql`` in the run's Glue database and return the result as a DataFrame."""
+    return read_csv_uri(execute(run, sql, label, poll_seconds))
+
+
+def execute(run: Run, sql: str, label: str = "query", poll_seconds: float = 3.0) -> str:
+    """Run ``sql`` (a query or DDL) and return the s3:// location of its result; reports the cost."""
     session = _session()
     athena = session.client("athena")
     qid = athena.start_query_execution(
@@ -43,7 +48,7 @@ def query(run: Run, sql: str, label: str = "query", poll_seconds: float = 3.0) -
     scanned = qe.get("Statistics", {}).get("DataScannedInBytes", 0)
     print(f"[athena] {label}: scanned {scanned / 1e9:.1f} GB ≈ ${scanned / 1e12 * USD_PER_TB:.2f}")
 
-    return read_csv_uri(qe["ResultConfiguration"]["OutputLocation"])
+    return qe["ResultConfiguration"]["OutputLocation"]
 
 
 def read_csv_uri(uri: str) -> pd.DataFrame:

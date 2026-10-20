@@ -1,139 +1,224 @@
-# RDM tool design — draft v1
+# RDM tool design — draft v2
 
-*Branch `rdm-tools`, 2026-10-06 (v0: 2026-09-30). Replaces the current tool architecture
-(`run_simulation`, `get_scenario_variables`, …) on this branch only; the `metamodel` branch
-keeps the deployed system intact. Slide version: `docs/rdm_tool_design_v1.pptx`.
-Experiment design: `paper1/md_to_claude/study_plan.md` §2.*
+*Branch `rdm-tools`, 2026-10-12 (v1: 2026-10-06, 12 tools; v0: 2026-09-30). Replaces the current
+tool architecture (`run_simulation`, `get_scenario_variables`, …) on this branch only; the
+`metamodel` branch keeps the deployed system intact. v1 is in git history (commit `9e0f6f4`) and
+in `docs/rdm_tool_design_v1.pptx`. Experiment design: `paper1/md_to_claude/study_plan.md` §2.*
 
-**What changed from v0:** the user is the policy maker (never 0–1 values); `query_map` and
-`translate_target` are split into four single-purpose knowledge tools plus a catalog;
-`mechanism_evidence` becomes `explain_failure`; `declare_plan` is added; `get_pathway_results`
-is removed; a harness is specified; the experiment is v0 / v1 with a placebo knowledge layer.
+**Build status (2026-10-12):** all seven tools and the harness are built and tested
+(`backend/rdm/tools/`, `backend/rdm/harness/`, `tests/rdm/`); the agent loop and prompt are not.
+Evaluation and what does not work yet: `rdm_tools_evaluation.md`.
+
+**What the tool is.** Not an RDM analysis in itself: it facilitates three components of the RDM
+methodology.
+
+1. **Exploratory modeling and stress testing** — run a model across many combinations of
+   uncertain assumptions to see how each strategy performs in different plausible futures.
+2. **Vulnerability analysis and scenario discovery** — use statistical analysis and visualization
+   to identify combinations of conditions associated with poor performance. These become
+   decision-relevant scenarios, not necessarily predictions.
+3. **Trade-off analysis and strategy improvement** — compare the benefits and disadvantages of
+   alternative responses, revise vulnerable plans, and test them again.
+
+**What changed from v1** (decided 2026-10-12):
+
+- 12 tools → **7**: four technical tools, one per step of the three components, and three
+  information tools.
+- `declare_plan` is **dropped**. The harness logs tool calls and experiment parameters; only the
+  agent's final actions are measured. There is no plan-adherence or self-declared classification
+  score.
+- `search_catalog` is **dropped**: the L / X catalogue is already in the system prompt
+  (`agent.py`).
+- The four knowledge tools (`get_lever_effects`, `get_output_drivers`, `solve_lever_level`,
+  `explain_failure`) are replaced by **`lever_x_profile`** and **`output_levers`**, both reading
+  the same data. `solve_lever_level` is absorbed: in v1 the agent reads the level that reaches a
+  target off the lever-level values. `explain_failure` is dropped for now.
+- `define_experiment`, `run_experiment`, `find_vulnerabilities`, `compare_policies` and
+  `search_policy` are regrouped into the four technical tools below.
+- The v0 / v1 treatment is restated as **relations vs values** (see *v0 and v1*).
 
 ---
 
 ## Principles
 
-1. **RDM lives in the tools, not in the prompt.** Every evaluation is an ensemble; no tool
-   returns one number from one future.
+1. **RDM lives in the tools, not in the prompt.** Every evaluation is an ensemble; no technical
+   tool returns one number from one future.
 2. **Levers are decided; uncertainties are sampled.** Levers outside the policy sit at 0 (BAU).
    All 13 X are sampled unless the question restricts their range.
-3. **Focus is what is shown, not what moves.** All 13 X move in every ensemble; vulnerability
-   maps project onto the 2 X that matter most, or the 2 the user picks.
-4. **One tool, one capability, one data source.** Each tool answers one question. No question
-   can be answered by two tools, and each description says when *not* to use it.
-5. **Declare before you run.** Every experiment states L, X, M and a success criterion, and
-   the user confirms it in plain language.
-6. **Policy-maker language in, real units out.** The user never needs a 0–1 value; the agent
-   translates objectives into lever levels and uncertainty ranges, and results back into real
-   units.
+3. **One tool, one capability, one data source.** Each tool answers one question; each description
+   says when *not* to use it.
+4. **Two sides, one bridge.** Technical tools evaluate on the surrogate; information tools explain
+   from the runs; the crosswalk connects the emissions on both sides.
+5. **Policy-maker language in, real units out.** The user never needs a 0–1 value.
 
 ---
 
-## Data
+## Data: two sides and a bridge
 
-| Source | What it holds |
-|---|---|
-| LHC design (run folder) | 0–1 value of every L and X group in each of the 100k futures; `ATTRIBUTE_PRIMARY` links runs to futures |
-| Group definitions | Input variables each group sets (547 in L, 93 in X) |
-| Raw runs (S3) | Every input and output per run and year, original units: `model_input` 145 GB, `model_output` 111 GB, `decomposed_emissions` 35 GB, `cb` 2 GB |
-| Lever → output mapping | Which emissions (from `decomposed_emissions`) and which variables (from `model_output`, the ones that explain the emissions) each lever and uncertainty moves, from SISEPUEDE's structural map and from the runs (|Spearman rho| ≥ 0.10 on a 5,000-run sample): 4,805 links; 46 of 54 levers and 5 of 13 uncertainties move both. Built by `backend/rdm/mapping/`; review file `lever_x_output_mapping.xlsx` |
-| XGBoost surrogate | 67 L/X → 258 outputs (23 emission categories, costs, benefits, GDP; 6 years) |
+```
+            information tools (run outputs)                technical tools (surrogate)
+lever ──▶ variables ──▶ detailed emissions ──crosswalk──▶ 23 emission categories + costs/benefits
+          (1,025)        (505 fields)                      across futures and years
+```
 
-**The (L, X) object** (the information under test): for every pair (L_i, X_j), how every
-mapped emission and variable responds as L_i and X_j vary, the other inputs still varying.
-Only L and X are 0–1; outputs keep their units. Stored once as a run-level table; a pair is a
-query.
+| Data | What it holds | Used by | State |
+|---|---|---|---|
+| LHC design | 0–1 value of the 54 L and 13 X in each of the 100k runs | all run-based data | local |
+| Run outputs — emissions (`decomposed_emissions`) | 638 detailed emission fields per run and year, Mt CO₂e. **Only the 505 in the crosswalk are used**; the other 133 (mostly IPPU F-gases) feed no surrogate category | information tools | cached sample: 4,989 runs × 6 years |
+| Run outputs — variables (`model_output`) | 1,025 physical variables (vehicle-km, energy, land area, …): the middle step lever → variables → emissions | information tools | same sample |
+| Lever / X → output mapping | 4,805 links (structural map + Spearman \|ρ\| ≥ 0.10 per year) | information tools (relations) | built: `backend/rdm/mapping/maps/run_2026_05_30.csv` |
+| (L, X) object | For one output: median and p10–p90 per L × X cell (5 × 5 bins), other inputs varying | information tools (values, v1) | code: `Store.pair`, `Store.curve` |
+| Crosswalk | 505 emission fields → 23 inventory categories, the surrogate's emission targets | bridge | built: `backend/sector_categories.json` (generated by `surrogate_model_sector/athena/gen_emissions_sql.py`) |
+| XGBoost surrogate | 67 L/X → 258 targets: 23 emission categories, 16 benefit types, 3 cost types, GDP; 6 years | technical tools | trained; median R² 0.99 (2035–2070) |
+| Baseline inputs | Uganda's modelled baseline, 2025–2050 | `country_context` | existing tool |
+
+Costs and benefits exist only on the surrogate side; the information tools do not cover them.
 
 ---
 
 ## Tools
 
-| Group | Tool | The one question it answers | Data | v0 / v1 |
-|---|---|---|---|---|
-| Process | `declare_plan(category, planned_steps)` | "What kind of question is this, and what will I do?" Must come first | — | identical |
-| Catalog | `search_catalog(text)` | "What is the user's word called in the model?" | Registry, mapping, units | identical |
-| Knowledge | `get_lever_effects(levers, [X], year)` | "What does this lever move, and how much; how does X change it?" | (L, X) object | v0 names / v1 values |
-| Knowledge | `get_output_drivers(output, year)` | "Which levers and X move this emission or variable?" | (L, X) object | v0 unranked names / v1 ranked effects |
-| Knowledge | `solve_lever_level(output, target, year, [X])` | "What level of one lever reaches this target?" | (L, X) object | v0 levers, no level / v1 level per X region, range, reachable |
-| Knowledge | `explain_failure(region, policy)` | "Why does the policy fail in this region?" | (L, X) object, raw runs | v0 candidate variables / v1 which differ and by how much |
-| Experimentation | `define_experiment(policies, X ranges, metrics, criterion)` | "Is this experiment well framed?" Frames, does not compute | Registry; X in real units | identical |
-| Experimentation | `run_experiment(experiment_id, n_futures)` | "How does this policy perform across futures?" | XGBoost | identical |
-| Experimentation | `find_vulnerabilities(ensemble_id, policy, [x_to_show])` | "Where does it fail?" | Stored ensemble | identical |
-| Experimentation | `compare_policies(ensemble_id)` | "Which policy is better, at what cost?" | Stored ensemble | identical |
-| Experimentation | `search_policy(experiment_id, candidates, constraints)` | "Which combination of levers meets the target robustly?" | XGBoost | identical |
-| Context | `get_country_context(topic)` | "What does the country look like today?" | Inventory | identical |
+### Technical tools — run on the surrogate, identical in v0 and v1
 
-**Boundaries to state in the descriptions:**
-- `solve_lever_level` solves **one** lever from the data, approximately, without evaluating a
-  policy. `search_policy` searches **combinations** with XGBoost ensembles and robustness.
-- `define_experiment` frames (no computation); `run_experiment` computes. The user's
-  confirmation between them is a dialogue step, not a tool.
-- `get_lever_effects` goes from a lever to its outputs; `get_output_drivers` goes from an output
-  to its levers.
-- `search_policy` never proposes default candidate levers (that would leak v1 data into v0).
+| Tool | RDM component | Objective | Data | Inputs | Outputs |
+|---|---|---|---|---|---|
+| `exploratory_modeling` | 1 · explore and stress-test | Run one or more policies across many combinations of uncertain assumptions | XGBoost | Policies (lever levels), X ranges (default: all 13 sampled), metrics, number of futures | Per policy and metric: median, p10–p90, change vs BAU in the same futures; ensemble id |
+| `vulnerability_analysis` | 2 · vulnerabilities | Find how often and where a policy fails. **Asks the user for the failure threshold** when the question does not give one | Stored ensemble | Ensemble id, policy, metric, threshold (from the user) | Each future labelled pass / fail; share of futures that fail; the failing futures for scenario discovery |
+| `scenario_discovery` | 2 · scenario discovery | Find the conditions, two variables at a time, that explain when the target is not met | Stored ensemble with pass / fail labels | Ensemble id, policy, optional pair to show | The pairs that best separate pass from fail (e.g. CART); for each pair, the pass-rate map in real units and the conditions as a rule. *Which variables it may show is pending* |
+| `trade_off_analysis` | 3 · trade-offs and improvement | Compare policies on emissions vs costs in the same futures | Stored ensemble with 2+ policies | Ensemble id, years | Per policy: emissions and costs (median, p10–p90) and how often each is better; the trade-off between them |
 
----
+Revising a vulnerable plan and testing it again (component 3) is a new call to
+`exploratory_modeling` with the revised policy, on the same futures.
 
-## The harness
+### Information tools — read the runs; relations in both versions, values in v1 only
 
-The agent decides which tool to use; the harness never does. A deterministic orchestrator that
-fixes the sequence per category would remove what the experiment measures: whether the
-information changes the agent's choices.
+**`lever_x_profile(lever, x, year)`** — one profile per pair (L_i, X_j): everything the lever
+moves, and how it looks across the X.
 
-| Function | What it does |
-|---|---|
-| State | Stores experiments and ensembles by id, so tools chain without the agent copying data |
-| Rules (in code) | No `run_experiment` without a confirmed `define_experiment`; no X fixed at one value; C and D require a success criterion; levers in [0, 1]; `declare_plan` before any other tool |
-| Log | Every turn: plan, tool sequence, arguments, returns, "why" claims |
-| Limits | Same `max_iterations` and timeouts in v0 and v1 |
+| | v0 (relations) | v1 (relations + values) |
+|---|---|---|
+| Variables the lever moves | names | + median and p10–p90 per lever level × X bin, in units |
+| Emissions the lever moves (505 fields only) | names, each tagged with its surrogate category | + the same values |
+| X_j | whether X_j also moves each output | the full L × X grid |
+| Year | relations do not depend on it: a link appears if it holds in any of the 6 years, with the year it is strongest | values for the `year` asked (2025, 2035, 2040, 2050, 2060, 2070) |
 
----
+Data: mapping and crosswalk (relations); (L, X) object and units (values).
 
-## Flow per category
+**`output_levers(output, year)`** — the reverse look-up: what moves this output, so the agent can
+test it on the surrogate.
 
-```
-A · INFORMATION        declare_plan → search_catalog → get_output_drivers | get_lever_effects → answer
-B · EVALUATE A POLICY  declare_plan → search_catalog → solve_lever_level → define_experiment
-                       → user confirms → run_experiment → find_vulnerabilities (if a criterion is given)
-   B · not in model    search_catalog finds nothing → ask, or propose a proxy; no run until agreed
-C · REACH A TARGET     declare_plan → get_output_drivers → define_experiment (target = criterion)
-                       → search_policy → none meets it: report the maximum reachable
-                                       → some meet it: compare_policies → find_vulnerabilities
-D · ROBUSTNESS         declare_plan → define_experiment (X all, or conditioned: "boom" = GDP high range)
-                       → run_experiment → find_vulnerabilities → explain_failure (if asked why)
-E · COMPARE            declare_plan → get_lever_effects → define_experiment (2+ policies)
-                       → run_experiment (same futures) → compare_policies
-F · OUTSIDE THE MODEL  declare_plan → decline (not in the model) or ask for clarification (ambiguous)
-```
+| | v0 (relations) | v1 (relations + values) |
+|---|---|---|
+| Input `output` | one of the 23 surrogate categories, or one of the 505 emission fields | same |
+| Levers that move it | names, unranked | + ranked by effect: change in the median from L = 0 to L = 1, in units, with p10–p90 across X |
+| Uncertainties that move it | names | + the same effect measure |
+| For a category | the emission fields it is made of | same |
 
-**Single surrogate run:** only when the user asks for one concrete future; presented as one
-future, with the ensemble offered.
+Data: same as `lever_x_profile`.
+
+**`country_context(topic)`** — Uganda's baseline. Identical in v0 and v1; not part of the treatment.
+Data: baseline inputs (the existing tool).
+
+**Why the year stays a parameter:** 23% of the empirical lever → output links are below
+\|ρ\| = 0.10 in 2070. Links peak in different years (1,218 strongest in 2070, 1,166 in 2035), and some
+fade (e.g. Reduce DEFORESTATION → rice CH₄: ρ = −0.19 in 2035, −0.03 in 2070). Showing 2070 only would
+hide links in both versions.
+
+### The crosswalk
+
+Not a tool. The 23 categories go in the system prompt (the surrogate reports in those terms), and
+every emission an information tool returns carries its category, in both versions.
 
 ---
 
 ## v0 and v1
 
-Same prompt, same 12 tools with the same names, schemas and descriptions. The only difference:
-in v0 the four knowledge tools return names only; in v1 they return values across L_i and X_j.
+Same prompt and the same 7 tools with the same names, schemas and descriptions. The difference is
+only in what the two run-based information tools return:
+
+| | v0 | v1 |
+|---|---|---|
+| Relations: which L and X move which variables and emissions; emission → category | yes | yes |
+| How much: values, ranges, direction of effect, units | no | yes |
+
 The prompt is written from scratch, carries no lever-effect information, and never mentions a
-capability only one version has. Details and hypotheses: `study_plan.md` §2.
+capability only one version has.
 
-## What every turn records
+---
 
-| Signal | Measures |
+## The harness
+
+The agent decides which tool to use; the harness never does.
+
+| Function | What it does |
 |---|---|
-| `declare_plan` category vs the category assigned in advance | classification |
-| Plan vs tools actually called | adherence |
-| Tool sequence vs the expected flow | routing |
-| Knowledge-tool calls, arguments and returns | information uptake |
-| "Why" claims, and whether `explain_failure` backs each one | provenance |
+| State | Stores ensembles by id, so tools chain without the agent copying data |
+| Log | Every turn: tool calls, their arguments and returns, the experiment's parameters, the final answer |
+| Rules (in code) | Levers in [0, 1]; no X fixed at one value; `vulnerability_analysis` needs a threshold |
+| Limits | Same `max_iterations` and timeouts in v0 and v1 |
+
+## What is measured
+
+Only the agent's final actions, from the log: which tools it called, with which parameters
+(levers and levels, X ranges, metrics, thresholds, years), and what it answered. No comparison with
+a plan the agent declared.
+
+---
+
+## Expected flow (updated 2026-10-14)
+
+The agent works by one mechanism (D18): **look for information in the available sources, then test whatever can be
+tested on the XGBoost.** The surrogate takes only levers and uncertainties and reports only emissions by category,
+costs, benefits and GDP; everything else comes from the information tools and cannot be tested.
+
+The expected flow depends on what the question asks to translate (label T, see `question_bank_v1.md`), and the
+category (A–F) adds the technical step at the end:
+
+```
+T0 · nothing to translate   (levers named)        → exploratory_modeling → [category step]
+T1 · an input quantity       ("60% electric")      → lever_x_profile (read the inputs, range from BAU) → exploratory_modeling → [category step]
+T2 · an in-between quantity  ("how much electric   → lever_x_profile / output_levers (read the outputs) → answer from the runs, say it
+                              travel?")               cannot be tested; exploratory_modeling for the emission consequence
+T3 · an emission target      ("cut transport 5%")  → output_levers (find levers) → exploratory_modeling (sweep or combine) → [category step]
+T4 · not in the model        ("10,000 buses")      → say so; offer a proxy or ask; no run until agreed
+
+category step:  A  answer (no test needed)
+                B  exploratory_modeling → vulnerability_analysis if a threshold is given
+                C  vulnerability_analysis with the target as threshold
+                D  vulnerability_analysis (asks the user for the threshold) → scenario_discovery
+                E  trade_off_analysis on the same futures
+                F  decline or clarify
+```
+
+Scored on the logged actions only (no plan): tools called vs this flow, parameters (levers, levels, X ranges,
+thresholds), and the stated answer vs the answer key.
+
+---
 
 ## Open items
 
-- Value an X takes when it is not varied (team's expert).
-- Complete the lever → output mapping (19 levers), map X → outputs, add units.
-- Real units for the 13 uncertainties.
-- Search method behind `search_policy`.
-- Simulated user for automated runs (fixed reply at the confirmation step).
-- Whether `explain_failure` is part of the v1 payload only (current proposal) or partly shared.
+**Technical tools**
+- `scenario_discovery`: which variables it may show — only the 13 X, or also levers and
+  intermediate variables; how the pair is chosen (best split vs the user's choice); how the
+  result is shown (figure or table). CART vs PRIM.
+- `vulnerability_analysis`: format of the threshold (metric, year, absolute or vs BAU).
+- `exploratory_modeling`: sampling scheme over X, default and maximum number of futures, value of
+  an X that is not varied (team's expert).
+- `trade_off_analysis`: which costs (3 types) and whether benefits enter.
+- Whether the user still confirms the experiment before `exploratory_modeling` runs (v1 had a
+  confirmation step and a simulated user for automated runs).
+- Single-run requests ("one concrete future") conflict with "no X fixed at one value".
+
+**Information tools**
+- Reply size: a lever moves up to 76 emissions and 195 variables (levers 15, 25, 4). Proposal: one
+  year per call, all emissions, top 30 variables by link strength, optional `sector` filter.
+- Units for the 1,025 variables and 505 emission fields (v1 only) — to compile.
+- Complete the lever → output mapping (19 levers incomplete; lever 6 *Target CLEAN HYDROGEN* has no
+  link) and real units for the 13 uncertainties.
+- `country_context` returns modelled baseline assumptions (2025–2050), not present-day figures;
+  decide whether that is enough.
+
+**Documents to bring in line**
+- DMDU talk outline (`backend/rdm/deck/build_dmdu_outline.py`): slides 6–10 still show the 12-tool
+  set, `declare_plan` and the plan-adherence score.
+- `paper1/md_to_claude/study_plan.md` §2 still describes 12 tools and the four knowledge tools.

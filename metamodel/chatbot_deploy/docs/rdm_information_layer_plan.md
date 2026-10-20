@@ -26,7 +26,54 @@ Everything still open before running the experiment with all the questions, in d
 
 State on 2026-10-14: 39 RDM tests and the full suite (59) pass; four pilots done (Opus pilot 1, Sonnet pilots 2–4).
 
-**Update 2026-10-16** (session log; resume here)
+**Update 2026-10-19**
+- **model_input is complete.** All 747 CSVs in S3 share one 2,444-column header with all 527 lever input fields.
+  `inputs.py` read only the first 64 kB of the header (it is 113 kB), so the Glue table had 1,449 columns and 236
+  fields looked missing. Fixed `_header`, re-registered the table, re-queried the sample ($0.73):
+  `inputs.parquet` now has all 527 fields. The rule BASE + L × (HBLE − BASE) is exact on all of them
+  (971 changing field-years, worst error 0.4% of the range). The first 1,448 columns were in the right
+  order, so earlier results stand. Old cache kept as `inputs_1449cols_backup.parquet`.
+- **What "1" means:** HBLE (strategy 6007) holds all 54 levers' transformations; the 100k runs are HBLE with
+  each lever scaled by L ~ U(0, 1). So L = 1 = HBLE's magnitude, not a proven technical maximum: the prompt
+  and docs say "maximum feasible ambition" (to reword or confirm with the team). HBLE also has
+  `DEC_HFCS` and `DEC_OTHER_FCS`, which are not levers (check whether they are on in every run).
+- Deck: XGBoost training slide (6) and the harness text appendix (18–24).
+- **Final RQs** (deck slide 4) and **question bank v2** (`question_bank_v2.md`, 21 questions, sector-balanced, plain
+  wording). Reviews: `review_questions_vs_rqs.md`, `review_rqs_v2.md`, `review_bank_vs_final_rqs.md`.
+- **Decided (Alexa):** the uncertainty-range part of RQ2 is an **expected null** for now (no arm gives X in real
+  units; P8). Cost signs audited (`review_cost_signs.md`): signs right end to end; meaning fixed in the
+  tools (Alexa's OK): every `cost_*` = money spent (> 0), costs and benefits reported **only as change vs BAU** (levels
+  are differences against one fixed reference run), `vulnerability_analysis` judges them only as `change_vs_bau` with
+  the right pass direction, `trade_off_analysis` adds net-benefit change and cost change in points of GDP;
+  `cost_pct_gdp` kept (Alexa: it gives magnitude) as a change in percentage points of GDP. Alexa: comparing every
+  run with BASE (future 0), dropping the `cb:enfu:fuel_cost` rows and having no cost for reducing deforestation
+  **are intentional**. Other audit questions (grassland valuation, missing Uganda rows, discounting) stay open.
+  **Pending (postponed by Alexa, 10-19):** check the error from BAU (all levers at 0) lying outside the surrogate's
+  training data — it affects every "change vs BAU", emissions included. (x_ranges example: now "e.g. [0.2, 0.6]", see below.)
+- **Failure modes + logs (Alexa's OK, 10-19):** evaluation = automatic failure-mode detection from the logs, no
+  second labeller or general rubric. `backend/rdm/eval/failure_modes.py` (18 checks: 12 from tool calls, 4 from the
+  answer text by rules, 2 by a small reader model with `--reader`) → `failure_modes.csv`, one row per conversation.
+  Logs now carry: version fingerprints (commit, prompt, tools, tables, surrogate), user turns and the scripted
+  replies, error codes (`ToolError(code, message)`), parameters in a fixed shape. Question expectations in
+  `questions.SPECS` (pilot questions now; bank v2 once frozen). On the Sonnet pilots it reproduces pilot 3: literal
+  translation v0 42% / v1 0%; T1 level off the key v0 100% / v1 0%.
+- **Experiment runs only (Alexa):** the fixed CCDR pathway runs (BASE, HBLE…) are not part of this work. The lever
+  input table is now fitted on the experiment's own runs (`lever_inputs.experiment_values`); the fixed runs remain only
+  as a cross-check test (within 0.4% of the range). The lever range comes from the run's design (`lhc.lever_bounds`);
+  the prompt says "the most ambitious level explored in the model runs", and exploratory_modeling rejects levels
+  outside it.
+- **Question bank v3** (`question_bank_v3.md`, 26 questions in 24 conversations, tags dev / designed / blind) after
+  two bias audits (`review_bank_bias.md`, `review_bank_bias_v3.md`). Wired to scoring: `questions.BANK` (`--set
+  bank`) and `BANK_SPECS`; `failure_modes.py` now also checks several levers per question (TO1), conversations with
+  several questions (Q10b → D2b → N1, by user turn), required mentions (regex), allowed levers and packages (AG2,
+  C4b), re-testing with the same threshold (N1), the script falling out of step (24), the agent's own failure share,
+  years outside the model, and required statements through the reader. Prompt and x_ranges examples made neutral
+  ("its lower or its upper part"; "e.g. [0.2, 0.6]"); the v1-only "top third" note is declared part of the v1
+  treatment, so the uncertainty-range part of RQ2 may not be null. Pre-registration completed; frozen by commit.
+- **Next:** X1 key in hectares, X2 key, NDC 24.7% check → 100k tables (~$0.72) → smoke test (1 conversation × 4
+  arms) → full run → `failure_modes.py --reader`.
+
+**Update 2026-10-16** (session log)
 - **Surrogate retrained** (commit `38bf7da`): S3 `decomposed_emissions`/`cb` were re-uploaded 10-14/15, but
   only the subsector totals changed (biomass CO₂ moved entc → frst); the granular fields the crosswalk sums
   did not, so the training data was identical. Then: **z-score outlier filter removed** (it cut 24% of
@@ -111,7 +158,7 @@ State on 2026-10-14: 39 RDM tests and the full suite (59) pass; four pilots done
 | D17 | 10-13 | **Pairs experiment, 2 × 2 arms** (v0, v1_inputs, v1_outputs, v1) × target kind: **input** target (a quantity the lever sets; answer exact) vs **output** target (an emission change it causes; answer from the surrogate, other levers at 0). Pairs on levers 35 (light-duty electric share / transport −5%), 50 (landfill gas recovered 40% / solid waste −10%), 12 (clinker share 65% / IPPU −6%). Scored by: committed to one level or bracketed; error vs reference; number of exploratory runs | `backend/rdm/eval/questions.py`, `pairs_reference.json` |
 | D18 | 10-14 | **The mechanism the agent works by:** all the information we want can come from the input and output data (the runs), but **validation is only possible with the levers the XGBoost takes** (it reports emissions, costs, benefits, GDP). The agent looks for information in the available sources and tests whatever it can by running the XGBoost. Written into the system prompt (identical in every arm) | user |
 | D19 | 10-14 | Translation 3 (scenario → in-between quantity) is answered and scored **from the runs as they are**: the lever at its maximum with the other levers as they varied in the runs (frame 1). No extra model | user: "that is the data we have"; no run has the other levers near BAU |
-| D11 | 10-13 | Input values come from the rule **value(L) = BASE + L × (HBLE − BASE)**, not from model_input | verified exact on 291 fields × 4,989 runs; model_input lacks 236 of the 527 fields (30 levers) |
+| D11 | 10-13 | Input values come from the rule **value(L) = BASE + L × (HBLE − BASE)**, not from model_input | verified exact on 291 fields × 4,989 runs (10-13); **10-19: on all 527** — model_input never lacked the 236 other fields, our Athena table was cut at column 1,449 (see Update 2026-10-19) |
 
 ## How the run data reaches the tools (the primary-id route)
 
@@ -139,7 +186,7 @@ returns in each arm).
 | P3 | Input year | 2050, 2070, or both | both until the pilot shows size; then the target year of the question | reply size |
 | P4 | Experts' review of the drivers | — | send `links/<run>_drivers_by_category.csv` (179 rows, 153 variables) and `…_drivers_by_source.csv`; ask first about the 21 sources with no candidate (forest methane and sequestration, crop residues, biomass burning) and the manure-management choices | final list of in-between variables |
 | P5 | Sample (4,989 runs) or full 100,000 for the frozen tables | | full before the freeze; sample to develop | Athena cost (~1 scan per table) |
-| P6 | Validate the input rule for the 30 levers not in model_input | trust the mechanism / spot-check from model_output proxies | spot-check 3–4 levers via output proxies (e.g. vkm by fuel) | confidence in the input values |
+| P6 | ✅ 10-19 — closed: the 30 levers were in model_input all along (truncated Athena schema); rule exact on all 527 fields. Originally: validate the input rule for the 30 levers not in model_input | trust the mechanism / spot-check from model_output proxies | spot-check 3–4 levers via output proxies (e.g. vkm by fuel) | confidence in the input values |
 | P7 | Fuel-demand variables the rule misses (315 unlinked, mostly energy demand by fuel) | expert additions / a second rule (same sector, any fuel → that sector's combustion emissions) | ask the experts first | completeness of the in-between |
 | P10 | Reply size of the largest levers. With the drivers (D14): median v0 2.3k / v1 4.9k characters; max 25k / 55k — lever 11 (Shift FUEL HEAT) sets 162 input fields | group the inputs of large levers; leave as is | look at the Sonnet pilot first | context use, arm comparability |
 | P13 | **The range each lever can move, measured from BAU**, saved as information for the agent: for every quantity a lever sets (and its key in-between variables), the BAU value (lever at 0) and the reachable range up to maximum ambition (lever at 1), per year — so the agent can say "BAU already has 50% electric light-duty travel in 2050; the lever can take it to 72%; a 45% target needs no extra action". The input table already holds both ends (`tables/<run>_lever_inputs.csv`: at_0, at_1) | which arms see it (it is a value: v1 only?); where it lives (inside `lever_x_profile`, or its own table the agent can consult) | | translation of targets below BAU or beyond maximum |

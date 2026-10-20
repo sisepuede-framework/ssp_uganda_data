@@ -53,10 +53,15 @@ class Store:
         self.run = run
         self.source = source
         emissions, variables = sample.load_sample(run, n, seed)
-        self._emissions, rep_e = clean_sentinels(emissions)
-        self._variables, rep_v = clean_sentinels(variables)
-        self.fill_values_removed = {**rep_e, **rep_v}     # field → runs whose 1e10 became missing
-        self.design = lhc.load_design(run)
+        _, rep_e = clean_sentinels(emissions)
+        _, rep_v = clean_sentinels(variables)
+        self.fill_values_removed = {**rep_e, **rep_v}     # field → runs with a rare 1e10 fill value
+        # A run with a rare fill value is broken as a whole, not only in that field (2026-05-30 run: the same 9
+        # runs also have light-duty vehicle-km ≈ 1 instead of billions), so those runs are dropped entirely.
+        self.broken_runs = sorted({i for ids in self.fill_values_removed.values() for i in ids})
+        keep = lambda f: f[~f.index.get_level_values("primary_id").isin(self.broken_runs)]
+        self._emissions, self._variables = keep(emissions), keep(variables)
+        self.design = lhc.load_design(run).drop(index=self.broken_runs, errors="ignore")
 
     # ── catalogue of fields ───────────────────────────────────────────────────
     @cached_property
@@ -81,6 +86,16 @@ class Store:
             raise ValueError(f"Year {year} not available; anchor years are {self.run.years}")
         frame = self._emissions if self.kind(field) == "emission" else self._variables
         return frame.xs(year, level="year")[field].dropna()
+
+    def total(self, fields: list, year: int) -> pd.Series:
+        """Sum of several emission fields (e.g. one inventory category), indexed by primary_id.
+        A field missing in a run counts as 0; a run missing every field is dropped."""
+        if year not in self.run.years:
+            raise ValueError(f"Year {year} not available; anchor years are {self.run.years}")
+        unknown = [f for f in fields if f not in self._emissions.columns]
+        if unknown:
+            raise KeyError(f"Not emission fields in run {self.run.name!r}: {unknown[:5]}")
+        return self._emissions.xs(year, level="year")[list(fields)].sum(axis=1, min_count=1).dropna()
 
     def with_groups(self, field: str, year: int, group_ids: list) -> pd.DataFrame:
         """The output next to the 0–1 values of the given groups, one row per run."""

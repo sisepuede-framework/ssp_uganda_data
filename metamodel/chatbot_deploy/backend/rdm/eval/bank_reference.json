@@ -1,0 +1,146 @@
+{
+ "D3": {
+  "level": 0.685,
+  "transport_change_pct_p10_med_p90": [
+   -8.79,
+   -7.53,
+   -6.34
+  ],
+  "share_failing_5pct": 0.002
+ },
+ "Q10": {
+  "total_change_pct_p10_med_p90": [
+   -6.02,
+   -5.35,
+   -4.62
+  ],
+  "share_failing_50pct": 1.0,
+  "gdp_range": "all"
+ },
+ "D2": {
+  "total_change_pct_p10_med_p90": [
+   -5.7,
+   -4.99,
+   -4.28
+  ],
+  "share_failing_50pct": 1.0,
+  "gdp_range": [
+   0.6666666666666666,
+   1.0
+  ]
+ },
+ "E2": {
+  "red_meat_total_change_mt": [
+   -11.4,
+   -10.71,
+   -9.56
+  ],
+  "landfill_total_change_mt": [
+   -3.56,
+   -3.11,
+   -2.48
+  ],
+  "share_red_meat_lower": 1.0
+ },
+ "E3": {
+  "total_change_mt": [
+   -4.98,
+   -3.9,
+   -2.83
+  ],
+  "cost_change_bn_usd": [
+   -0.2,
+   -0.14,
+   -0.08
+  ],
+  "benefit_change_bn_usd": [
+   -0.13,
+   -0.04,
+   0.06
+  ]
+ },
+ "C1": {
+  "levers": [
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42
+  ],
+  "transport_change_pct_all_at_max": [
+   -68.43,
+   -67.24,
+   -66.13
+  ],
+  "reachable_30pct_share": 1.0
+ },
+ "C2": {
+  "total_change_pct_all_at_max": [
+   -70.94,
+   -69.37,
+   -67.61
+  ],
+  "reachable_50pct_share": 1.0
+ },
+ "C4": {
+  "levers": [
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   37,
+   38,
+   39,
+   40,
+   41,
+   42,
+   43,
+   44,
+   45,
+   46,
+   47,
+   48,
+   49,
+   50,
+   51,
+   52,
+   53,
+   54
+  ],
+  "total_mt_at_max_p10_med_p90": [
+   135.64,
+   150.82,
+   165.86
+  ],
+  "share_below_20mt": 0.0,
+  "bau_total_mt": [
+   159.64,
+   176.87,
+   194.51
+  ]
+ },
+ "B7": {
+  "median_ha_by_decile": [
+   163413,
+   468353,
+   783852,
+   1104076,
+   1415451,
+   1739924,
+   2038417,
+   2370864,
+   2686036,
+   2984848
+  ],
+  "level_reaching_2M_ha": 0.64
+ }
+}

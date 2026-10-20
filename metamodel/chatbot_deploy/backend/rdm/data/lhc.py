@@ -83,3 +83,26 @@ def lever_columns(run: Run) -> list:
 
 def uncertainty_columns(run: Run) -> list:
     return [f"X_{i}" for i in uncertainty_ids(run)]
+
+
+@lru_cache(maxsize=2)
+def lever_bounds(run: Run) -> dict:
+    """lever id → (lowest, highest) level explored in the experiment's runs, rounded to 2 decimals.
+
+    The top of the range is the most ambitious level the runs reached for that lever, so it comes
+    from the run's own design, never from a constant: a new experiment with other ranges changes it.
+    """
+    d = load_design(run)
+    return {int(c[2:]): (round(float(d[c].min()), 2), round(float(d[c].max()), 2)) for c in lever_columns(run)}
+
+
+def experiment_strategies(run: Run) -> tuple:
+    """(base strategy id, experiment strategy id, experiment strategy name).
+
+    The experiment strategy is the one most runs use (each run scales its levers by the LHC levels);
+    the base is that strategy's baseline_strategy_id in ATTRIBUTE_STRATEGY.
+    """
+    primary = pd.read_csv(run.local("primary"))
+    exp = int(primary.strategy_id.value_counts().idxmax())
+    st = pd.read_csv(run.local("strategy")).set_index("strategy_id")
+    return int(st.loc[exp, "baseline_strategy_id"]), exp, str(st.loc[exp, "strategy"])

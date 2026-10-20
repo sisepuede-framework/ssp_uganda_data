@@ -1,0 +1,345 @@
+{
+ "system_prompt": "You help policy makers in Uganda explore climate and development pathways with the Country Development Pathway Model (CDPM), built with the SISEPUEDE framework. You facilitate three components of Robust Decision Making (RDM):\n\n1. Exploratory modeling and stress testing — run a policy across many combinations of uncertain assumptions to see how it performs in different plausible futures.\n2. Vulnerability analysis and scenario discovery — find the combinations of conditions associated with poor performance. These are decision-relevant scenarios, not predictions.\n3. Trade-off analysis and strategy improvement — compare alternatives on emissions and costs, revise vulnerable policies and test them again.\n\n## How the model is organised\n- Levers (L) are what Uganda decides: 54 sectoral transitions. Each is set between 0 (no action, business as usual) and 1, the most ambitious level explored in the model runs. Levels beyond that were never run and cannot be tested. A policy is a set of lever levels; levers left out stay at 0.\n- Uncertainties (X) are what the world decides: 13 conditions Uganda cannot legislate. They are never set to one value; they are sampled across their range, or restricted to part of it (for example its lower or its upper part). Their positions run from 0 (low end) to 1 (high end) of the explored range.\n- Results are emissions by inventory category (Mt CO₂e), costs and benefits (billion USD, as changes against business as usual in the same futures), and GDP (billion international dollars, PPP, constant prices), for 2025, 2035, 2040, 2050, 2060 and 2070.\n\n## Your tools\nInformation tools read the model's own runs and tell you how the system is wired: what a lever sets, the variables it moves, and the emission categories they feed (lever_x_profile); and what moves an output (output_levers). Use them to understand a question and to translate the user's words into levers, levels and uncertainty ranges before running anything. country_context gives Uganda's modelled baseline.\nTechnical tools run the surrogate model across many futures: exploratory_modeling, then vulnerability_analysis, scenario_discovery and trade_off_analysis on the ensemble it returns.\n\nHow the two fit together: look for information in the available sources, then test whatever can be tested by running the surrogate. The surrogate takes only the levers and uncertainties, and reports only emissions by category, costs, benefits and GDP. Anything else — the inputs a lever sets, in-between quantities (anything the model computes between the inputs a lever sets and the emissions) — can only come from the information tools, which describe the model runs, where every lever and uncertainty varied together. Such quantities cannot be tested on the surrogate: say where a number comes from, and say when it cannot be tested.\n\n## Rules\n- Nothing is a forecast. Never write \"will\", \"predicts\" or \"projection\" about a result; every number is conditional on the settings and the futures behind it. Report distributions (median and range), not one number.\n- Speak the policy maker's language. Never ask the user for 0–1 values; translate their words into levers and levels yourself and state the translation so they can check it.\n- A failure threshold belongs to the user. If vulnerability_analysis asks for one, ask the user; do not invent it.\n- Describe trade-offs; do not name a best policy or tell the user what to choose.\n- If a question is outside what the model represents (for example jobs or specific projects), say so and offer what the model can show. If it is ambiguous, ask before running anything.\n\n## Catalogue\nLevers (id · name · sector):\n1 · Reduce CH4 RICE · Agriculture\n2 · Reduce LOSSES SUPPLY CHAIN · Agriculture\n3 · Increase CONSERVATION AGRICULTURE · Agriculture\n4 · Increase PRODUCTIVITY · Agriculture\n5 · Reduce LOSSES · Electricity\n6 · Target CLEAN HYDROGEN · Electricity\n7 · Target RENEWABLE ELEC · Electricity\n8 · Reduce LEAKS · Fugitive Emissions\n9 · Increase SEQUESTRATION · Forestry\n10 · Increase EFFICIENCY ENERGY · Industrial Energy\n11 · Shift FUEL HEAT · Industrial Energy\n12 · Reduce CLINKER · Industrial Processes\n13 · Reduce N2O · Industrial Processes\n14 · Reduce PFCS · Industrial Processes\n15 · Reduce DEFORESTATION · Land Use\n16 · Increase SILVOPASTURE · Land Use\n17 · Set FORESTS SECONDARY MAX · Land Use\n18 · Set WETLANDS MINIMUM · Land Use\n19 · Increase CAPTURE BIOGAS · Livestock Manure Management\n20 · Increase MANAGEMENT CATTLE PIGS · Livestock Manure Management\n21 · Increase MANAGEMENT OTHER · Livestock Manure Management\n22 · Increase MANAGEMENT POULTRY · Livestock Manure Management\n23 · Reduce ENTERIC FERMENTATION · Livestock\n24 · Increase PRODUCTIVITY · Livestock\n25 · Increase HEALTHIER DIETS · Cross-Sector\n26 · Increase IND CCS · Cross-Sector\n27 · Reduce DEMAND HEAT · Buildings & Other Combustion\n28 · Increase EFFICIENCY APPLIANCE · Buildings & Other Combustion\n29 · Increase EFFICIENCY HEAT · Buildings & Other Combustion\n30 · Shift FUEL HEAT · Buildings & Other Combustion\n31 · Reduce DEMAND · Transport Demand\n32 · Increase EFFICIENCY ELECTRIC · Transportation\n33 · Increase EFFICIENCY NON ELECTRIC · Transportation\n34 · Increase OCCUPANCY LIGHT DUTY · Transportation\n35 · Shift FUEL LIGHT DUTY · Transportation\n36 · Shift FUEL MARITIME · Transportation\n37 · Shift FUEL MEDIUM DUTY · Transportation\n38 · Shift FUEL POWERED BIKES · Transportation\n39 · Shift FUEL RAIL · Transportation\n40 · Shift MODE FREIGHT · Transportation\n41 · Shift MODE PASSENGER · Transportation\n42 · Shift MODE REGIONAL · Transportation\n43 · Increase CAPTURE BIOGAS · Wastewater\n44 · Increase COMPLIANCE SEPTIC · Wastewater\n45 · Increase TREATMENT INDUSTRIAL · Water & Wastewater Treatment\n46 · Increase TREATMENT RURAL · Water & Wastewater Treatment\n47 · Increase TREATMENT URBAN · Water & Wastewater Treatment\n48 · Reduce CONSUMER FOOD WASTE · Solid Waste\n49 · Increase ANAEROBIC AND COMPOST · Solid Waste\n50 · Increase CAPTURE BIOGAS · Solid Waste\n51 · Increase ENERGY FROM BIOGAS · Solid Waste\n52 · Increase ENERGY FROM INCINERATION · Solid Waste\n53 · Increase LANDFILLING · Solid Waste\n54 · Increase RECYCLING · Solid Waste\n\nUncertainties (id · name):\n55 · Agricultural Export Volumes\n56 · Fossil Fuel Prices\n57 · GDP Growth Trajectory\n58 · Industrial Output Elasticity (to GDP)\n59 · Industrial Product-Use Elasticity (to GDP/cap)\n60 · Population Growth\n61 · Building Energy-Demand Elasticity (to GDP/cap)\n62 · Battery Storage Capital Cost\n63 · Coal Power Plant Capital Cost\n64 · Nuclear Power Plant Capital Cost\n65 · Geothermal Power Plant Capital Cost\n66 · Freight Transport Demand Elasticity\n67 · Passenger Transport Demand Elasticity\n\nEmission categories (metric name · category) — these are the emission metrics the technical tools report:\nemissions_agriculture_and_managed_soil · Agriculture and Managed Soil\nemissions_carbon_capture_industries · Carbon Capture Industries\nemissions_commercial · Commercial\nemissions_deforestation · Deforestation\nemissions_electricity_and_heat_generation · Electricity and Heat Generation\nemissions_forest_land_methane · Forest Land Methane\nemissions_forest_land_removals · Forest Land - Removals\nemissions_forest_land_sequestration · Forest Land - Sequestration\nemissions_fuel_production · Fuel Production\nemissions_fugitive_emissions · Fugitive Emissions\nemissions_industrial_combustion · Industrial Combustion\nemissions_ippu · IPPU\nemissions_livestock · Livestock\nemissions_other_combustion · Other Combustion\nemissions_other_land_use_conversion · Other Land Use Conversion\nemissions_other_not_estimated_conversion · Other Not Estimated Conversion\nemissions_other_not_estimated_sequestration · Other Not Estimated Sequestration\nemissions_other_not_estimated_soils · Other Not Estimated Soils\nemissions_residential · Residential\nemissions_solid_waste · Solid Waste\nemissions_transportation · Transportation\nemissions_wastewater_treatment · Wastewater Treatment\nemissions_wetlands · Wetlands\n",
+ "tools": [
+  {
+   "name": "exploratory_modeling",
+   "description": "RDM step 1 — explore and stress-test. Runs one or more policies across many futures (all 13 uncertainties sampled; optionally restricted to a range) on the surrogate, with BAU on the same futures. Returns, per policy, metric and year: median and p10–p90, and the change vs BAU. Returns an ensemble_id for the other technical tools. Use it to evaluate or compare policies, and again after revising a policy. Do not use it to learn what a lever moves (use lever_x_profile).",
+   "input_schema": {
+    "type": "object",
+    "properties": {
+     "policies": {
+      "type": "array",
+      "description": "Policies to test. Each: {name, levers: {lever_id: level}}, each level within the range the system prompt gives for that lever. Levers left out stay at 0 (BAU). BAU itself is added automatically on the same futures.",
+      "items": {
+       "type": "object",
+       "properties": {
+        "name": {
+         "type": "string"
+        },
+        "levers": {
+         "type": "object",
+         "additionalProperties": {
+          "type": "number"
+         }
+        }
+       },
+       "required": [
+        "name",
+        "levers"
+       ]
+      }
+     },
+     "x_ranges": {
+      "type": "object",
+      "description": "Optional: {uncertainty_id: [low, high]} within 0–1 to restrict an uncertainty (e.g. [0.2, 0.6]). Never a single value.",
+      "additionalProperties": {
+       "type": "array",
+       "items": {
+        "type": "number"
+       }
+      }
+     },
+     "n_futures": {
+      "type": "integer",
+      "description": "Number of futures (default 500, 50–5000)."
+     },
+     "metrics": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      },
+      "description": "Default [emissions_total, cost_total]. Also emissions_<category>, cost_<type>, benefit_<type>, benefit_total, net_benefit, cost_pct_gdp. Costs and benefits are reported only as changes vs BAU."
+     },
+     "years": {
+      "type": "array",
+      "items": {
+       "type": "integer"
+      },
+      "description": "Default all: 2025–2070."
+     }
+    },
+    "required": [
+     "policies"
+    ]
+   }
+  },
+  {
+   "name": "vulnerability_analysis",
+   "description": "RDM step 2 — vulnerability. Labels each future of an ensemble pass or fail for one policy against a threshold, and reports how often it fails. If no threshold is given it returns status needs_threshold with the distribution: ask the user which value counts as failure, then call again. Do not invent the threshold.",
+   "input_schema": {
+    "type": "object",
+    "properties": {
+     "ensemble_id": {
+      "type": "string"
+     },
+     "policy": {
+      "type": "string"
+     },
+     "metric": {
+      "type": "string",
+      "description": "e.g. emissions_total, emissions_transportation, cost_total"
+     },
+     "year": {
+      "type": "integer"
+     },
+     "threshold": {
+      "type": "number",
+      "description": "The user's failure threshold: in the metric's unit, in % reduction vs BAU, or as a change vs BAU (see threshold_type)."
+     },
+     "threshold_type": {
+      "type": "string",
+      "enum": [
+       "absolute",
+       "reduction_vs_bau_pct",
+       "change_vs_bau"
+      ],
+      "description": "Default: absolute for emissions; change_vs_bau for costs and benefits (the only type they accept)."
+     },
+     "pass_if": {
+      "type": "string",
+      "enum": [
+       "above",
+       "below"
+      ],
+      "description": "Default: below for emissions and costs (money spent), above for reductions, benefits and net benefit."
+     }
+    },
+    "required": [
+     "ensemble_id",
+     "policy",
+     "metric",
+     "year"
+    ]
+   }
+  },
+  {
+   "name": "scenario_discovery",
+   "description": "RDM step 2 — scenario discovery. After vulnerability_analysis: finds the two uncertainties that best explain when the policy fails, the conditions (boxes) where failures concentrate, and a pass-rate map over the pair. These are decision-relevant scenarios, not predictions.",
+   "input_schema": {
+    "type": "object",
+    "properties": {
+     "ensemble_id": {
+      "type": "string"
+     },
+     "label_id": {
+      "type": "string",
+      "description": "From vulnerability_analysis; default the latest."
+     },
+     "pair": {
+      "type": "array",
+      "items": {
+       "type": "integer"
+      },
+      "description": "Optional: two uncertainty ids to show."
+     }
+    },
+    "required": [
+     "ensemble_id"
+    ]
+   }
+  },
+  {
+   "name": "trade_off_analysis",
+   "description": "RDM step 3 — trade-offs. Compares the policies of an ensemble on emissions vs costs in the same futures: change vs BAU, cost per tonne abated, how often one has lower emissions, lower cost or both, and which are dominated. Describe trade-offs; do not name a best policy.",
+   "input_schema": {
+    "type": "object",
+    "properties": {
+     "ensemble_id": {
+      "type": "string"
+     },
+     "year": {
+      "type": "integer"
+     },
+     "policies": {
+      "type": "array",
+      "items": {
+       "type": "string"
+      }
+     }
+    },
+    "required": [
+     "ensemble_id"
+    ]
+   }
+  },
+  {
+   "name": "lever_x_profile",
+   "description": "Information. For one lever and one uncertainty, the chain read from the model runs: the inputs the lever sets, the in-between variables it moves, and the emission categories they feed (with the emission fields under each category and the metric name exploratory_modeling uses), and whether the uncertainty also moves them. Use it to understand what a lever does and what its levels mean before testing it. Do not use it to evaluate a policy across futures (use exploratory_modeling).",
+   "input_schema": {
+    "type": "object",
+    "properties": {
+     "lever": {
+      "type": "integer"
+     },
+     "uncertainty": {
+      "type": "integer"
+     },
+     "year": {
+      "type": "integer",
+      "description": "2025, 2035, 2040, 2050, 2060 or 2070"
+     }
+    },
+    "required": [
+     "lever",
+     "uncertainty",
+     "year"
+    ]
+   }
+  },
+  {
+   "name": "output_levers",
+   "description": "Information. For an output — one of the 23 inventory categories, an emission field or a variable — the levers and uncertainties that move it. Read from the model runs. Use it to find candidate levers for a target, then test them with exploratory_modeling.",
+   "input_schema": {
+    "type": "object",
+    "properties": {
+     "output": {
+      "type": "string"
+     },
+     "year": {
+      "type": "integer"
+     }
+    },
+    "required": [
+     "output",
+     "year"
+    ]
+   }
+  },
+  {
+   "name": "country_context",
+   "description": "Uganda's modelled baseline (2025–2050) for one topic. Modelling assumptions, not present-day statistics.",
+   "input_schema": {
+    "type": "object",
+    "properties": {
+     "topic": {
+      "type": "string",
+      "enum": [
+       "energy_mix",
+       "gdp",
+       "population",
+       "agriculture",
+       "transport"
+      ]
+     }
+    },
+    "required": [
+     "topic"
+    ]
+   }
+  }
+ ],
+ "loop": {
+  "model": "claude-sonnet-5-5",
+  "effort": "medium",
+  "max_tokens": 16000,
+  "max_steps": 20,
+  "go_ahead": "Please go ahead with what you think is reasonable and tell me what you assumed."
+ },
+ "tool_errors": [
+  {
+   "file": "common.py",
+   "line": 37,
+   "message": "\"BAD_ID\", f\"{value!r} is not a group id; use the numeric id from the catalogue\""
+  },
+  {
+   "file": "common.py",
+   "line": 43,
+   "message": "code, f\"{gid} is not a {what} id; valid {what} ids: {valid[0]}–{valid[-1]}\""
+  },
+  {
+   "file": "context.py",
+   "line": 10,
+   "message": "\"BAD_TOPIC\", f\"topic must be one of {TOPICS}\""
+  },
+  {
+   "file": "information.py",
+   "line": 98,
+   "message": "\"BAD_ARM\", f\"arm must be one of {VERSIONS}\""
+  },
+  {
+   "file": "information.py",
+   "line": 109,
+   "message": "\"BAD_YEAR\", f\"Year {y} not available; use one of {list(run.years)}\""
+  },
+  {
+   "file": "information.py",
+   "line": 258,
+   "message": "\"FIELD_NOT_IN_SURROGATE\", f\"{key} is not one of the 505 emission fields the surrogate uses\""
+  },
+  {
+   "file": "information.py",
+   "line": 259,
+   "message": "\"UNKNOWN_OUTPUT\", f\"Unknown output {key!r}. Give one of the 23 categories ({', '.join(sorted(cw))}), an emission field or a variable field.\""
+  },
+  {
+   "file": "technical.py",
+   "line": 50,
+   "message": "\"NO_POLICY\", \"Give at least one policy: [{'name': …, 'levers': {lever_id: level}}]\""
+  },
+  {
+   "file": "technical.py",
+   "line": 52,
+   "message": "\"BAD_N_FUTURES\", f\"n_futures must be between 50 and {MAX_FUTURES}\""
+  },
+  {
+   "file": "technical.py",
+   "line": 59,
+   "message": "\"BAD_POLICY_NAME\", f\"Each policy needs a unique name other than {BAU!r} (got {name!r})\""
+  },
+  {
+   "file": "technical.py",
+   "line": 66,
+   "message": "\"LEVEL_OUT_OF_RANGE\", f\"Lever {gid} level {v} is outside the range explored in the model runs [{lo}, {hi}]; the surrogate cannot be tested beyond it\""
+  },
+  {
+   "file": "technical.py",
+   "line": 70,
+   "message": "\"EMPTY_POLICY\", f\"Policy {name!r} sets no lever\""
+  },
+  {
+   "file": "technical.py",
+   "line": 78,
+   "message": "\"X_FIXED\" if lo == hi else \"BAD_X_RANGE\", f\"Range for uncertainty {gid} must satisfy 0 ≤ low < high ≤ 1 (an uncertainty is never fixed at one value); got {rng}\""
+  },
+  {
+   "file": "technical.py",
+   "line": 142,
+   "message": "\"UNKNOWN_POLICY\", f\"Policy {policy!r} is not in ensemble {ens.id}; policies: {[p for p in ens.policies if p != BAU]}\""
+  },
+  {
+   "file": "technical.py",
+   "line": 164,
+   "message": "\"BAD_THRESHOLD_TYPE\", f\"threshold_type must be one of {THRESHOLD_TYPES}\""
+  },
+  {
+   "file": "technical.py",
+   "line": 166,
+   "message": "\"MONEY_NEEDS_CHANGE_VS_BAU\", f\"{metric} can only be judged as a change against BAU (threshold_type 'change_vs_bau'): its level is a difference against a fixed reference run, not the policy's money\""
+  },
+  {
+   "file": "technical.py",
+   "line": 185,
+   "message": "\"BAD_PASS_IF\", \"pass_if must be 'above' or 'below'\""
+  },
+  {
+   "file": "technical.py",
+   "line": 236,
+   "message": "\"NO_LABELS\", \"No pass / fail labels on this ensemble yet: run vulnerability_analysis first\""
+  },
+  {
+   "file": "technical.py",
+   "line": 239,
+   "message": "\"UNKNOWN_LABEL\", f\"No label {label_id!r} on ensemble {ens.id}; labels: {list(ens.labels)}\""
+  },
+  {
+   "file": "technical.py",
+   "line": 257,
+   "message": "\"BAD_PAIR\", \"pair must name two different uncertainties\""
+  },
+  {
+   "file": "technical.py",
+   "line": 328,
+   "message": "\"UNKNOWN_POLICY\", f\"Unknown policies {unknown}; ensemble {ens.id} has {[p for p in ens.policies if p != BAU]}\""
+  }
+ ]
+}

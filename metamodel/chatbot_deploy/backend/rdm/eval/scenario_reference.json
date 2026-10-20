@@ -1,0 +1,59 @@
+{
+ "S35": {
+  "question": "If Uganda pushed the shift of light-duty vehicles to electricity to its maximum, how much electric light-duty travel would there be in 2050?",
+  "lever": 35,
+  "kind": "scenario",
+  "variable": "vehicle_distance_traveled_trns_road_light_electricity",
+  "year": 2050,
+  "unit": "vehicle-km",
+  "lever_ge_0.9_p10_median_p90": [
+   18726037903.3534,
+   23862068533.4158,
+   29494180852.5737
+  ],
+  "n_runs": 486,
+  "lever_le_0.1_p10_median_p90": [
+   13414310833.2459,
+   16672657621.7402,
+   21591641779.5152
+  ]
+ },
+ "S50": {
+  "question": "If landfill gas capture were pushed to its maximum, how much landfill gas would Uganda recover in 2050?",
+  "lever": 50,
+  "kind": "scenario",
+  "variable": "gasrecovered_waso_biogas_landfills_tonne",
+  "year": 2050,
+  "unit": "tonne",
+  "lever_ge_0.9_p10_median_p90": [
+   188937.9039,
+   804607.96,
+   1538900.351
+  ],
+  "n_runs": 446,
+  "lever_le_0.1_p10_median_p90": [
+   32297.5499,
+   139062.3874,
+   286802.4416
+  ]
+ },
+ "S3": {
+  "question": "If conservation agriculture were scaled up to its maximum, how much cropland would be under improved practices in 2050?",
+  "lever": 3,
+  "kind": "scenario",
+  "variable": "area_lndu_improved_croplands",
+  "year": 2050,
+  "unit": "ha",
+  "lever_ge_0.9_p10_median_p90": [
+   2714277.1735,
+   2984848.2964,
+   3318466.6972
+  ],
+  "n_runs": 480,
+  "lever_le_0.1_p10_median_p90": [
+   34548.2628,
+   163412.6874,
+   285229.8295
+  ]
+ }
+}

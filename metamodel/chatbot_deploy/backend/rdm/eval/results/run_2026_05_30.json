@@ -1,0 +1,183 @@
+{
+ "run": "run_2026_05_30",
+ "year": 2050,
+ "coverage": {
+  "levers_without_links": [
+   6,
+   13,
+   14,
+   16
+  ],
+  "levers_without_emission_links": [
+   5,
+   6,
+   13,
+   14,
+   16,
+   32,
+   36
+  ],
+  "uncertainties_without_links": [
+   59,
+   61
+  ],
+  "linked_variables": 694,
+  "variables_with_unit": 427,
+  "unit_examples_missing": [
+   "demand_lvst_cattle_dairy",
+   "demand_lvst_cattle_nondairy",
+   "demand_lvst_chickens",
+   "demand_lvst_goats",
+   "demand_lvst_horses",
+   "demand_lvst_mules",
+   "demand_lvst_pigs",
+   "demand_lvst_sheep"
+  ]
+ },
+ "costs": {
+  "levers_at_0.0": {
+   "fuel": 0.05,
+   "system": 5.03,
+   "technical": -2.89,
+   "cost_total (sign-flipped sum)": -2.29
+  },
+  "levers_at_1.0": {
+   "fuel": 2.17,
+   "system": 9.56,
+   "technical": -14.24,
+   "cost_total (sign-flipped sum)": 2.63
+  }
+ },
+ "timing": {
+  "exploratory_modeling_500x4": 0.96,
+  "vulnerability_analysis": 0.0,
+  "scenario_discovery": 0.12,
+  "trade_off_analysis": 0.0
+ },
+ "payload": {
+  "v0": {
+   "lever_x_profile_chars": {
+    "median": 5024,
+    "max": 28609
+   },
+   "output_levers_chars": {
+    "median": 2421,
+    "max": 4184
+   }
+  },
+  "v1": {
+   "lever_x_profile_chars": {
+    "median": 21931,
+    "max": 70602
+   },
+   "output_levers_chars": {
+    "median": 3562,
+    "max": 6217
+   }
+  }
+ },
+ "bridge": {
+  "pairs": 149,
+  "pairs_nontrivial": 115,
+  "sign_agreement": 0.852,
+  "rank_correlation_by_category": {
+   "agriculture_and_managed_soil": 0.86,
+   "commercial": 1.0,
+   "deforestation": 0.9,
+   "electricity_and_heat_generation": 0.89,
+   "forest_land_methane": 0.4,
+   "forest_land_removals": 0.82,
+   "forest_land_sequestration": 0.3,
+   "fuel_production": 0.93,
+   "fugitive_emissions": 0.91,
+   "industrial_combustion": 0.93,
+   "ippu": 1.0,
+   "livestock": 0.93,
+   "other_land_use_conversion": 1.0,
+   "other_not_estimated_conversion": 0.4,
+   "other_not_estimated_sequestration": 0.8,
+   "other_not_estimated_soils": 1.0,
+   "residential": 1.0,
+   "solid_waste": 0.8,
+   "transportation": 0.82,
+   "wastewater_treatment": 0.94
+  },
+  "median_ratio_runs_to_surrogate": 0.79,
+  "largest_disagreements": [
+   {
+    "category": "forest_land_sequestration",
+    "lever": 17,
+    "runs_effect": -4.902,
+    "surrogate_effect": 0.175
+   },
+   {
+    "category": "other_not_estimated_conversion",
+    "lever": 3,
+    "runs_effect": 0.382,
+    "surrogate_effect": -1.289
+   },
+   {
+    "category": "wastewater_treatment",
+    "lever": 47,
+    "runs_effect": -0.208,
+    "surrogate_effect": 1.241
+   },
+   {
+    "category": "deforestation",
+    "lever": 17,
+    "runs_effect": 1.161,
+    "surrogate_effect": -0.043
+   },
+   {
+    "category": "other_not_estimated_sequestration",
+    "lever": 17,
+    "runs_effect": 0.822,
+    "surrogate_effect": -0.038
+   },
+   {
+    "category": "livestock",
+    "lever": 24,
+    "runs_effect": 0.285,
+    "surrogate_effect": -0.541
+   },
+   {
+    "category": "forest_land_sequestration",
+    "lever": 25,
+    "runs_effect": -0.568,
+    "surrogate_effect": 0.041
+   },
+   {
+    "category": "wastewater_treatment",
+    "lever": 44,
+    "runs_effect": -0.493,
+    "surrogate_effect": 0.011
+   }
+  ]
+ },
+ "stability": {
+  "100": {
+   "mean": 0.154,
+   "sd_across_seeds": 0.019
+  },
+  "200": {
+   "mean": 0.156,
+   "sd_across_seeds": 0.012
+  },
+  "500": {
+   "mean": 0.144,
+   "sd_across_seeds": 0.014
+  },
+  "1000": {
+   "mean": 0.149,
+   "sd_across_seeds": 0.007
+  },
+  "2000": {
+   "mean": 0.143,
+   "sd_across_seeds": 0.004
+  },
+  "5000": {
+   "mean": 0.145,
+   "sd_across_seeds": 0.002
+  }
+ }
+}

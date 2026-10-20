@@ -1,0 +1,107 @@
+{
+ "P35i": {
+  "question": "What if 60% of light-duty vehicle-km were electric by 2050?",
+  "lever": 35,
+  "kind": "input",
+  "field": "frac_trns_fuelmix_road_light_electricity",
+  "target": 0.6,
+  "year": 2050,
+  "level": 0.457,
+  "level_range": [
+   0.457,
+   0.457
+  ],
+  "note": "frac_trns_fuelmix_road_light_electricity = 0.5000 at 0 and 0.7189 at 1 in 2050; exact in every future"
+ },
+ "P35o": {
+  "question": "How far would we need to shift light-duty vehicles to electricity to cut transport emissions 5% below business as usual by 2050?",
+  "lever": 35,
+  "kind": "output",
+  "category": "transportation",
+  "target_pct": -5.0,
+  "year": 2050,
+  "level": 0.543,
+  "level_range": [
+   0.45,
+   0.625
+  ],
+  "share_of_futures_reachable": 1.0,
+  "effect_at_full_pct": [
+   -11.08,
+   -9.46,
+   -8.04
+  ],
+  "monotonic_median": false,
+  "note": "surrogate, other levers at 0, all 13 uncertainties sampled; level where the median change reaches the target"
+ },
+ "P50i": {
+  "question": "What if Uganda's landfills recovered 40% of their landfill gas by 2050?",
+  "lever": 50,
+  "kind": "input",
+  "field": "frac_waso_landfill_gas_recovered",
+  "target": 0.4,
+  "year": 2050,
+  "level": 0.688,
+  "level_range": [
+   0.688,
+   0.688
+  ],
+  "note": "frac_waso_landfill_gas_recovered = 0.0700 at 0 and 0.5500 at 1 in 2050; exact in every future"
+ },
+ "P50o": {
+  "question": "How much landfill gas capture would it take to cut solid-waste emissions 10% below business as usual by 2050?",
+  "lever": 50,
+  "kind": "output",
+  "category": "solid_waste",
+  "target_pct": -10.0,
+  "year": 2050,
+  "level": 0.566,
+  "level_range": [
+   0.523,
+   0.625
+  ],
+  "share_of_futures_reachable": 1.0,
+  "effect_at_full_pct": [
+   -20.58,
+   -19.2,
+   -18.12
+  ],
+  "monotonic_median": false,
+  "note": "surrogate, other levers at 0, all 13 uncertainties sampled; level where the median change reaches the target"
+ },
+ "P12i": {
+  "question": "What if the clinker share of cement fell to 65% by 2050?",
+  "lever": 12,
+  "kind": "input",
+  "field": "frac_ippu_cement_clinker",
+  "target": 0.65,
+  "year": 2050,
+  "level": 0.583,
+  "level_range": [
+   0.583,
+   0.583
+  ],
+  "note": "frac_ippu_cement_clinker = 0.7200 at 0 and 0.6000 at 1 in 2050; exact in every future"
+ },
+ "P12o": {
+  "question": "How far would cement clinker reduction need to go to cut industrial process (IPPU) emissions 6% below business as usual by 2050?",
+  "lever": 12,
+  "kind": "output",
+  "category": "ippu",
+  "target_pct": -6.0,
+  "year": 2050,
+  "level": 0.494,
+  "level_range": [
+   0.448,
+   0.7
+  ],
+  "share_of_futures_reachable": 1.0,
+  "effect_at_full_pct": [
+   -13.85,
+   -12.35,
+   -10.02
+  ],
+  "monotonic_median": false,
+  "note": "surrogate, other levers at 0, all 13 uncertainties sampled; level where the median change reaches the target"
+ }
+}

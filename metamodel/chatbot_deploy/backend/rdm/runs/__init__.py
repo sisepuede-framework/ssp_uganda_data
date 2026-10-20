@@ -30,6 +30,8 @@ ACTIVE_FILE = RUNS_DIR / "ACTIVE"
 METAMODEL_DIR = RUNS_DIR.parents[3]
 
 DATA_ROLES = ("emissions", "variables", "inputs", "costs_benefits")
+_DEFAULT_TARGETS = "chatbot_deploy/backend/target_distributions.json"
+_DEFAULT_CROSSWALK = "chatbot_deploy/backend/sector_categories.json"
 
 
 @dataclass(frozen=True)
@@ -49,6 +51,8 @@ class Run:
     structural_map: Path          # transformation → output variables, extracted from SISEPUEDE
     registry: Path                # display names and sectors of the L and X groups
     surrogate_path: Path          # trained XGBoost pipeline for this run
+    surrogate_targets: Path       # the surrogate's target columns, in output order
+    crosswalk: Path               # emission field → inventory category (the surrogate's emission targets)
     years: tuple = ()             # anchor years reported by the tools
     local_files: dict = field(default_factory=dict, hash=False)   # logical name → file in run_dir
 
@@ -120,6 +124,8 @@ def get_run(name: str | None = None, runs_dir: Path = RUNS_DIR, base_dir: Path =
         structural_map=resolve(raw["local"]["structural_map"]),
         registry=resolve(raw["local"]["registry"]),
         surrogate_path=resolve(raw["surrogate"]),
+        surrogate_targets=resolve(raw["local"].get("surrogate_targets", _DEFAULT_TARGETS)),
+        crosswalk=resolve(raw["local"].get("crosswalk", _DEFAULT_CROSSWALK)),
         years=tuple(int(y) for y in raw["years"]),
         local_files=dict(raw["local"].get("files", {})),
     )

@@ -1,7 +1,10 @@
 # Requires python-pptx. Usage: python backend/rdm/deck/build_dmdu_outline.py docs/dmdu_2026_talk_outline.pptx
 """Preliminary outline deck for the DMDU 2026 annual meeting talk (python-pptx).
 White background, sober type, boxes and arrows."""
+import json
+import math
 import sys
+from pathlib import Path
 
 from pptx import Presentation
 from pptx.dml.color import RGBColor
@@ -12,6 +15,8 @@ from pptx.oxml.ns import qn
 from pptx.util import Inches, Pt
 
 OUT = sys.argv[1]
+# Harness text for the appendix; refresh with: python -m backend.rdm.deck.dump_harness_text
+HARNESS = json.loads((Path(__file__).parent / "harness_text.json").read_text())
 
 WHITE = RGBColor(0xFF, 0xFF, 0xFF)
 TXT = RGBColor(0x1F, 0x29, 0x37)
@@ -137,8 +142,8 @@ s.background.fill.solid()
 s.background.fill.fore_color.rgb = WHITE
 text(s, LM, 2.0, CW, 0.3, "DMDU Society Annual Meeting 2026  ·  Preliminary outline", 14, color=MUTED, font=HEAD)
 text(s, LM, 2.45, 11.5, 1.6, "AI as an intermediary for three\ncomponents of Robust Decision Making", 36, color=TXT, bold=True, font=HEAD)
-text(s, LM, 4.25, 10.5, 0.8, "An agent ecosystem on a SISEPUEDE surrogate for Uganda, and what the quality of "
-     "the data we give the agent changes", 20, color=MUTED)
+text(s, LM, 4.25, 10.5, 0.8, "An agent ecosystem on a SISEPUEDE surrogate for Uganda, and what the information "
+     "we give the agent about the model changes", 20, color=MUTED)
 text(s, LM, 6.3, CW, 0.3, "[Presenter] · [Co-authors] · [Affiliation]", 14, color=MUTED)
 s.notes_slide.notes_text_frame.text = (
     "Preliminary structure for the DMDU annual meeting talk, to review with my lead. Working title. "
@@ -149,7 +154,7 @@ s = new_slide("The problem we are addressing", "Context",
               "1. Running the model takes about 3 minutes per run. 2. It requires technical expertise: to run the "
               "model and to carry out the analytical steps of RDM. 3. Surrogate models make faster runs possible. 4. AI can act as "
               "an intermediary that covers the need for technical expertise. 5. The AI relies on the architecture we "
-              "build for the agent to move in, and on the quality of the data we give it. The literature review "
+              "build for the agent to move in, and on the information we give it about the model. The literature review "
               "still has to be done to support this part.")
 steps = [
     ("~3 min per run", "Running SISEPUEDE is slow; RDM needs many runs"),
@@ -220,25 +225,66 @@ text(s, LM, TOP + 4.75, CW, 0.4, "The tool is not an RDM analysis in itself: it 
 # 4 · Research questions
 s = new_slide("Research questions", "Context",
               "From here come our research questions. Shorter variant of RQ1 in my notes: 'How can we build an "
-              "ecosystem that integrates AI and surrogate models?'")
-rqs = [("RQ1", "How do we build an ecosystem in which an agent is the intermediary, so that a "
-               "non-technical person can carry out these three RDM components with SISEPUEDE?",
+              "ecosystem that integrates AI and surrogate models?' Changed 2026-10-19 after the critical review: RQ1 "
+              "speaks of questions asked by a non-technical person, because the user in the experiment is simulated "
+              "(testing with real decision makers is future work); RQ2 says 'type of information' instead of "
+              "'quality of the data', because the arms change what the agent sees of the model, not how accurate it is.")
+rqs = [("RQ1", "How do we integrate a surrogate model of SISEPUEDE with an AI agent to develop a system "
+               "that enables non-technical users to explore policy questions through the three components of RDM "
+               "(exploratory modeling, vulnerability analysis, and trade-off analysis), and how do we evaluate "
+               "such a system?",
         "→ Method: the surrogate and the ecosystem"),
-       ("RQ2", "What is the impact of the quality of the data we give the agent on its use of the available "
-               "tools, on the parameters it sets, and on its responses to the user?",
+       ("RQ2", "What is the impact of the type of information we give the agent about the model (how its variables "
+               "are related, or also their values) on its use of the available tools and on the policy levels and "
+               "uncertainty ranges it sets?",
         "→ Experiment: data, questions and surrogate interaction")]
 y = TOP + 0.2
 for tag, q, where in rqs:
-    rect(s, LM, y, CW, 2.0, fill=WHITE, line=BORDER)
+    rect(s, LM, y, CW, 2.3, fill=WHITE, line=BORDER)
     text(s, LM + 0.35, y + 0.3, 1.2, 0.5, tag, 24, color=ACC, bold=True, font=HEAD)
-    text(s, LM + 1.7, y + 0.3, CW - 2.1, 1.0, q, 22, color=TXT)
-    text(s, LM + 1.7, y + 1.55, CW - 2.1, 0.35, where, 14, color=MUTED)
-    y += 2.4
+    text(s, LM + 1.7, y + 0.3, CW - 2.1, 1.4, q, 21, color=TXT)
+    text(s, LM + 1.7, y + 1.85, CW - 2.1, 0.35, where, 14, color=MUTED)
+    y += 2.6
 
 # 5 · Surrogate (left blank on purpose)
 s = new_slide("What a surrogate is and how it is built", "Method · the surrogate",
               "This slide will be prepared by a teammate. Left blank on purpose.")
 placeholder(s, LM, TOP + 0.2, CW, 5.0, "[To be prepared by the surrogate team]", 16)
+
+# 6 · Surrogate training details
+s = new_slide("How the surrogate was trained", "Method · the surrogate",
+              "Brief training facts of the XGBoost surrogate the technical tools run. Sources: "
+              "metamodel/surrogate_model_sector/retrain_sector.py, utils/ml_utils_v2.py (XGBMultiOutputPipeline), "
+              "athena/README.md (rows dropped), trained_models/metrics_<run>_summary.md (scores), "
+              "trained_models/split_<run>.csv (which run is in which half). Retrained 2026-10-16.")
+bw4 = (CW - 3 * 0.45) / 4
+steps = [("100,000 SISEPUEDE runs", "Latin hypercube over 54 levers and 13 uncertainties, each 0–1.\n"
+                                    "99,588 kept: runs with a missing output, GDP ≤ 0 or an emission blow-up dropped; "
+                                    "no outlier filter"),
+         ("67 inputs → 258 outputs", "23 emission categories, 16 benefits, 3 cost types and GDP, "
+                                     "each for 2025, 2035, 2040, 2050, 2060, 2070"),
+         ("XGBoost", "one gradient-boosted tree model per output (scikit-learn MultiOutputRegressor); "
+                     "default hyperparameters, no tuning"),
+         ("80 / 20 random split", "79,670 runs to train, 19,918 held out to test (seed 42); "
+                                  "the split is saved per run id")]
+for i, (head, sub) in enumerate(steps):
+    x = LM + i * (bw4 + 0.45)
+    node(s, x, TOP + 0.15, bw4, 2.0, head, sub, fill=FILL if i == 0 else WHITE, head_pt=14, sub_pt=11,
+         align=PP_ALIGN.LEFT)
+    if i < 3:
+        arrow(s, x + bw4 + 0.05, TOP + 1.15, x + bw4 + 0.4, TOP + 1.15)
+text(s, LM, TOP + 2.5, CW, 0.3, "Accuracy on the held-out runs · median R², 2035–2070 (215 outputs)", 15,
+     color=TXT, bold=True, font=HEAD)
+bw5 = (CW - 4 * 0.3) / 5
+for i, (fam, r2) in enumerate([("All outputs", "0.994"), ("Emissions", "0.993"), ("Benefits", "0.996"),
+                               ("Costs", "0.990"), ("GDP", "1.000")]):
+    node(s, LM + i * (bw5 + 0.3), TOP + 2.95, bw5, 0.95, r2, fam, fill=ACC_LT if i == 0 else WHITE,
+         line=ACC if i == 0 else BORDER, head_pt=20, sub_pt=11)
+text(s, LM, TOP + 4.15, CW, 1.2,
+     "Median error (SMAPE) 1.6%. **15 outputs with R² < 0.8:** fuel production (every year), wetland ecosystem "
+     "services, other and not-estimated land conversion (2070).\n"
+     "**2025 is left out of the scores:** six years after the 2019 base the outputs barely vary across runs, so R² "
+     "is unstable there while the absolute errors stay tiny.", 13, color=MUTED, space_after=6)
 
 # 6 · Ecosystem principles
 s = new_slide("How we built the ecosystem: the rules", "Method · the ecosystem",
@@ -291,7 +337,7 @@ rx = LM + 6.2
 rw = LM + CW - rx
 text(s, rx, TOP + 0.1, rw, 0.35, "What the harness does", 16, color=TXT, bold=True, font=HEAD)
 fns = [("State", "Keeps ensembles and pass / fail labels by id, so tools chain safely"),
-       ("Rules", "Levers in 0–1 · no X fixed at one value · a threshold before vulnerability"),
+       ("Rules", "Levers within the range run · no X fixed at one value · a threshold before vulnerability"),
        ("Log", "Tool calls, arguments, replies and the final answer, every turn"),
        ("Limits", "Same iterations and timeouts in every condition")]
 yy = TOP + 0.6
@@ -342,6 +388,93 @@ for i, (head, tools, data, hl) in enumerate(groups):
         arrow(s, x + gw + 0.06, TOP + 0.2, x + gw + gap - 0.06, TOP + 0.2)
 text(s, LM, data_y + 0.7, CW, 0.3, "Highlighted: the information tools, where the experiment changes what the agent "
      "receives  ·  1 · 2 · 3 = the RDM component a tool serves", 12, color=MUTED, align=PP_ALIGN.CENTER)
+
+# 8b · What each tool does and does not do
+s = new_slide("What each tool does, and what it does not", "Method · the tools",
+              "Two families. READ tools describe the 100,000 model runs that already exist; they never compute "
+              "anything new. RUN tools compute new results on the surrogate: only exploratory_modeling creates "
+              "results, the other three analyse the ensemble it returns. Examples are from the question bank.")
+cols = [("Tool", 1.85), ("The question it answers", 2.15), ("You give it", 2.2),
+        ("You get back (example)", 3.6), ("It does NOT", 2.33)]
+rows = [
+    ("lever_x_profile", "What does this lever do?", "one lever, one uncertainty, a year",
+     "what it changes in the runs: lever 35 takes electric light-duty travel from 50% (BAU) to 72%; "
+     "electric vehicle-km; transport emissions", "run a policy, combine levers, or test across futures"),
+    ("output_levers", "What moves this result?", "one result: an emission category or a variable "
+     "(e.g. primary forest area)", "the levers and uncertainties that move it (v1: ranked by how much)",
+     "say how far to push each lever"),
+    ("country_context", "What is Uganda like in the model?", "a topic (e.g. agriculture)",
+     "the modelled baseline: about 2.4 M ha of cereals in 2050", "give today's statistics or policy effects"),
+    ("exploratory_modeling", "What happens if we apply this policy?", "one or more policies as lever levels; "
+     "optionally a range for an uncertainty", "emissions and costs in 500 futures: median, range, change vs BAU",
+     "report in-between quantities (vehicle-km, hectares) or choose the levels"),
+    ("vulnerability_analysis", "How often does it fail?", "a result of exploratory_modeling + the user's "
+     "failure threshold", "the share of futures that fail; if no threshold, it asks the user",
+     "invent the threshold or say why it fails"),
+    ("scenario_discovery", "Under which conditions does it fail?", "a result already labelled pass / fail",
+     "the two uncertainties that best explain failure, e.g. \"fails when GDP grows fast\"",
+     "predict which future will happen"),
+    ("trade_off_analysis", "What does each policy cost for what it cuts?", "a result with two or more policies",
+     "emissions vs cost per policy, cost per tonne, which one is dominated", "name a winner"),
+]
+hy, rh = TOP - 0.05, 0.6
+x = LM
+for name, w in cols:
+    text(s, x + 0.06, hy, w - 0.12, 0.3, name, 12, color=MUTED, bold=True, font=HEAD)
+    x += w
+for i, row in enumerate(rows):
+    y = hy + 0.38 + i * (rh + 0.05) + (0.18 if i >= 3 else 0)
+    read = i < 3
+    rect(s, LM, y, CW, rh, fill=ACC_LT if read else FILL, line=None)
+    x = LM
+    for j, ((_, w), cell) in enumerate(zip(cols, row)):
+        text(s, x + 0.08, y + 0.05, w - 0.16, rh - 0.1, f"**{cell}**" if j < 2 else cell, 11.5 if j < 2 else 10.5,
+             color=TXT if j < 4 else MUTED, anchor=MSO_ANCHOR.MIDDLE, font=BODY)
+        x += w
+text(s, LM, 6.68, CW, 0.3,
+     "Blue = READ tools: describe the model runs (the experiment changes what the first two show)   ·   "
+     "Grey = RUN tools: new results on the surrogate", 12, color=MUTED, align=PP_ALIGN.CENTER)
+
+# 8c · Which tool for which question
+s = new_slide("Which tool for which question", "Method · the tools",
+              "A guide to assign tools to any question, used to set the expected flow of each question in the bank. "
+              "Read the question, find the first row that fits, use those tools in that order.")
+guide = [
+    ("asks what a lever does", ["lever_x_profile"], "e.g. \"What does reducing deforestation change in the model?\""),
+    ("asks what moves a result", ["output_levers"], "e.g. \"What drives livestock emissions in 2050?\""),
+    ("asks about Uganda's baseline", ["country_context"], "e.g. \"How much land is under cereals?\""),
+    ("gives a policy as lever levels", ["exploratory_modeling"], "e.g. \"Set reduced deforestation to 0.6 …\""),
+    ("gives a policy in real-world units", ["lever_x_profile", "exploratory_modeling"],
+     "P50i · \"What if landfills recovered 40% of their gas?\""),
+    ("asks for an emissions target", ["output_levers", "exploratory_modeling"],
+     "AG2 · \"Cut farming and livestock emissions by a quarter\""),
+    ("asks whether it holds up / when it fails", ["exploratory_modeling", "vulnerability_analysis",
+                                                    "scenario_discovery"], "Q10b · \"Is this policy robust?\""),
+    ("compares options", ["exploratory_modeling", "trade_off_analysis"],
+     "Q14b · \"Are cleaner cooking fuels better than cutting deforestation?\""),
+    ("asks something not in the model", ["no tool: say so"], "B8b · \"What if Uganda built three new dams?\""),
+]
+qw, tw, tg2 = 3.0, 1.95, 0.22
+ex_x = LM + qw + 0.2 + 3 * tw + 2 * tg2 + 0.25
+text(s, LM, TOP - 0.05, qw, 0.3, "If the question…", 12, color=MUTED, bold=True, font=HEAD)
+text(s, LM + qw + 0.2, TOP - 0.05, 3 * tw, 0.3, "use, in this order", 12, color=MUTED, bold=True, font=HEAD)
+text(s, ex_x, TOP - 0.05, LM + CW - ex_x, 0.3, "Example from the bank", 12, color=MUTED, bold=True, font=HEAD)
+gh = 0.5
+for i, (cond, tools, ex) in enumerate(guide):
+    y = TOP + 0.35 + i * (gh + 0.07)
+    text(s, LM, y, qw, gh, cond, 13, color=TXT, bold=True, anchor=MSO_ANCHOR.MIDDLE, font=BODY)
+    for j, t in enumerate(tools):
+        tx = LM + qw + 0.2 + j * (tw + tg2)
+        read = t in ("lever_x_profile", "output_levers", "country_context")
+        if t.startswith("no tool"):
+            node(s, tx, y, tw, gh, t, fill=WHITE, line=MUTED, head_pt=11, head_color=MUTED, dash=True,
+                 italic=True, head_font=BODY)
+        else:
+            node(s, tx, y, tw, gh, t, fill=ACC_LT if read else FILL, line=ACC if read else BORDER, head_pt=11,
+                 head_font=BODY)
+        if j < len(tools) - 1:
+            arrow(s, tx + tw + 0.02, y + gh / 2, tx + tw + tg2 - 0.02, y + gh / 2)
+    text(s, ex_x, y, LM + CW - ex_x, gh, ex, 11, color=MUTED, italic=True, anchor=MSO_ANCHOR.MIDDLE)
 
 # 8a · The SISEPUEDE pipeline and what each tool shows of it
 s = new_slide("What the agent sees of the SISEPUEDE pipeline", "Method · the tools",
@@ -522,10 +655,11 @@ s = new_slide("How the variables in the chain were selected", "Method · the too
               "\n"
               "1 INPUTS. Not selected by us: they come from the file where the run defines its levers, "
               "VARIABLE_TRAJECTORY_GROUPS_L.csv (each lever group: transformation code + the input fields it sets; "
-              "54 levers, 527 fields). Values: every run sets value(L) = BASE + L x (HBLE - BASE), from the BASE and "
-              "HBLE pathway runs (pathways/uganda_pathways.csv). Checked on the 291 lever fields stored in model_input "
-              "(4,989 runs, 2050 and 2070): error < 1% of the range, R2 > 0.99, no dependence on X. Shown: the 498 "
-              "fields where BASE and HBLE differ.\n"
+              "54 levers, 527 fields). Values: from the experiment's own runs (model_input, 4,989 sampled runs, 2050 and "
+              "2070): each field is a straight line in its lever's level, fitted over the runs, read at the bottom "
+              "(BAU), middle and top of the range the experiment explored. No dependence on X. Cross-check only: the "
+              "line matches the fixed BASE and HBLE pathway runs within 0.4% of the range (the experiment scales that "
+              "strategy). Shown: the fields the lever moves.\n"
               "  Definition file: metamodel/data/ssp/sisepuede_run_2026-05-30t21;35;56.244639/VARIABLE_TRAJECTORY_GROUPS_L.csv\n"
               "  Code: metamodel/chatbot_deploy/backend/rdm/data/groups.py and backend/rdm/data/lever_inputs.py\n"
               "  Table: metamodel/chatbot_deploy/backend/rdm/data/tables/run_2026_05_30_lever_inputs.csv\n"
@@ -561,8 +695,8 @@ chain = [
      "**Source:** the run's lever definition file, not chosen by us:\n"
      "VARIABLE_TRAJECTORY_\nGROUPS_L.csv\n"
      "54 levers, 527 input fields\n"
-     "**Values:** BASE + L × (HBLE − BASE), from the two pathway runs\n"
-     "**Checked:** 291 fields in model_input, R² > 0.99"),
+     "**Values:** from the experiment's runs: a straight line in the lever level, read at BAU and at the top of the "
+     "range run"),
     ("Outputs it moves", "the mapping",
      "**Structural:** SISEPUEDE's transformation → output map\n"
      "**Empirical:** |Spearman ρ| ≥ 0.10 in the runs, any year, all else varying\n"
@@ -598,11 +732,11 @@ s = new_slide("The questions we use to test the agent", "Experiment · questions
               "exercises; A supports all three and F is outside the model.")
 cat_comp = {1: "1", 2: "3", 3: "2", 4: "3"}
 cats = [("A · Information", "\"What drives Uganda's emissions from forest land in 2050?\""),
-        ("B · Evaluate a policy", "\"What if 60% of light-duty vehicle-km were electric by 2050?\""),
-        ("C · Reach a target", "\"Cut transport emissions by 30% by 2050 compared with BAU.\""),
+        ("B · Evaluate a policy", "\"What if Uganda's landfills recovered 40% of their landfill gas by 2050?\""),
+        ("C · Reach a target", "\"Which policies could cut farming and livestock emissions by a quarter by 2050?\""),
         ("D · Robustness", "\"Under which conditions does this policy fail, and why?\""),
-        ("E · Compare", "\"Is electrifying transport better than cutting deforestation?\""),
-        ("F · Outside the model", "\"How many green jobs would the HBLE strategy create?\"")]
+        ("E · Compare", "\"Are cleaner cooking fuels better than cutting deforestation?\""),
+        ("F · Outside the model", "\"What if Uganda built three new large hydropower dams?\"")]
 cw3 = (CW - 2 * 0.3) / 3
 for i, (head, q) in enumerate(cats):
     r, c = divmod(i, 3)
@@ -633,17 +767,17 @@ arrow(s, ex + 3.65, ey + 1.55, mx - 0.05, fy + 1.0)
 s = new_slide("How the agent moves through the tools", "Method · the tools",
               "Expected flow per question category, set in advance and compared with the tools the agent actually "
               "calls. There is no plan step. In D the agent asks the user which value counts as failure before the "
-              "vulnerability analysis.")
-flows = [
-    ("A · Information", ["output_levers", "lever_x_profile", "answer"]),
-    ("B · Evaluate", ["lever_x_profile", "exploratory_modeling", "vulnerability_analysis"]),
-    ("C · Reach target", ["output_levers", "lever_x_profile", "exploratory_modeling", "vulnerability_analysis",
-                          "scenario_discovery"]),
+              "vulnerability analysis. Same rules as the slide 'Which tool for which question'; a question can mix "
+              "rows (e.g. a target in real units: lever_x_profile, then exploratory_modeling).")
+flows = [   # the same rules as the "Which tool for which question" slide
+    ("A · Information", ["one READ tool", "answer"]),
+    ("B · Evaluate", ["lever_x_profile (if real units)", "exploratory_modeling", "answer"]),
+    ("C · Reach target", ["output_levers", "exploratory_modeling (try levels)", "answer"]),
     ("D · Robustness", ["exploratory_modeling", "user sets threshold", "vulnerability_analysis", "scenario_discovery"]),
-    ("E · Compare", ["lever_x_profile", "exploratory_modeling", "trade_off_analysis"]),
+    ("E · Compare", ["exploratory_modeling", "trade_off_analysis", "answer"]),
     ("F · Outside", ["decline or clarify"]),
 ]
-knowledge = {"lever_x_profile", "output_levers"}
+knowledge = {"lever_x_profile", "output_levers", "one READ tool", "lever_x_profile (if real units)"}
 dialogue = {"answer", "user sets threshold", "decline or clarify"}
 lw = 1.85
 sx = LM + lw + 0.25
@@ -749,14 +883,160 @@ s = new_slide("Results and conclusions", "Results",
               "To fill after the runs: one answer per research question, then what it means for DMDU practice.")
 cw3 = (CW - 2 * 0.4) / 3
 for i, (head, body) in enumerate([
-        ("RQ1 · The ecosystem", "[Can a non-technical user carry out the three RDM components through the agent?]"),
-        ("RQ2 · Data quality", "[How v1 changes tool use, parameters and answers compared with v0]"),
+        ("RQ1 · The ecosystem", "[Can policy questions be explored through the three RDM components with the system, and how well does the evaluation catch its errors?]"),
+        ("RQ2 · Information given", "[How seeing values (v1) changes tool use, policy levels and uncertainty ranges compared with relations only (v0)]"),
         ("For DMDU practice", "[What this means for putting AI between models and decision makers]")]):
     x = LM + i * (cw3 + 0.4)
     text(s, x, TOP + 0.2, cw3, 0.4, head, 16, color=TXT, bold=True, font=HEAD)
     placeholder(s, x, TOP + 0.75, cw3, 3.6, body, 14)
     if i < 2:
         arrow(s, x + cw3 + 0.06, TOP + 2.55, x + cw3 + 0.34, TOP + 2.55)
+
+# ═════════════════════════════════════════════════════════════════════════════
+# Appendix · the harness text, word for word (not presented; for review of the instructions)
+APX = "Appendix · not presented"
+
+
+def _lines(p, cpl):
+    return max(1, math.ceil(len(p.replace("**", "")) / cpl))
+
+
+def flow(title, paras, ncols=2, pt=10.5, notes=None):
+    """Pour paragraphs into columns, continuing on new slides when they fill up."""
+    gap = 0.35
+    col_w = (CW - (ncols - 1) * gap) / ncols
+    col_h = 7.0 - TOP - 0.05
+    cpl = col_w * 72 / (pt * 0.46)
+    cap = col_h * 72 / (pt * 1.25)
+    cols, cur, used = [], [], 0.0
+    for p in paras:
+        n = _lines(p, cpl) + 0.35
+        if cur and used + n > cap:
+            cols.append(cur)
+            cur, used = [], 0.0
+        cur.append(p)
+        used += n
+    cols.append(cur)
+    for k in range(0, len(cols), ncols):
+        page = k // ncols
+        s = new_slide(title + (" (cont.)" if page else ""), APX, notes)
+        for c, col in enumerate(cols[k:k + ncols]):
+            text(s, LM + c * (col_w + gap), TOP - 0.05, col_w, col_h, "\n".join(col), pt, space_after=3)
+
+
+def prompt_paras(block):
+    out = []
+    for ln in block.split("\n"):
+        if not ln.strip():
+            continue
+        out.append(f"**{ln[3:]}**" if ln.startswith("## ") else ("• " + ln[2:] if ln.startswith("- ") else ln))
+    return out
+
+
+src_note = ("Word for word what the agent receives, from the code (snapshot in backend/rdm/deck/harness_text.json, "
+            "written by backend/rdm/deck/dump_harness_text.py). Not part of the talk.")
+
+# A1 · What the harness is made of
+s = new_slide("Appendix: the text of the harness", APX, src_note)
+text(s, LM, TOP, CW, 0.5, "Not part of the presentation. Everything the agent is told, word for word, for review "
+     "of the instructions.", 15, color=ACC, bold=True, font=HEAD)
+parts = [("System prompt", "method, how the model is organised, the tools, the rules, the catalogue · identical "
+          "in every arm", "harness/prompt.py"),
+         ("Tool descriptions", "the 7 tools and their parameters, as the agent sees them · identical in every arm",
+          "harness/registry.py"),
+         ("The loop and the scripted user", "model, limits, when the scripted user replies and with what",
+          "harness/agent.py · eval/questions.py"),
+         ("Rules checked in code", "the messages the tools return when a call breaks a rule",
+          "tools/technical.py · information.py · common.py"),
+         ("Fixed text inside the replies", "notes and requests the tools add to their results",
+          "tools/*.py")]
+for i, (head, sub, path) in enumerate(parts):
+    y = TOP + 0.75 + i * 0.95
+    node(s, LM, y, 3.6, 0.78, head, fill=ACC_LT if i < 2 else WHITE, line=ACC if i < 2 else BORDER, head_pt=14)
+    text(s, LM + 3.9, y + 0.1, 5.6, 0.6, sub, 13, color=TXT, anchor=MSO_ANCHOR.MIDDLE)
+    text(s, LM + 9.7, y + 0.1, CW - 9.7, 0.6, path, 11, color=MUTED, anchor=MSO_ANCHOR.MIDDLE)
+
+# A2 · System prompt, then the catalogue it lists
+body, cat = HARNESS["system_prompt"].split("## Catalogue")
+flow("System prompt", prompt_paras(body), ncols=2, pt=10, notes=src_note)
+flow("System prompt: the catalogue (end of the prompt)", prompt_paras(cat), ncols=4, pt=7.5, notes=src_note)
+
+
+# A3 · Tool descriptions
+def param_line(name, spec, required):
+    kind = spec.get("type", "")
+    extra = f"; one of: {', '.join(map(str, spec['enum']))}" if "enum" in spec else ""
+    req = ", required" if name in required else ""
+    desc = spec.get("description", "")
+    return f"   • **{name}** ({kind}{req}{extra}){': ' + desc if desc else ''}"
+
+
+paras = []
+for t in HARNESS["tools"]:
+    sch = t["input_schema"]
+    paras.append(f"**{t['name']}**")
+    paras.append(t["description"])
+    paras += [param_line(n, sp, sch.get("required", [])) for n, sp in sch["properties"].items()]
+flow("Tool descriptions (the 7 tools, every arm)", paras, ncols=3, pt=9, notes=src_note)
+
+# A4 · Loop and scripted user
+lp = HARNESS["loop"]
+flow("The loop and the scripted user", [
+    "**One conversation = one question, in one arm, one repetition.** The agent chooses the tools; the harness "
+    "runs them and never chooses for it.",
+    f"**Model:** {lp['model']}, effort {lp['effort']}, the same in every arm. At most {lp['max_tokens']:,} output "
+    f"tokens per request and {lp['max_steps']} requests per conversation.",
+    "**Arms:** v0 (relations only), v1_inputs, v1_outputs, v1. Tool names, schemas and descriptions are identical; "
+    "only what lever_x_profile and output_levers return differs.",
+    "**The scripted user** sends the question, then the question's scripted replies in order whenever the agent ends "
+    "its turn. When none are left and the agent's message ends with \"?\", it replies once with the neutral go-ahead; "
+    "otherwise the conversation ends.",
+    f"**Neutral go-ahead:** \"{lp['go_ahead']}\"",
+    "**No model fallback:** a refusal is recorded as such, because switching model mid-run would confound the arms.",
+    "**exploratory_modeling** always draws its futures with the same seed (0), so repeated calls see the same futures.",
+    "**Logged per tool call:** turn, tool, arguments, status (ok / error), seconds, arm, reply size and the full "
+    "reply; per request: stop reason and tokens. The final answer is the agent's last text.",
+], ncols=1, pt=13, notes=src_note)
+
+# A5 · Rules checked in code
+errs = [e for e in HARNESS["tool_errors"] if not e["message"].startswith('f"arm must')]
+flow("Rules checked in code: what the agent reads when a call breaks one", [
+    "When a call breaks a rule the tool returns {\"error\": message} and the agent can try again. Messages as written "
+    "in the code ({…} is filled in at run time):"] +
+    [f"• {e['message'].lstrip('f').strip(chr(34))}   ({e['file']}:{e['line']})" for e in errs] +
+    ["• No ensemble {ensemble_id!r}; known: {…}. Run exploratory_modeling first.   (harness/state.py)",
+     "• Unknown tool {name!r}; tools: [the 7 names]   (harness/registry.py)"], ncols=2, pt=10, notes=src_note)
+
+# A6 · Fixed text inside the replies
+flow("Fixed text inside the tool replies", [
+    "**vulnerability_analysis, no threshold given** → status needs_threshold, with: \"Which value of {metric} in "
+    "{year} counts as failure for {policy!r}? Give it in {unit}.\" plus the distribution to help choose.",
+    "**exploratory_modeling, scenario_discovery** → \"Uncertainties are positions in their sampled range: 0 = low "
+    "end, 0.5 = central, 1 = high end.\"",
+    "**scenario_discovery** → \"Balanced accuracy of a small tree separating pass from fail (0.5 = no better than "
+    "chance). The gap between the two is what the other uncertainties add.\"",
+    "**trade_off_analysis** → \"Changes are against BAU in the same futures. Cost is the sum of the technical, "
+    "system and fuel cost types (money spent, positive = more spending); net benefit adds every benefit and "
+    "subtracts the cost (positive = better for the country). Cost per tonne counts only the cost types …\" + the "
+    "costs note below",
+    "**exploratory_modeling (cost or benefit metrics), trade_off_analysis** → \"Costs and benefits are shown only as "
+    "changes against BAU on the same futures: their levels are differences against one fixed reference run, not a "
+    "policy's money. Every cost_* is money spent; benefit_* and net_benefit are good for the country. cost_pct_gdp "
+    "changes are in percentage points of GDP. cost_fuel holds only biogas and waste-to-energy revenue; fuel spending "
+    "is in benefit_sector_specific … Costs and benefits that do not depend on a lever's level cancel out and do not "
+    "show.\"",
+    "**lever_x_profile, v1 arms** → \"Chain: inputs the lever sets → in-between variables → emission categories (the "
+    "metrics exploratory_modeling reports). Values are medians over the model runs with every other lever and "
+    "uncertainty varying; lever level low/mid/high = 0–⅓/⅓–⅔/⅔–1; uncertainty low/high = bottom/top third of its "
+    "range.\"",
+    "**lever_x_profile, v0** → \"Chain: inputs the lever sets → in-between variables → emission categories (the "
+    "metrics exploratory_modeling reports). Relations only.\"  ·  No links: \"No links recorded for this lever (the "
+    "mapping is incomplete for it).\"",
+    "**output_levers, v1 arms** → \"Ranked by effect: median of the output with the group in the top fifth of its "
+    "range minus the median in the bottom fifth, every other input varying. Low end = 0–0.2, high end = 0.8–1.\"",
+    "**output_levers, v0** → \"Relations only, in id order: which levers and uncertainties move this output.\"",
+    "**country_context** → \"Modelled baseline assumptions (2025–2050), not observed present-day statistics.\"",
+], ncols=1, pt=12, notes=src_note + " These notes are copied by hand from backend/rdm/tools/*.py.")
 
 prs.save(OUT)
 print("saved", OUT, len(prs.slides), "slides")
