@@ -49,7 +49,8 @@ def versions(h: Harness, system_text: str) -> dict:
     try:
         commit = subprocess.run(["git", "rev-parse", "HEAD"], capture_output=True, text=True,
                                 cwd=Path(__file__).parent).stdout.strip()
-        dirty = bool(subprocess.run(["git", "status", "--porcelain", "--", "backend/rdm"], capture_output=True,
+        dirty = bool(subprocess.run(["git", "status", "--porcelain", "--", "backend/rdm",
+                                     ":(exclude)backend/rdm/eval/pilot_runs"], capture_output=True,
                                     text=True, cwd=Path(__file__).parents[3]).stdout.strip())
     except OSError:
         commit, dirty = None, None
