@@ -1,8 +1,8 @@
 """
-The seven tools as the agent sees them, and the harness that runs them.
+The six tools as the agent sees them, and the harness that runs them.
 
-Schemas and descriptions are identical in v0 and v1; only what the two run-based information
-tools return differs (``Harness(version=…)``). The agent decides which tool to call; the harness
+Schemas and descriptions are identical in v0 and v1; only what the run-based information
+tool returns differs (``Harness(version=…)``). The agent decides which tool to call; the harness
 never does. It keeps the state, checks the rules in code (inside each tool), and logs every call:
 tool, arguments, status, duration, size and the full reply — the final actions the experiment
 measures.
@@ -38,7 +38,7 @@ TOOLS = [
                     "futures. Returns, per policy, metric and year: median and p10–p90, and the change vs BAU. "
                     "Returns an ensemble_id for the other technical tools. Use it to evaluate or compare policies, "
                     "and again after revising a policy. Do not use it to learn what a lever moves (use "
-                    "lever_x_profile).",
+                    "model_network).",
      "input_schema": {"type": "object", "properties": {
          "policies": _POLICIES,
          "x_ranges": {"type": "object", "description": "Optional: {uncertainty_id: [low, high]} within 0–1 to restrict "
@@ -86,23 +86,29 @@ TOOLS = [
          "ensemble_id": {"type": "string"}, "year": {"type": "integer"},
          "policies": {"type": "array", "items": {"type": "string"}}},
          "required": ["ensemble_id"]}},
-    {"name": "lever_x_profile",
-     "description": "Information. For one lever and one uncertainty, the chain read from the model runs: the inputs the "
-                    "lever sets, the in-between variables it moves, and the emission categories they feed (with the "
-                    "emission fields under each category and the metric name exploratory_modeling uses), and whether "
-                    "the uncertainty also moves them. Use it to understand what a lever does and what its levels mean "
-                    "before testing it. Do not use it to evaluate a policy across futures (use exploratory_modeling).",
+    {"name": "model_network",
+     "description": "Information. Navigate the SISEPUEDE model as a network, read from the model code: levers and "
+                    "uncertainties set input variables; in-between variables are computed from them; emission "
+                    "variables are computed from those; emissions sum into the 23 inventory categories the technical "
+                    "tools report. A link means \"used to compute\". Give one node and get it, its attributes (unit, "
+                    "sector, gas, category), what it is computed from (one step back) and what it is used to compute "
+                    "(one step forward). Any name in a reply can be the next node, so walk the network step by step: "
+                    "from a lever forward to see what its level means and what it changes, down to the categories; "
+                    "from a category or variable back to find the levers and uncertainties that reach it (candidates "
+                    "for a target, then test them with exploratory_modeling). The electricity system (NemoMod) is one "
+                    "box. Do not use it to evaluate a policy across futures (use exploratory_modeling).",
      "input_schema": {"type": "object", "properties": {
-         "lever": {"type": "integer"}, "uncertainty": {"type": "integer"},
-         "year": {"type": "integer", "description": "2025, 2035, 2040, 2050, 2060 or 2070"}},
-         "required": ["lever", "uncertainty", "year"]}},
-    {"name": "output_levers",
-     "description": "Information. For an output — one of the 23 inventory categories, an emission field or a variable "
-                    "— the levers and uncertainties that move it. Read from the model runs. Use it to find candidate "
-                    "levers for a target, then test them with exploratory_modeling.",
-     "input_schema": {"type": "object", "properties": {
-         "output": {"type": "string"}, "year": {"type": "integer"}},
-         "required": ["output", "year"]}},
+         "node": {"type": "string", "description": "A lever (\"L35\"), an uncertainty (\"X57\"), a category metric "
+                                                   "(\"emissions_transportation\"), a variable name as listed in a "
+                                                   "reply, or one of its fields."},
+         "year": {"type": "integer", "description": "2025, 2035, 2040, 2050, 2060 or 2070"},
+         "lever": {"type": "integer", "description": "Optional: look at the node by this lever's level (low, middle "
+                                                     "or high third of its range)."},
+         "uncertainty": {"type": "integer", "description": "Optional, with third: look at the node only in futures "
+                                                           "where this uncertainty is in that third of its range."},
+         "third": {"type": "string", "enum": ["low", "mid", "high"],
+                   "description": "With uncertainty: low = 0–⅓, mid = ⅓–⅔, high = ⅔–1 of its range."}},
+         "required": ["node", "year"]}},
     {"name": "country_context",
      "description": "Uganda's modelled baseline (2025–2050) for one topic. Modelling assumptions, not present-day "
                     "statistics.",
@@ -135,10 +141,9 @@ def _params(name: str, a: dict, result: dict) -> dict:
                 "asked_for_threshold": result.get("status") == "needs_threshold"}
     if name in ("scenario_discovery", "trade_off_analysis"):
         return {"ensemble": a.get("ensemble_id"), "policies": a.get("policies")}
-    if name == "lever_x_profile":
-        return {"lever": a.get("lever"), "uncertainty": a.get("uncertainty"), "year": a.get("year")}
-    if name == "output_levers":
-        return {"output": a.get("output"), "year": a.get("year")}
+    if name == "model_network":
+        return {"node": a.get("node"), "year": a.get("year"), "lever": a.get("lever"),
+                "uncertainty": a.get("uncertainty"), "third": a.get("third"), "node_kind": result.get("kind")}
     return dict(a)
 
 
@@ -181,11 +186,9 @@ class Harness:
         if name == "trade_off_analysis":
             return technical.trade_off_analysis(self.state, self.surrogate, a["ensemble_id"], a.get("year", 2050),
                                                 a.get("policies"))
-        if name == "lever_x_profile":
-            return information.lever_x_profile(self.run, self.store, a["lever"], a["uncertainty"], a["year"],
-                                               self.version)
-        if name == "output_levers":
-            return information.output_levers(self.run, self.store, a["output"], a["year"], self.version)
+        if name == "model_network":
+            return information.model_network(self.run, a["node"], a["year"], self.version, a.get("lever"),
+                                             a.get("uncertainty"), a.get("third"))
         if name == "country_context":
             return country_context(a["topic"])
         raise ToolError("UNKNOWN_TOOL", f"Unknown tool {name!r}; tools: {TOOL_NAMES}")

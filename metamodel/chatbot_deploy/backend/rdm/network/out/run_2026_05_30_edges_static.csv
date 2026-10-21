@@ -1,0 +1,73 @@
+source,target,model,function,n
+:math:\\text{CH}_4 FGTV Distribution Emission Factor,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CH}_4 FGTV Production Flaring Emission Factor,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CH}_4 FGTV Production Fugitive Emission Factor,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CH}_4 FGTV Production Venting Emission Factor,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CH}_4 FGTV Transmission Emission Factor,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+":math:\\text{CH}_4 Fugitive Emissions from Distribution, Transmission, and Production Leaks",Fuel Imports,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CH}_4 Fugitive Emissions from Flaring,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CH}_4 Fugitive Emissions from Venting,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CO}_2 FGTV Distribution Emission Factor,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CO}_2 FGTV Production Flaring Emission Factor,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CO}_2 FGTV Production Fugitive Emission Factor,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CO}_2 FGTV Production Venting Emission Factor,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CO}_2 FGTV Transmission Emission Factor,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+":math:\\text{CO}_2 Fugitive Emissions from Distribution, Transmission, and Production Leaks",Fuel Imports,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CO}_2 Fugitive Emissions from Flaring,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CO}_2 Fugitive Emissions from Venting,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+:math:\\text{N}_2\\text{O} FGTV Production Flaring Emission Factor,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+:math:\\text{N}_2\\text{O} FGTV Production Fugitive Emission Factor,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+:math:\\text{N}_2\\text{O} FGTV Production Venting Emission Factor,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+:math:\\text{N}_2\\text{O} FGTV Transmission Emission Factor,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+":math:\\text{N}_2\\text{O} Fugitive Emissions from Distribution, Transmission, and Production Leaks",Fuel Imports,energy_consumption,project_fugitive_emissions,1
+:math:\\text{N}_2\\text{O} Fugitive Emissions from Flaring,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+:math:\\text{N}_2\\text{O} Fugitive Emissions from Venting,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+Fraction Non-Fugitive :math:\\text{CH}_4 Flared,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+Fuel Production,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+NMVOC FGTV Distribution Emission Factor,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+NMVOC FGTV Production Flaring Emission Factor,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+NMVOC FGTV Production Fugitive Emission Factor,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+NMVOC FGTV Production Venting Emission Factor,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+NMVOC FGTV Transmission Emission Factor,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+"NMVOC Fugitive Emissions from Distribution, Transmission, and Production Leaks",Fuel Imports,energy_consumption,project_fugitive_emissions,1
+NMVOC Fugitive Emissions from Flaring,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+NMVOC Fugitive Emissions from Venting,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+Reduction in Fugitive Leaks,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+Total Energy Demand by Fuel,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+Volumetric Energy Density,Fuel Imports,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CH}_4 FGTV Distribution Emission Factor,Fuel Production,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CH}_4 FGTV Production Flaring Emission Factor,Fuel Production,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CH}_4 FGTV Production Fugitive Emission Factor,Fuel Production,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CH}_4 FGTV Production Venting Emission Factor,Fuel Production,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CH}_4 FGTV Transmission Emission Factor,Fuel Production,energy_consumption,project_fugitive_emissions,1
+":math:\\text{CH}_4 Fugitive Emissions from Distribution, Transmission, and Production Leaks",Fuel Production,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CH}_4 Fugitive Emissions from Flaring,Fuel Production,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CH}_4 Fugitive Emissions from Venting,Fuel Production,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CO}_2 FGTV Distribution Emission Factor,Fuel Production,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CO}_2 FGTV Production Flaring Emission Factor,Fuel Production,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CO}_2 FGTV Production Fugitive Emission Factor,Fuel Production,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CO}_2 FGTV Production Venting Emission Factor,Fuel Production,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CO}_2 FGTV Transmission Emission Factor,Fuel Production,energy_consumption,project_fugitive_emissions,1
+":math:\\text{CO}_2 Fugitive Emissions from Distribution, Transmission, and Production Leaks",Fuel Production,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CO}_2 Fugitive Emissions from Flaring,Fuel Production,energy_consumption,project_fugitive_emissions,1
+:math:\\text{CO}_2 Fugitive Emissions from Venting,Fuel Production,energy_consumption,project_fugitive_emissions,1
+:math:\\text{N}_2\\text{O} FGTV Production Flaring Emission Factor,Fuel Production,energy_consumption,project_fugitive_emissions,1
+:math:\\text{N}_2\\text{O} FGTV Production Fugitive Emission Factor,Fuel Production,energy_consumption,project_fugitive_emissions,1
+:math:\\text{N}_2\\text{O} FGTV Production Venting Emission Factor,Fuel Production,energy_consumption,project_fugitive_emissions,1
+:math:\\text{N}_2\\text{O} FGTV Transmission Emission Factor,Fuel Production,energy_consumption,project_fugitive_emissions,1
+":math:\\text{N}_2\\text{O} Fugitive Emissions from Distribution, Transmission, and Production Leaks",Fuel Production,energy_consumption,project_fugitive_emissions,1
+:math:\\text{N}_2\\text{O} Fugitive Emissions from Flaring,Fuel Production,energy_consumption,project_fugitive_emissions,1
+:math:\\text{N}_2\\text{O} Fugitive Emissions from Venting,Fuel Production,energy_consumption,project_fugitive_emissions,1
+Fraction Non-Fugitive :math:\\text{CH}_4 Flared,Fuel Production,energy_consumption,project_fugitive_emissions,1
+Fuel Imports,Fuel Production,energy_consumption,project_fugitive_emissions,1
+NMVOC FGTV Distribution Emission Factor,Fuel Production,energy_consumption,project_fugitive_emissions,1
+NMVOC FGTV Production Flaring Emission Factor,Fuel Production,energy_consumption,project_fugitive_emissions,1
+NMVOC FGTV Production Fugitive Emission Factor,Fuel Production,energy_consumption,project_fugitive_emissions,1
+NMVOC FGTV Production Venting Emission Factor,Fuel Production,energy_consumption,project_fugitive_emissions,1
+NMVOC FGTV Transmission Emission Factor,Fuel Production,energy_consumption,project_fugitive_emissions,1
+"NMVOC Fugitive Emissions from Distribution, Transmission, and Production Leaks",Fuel Production,energy_consumption,project_fugitive_emissions,1
+NMVOC Fugitive Emissions from Flaring,Fuel Production,energy_consumption,project_fugitive_emissions,1
+NMVOC Fugitive Emissions from Venting,Fuel Production,energy_consumption,project_fugitive_emissions,1
+Reduction in Fugitive Leaks,Fuel Production,energy_consumption,project_fugitive_emissions,1
+Total Energy Demand by Fuel,Fuel Production,energy_consumption,project_fugitive_emissions,1
+Volumetric Energy Density,Fuel Production,energy_consumption,project_fugitive_emissions,1

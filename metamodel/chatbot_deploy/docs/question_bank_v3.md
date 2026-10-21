@@ -10,6 +10,27 @@ TO1 added for trade-offs, and every question tagged by how it was made. 26 quest
 fixed, TO1's must-not reworded, the last leaked examples made neutral, the pre-registration completed, and every rule
 wired to `failure_modes.py` (`BANK_SPECS` in `backend/rdm/eval/questions.py`).*
 
+*Updated 2026-10-20: the two information tools `lever_x_profile` and `output_levers` were merged into one tool,
+`model_network`, which starts from a lever (forward: inputs → variables → categories) or from an output (backward:
+the levers and uncertainties that move it). The v1 arms add a weight to every link (Spearman ρ across the runs).
+Expected paths below now read "model_network (lever)" or "model_network (output)". No question, key or must/must-not
+rule changed; check 1 ("information before the run") now looks for a model_network call that starts from the lever.*
+
+*Updated 2026-10-21: `model_network` was rebuilt on the SISEPUEDE network read from the model code
+(`docs/rdm_network_plan.md`): one call gives a node, what it is computed from and what it is used to compute, and
+the agent walks the network step by step. v0 gets nodes, attributes and links; the v1 arms add values from the runs
+(v1_inputs: what a lever sets at BAU, middle and top of the range; v1_outputs: medians and p10–p90 of variables,
+emissions and categories, by a lever's thirds and within an uncertainty's third; v1: both). The link weights of
+2026-10-20 are gone. **Change to the note on uncertainty ranges below:** the tool's parameters, identical in every
+arm, now define an uncertainty's thirds (low 0–⅓, mid ⅓–⅔, high ⅔–1), so the definition is no longer v1-only;
+the v1 arms still show values per third. An arm difference in the ranges the agent sets is reported with this
+named. No question, key or must/must-not rule changed.*
+
+*Updated 2026-10-21 (keys, before any run of this bank): S50, S3 and S35 are now keyed on the lever's top third
+(⅔–1), the cell model_network reports, instead of the lever ≥ 0.9 (a correct answer read from the tool would have
+been scored outside the old ranges); X1 accepts 0.50–0.65 (rates halved vs hectares halved); X2's key computed
+at 2035; the 24.7% NDC figure confirmed.*
+
 ## Pre-registration (written 2026-10-19, before any run of this bank)
 
 - **Where each question comes from (tag):**
@@ -47,10 +68,10 @@ wired to `failure_modes.py` (`BANK_SPECS` in `backend/rdm/eval/questions.py`).*
   of the range) are shown only in v1_inputs and v1. In v0 and v1_outputs the agent can only guess, so a level on the
   key is an *outcome* in those arms (the RQ2 contrast), not a rule it can be expected to follow.
 - **Year.** Keys are for 2050. The explored ranges are much wider in 2070 (for example chicken-manure digesters reach
-  80%, industrial CO₂ capture 80%), and `lever_x_profile` shows both years in the v1 arms. A level read from the 2070
+  80%, industrial CO₂ capture 80%), and `model_network` (from a lever) shows both years in the v1 arms. A level read from the 2070
   row counts as off the key. For the targets beyond the range (LV1, H2, H3), "not by 2050; reached later in the runs"
   is a correct answer.
-- **Uncertainty ranges and the arms.** In the v1 arms only, `lever_x_profile` says "uncertainty low/high =
+- **Uncertainty ranges and the arms.** In the v1 arms only, `model_network` (from a lever) says "uncertainty low/high =
   bottom/top third of its range" (it explains the values it shows). This is part of the v1 treatment: it may change
   how the agent sets uncertainty ranges (for example "fast growth" → [0.67, 1] rather than [0.5, 1]), so the
   "uncertainty ranges" part of RQ2 may not be null. Any arm difference in ranges is reported with this cause named.
@@ -99,41 +120,41 @@ wired to `failure_modes.py` (`BANK_SPECS` in `backend/rdm/eval/questions.py`).*
 
 | ID | Tag | Sector | Question (exact wording) | Tools | Must / must not | Answer key |
 |---|---|---|---|---|---|---|
-| P50i | dev | Solid waste | "What if Uganda's landfills captured 40% of the methane their rubbish gives off (landfill gas) by 2050?" | lever_x_profile → exploratory_modeling | must read lever 50 before running · must not use 0.4 as the level | exact: L50 = 0.688 (BAU 7% → 55%) |
-| P12i | dev | Industry | "What if cement made in Uganda used less clinker, its most polluting ingredient, so that clinker was 65% of the cement by 2050 instead of about 72%?" | lever_x_profile → exploratory_modeling | must read lever 12 before running | exact: L12 = 0.583 (BAU 72% → 60%) |
-| B6 | dev | Transport | "What if 45% of the distance driven by cars, vans and other light vehicles were electric by 2050?" | lever_x_profile → answer | must say BAU already has 50% · must not run lever 35 above BAU | exact: below BAU, no lever needed |
-| AG1 | designed | Agriculture | "What if farmers stopped ploughing on 30% of the land where they grow cereals by 2050, and what would that do to emissions?" | lever_x_profile → exploratory_modeling | must report that agricultural emissions rise slightly · must not claim a cut (R) | exact: L3 = 0.51; agriculture emissions +2.3% (+1.7 to +3.3) |
-| LV1 | designed | Livestock | "What if 40% of the manure from dairy cows were used to make biogas by 2050?" | lever_x_profile → (exploratory_modeling at the top of the range) | must say the runs reach at most about 33% · must say the target is beyond the range (R) · must not use 0.4 | beyond the range (lever 20: BAU 0% → 32.7%) |
-| BLD1 | designed | Buildings | "What if homes and businesses used a quarter less energy for cooking and heating by 2050?" | lever_x_profile → exploratory_modeling | must read lever 27 before running · must not use 0.25 or 0.75 | exact: L27 = 0.67 (×1 → ×0.627) |
-| WW1 | designed | Wastewater | "What if half of rural households' wastewater went to septic tanks by 2050?" | lever_x_profile → exploratory_modeling | must read lever 46 before running | exact: L46 = 0.716 (BAU 18% → 63%) |
-| H1 | blind | Livestock | "What if about a quarter of the manure from chickens went into biogas digesters by 2050?" | lever_x_profile → exploratory_modeling | must read lever 22 before running · must not use 0.25 | exact: L22 = 0.573 (BAU 0% → 43.6%) |
-| H2 | blind | Industry | "What if half of Uganda's chemical production captured its CO₂ by 2050?" | lever_x_profile → (exploratory_modeling at the top of the range) | must say the runs reach at most about 42% · must say the target is beyond the range (R) · must not use 0.5 · good answer: notes the lever also sets cement, metals and plastic | beyond the range (lever 26: BAU 0% → 41.9%) |
-| H3 | blind | Solid waste | "What if each Ugandan threw away a fifth less food by 2050?" | lever_x_profile → (exploratory_modeling at the top of the range) | must say the runs reach at most about 16% less · must say the target is beyond the range (R) · must not use 0.2 or 0.8 | beyond the range (lever 48: ×1 → ×0.836) |
-| X1 | designed | Forests | "What if Uganda halved deforestation by 2050?" | lever_x_profile → exploratory_modeling | must read lever 15 · must state its translation (R) | provisional L15 ≈ 0.5 (±0.1); equals the literal reading; confirm against forest loss in hectares in the runs |
+| P50i | dev | Solid waste | "What if Uganda's landfills captured 40% of the methane their rubbish gives off (landfill gas) by 2050?" | model_network (lever) → exploratory_modeling | must read lever 50 before running · must not use 0.4 as the level | exact: L50 = 0.688 (BAU 7% → 55%) |
+| P12i | dev | Industry | "What if cement made in Uganda used less clinker, its most polluting ingredient, so that clinker was 65% of the cement by 2050 instead of about 72%?" | model_network (lever) → exploratory_modeling | must read lever 12 before running | exact: L12 = 0.583 (BAU 72% → 60%) |
+| B6 | dev | Transport | "What if 45% of the distance driven by cars, vans and other light vehicles were electric by 2050?" | model_network (lever) → answer | must say BAU already has 50% · must not run lever 35 above BAU | exact: below BAU, no lever needed |
+| AG1 | designed | Agriculture | "What if farmers stopped ploughing on 30% of the land where they grow cereals by 2050, and what would that do to emissions?" | model_network (lever) → exploratory_modeling | must report that agricultural emissions rise slightly · must not claim a cut (R) | exact: L3 = 0.51; agriculture emissions +2.3% (+1.7 to +3.3) |
+| LV1 | designed | Livestock | "What if 40% of the manure from dairy cows were used to make biogas by 2050?" | model_network (lever) → (exploratory_modeling at the top of the range) | must say the runs reach at most about 33% · must say the target is beyond the range (R) · must not use 0.4 | beyond the range (lever 20: BAU 0% → 32.7%) |
+| BLD1 | designed | Buildings | "What if homes and businesses used a quarter less energy for cooking and heating by 2050?" | model_network (lever) → exploratory_modeling | must read lever 27 before running · must not use 0.25 or 0.75 | exact: L27 = 0.67 (×1 → ×0.627) |
+| WW1 | designed | Wastewater | "What if half of rural households' wastewater went to septic tanks by 2050?" | model_network (lever) → exploratory_modeling | must read lever 46 before running | exact: L46 = 0.716 (BAU 18% → 63%) |
+| H1 | blind | Livestock | "What if about a quarter of the manure from chickens went into biogas digesters by 2050?" | model_network (lever) → exploratory_modeling | must read lever 22 before running · must not use 0.25 | exact: L22 = 0.573 (BAU 0% → 43.6%) |
+| H2 | blind | Industry | "What if half of Uganda's chemical production captured its CO₂ by 2050?" | model_network (lever) → (exploratory_modeling at the top of the range) | must say the runs reach at most about 42% · must say the target is beyond the range (R) · must not use 0.5 · good answer: notes the lever also sets cement, metals and plastic | beyond the range (lever 26: BAU 0% → 41.9%) |
+| H3 | blind | Solid waste | "What if each Ugandan threw away a fifth less food by 2050?" | model_network (lever) → (exploratory_modeling at the top of the range) | must say the runs reach at most about 16% less · must say the target is beyond the range (R) · must not use 0.2 or 0.8 | beyond the range (lever 48: ×1 → ×0.836) |
+| X1 | designed | Forests | "What if Uganda halved deforestation by 2050?" | model_network (lever) → exploratory_modeling | must read lever 15 · must state its translation (R) | L15 = 0.50–0.65: 0.5 halves the deforestation rates the lever sets; forest loss in hectares halves at about 0.60 (2035) to 0.65 (2050) in the runs. Both readings accepted |
 
 ## 2 · In-between quantities (T2) — 3 questions
 
 | ID | Tag | Sector | Question | Tools | Must / must not | Answer key (runs) |
 |---|---|---|---|---|---|---|
-| S50 | dev | Solid waste | "If Uganda captured methane from its landfills as ambitiously as is realistically possible, how much landfill gas would it capture in 2050?" | lever_x_profile → answer | must read the lever · must say it is the most ambitious level in the runs (R) · must give a number inside the runs' range (R) · must not present it as tested on the surrogate (R) | 800,000 t (190,000–1.5 M) |
-| S3 | dev | Agriculture | "If Uganda promoted soil-friendly farming (less ploughing, keeping crop residues on the field) as ambitiously as is realistically possible, how many hectares of farmland would use these methods in 2050?" | lever_x_profile → answer | same | 3.0 M ha (2.7–3.3) |
-| S35 | dev | Transport | "If Uganda moved cars and vans to electricity as ambitiously as is realistically possible, how many kilometres would electric cars and vans travel in 2050?" | lever_x_profile → answer | same | 24 billion vehicle-km (19–30) |
+| S50 | dev | Solid waste | "If Uganda captured methane from its landfills as ambitiously as is realistically possible, how much landfill gas would it capture in 2050?" | model_network (lever) → answer | must read the lever · must say it is the most ambitious level in the runs (R) · must give a number inside the runs' range (R) · must not present it as tested on the surrogate (R) | lever top third (⅔–1): 708,000 t (121,000–1.40 M); lever ≥ 0.9: 805,000 t |
+| S3 | dev | Agriculture | "If Uganda promoted soil-friendly farming (less ploughing, keeping crop residues on the field) as ambitiously as is realistically possible, how many hectares of farmland would use these methods in 2050?" | model_network (lever) → answer | same | lever top third: 2.63 M ha (2.18–3.12); lever ≥ 0.9: 2.98 M ha |
+| S35 | dev | Transport | "If Uganda moved cars and vans to electricity as ambitiously as is realistically possible, how many kilometres would electric cars and vans travel in 2050?" | model_network (lever) → answer | same | lever top third: 22.6 billion vehicle-km (17.9–28.4); lever ≥ 0.9: 23.9 billion |
 
 ## 3 · Reach an emissions target (T3) — 3 questions
 
 | ID | Tag | Sector | Question | Tools | Must / must not | Answer key (surrogate) |
 |---|---|---|---|---|---|---|
-| AG2 | designed | Agriculture + livestock | "Which policies could cut emissions from farming and livestock by a quarter compared with business as usual by 2050?" | output_levers → exploratory_modeling | must pick levers from agriculture, livestock or manure (and diets, which act on livestock) · must test the package | reachable: all 10 such levers at the top give −34% (−37 to −32) |
-| C4b | designed | Waste + wastewater | "Can Uganda cut its total emissions by 20% by 2050 using only waste and wastewater policies?" | output_levers → exploratory_modeling → answer | must use only waste and wastewater levers · must state the baseline it used (R) · must say it is not reachable, with the best case (R) | not reachable under either baseline: best case −8.4% vs BAU (−10.1 to −6.9); BAU 2050 (168 Mt) is above 2025 (126 Mt) |
-| X2 | blind | Whole economy | "Uganda has pledged to cut its emissions 24.7% below business as usual by 2030. Which policies in the model could get us there, and roughly what would they cost?" | output_levers → exploratory_modeling | must say 2030 is not a model year (it reports 2025 and 2035) and state what it uses instead (R) · must not present a 2030 number as computed (R) · must call costs changes vs BAU (R) | key at 2035, computed after the wording is frozen. Check the 24.7% figure against Uganda's 2022 NDC |
+| AG2 | designed | Agriculture + livestock | "Which policies could cut emissions from farming and livestock by a quarter compared with business as usual by 2050?" | model_network (output) → exploratory_modeling | must pick levers from agriculture, livestock or manure (and diets, which act on livestock) · must test the package | reachable: all 10 such levers at the top give −34% (−37 to −32) |
+| C4b | designed | Waste + wastewater | "Can Uganda cut its total emissions by 20% by 2050 using only waste and wastewater policies?" | model_network (output) → exploratory_modeling → answer | must use only waste and wastewater levers · must state the baseline it used (R) · must say it is not reachable, with the best case (R) | not reachable under either baseline: best case −8.4% vs BAU (−10.1 to −6.9); BAU 2050 (168 Mt) is above 2025 (126 Mt) |
+| X2 | blind | Whole economy | "Uganda has pledged to cut its emissions 24.7% below business as usual by 2030. Which policies in the model could get us there, and roughly what would they cost?" | model_network (output) → exploratory_modeling | must say 2030 is not a model year (it reports 2025 and 2035) and state what it uses instead (R) · must not present a 2030 number as computed (R) · must call costs changes vs BAU (R) | reachable at 2035 (surrogate, other levers at BAU): every lever at the top −31.0% (−31.6 to −30.3), cost +2.84 bn USD (1.90–3.61); smallest package L30, L29, L9, L15, L23 at the top −26.1% (−26.8 to −25.4), 99% of futures, cost +1.37 bn (1.05–1.64). Model BAU 2035 139 Mt; the NDC's BAU for 2030 is about 143 Mt. 24.7% confirmed: Uganda's updated NDC (2022), 5.9% unconditional + 18.8% conditional |
 
 ## 4 · Robustness (RDM component 2) — 3 questions
 
 | ID | Tag | Sector | Question | Tools | Scripted reply (failure threshold) | Answer key |
 |---|---|---|---|---|---|---|
-| Q10b | dev | Electricity + forests | "Is a policy with a strong push on renewable electricity and a moderate cut in deforestation robust?" | lever_x_profile → exploratory_modeling → vulnerability_analysis → scenario_discovery | "Count it as a failure if total emissions in 2050 are not at least 5% below business as usual in that same future." | process only: must ask for the threshold, not invent it; must run scenario discovery. The failure share for the agent's own levels is recorded. Reference: with L7 = 0.8, L15 = 0.6 it fails in 34% |
+| Q10b | dev | Electricity + forests | "Is a policy with a strong push on renewable electricity and a moderate cut in deforestation robust?" | model_network (lever) → exploratory_modeling → vulnerability_analysis → scenario_discovery | "Count it as a failure if total emissions in 2050 are not at least 5% below business as usual in that same future." | process only: must ask for the threshold, not invent it; must run scenario discovery. The failure share for the agent's own levels is recorded. Reference: with L7 = 0.8, L15 = 0.6 it fails in 34% |
 | D2b | dev | Electricity + forests | "Does the policy we just tested still work if the economy grows fast?" (in the Q10b conversation) | exploratory_modeling (GDP growth restricted to the upper part of its range, the rest sampled) → vulnerability_analysis | same as Q10b | process only: must restrict GDP growth to its upper part (low end ≥ 0.5), never fix it or treat it as a lever. Reference: fails in 66% |
-| D3b | designed | Diets / livestock | "Is having only 70% of Ugandans eat red meat by 2050 a robust way to cut livestock emissions?" | lever_x_profile → exploratory_modeling → vulnerability_analysis → scenario_discovery | "Count it as a failure if livestock emissions in 2050 are not at least 9% below business as usual in that same future." | exact L25 = 0.682; livestock −9.3% (−10.6 to −8.2); fails in 39%; the answer must mention agricultural export volumes, where scenario discovery points |
+| D3b | designed | Diets / livestock | "Is having only 70% of Ugandans eat red meat by 2050 a robust way to cut livestock emissions?" | model_network (lever) → exploratory_modeling → vulnerability_analysis → scenario_discovery | "Count it as a failure if livestock emissions in 2050 are not at least 9% below business as usual in that same future." | exact L25 = 0.682; livestock −9.3% (−10.6 to −8.2); fails in 39%; the answer must mention agricultural export volumes, where scenario discovery points |
 
 ## 5 · Trade-offs and improving a strategy (RDM component 3) — 3 questions
 
@@ -142,14 +163,14 @@ Costs are scored on caution (changes vs BAU, provisional) rather than on their v
 | ID | Tag | Sector | Question | Tools | Must / must not | Answer key |
 |---|---|---|---|---|---|---|
 | Q14b | dev | Buildings vs forests | "Is moving homes and businesses to cleaner cooking and heating fuels better than cutting deforestation?" | exploratory_modeling (both, same futures) → trade_off_analysis | must compare on the same futures · must not name a winner | at the top of each range: cooking fuels −3.6% total (−4.5 to −2.8), deforestation −6.6% (−8.2 to −5.4) |
-| TO1 | designed | Solid waste vs buildings | "Which cuts more emissions by 2050, and at what cost: landfills capturing 40% of their methane, or homes and businesses using a quarter less energy for cooking and heating?" | lever_x_profile (both) → exploratory_modeling (both, same futures) → trade_off_analysis | must translate both (L50 ≈ 0.69, L27 ≈ 0.67) · must compare on the same futures · must report how often or by how much one cuts more (share of futures, or overlapping ranges) (R) · must not call one better overall · must call costs changes vs BAU (R) | emissions: −2.3 Mt (−2.9 to −1.6) vs −2.1 Mt (−3.3 to −0.6), close; cost change: +0.11 bn USD (−0.01 to +0.35) vs +0.21 (−0.03 to +0.28); net benefit +0.16 vs −0.08 |
+| TO1 | designed | Solid waste vs buildings | "Which cuts more emissions by 2050, and at what cost: landfills capturing 40% of their methane, or homes and businesses using a quarter less energy for cooking and heating?" | model_network (both levers) → exploratory_modeling (both, same futures) → trade_off_analysis | must translate both (L50 ≈ 0.69, L27 ≈ 0.67) · must compare on the same futures · must report how often or by how much one cuts more (share of futures, or overlapping ranges) (R) · must not call one better overall · must call costs changes vs BAU (R) | emissions: −2.3 Mt (−2.9 to −1.6) vs −2.1 Mt (−3.3 to −0.6), close; cost change: +0.11 bn USD (−0.01 to +0.35) vs +0.21 (−0.03 to +0.28); net benefit +0.16 vs −0.08 |
 | N1 | dev | Electricity + forests | Asked after D2b in the same conversation: "It fails when the economy grows fast. What could we change so it holds up, and does it?" | exploratory_modeling (revised policy, fast growth) → vulnerability_analysis | must re-test the revised policy (a new run, under fast growth) with the same threshold · must not claim it holds without testing (R) | examples under fast growth: renewables and deforestation both at the top → 0% fail; both at 0.8 → 35% |
 
 ## 6 · Outside the model (T4) — 3 questions
 
 | ID | Tag | Question | Tools | Expected behaviour |
 |---|---|---|---|---|
-| B8b | designed | "What if Uganda built three new large hydropower dams by 2040?" | lever_x_profile / output_levers → ask or propose a proxy | says the model has no dams or plant counts (R); offers the renewable electricity lever as a proxy (R); no run before the user replies |
+| B8b | designed | "What if Uganda built three new large hydropower dams by 2040?" | model_network → ask or propose a proxy | says the model has no dams or plant counts (R); offers the renewable electricity lever as a proxy (R); no run before the user replies |
 | F2 | designed | "Make Uganda greener." | none until clarified | asks what "greener" means (R), no run before the user replies. Scripted reply: "I mean less deforestation and cleaner cooking in homes." Then it is a T0 evaluation |
 | F3b | designed | "Slow down economic growth so that emissions fall." | none; or, to show the effect of slow growth, exploratory_modeling with a policy (it needs at least one lever) and GDP growth restricted to its lower part | says GDP growth is an uncertainty Uganda does not choose, not a policy (R); never sets GDP growth as a lever. Running is allowed (it is not scored as running before clarifying) |
 
@@ -168,4 +189,4 @@ Costs are scored on caution (changes vs BAU, provisional) rather than on their v
 
 ## Still to do
 
-1. Confirm X1's key against forest loss in hectares; compute X2's key after freezing; check the 24.7% NDC figure.
+1. ~~Confirm X1's key against forest loss in hectares; compute X2's key after freezing; check the 24.7% NDC figure.~~ Done 2026-10-21 (rows above).

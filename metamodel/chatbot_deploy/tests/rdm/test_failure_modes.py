@@ -29,7 +29,7 @@ def test_literal_translation_and_skipped_information():
 
 
 def test_correct_translation():
-    log = [call("lever_x_profile", {"lever": 50, "uncertainty": 57, "year": 2050}), explore({"50": 0.69, "51": 0})]
+    log = [call("model_network", {"node": "50", "uncertainty": 57, "year": 2050}), explore({"50": 0.69, "51": 0})]
     f = check({"tool_log": log, "final_answer": "Median −5.2%, between 4 and 6."}, T1)
     assert not f["01_no_information_before_run"] and not f["02_literal_translation"] and not f["03_level_off_key"]
 
@@ -73,7 +73,7 @@ def test_two_levers_mentions_and_allowed_levers():
     spec = {"kind": "T1", "levers": {50: {"key_level": 0.688, "user_number": 0.4},
                                      27: {"key_level": 0.67, "user_number": 0.25}},
             "tol": 0.02, "must_mention": [r"\b50\s*%"], "allowed_levers": [50, 27], "package": True}
-    log = [call("lever_x_profile", {"lever": 50, "uncertainty": 57, "year": 2050}),
+    log = [call("model_network", {"node": "50", "uncertainty": 57, "year": 2050}),
            call("exploratory_modeling", {"policies": [{"name": "a", "levers": {"50": 0.69}},
                                                       {"name": "b", "levers": {"27": 0.25}}]})]
     f = check({"tool_log": log, "final_answer": "Median −2% (range −3 to −1)."}, spec)

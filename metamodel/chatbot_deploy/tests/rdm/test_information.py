@@ -1,15 +1,18 @@
 """
-Tests for backend/rdm/tools/information.py: lever_x_profile and output_levers, v0 and v1.
+Tests for model_network (backend/rdm/tools/network.py): navigating the SISEPUEDE network, v0 and v1.
 
-Test 1 — the arms: v0 carries no values (no units, input values, medians, ranges, correlations or
-         effects) and its lists are alphabetical / in id order; every arm has the same relations;
-         v1_inputs adds only input values, v1_outputs only output values, v1 both.
-Test 2 — scope: only the 505 crosswalk emissions; no "structural, output constant in runs" links;
-         every category in a reply lists the fields the lever moves in it (the crosswalk).
-Test 3 — known answers (checked by hand): lever 35 raises the light-duty electric share from 0.50 to
-         0.72 in 2050 and lowers transport emissions; in transport emissions GDP growth raises the output.
-Test 4 — edges: lever 6 has no links and says so; a category is found by slug or display name;
-         unknown outputs, the 133 non-crosswalk emission fields and unknown years are refused.
+Test 1 — the arms: v0 carries no values (no input values, field values, category values or lever effects); every
+         arm has the same nodes and links; v1_inputs adds only the lever's input values, v1_outputs only the
+         values of variables and categories, v1 both.
+Test 2 — navigation: every name a reply lists resolves as a node, and stepping forward then back returns to it;
+         a lever reaches the categories it sets off; a category is computed from its emission variables.
+Test 3 — known answers: lever 35 moves the electric share from 0.50 (BAU) to 0.72 (top of the range) in 2050;
+         electric light-duty vehicle-km rise from lever low to high; transport emissions fall with lever 35 and
+         are higher with GDP high than low.
+Test 4 — the filters: a lever or an uncertainty that does not reach the node is said, and the values fall back;
+         uncertainty needs a third; every year of the run answers.
+Test 5 — edges: lever 12 (its input is never read in the traced run) says so; unknown nodes, an uncertainty
+         asked as a lever and unknown years are refused; "L35", "35" and "lever 35" are the same node.
 """
 
 import json
@@ -20,26 +23,21 @@ import pytest
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2]))
 
-from backend.rdm.data.store import Store  # noqa: E402
 from backend.rdm.runs import get_run  # noqa: E402
-from backend.rdm.tools import information as I  # noqa: E402
+from backend.rdm.tools import network as N  # noqa: E402
 from backend.rdm.tools.common import ToolError  # noqa: E402
 
-LIGHT_DUTY, GDP = 35, 57
+LIGHT_DUTY, GDP, CLINKER = 35, 57, 12
 EV_VKM = "vehicle_distance_traveled_trns_road_light_electricity"
-INPUT_VALUES = {"unit", "range_from_bau"}
-OUTPUT_VALUES = {"values", "median_by_lever_level", "median_at_low_end", "median_at_high_end",
-                 "effect_low_to_high", "p10_p90_at_high_end", "correlation"}
-V1_ONLY = INPUT_VALUES | OUTPUT_VALUES
+VALUES = {"input_values", "values", "category_values", "lever_effects", "values_note"}
 
 
 @pytest.fixture(scope="module")
-def ctx():
-    run = get_run()
-    try:
-        return run, Store(run)
-    except FileNotFoundError as e:
-        pytest.skip(str(e))
+def run():
+    r = get_run()
+    if not (N.NET / f"{r.name}_ranges.parquet").exists():
+        pytest.skip("network files not built (backend/rdm/network)")
+    return r
 
 
 def keys(obj) -> set:
@@ -50,66 +48,68 @@ def keys(obj) -> set:
     return set()
 
 
-def relations(p) -> set:
-    return ({("in", d["field"]) for d in p["inputs"]}
-            | {("cat", d["category"], tuple(d["fields_the_lever_moves"]), d["uncertainty_also_moves"])
-               for d in p["emission_categories"]}
-            | {("var", d["field"], tuple(d["feeds"]), d["uncertainty_also_moves"]) for d in p["in_between_variables"]})
+def links(reply) -> set:
+    return {(k, d["node"]) for k in ("sets", "computed_from", "used_to_compute") if k in reply
+            for d in reply[k]["nodes"]}
 
 
-def test_arms(ctx):
-    run, store = ctx
-    p = {a: I.lever_x_profile(run, store, LIGHT_DUTY, GDP, 2050, a) for a in I.VERSIONS}
-    assert not keys(p["v0"]) & V1_ONLY
-    assert keys(p["v1_inputs"]) & V1_ONLY == INPUT_VALUES
-    assert not keys(p["v1_outputs"]) & {"range_from_bau"} and keys(p["v1_outputs"]) & {"values"}
-    assert keys(p["v1"]) >= {"range_from_bau", "values"}
-    assert len({frozenset(relations(x)) for x in p.values()}) == 1
-    assert [d["field"] for d in p["v0"]["inputs"]] == sorted(d["field"] for d in p["v0"]["inputs"])
-    o0 = I.output_levers(run, store, "transportation", 2050, "v0")
-    o1 = I.output_levers(run, store, "transportation", 2050, "v1")
-    assert not keys(o0) & V1_ONLY
-    assert [d["id"] for d in o0["levers"]] == sorted(d["id"] for d in o0["levers"])
-    assert {d["id"] for d in o0["levers"]} == {d["id"] for d in o1["levers"]}
+def test_arms(run):
+    for node in (f"L{LIGHT_DUTY}", "emissions_transportation", EV_VKM):
+        r = {a: N.model_network(run, node, 2050, a) for a in N.VERSIONS}
+        assert not keys(r["v0"]) & VALUES
+        assert len({frozenset(links(x)) for x in r.values()}) == 1
+    lv = {a: N.model_network(run, f"L{LIGHT_DUTY}", 2050, a) for a in N.VERSIONS}
+    assert "input_values" in lv["v1_inputs"] and "category_values" not in lv["v1_inputs"]
+    assert "category_values" in lv["v1_outputs"] and "input_values" not in lv["v1_outputs"]
+    assert {"input_values", "category_values"} <= set(lv["v1"])
 
 
-def test_scope(ctx):
-    run, store = ctx
-    cat = I.category_of(run)
-    assert len(cat) == 505
-    m = I.links(run)
-    assert set(m[m.output_kind == "emission"].output_field) <= set(cat)
-    assert (m.status != I.EXCLUDED_STATUS).all()
-    p = I.lever_x_profile(run, store, LIGHT_DUTY, GDP, 2050, "v0")
-    assert p["emission_categories"]
-    for c in p["emission_categories"]:
-        assert c["fields_the_lever_moves"] and all(cat[f] == c["metric"][len("emissions_"):] for f in c["fields_the_lever_moves"])
+def test_navigation(run):
+    lever = N.model_network(run, f"L{LIGHT_DUTY}", 2050, "v0")
+    assert "emissions_transportation" in lever["reaches"]["emission_categories"]
+    first = lever["sets"]["nodes"][0]["node"]
+    step = N.model_network(run, first, 2050, "v0")
+    assert f"L{LIGHT_DUTY}" in step["levers_that_reach_it"]
+    for d in step["used_to_compute"]["nodes"][:10]:
+        nxt = N.model_network(run, d["node"], 2050, "v0")
+        assert first in {x["node"] for x in nxt["computed_from"]["nodes"]}
+    cat = N.model_network(run, "emissions_transportation", 2050, "v0")
+    assert cat["kind"] == "category" and all(d["kind"] == "emission" for d in cat["computed_from"]["nodes"])
 
 
-def test_known_answers(ctx):
-    run, store = ctx
-    p = I.lever_x_profile(run, store, LIGHT_DUTY, GDP, 2050, "v1")
-    ev = next(d for d in p["inputs"] if d["field"] == "frac_trns_fuelmix_road_light_electricity")["range_from_bau"]["2050"]
-    assert ev["bau (lever 0)"] == pytest.approx(0.50, abs=0.005) and ev["top of the range run (lever 1)"] == pytest.approx(0.72, abs=0.005)
-    assert ev["direction"] == "up"
-    trns = next(c for c in p["emission_categories"] if c["metric"] == "emissions_transportation")["values"]
-    assert trns["median_by_lever_level"]["high"] < trns["median_by_lever_level"]["low"]
-    o = I.output_levers(run, store, "transportation", 2050, "v1")
-    eff = {d["id"]: d["effect_low_to_high"] for d in o["levers"] + o["uncertainties"]}
-    assert eff[LIGHT_DUTY] < 0 < eff[GDP]
+def test_known_answers(run):
+    lv = N.model_network(run, f"L{LIGHT_DUTY}", 2050, "v1")
+    ev = next(f for f in lv["input_values"]["fields"] if f["field"] == "frac_trns_fuelmix_road_light_electricity")
+    assert ev["bau"] == pytest.approx(0.50, abs=0.005) and ev["top_of_range"] == pytest.approx(0.72, abs=0.005)
+    v = N.model_network(run, EV_VKM, 2050, "v1", lever=LIGHT_DUTY)["fields"][0]["values"]
+    assert v["low"]["median"] < v["high"]["median"]
+    t = lv["category_values"]["emissions_transportation"]
+    assert t["high"]["median"] < t["low"]["median"]
+    lo = N.model_network(run, "emissions_transportation", 2050, "v1", uncertainty=GDP, third="low")
+    hi = N.model_network(run, "emissions_transportation", 2050, "v1", uncertainty=GDP, third="high")
+    assert lo["fields"][0]["values"]["all"]["median"] < hi["fields"][0]["values"]["all"]["median"]
+    effects = {d["lever"]: d["change"] for d in N.model_network(run, "emissions_transportation", 2050, "v1")["lever_effects"]}
+    assert effects[f"L{LIGHT_DUTY}"] < 0
 
 
-def test_edges(ctx):
-    run, store = ctx
-    p6 = I.lever_x_profile(run, store, 6, GDP, 2050, "v1")
-    assert p6["emission_categories"] == [] and p6["in_between_variables"] == [] and p6["inputs"]
-    a = I.output_levers(run, store, "transportation", 2050, "v0")
-    b = I.output_levers(run, store, "Transportation", 2050, "v0")
-    assert a == b
-    for bad in ("not_an_output", "emission_co2e_c2f6_ippu_production_chemicals"):
+def test_filters(run):
+    far = N.model_network(run, "emissions_livestock", 2050, "v1", lever=LIGHT_DUTY)
+    assert f"L{LIGHT_DUTY} does not reach this variable" in far["values_note"]
+    assert "all" in far["fields"][0]["values"]
+    with pytest.raises(ToolError):
+        N.model_network(run, EV_VKM, 2050, "v1", uncertainty=GDP)
+    for y in run.years:
+        assert N.model_network(run, "emissions_transportation", y, "v1")["fields"][0]["values"]
+
+
+def test_edges(run):
+    c = N.model_network(run, f"L{CLINKER}", 2050, "v1")
+    assert "not used to compute anything" in c["note"] and c["input_values"]["fields"]
+    a, b, d = (N.model_network(run, n, 2050, "v0") for n in ("L35", "35", "lever 35"))
+    assert a == b == d
+    for bad, kw in (("not_a_node", {}), ("lever 57", {}), ("L35", {"lever": 57})):
         with pytest.raises(ToolError):
-            I.output_levers(run, store, bad, 2050, "v0")
+            N.model_network(run, bad, 2050, "v0", **kw)
     with pytest.raises(ToolError):
-        I.lever_x_profile(run, store, LIGHT_DUTY, GDP, 2030, "v0")
-    with pytest.raises(ToolError):
-        I.lever_x_profile(run, store, GDP, LIGHT_DUTY, 2050, "v0")
+        N.model_network(run, "L35", 2030, "v0")
+    assert json.dumps(N.model_network(run, "X57", 2035, "v1"), ensure_ascii=False)

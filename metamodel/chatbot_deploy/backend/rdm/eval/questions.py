@@ -116,7 +116,7 @@ GDP = 57                                    # uncertainty: GDP growth trajectory
 EXPLORE, VULN, SD, TRADE = "exploratory_modeling", "vulnerability_analysis", "scenario_discovery", "trade_off_analysis"
 FARM_LEVERS = [1, 2, 3, 4, 19, 20, 21, 22, 23, 24, 25]     # agriculture, manure, livestock, and diets (acts on livestock)
 WASTE_LEVERS = list(range(43, 55))                         # wastewater and solid waste
-T2_SOURCE = "the model runs (lever_x_profile), not the surrogate"
+T2_SOURCE = "the model runs (model_network), not the surrogate"
 BEYOND = "says the user's target is beyond the most ambitious level explored in the model runs (for 2050)"
 
 
@@ -146,16 +146,22 @@ BANK_SPECS = {
     "H2": _t1(26, 1.0, 0.50, "blind", run_expected=False, must_mention=[r"\b4[12](\.\d)?\s*%"], must_say=[BEYOND]),
     "H3": _t1(48, 1.0, [0.20, 0.80], "blind", run_expected=False, must_mention=[r"\b1[67](\.\d)?\s*%|0\.8[34]"],
               must_say=[BEYOND]),
-    "X1": {"tag": "designed", "kind": "T1", "lever": 15, "key_level": 0.5, "tol": 0.1,
+    # X1 key (2026-10-21): 0.5 halves the deforestation rates the lever sets; forest loss in hectares halves at about
+    # 0.60 (2035) to 0.65 (2050) in the runs. Both readings are right: the key accepts 0.50–0.65.
+    "X1": {"tag": "designed", "kind": "T1", "lever": 15, "key_level": 0.575, "tol": 0.075,
            "must_say": ["states which lever level it used for 'halving deforestation' and why"]},
-    "S50": _t2(50, "190,000 and 1.5 million tonnes of landfill gas"),
-    "S3": _t2(3, "2.7 and 3.3 million hectares"),
-    "S35": _t2(35, "19 and 30 billion vehicle-km"),
+    # S keys (2026-10-21): the lever's top third (⅔–1), the cell model_network reports, 2050, p10–p90
+    "S50": _t2(50, "120,000 and 1.4 million tonnes of landfill gas"),
+    "S3": _t2(3, "2.2 and 3.1 million hectares"),
+    "S35": _t2(35, "18 and 28 billion vehicle-km"),
     "AG2": {"tag": "designed", "kind": "T3", "allowed_levers": FARM_LEVERS, "package": True, "required_tools": [EXPLORE]},
     "C4b": {"tag": "designed", "kind": "T3", "allowed_levers": WASTE_LEVERS, "required_tools": [EXPLORE],
             "must_say": ["states the baseline the 20% is measured against (business as usual, or today's emissions)",
                          "says a 20% cut is not reachable with waste and wastewater policies alone",
                          "gives the best case it found"]},
+    # X2 key (2026-10-21, surrogate, other levers at BAU, 1,000 futures, 2035 vs BAU): every lever at the top gives
+    # −31.0% (−31.6 to −30.3), cost +2.84 bn USD (1.90–3.61); the smallest package reaching −24.7% in the median is
+    # L30, L29, L9, L15, L23 at the top: −26.1% (−26.8 to −25.4), 99% of futures, cost +1.37 bn USD (1.05–1.64).
     "X2": {"tag": "blind", "kind": "T3", "required_tools": [EXPLORE],
            "must_say": ["says 2030 is not a year the model reports and states which year it uses instead",
                         "does not present any number as computed for 2030",
@@ -205,7 +211,7 @@ def _pilot_specs() -> dict:
             specs[qid] = {"kind": "T3", "lever": q["lever"], "key_level": r.get("level"), "tol": 0.1}
     for qid, q in SCENARIO.items():
         specs[qid] = {"kind": "T2", "lever": q["lever"], "run_expected": False,
-                      "expected_source": "the model runs (lever_x_profile), not the surrogate"}
+                      "expected_source": T2_SOURCE}
     specs["Q04b"] = {**specs["P35i"]}
     specs["Q10"] = {"kind": "T0", "required_tools": ["exploratory_modeling", "vulnerability_analysis"],
                     "needs_threshold": True}
@@ -251,16 +257,17 @@ def reference_output(run, q: dict, n: int = 1000, step: float = 0.025) -> dict:
 
 
 def reference_scenario(run, store, q: dict) -> dict:
-    """The in-between variable when the lever is at its maximum, from the runs only (no model): runs with the lever
-    ≥ 0.9, every other lever at its random level — the same kind of value the information tools show. Also the
-    runs with the lever ≤ 0.1, for comparison. No run has the other levers near BAU, so this is the only answer
-    the data gives directly."""
+    """The in-between variable when the lever is at its maximum, from the runs only (no model): the key is the
+    lever's top third (⅔–1), every other lever at its random level — the cell model_network reports. The runs
+    with the lever ≥ 0.9 and ≤ 0.1 are kept for comparison. No run has the other levers near BAU, so this is the
+    only answer the data gives directly."""
     from backend.rdm.tools.information import unit
     y = store.values(q["variable"], q["year"])
     L = store.design.loc[y.index, f"L_{q['lever']}"]
     q3 = lambda a: [round(float(np.percentile(a, p)), 4) for p in (10, 50, 90)]
     return {"unit": unit(q["variable"]),
-            "lever_ge_0.9_p10_median_p90": q3(y[L >= 0.9]), "n_runs": int((L >= 0.9).sum()),
+            "key_lever_top_third_p10_median_p90": q3(y[L >= 2 / 3]), "n_runs": int((L >= 2 / 3).sum()),
+            "lever_ge_0.9_p10_median_p90": q3(y[L >= 0.9]),
             "lever_le_0.1_p10_median_p90": q3(y[L <= 0.1])}
 
 

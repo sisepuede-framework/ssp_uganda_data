@@ -1,7 +1,7 @@
 """
-Tests for backend/rdm/harness/registry.py: the seven tools as the agent sees them.
+Tests for backend/rdm/harness/registry.py: the six tools as the agent sees them.
 
-Test 1 — schemas: seven tools, unique names, every required argument declared; one schema set
+Test 1 — schemas: six tools, unique names, every required argument declared; one schema set
          serves both versions.
 Test 2 — scripted flows, one per question category (A–E), in v0 and v1: every call succeeds,
          the technical replies are identical across versions, the information replies differ.
@@ -28,8 +28,10 @@ def flows(h: Harness) -> list:
     out = []
     call = lambda n, a: out.append((n, h.call(n, a))) or out[-1][1]
     # A · information
-    call("output_levers", {"output": "transportation", "year": 2050})
-    call("lever_x_profile", {"lever": LIGHT_DUTY, "uncertainty": GDP, "year": 2050})
+    call("model_network", {"node": "transportation", "year": 2050})
+    call("model_network", {"node": f"L{LIGHT_DUTY}", "year": 2050})
+    call("model_network", {"node": "emissions_transportation", "lever": LIGHT_DUTY, "uncertainty": GDP, "third": "high",
+                           "year": 2050})
     # B · evaluate a policy
     e = call("exploratory_modeling", {"policies": [{"name": "light duty", "levers": {LIGHT_DUTY: 0.8}}],
                                       "n_futures": 200})["ensemble_id"]
@@ -59,7 +61,7 @@ def runs():
 
 
 def test_schemas():
-    assert len(TOOLS) == 7 and len(set(TOOL_NAMES)) == 7
+    assert len(TOOLS) == 6 and len(set(TOOL_NAMES)) == 6
     for t in TOOLS:
         assert set(t["input_schema"]["required"]) <= set(t["input_schema"]["properties"]), t["name"]
 
@@ -84,9 +86,9 @@ def test_errors_are_returned_and_logged():
 
 def test_log(tmp_path, runs):
     h, _ = runs["v1"]
-    assert [e["tool"] for e in h.log][:3] == ["output_levers", "lever_x_profile", "exploratory_modeling"]
+    assert [e["tool"] for e in h.log][:4] == ["model_network"] * 3 + ["exploratory_modeling"]
     assert all({"tool", "args", "status", "reply", "reply_chars"} <= set(e) for e in h.log)
     p = tmp_path / "log.jsonl"
     h2 = Harness("v1", log_path=p)
-    h2.call("output_levers", {"output": "transportation", "year": 2050})
-    assert json.loads(p.read_text().splitlines()[0])["tool"] == "output_levers"
+    h2.call("model_network", {"node": "transportation", "year": 2050})
+    assert json.loads(p.read_text().splitlines()[0])["tool"] == "model_network"

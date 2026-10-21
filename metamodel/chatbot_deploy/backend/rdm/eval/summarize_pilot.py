@@ -19,7 +19,7 @@ from backend.rdm.harness.agent import MODEL, RUNS_DIR
 
 REF = json.loads(REFERENCE.read_text()) if REFERENCE.exists() else {}
 
-INFO = {"lever_x_profile", "output_levers", "country_context"}
+INFO = {"model_network", "country_context"}
 PRICES = {"claude-opus-5-5": {"in": 4.0, "cache_read": 0.4, "cache_write": 5.0, "out": 20.0},   # USD per million tokens
           "claude-sonnet-5-5": {"in": 2.0, "cache_read": 0.2, "cache_write": 2.5, "out": 10.0}}
 FORBIDDEN = re.compile(r"\b(will (?:reduce|increase|cut|fall|rise|be)|predicts?|forecasts?|the best|you should|recommend)\b", re.I)

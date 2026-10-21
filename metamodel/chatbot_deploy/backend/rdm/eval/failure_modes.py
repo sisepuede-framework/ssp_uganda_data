@@ -105,6 +105,12 @@ def _traced(x: float, pool: set) -> bool:
     return False
 
 
+def _node_lever(args: dict):
+    """The lever id a model_network call starts from, as a string; None for an output node."""
+    hit = re.match(r"^(?:lever\s*|l\s*)?(\d+)$", str(args.get("node", "")).strip(), re.I)
+    return hit.group(1) if hit else None
+
+
 def _lever_checks(calls: list, explore: list, first_run, kind, spec: dict, lever) -> dict:
     """Checks 1–3 for one lever."""
     f = {}
@@ -112,7 +118,7 @@ def _lever_checks(calls: list, explore: list, first_run, kind, spec: dict, lever
     if kind in ("T1", "T2") and lever is not None:
         before = calls if first_run is None else calls[:first_run]
         f["01_no_information_before_run"] = not any(
-            c["tool"] == "lever_x_profile" and str((c.get("args") or {}).get("lever")) == str(lever) for c in before)
+            c["tool"] == "model_network" and _node_lever(c.get("args") or {}) == str(lever) for c in before)
     # 2, 3 · the level set for the target lever in the first run that sets it
     levels = [lv[lever] for c in explore for lv in _policies(c).values() if lever is not None and lever in lv]
     first_levels = []

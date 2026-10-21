@@ -1,0 +1,368 @@
+<title>SISEPUEDE Network Map</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: controls on top, then the map (columns: inputs → in-between by depth → emissions → XGBoost
+   categories), then the node panel. Slide palette: white, ink, steel blue; sector colours as thin stripes. */
+:root {
+  --bg: #ffffff; --ink: #1f2937; --muted: #5d6675; --rule: #d3d8e0; --panel: #f3f5f8;
+  --accent: #1f4e79; --accent-soft: #e6eef6; --up: #b8541a; --down: #1f6fb2;
+  --s-afolu: #4f8a3c; --s-ce: #8a6a3c; --s-energy: #c28a12; --s-ippu: #7a4f9a; --s-se: #6b7280; --s-box: #1f2937;
+  --display: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #11161d; --ink: #e5e9ef; --muted: #9aa5b4; --rule: #2e3846; --panel: #19212b;
+    --accent: #8fb8e0; --accent-soft: #1d2d40; --up: #f0965a; --down: #6cb2ee;
+    --s-afolu: #7fbf6a; --s-ce: #c49a62; --s-energy: #e8b54a; --s-ippu: #b48ad6; --s-se: #9aa3b0; --s-box: #e5e9ef;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #11161d; --ink: #e5e9ef; --muted: #9aa5b4; --rule: #2e3846; --panel: #19212b;
+  --accent: #8fb8e0; --accent-soft: #1d2d40; --up: #f0965a; --down: #6cb2ee;
+  --s-afolu: #7fbf6a; --s-ce: #c49a62; --s-energy: #e8b54a; --s-ippu: #b48ad6; --s-se: #9aa3b0; --s-box: #e5e9ef;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font-family: var(--display); font-size: 14px; line-height: 1.5;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 20px 40px; margin: 0;
+}
+.wrap { max-width: 1400px; margin: 0 auto; display: grid; gap: 16px; }
+.eyebrow, .lbl { font: 600 11px/1.2 var(--display); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+h1 { font: 700 26px/1.2 var(--display); margin: 4px 0 6px; text-wrap: balance; }
+.lede { margin: 0; color: var(--muted); max-width: 78ch; }
+.controls { display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: end; }
+.field { display: grid; gap: 4px; min-width: 0; }
+select, .seg button {
+  font: 500 14px var(--display); color: var(--ink); background: var(--bg); border: 1px solid var(--rule);
+  border-radius: 6px; padding: 8px 10px;
+}
+select { max-width: min(420px, 100%); }
+.seg { display: inline-flex; }
+.seg button { border-radius: 0; cursor: pointer; }
+.seg button:first-child { border-radius: 6px 0 0 6px; }
+.seg button:last-child { border-radius: 0 6px 6px 0; }
+.seg button + button { border-left: 0; }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+.seg button:disabled { opacity: .45; cursor: default; }
+.chk { display: inline-flex; gap: 8px; align-items: center; font-weight: 500; padding-bottom: 8px; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.summary { display: flex; flex-wrap: wrap; gap: 8px 22px; align-items: baseline; padding: 10px 14px; background: var(--panel); border-radius: 8px; }
+.summary b { font-variant-numeric: tabular-nums; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 4px; height: 14px; border-radius: 2px; display: inline-block; }
+.map { overflow: auto; max-height: 78vh; border: 1px solid var(--rule); border-radius: 8px; }
+.map svg { display: block; }
+.colhead { font: 700 11px var(--display); letter-spacing: .08em; text-transform: uppercase; fill: var(--muted); }
+.colsub { font: 400 11px var(--display); fill: var(--muted); }
+.node rect.box { fill: var(--bg); stroke: var(--rule); }
+.node.sel rect.box { stroke: var(--accent); stroke-width: 2; fill: var(--accent-soft); }
+.node.dim { opacity: .28; }
+.node { cursor: pointer; }
+.node:hover rect.box { stroke: var(--accent); }
+.node .t1 { font: 600 11.5px var(--display); fill: var(--ink); }
+.node .t2 { font: 400 10.5px var(--mono); fill: var(--muted); }
+.node .t2 .up { fill: var(--up); } .node .t2 .down { fill: var(--down); }
+.link { fill: none; stroke: var(--muted); stroke-opacity: .22; stroke-width: 1; }
+.link.hot { stroke: var(--accent); stroke-opacity: .9; stroke-width: 1.6; }
+.link.dim { stroke-opacity: .05; }
+.panel { background: var(--panel); border-radius: 8px; padding: 16px 18px; display: grid; gap: 10px; min-width: 0; }
+.panel h2 { font: 700 16px/1.3 var(--display); margin: 0; }
+.mono { font-family: var(--mono); font-size: 12px; overflow-wrap: anywhere; }
+.attrs { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 4px 14px; margin: 0; }
+.attrs dt { color: var(--muted); font-size: 12px; }
+.attrs dd { margin: 0; }
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font: 600 11px var(--display); color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+td.num { text-align: right; white-space: nowrap; }
+td .rng { display: block; color: var(--muted); font-size: 11px; }
+.note { font-size: 12px; color: var(--muted); margin: 0; }
+.empty { padding: 24px; color: var(--muted); }
+</style>
+
+<div class="wrap">
+  <header>
+    <div class="eyebrow" id="eyebrow">SISEPUEDE network · Uganda run 2026-05-30</div>
+    <h1>SISEPUEDE Network Map</h1>
+    <p class="lede">Choose a lever: the map shows the inputs it sets and every SISEPUEDE variable computed from them, down to the emissions and the XGBoost categories. Links come from the model code (a variable is used to compute the next); values come from the experiment's runs. Choose an uncertainty to see the values when it is low, middle or high (the three thirds of its range cover every run).</p>
+  </header>
+
+  <div class="controls">
+    <div class="field"><label class="lbl" for="lever">Lever</label><select id="lever"></select></div>
+    <div class="field"><label class="lbl" for="xsel">Uncertainty</label><select id="xsel"><option value="0">Any (all futures)</option></select></div>
+    <div class="field"><span class="lbl" id="side-l">Uncertainty is</span>
+      <div class="seg" role="group" aria-labelledby="side-l">
+        <button type="button" id="side-low" aria-pressed="true">Low (0–⅓)</button>
+        <button type="button" id="side-mid" aria-pressed="false">Middle (⅓–⅔)</button>
+        <button type="button" id="side-high" aria-pressed="false">High (⅔–1)</button>
+      </div></div>
+    <label class="chk" for="others"><input type="checkbox" id="others"> Show other inputs that feed these variables</label>
+    <label class="chk" for="hidezero"><input type="checkbox" id="hidezero" checked> Hide variables that are zero in every run</label>
+  </div>
+
+  <div class="summary" id="summary">Loading the network…</div>
+  <div class="legend" id="legend"></div>
+  <div class="map" id="map"></div>
+
+  <section class="panel" id="panel" aria-live="polite">
+    <h2 id="p-title">Click a variable on the map</h2>
+    <p class="note" id="p-sub">Its attributes and the values of each of its fields appear here: the median and p10–p90 over the runs, with the lever low (0–⅓), middle (⅓–⅔) or high (⅔–1), every other lever and uncertainty varying.</p>
+    <dl class="attrs" id="p-attrs"></dl>
+    <div class="tablewrap" id="p-table"></div>
+  </section>
+  <p class="note">How to read it. A line means SISEPUEDE uses the left variable to compute the right one (traced from one run of the model code); it says nothing about direction or size. NemoMod, the electricity optimisation, is one box: what goes in and what comes out are known, not the steps inside. Which input feeds which variable is only as fine as the code: some in-between outputs sit beside the chain, not on it. Box values: the sum of the medians of the variable's fields, lever low → high (for fractions and unitless variables, the first field). Plan, rules and test: docs/rdm_network_plan.md.</p>
+</div>
+
+<script>
+(async function () {
+  const SECTOR = { "AFOLU": "--s-afolu", "Circular Economy": "--s-ce", "Energy": "--s-energy", "IPPU": "--s-ippu",
+                   "Socioeconomic": "--s-se" };
+  const $ = id => document.getElementById(id);
+  const svgNS = "http://www.w3.org/2000/svg";
+  const el = (t, a, p) => { const e = document.createElementNS(svgNS, t); for (const k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; };
+
+  let N;
+  try { N = await (await fetch("data/network.json")).json(); }
+  catch (e) { $("summary").textContent = "The network data could not be loaded."; return; }
+  $("eyebrow").textContent = `SISEPUEDE network · Uganda run 2026-05-30 · values for ${N.year}`;
+  const nodes = N.nodes, out = nodes.map(() => []), inn = nodes.map(() => []);
+  N.links.forEach(([s, t]) => { out[s].push(t); inn[t].push(s); });
+  const fieldNode = {}; nodes.forEach((n, i) => (n.fields || []).forEach(f => fieldNode[f.f] = i));
+  const cache = {};
+  const state = { lever: 35, x: 0, side: "low", others: false, hidezero: true, sel: null };
+  try { const s = JSON.parse(localStorage.getItem("netmap") || "null"); if (s && N.levers[s.lever]) Object.assign(state, s, { sel: null }); } catch (e) {}
+  const save = () => { try { localStorage.setItem("netmap", JSON.stringify({ lever: state.lever, x: state.x, side: state.side, others: state.others, hidezero: state.hidezero })); } catch (e) {} };
+
+  // controls
+  const lsel = $("lever");
+  Object.entries(N.levers).sort((a, b) => a[1].sector.localeCompare(b[1].sector) || a[0] - b[0]).forEach(([id, l]) => {
+    let g = [...lsel.children].find(o => o.label === l.sector);
+    if (!g) { g = document.createElement("optgroup"); g.label = l.sector; lsel.appendChild(g); }
+    const o = document.createElement("option"); o.value = id; o.textContent = `L${id} · ${l.name}`; g.appendChild(o);
+  });
+  Object.entries(N.uncertainties).forEach(([id, x]) => {
+    const o = document.createElement("option"); o.value = id; o.textContent = `X${id} · ${x.name}`; $("xsel").appendChild(o);
+  });
+  lsel.onchange = () => { state.lever = +lsel.value; state.sel = null; draw(); };
+  $("xsel").onchange = () => { state.x = +$("xsel").value; draw(); };
+  $("side-low").onclick = () => { state.side = "low"; draw(); };
+  $("side-mid").onclick = () => { state.side = "mid"; draw(); };
+  $("side-high").onclick = () => { state.side = "high"; draw(); };
+  $("others").onchange = () => { state.others = $("others").checked; draw(); };
+  $("hidezero").onchange = () => { state.hidezero = $("hidezero").checked; draw(); };
+  $("legend").innerHTML = Object.entries(SECTOR).map(([s, v]) => `<span><i style="background:var(${v})"></i>${s}</span>`).join("")
+    + `<span><i style="background:var(--s-box)"></i>NemoMod (one box)</span>`;
+
+  const fmt = v => {
+    if (v == null || isNaN(v)) return "–";
+    const a = Math.abs(v);
+    if (a >= 1e9) return (v / 1e9).toPrecision(3) + " bn";
+    if (a >= 1e6) return (v / 1e6).toPrecision(3) + " M";
+    if (a >= 1e4) return Math.round(v).toLocaleString("en-US");
+    if (a === 0) return "0";
+    return (+v.toPrecision(3)).toString();
+  };
+  const clip = (s, n) => s.length > n ? s.slice(0, n - 15) + "…" + s.slice(-14) : s;
+  const color = n => n.kind === "box" ? "var(--s-box)" : n.kind === "category" ? "var(--accent)" : `var(${SECTOR[n.sector] || "--muted"})`;
+
+  async function ranges(lid) {
+    if (!cache[lid]) {
+      try {
+        const r = await (await fetch(`data/L${lid}.json`)).json();
+        r.pos = Object.fromEntries(r.fields.map((f, i) => [f, i])); cache[lid] = r;
+      } catch (e) { cache[lid] = { fields: [], cells: {}, pos: {} }; }
+    }
+    return cache[lid];
+  }
+  // [p10, median, p90] of a field at a lever level, under the uncertainty filter (falls back to "any")
+  function cell(R, f, lv) {
+    const i = R.pos[f]; if (i == null) return null;
+    const key = state.x ? `${state.x}:${state.side}` : "0:any";
+    const c = R.cells[key] && R.cells[key][lv] && R.cells[key][lv][i];
+    if (c) return { v: c, x: !!state.x };
+    const a = R.cells["0:any"] && R.cells["0:any"][lv] && R.cells["0:any"][lv][i];
+    return a ? { v: a, x: false } : null;
+  }
+
+  async function draw() {
+    save();
+    lsel.value = state.lever; $("xsel").value = state.x; $("others").checked = state.others; $("hidezero").checked = state.hidezero;
+    ["low", "mid", "high"].forEach(s => { $("side-" + s).setAttribute("aria-pressed", state.side === s); $("side-" + s).disabled = !state.x; });
+    const L = N.levers[state.lever], R = await ranges(state.lever);
+    const own = new Set(L.sets);
+    // a variable whose every field is 0 in every run (p90 = p10 = 0 at every lever level) adds nothing to read
+    const zero = i => { const F = nodes[i].fields || []; return F.length > 0 && F.every(f => ["low", "mid", "high"].every(lv => {
+      const c = cell(R, f.f, lv); return !c || (c.v[0] === 0 && c.v[2] === 0); })); };
+    const shown = new Set([...L.reach.filter(i => own.has(i) || nodes[i].kind === "box" || nodes[i].kind === "category" || !(state.hidezero && zero(i))), ...L.sets]);
+    const hidden = L.reach.length + L.sets.filter(i => !L.reach.includes(i)).length - shown.size;
+    const own_f = Object.fromEntries((L.own_inputs || []).map(o => [o.f, o]));
+
+    // other inputs feeding the shown variables (not set by this lever)
+    const extra = new Set();
+    if (state.others) shown.forEach(i => inn[i].forEach(p => { if (!shown.has(p) && nodes[p].kind === "input") extra.add(p); }));
+    const all = new Set([...shown, ...extra]);
+
+    // columns: 0 other inputs, 1 lever inputs, 2..5 in-between by depth, 6 emissions, 7 categories
+    const depth = {}; const q = [...own]; own.forEach(i => depth[i] = 0);
+    while (q.length) { const i = q.shift(); out[i].forEach(t => { if (all.has(t) && depth[t] == null) { depth[t] = depth[i] + 1; q.push(t); } }); }
+    const colOf = i => {
+      const n = nodes[i];
+      if (extra.has(i)) return 0;
+      if (own.has(i)) return 1;
+      if (n.kind === "category") return 7;
+      if (n.kind === "emission") return 6;
+      return 1 + Math.min(Math.max(depth[i] || 1, 1), 4);
+    };
+    const cols = [[], [], [], [], [], [], [], []];
+    all.forEach(i => cols[colOf(i)].push(i));
+    const used = cols.map((c, k) => c.length ? k : -1).filter(k => k >= 0);
+
+    // order: by sector, then barycentre of the nodes they come from (two passes)
+    const y = {};
+    cols.forEach(c => c.sort((a, b) => (nodes[a].sector || "~").localeCompare(nodes[b].sector || "~") || nodes[a].name.localeCompare(nodes[b].name)));
+    const place = () => cols.forEach(c => c.forEach((i, j) => y[i] = j));
+    place();
+    for (let pass = 0; pass < 2; pass++) {
+      cols.forEach((c, k) => {
+        if (k < 2) return;
+        const bc = i => { const ps = inn[i].filter(p => y[p] != null && colOf(p) < k); return ps.length ? ps.reduce((s, p) => s + y[p], 0) / ps.length : y[i]; };
+        c.sort((a, b) => bc(a) - bc(b)); place();
+      });
+    }
+
+    // summary
+    const cnt = k => [...shown].filter(i => !own.has(i) && nodes[i].kind === k).length;
+    const mid = [...shown].filter(i => !own.has(i) && !["emission", "category"].includes(nodes[i].kind)).length;
+    $("summary").innerHTML = shown.size <= own.size
+      ? `<span><b>L${state.lever} · ${L.name}</b> sets ${own.size} input variable(s), but no variable reads them in the traced run of the model code (a known gap of the network).</span>`
+      : `<span><b>L${state.lever} · ${L.name}</b> (${L.sector})</span><span>sets <b>${own.size}</b> input variable${own.size === 1 ? "" : "s"}</span><span>reaches <b>${mid}</b> in-between variables, <b>${cnt("emission")}</b> emission variables and <b>${cnt("category")}</b> XGBoost categories</span>`
+        + (state.x ? `<span>values with <b>X${state.x} ${N.uncertainties[state.x].name}</b> ${state.side}</span>` : "")
+        + (extra.size ? `<span>+ <b>${extra.size}</b> other inputs</span>` : "")
+        + (hidden > 0 ? `<span class="note">${hidden} variables that are zero in every run hidden</span>` : "");
+
+    // geometry
+    const colW = 214, gapX = 58, rowH = 40, boxH = 32, top = 54;
+    const xOf = {}; used.forEach((k, j) => xOf[k] = 8 + j * (colW + gapX));
+    const H = top + Math.max(...cols.map(c => c.length)) * rowH + 10, W = 8 + used.length * (colW + gapX);
+    const map = $("map"); map.innerHTML = "";
+    const svg = el("svg", { width: W, height: H, viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": `Network of lever ${state.lever}` }, map);
+    const heads = ["Other inputs", "Inputs the lever sets", "In-between · step 1", "In-between · step 2", "In-between · step 3", "In-between · step 4+", "Emissions", "XGBoost categories"];
+    used.forEach(k => { el("text", { x: xOf[k], y: 18, class: "colhead" }, svg).textContent = heads[k];
+                        el("text", { x: xOf[k], y: 34, class: "colsub" }, svg).textContent = `${cols[k].length} variable${cols[k].length === 1 ? "" : "s"}`; });
+    const pos = i => ({ x: xOf[colOf(i)], y: top + y[i] * rowH });
+
+    const gl = el("g", {}, svg), linkEls = [];
+    all.forEach(s => out[s].forEach(t => {
+      if (!all.has(t)) return;
+      const a = pos(s), b = pos(t);
+      const back = b.x <= a.x;
+      const x1 = a.x + colW, y1 = a.y + boxH / 2, x2 = back ? b.x + colW : b.x, y2 = b.y + boxH / 2;
+      const d = back ? `M${x1},${y1} C${x1 + 40},${y1} ${x2 + 40},${y2} ${x2},${y2}` : `M${x1},${y1} C${(x1 + x2) / 2},${y1} ${(x1 + x2) / 2},${y2} ${x2},${y2}`;
+      linkEls.push({ s, t, e: el("path", { d, class: "link" }, gl) });
+    }));
+
+    const nodeEls = {};
+    all.forEach(i => {
+      const n = nodes[i], p = pos(i);
+      const g = el("g", { class: "node" + (i === state.sel ? " sel" : ""), transform: `translate(${p.x},${p.y})`, tabindex: 0, role: "button" }, svg);
+      el("rect", { class: "box", width: colW, height: boxH, rx: 4 }, g);
+      el("rect", { width: 4, height: boxH, rx: 2, fill: color(n) }, g);
+      el("text", { x: 10, y: 13, class: "t1" }, g).textContent = clip(n.name, 34);
+      const t2 = el("text", { x: 10, y: 26, class: "t2" }, g);
+      summaryLine(n, i, R, own, own_f, t2);
+      el("title", {}, g).textContent = n.name + (n.id !== n.name ? "\n" + n.id : "");
+      g.onclick = () => { state.sel = i; highlight(); panel(i); };
+      g.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); g.onclick(); } };
+      g.onmouseenter = () => highlight(i); g.onmouseleave = () => highlight();
+      nodeEls[i] = g;
+    });
+
+    function highlight(h) {
+      const f = h != null ? h : state.sel;
+      if (f == null) { linkEls.forEach(l => l.e.setAttribute("class", "link")); Object.values(nodeEls).forEach(g => g.classList.remove("dim")); return; }
+      const near = new Set([f]);
+      linkEls.forEach(l => { const hot = l.s === f || l.t === f; if (hot) { near.add(l.s); near.add(l.t); }
+                             l.e.setAttribute("class", "link " + (hot ? "hot" : "dim")); });
+      Object.entries(nodeEls).forEach(([i, g]) => { g.classList.toggle("dim", !near.has(+i)); g.classList.toggle("sel", +i === state.sel); });
+    }
+    highlight();
+    if (state.sel != null && all.has(state.sel)) panel(state.sel); else resetPanel();
+
+    function resetPanel() {
+      $("p-title").textContent = "Click a variable on the map"; $("p-attrs").innerHTML = ""; $("p-table").innerHTML = "";
+    }
+
+    function panel(i) {
+      const n = nodes[i];
+      $("p-title").textContent = n.name;
+      const kind = own.has(i) ? "input set by this lever" : extra.has(i) ? "input (not set by this lever)" : n.kind === "box" ? "black box (electricity optimisation)" : n.kind === "category" ? "XGBoost category" : n.kind === "emission" ? "emission variable" : n.kind === "input" ? "input" : "in-between variable";
+      const rows = [["SISEPUEDE variable", `<span class="mono">${n.id}</span>`], ["Role", kind]];
+      if (n.sector) rows.push(["Sector · subsector", `${n.sector} · ${n.subsector || "–"}`]);
+      if (n.units) rows.push(["Unit", n.units]);
+      if (n.gas) rows.push(["Gas", n.gas]);
+      if (n.xgboost_categories) rows.push(["XGBoost category", n.xgboost_categories]);
+      rows.push(["Comes from", inn[i].filter(p => all.has(p)).map(p => nodes[p].name).join(" · ") || "–"]);
+      rows.push(["Used to compute", out[i].filter(p => all.has(p)).map(p => nodes[p].name).join(" · ") || "–"]);
+      if (n.information && n.information !== "nan") rows.push(["Description", n.information.replace(/:math:`?|`|\\text\{([^}]*)\}/g, "$1")]);
+      $("p-attrs").innerHTML = rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join("");
+      const F = n.fields || [];
+      if (!F.length) { $("p-table").innerHTML = n.kind === "box" ? `<p class="note">NemoMod solves the electricity system; its inputs and outputs are the variables linked to it.</p>` : ""; return; }
+      let head, body;
+      if (own.has(i)) {
+        head = "<tr><th>Field</th><th>Unit</th><th class='num'>BAU (lever 0)</th><th class='num'>Lever 0.5</th><th class='num'>Top of the range</th></tr>";
+        body = F.map(f => { const o = own_f[f.f]; return `<tr><td class="mono">${f.f}</td><td>${f.unit}</td>` +
+          (o ? `<td class="num">${fmt(o.bau)}</td><td class="num">${fmt(o.mid)}</td><td class="num">${fmt(o.top)}</td>` : `<td colspan="3" class="note">not moved by this lever</td>`) + "</tr>"; }).join("");
+      } else if (extra.has(i)) {
+        head = "<tr><th>Field</th><th>Unit</th><th class='num'>Value</th></tr>";
+        body = F.map(f => { const xi = N.x_inputs[f.f], c = N.constants[f.f];
+          let v = "–";
+          if (xi) { const k = state.x === xi.x ? state.side : "any"; v = `${fmt(xi[k][1])}<span class="rng">${fmt(xi[k][0])} – ${fmt(xi[k][2])} · set by X${xi.x}${state.x === xi.x ? " (" + state.side + ")" : ""}</span>`; }
+          else if (c != null) v = `${fmt(c)}<span class="rng">same in every run</span>`;
+          return `<tr><td class="mono">${f.f}</td><td>${f.unit}</td><td class="num">${v}</td></tr>`; }).join("");
+      } else {
+        head = "<tr><th>Field</th><th>Category</th><th>Unit</th><th class='num'>Lever low</th><th class='num'>Lever mid</th><th class='num'>Lever high</th></tr>";
+        body = F.map(f => {
+          const cs = ["low", "mid", "high"].map(lv => cell(R, f.f, lv));
+          const td = c => c ? `<td class="num">${fmt(c.v[1])}<span class="rng">${fmt(c.v[0])} – ${fmt(c.v[2])}</span></td>` : `<td class="num">–</td>`;
+          return `<tr><td class="mono">${f.f}</td><td>${f.cat || ""}</td><td>${f.unit}</td>${cs.map(td).join("")}</tr>`;
+        }).join("");
+      }
+      const xs = state.x ? (F.some(f => { const c = cell(R, f.f, "low"); return c && c.x; }) ? ` with X${state.x} ${state.side}` : ` (X${state.x} has no path to this variable: values for all futures)`) : "";
+      $("p-table").innerHTML = `<p class="note">Median, and p10 – p90 below it, over the runs in each cell${xs}.</p><table><thead>${head}</thead><tbody>${body}</tbody></table>`;
+    }
+  }
+
+  // the second line of a box: what the lever does to it, low → high
+  function summaryLine(n, i, R, own, own_f, t2) {
+    const F = n.fields || [];
+    const tsp = (txt, cls) => { const s = document.createElementNS(svgNS, "tspan"); if (cls) s.setAttribute("class", cls); s.textContent = txt; t2.appendChild(s); };
+    if (n.kind === "box") return tsp("inputs → optimisation → outputs");
+    if (n.kind === "category") return tsp("sum of emission fields");
+    if (own.has(i)) {
+      const o = F.map(f => own_f[f.f]).filter(Boolean);
+      if (o.length === 1) return tsp(`BAU ${fmt(o[0].bau)} → top ${fmt(o[0].top)}`);
+      return tsp(`${o.length} field${o.length === 1 ? "" : "s"} set · ${F[0] ? F[0].unit : ""}`);
+    }
+    const unit = F.length ? F[0].unit : "";
+    const same = F.every(f => f.unit === unit) && !/fraction|no unit|unknown/.test(unit);
+    const use = same ? F : F.slice(0, 1);
+    let lo = 0, hi = 0, ok = false;
+    use.forEach(f => { const a = cell(R, f.f, "low"), b = cell(R, f.f, "high"); if (a && b) { lo += a.v[1]; hi += b.v[1]; ok = true; } });
+    if (!ok) return tsp(F.length ? `${F.length} field${F.length === 1 ? "" : "s"} · ${unit}` : n.subsector || "");
+    const pct = lo ? (hi - lo) / Math.abs(lo) * 100 : 0;
+    tsp(`${fmt(lo)} → ${fmt(hi)} `);
+    if (Math.abs(pct) >= 0.5) tsp(`${pct > 0 ? "+" : "−"}${Math.abs(pct).toFixed(Math.abs(pct) < 10 ? 1 : 0)}%`, pct > 0 ? "up" : "down");
+  }
+
+  draw();
+})();
+</script>

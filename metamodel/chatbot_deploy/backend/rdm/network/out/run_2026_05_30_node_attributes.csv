@@ -1,0 +1,1042 @@
+variable,name,type,sector,subsector,gas,units,xgboost_categories,n_fields,n_fields_in_aws,aws_tables,information
+(Optional) Elasticity of Protein in Diet to GDP per Capita,(Optional) Elasticity of Protein in Diet to GDP per Capita,Input,Circular Economy,Liquid Waste,,"no unit (ratio, scalar or share)",,1,1,model_input,"Used if run indepedently from the AFOLU model. In the integrated modeling framework, growth in demand per capita for livestock is used to estimate growth in protein contained in diets. However, the model may be run in isolation. In this case, users can use an elasticity in combination with the fraction of the population that does not eat red meat."
+:math:\text{CH}_4 Anaerobic Biogas Emission Factor,CH₄ Anaerobic Biogas Emission Factor,Input,Circular Economy,Solid Waste,ch4,kg,,3,3,model_input,Emission factor representing fugitive emissions of methane from anaerobic decomposition in biogas facilities.
+:math:\text{CH}_4 Annual Emission Limit,CH₄ Annual Emission Limit,Input,Socioeconomic,General,ch4,mt (mass),,1,1,model_input,"| Used in NemoMod to calculate AnnualEmissionLimit. Can be used to model an exogenous policy limit on total emissions, but cannot be used to mandate negative emissions in the Electricity sector.
+ | 
+ | **NOTE**: To enter no limit, use flag -999"
+:math:\text{CH}_4 Biofuels Mobile Combustion Emission Factor,CH₄ Biofuels Mobile Combustion Emission Factor,Input,Energy,Transportation,ch4,TJ,,4,4,model_input,"Methane mobile fuel combustion emission factor for biofuels, entered as tonne of :math:`\text{CH}_4` are emitted per TJ of energy demanded"
+:math:\text{CH}_4 Composting Emission Factor,CH₄ Composting Emission Factor,Input,Circular Economy,Solid Waste,ch4,kg,,3,3,model_input,Emission factor representing emissions of methane from composting of organic materials
+:math:\text{CH}_4 Crop Anaerobic Decomposition Emission Factor,CH₄ Crop Anaerobic Decomposition Emission Factor,Input,AFOLU,Agriculture,ch4,ha,,1,1,model_input,Annual average :math:`\text{CH}_4` (methane) emitted per ha of crop grown. **Rice** is the only crop that should be non-zero. This will be 0 for most crops (or negligible).
+:math:\text{CH}_4 Crop Biomass Burning Emission Factor,CH₄ Crop Biomass Burning Emission Factor,Input,AFOLU,Agriculture,ch4,unknown,,1,1,model_input,"| Annual average :math:`\text{CH}_4` (methane) emitted per mass of crop residue burned (dimensionless).
+ | 
+ | See V4, C2, Equation 2.27 and Table 2.5 for equation and default emission factors."
+:math:\text{CH}_4 Diesel Mobile Combustion Emission Factor,CH₄ Diesel Mobile Combustion Emission Factor,Input,Energy,Transportation,ch4,TJ,,7,7,model_input,"Methane mobile fuel combustion emission factor for diesel, entered as tonne of :math:`\text{CH}_4` are emitted per TJ of energy demanded"
+:math:\text{CH}_4 Emissions from Anaerobic Biogas,CH₄ Emissions from Anaerobic Biogas,Output,Circular Economy,Solid Waste,ch4,Mt CO₂e,Solid Waste,3,3,decomposed_emissions,"Emissions from anaerobic decomposition organic waste in biogas plants. This waste stream flow is used to generate energy. Note that methane leakage from these plants is assumed to be 5% with a range of 0 - 10 % (see 2006 IPCC GHG guidance Volume 5, Chapter 4, page 4.4)"
+:math:\text{CH}_4 Emissions from Biomass Burning,CH₄ Emissions from Biomass Burning,Output,AFOLU,Agriculture,ch4,Mt CO₂e,Agriculture and Managed Soil,1,1,decomposed_emissions,
+:math:\text{CH}_4 Emissions from CCSQ,CH₄ Emissions from CCSQ,Output,Energy,Carbon Capture and Sequestration,ch4,Mt CO₂e,Carbon Capture Industries,1,1,decomposed_emissions,Emissions of :math:`\text{CH}_4` from fuel use for heat energy in carbon capture and sequestration.
+:math:\text{CH}_4 Emissions from Composting,CH₄ Emissions from Composting,Output,Circular Economy,Solid Waste,ch4,Mt CO₂e,Solid Waste,3,3,decomposed_emissions,
+:math:\text{CH}_4 Emissions from Forests,CH₄ Emissions from Forests,Output,AFOLU,Forest,ch4,Mt CO₂e,Forest Land Methane,3,3,decomposed_emissions,Total methane emissions from forests
+:math:\text{CH}_4 Emissions from Incineration,CH₄ Emissions from Incineration,Output,Circular Economy,Solid Waste,ch4,Mt CO₂e,Solid Waste,1,1,decomposed_emissions,Total :math:`\text{CH}_4` emissions from incineration (combined MSW and ISW)
+:math:\text{CH}_4 Emissions from Industrial Energy,CH₄ Emissions from Industrial Energy,Output,Energy,Industrial Energy,ch4,Mt CO₂e,Industrial Combustion,21,21,decomposed_emissions,
+:math:\text{CH}_4 Emissions from Industrial Production Processes,CH₄ Emissions from Industrial Production Processes,Output,IPPU,IPPU,ch4,Mt CO₂e,IPPU,4,4,decomposed_emissions,
+:math:\text{CH}_4 Emissions from Landfills,CH₄ Emissions from Landfills,Output,Circular Economy,Solid Waste,ch4,Mt CO₂e,Solid Waste,13,13,decomposed_emissions,Captures :math:`\text{CH}_4` emissions from landfills (:math:`\text{CH}_4` is assumed to be 50% of landfill gas.
+:math:\text{CH}_4 Emissions from Livestock Enteric Fermentation,CH₄ Emissions from Livestock Enteric Fermentation,Output,AFOLU,Livestock,ch4,Mt CO₂e,Livestock,9,9,decomposed_emissions,Methane emissions from enteric fermentation
+:math:\text{CH}_4 Emissions from Manure Management,CH₄ Emissions from Manure Management,Output,AFOLU,Livestock Manure Management,ch4,Mt CO₂e,Livestock,11,11,decomposed_emissions,Methane emissions from manure
+:math:\text{CH}_4 Emissions from Open Dumping,CH₄ Emissions from Open Dumping,Output,Circular Economy,Solid Waste,ch4,Mt CO₂e,Solid Waste,13,13,decomposed_emissions,"Captures :math:`\text{CH}_4` emissions from open dumping. Aerobic decomposition can occur at lower levels with open dumping, but there is no collection of gas."
+:math:\text{CH}_4 Emissions from Rice,CH₄ Emissions from Rice,Output,AFOLU,Agriculture,ch4,Mt CO₂e,Agriculture and Managed Soil,1,1,decomposed_emissions,Captures :math:`\text{CH}_4` emissions from rice paddies
+:math:\text{CH}_4 Emissions from SCOE,CH₄ Emissions from SCOE,Output,Energy,Stationary Combustion and Other Energy,ch4,Mt CO₂e,Commercial | Other Combustion | Residential,3,3,decomposed_emissions,
+:math:\text{CH}_4 Emissions from Transportation,CH₄ Emissions from Transportation,Output,Energy,Transportation,ch4,Mt CO₂e,Transportation,10,10,decomposed_emissions,
+:math:\text{CH}_4 Emissions from Wastewater Treatment,CH₄ Emissions from Wastewater Treatment,Output,Circular Economy,Wastewater Treatment,ch4,Mt CO₂e,Wastewater Treatment,10,10,decomposed_emissions,Methane emissions from wastewater treatment
+:math:\text{CH}_4 Emissions from Wetlands,CH₄ Emissions from Wetlands,Output,AFOLU,Land Use,ch4,Mt CO₂e,Wetlands,1,1,decomposed_emissions,
+:math:\text{CH}_4 Enteric Fermentation Emission Factor,CH₄ Enteric Fermentation Emission Factor,Input,AFOLU,Livestock,ch4,kg,,9,9,model_input,"This represents emissions from enteric fermentation, primarily occuring in multigastric ruminant livestock (including buffalo, camels, cattle, goats, and sheep)"
+:math:\text{CH}_4 FGTV Distribution Emission Factor,CH₄ FGTV Distribution Emission Factor,Input,Energy,Fugitive Emissions,ch4,tonne,,1,1,model_input,
+:math:\text{CH}_4 FGTV Production Flaring Emission Factor,CH₄ FGTV Production Flaring Emission Factor,Input,Energy,Fugitive Emissions,ch4,tonne,,4,4,model_input,
+:math:\text{CH}_4 FGTV Production Fugitive Emission Factor,CH₄ FGTV Production Fugitive Emission Factor,Input,Energy,Fugitive Emissions,ch4,tonne,,4,4,model_input,
+:math:\text{CH}_4 FGTV Production Venting Emission Factor,CH₄ FGTV Production Venting Emission Factor,Input,Energy,Fugitive Emissions,ch4,tonne,,3,3,model_input,
+:math:\text{CH}_4 FGTV Transmission Emission Factor,CH₄ FGTV Transmission Emission Factor,Input,Energy,Fugitive Emissions,ch4,tonne,,3,3,model_input,
+:math:\text{CH}_4 Forest Methane Emissions,CH₄ Forest Methane Emissions,Input,AFOLU,Forest,ch4,kt,,3,3,model_input,Methane emissions from forests
+:math:\text{CH}_4 Fuel Production NemoMod EmissionsActivityRatio,CH₄ Fuel Production NemoMod EmissionsActivityRatio,Input,Energy,Energy Technology,ch4,tonne,,3,3,model_input,| Ratio of emissions of :math:`\text{CH}_4` to energy produced.
+":math:\text{CH}_4 Fugitive Emissions from Distribution, Transmission, and Production Leaks","CH₄ Fugitive Emissions from Distribution, Transmission, and Production Leaks",Output,Energy,Fugitive Emissions,ch4,Mt CO₂e,Fugitive Emissions,4,4,decomposed_emissions,
+:math:\text{CH}_4 Fugitive Emissions from Flaring,CH₄ Fugitive Emissions from Flaring,Output,Energy,Fugitive Emissions,ch4,Mt CO₂e,Fugitive Emissions,4,4,decomposed_emissions,
+:math:\text{CH}_4 Fugitive Emissions from Venting,CH₄ Fugitive Emissions from Venting,Output,Energy,Fugitive Emissions,ch4,Mt CO₂e,Fugitive Emissions,4,4,decomposed_emissions,
+:math:\text{CH}_4 Gasoline Mobile Combustion Emission Factor,CH₄ Gasoline Mobile Combustion Emission Factor,Input,Energy,Transportation,ch4,TJ,,5,5,model_input,"Methane mobile fuel combustion emission factor, entered as tonne of :math:`\text{CH}_4` are emitted per TJ of energy demanded"
+:math:\text{CH}_4 Hydrocarbon Gas Liquids Mobile Combustion Emission Factor,CH₄ Hydrocarbon Gas Liquids Mobile Combustion Emission Factor,Input,Energy,Transportation,ch4,TJ,,4,4,model_input,
+:math:\text{CH}_4 ISW Incineration Emission Factor,CH₄ ISW Incineration Emission Factor,Input,Circular Economy,Solid Waste,ch4,kg,,1,1,model_input,Based on IPCC Tier 1 approach--:math:`\text{CH}_4` emissions from incineration or open burning of ISW.
+:math:\text{CH}_4 Kerosene Mobile Combustion Emission Factor,CH₄ Kerosene Mobile Combustion Emission Factor,Input,Energy,Transportation,ch4,TJ,,1,1,model_input,"Methane mobile fuel combustion emission factor for kerosene, entered as tonne of :math:`\text{CH}_4` are emitted per TJ of energy demanded"
+:math:\text{CH}_4 MSW Incineration Emission Factor,CH₄ MSW Incineration Emission Factor,Input,Circular Economy,Solid Waste,ch4,kg,,1,1,model_input,Based on IPCC Tier 1 approach--:math:`\text{CH}_4` emissions from incineration or open burning of MSW.
+:math:\text{CH}_4 Natural Gas Mobile Combustion Emission Factor,CH₄ Natural Gas Mobile Combustion Emission Factor,Input,Energy,Transportation,ch4,TJ,,7,7,model_input,"Methane mobile fuel combustion emission factor for natural gas (compressed and liquid), entered as tonne of :math:`\text{CH}_4` are emitted per TJ of energy demanded"
+:math:\text{CH}_4 NemoMod EmissionsActivityRatio Scalar,CH₄ NemoMod EmissionsActivityRatio Scalar,Input,Energy,Energy Technology,ch4,"no unit (ratio, scalar or share)",,14,14,model_input,Scalar applied to the stationary combustion emission factor associated with a power technology's fuel. Can be used to represent carbon capture or other reductions in emissions not associated with efficiency improvements.
+:math:\text{CH}_4 Production Process Emission Factor,CH₄ Production Process Emission Factor,Input,IPPU,IPPU,ch4,tonne,,3,3,model_input,Unitless emission factor (tonne/tonne) representing how tonnes of :math:`\text{CH}_4` emitted per tonne of production
+:math:\text{CH}_4 Recovery Factor Landfill Gas,CH₄ Recovery Factor Landfill Gas,Input,Circular Economy,Solid Waste,ch4,unknown,,1,1,model_input,Factor representing how much methane is extracted from landfill gas that is recovered.
+:math:\text{CH}_4 Stationary Combustion Emission Factor,CH₄ Stationary Combustion Emission Factor,Input,Energy,Energy Fuels,ch4,tonne,,27,27,model_input,"Methane stationary fuel combustion emission factor, entered as tonne of :math:`\text{CH}_4` are emitted per TJ of energy demanded"
+:math:\text{CO}_2 Annual Emission Limit,CO₂ Annual Emission Limit,Input,Socioeconomic,General,co2,mt (mass),,1,1,model_input,"| Used in NemoMod to calculate AnnualEmissionLimit. Can be used to model an exogenous policy limit on total emissions, but cannot be used to mandate negative emissions in the Electricity sector.
+ | 
+ | **NOTE**: To enter no limit, use flag -999"
+:math:\text{CO}_2 Biomass Emissions from Industrial Energy,CO₂ Biomass Emissions from Industrial Energy,Output,Energy,Industrial Energy,co2,Mt CO₂e,Forest Land - Removals,21,21,decomposed_emissions,Used to calcualte emissions from forest removals.
+:math:\text{CO}_2 Biomass Emissions from SCOE,CO₂ Biomass Emissions from SCOE,Output,Energy,Stationary Combustion and Other Energy,co2,Mt CO₂e,Forest Land - Removals,3,3,decomposed_emissions,
+:math:\text{CO}_2 Captured in Industrial Energy,CO₂ Captured in Industrial Energy,Output,Energy,Industrial Energy,co2,unknown,,6,6,model_output,Fraction of :math:`\text{CO}_2` emitted that is captured at the point of emission.
+:math:\text{CO}_2 Captured in Industrial Processes and Product Use,CO₂ Captured in Industrial Processes and Product Use,Output,IPPU,IPPU,co2,unknown,,6,6,model_output,Fraction of :math:`\text{CO}_2` emitted that is captured at the point of emission.
+:math:\text{CO}_2 Clinker Production Process Emission Factor,CO₂ Clinker Production Process Emission Factor,Input,IPPU,IPPU,co2,tonne,,1,1,model_input,Unitless emission factor (tonne/tonne) representing how tonnes of :math:`\text{CO}_2` emitted per tonne of production
+:math:\text{CO}_2 Combustion Emission Factor,CO₂ Combustion Emission Factor,Input,Energy,Energy Fuels,co2,tonne,,27,27,model_input,"Carbon Dioxide fuel combustion emission factor, enetered as tonne of :math:`\text{CO}_2` are emitted per TJ of energy demanded"
+:math:\text{CO}_2 Crop Biomass Emission Factor,CO₂ Crop Biomass Emission Factor,Input,AFOLU,Agriculture,co2,tonne,,4,4,model_input,Annual average :math:`\text{CO}_2` (carbon dioxide) emitted per mass of crop grown due to biomass growth and associated changes in carbon stock. Applies only to perennial woody crops.
+:math:\text{CO}_2 Emissions from Biomass Carbon Stock Changes,CO₂ Emissions from Biomass Carbon Stock Changes,Output,AFOLU,Agriculture,co2,Mt CO₂e,Agriculture and Managed Soil,4,4,decomposed_emissions,
+:math:\text{CO}_2 Emissions from CCSQ,CO₂ Emissions from CCSQ,Output,Energy,Carbon Capture and Sequestration,co2,Mt CO₂e,Carbon Capture Industries,1,1,decomposed_emissions,**Net** emissions :math:`\text{CO}_2` of from carbon capture and sequestration. Calculated as :math:`C_{emitted} - C_{sequestered}`. A negative number represents a net removal of :math:`\text{CO}_2` from the atmosphere.
+:math:\text{CO}_2 Emissions from Conversion Away from Land Use Type,CO₂ Emissions from Conversion Away from Land Use Type,Output,AFOLU,Land Use,co2,Mt CO₂e,,11,11,decomposed_emissions,Emissions calculated by converting away from each land use type
+:math:\text{CO}_2 Emissions from Drained Organic Soils,CO₂ Emissions from Drained Organic Soils,Output,AFOLU,Land Use,co2,Mt CO₂e,Agriculture and Managed Soil,2,2,decomposed_emissions,Emissions of :math:`\text{CO}_2` in from drained organic soils. Applies to agriculture (croplands) and managed grasslands (pastures).
+:math:\text{CO}_2 Emissions from Forest Biomass Sequestration,CO₂ Emissions from Forest Biomass Sequestration,Output,AFOLU,Forest,co2,Mt CO₂e,Forest Land - Sequestration,3,3,decomposed_emissions,Sequestration in forests modeled as negative emissions
+:math:\text{CO}_2 Emissions from Forest Fires,CO₂ Emissions from Forest Fires,Output,AFOLU,Forest,co2,Mt CO₂e,Forest Land - Removals,1,1,decomposed_emissions,
+:math:\text{CO}_2 Emissions from Harvested Wood Products,CO₂ Emissions from Harvested Wood Products,Output,AFOLU,Forest,co2,Mt CO₂e,,1,1,decomposed_emissions,
+:math:\text{CO}_2 Emissions from Incineration,CO₂ Emissions from Incineration,Output,Circular Economy,Solid Waste,co2,Mt CO₂e,Solid Waste,1,1,decomposed_emissions,Total :math:`\text{CO}_2` emissions from incineration (combined MSW and ISW)
+:math:\text{CO}_2 Emissions from Industrial Product Use,CO₂ Emissions from Industrial Product Use,Output,IPPU,IPPU,co2,Mt CO₂e,IPPU,3,3,decomposed_emissions,
+:math:\text{CO}_2 Emissions from Industrial Production Processes,CO₂ Emissions from Industrial Production Processes,Output,IPPU,IPPU,co2,Mt CO₂e,IPPU,9,9,decomposed_emissions,
+:math:\text{CO}_2 Emissions from Land Use Biomass Sequestration,CO₂ Emissions from Land Use Biomass Sequestration,Output,AFOLU,Land Use,co2,Mt CO₂e,Agriculture and Managed Soil | Other Not Estimated Sequestration | Wetlands,6,6,decomposed_emissions,Sequestration in biomass modeled as negative emissions
+:math:\text{CO}_2 Emissions from Land Use Conversion,CO₂ Emissions from Land Use Conversion,Output,AFOLU,Land Use,co2,Mt CO₂e,Agriculture and Managed Soil | Deforestation | Other Land Use Conversion | Other Not Estimated Sequestration | Wetlands,121,121,decomposed_emissions,Emissions from conversion from category I to category j
+:math:\text{CO}_2 Emissions from Lime,CO₂ Emissions from Lime,Output,AFOLU,Soil Management,co2,Mt CO₂e,Agriculture and Managed Soil,1,1,decomposed_emissions,
+:math:\text{CO}_2 Emissions from Soil Carbon in Mineral Soils,CO₂ Emissions from Soil Carbon in Mineral Soils,Output,AFOLU,Soil Management,co2,Mt CO₂e,Other Not Estimated Conversion,1,1,decomposed_emissions,N Mineralization in conversion to cropland
+:math:\text{CO}_2 Emissions from Transportation,CO₂ Emissions from Transportation,Output,Energy,Transportation,co2,Mt CO₂e,Transportation,10,10,decomposed_emissions,
+:math:\text{CO}_2 Emissions from Urea,CO₂ Emissions from Urea,Output,AFOLU,Soil Management,co2,Mt CO₂e,Agriculture and Managed Soil,1,1,decomposed_emissions,
+:math:\text{CO}_2 FGTV Distribution Emission Factor,CO₂ FGTV Distribution Emission Factor,Input,Energy,Fugitive Emissions,co2,tonne,,1,1,model_input,
+:math:\text{CO}_2 FGTV Production Flaring Emission Factor,CO₂ FGTV Production Flaring Emission Factor,Input,Energy,Fugitive Emissions,co2,tonne,,4,4,model_input,
+:math:\text{CO}_2 FGTV Production Fugitive Emission Factor,CO₂ FGTV Production Fugitive Emission Factor,Input,Energy,Fugitive Emissions,co2,tonne,,4,4,model_input,
+:math:\text{CO}_2 FGTV Production Venting Emission Factor,CO₂ FGTV Production Venting Emission Factor,Input,Energy,Fugitive Emissions,co2,tonne,,3,3,model_input,
+:math:\text{CO}_2 FGTV Transmission Emission Factor,CO₂ FGTV Transmission Emission Factor,Input,Energy,Fugitive Emissions,co2,tonne,,3,3,model_input,
+:math:\text{CO}_2 Forest Fire Emission Factor,CO₂ Forest Fire Emission Factor,Input,AFOLU,Forest,co2,unknown,,3,3,model_input,Annual average :math:`\text{CO}_2` emitted mass of dry matter burned due to forest fires (≥ 0)
+:math:\text{CO}_2 Fuel Production NemoMod EmissionsActivityRatio,CO₂ Fuel Production NemoMod EmissionsActivityRatio,Input,Energy,Energy Technology,co2,tonne,,6,6,model_input,| Ratio of emissions of :math:`\text{CO}_2` to energy produced.
+":math:\text{CO}_2 Fugitive Emissions from Distribution, Transmission, and Production Leaks","CO₂ Fugitive Emissions from Distribution, Transmission, and Production Leaks",Output,Energy,Fugitive Emissions,co2,Mt CO₂e,Fugitive Emissions,4,4,decomposed_emissions,
+:math:\text{CO}_2 Fugitive Emissions from Flaring,CO₂ Fugitive Emissions from Flaring,Output,Energy,Fugitive Emissions,co2,Mt CO₂e,Fugitive Emissions,4,4,decomposed_emissions,
+:math:\text{CO}_2 Fugitive Emissions from Venting,CO₂ Fugitive Emissions from Venting,Output,Energy,Fugitive Emissions,co2,Mt CO₂e,Fugitive Emissions,4,4,decomposed_emissions,
+:math:\text{CO}_2 Land Use Conversion Emission Factor,CO₂ Land Use Conversion Emission Factor,Input,AFOLU,Land Use,co2,ha,,121,121,model_input,Annual :math:`\text{CO}_2` emission factor for conversion of land use of type ``$CAT-LANDUSE-DIM1$`` to ``$CAT-LANDUSE-DIM2$`` due to biomass carbon stock change.
+:math:\text{CO}_2 NemoMod EmissionsActivityRatio Scalar,CO₂ NemoMod EmissionsActivityRatio Scalar,Input,Energy,Energy Technology,co2,"no unit (ratio, scalar or share)",,15,15,model_input,Scalar applied to the stationary combustion emission factor associated with a power technology's fuel. Can be used to represent carbon capture or other reductions in emissions not associated with efficiency improvements.
+:math:\text{CO}_2 Non-Biomass Emissions from Industrial Energy,CO₂ Non-Biomass Emissions from Industrial Energy,Output,Energy,Industrial Energy,co2,Mt CO₂e,Industrial Combustion,21,21,decomposed_emissions,
+:math:\text{CO}_2 Non-Biomass Emissions from SCOE,CO₂ Non-Biomass Emissions from SCOE,Output,Energy,Stationary Combustion and Other Energy,co2,Mt CO₂e,Commercial | Other Combustion | Residential,3,3,decomposed_emissions,
+:math:\text{CO}_2 Product Use Emission Factor,CO₂ Product Use Emission Factor,Input,IPPU,IPPU,co2,tonne,,2,2,model_input,Unitless carbon dioxide emission factor (tonne/tonne) representing how tonnes of :math:`\text{C}` are emitted per tonne of product use.
+:math:\text{CO}_2 Production Process Emission Factor,CO₂ Production Process Emission Factor,Input,IPPU,IPPU,co2,tonne,,5,5,model_input,Unitless emission factor (tonne/tonne) representing how tonnes of :math:`\text{CO}_2` emitted per tonne of production
+:math:\text{EF}_1 - \text{N}_2\text{O} Organic Amendments and Fertilizer,EF₁ - N₂O Organic Amendments and Fertilizer,Input,AFOLU,Soil Management,n2o,unknown,,2,2,model_input,"| See :math:`EF_1` from Table 11.1 in V4, C11 IPCC GNGHGI 2019R
+ | 
+ | This emission factor is given by the IPCC as kg :math:`\text{N}_2\text{O-N}`(kg :math:`\text{NH}_3\text{-N} + \text{NO}_x\text{-N}`), and it is multipled in the by the factor 11/7 to convert :math:`\text{N}_2\text{O-N}` to  :math:`\text{N}_2\text{O}`."
+:math:\text{EF}_1 - \text{N}_2\text{O} Synthetic Fertilizer,EF₁ - N₂O Synthetic Fertilizer,Input,AFOLU,Soil Management,n2o,unknown,,2,2,model_input,"| See :math:`EF_1` from Table 11.1 in V4, C11 IPCC GNGHGI 2019R
+ | 
+ | This emission factor is given by the IPCC as kg :math:`\text{N}_2\text{O-N}`(kg :math:`\text{NH}_3\text{-N} + \text{NO}_x\text{-N}`), and it is multipled in the by the factor 11/7 to convert :math:`\text{N}_2\text{O-N}` to  :math:`\text{N}_2\text{O}`."
+:math:\text{EF}_2 - \text{N}_2\text{O} Emissions from Drained and Managed Organic Soils,EF₂ - N₂O Emissions from Drained and Managed Organic Soils,Input,AFOLU,Soil Management,n2o,ha,,5,5,model_input,"| See :math:`EF_2` from `2013 Supplement to the 2006 IPCC Guidelines for National Greenhouse Gas Inventories <https://www.ipcc.ch/publication/2013-supplement-to-the-2006-ipcc-guidelines-for-national-greenhouse-gas-inventories-wetlands/>`_
+ | 
+ | This emission factor is given by the IPCC as kg :math:`\text{N}_2\text{O-N}`(kg :math:`\text{NH}_3\text{-N} + \text{NO}_x\text{-N}`), and it is multipled in the by the factor 11/7 to convert :math:`\text{N}_2\text{O-N}` to  :math:`\text{N}_2\text{O}`."
+:math:\text{EF}_{1FR} - \text{N}_2\text{O} Rice Fields,EF₁FR - N₂O Rice Fields,Input,AFOLU,Soil Management,n2o,unknown,,1,1,model_input,"| See :math:`EF_{1FR}` from Table 11.1 in V4, C11 IPCC GNGHGI 2019R
+ | 
+ | This emission factor is given by the IPCC as kg :math:`\text{N}_2\text{O-N}`(kg :math:`\text{NH}_3\text{-N} + \text{NO}_x\text{-N}`), and it is multipled in the by the factor 11/7 to convert :math:`\text{N}_2\text{O-N}` to  :math:`\text{N}_2\text{O}`."
+:math:\text{K}_{REM} Sludge Factor,KREM Sludge Factor,Input,Circular Economy,Wastewater Treatment,,unknown,,2,2,model_input,Fraction of raw sludge removed from aerboic treatmeant plants
+:math:\text{NF}_3 Emissions from Industrial Production Processes,NF₃ Emissions from Industrial Production Processes,Output,IPPU,IPPU,nf3,Mt CO₂e,IPPU,2,2,decomposed_emissions,"| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+ | 
+ | Note: Also accounted for in Other Fluorinated Compounds aggregate output emissions."
+:math:\text{NF}_3 Production Process Emission Factor,NF₃ Production Process Emission Factor,Input,IPPU,IPPU,nf3,tonne,,2,2,model_input,Unitless emission factor (tonne/tonne) representing how tonnes of :math:`\text{NF}_3` emitted per tonne of production
+:math:\text{N}_2\text{O} Ammonia Mobile Combustion Emission Factor,N₂O Ammonia Mobile Combustion Emission Factor,Input,Energy,Transportation,n2o,TJ,,1,1,model_input,"Nitrous oxide mobile fuel combustion emission factor for ammonia, entered as tonne of :math:`\text{N}_2\text{O}` are emitted per TJ of energy demanded"
+:math:\text{N}_2\text{O} Annual Emission Limit,N₂O Annual Emission Limit,Input,Socioeconomic,General,n2o,mt (mass),,1,1,model_input,"| Used in NemoMod to calculate AnnualEmissionLimit. Can be used to model an exogenous policy limit on total emissions, but cannot be used to mandate negative emissions in the Electricity sector.
+ | 
+ | **NOTE**: To enter no limit, use flag -999"
+:math:\text{N}_2\text{O} Biofuels Mobile Combustion Emission Factor,N₂O Biofuels Mobile Combustion Emission Factor,Input,Energy,Transportation,n2o,TJ,,4,4,model_input,"Nitrous oxide mobile fuel combustion emission factor for biofuels, entered as tonne of :math:`\text{N}_2\text{O}` are emitted per TJ of energy demanded"
+:math:\text{N}_2\text{O} Composting Emission Factor,N₂O Composting Emission Factor,Input,Circular Economy,Solid Waste,n2o,kg,,3,3,model_input,Emission factor representing emissions of nitrus oxide from composting of organic materials
+:math:\text{N}_2\text{O} Crop Biomass Burning Emission Factor,N₂O Crop Biomass Burning Emission Factor,Input,AFOLU,Agriculture,n2o,unknown,,1,1,model_input,"| Annual average :math:`\text{N}_2\text{O}` (nitrous oxide) emitted per mass of crop residue burned (dimensionless).
+ | 
+ | See V4, C2, Equation 2.27 and Table 2.5 for equation and default emission factors."
+:math:\text{N}_2\text{O} Diesel Mobile Combustion Emission Factor,N₂O Diesel Mobile Combustion Emission Factor,Input,Energy,Transportation,n2o,TJ,,7,7,model_input,"Nitrous oxide mobile fuel combustion emission factor for diesel, entered as tonne of :math:`\text{N}_2\text{O}` are emitted per TJ of energy demanded"
+:math:\text{N}_2\text{O} Direct Emissions from Manure Management,N₂O Direct Emissions from Manure Management,Output,AFOLU,Livestock Manure Management,n2o,Mt CO₂e,Livestock,11,11,decomposed_emissions,Direct nitrus oxide emissions from manure N (see equation 10.25)
+:math:\text{N}_2\text{O} Emissions from Biomass Burning,N₂O Emissions from Biomass Burning,Output,AFOLU,Agriculture,n2o,Mt CO₂e,Agriculture and Managed Soil,1,1,decomposed_emissions,
+:math:\text{N}_2\text{O} Emissions from CCSQ,N₂O Emissions from CCSQ,Output,Energy,Carbon Capture and Sequestration,n2o,Mt CO₂e,Carbon Capture Industries,1,1,decomposed_emissions,Emissions of :math:`\text{N}_2\text{O}` from fuel use for heat energy in carbon capture and sequestration.
+:math:\text{N}_2\text{O} Emissions from Composting,N₂O Emissions from Composting,Output,Circular Economy,Solid Waste,n2o,Mt CO₂e,Solid Waste,3,3,decomposed_emissions,
+:math:\text{N}_2\text{O} Emissions from Crop Residues,N₂O Emissions from Crop Residues,Output,AFOLU,Agriculture,n2o,Mt CO₂e,Agriculture and Managed Soil,1,1,decomposed_emissions,
+:math:\text{N}_2\text{O} Emissions from Fertilizer Use,N₂O Emissions from Fertilizer Use,Output,AFOLU,Soil Management,n2o,Mt CO₂e,Agriculture and Managed Soil,1,1,decomposed_emissions,
+:math:\text{N}_2\text{O} Emissions from Incineration,N₂O Emissions from Incineration,Output,Circular Economy,Solid Waste,n2o,Mt CO₂e,Solid Waste,1,1,decomposed_emissions,Total :math:`\text{N}_2\text{O}` emissions from incineration (combined MSW and ISW)
+:math:\text{N}_2\text{O} Emissions from Industrial Energy,N₂O Emissions from Industrial Energy,Output,Energy,Industrial Energy,n2o,Mt CO₂e,Industrial Combustion,21,21,decomposed_emissions,
+:math:\text{N}_2\text{O} Emissions from Industrial Production Processes,N₂O Emissions from Industrial Production Processes,Output,IPPU,IPPU,n2o,Mt CO₂e,IPPU,4,4,decomposed_emissions,
+:math:\text{N}_2\text{O} Emissions from Mineral Soils,N₂O Emissions from Mineral Soils,Output,AFOLU,Soil Management,n2o,Mt CO₂e,Agriculture and Managed Soil,1,1,decomposed_emissions,
+:math:\text{N}_2\text{O} Emissions from Organic Soils,N₂O Emissions from Organic Soils,Output,AFOLU,Soil Management,n2o,Mt CO₂e,Agriculture and Managed Soil,1,1,decomposed_emissions,
+:math:\text{N}_2\text{O} Emissions from Paddock Pasture and Range,N₂O Emissions from Paddock Pasture and Range,Output,AFOLU,Soil Management,n2o,Mt CO₂e,Other Not Estimated Soils,1,1,decomposed_emissions,
+:math:\text{N}_2\text{O} Emissions from SCOE,N₂O Emissions from SCOE,Output,Energy,Stationary Combustion and Other Energy,n2o,Mt CO₂e,Commercial | Other Combustion | Residential,3,3,decomposed_emissions,
+:math:\text{N}_2\text{O} Emissions from Transportation,N₂O Emissions from Transportation,Output,Energy,Transportation,n2o,Mt CO₂e,Transportation,10,10,decomposed_emissions,
+:math:\text{N}_2\text{O} Emissions from Wastewater Effluent,N₂O Emissions from Wastewater Effluent,Output,Circular Economy,Wastewater Treatment,n2o,Mt CO₂e,Wastewater Treatment,10,10,decomposed_emissions,Nitrus oxide emissions from protein content in wastewater.
+:math:\text{N}_2\text{O} Emissions from Wastewater Treatment,N₂O Emissions from Wastewater Treatment,Output,Circular Economy,Wastewater Treatment,n2o,Mt CO₂e,Wastewater Treatment,10,10,decomposed_emissions,Nitrus oxide emissions from treatment processes.
+:math:\text{N}_2\text{O} FGTV Production Flaring Emission Factor,N₂O FGTV Production Flaring Emission Factor,Input,Energy,Fugitive Emissions,n2o,tonne,,3,3,model_input,
+:math:\text{N}_2\text{O} FGTV Production Fugitive Emission Factor,N₂O FGTV Production Fugitive Emission Factor,Input,Energy,Fugitive Emissions,n2o,tonne,,2,2,model_input,
+:math:\text{N}_2\text{O} FGTV Production Venting Emission Factor,N₂O FGTV Production Venting Emission Factor,Input,Energy,Fugitive Emissions,n2o,tonne,,2,2,model_input,
+:math:\text{N}_2\text{O} FGTV Transmission Emission Factor,N₂O FGTV Transmission Emission Factor,Input,Energy,Fugitive Emissions,n2o,tonne,,2,2,model_input,
+:math:\text{N}_2\text{O} Fuel Production NemoMod EmissionsActivityRatio,N₂O Fuel Production NemoMod EmissionsActivityRatio,Input,Energy,Energy Technology,n2o,tonne,,3,3,model_input,| Ratio of emissions of :math:`\text{N}_2\text{O}` to energy produced.
+":math:\text{N}_2\text{O} Fugitive Emissions from Distribution, Transmission, and Production Leaks","N₂O Fugitive Emissions from Distribution, Transmission, and Production Leaks",Output,Energy,Fugitive Emissions,n2o,Mt CO₂e,Fugitive Emissions,4,4,decomposed_emissions,
+:math:\text{N}_2\text{O} Fugitive Emissions from Flaring,N₂O Fugitive Emissions from Flaring,Output,Energy,Fugitive Emissions,n2o,Mt CO₂e,Fugitive Emissions,4,4,decomposed_emissions,
+:math:\text{N}_2\text{O} Fugitive Emissions from Venting,N₂O Fugitive Emissions from Venting,Output,Energy,Fugitive Emissions,n2o,Mt CO₂e,Fugitive Emissions,4,4,decomposed_emissions,
+:math:\text{N}_2\text{O} GDP Production Process Emission Factor,N₂O GDP Production Process Emission Factor,Input,IPPU,IPPU,n2o,tonne,,1,1,model_input,Unitless emission factor (tonne/tonne) representing how tonnes of :math:`\text{N}_2\text{O}` emitted per billion $USD GDP.
+:math:\text{N}_2\text{O} Gasoline Mobile Combustion Emission Factor,N₂O Gasoline Mobile Combustion Emission Factor,Input,Energy,Transportation,n2o,TJ,,5,5,model_input,"Nitrous oxide mobile fuel combustion emission factor for gasoline, entered as tonne of :math:`\text{N}_2\text{O}` are emitted per TJ of energy demanded"
+:math:\text{N}_2\text{O} Hydrocarbon Gas Liquids Mobile Combustion Emission Factor,N₂O Hydrocarbon Gas Liquids Mobile Combustion Emission Factor,Input,Energy,Transportation,n2o,TJ,,4,4,model_input,"Nitrous oxide mobile fuel combustion emission factor for natural gas (liquid and compressed), entered as tonne of :math:`\text{N}_2\text{O}` are emitted per TJ of energy demanded"
+:math:\text{N}_2\text{O} Incineration Emission Factor,N₂O Incineration Emission Factor,Input,Circular Economy,Solid Waste,n2o,tonne,,13,13,model_input,Based on IPCC Tier 2 approach (default emission factors with waste composition)
+:math:\text{N}_2\text{O} Indirect Emissions from Manure Management,N₂O Indirect Emissions from Manure Management,Output,AFOLU,Livestock Manure Management,n2o,Mt CO₂e,Agriculture and Managed Soil,11,11,decomposed_emissions,Indirect nitrus oxide emissions from N leaching volatilisation (see eqs. 10.28 and 10.29 in 2019R)
+:math:\text{N}_2\text{O} Kerosene Mobile Combustion Emission Factor,N₂O Kerosene Mobile Combustion Emission Factor,Input,Energy,Transportation,n2o,TJ,,1,1,model_input,"Nitrous oxide mobile fuel combustion emission factor for kerosene, entered as tonne of :math:`\text{N}_2\text{O}` are emitted per TJ of energy demanded"
+:math:\text{N}_2\text{O} Manure Management Emission Factor,N₂O Manure Management Emission Factor,Input,AFOLU,Livestock Manure Management,n2o,unknown,,11,11,model_input,"| Dimensionless emission factor for direct :math:`\text{N}_2\text{O}` emissions from each manure management system.
+ | 
+ | Corresponds with :math:`EF_{3_{(S)}}` in Equation 10.34A in V4,C10 IPCC GNGHGI 2019R."
+:math:\text{N}_2\text{O} Natural Gas Mobile Combustion Emission Factor,N₂O Natural Gas Mobile Combustion Emission Factor,Input,Energy,Transportation,n2o,TJ,,7,7,model_input,"Nitrous oxide mobile fuel combustion emission factor for natural gas (liquid and compressed), entered as tonne of :math:`\text{N}_2\text{O}` are emitted per TJ of energy demanded"
+:math:\text{N}_2\text{O} NemoMod EmissionsActivityRatio Scalar,N₂O NemoMod EmissionsActivityRatio Scalar,Input,Energy,Energy Technology,n2o,"no unit (ratio, scalar or share)",,14,14,model_input,Scalar applied to the stationary combustion emission factor associated with a power technology's fuel. Can be used to represent carbon capture or other reductions in emissions not associated with efficiency improvements.
+:math:\text{N}_2\text{O} Production Process Emission Factor,N₂O Production Process Emission Factor,Input,IPPU,IPPU,n2o,tonne,,2,2,model_input,Unitless emission factor (tonne/tonne) representing how tonnes of :math:`\text{N}_2\text{O}` emitted per tonne of production
+:math:\text{N}_2\text{O} Stationary Combustion Emission Factor,N₂O Stationary Combustion Emission Factor,Input,Energy,Energy Fuels,n2o,tonne,,27,27,model_input,"Nitrous oxide stationary fuel combustion emission factor, entered as tonne of :math:`\text{N}_2\text{O}` are emitted per TJ of energy demanded"
+:math:\text{N}_2\text{O} Wastewater Treatment Emission Factor,N₂O Wastewater Treatment Emission Factor,Input,Circular Economy,Wastewater Treatment,n2o,g (mass),,10,10,model_input,Nitrus oxide emission factor for wastewater treatment as a function of total nitrogen.
+:math:\text{SF}_6 Emissions from Industrial Production Processes,SF₆ Emissions from Industrial Production Processes,Output,IPPU,IPPU,sf6,Mt CO₂e,IPPU,4,4,decomposed_emissions,
+:math:\text{SF}_6 GDP Production Process Emission Factor,SF₆ GDP Production Process Emission Factor,Input,IPPU,IPPU,sf6,tonne,,1,1,model_input,Unitless emission factor (tonne/tonne) representing how tonnes of :math:`\text{SF}_6` emitted per billion $USD GDP.
+:math:\text{SF}_6 Production Process Emission Factor,SF₆ Production Process Emission Factor,Input,IPPU,IPPU,sf6,tonne,,3,3,model_input,Unitless emission factor (tonne/tonne) representing how tonnes of :math:`\text{SF}_6` emitted per tonne of production
+AGRC Combustion Factor,AGRC Combustion Factor,Input,AFOLU,Agriculture,,fraction (0–1),,5,5,model_input,"The combustion factor :math:`C_f` gives the ""proportion of prefire fuel biomass consumed"" by fires. See Table 2.6, IPCC GNGHGI (2019R)."
+Above Ground Residue Dry Matter Intercept,Above Ground Residue Dry Matter Intercept,Input,AFOLU,Agriculture,,ha,,5,5,model_input,
+Above Ground Residue Dry Matter Slope,Above Ground Residue Dry Matter Slope,Input,AFOLU,Agriculture,,ha,,5,5,model_input,
+Adjusted Agriculture Equivalent Exports,Adjusted Agriculture Equivalent Exports,Output,AFOLU,Agriculture,,tonne,,13,13,model_output,Final total endogenous exports following adjustments to land use (reallocation and/or import/export loss)
+Adjusted Agriculture Equivalent Imports,Adjusted Agriculture Equivalent Imports,Output,AFOLU,Agriculture,,tonne,,13,13,model_output,Final total endogenous imports following adjustments to land use (reallocation and/or import/export loss)
+Adjusted Fuel Exports,Adjusted Fuel Exports,Output,Energy,Energy Fuels,,unknown,,12,12,model_output,
+Adjusted Livestock Equivalent Exports,Adjusted Livestock Equivalent Exports,Output,AFOLU,Livestock,,unknown,,9,9,model_output,
+Adjusted Livestock Equivalent Imports,Adjusted Livestock Equivalent Imports,Output,AFOLU,Livestock,,unknown,,9,9,model_output,
+Agriculture Equivalent Exports,Agriculture Equivalent Exports,Input,AFOLU,Agriculture,,tonne,,13,13,model_input,Exports of agricultural equivalent products (mass of crops).
+Agriculture Fraction Dry,Agriculture Fraction Dry,Input,AFOLU,Agriculture,,fraction (0–1),,13,13,model_input,"| Used to calculate :math:`\text{N}_2\text{O}` emissions from fertilizer application. 
+ | 
+ | Agriculture Fraction Dry and Agriculture Fraction Wet must sum to 1"
+Agriculture Fraction Temperate,Agriculture Fraction Temperate,Input,AFOLU,Agriculture,,fraction (0–1),,13,13,model_input,"| Used to calculate :math:`\text{N}_2\text{O}` emissions from organic soils. 
+ | 
+ | Agriculture Fraction Temperate and Agriculture Fraction Tropical must sum to 1"
+Agriculture Fraction Tropical,Agriculture Fraction Tropical,Input,AFOLU,Agriculture,,fraction (0–1),,13,13,model_input,"| Used to calculate :math:`\text{N}_2\text{O}` emissions from organic soils. 
+ | 
+ | Agriculture Fraction Temperate and Agriculture Fraction Tropical must sum to 1"
+Agriculture Fraction Wet,Agriculture Fraction Wet,Input,AFOLU,Agriculture,,fraction (0–1),,13,13,model_input,"| Used to calculate :math:`\text{N}_2\text{O}` emissions from fertilizer application
+ | 
+ | Agriculture Fraction Dry and Agriculture Fraction Wet must sum to 1"
+Animal Weight,Animal Weight,Input,AFOLU,Livestock,,kg,,9,9,model_input,Average weight of a single animal
+Annual Capture and Sequestration by Type,Annual Capture and Sequestration by Type,Input,Energy,Carbon Capture and Sequestration,co2,mt (mass),,1,1,model_input,
+Area of Improved Land,Area of Improved Land,Output,AFOLU,Land Use,,ha,,1,1,model_output,"| Area of lands improved, in configuration units. For Croplands, is associated with no-till (increase in :math:`F_{MG}`).
+ | 
+ | **NOTE**: For grasslands, only pastures can be improved using :math:`F_{MG}`, and so the area of grasslands that are improved has a maximum of the :math:`A_Gp`, where :math:`A_G` is the area of grasslands and :math:`0 \leq p \leq 1` is the pasture fraction."
+Area of Land Use Converted,Area of Land Use Converted,Output,AFOLU,Land Use,,ha,,121,121,model_output,
+Area of Land Use Converted Away from Type,Area of Land Use Converted Away from Type,Output,AFOLU,Land Use,,ha,,11,11,model_output,
+Area of Land Use Converted to Type,Area of Land Use Converted to Type,Output,AFOLU,Land Use,,ha,,11,11,model_output,
+Area of Region,Area of Region,Input,Socioeconomic,General,,ha,,1,1,model_input,"Units: Hectares (ha). Total area of the country, including land and water."
+Area of Seasonal Wetlands by Land Use Type,Area of Seasonal Wetlands by Land Use Type,Output,AFOLU,Land Use,,ha,,5,5,model_output,Area within each non-permanent wetland land use type associated with seasonal wetlands
+Average Annual Waste Transported Per Waste Collection Vehicle,Average Annual Waste Transported Per Waste Collection Vehicle,Input,Circular Economy,Solid Waste,,tonne,,1,1,model_input,"Average annual total waste collected per waste collection vehicle. Used to calculate a marginal increase in heavy transport transportation demand resulting from an increase in waste collection, which is passed to the transportation model."
+Average Fraction of Forest Burned Annually,Average Fraction of Forest Burned Annually,Input,AFOLU,Forest,,fraction (0–1),,3,3,model_input,
+Average Freight Vehicle Load,Average Freight Vehicle Load,Input,Energy,Transportation,,tonne,,4,4,model_input,
+Average Industrial Energy Fuel Efficiency Factor,Average Industrial Energy Fuel Efficiency Factor,Input,Energy,Energy Fuels,,"no unit (ratio, scalar or share)",,13,13,model_input,"| Average efficiency for industrial energy using fuel ``$CAT-FUEL$``. 
+ | 
+ | **Only Applied to Industrial Energy use**"
+Average Lifespan of Housing Construction,Average Lifespan of Housing Construction,Input,IPPU,IPPU,,unknown,,1,1,model_input,"Average lifespan, in years, of housing construction. Used to estimate replacement of old stock housing."
+Average Methane Correction Factor at Landfills,Average Methane Correction Factor at Landfills,Input,Circular Economy,Solid Waste,,"no unit (ratio, scalar or share)",,1,1,model_input,"The Methane Correction Factor represents different management approaches for solid waste disposal at landfills. See Volume 5, Chapter 3, Table 3.1 of IPCC Guidelines for National Greenhouse Gas Inventories for default MCFs."
+Average Methane Correction Factor for Open Dumping,Average Methane Correction Factor for Open Dumping,Input,Circular Economy,Solid Waste,,"no unit (ratio, scalar or share)",,1,1,model_input,"The Methane Correction Factor represents different management approaches for solid waste disposal at landfills. See Volume 5, Chapter 3, Table 3.1 of IPCC Guidelines for National Greenhouse Gas Inventories for default MCFs."
+Average Oxidization Factor at Landfills,Average Oxidization Factor at Landfills,Input,Circular Economy,Solid Waste,,unknown,,1,1,model_input,"Oxidization factor (see V5, C3, Table 3.2) for landfills. The oxidization factor represents a practice at well-managed landfills of covering landfills with with :math:`\text{CH}_4` oxidising material--e.g., soild or compost. Should not exceed 0.1."
+Average Passenger Vehicle Occupancy Rate,Average Passenger Vehicle Occupancy Rate,Input,Energy,Transportation,,unknown,,8,8,model_input,
+Average Protein Consumption Per Capita,Average Protein Consumption Per Capita,Input,Circular Economy,Liquid Waste,,kg,,1,1,model_input,Daily protein consumption per person in kg
+Average VKMT Per Waste Collection Vehicle,Average VKMT Per Waste Collection Vehicle,Input,Circular Economy,Solid Waste,,unknown,,1,1,model_input,"Average annual Vehicle Kilometers Traveled (VKMT) per waste collection vehicle. Used to calculate a marginal increase in heavy transport transportation demand resulting from an increase in waste collection, which is passed to the transportation model."
+Average per Household Demand for Construction Materials,Average per Household Demand for Construction Materials,Input,IPPU,IPPU,,tonne,,2,2,model_input,
+BOD Correction Factor for TOW,BOD Correction Factor for TOW,Input,Circular Economy,Liquid Waste,,"no unit (ratio, scalar or share)",,1,1,model_input,Correction factor for average annual BOD per capita that represents sewage from commercial and industrial operations.
+BOD per Capita,BOD per Capita,Input,Circular Economy,Liquid Waste,,kg,,1,1,model_input,Annual biochemical oxygen demand (BOD) per person in kg. Table 6.4 in IPCC Guidelines for NGHG Inventories shows regional factors.
+Biogas Recovered from Anaerobic Facilities,Biogas Recovered from Anaerobic Facilities,Output,Circular Economy,Solid Waste,,tonne,,1,1,model_output,"Biogas is a mixture of methane, carbon dioxide, water vapor, hydrogen suflide, and other gases. See `The EPA <https://www.epa.gov/agstar/how-does-anaerobic-digestion-work>`_ for an overview of anaerobic digestion and biogas."
+Biogas Recovered from Landfills,Biogas Recovered from Landfills,Output,Circular Economy,Solid Waste,,tonne,,1,1,model_output,Mass of methane recovered from landfill gas that is colleted.
+Biogas Recovered from Wastewater Treatment Plants,Biogas Recovered from Wastewater Treatment Plants,Output,Circular Economy,Wastewater Treatment,,tonne,,1,1,model_output,
+Biogas Recovery Factor,Biogas Recovery Factor,Input,Circular Economy,Solid Waste,,unknown,,1,1,model_input,Factor representing faction of biogas recovered for energy production. Recovery of biogass prevents emissions.
+Biogas Recovery Factor at LSMM Anaerobic Facilities,Biogas Recovery Factor at LSMM Anaerobic Facilities,Input,AFOLU,Livestock Manure Management,,unknown,,2,2,model_input,
+Biogas Recovery Factor at Wastewater Treatment Plants,Biogas Recovery Factor at Wastewater Treatment Plants,Input,Circular Economy,Wastewater Treatment,,unknown,,4,4,model_input,Fraction of biogas recovered from treatment
+C Annual Croplands Drained Organic Soils Emission Factor,C Annual Croplands Drained Organic Soils Emission Factor,Input,AFOLU,Soil Management,,tonne,,2,2,model_input,"See V4 C5, Table 5.6 for default factors"
+C Annual Managed Grasslands Drained Organic Soils Emission Factor,C Annual Managed Grasslands Drained Organic Soils Emission Factor,Input,AFOLU,Soil Management,,tonne,,2,2,model_input,"See V4 C6, Table 6.3 for default factors"
+C Carbon Harvested Wood Products Emission Factor,C Carbon Harvested Wood Products Emission Factor,Input,AFOLU,Forest,,unknown,,1,1,model_input,Dimensionless emission factor for carbon in wood products.
+C Liming Emission Factor Dolomite,C Liming Emission Factor Dolomite,Input,AFOLU,Soil Management,,unknown,,1,1,model_input,"| Dimensionless emission factor that gives :math:`CO_2-C` mass of emission per mass of dolomite applied.
+ | 
+ | See Page V4, C11, page 11.29 of IPCC GNGHGI (2006) for emission factor defaults."
+C Liming Emission Factor Limestone,C Liming Emission Factor Limestone,Input,AFOLU,Soil Management,,unknown,,1,1,model_input,"| Dimensionless emission factor that gives :math:`CO_2-C` mass of emission per mass of limestone applied.
+ | 
+ | See Page V4, C11, page 11.29 of IPCC GNGHGI (2006) for emission factor defaults."
+C Urea Emission Factor,C Urea Emission Factor,Input,AFOLU,Soil Management,,unknown,,1,1,model_input,"| Dimensionless emission factor that gives :math:`CO_2-C` mass of emission per mass of urea applied.
+ | 
+ | See Page V4, C11, page 11.32 (Section 11.4.1) of IPCC GNGHGI (2006) for emission factor defaults."
+C to N Ratio of Soil Organic Matter,C to N Ratio of Soil Organic Matter,Input,AFOLU,Soil Management,,"no unit (ratio, scalar or share)",,1,1,model_input,"See Equation 11.8, V4, IPCC GNGHGI (2019R)"
+CCSQ Efficiency Factor for Heat Energy from Geothermal,CCSQ Efficiency Factor for Heat Energy from Geothermal,Input,Energy,Carbon Capture and Sequestration,,"no unit (ratio, scalar or share)",,1,1,model_input,"Energy efficiency factor for geothermal Heat Energy. For example, value of 0.99 indicates that 99% of input energy results in output energy at point of use."
+CCSQ Efficiency Factor for Heat Energy from Hydrogen,CCSQ Efficiency Factor for Heat Energy from Hydrogen,Input,Energy,Carbon Capture and Sequestration,,"no unit (ratio, scalar or share)",,1,1,model_input,"Energy efficiency factor for hydrogen Heat Energy. For example, value of 0.8 indicates that 80% of input energy results in output energy at point of use."
+CCSQ Efficiency Factor for Heat Energy from Natural Gas,CCSQ Efficiency Factor for Heat Energy from Natural Gas,Input,Energy,Carbon Capture and Sequestration,,"no unit (ratio, scalar or share)",,1,1,model_input,"Energy efficiency factor for natural gas Heat Energy. For example, value of 0.8 indicates that 80% of input energy results in output energy at point of use."
+CCSQ Energy Demand Per Mass of :math:\text{CO}_2 Captured,CCSQ Energy Demand Per Mass of CO₂ Captured,Input,Energy,Carbon Capture and Sequestration,co2,tonne,,1,1,model_input,
+CCSQ Fraction Energy Electricity,CCSQ Fraction Energy Electricity,Input,Energy,Carbon Capture and Sequestration,,fraction (0–1),,1,1,model_input,Fraction of total energy demand required to operate ``$CAT-CCSQ$`` that is electric energy.
+CCSQ Fraction Energy Heat,CCSQ Fraction Energy Heat,Input,Energy,Carbon Capture and Sequestration,,fraction (0–1),,1,1,model_input,Fraction of total energy demand required to operate ``$CAT-CCSQ$`` that is heat energy (from fuels).
+CCSQ Fraction Heat Energy Demand Geothermal,CCSQ Fraction Heat Energy Demand Geothermal,Input,Energy,Carbon Capture and Sequestration,,fraction (0–1),,1,1,model_input,"| Fraction of total **point-of-use** heat energy demand required to operate ``$CAT-CCSQ$`` from geothermal fuels.
+ | 
+ | This fraction will differ from the fraction of total consumption."
+CCSQ Fraction Heat Energy Demand Hydrogen,CCSQ Fraction Heat Energy Demand Hydrogen,Input,Energy,Carbon Capture and Sequestration,,fraction (0–1),,1,1,model_input,"| Fraction of total **point-of-use** heat energy demand required to operate ``$CAT-CCSQ$`` from hydrogen fuels.
+ | 
+ | This fraction will differ from the fraction of total consumption."
+CCSQ Fraction Heat Energy Demand Natural Gas,CCSQ Fraction Heat Energy Demand Natural Gas,Input,Energy,Carbon Capture and Sequestration,,fraction (0–1),,1,1,model_input,"| Fraction of total **point-of-use** heat energy demand required to operate ``$CAT-CCSQ$`` from natural.
+ | 
+ | This fraction will differ from the fraction of total consumption."
+COD Wastewater Factor,COD Wastewater Factor,Input,IPPU,IPPU,,tonne,,16,16,model_input,Mass of chemical oxygen demand (COD) generated per tonne of production.
+COD per GDP,COD per GDP,Input,Circular Economy,Liquid Waste,,tonne,,1,1,model_input,"Average annual chemical oxygen demand (COD) in industrial water per GDP at time :math:`t = 0`. Mean and range derived from Volume 5, Table 6.9 in IPCC Guidelines for NGHG Inventories."
+Carbon Capture Achievement Fraction,Carbon Capture Achievement Fraction,Input,Energy,Energy Technology,,fraction (0–1),,3,3,model_input,"| This variable is used to interpolate between variable values for technologies with and without CCS to represent achievement levels at some fraction between no CCS and the level specified in the CCS. For example, if the CCS technology represents an effectiveness of 90%, then the CCS Acheivement Fraction can be specifed at 0.5 to represent a system with average CCS effectiveness of 0.45. This fraction is entered as an association with the **CCS associated technology** (e.g., for the pair ``pp_coal`` and ``pp_coal_ccs``, it is entered in association with the ``pp_coal_ccs`` variable).
+ | 
+ | **NOTE**: this variable **does not** modify the prevalence (uptake) of CCS. It only modifies traits of CCS technologies, including the following variables:
+* EmissionsActivityRatios (CCS reduces emissions per unit of input energy
+* OutputActivityRatios (CCS reduces output per unit of energy due to on-site energy use increase)
+* NemoMod Capital Cost (CCS generally increases costs)
+* NemoMod Fixed Cost (CCS generally increases costs)"
+Carrying Capacity Scalar,Carrying Capacity Scalar,Input,AFOLU,Livestock,,"no unit (ratio, scalar or share)",,1,1,model_input,This scalar represents changes to the number of livestock/hectare. Advanced grazing techniques or pasture restoration could scale this.
+Change to Net Imports of Products,Change to Net Imports of Products,Output,IPPU,IPPU,,tonne,,9,9,model_output,"Recycling volumes may exceed domestic demand, and some changes to indsutrial production can affect projections. Decreases (negative values) to this variable represent exports of materials produced in each country."
+Changes to Agriculture Net Imports Lost,Changes to Agriculture Net Imports Lost,Output,AFOLU,Agriculture,,tonne,,13,13,model_output,"| Use this value to quantify the opportunity cost of reducing crop production for export.
+ | 
+ | If specifying values of **Fraction of Changes to Net Exports Met** or **Fraction of Changes to Net Imports Met**  :math:`\not= 1` (see variables in the `Land Use <../afolu.html#land_use>_` subsector), then reductions in changes to net imports may incur economic costs."
+Changes to Livestock Net Imports Lost,Changes to Livestock Net Imports Lost,Output,AFOLU,Livestock,,unknown,,9,9,model_output,"| Use this value to quantify the opportunity cost of reducing crop production for export.
+ | 
+ | If specifying values of **Fraction of Changes to Net Exports Met** or **Fraction of Changes to Net Imports Met**  :math:`\not= 1` (see variables in the `Land Use <../afolu.html#land_use>_` subsector), then reductions in changes to net imports may incur economic costs."
+Climate Change Factor for Average Hydropower Availability,Climate Change Factor for Average Hydropower Availability,Input,Socioeconomic,General,,unknown,,1,1,model_input,Scale the capacity factor of hydropower production up or down
+Clinker Fraction of Cement,Clinker Fraction of Cement,Input,IPPU,IPPU,,fraction (0–1),,1,1,model_input,
+Crop Area,Crop Area,Output,AFOLU,Agriculture,,unknown,,13,13,model_output,Total area of each crop given in terms of the value specified in the configuration parameter ``area_units``.
+Crop Demand,Crop Demand,Output,AFOLU,Agriculture,,tonne,,13,13,model_output,Total tonnage of crops demanded
+Crop Demand Income Elasticity,Crop Demand Income Elasticity,Input,AFOLU,Agriculture,,"no unit (ratio, scalar or share)",,13,13,model_input,"Elasticity of demand for crop in category ``$CAT-AGRICULTURE$`` to the changes in income, whose proxy is gdp/capita"
+Crop Fraction Animal Feed,Crop Fraction Animal Feed,Input,AFOLU,Agriculture,,fraction (0–1),,13,13,model_input,"Proportion of the crop yield that is used for animal feed. Used to adjust demand for crops in response to changing animal populations. Demands for non-animal feed are driven by gdp/capita. Trivial proportions (e.g., radish tops) can be ignored."
+Crop Yield,Crop Yield,Output,AFOLU,Agriculture,,tonne,,13,13,model_output,Total tonnage of crops yielded
+Crop Yield Factor,Crop Yield Factor,Input,AFOLU,Agriculture,,tonne,,13,13,model_input,Yield (metric tons) per hectare of crops planted
+Cropland Area Proportion,Cropland Area Proportion,Output,AFOLU,Agriculture,,fraction (0–1),,13,13,model_output,Proportion of cropland represented by each crop
+Daily Dry Matter Consumption,Daily Dry Matter Consumption,Input,AFOLU,Livestock,,kg,,9,9,model_input,"Used to allocate grassland to grazing animals and estimate carrying capacity under the assumption that the distribution of livestock across grazelands is uniform, grasslands are homogenous, and that there is no mixed grazing (though this could be implemented as a policy parameter). Model parameter that should be constant (only first year is used). Livestock that are non-grazing (e.g. pigs and chickens) should have a value of 0 for this variable."
+Daily Nitrogen Generation Factor,Daily Nitrogen Generation Factor,Input,AFOLU,Livestock,,"no unit (ratio, scalar or share)",,9,9,model_input,
+Daily Volatile Solid Generation Factor,Daily Volatile Solid Generation Factor,Input,AFOLU,Livestock,,"no unit (ratio, scalar or share)",,9,9,model_input,"Daily generation rate, per animal weight, of equivalent volatile solids (manure). See V4, C10, Equation 22A (IPCC GNGHGI 2019R)."
+Demand for Harvested Wood,Demand for Harvested Wood,Output,IPPU,IPPU,,tonne,,2,2,model_output,
+Dodecafluoropentane Emissions from Industrial Production Processes,Dodecafluoropentane Emissions from Industrial Production Processes,Output,IPPU,IPPU,c5f12,Mt CO₂e,,1,1,decomposed_emissions,""" | Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+ | 
+ | Note: Also accounted for in Other Fluorinated Compounds aggregate output emissions."""
+Dodecafluoropentane Production Process Emission Factor,Dodecafluoropentane Production Process Emission Factor,Input,IPPU,IPPU,c5f12,tonne,,1,1,model_input,"| Unitless emission factor for Dodecafluoropentane (:math:`\text{C}_5\text{F}_12`) per (tonne/tonne of production)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+Dry Matter Fraction of Harvested Crop,Dry Matter Fraction of Harvested Crop,Input,AFOLU,Agriculture,,fraction (0–1),,5,5,model_input,See :math:`DRY` in Equation 11.7 in IPCC GNGHGI and Table 11.1A (2019R)
+Dung Incinerated,Dung Incinerated,Output,AFOLU,Livestock Manure Management,,tonne,,1,1,model_output,
+EF3 N Pasture Range and Paddock,EF3 N Pasture Range and Paddock,Input,AFOLU,Soil Management,n2o,unknown,,2,2,model_input,"| See :math:`EF_{3PRP}` from Table 11.1 in V4, C11 IPCC GNGHGI 2019R
+ | 
+ | This emission factor is given by the IPCC as kg :math:`\text{N}_2\text{O-N}`(kg N), and it is multipled in the by the factor 11/7 to convert :math:`\text{N}_2\text{O-N}` to  :math:`\text{N}_2\text{O}`."
+EF4 N Volatilisation and Re-Deposition Emission Factor,EF4 N Volatilisation and Re-Deposition Emission Factor,Input,AFOLU,Soil Management,n2o,unknown,,2,2,model_input,"| See :math:`EF_4` from Table 11.3 in V4, C11 IPCC GNGHGI 2019R
+ | 
+ | This emission factor is given by the IPCC as kg :math:`\text{N}_2\text{O-N}` (kg :math:`\text{NH}_3\text{-N} + \text{NO}_x\text{-N}`), and it is multipled in the by the factor 11/7 to convert :math:`\text{N}_2\text{O-N}` to  :math:`\text{N}_2\text{O}`."
+EF5 N Leaching and Runoff Emission Factor,EF5 N Leaching and Runoff Emission Factor,Input,AFOLU,Soil Management,n2o,unknown,,1,1,model_input,"| See :math:`EF_5` from Table 11.3 in V4, C11 IPCC GNGHGI 2019R
+ | 
+ | This emission factor is given by the IPCC as kg :math:`\text{N}_2\text{O-N}` (kg N), and it is multipled in the by the factor 11/7 to convert :math:`\text{N}_2\text{O-N}` to  :math:`\text{N}_2\text{O}`."
+Elasticity National Occupation Rate to GDP Per Capita,Elasticity National Occupation Rate to GDP Per Capita,Input,Socioeconomic,General,,"no unit (ratio, scalar or share)",,1,1,model_input,
+Elasticity of Industrial Production to GDP,Elasticity of Industrial Production to GDP,Input,IPPU,IPPU,,"no unit (ratio, scalar or share)",,12,12,model_input,
+Elasticity of Livestock Demand to GDP per Capita,Elasticity of Livestock Demand to GDP per Capita,Input,AFOLU,Livestock,,"no unit (ratio, scalar or share)",,9,9,model_input,Elasticity of meat/animal products demand to income; use GDP/Capita since there's a roughly linear relationship between income and gdp/capita
+Elasticity of Megatonne-Kilometer Demand to GDP,Elasticity of Megatonne-Kilometer Demand to GDP,Input,Energy,Transportation Demand,,million tonne-km,,1,1,model_input,
+Elasticity of Municipal Solid Waste Produced to GDP per Capita,Elasticity of Municipal Solid Waste Produced to GDP per Capita,Input,Circular Economy,Solid Waste,,"no unit (ratio, scalar or share)",,13,13,model_input,"The elasticity of waste per capita to GDP per capita, which is used to estimate increases in waste as population and GDP/capita rise."
+Elasticity of Passenger-Kilometer Demand per Capita to GDP per Capita,Elasticity of Passenger-Kilometer Demand per Capita to GDP per Capita,Input,Energy,Transportation Demand,,"no unit (ratio, scalar or share)",,2,2,model_input,
+Elasticity of Product Use Rate to GDP per Capita,Elasticity of Product Use Rate to GDP per Capita,Input,IPPU,IPPU,,"no unit (ratio, scalar or share)",,4,4,model_input,
+Electrical Energy Consumption from CCSQ,Electrical Energy Consumption from CCSQ,Output,Energy,Carbon Capture and Sequestration,,PJ,,1,1,model_output,"Energy consumption, which includes inflation to demands due to systemic inefficiencies."
+Electrical Energy Consumption from Industrial Energy,Electrical Energy Consumption from Industrial Energy,Output,Energy,Industrial Energy,,PJ,,21,21,model_output,
+Electrical Energy Consumption from SCOE,Electrical Energy Consumption from SCOE,Output,Energy,Stationary Combustion and Other Energy,,PJ,,3,3,model_output,
+Electrical Energy Consumption from Transportation,Electrical Energy Consumption from Transportation,Output,Energy,Transportation,,PJ,,9,9,model_output,
+Electrical Transmission Loss,Electrical Transmission Loss,Output,Energy,Energy Fuels,,PJ,,1,1,model_output,Total loss of electricity in transmission lines
+Electrical Transmission Loss Fraction,Electrical Transmission Loss Fraction,Input,Energy,Energy Fuels,,fraction (0–1),,1,1,model_input,Average fraction of electricity lost in transmission lines. Inflates total demand for electrical energy production.
+Electrical Vehicle Efficiency,Electrical Vehicle Efficiency,Input,Energy,Transportation,,km,,9,9,model_input,Electricity consumption rate in kWh/km for electric vehicles
+Energy Consumption from CCSQ,Energy Consumption from CCSQ,Output,Energy,Carbon Capture and Sequestration,,PJ,,1,1,model_output,"Total consumption in CCSQ, which includes inflation to demands due to systemic inefficiencies."
+Energy Consumption from Industrial Energy,Energy Consumption from Industrial Energy,Output,Energy,Industrial Energy,,PJ,,21,21,model_output,
+Energy Consumption from SCOE,Energy Consumption from SCOE,Output,Energy,Stationary Combustion and Other Energy,,PJ,,3,3,model_output,
+Energy Consumption from Transportation,Energy Consumption from Transportation,Output,Energy,Transportation,,PJ,,10,10,model_output,
+Energy Demand by Fuel in CCSQ,Energy Demand by Fuel in CCSQ,Output,Energy,Energy Fuels,,PJ,,23,23,model_output,"Calculated in **Carbon Capture and Sequestration** subsector. Total energy demand, by fuel, in industrial energy."
+Energy Demand by Fuel in Energy Technology,Energy Demand by Fuel in Energy Technology,Output,Energy,Energy Fuels,,PJ,,25,25,model_output,"| Calculated in **Energy Technology** subsector. Total energy demand, by fuel, from energy production, including: 
+ | 
+* Electricity Generation
+* Fuel Production and Processing (including hydrogen production, natural gas processing, and petroleum refinement)
+* Mining and extraction"
+Energy Demand by Fuel in Industrial Energy,Energy Demand by Fuel in Industrial Energy,Output,Energy,Energy Fuels,,PJ,,23,23,model_output,"Calculated in **Industrial Energy** subsector. Total energy demand, by fuel, in industrial energy."
+Energy Demand by Fuel in SCOE,Energy Demand by Fuel in SCOE,Output,Energy,Energy Fuels,,PJ,,23,23,model_output,"Calculated in **Stationary Combustion and Other Emissions** subsector. Total energy demand, by fuel, in industrial energy."
+Energy Demand by Fuel in Transportation,Energy Demand by Fuel in Transportation,Output,Energy,Energy Fuels,,PJ,,24,24,model_output,"Calculated in **Transportation** subsector. Total energy demand, by fuel, in transportation."
+Energy Demand in Industrial Energy,Energy Demand in Industrial Energy,Output,Energy,Industrial Energy,,PJ,,21,21,model_output,
+Factor for Nitrogen in Non-Consumed Protein Disposed in Sewer System,Factor for Nitrogen in Non-Consumed Protein Disposed in Sewer System,Input,Circular Economy,Liquid Waste,,unknown,,1,1,model_input,":math:`F_{NON-CON}` in Equation 6.10 in V5, C6 IPCC GNGHGI (2019R). Default values by region are available in Table 6.10A."
+Fertilizer N Demand Scalar,Fertilizer N Demand Scalar,Input,AFOLU,Soil Management,,"no unit (ratio, scalar or share)",,1,1,model_input,Use to reduce or increase per-unit demand for fertilizer N
+Fire Biomass Consumption for Temperate Forests,Fire Biomass Consumption for Temperate Forests,Input,AFOLU,Forest,,tonne,,3,3,model_input,"See Table 2.4  and Equation 2.27 in V4, C2, IPCC GNGHGI (2019R)"
+Fire Biomass Consumption for Tropical Forests,Fire Biomass Consumption for Tropical Forests,Input,AFOLU,Forest,,tonne,,3,3,model_input,"See Table 2.4  and Equation 2.27 in V4, C2, IPCC GNGHGI (2019R)"
+Forest Fraction Temperate Nutrient Poor,Forest Fraction Temperate Nutrient Poor,Input,AFOLU,Forest,,fraction (0–1),,3,3,model_input,"| Used to calculate :math:`\text{N}_2\text{O}` emissions from organic soils. 
+ | 
+ | Forest Fraction Temperate Nutrient Poor, Forest Fraction Temperate Nutrient Rich, and Forest Fraction Tropical must sum to 1"
+Forest Fraction Temperate Nutrient Rich,Forest Fraction Temperate Nutrient Rich,Input,AFOLU,Forest,,fraction (0–1),,3,3,model_input,"| Used to calculate :math:`\text{N}_2\text{O}` emissions from organic soils. 
+ | 
+ | Forest Fraction Temperate Nutrient Poor, Forest Fraction Temperate Nutrient Rich, and Forest Fraction Tropical must sum to 1"
+Forest Fraction Tropical,Forest Fraction Tropical,Input,AFOLU,Forest,,fraction (0–1),,3,3,model_input,"| Used to calculate :math:`\text{N}_2\text{O}` emissions from organic soils. 
+ | 
+ | Forest Fraction Temperate Nutrient Poor, Forest Fraction Temperate Nutrient Rich, and Forest Fraction Tropical must sum to 1"
+Forest Sequestration Emission Factor,Forest Sequestration Emission Factor,Input,AFOLU,Forest,co2,kt,,3,3,model_input,"| Annual average :math:`\text{CO}_2` emitted per ha from sequestration (entered as a number > 0)
+ | 
+ | Note: baseline estimates for neotropical regions are available from `Heinrich et al. (2021) <https://www.nature.com/articles/s41467-021-22050-1>`_
+ | * 3.05 ± 0.5 tonne C/ha/year (seconary)
+ | * 11-20 times less for primary"
+Fraction Eating Red Meat,Fraction Eating Red Meat,Input,Socioeconomic,General,,fraction (0–1),,1,1,model_input,"Gives a scalar *a* for demand for red meat in the country. Used to represent adoption of vegetarianism. Decreases in this scalar lead to increases in crop consumption, with the per-capita demand for crops increasng by the scalar **dietary_exchange** for 100(1  - *a*)% of the population (see land use sector). Additionally, population-level changes to diet impact the protein content of wastewater."
+Fraction Nitrogen Excretion in Dung,Fraction Nitrogen Excretion in Dung,Input,AFOLU,Livestock,,fraction (0–1),,1,1,model_input,Fraction of nitrogen :math:`F_{N-DUNG}` excreted by livestock that's contained in dung. 1 - :math:`F_{N-DUNG}` is contained in urine.
+Fraction Non-Fugitive :math:\text{CH}_4 Flared,Fraction Non-Fugitive CH₄ Flared,Input,Energy,Fugitive Emissions,ch4,fraction (0–1),,3,3,model_input,Fraction of emissions that can be flared that are flared. Replaces venting emissions.
+Fraction Synthetic Fertilizer Use Urea,Fraction Synthetic Fertilizer Use Urea,Input,AFOLU,Soil Management,,fraction (0–1),,1,1,model_input,Fraction of synthetic fertilizer use that comes from Urea. Can change in the future.
+Fraction of Agriculture Demand Imported,Fraction of Agriculture Demand Imported,Input,AFOLU,Agriculture,,fraction (0–1),,13,13,model_input,"| Fraction of total demand for crop products that is met by imports.
+ | 
+ | Conceptually, represented as the % of demand for total crop products that would be needed to produce all consumed crop products."
+Fraction of Food Loss Sent to Municipal Solid Waste,Fraction of Food Loss Sent to Municipal Solid Waste,Input,AFOLU,Agriculture,,fraction (0–1),,1,1,model_input,Use this variable to represent  food lost in the supply chain that is sent to municipal solid waste streams. Includes *pre-consumer*--such as waste by distributors and retailers--waste (integrated with waste model).
+Fraction of Food Produced Lost Before Consumption,Fraction of Food Produced Lost Before Consumption,Input,AFOLU,Agriculture,,fraction (0–1),,1,1,model_input,Fraction of food that is produced that is lost or wasted before selling. This fraction represents production-side waste (post-yield) and does not include waste by consumers.
+Fraction of Forest Conversions Available for Fuelwood,Fraction of Forest Conversions Available for Fuelwood,Input,AFOLU,Forest,,fraction (0–1),,1,1,model_input,Fraction of conversion from forests available for fuelwood. Used to adjust emissions and avoid double counting. NOTE: Applied in EnergyConsumption model after Fugitive Emissions.
+Fraction of Fuel Demand Imported,Fraction of Fuel Demand Imported,Input,Energy,Energy Fuels,,fraction (0–1),,12,12,model_input,Fraction of total fuel demand that is imported.
+Fraction of ISW Incineration Recovered for Energy,Fraction of ISW Incineration Recovered for Energy,Input,Circular Economy,Solid Waste,,fraction (0–1),,1,1,model_input,Incineration can be open burning or for energy. This fraction :math:`a` represents the how much ISW is incinerated for energy production. :math:`1 - a` is then assumed to be some mix of open burning and icineration. Incinerable waste can be passed to the Energy model as a Fuel.
+Fraction of Increasing Net Exports Met,Fraction of Increasing Net Exports Met,Input,AFOLU,Land Use,,fraction (0–1),,2,2,model_input,"| Fractional of changes to net exports to meet. Values less than 1 reduce endogenous production rates (yields in crops, heads per acre in livestock) if changes to net imports are negative. 
+ | 
+ | **Note**: Applied **after carrying capacity scalars** are accounted for."
+Fraction of Increasing Net Imports Met,Fraction of Increasing Net Imports Met,Input,AFOLU,Land Use,,fraction (0–1),,2,2,model_input,"| Fractional of changes to net imports to meet. Values less than 1 increase endogenous production rates (yields in crops, heads per acre in livestock) if changes to net imports are positive. 
+ | 
+ | **Note**: Applied **after carrying capacity scalars** are accounted for."
+Fraction of Landfill Gas Recovered at Landfills,Fraction of Landfill Gas Recovered at Landfills,Input,Circular Economy,Solid Waste,,fraction (0–1),,1,1,model_input,"Represents the proportion of methane emitted at landfills that is captured. This represents an average over the country across all landfills, as SISEPUEDE does not distinguish between sanitary landfills, controlled landfills, or other landfills."
+Fraction of Landfill Gas Recovered for Energy,Fraction of Landfill Gas Recovered for Energy,Input,Circular Economy,Solid Waste,,fraction (0–1),,1,1,model_input,Landfil gas can be captured and converted to energy. This fraction :math:`a` represents the how much landfil gas that is *captured* is converted to energy. :math:`1 - a` is then assumed to be recovered and not converted to energy (or flared). Landfill gas can be passed to the Energy model as a Fuel.
+Fraction of Livestock Demand Imported,Fraction of Livestock Demand Imported,Input,AFOLU,Livestock,,fraction (0–1),,9,9,model_input,"| Fraction of total demand for livestock products that is met by imports.
+ | 
+ | Conceptually, represented as the % of demand for total livestock that would be needed to produce all consumed animal products."
+Fraction of MSW Incineration Recovered for Energy,Fraction of MSW Incineration Recovered for Energy,Input,Circular Economy,Solid Waste,,fraction (0–1),,1,1,model_input,Incineration can be open burning or for energy. This fraction :math:`a` represents the how much MSW is incinerated for energy production. :math:`1 - a` is then assumed to be some mix of open burning and icineration. Incinerable waste can be passed to the Energy model as a Fuel.
+Fraction of Methane Flared at Composting Facilities,Fraction of Methane Flared at Composting Facilities,Input,Circular Economy,Solid Waste,,fraction (0–1),,1,1,model_input,
+Fraction of Nitrogen Lost to Leaching,Fraction of Nitrogen Lost to Leaching,Input,AFOLU,Livestock Manure Management,,fraction (0–1),,11,11,model_input,
+Fraction of Nitrogen Lost to Volatilisation,Fraction of Nitrogen Lost to Volatilisation,Input,AFOLU,Livestock Manure Management,,fraction (0–1),,11,11,model_input,
+Fraction of Nitrogen Removed in Treatment,Fraction of Nitrogen Removed in Treatment,Input,Circular Economy,Wastewater Treatment,,fraction (0–1),,10,10,model_input,"Wastewater treatment removes some fraction of nitrogen, similar to the methane correction factor. See V5, C6, Equation 6.8 and Tables 6.10B and 6.10C."
+Fraction of Nitrogen Used in Fertilizer,Fraction of Nitrogen Used in Fertilizer,Input,AFOLU,Livestock Manure Management,,fraction (0–1),,8,8,model_input,"| This scalar represents the fraction of total volatile solids (manure) available for fertilizer. Some categories, like ``deep_bedding`` are often combined with others. To avoid mutli-stage management, entries for these categories should specify a fraction of manure that will eventually end up used in fertilizer.
+ | 
+ | **NOTE:** Incineration is included since urine is separated and sent to fertilizer. The fraction that is sent to fertilizer is applied only to nitrogen in urine."
+Fraction of Non-Recycled Solid Waste Incinerated,Fraction of Non-Recycled Solid Waste Incinerated,Input,Circular Economy,Solid Waste,,fraction (0–1),,1,1,model_input,Proportion of non-recycled municipal waste that is burned in incineration facilities and in open burn sites.
+Fraction of Non-Recycled Solid Waste Landfilled,Fraction of Non-Recycled Solid Waste Landfilled,Input,Circular Economy,Solid Waste,,fraction (0–1),,1,1,model_input,Proportion of non-recycled municipal waste that is landfilled. Landfills include different levels of management
+Fraction of Non-Recycled Solid Waste Open Dumps,Fraction of Non-Recycled Solid Waste Open Dumps,Input,Circular Economy,Solid Waste,,fraction (0–1),,1,1,model_input,Proportion of non-recycled municipal waste that is ends up in open dumpsites
+Fraction of Pastures Improved,Fraction of Pastures Improved,Input,AFOLU,Land Use,,fraction (0–1),,1,1,model_input,Fraction of pasture that is improved using sustainable grazing.
+Fraction of Phosphorous Removed in Treatment,Fraction of Phosphorous Removed in Treatment,Input,Circular Economy,Wastewater Treatment,,fraction (0–1),,10,10,model_input,
+Fraction of Protein in Diet with Red Meat,Fraction of Protein in Diet with Red Meat,Input,Circular Economy,Liquid Waste,,fraction (0–1),,1,1,model_input,
+Fraction of Protein in Diet without Red Meat,Fraction of Protein in Diet without Red Meat,Input,Circular Economy,Liquid Waste,,fraction (0–1),,1,1,model_input,
+Fraction of Residues Burned,Fraction of Residues Burned,Input,AFOLU,Agriculture,,fraction (0–1),,1,1,model_input,"| Fraction of residues burned. NOTE: whatever is not removed or burned is assumed to be left as inputs to crops.
+ | 
+ | Total of Fraction of Residues Removed and Fraction of Residues Burned must be less than or equal to 1."
+Fraction of Residues Removed,Fraction of Residues Removed,Input,AFOLU,Agriculture,,fraction (0–1),,1,1,model_input,"| Fraction of residues removed. NOTE: whatever is not removed or burned is assumed to be left as inputs to crops.
+ | 
+ | Total of Fraction of Residues Removed and Fraction of Residues Burned must be less than or equal to 1."
+Fraction of Soils Mineral,Fraction of Soils Mineral,Input,AFOLU,Land Use,,fraction (0–1),,11,11,model_input,See ` Giulia Conchedda and Francesco N. Tubiello (2020) <https://doi.org/10.5194/essd-12-3113-2020>`_; 3% of soils globally are organic. Default value of 0.97 is assumed to be complement.
+Fraction of Total Organic Waste Removed in Treatment,Fraction of Total Organic Waste Removed in Treatment,Input,Circular Economy,Wastewater Treatment,,fraction (0–1),,10,10,model_input,
+Fraction of Waste Composted,Fraction of Waste Composted,Input,Circular Economy,Solid Waste,,fraction (0–1),,3,3,model_input,"Fraction of waste in category ``CAT-WASTE-SOLID`` composted. This value should be :math:`\in [0, 1]`."
+Fraction of Waste Recycled,Fraction of Waste Recycled,Input,Circular Economy,Solid Waste,,fraction (0–1),,7,7,model_input,"Fraction of waste in category ``CAT-WASTE-SOLID`` that is recycled. This value should be :math:`\in [0, 1]`."
+Fraction of Waste Treated Anaerobically,Fraction of Waste Treated Anaerobically,Input,Circular Economy,Solid Waste,,fraction (0–1),,3,3,model_input,"Fraction of waste in category ``CAT-WASTE-SOLID`` treated anaerobically. This value should be :math:`\in [0, 1]`."
+Freight Transportation Mode Share,Freight Transportation Mode Share,Input,Energy,Transportation,,fraction (0–1),,4,4,model_input,Fraction of freight Megatonne-Kilometer (mtkm) demand accounted for by transportation type ``$CAT-TRANSPORT$``
+Fuel Efficiency Biofuels,Fuel Efficiency Biofuels,Input,Energy,Transportation,,km,,4,4,model_input,
+Fuel Efficiency Diesel,Fuel Efficiency Diesel,Input,Energy,Transportation,,km,,7,7,model_input,
+Fuel Efficiency Gasoline,Fuel Efficiency Gasoline,Input,Energy,Transportation,,km,,5,5,model_input,
+Fuel Efficiency Hydrocarbon Gas Liquids,Fuel Efficiency Hydrocarbon Gas Liquids,Input,Energy,Transportation,,km,,4,4,model_input,
+Fuel Efficiency Hydrogen,Fuel Efficiency Hydrogen,Input,Energy,Transportation,,km,,8,8,model_input,
+Fuel Efficiency Kerosene,Fuel Efficiency Kerosene,Input,Energy,Transportation,,km,,1,1,model_input,
+Fuel Efficiency Natural Gas,Fuel Efficiency Natural Gas,Input,Energy,Transportation,,km,,7,7,model_input,
+Fuel Exports,Fuel Exports,Input,Energy,Energy Fuels,,PJ,,12,12,model_input,Total exports of a fuel (in units of energy). Used to estimate demand for production in relevant sectors (fugitive emissions and electricity generation).
+Fuel Imports,Fuel Imports,Output,Energy,Energy Fuels,,PJ,,12,12,model_output,
+Fuel Production,Fuel Production,Output,Energy,Energy Fuels,,PJ,,12,12,model_output,
+Fuel Production NemoMod InputActivityRatio Biomass,Fuel Production NemoMod InputActivityRatio Biomass,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,1,1,model_input,"| Input activity ratio of biomass deposits for a fuel production technology (can be combined with other input fuels). 
+ | 
+ | **NOTE**: biomass InputActivityRatio can be assumed to be similar to coal for gasification. 
+ | 
+ | The total input energy to a technology comes from the combination of all input fuel input activity ratios."
+Fuel Production NemoMod InputActivityRatio Coal,Fuel Production NemoMod InputActivityRatio Coal,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,1,1,model_input,"| Input activity ratio of coal deposits for a fuel production technology (can be combined with other input fuels).
+ | 
+ | The total input energy to a technology comes from the combination of all input fuel input activity ratios."
+Fuel Production NemoMod InputActivityRatio Coal Deposits,Fuel Production NemoMod InputActivityRatio Coal Deposits,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,1,1,model_input,"| Input activity ratio of coal deposits for a fuel production technology (can be combined with other input fuels).
+ | 
+ | The total input energy to a technology comes from the combination of all input fuel input activity ratios."
+Fuel Production NemoMod InputActivityRatio Crude,Fuel Production NemoMod InputActivityRatio Crude,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,1,1,model_input,"| Input activity ratio of crude for a fuel production technology (can be combined with other input fuels).
+ | 
+ | The total input energy to a technology comes from the combination of all input fuel input activity ratios."
+Fuel Production NemoMod InputActivityRatio Diesel,Fuel Production NemoMod InputActivityRatio Diesel,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,3,3,model_input,"| Input activity ratio of diesel for a fuel production technology (can be combined with other input fuels).
+ | 
+ | The total input energy to a technology comes from the combination of all input fuel input activity ratios."
+Fuel Production NemoMod InputActivityRatio Electricity,Fuel Production NemoMod InputActivityRatio Electricity,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,11,11,model_input,"| Input activity ratio of electricity for a fuel production technology (can be combined with other input fuels).
+ | 
+ | The total input energy to a technology comes from the combination of all input fuel input activity ratios."
+Fuel Production NemoMod InputActivityRatio Gasoline,Fuel Production NemoMod InputActivityRatio Gasoline,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,3,3,model_input,"| Input activity ratio of gasoline for a fuel production technology (can be combined with other input fuels).
+ | 
+ | The total input energy to a technology comes from the combination of all input fuel input activity ratios."
+Fuel Production NemoMod InputActivityRatio Hydrogen,Fuel Production NemoMod InputActivityRatio Hydrogen,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,1,1,model_input,"| Input activity ratio of gasoline for a fuel production technology (can be combined with other input fuels).
+ | 
+ | The total input energy to a technology comes from the combination of all input fuel input activity ratios."
+Fuel Production NemoMod InputActivityRatio Natural Gas,Fuel Production NemoMod InputActivityRatio Natural Gas,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,6,6,model_input,"| Input activity ratio of natural gas for a fuel production technology (can be combined with other input fuels).
+ | 
+ | The total input energy to a technology comes from the combination of all input fuel input activity ratios."
+Fuel Production NemoMod InputActivityRatio Natural Gas Unprocessed,Fuel Production NemoMod InputActivityRatio Natural Gas Unprocessed,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,1,1,model_input,"| Input activity ratio of unprocessed natural gas for a fuel production technology (can be combined with other input fuels).
+ | 
+ | The total input energy to a technology comes from the combination of all input fuel input activity ratios."
+Fuel Production NemoMod InputActivityRatio Oil,Fuel Production NemoMod InputActivityRatio Oil,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,5,5,model_input,"| Input activity ratio of oil for a fuel production technology (can be combined with other input fuels).
+ | 
+ | The total input energy to a technology comes from the combination of all input fuel input activity ratios."
+Fuel Production NemoMod InputActivityRatio Water,Fuel Production NemoMod InputActivityRatio Water,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,1,1,model_input,"| Input activity ratio of water for a fuel production technology (can be combined with other input fuels).
+ | 
+ | The total input energy to a technology comes from the combination of all input fuel input activity ratios."
+Fuel Production NemoMod OutputActivityRatio Ammonia,Fuel Production NemoMod OutputActivityRatio Ammonia,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,1,1,model_input,"| Output activity ratio of hydrogen produced by a fuel production technology (can be combined with other output fuels).
+ | 
+ | The total output energy from a technology comes from the combination of all output fuel input activity ratios."
+Fuel Production NemoMod OutputActivityRatio Coal,Fuel Production NemoMod OutputActivityRatio Coal,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,1,1,model_input,"| Output activity ratio of coal produced by a fuel production technology (can be combined with other output fuels).
+ | 
+ | The total output energy from a technology comes from the combination of all output fuel input activity ratios."
+Fuel Production NemoMod OutputActivityRatio Crude,Fuel Production NemoMod OutputActivityRatio Crude,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,1,1,model_input,"| Output activity ratio of crude produced by a fuel production technology (can be combined with other output fuels).
+ | 
+ | The total output energy from a technology comes from the combination of all output fuel input activity ratios."
+Fuel Production NemoMod OutputActivityRatio Diesel,Fuel Production NemoMod OutputActivityRatio Diesel,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,1,1,model_input,"| Output activity ratio of diesel produced by a fuel production technology (can be combined with other output fuels).
+ | 
+ | The total output energy from a technology comes from the combination of all output fuel input activity ratios."
+Fuel Production NemoMod OutputActivityRatio Gasoline,Fuel Production NemoMod OutputActivityRatio Gasoline,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,1,1,model_input,"| Output activity ratio of gasoline produced by a fuel production technology (can be combined with other output fuels).
+ | 
+ | The total output energy from a technology comes from the combination of all output fuel input activity ratios."
+Fuel Production NemoMod OutputActivityRatio Hydrocarbon Gas Liquids,Fuel Production NemoMod OutputActivityRatio Hydrocarbon Gas Liquids,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,2,2,model_input,"| Output activity ratio of hydocarbon gas liquids produced by a fuel production technology (can be combined with other output fuels).
+ | 
+ | The total output energy from a technology comes from the combination of all output fuel input activity ratios."
+Fuel Production NemoMod OutputActivityRatio Hydrogen,Fuel Production NemoMod OutputActivityRatio Hydrogen,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,4,4,model_input,"| Output activity ratio of hydrogen produced by a fuel production technology (can be combined with other output fuels).
+ | 
+ | The total output energy from a technology comes from the combination of all output fuel input activity ratios."
+Fuel Production NemoMod OutputActivityRatio Kerosene,Fuel Production NemoMod OutputActivityRatio Kerosene,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,1,1,model_input,"| Output activity ratio of kerosene produced by a fuel production technology (can be combined with other output fuels).
+ | 
+ | The total output energy from a technology comes from the combination of all output fuel input activity ratios."
+Fuel Production NemoMod OutputActivityRatio Liquid Natural Gas,Fuel Production NemoMod OutputActivityRatio Liquid Natural Gas,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,1,1,model_input,"| Output activity ratio of liquid natural gas produced by a fuel production technology (can be combined with other output fuels).
+ | 
+ | The total output energy from a technology comes from the combination of all output fuel input activity ratios."
+Fuel Production NemoMod OutputActivityRatio Natural Gas,Fuel Production NemoMod OutputActivityRatio Natural Gas,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,1,1,model_input,"| Output activity ratio of natural gas produced by a fuel production technology (can be combined with other output fuels).
+ | 
+ | The total output energy from a technology comes from the combination of all output fuel input activity ratios."
+Fuel Production NemoMod OutputActivityRatio Natural Gas Unprocessed,Fuel Production NemoMod OutputActivityRatio Natural Gas Unprocessed,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,1,1,model_input,"| Output activity ratio of unprocessed natural gas produced by a fuel production technology (can be combined with other output fuels).
+ | 
+ | The total output energy from a technology comes from the combination of all output fuel input activity ratios."
+Fuel Production NemoMod OutputActivityRatio Oil,Fuel Production NemoMod OutputActivityRatio Oil,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,1,1,model_input,"| Output activity ratio of oil produced by a fuel production technology (can be combined with other output fuels).
+ | 
+ | The total output energy from a technology comes from the combination of all output fuel input activity ratios."
+GDP,GDP,Input,Socioeconomic,Economy,,billion USD,,1,1,model_input,GDP in billions of USD
+GDP per Capita,GDP per Capita,Output,Socioeconomic,Economy,,unknown,,1,1,model_output,GDP per Capita in dollars
+Gravimetric Energy Density,Gravimetric Energy Density,Input,Energy,Energy Fuels,,tonne,,12,12,model_input,"Specific energy of fuels that are provided in terms of mass. Generally associated with the lower heating value.
+
+Note that ``fuel_water`` is included for the purposes of estimating requirements in the fuel production model. The default value included is for potential energy, not lower heating value."
+Gravimetric Fuel Price,Gravimetric Fuel Price,Input,Energy,Energy Fuels,,tonne,,5,5,model_input,"Fuel price for fuels using units of mass (e.g., nuclear)"
+Grid Power System Investment Constraint,Grid Power System Investment Constraint,Input,Energy,Energy Technology,,billion USD,,1,1,model_input,"| Total capital investment capacity constraint (custom) placed on the construction of new grid electricity power plants and storage systems.
+ | 
+ | To specify none, enter -999"
+HCFC-141b Emissions from Industrial Product Use,HCFC-141b Emissions from Industrial Product Use,Output,IPPU,IPPU,ch3cci2f,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HCFC-141b GDP Product Use Emission Factor,HCFC-141b GDP Product Use Emission Factor,Input,IPPU,IPPU,ch3cci2f,tonne,,1,1,model_input,"Emission factor for 1,1-Dichloro-1-fluoroethane (HCFC-141b) per (tonne/mmm GDP)"
+HCFC-142b Emissions from Industrial Product Use,HCFC-142b Emissions from Industrial Product Use,Output,IPPU,IPPU,ch3ccif2,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HCFC-142b GDP Product Use Emission Factor,HCFC-142b GDP Product Use Emission Factor,Input,IPPU,IPPU,ch3ccif2,tonne,,1,1,model_input,"Emission factor for 1-Chloro-1,1-difluoroethane (HCFC-142b) per (tonne/mmm GDP)"
+HFC Emissions from Industrial Product Use,HFC Emissions from Industrial Product Use,Output,IPPU,IPPU,,Mt CO₂e,IPPU,2,2,decomposed_emissions,"Aggregate emissions, across all specified HFCs, resulting from product use in industry."
+HFC Emissions from Industrial Production Processes,HFC Emissions from Industrial Production Processes,Output,IPPU,IPPU,,Mt CO₂e,IPPU,3,3,decomposed_emissions,"Aggregate emissions, across all specified HFCs, resulting from industrial production processes."
+HFC-125 Emissions from Industrial Product Use,HFC-125 Emissions from Industrial Product Use,Output,IPPU,IPPU,c2hf5,Mt CO₂e,,2,2,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-125 Emissions from Industrial Production Processes,HFC-125 Emissions from Industrial Production Processes,Output,IPPU,IPPU,c2hf5,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-125 GDP Product Use Emission Factor,HFC-125 GDP Product Use Emission Factor,Input,IPPU,IPPU,c2hf5,tonne,,2,2,model_input,"| Emission factor for Pentafluoroethane (HFC-125) per (tonne/mmm GDP)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+HFC-125 Production Process Emission Factor,HFC-125 Production Process Emission Factor,Input,IPPU,IPPU,c2hf5,tonne,,1,1,model_input,"| Unitless emission factor for Pentafluoroethane (HFC-125, or :math:`\text{C}_2\text{HF}_5`) per (tonne/tonne of production)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+HFC-134 Emissions from Industrial Product Use,HFC-134 Emissions from Industrial Product Use,Output,IPPU,IPPU,chf2chf2,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-134 GDP Product Use Emission Factor,HFC-134 GDP Product Use Emission Factor,Input,IPPU,IPPU,chf2chf2,tonne,,1,1,model_input,"Emission factor for 1,1,2,2-Tetrafluoroethane (HFC-134, or :math:`\text{CHF}_2\text{CHF}_2`) per (tonne/mmm GDP)"
+HFC-134a Emissions from Industrial Product Use,HFC-134a Emissions from Industrial Product Use,Output,IPPU,IPPU,chf2cf3,Mt CO₂e,,2,2,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-134a Emissions from Industrial Production Processes,HFC-134a Emissions from Industrial Production Processes,Output,IPPU,IPPU,chf2cf3,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-134a GDP Product Use Emission Factor,HFC-134a GDP Product Use Emission Factor,Input,IPPU,IPPU,chf2cf3,tonne,,2,2,model_input,"| Emission factor for Trifluoromethane (HFC-134a) per (tonne/mmm GDP)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+HFC-134a Production Process Emission Factor,HFC-134a Production Process Emission Factor,Input,IPPU,IPPU,chf2cf3,tonne,,1,1,model_input,"| Unitless emission factor for 1,1,1,2-Tetrafluoroethane (HFC-134a, or :math:`\text{CHF}_2\text{CF}_3`) per (tonne/tonne of production)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+HFC-143 Emissions from Industrial Product Use,HFC-143 Emissions from Industrial Product Use,Output,IPPU,IPPU,ch2fchf2,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-143 GDP Product Use Emission Factor,HFC-143 GDP Product Use Emission Factor,Input,IPPU,IPPU,ch2fchf2,tonne,,1,1,model_input,"Emission factor for 1,1,2-Trifluoroethane (HFC-143, or :math:`\text{CH}_2\text{FCHF}_2`) per (tonne/mmm GDP)"
+HFC-143a Emissions from Industrial Product Use,HFC-143a Emissions from Industrial Product Use,Output,IPPU,IPPU,c2h3f3,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-143a Emissions from Industrial Production Processes,HFC-143a Emissions from Industrial Production Processes,Output,IPPU,IPPU,c2h3f3,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-143a GDP Product Use Emission Factor,HFC-143a GDP Product Use Emission Factor,Input,IPPU,IPPU,c2h3f3,tonne,,1,1,model_input,"| Emission factor for Trifluoromethane (HFC-143a) per (tonne/mmm GDP)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+HFC-143a Production Process Emission Factor,HFC-143a Production Process Emission Factor,Input,IPPU,IPPU,c2h3f3,tonne,,1,1,model_input,"| Unitless emission factor for 1,1,1-Trifluoroethane (HFC-143a, or :math:`\text{C}_2\text{H}_3\text{F}_3`) per (tonne/tonne of production)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+HFC-152a Emissions from Industrial Product Use,HFC-152a Emissions from Industrial Product Use,Output,IPPU,IPPU,ch3chf2,Mt CO₂e,,2,2,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-152a Emissions from Industrial Production Processes,HFC-152a Emissions from Industrial Production Processes,Output,IPPU,IPPU,ch3chf2,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-152a GDP Product Use Emission Factor,HFC-152a GDP Product Use Emission Factor,Input,IPPU,IPPU,ch3chf2,tonne,,2,2,model_input,"| Emission factor for Trifluoromethane (HFC-152a) per (tonne/mmm GDP)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+HFC-152a Production Process Emission Factor,HFC-152a Production Process Emission Factor,Input,IPPU,IPPU,ch3chf2,tonne,,1,1,model_input,"| Unitless emission factor for 1,1-Difluoroethane (HFC-152a, or :math:`\text{CH}_3\text{CHF}_2`) per (tonne/tonne of production)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+HFC-227ea Emissions from Industrial Product Use,HFC-227ea Emissions from Industrial Product Use,Output,IPPU,IPPU,c3hf7,Mt CO₂e,,2,2,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-227ea Emissions from Industrial Production Processes,HFC-227ea Emissions from Industrial Production Processes,Output,IPPU,IPPU,c3hf7,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-227ea GDP Product Use Emission Factor,HFC-227ea GDP Product Use Emission Factor,Input,IPPU,IPPU,c3hf7,tonne,,2,2,model_input,"| Emission factor for Trifluoromethane (HFC-227ea) per (tonne/mmm GDP)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+HFC-227ea Production Process Emission Factor,HFC-227ea Production Process Emission Factor,Input,IPPU,IPPU,c3hf7,tonne,,1,1,model_input,"| Unitless emission factor for 1,1,1,2,3,3,3-Heptafluoropropane (HFC-227ea, or :math:`\text{C}_3\text{HF}_7`) per (tonne/tonne of production)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+HFC-23 Emissions from Industrial Product Use,HFC-23 Emissions from Industrial Product Use,Output,IPPU,IPPU,chf3,Mt CO₂e,,2,2,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-23 Emissions from Industrial Production Processes,HFC-23 Emissions from Industrial Production Processes,Output,IPPU,IPPU,chf3,Mt CO₂e,,2,2,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-23 GDP Product Use Emission Factor,HFC-23 GDP Product Use Emission Factor,Input,IPPU,IPPU,chf3,tonne,,2,2,model_input,"| Emission factor for Trifluoromethane (HFC-23) per (tonne/mmm GDP)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+HFC-23 Production Process Emission Factor,HFC-23 Production Process Emission Factor,Input,IPPU,IPPU,chf3,tonne,,2,2,model_input,"| Unitless emission factor for Trifluoromethane (HFC-23, or :math:`\text{CHF}_3`) per (tonne/tonne of production)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+HFC-236fa Emissions from Industrial Product Use,HFC-236fa Emissions from Industrial Product Use,Output,IPPU,IPPU,c3h2f6,Mt CO₂e,,2,2,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-236fa GDP Product Use Emission Factor,HFC-236fa GDP Product Use Emission Factor,Input,IPPU,IPPU,c3h2f6,tonne,,2,2,model_input,"| Emission factor for Trifluoromethane (HFC-236fa) per (tonne/mmm GDP)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+HFC-245fa Emissions from Industrial Product Use,HFC-245fa Emissions from Industrial Product Use,Output,IPPU,IPPU,c3h3f5,Mt CO₂e,,2,2,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-245fa GDP Product Use Emission Factor,HFC-245fa GDP Product Use Emission Factor,Input,IPPU,IPPU,c3h3f5,tonne,,2,2,model_input,"| Emission factor for Trifluoromethane (HFC-245fa) per (tonne/mmm GDP)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+HFC-32 Emissions from Industrial Product Use,HFC-32 Emissions from Industrial Product Use,Output,IPPU,IPPU,ch2f2,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-32 Emissions from Industrial Production Processes,HFC-32 Emissions from Industrial Production Processes,Output,IPPU,IPPU,ch2f2,Mt CO₂e,,2,2,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-32 GDP Product Use Emission Factor,HFC-32 GDP Product Use Emission Factor,Input,IPPU,IPPU,ch2f2,tonne,,1,1,model_input,"| Emission factor for Difluoromethane (HFC-32) per (tonne/mmm GDP)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+HFC-32 Production Process Emission Factor,HFC-32 Production Process Emission Factor,Input,IPPU,IPPU,ch2f2,tonne,,2,2,model_input,"| Unitless emission factor for Difluoromethane (HFC-32, or :math:`\text{CH}_2\text{F}_2`) per (tonne/tonne of production)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+HFC-365mfc Emissions from Industrial Product Use,HFC-365mfc Emissions from Industrial Product Use,Output,IPPU,IPPU,c4h5f5,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-365mfc Emissions from Industrial Production Processes,HFC-365mfc Emissions from Industrial Production Processes,Output,IPPU,IPPU,c4h5f5,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-365mfc GDP Product Use Emission Factor,HFC-365mfc GDP Product Use Emission Factor,Input,IPPU,IPPU,c4h5f5,tonne,,1,1,model_input,"| Emission factor for Trifluoromethane (HFC-365mfc) per (tonne/mmm GDP)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+HFC-365mfc Production Process Emission Factor,HFC-365mfc Production Process Emission Factor,Input,IPPU,IPPU,c4h5f5,tonne,,1,1,model_input,"| Unitless emission factor for 1,1,1,3,3-Pentafluorobutane (HFC-365mfc, or :math:`\text{C}_4\text{H}_5\text{F}_5`) per (tonne/tonne of production)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+HFC-41 Emissions from Industrial Production Processes,HFC-41 Emissions from Industrial Production Processes,Output,IPPU,IPPU,ch3f,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-41 Production Process Emission Factor,HFC-41 Production Process Emission Factor,Input,IPPU,IPPU,ch3f,tonne,,1,1,model_input,"| Unitless emission factor for Fluoromethane (HFC-41, or :math:`\text{CH}_3\text{F}`) per (tonne/tonne of production)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+HFC-43-10mee Emissions from Industrial Product Use,HFC-43-10mee Emissions from Industrial Product Use,Output,IPPU,IPPU,c5h2f10,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+HFC-43-10mee GDP Product Use Emission Factor,HFC-43-10mee GDP Product Use Emission Factor,Input,IPPU,IPPU,c5h2f10,tonne,,1,1,model_input,"| Emission factor for Trifluoromethane (HFC-43-10mee) per (tonne/mmm GDP)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+HWP Half Life Paper,HWP Half Life Paper,Input,AFOLU,Forest,,ha,,1,1,model_input,
+HWP Half Life Wood,HWP Half Life Wood,Input,AFOLU,Forest,,ha,,1,1,model_input,
+Heat Energy Demand in SCOE,Heat Energy Demand in SCOE,Output,Energy,Stationary Combustion and Other Energy,,PJ,,3,3,model_output,
+Historical Back Projection Growth Rate in Solid Waste Generation,Historical Back Projection Growth Rate in Solid Waste Generation,Input,Circular Economy,Solid Waste,,"no unit (ratio, scalar or share)",,1,1,model_input,Primary a calibration parameter if using the back-projection method for solid waste. The growth rate at time :math:`t = 0` is applied backwards to estimate waste landfilled in previous years. The back projection method should only be used in the absence of historical data.
+Industrial :math:\text{CO}_2 Capture Efficacy,Industrial CO₂ Capture Efficacy,Input,IPPU,IPPU,co2,unknown,,6,6,model_input,"| Fraction of :math:`\text{CO}_2` emitted that is captured when CCS is implemented.
+ | 
+ | **NOTE**: this variable is used in Industrial Energy (INEN) as well to determine the share of :math:`\text{CO}_2` emissions that are captured.
+ | 
+ | **NOTE**: this variable applies only to process emissions and does not affect product use emissions."
+Industrial :math:\text{CO}_2 Capture Prevalence,Industrial CO₂ Capture Prevalence,Input,IPPU,IPPU,co2,fraction (0–1),,6,6,model_input,"| Fraction of industrial production subject to CCS, which reduces :math:`\text{CO}_2` emissions.
+ | 
+ | **NOTE**: this variable is used in Industrial Energy (INEN) as well to determine the share of :math:`\text{CO}_2` emissions that are captured.
+ | 
+ | **NOTE**: this variable applies only to process emissions and does not affect product use emissions."
+Industrial Energy Demand Scalar,Industrial Energy Demand Scalar,Input,Energy,Industrial Energy,,"no unit (ratio, scalar or share)",,20,20,model_input,Scalar used to modify energy demands--used to represent efficiency improvements in energy demands in different industries.
+Industrial Energy Fuel Fraction Coal,Industrial Energy Fuel Fraction Coal,Input,Energy,Industrial Energy,,fraction (0–1),,21,21,model_input,Fraction of point-of-use demand from coal.
+Industrial Energy Fuel Fraction Coke,Industrial Energy Fuel Fraction Coke,Input,Energy,Industrial Energy,,fraction (0–1),,21,21,model_input,Fraction of point-of-use demand from coke.
+Industrial Energy Fuel Fraction Diesel,Industrial Energy Fuel Fraction Diesel,Input,Energy,Industrial Energy,,fraction (0–1),,21,21,model_input,Fraction of point-of-use demand from diesel.
+Industrial Energy Fuel Fraction Electricity,Industrial Energy Fuel Fraction Electricity,Input,Energy,Industrial Energy,,fraction (0–1),,21,21,model_input,Fraction of point-of-use demand from electricity.
+Industrial Energy Fuel Fraction Furnace Gas,Industrial Energy Fuel Fraction Furnace Gas,Input,Energy,Industrial Energy,,fraction (0–1),,21,21,model_input,Fraction of point-of-use demand from furnace gas.
+Industrial Energy Fuel Fraction Gasoline,Industrial Energy Fuel Fraction Gasoline,Input,Energy,Industrial Energy,,fraction (0–1),,21,21,model_input,Fraction of point-of-use demand from gasoline.
+Industrial Energy Fuel Fraction Geothermal,Industrial Energy Fuel Fraction Geothermal,Input,Energy,Industrial Energy,,fraction (0–1),,1,1,model_input,"| Fraction of point-of-use demand from geothermal energy. Included for mining only.
+ | 
+ | See `BBC Future Planet <https://www.bbc.com/future/article/20201124-how-geothermal-lithium-could-revolutionise-green-energy>`_ for some discussion of lithium mining using geothermal"
+Industrial Energy Fuel Fraction Hydrocarbon Gas Liquids,Industrial Energy Fuel Fraction Hydrocarbon Gas Liquids,Input,Energy,Industrial Energy,,fraction (0–1),,21,21,model_input,"Fraction of point-of-use demand from hydrocarbon gas liquids, including propane, butane, and ethane."
+Industrial Energy Fuel Fraction Hydrogen,Industrial Energy Fuel Fraction Hydrogen,Input,Energy,Industrial Energy,,fraction (0–1),,21,21,model_input,Fraction of point-of-use demand from hydrogen.
+Industrial Energy Fuel Fraction Kerosene,Industrial Energy Fuel Fraction Kerosene,Input,Energy,Industrial Energy,,fraction (0–1),,21,21,model_input,Fraction of point-of-use demand from kerosene.
+Industrial Energy Fuel Fraction Natural Gas,Industrial Energy Fuel Fraction Natural Gas,Input,Energy,Industrial Energy,,fraction (0–1),,21,21,model_input,Fraction of point-of-use demand from natural gas.
+Industrial Energy Fuel Fraction Oil,Industrial Energy Fuel Fraction Oil,Input,Energy,Industrial Energy,,fraction (0–1),,21,21,model_input,Fraction of point-of-use demand from oil.
+Industrial Energy Fuel Fraction Solar,Industrial Energy Fuel Fraction Solar,Input,Energy,Industrial Energy,,fraction (0–1),,21,21,model_input,Fraction of point-of-use demand from solar.
+Industrial Energy Fuel Fraction Solid Biomass,Industrial Energy Fuel Fraction Solid Biomass,Input,Energy,Industrial Energy,,fraction (0–1),,21,21,model_input,Fraction of point-of-use demand from solid biomass.
+Industrial Production,Industrial Production,Output,IPPU,IPPU,,tonne,,12,12,model_output,"| Production at :math:`t = 0` of an industrial category, in tonnes. Future production is elastic to GDP and is modified by an exogenous scalar (representing changes to industry). 
+ | 
+ | Note that production of recycled categories (``recycled_XXX``) differ from total waste recycled. In the Industrial model, recycled materials are used until the maximum recycling fraction is obtained."
+Industrial Production Scalar,Industrial Production Scalar,Input,IPPU,IPPU,,"no unit (ratio, scalar or share)",,20,20,model_input,"| Exogenous scalar that can be used to represent exogenous shocks todemand (assuming production and demand are in equilibrium).
+ | 
+ | **NOTE:** Excludes categories that are derviced from model integration, including agricultural and livestock production (AFOLU) and recycling (Circular Economy)"
+Initial Composition Fraction Industrial Solid Waste,Initial Composition Fraction Industrial Solid Waste,Input,Circular Economy,Solid Waste,,fraction (0–1),,13,13,model_input,Represents the fraction of all industrial solid waste represented by this type
+Initial Composition Fraction Municipal Solid Waste,Initial Composition Fraction Municipal Solid Waste,Input,Circular Economy,Solid Waste,,fraction (0–1),,13,13,model_input,Represents the initial fraction of all domestic solid waste represented by this type. Per capita growth rates in waste generated by category are projected by applying elasticities to changes in gdp/capita.
+Initial Cropland Area Proportion,Initial Cropland Area Proportion,Input,AFOLU,Agriculture,,fraction (0–1),,13,13,model_input,"Proportion of total **crop** area (%/100), where crop area is calculated as the product of the country's area (``area_country_ha``) and the fraction of land use that is devoted to crop land (``frac_lu_cropland``)"
+Initial Energy Consumption Intensity of GDP,Initial Energy Consumption Intensity of GDP,Input,Energy,Industrial Energy,,TJ,,1,1,model_input,Initial energy consumption per gdp by each industrial category $CAT-INDUSTRY$ that is driven by gdp. Represents the energy required for industrial production rather than energy consumed at time 0 (should account for inefficiencies).
+Initial Energy Consumption Intensity of Production,Initial Energy Consumption Intensity of Production,Input,Energy,Industrial Energy,,tonne,,19,19,model_input,Initial energy consumption per tonne of production by each industrial category $CAT-INDUSTRY$ that is driven by production. Represents the energy required for industrial production.
+Initial Energy Consumption in Agriculture and Livestock,Initial Energy Consumption in Agriculture and Livestock,Input,Energy,Industrial Energy,,PJ,,1,1,model_input,"| Total energy demand at time :math:`t = 0` for on-farm agricultural production, including off-road vehicles (such as tractors, combines, etc.) and other stationary agricultural equipment that may or not be electrical powered. Excludes residential demands and off-farm transportation (e.g., private vehicles and freight transport).
+ | 
+ | Initial energy consumption is combined with aggregated production in agriculture and livestock to estimate an average intensity at time 0.
+ | 
+ | Demands are passed to the industrial energy model, where emissions from different fuel uses are calculated. Efficiencies in technological use by fuel are assumed to respond to industrial averages.
+ | 
+ | Energy demands are assumed to grow proportionally with total tonnage of production. Process efficiencies--e.g., requiring less point-of-use energy to perform a task (different from efficiencies in fuel-use technologies)--can be implemented using the Demand Scalar."
+Initial Fraction of Area with Drained Organic Soils,Initial Fraction of Area with Drained Organic Soils,Input,AFOLU,Land Use,,fraction (0–1),,2,2,model_input,"Fraction of the land use area associated with drained organic soils--used to represent emissions from Peatland and Muck that has been drained to accommodate croplands and grassland expansion. After the initial time period, land use transitions guide drained organic soils."
+Initial Industrial Production,Initial Industrial Production,Input,IPPU,IPPU,,tonne,,18,18,model_input,"Production at :math:`t = 0` of an industrial category, in tonnes. Future production is elastic to GDP and is modified by an exogenous scalar (representing changes to industry)."
+Initial Land Use Area Proportion,Initial Land Use Area Proportion,Input,AFOLU,Land Use,,fraction (0–1),,11,11,model_input,Proportion of total **country land** area (%/100) at time :math:`t_0`
+Initial Liming Dolomite Applied to Soils,Initial Liming Dolomite Applied to Soils,Input,AFOLU,Soil Management,,kt,,1,1,model_input,
+Initial Liming Limestone Applied to Soils,Initial Liming Limestone Applied to Soils,Input,AFOLU,Soil Management,,kt,,1,1,model_input,
+Initial Livestock Head Count,Initial Livestock Head Count,Input,AFOLU,Livestock,,unknown,,9,9,model_input,Initial population of animal; note that only the first value (associated with t = 0) will be used. Future animal populations are estimated using demand elasticities from GDP/Capita.
+Initial Megatonne-Kilometer Demand,Initial Megatonne-Kilometer Demand,Input,Energy,Transportation Demand,,km,,1,1,model_input,Total transportation demand forfreight transport in MT-km. This value represents the total mass of freight moved (in MT) multiplied by the number of km is was moved.
+Initial National Occupancy Rate,Initial National Occupancy Rate,Input,Socioeconomic,General,,unknown,,1,1,model_input,Used to calculate number of households. Units: average # of people per household nationally at time :math:`t = 0`.
+Initial Non-Energy Fuel Use,Initial Non-Energy Fuel Use,Input,IPPU,IPPU,,kt,,2,2,model_input,Includes paraffin wax and lubricant use
+Initial Other Non-Energy :math:\text{CO}_2 Emissions,Initial Other Non-Energy CO₂ Emissions,Input,IPPU,IPPU,co2,kt,,1,1,model_input,
+Initial Per Capita Annual Domestic Wastewater Generated,Initial Per Capita Annual Domestic Wastewater Generated,Input,Circular Economy,Liquid Waste,,m³,,2,2,model_input,"Represents the estimated volume, in :math:`\text{m}^3`/year, that each person produces in domestic wastewater. This production This value is modified by the log elasticity of production to gdp/capita. Increasing GDP/Capita is associated with increasing per capita liquid waste generation; see `Jones, Vliet, Qadir, and Bierkens (2021) <https://doi.org/10.5194/essd-13-237-2021>`_."
+Initial Per Capita Municipal Solid Waste Generated,Initial Per Capita Municipal Solid Waste Generated,Input,Circular Economy,Solid Waste,,tonne,,1,1,model_input,"Represents the estimated quantity, in kg/person, of solid waste generated per person at time :math:`t = 0`. The total waste generated per person is then estimated for each waste composition category using the elasticity of waste production to income (GDP/Capita)."
+Initial Per GDP Annual Industrial Wastewater Generated,Initial Per GDP Annual Industrial Wastewater Generated,Input,Circular Economy,Liquid Waste,,m³,,1,1,model_input,"Represents the estimated quantity, in m3/year, produced per billion $ GDP."
+Initial Per Household Wood Demand,Initial Per Household Wood Demand,Input,AFOLU,Forest,,kg,,1,1,model_input,Demand per household for wood use in the home at time :math:`t = 0`
+Initial Synthetic Fertilizer Use,Initial Synthetic Fertilizer Use,Input,AFOLU,Soil Management,,kt,,1,1,model_input,
+Initial per Capita Passenger-Kilometer Demand,Initial per Capita Passenger-Kilometer Demand,Input,Energy,Transportation Demand,,km,,2,2,model_input,Per capita demand (in passenger-kilometers) for private and public/reigonal travel
+K,K,Input,Circular Economy,Solid Waste,,unknown,,13,13,model_input,"| Methane Generation Rate :math:`k`, a physical parameter characterizing the mass decay half-life of each type of waste that is landfilled.
+ | 
+ | Default values of *k* are taken from Volume 5, Chapter 3, Table 3.3 of the IPCC Guidelines for National Greenhouse Gas Inventories."
+LSMM Biogas Recovered from Anaerobic Digesters,LSMM Biogas Recovered from Anaerobic Digesters,Output,AFOLU,Livestock Manure Management,,tonne,,1,1,model_output,
+Land Use Area,Land Use Area,Output,AFOLU,Land Use,,unknown,,11,11,model_output,Area of each land use category
+Land Use BOC :math:\text{CH}_4 Emission Factor,Land Use BOC CH₄ Emission Factor,Input,AFOLU,Land Use,ch4,ha,,1,1,model_input,Annual average :math:`\text{CH}_4` emitted per ha due decay of organic matter (**CHECK THIS**).
+Land Use Biomass Sequestration Factor,Land Use Biomass Sequestration Factor,Input,AFOLU,Land Use,co2,kt,,6,6,model_input,Average annual sequestration flow of carbon into biomass in the land use category.
+Land Use Fraction Dry,Land Use Fraction Dry,Input,AFOLU,Land Use,,fraction (0–1),,4,4,model_input,"| Used to calculate :math:`\text{N}_2\text{O}` emissions from fertilizer application. 
+ | 
+ | Land Use Fraction Dry and Land Use Fraction Wet must sum to 1"
+Land Use Fraction Fertilized,Land Use Fraction Fertilized,Input,AFOLU,Land Use,,fraction (0–1),,2,2,model_input,Fraction of the land use category that receives fertilizer. Used to identify agricultural grasslands.
+Land Use Fraction Temperate,Land Use Fraction Temperate,Input,AFOLU,Land Use,,fraction (0–1),,2,2,model_input,"| Used to calculate :math:`\text{N}_2\text{O}` emissions from organic soils. 
+ | 
+ | Land Use Fraction Temperate and Land Use Fraction Tropical must sum to 1"
+Land Use Fraction Tropical,Land Use Fraction Tropical,Input,AFOLU,Land Use,,fraction (0–1),,2,2,model_input,"| Used to calculate :math:`\text{N}_2\text{O}` emissions from organic soils. 
+ | 
+ | Land Use Fraction Temperate and Land Use Fraction Tropical must sum to 1"
+Land Use Fraction Wet,Land Use Fraction Wet,Input,AFOLU,Land Use,,fraction (0–1),,4,4,model_input,"| Used to calculate :math:`\text{N}_2\text{O}` emissions from fertilizer application
+ | 
+ | Land Use Fraction Dry and Land Use Fraction Wet must sum to 1"
+Land Use Yield Reallocation Factor,Land Use Yield Reallocation Factor,Input,AFOLU,Land Use,,unknown,,1,1,model_input,"The land use yield reallocation factor :math:`\eta \in [0, 1]` is used to represent land use responsiveness to changes in demands. 
+ | 
+ | If :math:`\eta = 1`, then **land use will be reallocated**, diverging from the specified transition matrix. If demands exceed carrying capacity to meet all livestock and crop demands, then the transitions into grassland and cropland are increased to meet demands. If the carrying capacity exceeds demand, then transitions to grassland and croplands are reduced (which also increases forested land). 
+ | 
+ | If :math:`\eta = 0`, then **land use will remain as specified**, and all remaining demands with be met with net imports. If the demand is less then carrying capacity, then there is an increase in net exports; if demand exceeds carrying capacity, there is an increase in net imports.
+ | 
+ | For :math:`\eta \in (0, 1)`, there is a mix of reallocation and net imports, which scales linearly between extremes."
+Leaching Fraction of N Lost,Leaching Fraction of N Lost,Input,AFOLU,Soil Management,,fraction (0–1),,1,1,model_input,"| See :math:`FRAC_{LEACH-(H)}` from Table 11.3 in V4, C11 IPCC GNGHGI 2019R"
+Liming Demand Scalar,Liming Demand Scalar,Input,AFOLU,Soil Management,,"no unit (ratio, scalar or share)",,1,1,model_input,
+Livestock Demand,Livestock Demand,Output,AFOLU,Livestock,,unknown,,9,9,model_output,Total production demand for heads of livestock
+Livestock Equivalent Exports,Livestock Equivalent Exports,Input,AFOLU,Livestock,,unknown,,9,9,model_input,Exports of livestock equivalent products (head of livestock)
+Livestock Head Count,Livestock Head Count,Output,AFOLU,Livestock,,unknown,,9,9,model_output,"Estimated as a function of land use, carrying capacity, and the **Carrying Capacity Scalar**."
+Livestock Manure Management Fraction Anaerobic Digester,Livestock Manure Management Fraction Anaerobic Digester,Input,AFOLU,Livestock,,fraction (0–1),,9,9,model_input,
+Livestock Manure Management Fraction Anaerobic Lagoon,Livestock Manure Management Fraction Anaerobic Lagoon,Input,AFOLU,Livestock,,fraction (0–1),,9,9,model_input,
+Livestock Manure Management Fraction Composting,Livestock Manure Management Fraction Composting,Input,AFOLU,Livestock,,fraction (0–1),,9,9,model_input,
+Livestock Manure Management Fraction Daily Spread,Livestock Manure Management Fraction Daily Spread,Input,AFOLU,Livestock,,fraction (0–1),,9,9,model_input,
+Livestock Manure Management Fraction Deep Bedding,Livestock Manure Management Fraction Deep Bedding,Input,AFOLU,Livestock,,fraction (0–1),,9,9,model_input,
+Livestock Manure Management Fraction Dry Lot,Livestock Manure Management Fraction Dry Lot,Input,AFOLU,Livestock,,fraction (0–1),,9,9,model_input,
+Livestock Manure Management Fraction Incineration,Livestock Manure Management Fraction Incineration,Input,AFOLU,Livestock,,fraction (0–1),,9,9,model_input,
+Livestock Manure Management Fraction Liquid Slurry,Livestock Manure Management Fraction Liquid Slurry,Input,AFOLU,Livestock,,fraction (0–1),,9,9,model_input,
+Livestock Manure Management Fraction Paddock Pasture Range,Livestock Manure Management Fraction Paddock Pasture Range,Input,AFOLU,Livestock,,fraction (0–1),,9,9,model_input,
+Livestock Manure Management Fraction Poultry Manure,Livestock Manure Management Fraction Poultry Manure,Input,AFOLU,Livestock,,fraction (0–1),,9,9,model_input,
+Livestock Manure Management Fraction Solid Storage,Livestock Manure Management Fraction Solid Storage,Input,AFOLU,Livestock,,fraction (0–1),,9,9,model_input,
+Log Elasticity DWW Production to GDP Per Capita,Log Elasticity DWW Production to GDP Per Capita,Input,Circular Economy,Liquid Waste,,"no unit (ratio, scalar or share)",,1,1,model_input,"Log elasticity :math:`\varepsilon` of domestic wastewater production per capita to GDP/capita. For a year over year growth in GDP/capita :math:`\Delta g`, the change in domestic wastewater production per capita is estimated as :math:`\Delta W_{d} = (1 + \Delta g)^{\varepsilon} - 1`."
+Manure Management Methane Correction Factor,Manure Management Methane Correction Factor,Input,AFOLU,Livestock Manure Management,,"no unit (ratio, scalar or share)",,11,11,model_input,
+Mass of Sludge Produced,Mass of Sludge Produced,Output,Circular Economy,Wastewater Treatment,,tonne,,3,3,model_output,Total mass of sludge produced from wastewater treatment (aerobic and septic treatment pathways) in tonnes
+Maximum Area,Maximum Area,Input,AFOLU,Land Use,,ha,,11,11,model_input,"| Maximum allowable area for a given category--can be used to cap feasible transitions based on geography and climate constraints.
+ | 
+ | To run without a constraint, use -999"
+Maximum BOD :math:\text{CH}_4 Producing Capacity,Maximum BOD CH₄ Producing Capacity,Input,Circular Economy,Liquid Waste,ch4,tonne,,1,1,model_input,":math:`B_O` from IPCC Guidelines for NGHG Inventories--or maximum CH4 producing capacity, kg :math:`\text{CH}_4`/kg BOD."
+Maximum COD :math:\text{CH}_4 Producing Capacity,Maximum COD CH₄ Producing Capacity,Input,Circular Economy,Liquid Waste,ch4,tonne,,1,1,model_input,":math:`B_O` from IPCC Guidelines for NGHG Inventories--or maximum CH4 producing capacity, kg :math:`\text{CH}_4`/kg COD."
+Maximum Manure :math:\text{CH}_4 Generation Capacity,Maximum Manure CH₄ Generation Capacity,Input,AFOLU,Livestock,ch4,kg,,9,9,model_input,
+Maximum Pasture Dry Matter Yield Factor,Maximum Pasture Dry Matter Yield Factor,Input,AFOLU,Land Use,,tonne,,1,1,model_input,"| Maximum potential yield of pastures in tonne/ha/month. The number of grazing animals that pasture can support are bounded by the maximum potential yield. The number of AU (animal units) implied by carrying capacity cannot exceed this number.
+ | 
+ | Default maximum value taken from `FarmBrite <https://www.farmbrite.com/post/how-many-cows-can-i-keep-per-acre>`_ under the assumption of technically feasible maximum--excellent pasture with irrigation, or 6,900 lb/acre. Using a conversion of 907.1858189 short tonne per kg, we use 3.45 ston/acre => 3129.791075205 kg/acre. The, using 0.404686 ha/acre, we get 7733.875338422877 kg/ha, or 7.734 tonne/ha/month as a default maximum. This is approximateluy 92.81 when expanded to annual. 
+ | 
+ | **NOTE:** This number varies significantly by geography, climate, and pasture utilization rate, and users should take care to set it. In transformations, it can be increased by increasing the prevalenceo of irrigation in drier regions, though this increases water requirements for pastures significantly."
+Maximum Production Increase Fraction to Satisfy MinShareProduction Electricity,Maximum Production Increase Fraction to Satisfy MinShareProduction Electricity,Input,Energy,Energy Technology,,fraction (0–1),,14,14,model_input,"| Maximum increase in future electricity production--estimated as the fraction of estimated production total at **first last period :math:`= -999`. Set to 0 to stop new technologies from being constructed to increase  ``NemoMod MinShareProduction`` constraints. 
+ | 
+ | **CAUTION**: ``Maximum Production Increase Fraction to Satisfy MinShareProduction`` can conflict with other constraints in the model, including ``TotalAnnualMinCapacityInvestment`` and ``TotalAnnualMaxCapacity``; take care to avoid specifying conflicting constratints. SISEPUEDE works to prioritize constraints in the presence of conflicts, but infeasibilities may still occur.
+ | 
+ | **CAUTION**: Avoid implementing this constraint for all technologies if ``NemoMod MinShareProduction`` is used to control the implementation of a baseline. 
+ | 
+ | **NOTE**: This variable will **not** prevent the construction of new technologies to maintain capacity at the last time period where == 0 (where this is no limit imposed).
+ | 
+ | **NOTE**: This constraint modifies the ``NemoMod MinShareProduction`` constraints in response to changing energy demands; it relies on estimates of energy demands from all non-ENTC sectors and may show slight errors relative to true energy demand."
+Maximum Recycled Material Ratio in Virgin Process,Maximum Recycled Material Ratio in Virgin Process,Input,IPPU,IPPU,,"no unit (ratio, scalar or share)",,4,4,model_input,"| Recycled material can sometimes be mixed in with virgin materials
+ | 
+ | **Cullet Ratio in Glass**: *Cullet* is scrap glass that is used to reduce the requirements for raw materials in glass production. In SISEPUEDE, recycled glass is used until the maximum cullet fraction (on average) is satisfied. Recycled glass above this threshold is exported.  See `Nature 599 (2021) <https://www.nature.com/articles/d41586-021-02992-8>`_ and the V3, C2, Equation 2.10 in the IPCC GNGHGI (2006) for more information."
+Maximum Soil Carbon Land Input Factor Without Manure,Maximum Soil Carbon Land Input Factor Without Manure,Input,AFOLU,Land Use,,unknown,,1,1,model_input,"| See :math:`F_{I}` in Equation 2.25 and Box 2.2, V4, C2 IPPC GNGHGI (2019R). 
+ | 
+ | Used to represent supremum of soil carbon storage if residues are used as inputs (no manure)"
+Maximum Soil Carbon Land Management Factor,Maximum Soil Carbon Land Management Factor,Input,AFOLU,Land Use,,unknown,,2,2,model_input,"| See :math:`F_{MG}` in Equation 2.25 and Box 2.2, V4, C2 IPPC GNGHGI (2019R) and Table 5.5.
+ |
+ | Used to represent supremum of soil carbon storage due to management practices if no-till is used (croplands) or with sustainable management (grasslands)"
+Megatonne-Kilometer Demand,Megatonne-Kilometer Demand,Output,Energy,Transportation Demand,,km,,1,1,model_output,
+Minimum Area,Minimum Area,Input,AFOLU,Land Use,,ha,,11,11,model_input,"| Minimum allowable area for a given category--can be used to bound feasible transitions based on geography and climate constraints OR implement conservation transformations.
+ | 
+ | To run without a constraint, use -999"
+Minimum Fraction of Fuel Used for Electricity Generation,Minimum Fraction of Fuel Used for Electricity Generation,Input,Energy,Energy Fuels,,fraction (0–1),,2,2,model_input,"Depending on renewable resource availability and pricing, the use of biogas may not be the most cost-effective renewable fuel available. This parameter ensures that a some minimum fraction of collected biogas is used within the region."
+N Content of Above Ground Residues,N Content of Above Ground Residues,Input,AFOLU,Agriculture,,fraction (0–1),,5,5,model_input,See :math:`N_{AG(T)}` in Equation 11.6 in IPCC GNGHGI and Table 11.1A (2019R)
+N Content of Below Ground Residues,N Content of Below Ground Residues,Input,AFOLU,Agriculture,,fraction (0–1),,5,5,model_input,See :math:`N_{BG(T)}` in Equation 11.6 in IPCC GNGHGI and Table 11.1A (2019R)
+NMVOC FGTV Distribution Emission Factor,NMVOC FGTV Distribution Emission Factor,Input,Energy,Fugitive Emissions,,tonne,,1,1,model_input,
+NMVOC FGTV Production Flaring Emission Factor,NMVOC FGTV Production Flaring Emission Factor,Input,Energy,Fugitive Emissions,,tonne,,3,3,model_input,
+NMVOC FGTV Production Fugitive Emission Factor,NMVOC FGTV Production Fugitive Emission Factor,Input,Energy,Fugitive Emissions,,tonne,,3,3,model_input,
+NMVOC FGTV Production Venting Emission Factor,NMVOC FGTV Production Venting Emission Factor,Input,Energy,Fugitive Emissions,,tonne,,2,2,model_input,
+NMVOC FGTV Transmission Emission Factor,NMVOC FGTV Transmission Emission Factor,Input,Energy,Fugitive Emissions,,tonne,,3,3,model_input,
+National Occupancy Rate,National Occupancy Rate,Output,Socioeconomic,General,,unknown,,1,1,model_output,
+NemoMod :math:\text{CH}_4 Emissions from Electricity Generation,NemoMod CH₄ Emissions from Electricity Generation,Output,Energy,Energy Technology,ch4,Mt CO₂e,Electricity and Heat Generation,14,14,decomposed_emissions,Taken from NemoMod variable **vannualemissions** and reported in configuration units emissions_mass.
+NemoMod :math:\text{CH}_4 Emissions from Electricity Generation for CCSQ,NemoMod CH₄ Emissions from Electricity Generation for CCSQ,Output,Energy,Energy Technology,ch4,Mt CO₂e,,1,1,decomposed_emissions,
+NemoMod :math:\text{CH}_4 Emissions from Electricity Generation for Energy Technology,NemoMod CH₄ Emissions from Electricity Generation for Energy Technology,Output,Energy,Energy Technology,ch4,Mt CO₂e,,1,1,decomposed_emissions,
+NemoMod :math:\text{CH}_4 Emissions from Electricity Generation for Export,NemoMod CH₄ Emissions from Electricity Generation for Export,Output,Energy,Energy Technology,ch4,Mt CO₂e,,1,1,decomposed_emissions,
+NemoMod :math:\text{CH}_4 Emissions from Electricity Generation for Industrial Energy,NemoMod CH₄ Emissions from Electricity Generation for Industrial Energy,Output,Energy,Energy Technology,ch4,Mt CO₂e,,1,1,decomposed_emissions,
+NemoMod :math:\text{CH}_4 Emissions from Electricity Generation for SCOE,NemoMod CH₄ Emissions from Electricity Generation for SCOE,Output,Energy,Energy Technology,ch4,Mt CO₂e,,1,1,decomposed_emissions,
+NemoMod :math:\text{CH}_4 Emissions from Electricity Generation for Transportation,NemoMod CH₄ Emissions from Electricity Generation for Transportation,Output,Energy,Energy Technology,ch4,Mt CO₂e,,1,1,decomposed_emissions,
+NemoMod :math:\text{CH}_4 Emissions from Fuel Mining and Extraction,NemoMod CH₄ Emissions from Fuel Mining and Extraction,Output,Energy,Energy Technology,ch4,Mt CO₂e,Fuel Production,3,3,decomposed_emissions,Taken from NemoMod variable **vannualemissions** and reported in configuration units emissions_mass.
+NemoMod :math:\text{CH}_4 Emissions from Fuel Processing and Refinement,NemoMod CH₄ Emissions from Fuel Processing and Refinement,Output,Energy,Energy Technology,ch4,Mt CO₂e,Fuel Production,8,8,decomposed_emissions,Taken from NemoMod variable **vannualemissions** and reported in configuration units emissions_mass.
+NemoMod :math:\text{CO}_2 Biomass Emissions from Fuel Processing and Refinement,NemoMod CO₂ Biomass Emissions from Fuel Processing and Refinement,Output,Energy,Energy Technology,co2,Mt CO₂e,Forest Land - Removals,1,1,decomposed_emissions,"All :math:`\text{CO}_2` emissions from fuel processing and refinement drawn from biomass emissions (i.e., fuel_biomass), which are constrained by carbon stock."
+NemoMod :math:\text{CO}_2 Emissions from Electricity Generation,NemoMod CO₂ Emissions from Electricity Generation,Output,Energy,Energy Technology,co2,Mt CO₂e,Electricity and Heat Generation | Forest Land - Removals,14,14,decomposed_emissions,Taken from NemoMod variable **vannualemissions** and reported in configuration units emissions_mass.
+NemoMod :math:\text{CO}_2 Emissions from Electricity Generation for CCSQ,NemoMod CO₂ Emissions from Electricity Generation for CCSQ,Output,Energy,Energy Technology,co2,Mt CO₂e,,1,1,decomposed_emissions,
+NemoMod :math:\text{CO}_2 Emissions from Electricity Generation for Energy Technology,NemoMod CO₂ Emissions from Electricity Generation for Energy Technology,Output,Energy,Energy Technology,co2,Mt CO₂e,,1,1,decomposed_emissions,
+NemoMod :math:\text{CO}_2 Emissions from Electricity Generation for Export,NemoMod CO₂ Emissions from Electricity Generation for Export,Output,Energy,Energy Technology,co2,Mt CO₂e,,1,1,decomposed_emissions,
+NemoMod :math:\text{CO}_2 Emissions from Electricity Generation for Industrial Energy,NemoMod CO₂ Emissions from Electricity Generation for Industrial Energy,Output,Energy,Energy Technology,co2,Mt CO₂e,,1,1,decomposed_emissions,
+NemoMod :math:\text{CO}_2 Emissions from Electricity Generation for SCOE,NemoMod CO₂ Emissions from Electricity Generation for SCOE,Output,Energy,Energy Technology,co2,Mt CO₂e,,1,1,decomposed_emissions,
+NemoMod :math:\text{CO}_2 Emissions from Electricity Generation for Transportation,NemoMod CO₂ Emissions from Electricity Generation for Transportation,Output,Energy,Energy Technology,co2,Mt CO₂e,,1,1,decomposed_emissions,
+NemoMod :math:\text{CO}_2 Emissions from Fuel Mining and Extraction,NemoMod CO₂ Emissions from Fuel Mining and Extraction,Output,Energy,Energy Technology,co2,Mt CO₂e,Fuel Production,3,3,decomposed_emissions,Taken from NemoMod variable **vannualemissions** and reported in configuration units emissions_mass.
+NemoMod :math:\text{CO}_2 Non-Biomass Emissions from Fuel Processing and Refinement,NemoMod CO₂ Non-Biomass Emissions from Fuel Processing and Refinement,Output,Energy,Energy Technology,co2,Mt CO₂e,Fuel Production,8,8,decomposed_emissions,Taken from NemoMod variable **vannualemissions** and reported in configuration units emissions_mass.
+NemoMod :math:\text{N}_2\text{O} Emissions from Electricity Generation,NemoMod N₂O Emissions from Electricity Generation,Output,Energy,Energy Technology,n2o,Mt CO₂e,Electricity and Heat Generation,14,14,decomposed_emissions,Taken from NemoMod variable **vannualemissions** and reported in configuration units emissions_mass.
+NemoMod :math:\text{N}_2\text{O} Emissions from Electricity Generation for CCSQ,NemoMod N₂O Emissions from Electricity Generation for CCSQ,Output,Energy,Energy Technology,n2o,Mt CO₂e,,1,1,decomposed_emissions,
+NemoMod :math:\text{N}_2\text{O} Emissions from Electricity Generation for Energy Technology,NemoMod N₂O Emissions from Electricity Generation for Energy Technology,Output,Energy,Energy Technology,n2o,Mt CO₂e,,1,1,decomposed_emissions,
+NemoMod :math:\text{N}_2\text{O} Emissions from Electricity Generation for Export,NemoMod N₂O Emissions from Electricity Generation for Export,Output,Energy,Energy Technology,n2o,Mt CO₂e,,1,1,decomposed_emissions,
+NemoMod :math:\text{N}_2\text{O} Emissions from Electricity Generation for Industrial Energy,NemoMod N₂O Emissions from Electricity Generation for Industrial Energy,Output,Energy,Energy Technology,n2o,Mt CO₂e,,1,1,decomposed_emissions,
+NemoMod :math:\text{N}_2\text{O} Emissions from Electricity Generation for SCOE,NemoMod N₂O Emissions from Electricity Generation for SCOE,Output,Energy,Energy Technology,n2o,Mt CO₂e,,1,1,decomposed_emissions,
+NemoMod :math:\text{N}_2\text{O} Emissions from Electricity Generation for Transportation,NemoMod N₂O Emissions from Electricity Generation for Transportation,Output,Energy,Energy Technology,n2o,Mt CO₂e,,1,1,decomposed_emissions,
+NemoMod :math:\text{N}_2\text{O} Emissions from Fuel Mining and Extraction,NemoMod N₂O Emissions from Fuel Mining and Extraction,Output,Energy,Energy Technology,n2o,Mt CO₂e,Fuel Production,3,3,decomposed_emissions,Taken from NemoMod variable **vannualemissions** and reported in configuration units emissions_mass.
+NemoMod :math:\text{N}_2\text{O} Emissions from Fuel Processing and Refinement,NemoMod N₂O Emissions from Fuel Processing and Refinement,Output,Energy,Energy Technology,n2o,Mt CO₂e,Fuel Production,8,8,decomposed_emissions,Taken from NemoMod variable **vannualemissions** and reported in configuration units emissions_mass.
+NemoMod AvailabilityFactor Scalar,NemoMod AvailabilityFactor Scalar,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,14,14,model_input,Scalar--applied to all time slices--applied to a technology's availability factor.
+NemoMod CapitalCost,NemoMod CapitalCost,Input,Energy,Energy Technology,,million USD,,20,20,model_input,Cost to build a unit of capacity for the specified technology
+NemoMod CapitalCostStorage,NemoMod CapitalCostStorage,Input,Energy,Energy Storage,,usd (monetary); kwh (energy),,4,4,model_input,Cost to build a unit of capacity for the specified storage
+NemoMod Discounted Capital Investment,NemoMod Discounted Capital Investment,Output,Energy,Energy Technology,,unknown,,20,20,model_output,"| Discounted capital investment in new generation technologies (in configuration monetary_units).
+ | 
+ | NemoMod output variable **vdiscountedcapitalinvestment**"
+NemoMod Discounted Capital Investment Storage,NemoMod Discounted Capital Investment Storage,Output,Energy,Energy Storage,,unknown,,4,4,model_output,"| Discounted capital investment in new generation technologies (in configuration monetary_units).
+ | 
+ | NemoMod output variable **vdiscountedcapitalinvestment**"
+NemoMod Discounted Operating Costs,NemoMod Discounted Operating Costs,Output,Energy,Energy Technology,,unknown,,20,20,model_output,"| Discounted operating (fixed and variable) costs by generation technology (in configuration monetary_units).
+ | 
+ | NemoMod variable **vdiscountedoperatingcost**"
+NemoMod Discounted Operating Costs Storage,NemoMod Discounted Operating Costs Storage,Output,Energy,Energy Storage,,unknown,,4,4,model_output,"| Discounted operating (fixed and variable) costs by generation technology (in configuration monetary_units).
+ | 
+ | NemoMod variable **vdiscountedoperatingcost**"
+NemoMod FixedCost,NemoMod FixedCost,Input,Energy,Energy Technology,,million USD,,20,20,model_input,Fixed annual operating and maintenance costs per unit of power.
+NemoMod Generation Capacity,NemoMod Generation Capacity,Output,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,18,18,model_output,"| Total annual generation capacity (in configuration power_units).
+ | 
+ | NemoMod variable **vtotalcapacityannual**"
+NemoMod MinShareProduction,NemoMod MinShareProduction,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,18,18,model_input,"| According to `NemoMod <https://sei-international.github.io/NemoMod.jl/stable/parameters/#MinShareProduction>`_ , the ``MinShareProduction`` variable defines, ""[f]or the specified region, fuel, and year, minimum fraction of production (excluding production from storage) that must be delivered by the indicated technology.""
+ | 
+ | Spcified as fraction of production, i.e., :math:`x \in [0, 1]`
+ | 
+ | Can be used with electricity generation technologies (``pp_``) or select fuel production technologies (``fp_``). Note that each of these technologies produces exactly **one** fuel.
+ | 
+ | **CAUTION**: ``MinShareProduction`` can interact with other constraints, such as ``REMinProductionTarget`` (see ENFU), ``TotalAnnualMaxCapacity``, ``TotalAnnualMaxCapacityInvestment``; take care to avoid specifying conflicting constratints. SISEPUEDE works to prioritize constraints in the presence of conflicts, but infeasibilities may still occur."
+NemoMod Production by Technology,NemoMod Production by Technology,Output,Energy,Energy Technology,,unknown,,18,18,model_output,"| Production of electricity by generation technology (in configuration energy_units, [*not* energy_units_nemomod]).
+ | 
+ | NemoMod variable **vproductionbytechnologyannual**"
+NemoMod REMinProductionTarget,NemoMod REMinProductionTarget,Input,Energy,Energy Fuels,,unknown,,1,1,model_input,"| Minimum fraction of fuel generation that must come from renewable energy generation. 
+ | 
+ | **NOTE:** Nuclear can be toggled as a renewable energy. See the **Renewable Energy Technology Flag** variable in ENTC."
+NemoMod RETagTechnology,NemoMod RETagTechnology,Input,Energy,Energy Technology,,unknown,,18,18,model_input,"| Fraction of a technology that counts as renewable or not. 
+ | 
+ | Only Nuclear is specified for now (others, such as wind, solar, ocean, and geothermal, are statically defined in the ``$CAT-TECHNOLOGY$`` attribute table)."
+NemoMod ReserveMargin,NemoMod ReserveMargin,Input,Energy,Energy Fuels,,unknown,,1,1,model_input,Reserve margin for generating capacity.
+NemoMod ReserveMarginTagTechnology,NemoMod ReserveMarginTagTechnology,Input,Energy,Energy Technology,,unknown,,18,18,model_input,Fraction of technology's capacity that is available to reserve margin.
+NemoMod ResidualCapacity,NemoMod ResidualCapacity,Input,Energy,Energy Technology,,GW,,14,14,model_input,Used to enter existing capacity **and** to represent its lifetime (declining availability).
+NemoMod ResidualStorageCapacity,NemoMod ResidualStorageCapacity,Input,Energy,Energy Storage,,GW,,4,4,model_input,Used to enter existing capacity **and** to represent its lifetime (declining availability).
+NemoMod StorageStartLevel,NemoMod StorageStartLevel,Input,Energy,Energy Storage,,unknown,,4,4,model_input,"| Fraction of available storage that is charge at time :math:`t = 0`.
+ | 
+ | **NOTE**: For a given ``$CAT-STORAGE$``, this value should be greater than or equal to the valie of ``Minimum Charge Fraction`` provided in the ``$CAT-STORAGE$`` attribute table. If it is not, then SISEPUEDE will override initial storage fraction to ensure consistency."
+NemoMod TotalAnnualMaxCapacity,NemoMod TotalAnnualMaxCapacity,Input,Energy,Energy Technology,,GW,,14,14,model_input,"| Total annual maximum capacity for a generation technology. If none, enter -999 as a flag.. 
+ | 
+ | Exlucdes storage technologies."
+NemoMod TotalAnnualMaxCapacityInvestment,NemoMod TotalAnnualMaxCapacityInvestment,Input,Energy,Energy Technology,,GW,,14,14,model_input,"| Total annual maximum capacity investment, in units of power, for a generation technology (year-over-year maximum). If none, enter -999 as a flag.. 
+ | 
+ | Exlucdes storage technologies."
+NemoMod TotalAnnualMaxCapacityInvestmentStorage,NemoMod TotalAnnualMaxCapacityInvestmentStorage,Input,Energy,Energy Storage,,PJ,,4,4,model_input,"| Total annual maximum capacity investment, in units of power, for a generation technology (year-over-year maximum). If none, enter -999."
+NemoMod TotalAnnualMaxCapacityStorage,NemoMod TotalAnnualMaxCapacityStorage,Input,Energy,Energy Storage,,PJ,,4,4,model_input,"| Total annual maximum capacity for a storage technology. If none, enter -999 as a flag.."
+NemoMod TotalAnnualMinCapacity,NemoMod TotalAnnualMinCapacity,Input,Energy,Energy Technology,,GW,,14,14,model_input,"| Total annual minimum capacity for a generation technology. If none, enter -999 as a flag.. 
+ | 
+ | Exlucdes storage technologies."
+NemoMod TotalAnnualMinCapacityInvestment,NemoMod TotalAnnualMinCapacityInvestment,Input,Energy,Energy Technology,,GW,,14,14,model_input,"| Total annual minimum capacity investment, in units of power, for a generation technology (year-over-year maximum). If none, enter -999 as a flag..
+ | 
+ | Exlucdes storage technologies."
+NemoMod TotalAnnualMinCapacityInvestmentStorage,NemoMod TotalAnnualMinCapacityInvestmentStorage,Input,Energy,Energy Storage,,PJ,,4,4,model_input,
+NemoMod TotalAnnualMinCapacityStorage,NemoMod TotalAnnualMinCapacityStorage,Input,Energy,Energy Storage,,PJ,,4,4,model_input,"| Total annual minimum capacity for a generation technology. If none, enter -999 as a flag.. 
+ | 
+ | Exlucdes storage technologies."
+NemoMod VariableCost,NemoMod VariableCost,Input,Energy,Energy Technology,,usd (monetary); mwh (energy),,18,18,model_input,"| According to `NemoMod <https://sei-international.github.io/NemoMod.jl/stable/parameters/#VariableCost>`_ , VariableCost is ""Running cost for a technology, defined in terms of cost per unit of nominal energy produced. Nominal energy is calculated by multiplying dispatched capacity by the length of time it is dispatched.""
+ | 
+ | In SISEPUEDE, all technologies (``pp_``) have variable costs associated with ``$MODE$ = generate``."
+Net Imports of Cement Clinker,Net Imports of Cement Clinker,Input,IPPU,IPPU,,tonne,,1,1,model_input,
+Nitrogen Available for Fertilizer,Nitrogen Available for Fertilizer,Output,AFOLU,Livestock Manure Management,,kt,,11,11,model_output,
+Nitrogen Density of Industrial Wastewater,Nitrogen Density of Industrial Wastewater,Input,Circular Economy,Liquid Waste,,m³,,1,1,model_input,Nitrogen density of industrial wastewater
+Nitrogen from Bedding per Animal,Nitrogen from Bedding per Animal,Input,AFOLU,Livestock Manure Management,,kg,,2,2,model_input,"| Represents :math:`N_{beddingMS_{(T, S)}}` in Equation 10.34 in V4, C10 IPCC GNGHGI 2019R, or the amount of nitrogen from bedding. 
+ | 
+ | Applies only to solid storage and deep bedding."
+Nitrogen from Co-Digestates Factor,Nitrogen from Co-Digestates Factor,Input,AFOLU,Livestock Manure Management,,unknown,,1,1,model_input,Factor applied to mass of dung used in anaerobic digesters to estimate relative mass of nitrogen.
+No Till Crop Fraction,No Till Crop Fraction,Input,AFOLU,Agriculture,,fraction (0–1),,6,6,model_input,Fraction of crop area that is subject to no-till
+Number of Households,Number of Households,Output,Socioeconomic,General,,unknown,,1,1,model_output,
+Octafluorooxolane Production Process Emission Factor,Octafluorooxolane Production Process Emission Factor,Input,IPPU,IPPU,c4f8o,tonne,,1,1,model_input,"| Unitless emission factor for Octafluorooxolane (:math:`\text{C}_4\text{F}_8\text{O}`) per (tonne/tonne of production)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+Organic Fertilizer N Use,Organic Fertilizer N Use,Output,AFOLU,Soil Management,,kt,,1,1,model_output,
+Other Fluorinated Compound Emissions from Industrial Product Use,Other Fluorinated Compound Emissions from Industrial Product Use,Output,IPPU,IPPU,,Mt CO₂e,,1,1,decomposed_emissions,"| Aggregate emissions, across all specified non-PFC/HFC flourinated compounds (including HCFCs, halogenated alcohols, ethers, furans, aldehydes, and ketones, where applicable), resulting from industrial production processes. 
+ | 
+ | Includes HCFC-141b and HCFC-142b"
+Other Fluorinated Compound Emissions from Industrial Production Processes,Other Fluorinated Compound Emissions from Industrial Production Processes,Output,IPPU,IPPU,,Mt CO₂e,,2,2,decomposed_emissions,"| Aggregate emissions, across all specified non-PFC/HFC flourinated compounds (including halogenated alcohols, ethers, furans, aldehydes, and ketones, where applicable), resulting from industrial production processes. 
+ | 
+ | Includes Dodecafluoropentane,:math:`\text{NF}_3`, and Octafluorooxolane."
+PFC Emissions from Industrial Product Use,PFC Emissions from Industrial Product Use,Output,IPPU,IPPU,,Mt CO₂e,IPPU,1,1,decomposed_emissions,"Aggregate emissions, across all specified PFCs, resulting from product use in industry."
+PFC Emissions from Industrial Production Processes,PFC Emissions from Industrial Production Processes,Output,IPPU,IPPU,,Mt CO₂e,IPPU,3,3,decomposed_emissions,"Aggregate emissions, across all specified PFCs, resulting from industrial production processes."
+PFC-1114 Emissions from Industrial Production Processes,PFC-1114 Emissions from Industrial Production Processes,Output,IPPU,IPPU,c4f6,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+PFC-1114 Production Process Emission Factor,PFC-1114 Production Process Emission Factor,Input,IPPU,IPPU,c4f6,tonne,,1,1,model_input,"| Unitless emission factor for Hexafluorobutadiene (PFC-1114, or :math:`\text{C}_4\text{F}_6`) per (tonne/tonne of production)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+PFC-116 Emissions from Industrial Product Use,PFC-116 Emissions from Industrial Product Use,Output,IPPU,IPPU,c2f6,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+PFC-116 Emissions from Industrial Production Processes,PFC-116 Emissions from Industrial Production Processes,Output,IPPU,IPPU,c2f6,Mt CO₂e,,3,3,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+PFC-116 GDP Product Use Emission Factor,PFC-116 GDP Product Use Emission Factor,Input,IPPU,IPPU,c2f6,tonne,,1,1,model_input,"| Emission factor for Trifluoromethane (PFC-116, or :math:`\text{C}_2\text{F}_6`) per (tonne/mmm GDP)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+PFC-116 Production Process Emission Factor,PFC-116 Production Process Emission Factor,Input,IPPU,IPPU,c2f6,tonne,,3,3,model_input,"| Unitless emission factor for Perfluoroethane (PFC-116, or :math:`\text{C}_2\text{F}_6`) per (tonne/tonne of production)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+PFC-14 Emissions from Industrial Product Use,PFC-14 Emissions from Industrial Product Use,Output,IPPU,IPPU,cf4,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+PFC-14 Emissions from Industrial Production Processes,PFC-14 Emissions from Industrial Production Processes,Output,IPPU,IPPU,cf4,Mt CO₂e,,3,3,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+PFC-14 GDP Product Use Emission Factor,PFC-14 GDP Product Use Emission Factor,Input,IPPU,IPPU,cf4,tonne,,1,1,model_input,"| Emission factor for Perfluoromethane (PFC-14, or :math:`\text{C}\text{F}_4`) per (tonne/mmm GDP)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+PFC-14 Production Process Emission Factor,PFC-14 Production Process Emission Factor,Input,IPPU,IPPU,cf4,tonne,,3,3,model_input,"| Unitless emission factor for Perfluoromethane (PFC-14, or :math:`\text{C}\text{F}_4`) per (tonne/tonne of production)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+PFC-1418 Emissions from Industrial Production Processes,PFC-1418 Emissions from Industrial Production Processes,Output,IPPU,IPPU,c5f8,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+PFC-218 Emissions from Industrial Production Processes,PFC-218 Emissions from Industrial Production Processes,Output,IPPU,IPPU,c3f8,Mt CO₂e,,2,2,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+PFC-218 Production Process Emission Factor,PFC-218 Production Process Emission Factor,Input,IPPU,IPPU,c3f8,tonne,,2,2,model_input,"| Unitless emission factor for Perfluoropropane (PFC-218, or :math:`\text{C}_3\text{F}_8`) per (tonne/tonne of production
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs.)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+PFC-31-10 Emissions from Industrial Product Use,PFC-31-10 Emissions from Industrial Product Use,Output,IPPU,IPPU,c4f10,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+PFC-31-10 Emissions from Industrial Production Processes,PFC-31-10 Emissions from Industrial Production Processes,Output,IPPU,IPPU,c4f10,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+PFC-31-10 GDP Product Use Emission Factor,PFC-31-10 GDP Product Use Emission Factor,Input,IPPU,IPPU,c4f10,tonne,,1,1,model_input,"| Emission factor for Perflubutane/Decafluorobutane (PFC-31-10, or :math:`\text{C}_4\text{F}_{10}`) per (tonne/mmm GDP)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+PFC-31-10 Production Process Emission Factor,PFC-31-10 Production Process Emission Factor,Input,IPPU,IPPU,c4f10,tonne,,1,1,model_input,"| Unitless emission factor for Perflubutane/Decafluorobutane (PFC-31-10, or :math:`\text{C}_4\text{F}_10`) per (tonne/tonne of production)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+PFC-318 Emissions from Industrial Production Processes,PFC-318 Emissions from Industrial Production Processes,Output,IPPU,IPPU,cc4f8,Mt CO₂e,,2,2,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+PFC-51-14 Emissions from Industrial Product Use,PFC-51-14 Emissions from Industrial Product Use,Output,IPPU,IPPU,c6f14,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+PFC-51-14 Emissions from Industrial Production Processes,PFC-51-14 Emissions from Industrial Production Processes,Output,IPPU,IPPU,c6f14,Mt CO₂e,,1,1,decomposed_emissions,| Used in calibration to key industrial subsectors using data from `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_
+PFC-51-14 GDP Product Use Emission Factor,PFC-51-14 GDP Product Use Emission Factor,Input,IPPU,IPPU,c6f14,tonne,,1,1,model_input,"| Emission factor for Perfluorohexane/Tetradecafluorohexane (PFC-51-14, or :math:`\text{C}_6\text{F}_{14}`) per (tonne/mmm GDP)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+PFC-51-14 Production Process Emission Factor,PFC-51-14 Production Process Emission Factor,Input,IPPU,IPPU,c6f14,tonne,,1,1,model_input,"| Unitless emission factor for Perfluorohexane/Tetradecafluorohexane (PFC-51-14, or :math:`\text{C}_6\text{F}_14`) per (tonne/tonne of production)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+PFC-C-1418 Production Process Emission Factor,PFC-C-1418 Production Process Emission Factor,Input,IPPU,IPPU,c5f8,tonne,,1,1,model_input,"| Unitless emission factor for Octafluorocyclopentene (PFC-1418, or :math:`\text{C}_5\text{F}_8`) per (tonne/tonne of production)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+PFC-C-318 Production Process Emission Factor,PFC-C-318 Production Process Emission Factor,Input,IPPU,IPPU,cc4f8,tonne,,2,2,model_input,"| Unitless emission factor for Perfluorocyclobutane (PFC-C-318, or :math:`\text{c-C}_4\text{F}_8`) per (tonne/tonne of production)
+ | 
+ | See `Minx et al. (2021) <https://doi.org/10.5194/essd-13-5213-2021>`_ for emissions by gas of HFCs and PFCs."
+Passenger-Kilometer Demand,Passenger-Kilometer Demand,Output,Energy,Transportation Demand,,km,,2,2,model_output,
+Per GDP Industrial Solid Waste Generated,Per GDP Industrial Solid Waste Generated,Input,Circular Economy,Solid Waste,,kt,,1,1,model_input,Industrial waste generated per GDP
+Phosphorous Per BOD Factor,Phosphorous Per BOD Factor,Input,Circular Economy,Liquid Waste,,unknown,,1,1,model_input,Ratio of phosphorous to BOD. Unitless. Used in calculating benefits of water treatment
+Phosphorous Per COD Factor,Phosphorous Per COD Factor,Input,Circular Economy,Liquid Waste,,unknown,,1,1,model_input,Ratio of phosphorous to COD. Unitless. Used in calculating benefits of water treatment
+Population,Population,Input,Socioeconomic,General,,unknown,,2,2,model_input,Units: # of people
+Private and Public Transportation Mode Share,Private and Public Transportation Mode Share,Input,Energy,Transportation,,fraction (0–1),,5,5,model_input,Fraction of public and private Passenger-Kilometer (pkm) demand accounted for by transportation type ``$CAT-TRANSPORT$``
+Ratio of :math:\text{N}_2 to :math:\text{N}_2\text{O},Ratio of N₂ to N₂O,Input,AFOLU,Livestock Manure Management,,"no unit (ratio, scalar or share)",,1,1,model_input,"See :math:`R_{N_2(N_2O)}` in Equation 10.34B, V4,C10 IPCC GNGHGI 2019R"
+Ratio of Above Ground Residue to Harvested Yield,Ratio of Above Ground Residue to Harvested Yield,Input,AFOLU,Agriculture,,"no unit (ratio, scalar or share)",,5,5,model_input,
+Ratio of Below Ground Biomass to Above Ground Biomass,Ratio of Below Ground Biomass to Above Ground Biomass,Input,AFOLU,Agriculture,,"no unit (ratio, scalar or share)",,5,5,model_input,
+Ratio of Production to Harvested Wood Demand,Ratio of Production to Harvested Wood Demand,Input,IPPU,IPPU,,ha,,2,2,model_input,
+Recycled Material Used in Industrial Production,Recycled Material Used in Industrial Production,Output,IPPU,IPPU,,tonne,,7,7,model_output,"Production of recycled categories (``recycled_XXX``) differ from total waste recycled. In the Industrial model, recycled materials are used until the maximum recycling fraction is obtained. This variable gives the total mass of recycled waste used in industrial production."
+Reduction in Fugitive Leaks,Reduction in Fugitive Leaks,Input,Energy,Fugitive Emissions,,fraction (0–1),,1,1,model_input,Fractional reduction in fugitive leaks. Between 0 and 1. Applied to all mining industries.
+Regional Transportation Mode Share,Regional Transportation Mode Share,Input,Energy,Transportation,,fraction (0–1),,5,5,model_input,Fraction of regional Passenger-Kilometer (pkm) demand accounted for by transportation type ``$CAT-TRANSPORT$``
+SCOE Appliance Energy Demand Scalar,SCOE Appliance Energy Demand Scalar,Input,Energy,Stationary Combustion and Other Energy,,"no unit (ratio, scalar or share)",,3,3,model_input,Scalar used to modify non-heat energy demands--used to represent efficiency improvements in appliances etc.
+SCOE Efficiency Factor for Heat Energy from Coal,SCOE Efficiency Factor for Heat Energy from Coal,Input,Energy,Stationary Combustion and Other Energy,,"no unit (ratio, scalar or share)",,3,3,model_input,"Energy efficiency factor for coal Heat Energy. For example, value of 0.8 indicates that 80% of input energy results in output energy at point of use."
+SCOE Efficiency Factor for Heat Energy from Diesel,SCOE Efficiency Factor for Heat Energy from Diesel,Input,Energy,Stationary Combustion and Other Energy,,"no unit (ratio, scalar or share)",,3,3,model_input,"Energy efficiency factor for diesel Heat Energy. For example, value of 0.75 indicates that 75% of input energy results in output energy at point of use."
+SCOE Efficiency Factor for Heat Energy from Electricity,SCOE Efficiency Factor for Heat Energy from Electricity,Input,Energy,Stationary Combustion and Other Energy,,"no unit (ratio, scalar or share)",,3,3,model_input,"Energy efficiency factor for electricity Heat Energy. For example, value of 0.99 indicates that 99% of input energy results in output energy at point of use."
+SCOE Efficiency Factor for Heat Energy from Gasoline,SCOE Efficiency Factor for Heat Energy from Gasoline,Input,Energy,Stationary Combustion and Other Energy,,"no unit (ratio, scalar or share)",,3,3,model_input,"Energy efficiency factor for gasoline Heat Energy. For example, value of 0.7 indicates that 70% of input energy results in output energy at point of use."
+SCOE Efficiency Factor for Heat Energy from Hydrocarbon Gas Liquids,SCOE Efficiency Factor for Heat Energy from Hydrocarbon Gas Liquids,Input,Energy,Stationary Combustion and Other Energy,,"no unit (ratio, scalar or share)",,3,3,model_input,"Energy efficiency factor for liquified petroleum gas in Heat Energy. For example, value of 0.8 indicates that 80% of input energy results in output energy at point of use."
+SCOE Efficiency Factor for Heat Energy from Hydrogen,SCOE Efficiency Factor for Heat Energy from Hydrogen,Input,Energy,Stationary Combustion and Other Energy,,"no unit (ratio, scalar or share)",,3,3,model_input,"Energy efficiency factor for hydrogen Heat Energy. For example, value of 0.8 indicates that 80% of input energy results in output energy at point of use."
+SCOE Efficiency Factor for Heat Energy from Kerosene,SCOE Efficiency Factor for Heat Energy from Kerosene,Input,Energy,Stationary Combustion and Other Energy,,"no unit (ratio, scalar or share)",,3,3,model_input,"Energy efficiency factor for kerosene Heat Energy. For example, value of 0.75 indicates that 75% of input energy results in output energy at point of use."
+SCOE Efficiency Factor for Heat Energy from Natural Gas,SCOE Efficiency Factor for Heat Energy from Natural Gas,Input,Energy,Stationary Combustion and Other Energy,,"no unit (ratio, scalar or share)",,3,3,model_input,"Energy efficiency factor for natural gas Heat Energy. For example, value of 0.8 indicates that 80% of input energy results in output energy at point of use."
+SCOE Efficiency Factor for Heat Energy from Solid Biomass,SCOE Efficiency Factor for Heat Energy from Solid Biomass,Input,Energy,Stationary Combustion and Other Energy,,"no unit (ratio, scalar or share)",,3,3,model_input,"Energy efficiency factor for solid biomass Heat Energy. For example, value of 0.6 indicates that 60% of input energy results in output energy at point of use."
+SCOE Elasticity of Per GDP Electrical Applicance Demand to GDP Per Capita,SCOE Elasticity of Per GDP Electrical Applicance Demand to GDP Per Capita,Input,Energy,Stationary Combustion and Other Energy,,"no unit (ratio, scalar or share)",,2,2,model_input,
+SCOE Elasticity of Per GDP Heat Energy Demand to GDP Per Capita,SCOE Elasticity of Per GDP Heat Energy Demand to GDP Per Capita,Input,Energy,Stationary Combustion and Other Energy,,"no unit (ratio, scalar or share)",,2,2,model_input,
+SCOE Elasticity of Per Household Electrical Applicance Demand to GDP Per Capita,SCOE Elasticity of Per Household Electrical Applicance Demand to GDP Per Capita,Input,Energy,Stationary Combustion and Other Energy,,"no unit (ratio, scalar or share)",,1,1,model_input,
+SCOE Elasticity of Per Household Heat Energy Demand to GDP Per Capita,SCOE Elasticity of Per Household Heat Energy Demand to GDP Per Capita,Input,Energy,Stationary Combustion and Other Energy,,"no unit (ratio, scalar or share)",,1,1,model_input,
+SCOE Fraction Heat Energy Demand Coal,SCOE Fraction Heat Energy Demand Coal,Input,Energy,Stationary Combustion and Other Energy,,fraction (0–1),,3,3,model_input,Fraction of Heat Energy demand provided by coal
+SCOE Fraction Heat Energy Demand Diesel,SCOE Fraction Heat Energy Demand Diesel,Input,Energy,Stationary Combustion and Other Energy,,fraction (0–1),,3,3,model_input,Fraction of Heat Energy demand provided by diesel
+SCOE Fraction Heat Energy Demand Electricity,SCOE Fraction Heat Energy Demand Electricity,Input,Energy,Stationary Combustion and Other Energy,,fraction (0–1),,3,3,model_input,Fraction of Heat Energy demand provided by electricity
+SCOE Fraction Heat Energy Demand Gasoline,SCOE Fraction Heat Energy Demand Gasoline,Input,Energy,Stationary Combustion and Other Energy,,fraction (0–1),,3,3,model_input,Fraction of Heat Energy demand provided by gasoline
+SCOE Fraction Heat Energy Demand Hydrocarbon Gas Liquids,SCOE Fraction Heat Energy Demand Hydrocarbon Gas Liquids,Input,Energy,Stationary Combustion and Other Energy,,fraction (0–1),,3,3,model_input,Fraction of Heat Energy demand provided by Hydrocarbon Gas Liquids.
+SCOE Fraction Heat Energy Demand Hydrogen,SCOE Fraction Heat Energy Demand Hydrogen,Input,Energy,Stationary Combustion and Other Energy,,fraction (0–1),,3,3,model_input,Fraction of Heat Energy demand provided by hydrogen
+SCOE Fraction Heat Energy Demand Kerosene,SCOE Fraction Heat Energy Demand Kerosene,Input,Energy,Stationary Combustion and Other Energy,,fraction (0–1),,3,3,model_input,Fraction of Heat Energy demand provided by kerosene
+SCOE Fraction Heat Energy Demand Natural Gas,SCOE Fraction Heat Energy Demand Natural Gas,Input,Energy,Stationary Combustion and Other Energy,,fraction (0–1),,3,3,model_input,Fraction of Heat Energy demand provided by natural gas
+SCOE Fraction Heat Energy Demand Solid Biomass,SCOE Fraction Heat Energy Demand Solid Biomass,Input,Energy,Stationary Combustion and Other Energy,,fraction (0–1),,3,3,model_input,Fraction of Heat Energy demand provided by solid biomass.
+SCOE Heat Energy Demand Scalar,SCOE Heat Energy Demand Scalar,Input,Energy,Stationary Combustion and Other Energy,,"no unit (ratio, scalar or share)",,3,3,model_input,Scalar used to modify heat energy demands--used to represent efficiency improvements in energy demands.
+SCOE Initial Per GDP Electric Appliances Energy Consumption,SCOE Initial Per GDP Electric Appliances Energy Consumption,Input,Energy,Stationary Combustion and Other Energy,,TJ,,2,2,model_input,
+SCOE Initial Per GDP Heat Energy Consumption,SCOE Initial Per GDP Heat Energy Consumption,Input,Energy,Stationary Combustion and Other Energy,,TJ,,2,2,model_input,"| SCOE energy demands that are specified exogenously (no elasticity) for each time period. 
+ | 
+ | **NOTE:** Demands by fuel type are specified under the *SCOE Fraction Heat Energy Demand $CAT-FUEL$* variables for this variable. Elecitrification can be specified as fraction of heat energy from electricity."
+SCOE Initial Per Household Electric Appliances Energy Consumption,SCOE Initial Per Household Electric Appliances Energy Consumption,Input,Energy,Stationary Combustion and Other Energy,,gj (energy),,1,1,model_input,
+SCOE Initial Per Household Heat Energy Consumption,SCOE Initial Per Household Heat Energy Consumption,Input,Energy,Stationary Combustion and Other Energy,,gj (energy),,1,1,model_input,
+Scalar to Account for Nitrogen in Household Products,Scalar to Account for Nitrogen in Household Products,Input,Circular Economy,Liquid Waste,,"no unit (ratio, scalar or share)",,1,1,model_input,":math:`N_{HH}` in Equation 6.10 in V5, C6 IPCC GNGHGI (2019R). Default values by region are available in Table 6.10A."
+Seasonal Wetland Fraction,Seasonal Wetland Fraction,Input,AFOLU,Land Use,,fraction (0–1),,5,5,model_input,Land use types may have dual uses; this allows for the specification of land use types that are seasonal wetlands.
+Septic Sludge Compliance Fraction,Septic Sludge Compliance Fraction,Input,Circular Economy,Wastewater Treatment,,fraction (0–1),,1,1,model_input,Fraction the population managing their septic tank in compliance with the sludge removal instruction of their septic system
+Soil Carbon Land Use Factor,Soil Carbon Land Use Factor,Input,AFOLU,Land Use,,unknown,,11,11,model_input,"See :math:`F_{LU}` in Equation 2.25 and Box 2.2, V4, C2 IPPC GNGHGI (2019R)"
+Soil Organic C Stocks,Soil Organic C Stocks,Input,AFOLU,Soil Management,,tonne,,7,7,model_input,"See :math:`SOC_{REF}` in Table 2.3, used in Equation 2.25, for Equation 11.8, V4 IPCC GNGHGI (2019R)"
+Synthetic Fertilizer N Use,Synthetic Fertilizer N Use,Output,AFOLU,Soil Management,,kt,,1,1,model_output,
+Technology Efficiency of Fuel Use,Technology Efficiency of Fuel Use,Input,Energy,Energy Technology,,"no unit (ratio, scalar or share)",,18,18,model_input,Used to calculate the NemoMod **InputActivityRatio**. Entered as efficiency to keep with other SISEPUEDE variables.
+Thermal Fuel Price,Thermal Fuel Price,Input,Energy,Energy Fuels,,usd (monetary); mmbtu (energy),,6,6,model_input,"Fuel price for fuels using units of thermal energy (e.g., natural gas)"
+Total BOD Organic Waste in Effluent,Total BOD Organic Waste in Effluent,Output,Circular Economy,Wastewater Treatment,,tonne,,10,10,model_output,Total organic waste in effluent released from different pathways from BOD
+Total BOD Removed in Treatment,Total BOD Removed in Treatment,Output,Circular Economy,Wastewater Treatment,,tonne,,10,10,model_output,Total BOD treated by wastewater treatment type
+Total COD Organic Waste in Effluent,Total COD Organic Waste in Effluent,Output,Circular Economy,Wastewater Treatment,,tonne,,10,10,model_output,Total organic waste in effluent released from different pathways from BOD
+Total COD Removed in Treatment,Total COD Removed in Treatment,Output,Circular Economy,Wastewater Treatment,,tonne,,10,10,model_output,Total COD treated by wastewater treatment type
+Total Domestic Animal Mass,Total Domestic Animal Mass,Output,AFOLU,Livestock,,unknown,,1,1,model_output,"Sum, across all livestock animals, of product of head of livestock and weight per head less changes to net imports. This value is used in the integrated model to project changes to protein consumption in the circular economy model."
+Total Electrical Energy Consumption from CCSQ,Total Electrical Energy Consumption from CCSQ,Output,Energy,Carbon Capture and Sequestration,,PJ,,1,1,model_output,
+Total Electrical Energy Consumption from Industrial Energy,Total Electrical Energy Consumption from Industrial Energy,Output,Energy,Industrial Energy,,PJ,,1,1,model_output,
+Total Electrical Energy Consumption from SCOE,Total Electrical Energy Consumption from SCOE,Output,Energy,Stationary Combustion and Other Energy,,PJ,,1,1,model_output,
+Total Electrical Energy Consumption from Transportation,Total Electrical Energy Consumption from Transportation,Output,Energy,Transportation,,PJ,,1,1,model_output,
+Total Energy Consumption from CCSQ,Total Energy Consumption from CCSQ,Output,Energy,Carbon Capture and Sequestration,,PJ,,1,1,model_output,
+Total Energy Consumption from Industrial Energy,Total Energy Consumption from Industrial Energy,Output,Energy,Industrial Energy,,PJ,,1,1,model_output,
+Total Energy Consumption from SCOE,Total Energy Consumption from SCOE,Output,Energy,Stationary Combustion and Other Energy,,PJ,,1,1,model_output,
+Total Energy Consumption from Transportation,Total Energy Consumption from Transportation,Output,Energy,Transportation,,PJ,,1,1,model_output,
+Total Energy Demand by Fuel,Total Energy Demand by Fuel,Output,Energy,Energy Fuels,,PJ,,25,25,model_output,Total demand for fuels across all energy subsectors.
+Total Fertilizer N Use,Total Fertilizer N Use,Output,AFOLU,Soil Management,,kt,,1,1,model_output,
+Total Food Loss Sent to Municipal Solid Waste,Total Food Loss Sent to Municipal Solid Waste,Output,AFOLU,Agriculture,,tonne,,1,1,model_output,"Total food lost in agriculture production due to waste, supply chain inefficiences, poor harvesting practices, and more that is sent to municipal solid waste."
+Total Food Produced Lost Before Consumption,Total Food Produced Lost Before Consumption,Output,AFOLU,Agriculture,,tonne,,1,1,model_output,"Total food lost in agriculture production due to waste, supply chain inefficiences, poor harvesting practices, and more."
+Total ISW Recovered for Energy,Total ISW Recovered for Energy,Output,Circular Economy,Solid Waste,,tonne,,1,1,model_output,Total quantity of industrial solid waste that is recovered for energy use.
+Total Lime Use,Total Lime Use,Output,AFOLU,Soil Management,,kt,,1,1,model_output,
+Total MSW Recovered for Energy,Total MSW Recovered for Energy,Output,Circular Economy,Solid Waste,,tonne,,1,1,model_output,Total quantity of municipal solid waste that is recovered for energy use.
+Total Megatonne-Kilometer Demand by Vehicle,Total Megatonne-Kilometer Demand by Vehicle,Output,Energy,Transportation,,km,,4,4,model_output,Total Megatonne-Kilometers satisfied by each freight vehicle type
+Total Nitrogen Available for Construction/Feed/Other,Total Nitrogen Available for Construction/Feed/Other,Output,AFOLU,Livestock Manure Management,,kt,,1,1,model_output,"Managed manure that is not used for fertilizer can be used for construction, feed, or left at point of use. This gives the amount used for these totals."
+Total Nitrogen Available for Fertilizer from Dung,Total Nitrogen Available for Fertilizer from Dung,Output,AFOLU,Livestock Manure Management,,kt,,1,1,model_output,
+Total Nitrogen Available for Fertilizer from Urine,Total Nitrogen Available for Fertilizer from Urine,Output,AFOLU,Livestock Manure Management,,kt,,1,1,model_output,
+Total Nitrogen Removed in Treatment,Total Nitrogen Removed in Treatment,Output,Circular Economy,Wastewater Treatment,,tonne,,1,1,model_output,
+Total Nitrogen in Effluent,Total Nitrogen in Effluent,Output,Circular Economy,Wastewater Treatment,,tonne,,1,1,model_output,
+Total Nitrogen to Pastures,Total Nitrogen to Pastures,Output,AFOLU,Livestock Manure Management,,kt,,1,1,model_output,Deposits from the ``pasture_paddock_range`` category are treated in the Soil Management subsector. This variable is used to pass total nitrogen deposits to the soil management subsector model.
+Total Passenger Distance by Vehicle,Total Passenger Distance by Vehicle,Output,Energy,Transportation,,unknown,,8,8,model_output,"Total passenger-distance (in configuration units, e.g., km) satisfied by each vehicle type. Applies to non-freight vehicle demands."
+Total Phosphorous Removed in Treatment,Total Phosphorous Removed in Treatment,Output,Circular Economy,Wastewater Treatment,,tonne,,1,1,model_output,
+Total Phosphorous in Effluent,Total Phosphorous in Effluent,Output,Circular Economy,Wastewater Treatment,,tonne,,1,1,model_output,
+Total Population,Total Population,Output,Socioeconomic,General,,unknown,,1,1,model_output,
+Total Solid Waste Produced,Total Solid Waste Produced,Output,Circular Economy,Solid Waste,,tonne,,13,13,model_output,Total waste produced from industry and municipal sources.
+Total Urea Use,Total Urea Use,Output,AFOLU,Soil Management,,kt,,1,1,model_output,
+Total Vehicle Distance Traveled,Total Vehicle Distance Traveled,Output,Energy,Transportation,,vehicle-km,,10,10,model_output,
+Total Waste Anaerobic Biogas,Total Waste Anaerobic Biogas,Output,Circular Economy,Solid Waste,,tonne,,3,3,model_output,Total quantity of waste sent to anaerobic biogas facilities.
+Total Waste Composted,Total Waste Composted,Output,Circular Economy,Solid Waste,,tonne,,3,3,model_output,Total quantity of waste composted in tonnes.
+Total Waste Incinerated,Total Waste Incinerated,Output,Circular Economy,Solid Waste,,tonne,,13,13,model_output,Total quantity of waste incinterated in tonnes.
+Total Waste Landfilled,Total Waste Landfilled,Output,Circular Economy,Solid Waste,,tonne,,13,13,model_output,Total quantity of waste landfilled in tonnes.
+Total Waste Open Dumped,Total Waste Open Dumped,Output,Circular Economy,Solid Waste,,tonne,,13,13,model_output,Total quantity of waste open dumped in tonnes.
+Total Waste Recycled,Total Waste Recycled,Output,Circular Economy,Solid Waste,,tonne,,7,7,model_output,Total quantity of waste recycled in tonnes.
+Transportation Demand Scalar,Transportation Demand Scalar,Input,Energy,Transportation Demand,,"no unit (ratio, scalar or share)",,3,3,model_input,"Scale demand for transportation up or down--for example, increases in teleworking might reduce demand for private and public transportation, but it could possibly increase demands for regional travel and/or freight."
+Transportation Modal Energy Consumption from Biofuels,Transportation Modal Energy Consumption from Biofuels,Output,Energy,Transportation,,PJ,,4,4,model_output,
+Transportation Modal Energy Consumption from Diesel,Transportation Modal Energy Consumption from Diesel,Output,Energy,Transportation,,PJ,,7,7,model_output,
+Transportation Modal Energy Consumption from Electricity,Transportation Modal Energy Consumption from Electricity,Output,Energy,Transportation,,PJ,,9,9,model_output,
+Transportation Modal Energy Consumption from Gasoline,Transportation Modal Energy Consumption from Gasoline,Output,Energy,Transportation,,PJ,,5,5,model_output,
+Transportation Modal Energy Consumption from Hydrocarbon Gas Liquids,Transportation Modal Energy Consumption from Hydrocarbon Gas Liquids,Output,Energy,Transportation,,PJ,,4,4,model_output,
+Transportation Modal Energy Consumption from Hydrogen,Transportation Modal Energy Consumption from Hydrogen,Output,Energy,Transportation,,PJ,,8,8,model_output,
+Transportation Modal Energy Consumption from Kerosene,Transportation Modal Energy Consumption from Kerosene,Output,Energy,Transportation,,PJ,,1,1,model_output,
+Transportation Modal Energy Consumption from Natural Gas,Transportation Modal Energy Consumption from Natural Gas,Output,Energy,Transportation,,PJ,,6,6,model_output,
+Transportation Mode Fuel Fraction Ammonia,Transportation Mode Fuel Fraction Ammonia,Input,Energy,Transportation,,fraction (0–1),,1,1,model_input,
+Transportation Mode Fuel Fraction Biofuels,Transportation Mode Fuel Fraction Biofuels,Input,Energy,Transportation,,fraction (0–1),,4,4,model_input,
+Transportation Mode Fuel Fraction Diesel,Transportation Mode Fuel Fraction Diesel,Input,Energy,Transportation,,fraction (0–1),,7,7,model_input,
+Transportation Mode Fuel Fraction Electricity,Transportation Mode Fuel Fraction Electricity,Input,Energy,Transportation,,fraction (0–1),,9,9,model_input,
+Transportation Mode Fuel Fraction Gasoline,Transportation Mode Fuel Fraction Gasoline,Input,Energy,Transportation,,fraction (0–1),,6,6,model_input,
+Transportation Mode Fuel Fraction Hydrocarbon Gas Liquids,Transportation Mode Fuel Fraction Hydrocarbon Gas Liquids,Input,Energy,Transportation,,fraction (0–1),,4,4,model_input,
+Transportation Mode Fuel Fraction Hydrogen,Transportation Mode Fuel Fraction Hydrogen,Input,Energy,Transportation,,fraction (0–1),,8,8,model_input,
+Transportation Mode Fuel Fraction Kerosene,Transportation Mode Fuel Fraction Kerosene,Input,Energy,Transportation,,fraction (0–1),,1,1,model_input,
+Transportation Mode Fuel Fraction Natural Gas,Transportation Mode Fuel Fraction Natural Gas,Input,Energy,Transportation,,fraction (0–1),,7,7,model_input,
+Treatment Fraction Advanced Aerobic,Treatment Fraction Advanced Aerobic,Input,Circular Economy,Liquid Waste,,fraction (0–1),,3,3,model_input,
+Treatment Fraction Advanced Anaerobic,Treatment Fraction Advanced Anaerobic,Input,Circular Economy,Liquid Waste,,fraction (0–1),,3,3,model_input,
+Treatment Fraction Improved Latrine,Treatment Fraction Improved Latrine,Input,Circular Economy,Liquid Waste,,fraction (0–1),,3,3,model_input,
+Treatment Fraction Primary,Treatment Fraction Primary,Input,Circular Economy,Liquid Waste,,fraction (0–1),,3,3,model_input,
+Treatment Fraction Secondary Aerobic,Treatment Fraction Secondary Aerobic,Input,Circular Economy,Liquid Waste,,fraction (0–1),,3,3,model_input,
+Treatment Fraction Secondary Anaerobic,Treatment Fraction Secondary Anaerobic,Input,Circular Economy,Liquid Waste,,fraction (0–1),,3,3,model_input,
+Treatment Fraction Septic,Treatment Fraction Septic,Input,Circular Economy,Liquid Waste,,fraction (0–1),,3,3,model_input,
+Treatment Fraction Unimproved Latrine,Treatment Fraction Unimproved Latrine,Input,Circular Economy,Liquid Waste,,fraction (0–1),,3,3,model_input,
+Treatment Fraction Untreated No Sewerage,Treatment Fraction Untreated No Sewerage,Input,Circular Economy,Liquid Waste,,fraction (0–1),,3,3,model_input,
+Treatment Fraction Untreated With Sewerage,Treatment Fraction Untreated With Sewerage,Input,Circular Economy,Liquid Waste,,fraction (0–1),,3,3,model_input,
+Unadjusted Land Use Transition Probability,Unadjusted Land Use Transition Probability,Input,AFOLU,Land Use,,"no unit (ratio, scalar or share)",,121,121,model_input,Transition probability in Markov Chain model
+Unimproved Soil Carbon Land Management Factor,Unimproved Soil Carbon Land Management Factor,Input,AFOLU,Land Use,,unknown,,2,2,model_input,"| See :math:`F_{MG}` in Equation 2.25 and Box 2.2, V4, C2 IPPC GNGHGI (2019R). 
+ | 
+ | Represents the base land management factor for all unimproved lands (**excludes** improved lands) in croplands and grasslands"
+Unused Fuel Exported,Unused Fuel Exported,Output,Energy,Energy Fuels,,PJ,,2,2,model_output,
+Utilization Rate,Utilization Rate,Input,AFOLU,Land Use,,fraction (0–1),,1,1,model_input,"Rate of utilization of pastures input as a fraction. Pastures used at 100% will exhibit land use degredation, leading to greater soil carbon loss."
+Value of Fuel Consumed in CCSQ,Value of Fuel Consumed in CCSQ,Output,Energy,Energy Fuels,,unknown,,3,3,model_output,| Total value of fuel consumed in **configuration units (monetary)** by fuel type in **Carbon Capture and Sequestration** subsector.
+Value of Fuel Consumed in Energy Technology,Value of Fuel Consumed in Energy Technology,Output,Energy,Energy Fuels,,unknown,,18,18,model_output,"| Total value of fuel consumed in **configuration units (monetary)** by fuel type in **Carbon Capture and Sequestration** subsector, including:
+ | 
+* Electricity Generation
+* Fuel Production and Processing (including hydrogen production, natural gas processing, and petroleum refinement)
+* Mining and extraction
+ | 
+ | **Excludes** value of fuel produced"
+Value of Fuel Consumed in Industrial Energy,Value of Fuel Consumed in Industrial Energy,Output,Energy,Energy Fuels,,unknown,,12,12,model_output,| Total value of fuel consumed in **configuration units (monetary)** by fuel type in **Industrial Energy** subsector.
+Value of Fuel Consumed in SCOE,Value of Fuel Consumed in SCOE,Output,Energy,Energy Fuels,,unknown,,9,9,model_output,| Total value of fuel consumed in **configuration units (monetary)** by fuel type in **Stationary Combustion and Other Emissions** subsector.
+Value of Fuel Consumed in Transportation,Value of Fuel Consumed in Transportation,Output,Energy,Energy Fuels,,unknown,,9,9,model_output,| Total value of fuel consumed in **configuration units (monetary)** by fuel type in **Transportation** subsector.
+Vegetarian Diet Exchange Scalar,Vegetarian Diet Exchange Scalar,Input,AFOLU,Land Use,,"no unit (ratio, scalar or share)",,1,1,model_input,This scalar is applied to per capita crop demand for the proportion of the population that is vegetarian.
+Vehicle Distance Traveled from Biofuels,Vehicle Distance Traveled from Biofuels,Output,Energy,Transportation,,vehicle-km,,4,4,model_output,
+Vehicle Distance Traveled from Diesel,Vehicle Distance Traveled from Diesel,Output,Energy,Transportation,,vehicle-km,,7,7,model_output,
+Vehicle Distance Traveled from Electricity,Vehicle Distance Traveled from Electricity,Output,Energy,Transportation,,vehicle-km,,9,9,model_output,
+Vehicle Distance Traveled from Gasoline,Vehicle Distance Traveled from Gasoline,Output,Energy,Transportation,,vehicle-km,,5,5,model_output,
+Vehicle Distance Traveled from Hydrocarbon Gas Liquids,Vehicle Distance Traveled from Hydrocarbon Gas Liquids,Output,Energy,Transportation,,vehicle-km,,4,4,model_output,
+Vehicle Distance Traveled from Hydrogen,Vehicle Distance Traveled from Hydrogen,Output,Energy,Transportation,,vehicle-km,,8,8,model_output,
+Vehicle Distance Traveled from Kerosene,Vehicle Distance Traveled from Kerosene,Output,Energy,Transportation,,vehicle-km,,1,1,model_output,
+Vehicle Distance Traveled from Natural Gas,Vehicle Distance Traveled from Natural Gas,Output,Energy,Transportation,,vehicle-km,,6,6,model_output,
+Volatilisation Fraction from Non-Urea Synthetic Fertilizers,Volatilisation Fraction from Non-Urea Synthetic Fertilizers,Input,AFOLU,Soil Management,,fraction (0–1),,1,1,model_input,"| See :math:`FRAC_{GASF}` from Table 11.3 in V4, C11 IPCC GNGHGI 2019R"
+Volatilisation Fraction from Organic Amendments and Fertilizers,Volatilisation Fraction from Organic Amendments and Fertilizers,Input,AFOLU,Soil Management,,fraction (0–1),,1,1,model_input,"| See :math:`FRAC_{GASM}` from Table 11.3 in V4, C11 IPCC GNGHGI 2019R"
+Volatilisation Fraction from Urea Synthetic Fertilizers,Volatilisation Fraction from Urea Synthetic Fertilizers,Input,AFOLU,Soil Management,,fraction (0–1),,1,1,model_input,"| See :math:`FRAC_{GASF}` from Table 11.3 in V4, C11 IPCC GNGHGI 2019R"
+Volume of Wastewater Treated,Volume of Wastewater Treated,Output,Circular Economy,Wastewater Treatment,,m³,,10,10,model_output,
+Volumetric Energy Density,Volumetric Energy Density,Input,Energy,Energy Fuels,,litre (volume); mj (energy),,15,15,model_input,Energy density per volume (litres) of a fuel.
+Volumetric Fuel Price,Volumetric Fuel Price,Input,Energy,Energy Fuels,,m³,,8,8,model_input,"Fuel price for fuels using units of volume (e.g., oil)"
+Waste Per Capita Scale Factor,Waste Per Capita Scale Factor,Input,Circular Economy,Solid Waste,,unknown,,13,13,model_input,"| Use the scale factor to represent reduction measures in waste production within a category; for example, waste reduction campaigns might affect all categories, but a tax on plastic might only reduce the generation of plastic waste.
+ |
+ | **IMPORTANT NOTE**: For the sludge cateogry, this factor will only affect sludge that is specified exogenously. It will **not** affect sludge produced from aerobic and septic wastewater treatement in the Wastewater Treatment subsector. Any interventions to reduce sludge produced in wastewater treatment should be addressed in the wastewater treatment sector."
+Wastewater Production Factor,Wastewater Production Factor,Input,IPPU,IPPU,,tonne,,17,17,model_input,Volume of wastewater generated per tonne of production.
+Wastewater Treatment Methane Correction Factor,Wastewater Treatment Methane Correction Factor,Input,Circular Economy,Wastewater Treatment,,"no unit (ratio, scalar or share)",,10,10,model_input,
+Young Secondary Forest Sequestration Emission Factor,Young Secondary Forest Sequestration Emission Factor,Input,AFOLU,Forest,co2,kt,,1,1,model_input,"|Annual average :math:`\text{CO}_2` emitted per ha from sequestration in YOUNG (age < 20 yrs) secondary forestrs (entered as a number > 0, this is a positive number)
+ | 
+ |  NOTE: Young secondary forests (incl. plantations) sequester high amounts of carbon for a short period of time. This is only used if dynamic forest sequestration is turned on; otherwise, this variable is ignored."

@@ -1,13 +1,13 @@
 """
-Evaluate the seven RDM tools on the active run: what works, what does not, and by how much.
+Evaluate the six RDM tools on the active run: what works, what does not, and by how much.
 
     python -m backend.rdm.eval.evaluate_tools        → backend/rdm/eval/results/<run>.json
 
 Checks (each prints a short line and goes into the JSON):
   1 bridge       Do the information tools point the same way as the surrogate? For every
-                 (category, linked lever): the runs' marginal effect (output_levers v1, other levers
+                 (category, lever that reaches it): the runs' marginal effect (model_network v1, other levers
                  random) vs the surrogate's effect in an experiment (lever at 1 vs BAU, others at 0).
-  2 payload      Reply size of every lever_x_profile (v0, v1) and output_levers (v0, v1) call.
+  2 payload      Reply size of every model_network call from a lever and from a category, per arm.
   3 coverage     Levers / uncertainties with no links; units known for the linked variables.
   4 stability    share_fail of one vulnerability check as the number of futures grows.
   5 timing       Seconds per technical tool call.
@@ -42,15 +42,14 @@ def bridge(run, store, sur) -> dict:
     bau = sur.predict(base)
     cache = {}
     for slug in sur.categories:
-        o = I.output_levers(run, store, slug, YEAR, "v1")
+        o = I.model_network(run, f"emissions_{slug}", YEAR, "v1")
         col = f"emission_{slug}_yr{YEAR}"
-        for d in o["levers"]:
-            lid = d["id"]
+        for d in o.get("lever_effects", []):
+            lid = int(d["lever"][1:])
             if lid not in cache:
                 cache[lid] = sur.predict(base.assign(**{f"L_{lid}": 1.0}))
             exp = float((cache[lid][col] - bau[col]).median())
-            rows.append({"category": slug, "lever": lid, "runs_effect": d["effect_low_to_high"],
-                         "runs_correlation": d["correlation"], "surrogate_effect": exp})
+            rows.append({"category": slug, "lever": lid, "runs_effect": d["change"], "surrogate_effect": exp})
     df = pd.DataFrame(rows)
     # Only pairs where at least one side is non-trivial (> 0.05 Mt) say anything about direction.
     big = df[(df.runs_effect.abs() > 0.05) | (df.surrogate_effect.abs() > 0.05)]
@@ -74,11 +73,11 @@ def payload(run, store) -> dict:
     size = lambda r: len(json.dumps(r, ensure_ascii=False))
     out = {}
     for v in I.VERSIONS:
-        lx = [size(I.lever_x_profile(run, store, l, GDP, YEAR, v)) for l in sorted(I.groups(run))
+        lx = [size(I.model_network(run, f"L{l}", YEAR, v)) for l in sorted(I.groups(run))
               if I.groups(run)[l]["kind"] == "L"]
-        ol = [size(I.output_levers(run, store, c, YEAR, v)) for c in I.crosswalk(run)]
-        out[v] = {"lever_x_profile_chars": {"median": int(np.median(lx)), "max": int(max(lx))},
-                  "output_levers_chars": {"median": int(np.median(ol)), "max": int(max(ol))}}
+        ol = [size(I.model_network(run, f"emissions_{c}", YEAR, v)) for c in I.crosswalk(run)]
+        out[v] = {"lever_node_chars": {"median": int(np.median(lx)), "max": int(max(lx))},
+                  "category_node_chars": {"median": int(np.median(ol)), "max": int(max(ol))}}
     return out
 
 

@@ -1,0 +1,6 @@
+# Regenerable and too large for git (GitHub limit 100 MB): python -m backend.rdm.network.ranges (~7 min)
+*_ranges.parquet
+# NemoMod's working database, written by trace.py --electricity
+nemomod_trace.sqlite
+# Map data, rebuilt by python -m backend.rdm.network.viewer_data
+viewer/
