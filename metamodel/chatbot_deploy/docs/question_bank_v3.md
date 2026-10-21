@@ -89,6 +89,32 @@ at 2035; the 24.7% NDC figure confirmed.*
   range (LV1, H2, H3), say where a number comes from (S50, S3, S35), use only the model's years (X2), and call costs
   changes against business as usual (X2, TO1).
 
+## Hypothesis questions (v3.1) — pre-registered 2026-10-21, before their keys were computed and before any run
+
+Five questions added on Alexa's request, each to test one hypothesis about agents using these tools. Tag:
+**designed** (written by the designers, who know the model); reported apart from the 26 questions above. IDs start
+with H and the hypothesis letter.
+
+| ID | Hypothesis | What we expect, v0 vs v1 | Read from the logs (auto) |
+|---|---|---|---|
+| HA1 | A target in real units of an **in-between variable** (not an emission) needs the network: the surrogate cannot report it. v1 can translate it to a lever level; v0 cannot. | v1: model_network on L35 or the variable, a level near the key, says the quantity is not testable on the surrogate. v0: no level it can justify; says so or guesses. | level set vs key (checks 2–3); model_network visited L35 or the vehicle-km variable (check 25) |
+| HB1 | When the levers that matter are **outside the obvious sector**, the catalogue shortcut fails and a **backward walk** from the category finds them. | Both arms: model_network on emissions_livestock (backward). v1 can rank them by effect. | check 25 (visited emissions_livestock); levers named (check 19) |
+| HC1 | A condition on the future in **real numbers** ("if GDP is above …") needs the uncertainty's values: v1 can turn it into a range of X57; v0 can only guess the side. | v1: x_ranges on X57 in its top third (lower bound ≥ 0.6). v0: often [0.5, 1] or no range. | x_ranges (check 5, x_side high); the lower bound set is recorded |
+| HD1 | For a quantity **several steps** from the lever, the agent walks the whole chain. | Both: model_network from L35 down to transport's electricity use (3 steps). v1 gives the number; v0 says it cannot. | check 25 (visited the electricity-use variable); number of model_network calls |
+| HE1 | Where the network has a **gap**, the agent says so and tests on the surrogate what can be tested. | Both: reads L12 (clinker 72% → 60% in v1_inputs/v1), sees no chain, runs exploratory_modeling for industrial emissions. | model_network visited L12 (check 25); exploratory_modeling run (check 8) |
+
+**Rules fixed before computing anything:**
+- HA1's number: the median of the 2050 electric light-duty vehicle-km in the runs with L35 between 0.5 and 0.6,
+  rounded to the nearest billion — a target inside the explored range.
+- HC1's number: the median 2050 GDP of the runs with X57 between 0.6 and 0.7 (the start of its top third), rounded
+  to the nearest 10 billion USD. The policy is homes and businesses moving to cleaner cooking and heating fuels
+  (L30), at the top of its range.
+- HD1's key: the change in total electricity used by transport, L35 top third minus bottom third, 2050, from the runs.
+- HE1's key: clinker 72% → 60% (L12's inputs, 2050) and the surrogate's industrial-process emissions with L12 at the
+  top vs BAU, 2050.
+- HB1's key: the levers with a path to emissions_livestock in the network that belong to other sectors.
+- New check 25 (`visit`): a model_network call on a node matching each given pattern. It reads the logs only.
+
 ## How to read a row
 
 - **Kind:** T1 a quantity a lever sets · T2 an in-between quantity the model computes · T3 an emissions target ·
