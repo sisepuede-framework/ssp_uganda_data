@@ -212,4 +212,7 @@ XGBoost overfitting review (separate).
   the same column. Logs from before this change show "billion USD" in the network reply.
 - Open: team question on X57's range (base path at the top of it); Alexa hand-checks X1 and 10 P2 answers.
 
+- Arms reduced to v0 and v1 (Alexa, 2026-10-26): v1_inputs and v1_outputs removed from `network.ARMS`, the tests,
+  the bank doc and the deck text (the deck file itself is not regenerated).
+
 Next: the full bank run (Alexa's go on the cost) and the XGBoost overfitting review (separate).

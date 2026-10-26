@@ -7,7 +7,7 @@ Question sets for the pilots, with the reference answer each one is scored again
   pairs  Same lever, two kinds of target (decided 2026-10-13): an INPUT target — a quantity the lever
          sets directly (answer exact: value(L) = BASE + L × (HBLE − BASE)) — and an OUTPUT target — an
          emission change the lever causes (answer from the surrogate: the level that meets the target,
-         per future, other levers at 0). Run in the 2 × 2 arms: v0, v1_inputs, v1_outputs, v1.
+         per future, other levers at 0). Run in the arms v0 and v1.
 
     python -m backend.rdm.eval.questions     → prints and saves the reference answers (eval/pairs_reference.json)
 """

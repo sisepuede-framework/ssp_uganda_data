@@ -18,9 +18,10 @@ rule changed; check 1 ("information before the run") now looks for a model_netwo
 
 *Updated 2026-10-21: `model_network` was rebuilt on the SISEPUEDE network read from the model code
 (`docs/rdm_network_plan.md`): one call gives a node, what it is computed from and what it is used to compute, and
-the agent walks the network step by step. v0 gets nodes, attributes and links; the v1 arms add values from the runs
-(v1_inputs: what a lever sets at BAU, middle and top of the range; v1_outputs: medians and p10–p90 of variables,
-emissions and categories, by a lever's thirds and within an uncertainty's third; v1: both). The link weights of
+the agent walks the network step by step. v0 gets nodes, attributes and links; v1 adds values from the runs (what
+a lever sets at BAU, middle and top of the range; medians and p10–p90 of variables, emissions and categories, by a
+lever's thirds and within an uncertainty's third). *(2026-10-26: the two half arms v1_inputs and v1_outputs were
+dropped; the experiment compares v0 and v1 only.)* The link weights of
 2026-10-20 are gone. **Change to the note on uncertainty ranges below:** the tool's parameters, identical in every
 arm, now define an uncertainty's thirds (low 0–⅓, mid ⅓–⅔, high ⅔–1), so the definition is no longer v1-only;
 the v1 arms still show values per third. An arm difference in the ranges the agent sets is reported with this
@@ -65,7 +66,7 @@ at 2035; the 24.7% NDC figure confirmed.*
   For D3b the literal reading (0.70) falls inside the tolerance of the key (0.682); only the literal-translation check
   separates them there.
 - **T1 keys depend on the arm.** The input values that make a T1 key computable (business as usual, middle and top
-  of the range) are shown only in v1_inputs and v1. In v0 and v1_outputs the agent can only guess, so a level on the
+  of the range) are shown only in v1. In v0 the agent can only guess, so a level on the
   key is an *outcome* in those arms (the RQ2 contrast), not a rule it can be expected to follow.
 - **Year.** Keys are for 2050. The explored ranges are much wider in 2070 (for example chicken-manure digesters reach
   80%, industrial CO₂ capture 80%), and `model_network` (from a lever) shows both years in the v1 arms. A level read from the 2070
@@ -101,7 +102,7 @@ with H and the hypothesis letter.
 | HB1 | When the levers that matter are **outside the obvious sector**, the catalogue shortcut fails and a **backward walk** from the category finds them. | Both arms: model_network on emissions_livestock (backward). v1 can rank them by effect. | check 25 (visited emissions_livestock); levers named (check 19) |
 | HC1 | A condition on the future in **real numbers** ("if GDP is above …") needs the uncertainty's values: v1 can turn it into a range of X57; v0 can only guess the side. | v1: x_ranges on X57 in its top third (lower bound ≥ 0.6). v0: often [0.5, 1] or no range. | x_ranges (check 5, x_side high); the lower bound set is recorded |
 | HD1 | For a quantity **several steps** from the lever, the agent walks the whole chain. | Both: model_network from L35 down to transport's electricity use (3 steps). v1 gives the number; v0 says it cannot. | check 25 (visited the electricity-use variable); number of model_network calls |
-| HE1 | Where the network has a **gap**, the agent says so and tests on the surrogate what can be tested. | Both: reads L12 (clinker 72% → 60% in v1_inputs/v1), sees no chain, runs exploratory_modeling for industrial emissions. | model_network visited L12 (check 25); exploratory_modeling run (check 8) |
+| HE1 | Where the network has a **gap**, the agent says so and tests on the surrogate what can be tested. | Both: reads L12 (clinker 72% → 60% in v1), sees no chain, runs exploratory_modeling for industrial emissions. | model_network visited L12 (check 25); exploratory_modeling run (check 8) |
 
 **Rules fixed before computing anything:**
 - HA1's number: the median of the 2050 electric light-duty vehicle-km in the runs with L35 between 0.5 and 0.6,

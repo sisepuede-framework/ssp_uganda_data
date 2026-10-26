@@ -1,9 +1,9 @@
 """
 Tests for model_network (backend/rdm/tools/network.py): navigating the SISEPUEDE network, v0 and v1.
 
-Test 1 — the arms: v0 carries no values (no input values, field values, category values or lever effects); every
-         arm has the same nodes and links; v1_inputs adds only the lever's input values, v1_outputs only the
-         values of variables and categories, v1 both.
+Test 1 — the arms: v0 carries no values (no input values, field values, category values or lever effects); both
+         arms have the same nodes and links; v1 adds the lever's input values and the values of variables and
+         categories.
 Test 2 — navigation: every name a reply lists resolves as a node, and stepping forward then back returns to it;
          a lever reaches the categories it sets off; a category is computed from its emission variables.
 Test 3 — known answers: lever 35 moves the electric share from 0.50 (BAU) to 0.72 (top of the range) in 2050;
@@ -59,8 +59,6 @@ def test_arms(run):
         assert not keys(r["v0"]) & VALUES
         assert len({frozenset(links(x)) for x in r.values()}) == 1
     lv = {a: N.model_network(run, f"L{LIGHT_DUTY}", 2050, a) for a in N.VERSIONS}
-    assert "input_values" in lv["v1_inputs"] and "category_values" not in lv["v1_inputs"]
-    assert "category_values" in lv["v1_outputs"] and "input_values" not in lv["v1_outputs"]
     assert {"input_values", "category_values"} <= set(lv["v1"])
 
 

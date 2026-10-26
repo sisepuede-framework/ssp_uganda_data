@@ -1051,7 +1051,7 @@ flow("The loop and the scripted user", [
     "runs them and never chooses for it.",
     f"**Model:** {lp['model']}, effort {lp['effort']}, the same in every arm. At most {lp['max_tokens']:,} output "
     f"tokens per request and {lp['max_steps']} requests per conversation.",
-    "**Arms:** v0 (relations only), v1_inputs, v1_outputs, v1. Tool names, schemas and descriptions are identical; "
+    "**Arms:** v0 (relations only), v1 (relations + values). Tool names, schemas and descriptions are identical; "
     "only what model_network returns differs.",
     "**The scripted user** sends the question, then the question's scripted replies in order whenever the agent ends "
     "its turn. When none are left and the agent's message ends with \"?\", it replies once with the neutral go-ahead; "
@@ -1093,16 +1093,16 @@ flow("Fixed text inside the tool replies", [
     "**model_network from a lever, v1 arms** → \"Chain: inputs the lever sets → in-between variables → emission "
     "categories (the metrics exploratory_modeling reports). Values are medians over the model runs with every other "
     "lever and uncertainty varying; lever level low/mid/high = 0–⅓/⅓–⅔/⅔–1; uncertainty low/high = bottom/top third "
-    "of its range.\" + in v1_outputs and v1: \"Each link's correlation is Spearman ρ across the model runs (−1 to 1; "
+    "of its range.\" + in v1: \"Each link's correlation is Spearman ρ across the model runs (−1 to 1; "
     "sign = direction); a variable's link to a category is |ρ| with its emission source in 2070.\"",
     "**model_network from a lever, v0** → \"Chain: inputs the lever sets → in-between variables → emission categories "
     "(the metrics exploratory_modeling reports). Relations only.\"  ·  No links: \"No links recorded for this lever "
     "(the mapping is incomplete for it).\"",
-    "**model_network from an output, v1_outputs and v1** → \"Ranked by effect: median of the output with the group in "
+    "**model_network from an output, v1** → \"Ranked by effect: median of the output with the group in "
     "the top fifth of its range minus the median in the bottom fifth, every other input varying. Low end = 0–0.2, "
     "high end = 0.8–1. Each link's correlation is Spearman ρ across the model runs (−1 to 1; sign = direction); a "
     "variable's link to a category is |ρ| with its emission source in 2070.\"",
-    "**model_network from an output, v0 and v1_inputs** → \"Relations only, in id order: which levers and "
+    "**model_network from an output, v0** → \"Relations only, in id order: which levers and "
     "uncertainties move this output.\"",
     "**country_context** → \"Modelled baseline assumptions (2025–2050), not observed present-day statistics.\"",
 ], ncols=1, pt=12, notes=src_note + " These notes are copied by hand from backend/rdm/tools/*.py.")

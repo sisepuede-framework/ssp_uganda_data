@@ -11,10 +11,9 @@ compute (one step forward); any name listed can be asked next. In the arms that 
 experiment's runs: the values of the node's fields (median, p10–p90, in their units) for the year asked, split by
 a lever's thirds if a lever is given, within one uncertainty's third if one is given.
 
-  v0          relations only: nodes, attributes, links
-  v1_inputs   + what a lever sets (its inputs at BAU, middle and top of the range run)
-  v1_outputs  + the values of the variables, emissions and categories
-  v1          both
+  v0   relations only: nodes, attributes, links
+  v1   + what a lever sets (its inputs at BAU, middle and top of the range run) and the values of the variables,
+       emissions and categories (v1_inputs / v1_outputs, one half each, were dropped 2026-10-26)
 """
 
 import difflib
@@ -33,7 +32,7 @@ ATTRIBUTE_OVERRIDES = {"GDP": {"units": UNITS["gdp"], "information": f"GDP in {U
 
 NET = Path(__file__).parents[1] / "network" / "out"
 INPUTS = Path(__file__).parents[1] / "data" / "tables"
-ARMS = {"v0": (False, False), "v1": (True, True), "v1_inputs": (True, False), "v1_outputs": (False, True)}
+ARMS = {"v0": (False, False), "v1": (True, True)}
 VERSIONS = tuple(ARMS)
 THIRDS = {"low": "0–⅓", "mid": "⅓–⅔", "high": "⅔–1"}
 NEMOMOD = "NemoMod (electricity optimisation)"
