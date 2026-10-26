@@ -113,3 +113,9 @@ def test_edges(run):
     with pytest.raises(ToolError):
         N.model_network(run, "L35", 2030, "v0")
     assert json.dumps(N.model_network(run, "X57", 2035, "v1"), ensure_ascii=False)
+
+
+def test_gdp_units_match_the_other_tools(run):
+    from backend.rdm.surrogate import UNITS
+    for arm in N.VERSIONS:
+        assert N.model_network(run, "GDP", 2050, arm)["units"] == UNITS["gdp"]

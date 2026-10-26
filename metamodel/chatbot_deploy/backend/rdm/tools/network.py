@@ -25,7 +25,11 @@ from pathlib import Path
 import pandas as pd
 
 from backend.rdm.runs import Run
+from backend.rdm.surrogate import UNITS
 from backend.rdm.tools.common import ToolError, groups
+
+# SISEPUEDE labels GDP "billion USD"; the project labels it as the other tools do (decision D4, 2026-10-13)
+ATTRIBUTE_OVERRIDES = {"GDP": {"units": UNITS["gdp"], "information": f"GDP in {UNITS['gdp']}"}}
 
 NET = Path(__file__).parents[1] / "network" / "out"
 INPUTS = Path(__file__).parents[1] / "data" / "tables"
@@ -141,6 +145,7 @@ class Network:
                 v = a[key]
                 if pd.notna(v) and v != "":
                     d[key] = v
+        d.update(ATTRIBUTE_OVERRIDES.get(n, {}))
         return d
 
     def field_list(self, n) -> list:

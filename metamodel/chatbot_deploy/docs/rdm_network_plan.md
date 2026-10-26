@@ -207,7 +207,9 @@ XGBoost overfitting review (separate).
   "580 bn covers most futures". **Decision (Alexa, 2026-10-26): the full bank run uses the labelled version**
   (`backend/rdm/tools/context.py`, `GDP_LABEL`, in the code since c3bcf15). Logs from before c3bcf15 used the
   unlabelled reply.
-- Open: team question on X57's range (base path at the top of it); GDP unit labels differ between `model_network`
-  ("billion USD") and `country_context` ("PPP"); Alexa hand-checks X1 and 10 P2 answers.
+- GDP units unified (Alexa, 2026-10-26): `model_network` now labels GDP like the other tools, "billion international $,
+  PPP, constant prices" (decision D4; `ATTRIBUTE_OVERRIDES` in `backend/rdm/tools/network.py`). Values were already
+  the same column. Logs from before this change show "billion USD" in the network reply.
+- Open: team question on X57's range (base path at the top of it); Alexa hand-checks X1 and 10 P2 answers.
 
 Next: the full bank run (Alexa's go on the cost) and the XGBoost overfitting review (separate).
