@@ -59,6 +59,17 @@ Direction only; no effect size is claimed in advance. The literature behind S1 i
 
 The note carries no run values, so v0 still receives no values from the runs (the v0/v1 difference is kept).
 
+**"Before", pinned (added 2026-10-26, before the first run).** `country_context` wraps the deployed chatbot's
+`backend/services/context.py`, which has local changes kept out of git on purpose (SHA-256 of the file used:
+`08c40eac97668aad…`). The `gdp` reply in "before" is therefore pinned here as text, word for word:
+
+```
+{"topic": "gdp", "text": "Uganda Baseline — GDP Trajectory (billion international $, PPP, constant prices):\nYear      GDP (B intl $)\n------------------------\n2025               128.4\n2030               200.5\n2040               434.6\n2050               679.2\n\nNote: Values reflect the SSP-based baseline projection used in SISEPUEDE. GDP is in purchasing-power parity, constant prices (international dollars; growth matches the World Bank constant-price series), not market exchange rates.", "note": "Modelled baseline assumptions (2025–2050), not observed present-day statistics."}
+```
+
+"After" is this reply plus the note above. The runner checks every `gdp` reply against this text (plus the note in
+"after") and stops if it differs.
+
 ## Measures (per conversation)
 
 | ID | Measure | How it is read |
