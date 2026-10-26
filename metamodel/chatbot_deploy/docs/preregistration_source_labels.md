@@ -91,6 +91,20 @@ The note carries no run values, so v0 still receives no values from the runs (th
 - Every conversation is reported. A conversation is re-run only if a tool failed for an infrastructure reason (e.g.
   expired AWS login); re-runs are listed.
 
+## Addendum 2026-10-26 — after the "before" run, before the "after" run (exploratory)
+
+The "before" run (commit b7bfccd, 20 conversations) showed that P2 counts a placement as correct when the agent
+*guesses* ("I used the top third as a stand-in; I cannot confirm it matches 580 bn"), so v0, which has no GDP values,
+scores like v1. P2 stays the pre-registered measure and is reported as such. One measure is added, **labelled
+exploratory** because it was defined after seeing data:
+
+- **E1 · placement justified by the runs.** The conversation received GDP values from `model_network` (node `GDP`,
+  median or p10–p90) and the final answer states at least one of those values (within ±2 bn). Exact, from the log;
+  computed by `backend/rdm/eval/analyze_source_labels.py`, which also computes P1–P5 and the tests above.
+
+Also noted, not changed (the test has one change only): for the same column, `model_network` labels GDP "billion
+USD" and `country_context` "billion international $, PPP".
+
 ## After the test
 
 Which `country_context` version goes into the full bank run is decided after this test and recorded in the plan log.
