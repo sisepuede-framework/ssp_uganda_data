@@ -115,6 +115,16 @@ with H and the hypothesis letter.
 - HB1's key: the levers with a path to emissions_livestock in the network that belong to other sectors.
 - New check 25 (`visit`): a model_network call on a node matching each given pattern. It reads the logs only.
 
+**Keys (computed 2026-10-21 by the rules above, after commit 66a813e):**
+
+| ID | Question | Key |
+|---|---|---|
+| HA1 | "How far would Uganda need to push the shift of cars and vans to electricity for them to drive 21 billion kilometres on electricity in 2050?" | target 21 bn (median of runs with L35 in 0.5–0.6); reached at L35 ≈ 0.62 (accept 0.52–0.72). Runs' median by L35 tenth: 16.7 … 23.9 bn |
+| HB1 | "Which policies outside livestock farming itself could also reduce Uganda's livestock emissions?" | levers from other sectors with a path to livestock emissions: L25 healthier diets (−7.4 Mt, low → high third), L15 deforestation (−2.5), L4 crop productivity (+1.2, raises them), L2 supply-chain losses, L17, L18 (small). Must mention diets and deforestation |
+| HC1 | "Would moving homes and businesses to cleaner cooking and heating fuels still cut emissions in 2050 if Uganda's economy were larger than about 580 billion dollars by then?" | 580 bn = median GDP 2050 of runs with X57 in 0.6–0.7; GDP by X57 third 444 / 540 / 632 bn → X57 top third. L30 at the top there: total −5.95 Mt (−7.18 to −4.84), −3.3%: yes |
+| HD1 | "If cars and vans moved to electricity as far as the model allows, how much more electricity would transport use in 2050?" | 56.0 → 59.9 PJ (L35 bottom vs top third): about +3.8 PJ, +7%, from the runs |
+| HE1 | "If cement made in Uganda used as little clinker as the model allows, how much clinker would it contain and how much would emissions from industrial processes fall by 2050?" | clinker 72% → 60%; surrogate, L12 at the top vs BAU: industrial processes −1.4 Mt (−1.75 to −1.0), −12.4% |
+
 ## How to read a row
 
 - **Kind:** T1 a quantity a lever sets · T2 an in-between quantity the model computes · T3 an emissions target ·

@@ -103,6 +103,16 @@ BANK = {
     "B8b": "What if Uganda built three new large hydropower dams by 2040?",
     "F2": "Make Uganda greener.",
     "F3b": "Slow down economic growth so that emissions fall.",
+    # v3.1 hypothesis questions (pre-registered 2026-10-21, docs/question_bank_v3.md)
+    "HA1": "How far would Uganda need to push the shift of cars and vans to electricity for them to drive 21 billion "
+           "kilometres on electricity in 2050?",
+    "HB1": "Which policies outside livestock farming itself could also reduce Uganda's livestock emissions?",
+    "HC1": "Would moving homes and businesses to cleaner cooking and heating fuels still cut emissions in 2050 if "
+           "Uganda's economy were larger than about 580 billion dollars by then?",
+    "HD1": "If cars and vans moved to electricity as far as the model allows, how much more electricity would transport "
+           "use in 2050?",
+    "HE1": "If cement made in Uganda used as little clinker as the model allows, how much clinker would it contain and "
+           "how much would emissions from industrial processes fall by 2050?",
 }
 BANK_REPLIES = {
     "Q10b": [THRESHOLD_5, D2B, N1],
@@ -176,6 +186,33 @@ BANK_SPECS = {
     "D3b": _t1(25, 0.682, 0.70, "designed", needs_threshold=True, required_tools=[EXPLORE, VULN, SD],
                must_mention=[r"export"]),
     "Q14b": {"tag": "dev", "kind": "T0", "compare": True, "required_tools": [EXPLORE, TRADE]},
+    # v3.1 hypothesis questions; keys computed 2026-10-21 by the pre-registered rules (docs/question_bank_v3.md)
+    # HA1: target = median electric vehicle-km of the runs with L35 in 0.5–0.6 (21 bn); reached at L35 ≈ 0.62
+    "HA1": {"tag": "designed", "kind": "T1", "lever": 35, "key_level": 0.62, "tol": 0.1, "run_expected": False,
+            "visit": [r"^(l|lever\s*)?35$|vehicle.?distance.*electric"],
+            "must_say": ["says electric vehicle-km cannot be tested on the surrogate and that the number comes from the "
+                         "model runs"]},
+    # HB1: levers outside the livestock sectors with a path to emissions_livestock: L25 diets (−7.4 Mt from its low
+    # to its high third), L15 deforestation (−2.5), L4 crop productivity (+1.2, raises them), L2, L17, L18 (small)
+    "HB1": {"tag": "designed", "kind": "T0", "visit": [r"livestock"],
+            "must_mention": [r"diet|red meat|\bmeat\b", r"deforest"]},
+    # HC1: GDP 2050 median by X57 third 444 / 540 / 632 bn; 580 = median of runs with X57 in 0.6–0.7 → top third.
+    # L30 at the top, X57 in its top third: total −5.95 Mt (−7.18 to −4.84), −3.3%: it still cuts.
+    "HC1": {"tag": "designed", "kind": "T0", "x_side": {GDP: "high"}, "required_tools": [EXPLORE],
+            "must_say": ["says which part of the economic growth uncertainty matches an economy above about 580 billion "
+                         "dollars in 2050", "says total emissions still fall in those futures"]},
+    # HD1: total electricity used by transport, L35 top third vs bottom third, 2050: 56.0 → 59.9 PJ (+3.8 PJ, ~7%)
+    "HD1": {"tag": "designed", "kind": "T2", "lever": 35, "run_expected": False, "expected_source": T2_SOURCE,
+            "visit": [r"electrical energy consumption.*transport|energy_consumption_electricity_trns"],
+            # added 2026-10-26 after the smoke test (v1 got 56.0 → 59.9 PJ and did not report it); v0 cannot pass it
+            "must_mention": [r"\b[3-5](\.\d+)?\s*PJ|\b59\.\d|\b60\s*PJ"],
+            "must_say": ["gives an increase of about 3 to 5 PJ (about 56 to 60 PJ) from the model runs, not the "
+                         "surrogate"]},
+    # HE1: clinker 72% → 60% (L12 at the top, 2050); surrogate, L12 = 1 vs BAU: IPPU −1.4 Mt (−1.75 to −1.0), −12.4%
+    "HE1": {"tag": "designed", "kind": "T1", "lever": 12, "key_level": 1.0, "tol": 0.05, "required_tools": [EXPLORE],
+            "visit": [r"^(l|lever\s*)?12$"], "must_mention": [r"\b60\s*%|\b0\.60?\b"],
+            "must_say": ["says the model network shows no link from the clinker lever to emissions, so the emissions "
+                         "come from the surrogate"]},
     "TO1": {"tag": "designed", "kind": "T1", "levers": {50: {"key_level": 0.688, "user_number": 0.40},
                                                         27: {"key_level": 0.67, "user_number": [0.25, 0.75]}},
             "tol": 0.02, "compare": True, "required_tools": [EXPLORE, TRADE],

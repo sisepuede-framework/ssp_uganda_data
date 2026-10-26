@@ -6,7 +6,7 @@ One row per conversation, one column per failure mode (True = the failure happen
 does not apply to that question). Three kinds of check:
 
   A · tool calls (exact):    1 no information before the run · 2 literal translation · 3 level off the key ·
-                             4 uncertainty fixed · 5 uncertainty range on the wrong side or missing ·
+                             4 uncertainty fixed · 5 no uncertainty range on the asked side ·
                              6 uncertainty used as a lever · 7 invented threshold · 8 required step skipped ·
                              9 ran an out-of-model question before clarifying · 10 asked for a level beyond the
                              explored range · 11 loop (same failing call twice) · 12 did not finish
@@ -19,7 +19,9 @@ does not apply to that question). Three kinds of check:
                              20 a lever outside the allowed set (``allowed_levers``) · 21 no package tested
                              (``package``) · 23 revised policy not re-tested with the same threshold (``retest``) ·
                              24 a scripted threshold reply given before the agent asked for it (the script fell
-                             out of step)
+                             out of step) · 25 a required node never visited with model_network (``visit``: one
+                             regex per node, matched against the node argument of the calls that worked)
+  Recorded, not a failure:   network_calls (model_network calls that worked), x_ranges_set
 
 A question with several levers lists them in ``levers`` ({id: {key_level, user_number}}); checks 1–3 run for each.
 A conversation that holds several questions (Q10b → D2b → N1) lists them in ``parts``, each with the user turn it
@@ -47,7 +49,7 @@ MODEL_YEARS = {2025, 2035, 2040, 2050, 2060, 2070}
 FORECAST = re.compile(r"\b(will (?:be|reach|fall|rise|drop|increase|decrease|cut|reduce)|predicts?|predicted|"
                       r"projections?|forecasts?)\b", re.I)
 NEGATION = re.compile(r"\b(not|no|none|nothing|never|neither|nor)\b[^.]{0,30}$", re.I)   # "… is not a forecast"
-CATALOGUE_REF = re.compile(r"\(\s*\d{1,2}(?:\s*[–,-]\s*\d{1,2})*\s*\)|\bp\d{1,2}\b|\b[LX]\s?\d{1,2}\b|\b(?:levers?|uncertaint(?:y|ies)|ids?)\s+\d{1,2}\b", re.I)
+CATALOGUE_REF = re.compile(r"\(\s*\d{1,2}(?:\s*[–,-]\s*\d{1,2})*\s*\)|\bp\d{1,2}\b|\b[LX]\s?\d{1,2}\b|\b(?:levers?|uncertaint(?:y|ies)|ids?)\s+\d{1,2}(?:\s*(?:,|and|or|&)\s*\d{1,2})*\b", re.I)
 WINNER = re.compile(r"\b(the best (?:option|policy|choice)|you should (?:choose|pick|go with|prioriti[sz]e)|"
                     r"I(?: would|'d)? (?:recommend|suggest)|should be prioriti[sz]ed|"
                     r"is (?:clearly )?(?:the )?(?:better|more effective|preferable) (?:option|policy|choice)?)", re.I)
@@ -172,7 +174,9 @@ def check(run: dict, spec: dict | None = None) -> dict:
         c.get("error_code") == "X_FIXED" for c in calls)
     for x, side in (spec.get("x_side") or {}).items():
         got = [r for xid, r in ranges if xid == int(x)]
-        wrong = not got or any((lo < 0.5) if side == "high" else (hi > 0.5) for lo, hi in got)
+        # Right if at least one range sits on the asked side; an extra range on the other side is a contrast
+        # (HC1 smoke test 2026-10-26: [0.67, 1] plus [0, 0.33] to compare), not a mistake.
+        wrong = not any((lo >= 0.5) if side == "high" else (hi <= 0.5) for lo, hi in got)
         f["05_uncertainty_range_wrong_or_missing"] = f.get("05_uncertainty_range_wrong_or_missing", False) or wrong
         f["x_ranges_set"] = {**f.get("x_ranges_set", {}), str(x): got}
     # 6 · uncertainty used as a lever
@@ -240,6 +244,12 @@ def check(run: dict, spec: dict | None = None) -> dict:
         reply = next((m for m in run.get("user_messages", []) if m.get("user_turn") == start + 1), None)
         asked = any((c.get("reply") or {}).get("status") == "needs_threshold" and c.get("user_turn") == start for c in vul)
         f["24_script_out_of_step"] = reply is not None and not (reply.get("agent_asked") or asked)
+    nodes = [str((c.get("args") or {}).get("node", "")) for c in calls
+             if c["tool"] == "model_network" and c["status"] == "ok"]
+    f["network_calls"] = len(nodes)
+    if spec.get("visit"):
+        missing = [rx for rx in spec["visit"] if not any(re.search(rx, n, re.I) for n in nodes)]
+        f["25_required_node_not_visited"], f["nodes_not_visited"] = bool(missing), missing
     f["fail_share"] = [(c.get("reply") or {}).get("share_fail") for c in vul if c["status"] == "ok"
                        and "share_fail" in (c.get("reply") or {})] or None
     f["years_not_in_model"] = sorted({int(y) for c in calls for y in
@@ -288,10 +298,13 @@ def _read(question: str, answer: str, spec: dict, client, model: str) -> dict:
               "wrong_source: the answer attributes a number to a different source than expected_source (e.g. says it "
               "was tested on the surrogate when it comes from the model runs). null when the answer does not say "
               "or nothing is expected. says: whether the answer makes each required statement, in any wording.")
-    r = client.messages.create(model=model, max_tokens=400, messages=[{"role": "user", "content": prompt}])
+    # Haiku 5.5 thinks by default: room for it, low effort, and read the text block (not the first block)
+    r = client.messages.create(model=model, max_tokens=4000, messages=[{"role": "user", "content": prompt}],
+                               output_config={"effort": "low"})
+    text = "".join(b.text for b in r.content if b.type == "text").strip()
     try:
-        out = json.loads(r.content[0].text)
-    except (ValueError, IndexError):
+        out = json.loads(re.sub(r"^```(?:json)?\s*|\s*```$", "", text))
+    except ValueError:
         return {"17_wrong_direction": None, "18_wrong_source": None, "reader_note": "unreadable reply"}
     says = out.get("says") or []
     row = {"17_wrong_direction": out.get("wrong_direction"), "18_wrong_source": out.get("wrong_source"),
@@ -310,7 +323,8 @@ def reader_check(run: dict, spec: dict, client=None, model: str = "claude-haiku-
                for k in ("expected_direction", "expected_source", "must_say")):
         return {}
     import anthropic
-    client = client or anthropic.Anthropic()
+    from backend.config import settings      # the same key the harness uses
+    client = client or anthropic.Anthropic(api_key=settings.anthropic_api_key or None)
     if spec.get("parts"):
         return {f"{p['id']}:{k}": v for p, sub in _part_runs(run, spec) if sub["reached"]
                 for k, v in _read(sub["question"], sub["final_answer"], p, client, model).items()}

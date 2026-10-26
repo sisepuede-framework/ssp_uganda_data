@@ -43,6 +43,14 @@ def test_uncertainty_fixed_wrong_side_and_as_lever():
     assert f["04_uncertainty_fixed"] and f["05_uncertainty_range_wrong_or_missing"] and f["06_uncertainty_as_lever"]
 
 
+def test_uncertainty_range_with_contrast_is_right():
+    spec = {"kind": "T0", "x_side": {57: "high"}}
+    log = [explore({"30": 1}, {"57": [0.67, 1]}), explore({"30": 1}, {"57": [0, 0.33]})]
+    assert not check({"tool_log": log, "final_answer": ""}, spec)["05_uncertainty_range_wrong_or_missing"]
+    whole = [explore({"30": 1}, {"57": [0, 1]})]
+    assert check({"tool_log": whole, "final_answer": ""}, spec)["05_uncertainty_range_wrong_or_missing"]
+
+
 def test_invented_threshold_and_skipped_step():
     spec = {"kind": "T0", "needs_threshold": True,
             "required_tools": ["exploratory_modeling", "vulnerability_analysis", "scenario_discovery"]}
@@ -60,7 +68,7 @@ def test_answer_rules():
     assert f["13_forecast_language"] and f["14_names_a_winner"] and f["15_untraced_numbers"]
     assert f["16_single_number_no_range"]
     ok = check({"tool_log": log, "final_answer": "Median change −5.2% (p10–p90 range); this is not a forecast. "
-                                                 "Lever 35 (35) and L35 are references."}, {})
+                                                 "Lever 35 (35) and L35 are references, so are levers 13 and 14."}, {})
     assert not ok["13_forecast_language"] and not ok["15_untraced_numbers"] and not ok["16_single_number_no_range"]
 
 
@@ -110,3 +118,14 @@ def test_bank_specs_run_on_an_empty_log():
     from backend.rdm.eval.questions import BANK_SPECS
     for qid, spec in BANK_SPECS.items():
         check({"tool_log": [], "final_answer": "", "user_messages": [{"user_turn": 1}]}, spec)
+
+
+def test_required_node_visited():
+    spec = {"kind": "T0", "visit": [r"livestock", r"^(l|lever\s*)?12$"]}
+    log = [call("model_network", {"node": "emissions_livestock", "year": 2050}),
+           call("model_network", {"node": "L25", "year": 2050})]
+    f = check({"tool_log": log, "final_answer": "Healthier diets."}, spec)
+    assert f["25_required_node_not_visited"] and f["nodes_not_visited"] == [r"^(l|lever\s*)?12$"]
+    assert f["network_calls"] == 2
+    log.append(call("model_network", {"node": "lever 12", "year": 2050}))
+    assert not check({"tool_log": log, "final_answer": "x"}, spec)["25_required_node_not_visited"]

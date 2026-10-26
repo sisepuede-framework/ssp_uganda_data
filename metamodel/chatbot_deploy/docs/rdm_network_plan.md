@@ -172,3 +172,26 @@ viewer with the lever + X filter, then the agent's tool.
 - 2026-10-21 — **Frozen in git** (network, tool, keys, tests, deck). Not in git, regenerable: `out/run_2026_05_30_ranges.parquet`
   (187 MB, over GitHub's limit; `python -m backend.rdm.network.ranges`, ~7 min), SHA-256 `e3945e9999a05e167b5b7dfca84b88c90296ee68a6a12447e8cf16117a9d03dc`; the map data
   (`out/viewer/`, `viewer_data.py`); NemoMod's working database.
+- 2026-10-21 — **Bank v3.1: five hypothesis questions** (HA1–HE1), pre-registered and committed (66a813e) before their
+  keys; keys computed by the pre-registered rules and added to BANK / BANK_SPECS and the bank doc; new check 25
+  (required node visited with model_network) and the count of model_network calls in the failure-mode table; 53
+  tests pass. The bank is now 31 questions in 29 conversations. Not yet smoke-tested with the agent.
+
+## Next meeting (set 2026-10-21)
+
+State: everything up to the network tool, the S / X1 / X2 keys and the deck is committed (1292e0b); the v3.1
+pre-registration is committed (66a813e). **Uncommitted, on purpose until the meeting:** the five hypothesis
+questions' wording, specs and keys (`backend/rdm/eval/questions.py`, `docs/question_bank_v3.md`, key table), check 25
+and the network-call count (`backend/rdm/eval/failure_modes.py`, `tests/rdm/test_failure_modes.py`), and this log.
+
+1. **Smoke test of HA1–HE1**: each question once in v0 and v1 (10 conversations, small API cost), saved apart from
+   the bank run (as `pilot_runs/smoke_network_2026_10_21/` was). Check that the questions read as intended and that
+   the failure-mode table scores them (check 25, x_ranges_set for HC1, levels for HA1 / HE1, network_calls).
+   Command: the smoke script pattern of 2026-10-21 (`converse(...)` per question and arm, PYTHONPATH=.), then
+   `python -m backend.rdm.eval.failure_modes <dir>` scored with BANK_SPECS (set question_set="bank" in the saved
+   runs, or call `check(run, BANK_SPECS[qid])`).
+2. **Commit** the keys, check 25 and the docs (one commit; the pre-registration commit 66a813e already dates the
+   hypotheses before the keys).
+
+After that: the full bank run (31 questions in 29 conversations × 4 arms × 3 reps, Alexa's go on the cost) and the
+XGBoost overfitting review (separate).

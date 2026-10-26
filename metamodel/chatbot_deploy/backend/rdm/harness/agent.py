@@ -76,7 +76,9 @@ def converse(question: str, arm: str, replies: list | None = None, model: str = 
 
     for step in range(MAX_STEPS):
         r = client.messages.create(model=model, max_tokens=MAX_TOKENS, system=system, tools=TOOLS,
-                                   messages=messages, output_config={"effort": effort})
+                                   messages=messages, output_config={"effort": effort},
+                                   # display only: thinking is billed the same, the summary is kept in the log
+                                   thinking={"type": "adaptive", "display": "summarized"})
         u = r.usage
         requests.append({"step": step, "stop_reason": r.stop_reason,
                          "input_tokens": u.input_tokens, "output_tokens": u.output_tokens,
