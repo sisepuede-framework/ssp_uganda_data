@@ -50,3 +50,7 @@ It should be checked by hand before it is cited.
 
 10 conversations per cell; only large differences can show. P2 rewards guesses ("top third as a stand-in"). X1 is
 post hoc. One question (HC1), one model (Sonnet 5.5, effort medium).
+
+## Decision
+
+2026-10-26, Alexa: the full bank run uses the labelled `country_context` ("after" condition).

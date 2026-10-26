@@ -195,3 +195,19 @@ and the network-call count (`backend/rdm/eval/failure_modes.py`, `tests/rdm/test
 
 After that: the full bank run (31 questions in 29 conversations × 4 arms × 3 reps, Alexa's go on the cost) and the
 XGBoost overfitting review (separate).
+
+## Update 2026-10-26
+
+- Smoke test of HA1–HE1 done (v0/v1; `pilot_runs/smoke_hypotheses_2026_10_26_thinking/`), committed with the keys,
+  check 25, two scoring fixes (checks 5 and 15), the HD1 PJ mention, summarized thinking in the logs and the reader
+  fix (d0d32e4). Finding: HD1 v1 receives transport electricity (56.0 → 59.9 PJ) from the network but tells the user
+  it cannot report it, because the surrogate does not.
+- Source-label test (pre-registered, `docs/preregistration_source_labels.md`; results `docs/results_source_labels.md`):
+  `country_context`'s GDP is the base future 0, above the runs' p90; unlabelled, half of HC1's answers concluded
+  "580 bn covers most futures". **Decision (Alexa, 2026-10-26): the full bank run uses the labelled version**
+  (`backend/rdm/tools/context.py`, `GDP_LABEL`, in the code since c3bcf15). Logs from before c3bcf15 used the
+  unlabelled reply.
+- Open: team question on X57's range (base path at the top of it); GDP unit labels differ between `model_network`
+  ("billion USD") and `country_context` ("PPP"); Alexa hand-checks X1 and 10 P2 answers.
+
+Next: the full bank run (Alexa's go on the cost) and the XGBoost overfitting review (separate).
