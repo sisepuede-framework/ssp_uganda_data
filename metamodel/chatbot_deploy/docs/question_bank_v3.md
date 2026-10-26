@@ -1,12 +1,12 @@
 # Question bank — v3 (adjusted for designer bias)
 
-*2026-10-19. Replaces `question_bank_v2.md` (kept for reference). Built from the bias review
-(`review_bank_bias.md`): leaked examples removed from the prompt and the tool descriptions, LV2 dropped, five
+*2026-10-19. Replaces `archive/question_bank_v2.md` (kept for reference). Built from the bias review
+(`archive/review_bank_bias.md`): leaked examples removed from the prompt and the tool descriptions, LV2 dropped, five
 questions added that were written without knowing their answer (three drawn at random, two realistic and messy),
 TO1 added for trade-offs, and every question tagged by how it was made. 26 questions in 24 conversations
 (Q10b → D2b → N1 is one conversation).*
 
-*Updated 2026-10-19 after the second bias audit (`review_bank_bias_v3.md`): X1 re-tagged designed, F3b's expected path
+*Updated 2026-10-19 after the second bias audit (`archive/review_bank_bias_v3.md`): X1 re-tagged designed, F3b's expected path
 fixed, TO1's must-not reworded, the last leaked examples made neutral, the pre-registration completed, and every rule
 wired to `failure_modes.py` (`BANK_SPECS` in `backend/rdm/eval/questions.py`).*
 

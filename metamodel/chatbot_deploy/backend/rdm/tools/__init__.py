@@ -1,5 +1,5 @@
 """
-The six RDM tools (design: docs/rdm_tools_design.md, draft v2).
+The six RDM tools (design: docs/archive/rdm_tools_design.md, draft v2).
 
 Technical (surrogate, identical in v0 and v1): exploratory_modeling, vulnerability_analysis,
 scenario_discovery, trade_off_analysis — in ``technical.py``.

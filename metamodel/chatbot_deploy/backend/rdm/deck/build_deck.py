@@ -1,5 +1,5 @@
 # Requires python-pptx (not in the project env): pip install python-pptx
-# Usage: python backend/rdm/deck/build_deck.py docs/rdm_tool_design_v1.pptx
+# Usage: python backend/rdm/deck/build_deck.py docs/archive/rdm_tool_design_v1.pptx
 """Build the RDM Tool Design deck (draft v1) as a .pptx with python-pptx."""
 import math
 import re
@@ -227,7 +227,7 @@ s = new_slide("The data we have", "",
               notes="Local files: data/ssp/sisepuede_run_2026-05-30t21;35;56.244639. Raw runs: "
                     "s3://sisepuede-data/run_database/<run>/. Every run is linked to its L and X values through "
                     "ATTRIBUTE_PRIMARY (primary_id → design_id, future_id). The mapping review file is "
-                    "docs/lever_x_output_mapping.xlsx.")
+                    "docs/archive/lever_x_output_mapping.xlsx.")
 y = table(s, TOP, ["Source", "What it holds", "Files"], [
     ["LHC design", "The 0–1 value of every group in each of the 100k futures: 54 levers (L) and 13 uncertainties (X)",
      "ATTRIBUTE_LHC_SAMPLES_LEVER_EFFECTS, …_EXOGENOUS_UNCERTAINTIES, ATTRIBUTE_PRIMARY"],

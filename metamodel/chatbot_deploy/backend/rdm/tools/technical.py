@@ -8,7 +8,7 @@ Technical tools: run on the XGBoost surrogate, identical in v0 and v1.
 
 Every result is an ensemble: no tool returns one number from one future. The uncertainties are
 reported as positions in their sampled range (0 = low end, 1 = high end) until their real units
-are compiled (open item in docs/rdm_tools_design.md).
+are compiled (open item in docs/archive/rdm_tools_design.md).
 """
 
 from itertools import combinations

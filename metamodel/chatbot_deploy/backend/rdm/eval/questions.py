@@ -1,7 +1,7 @@
 """
 Question sets for the pilots, with the reference answer each one is scored against.
 
-  pilot  Q04b, Q10, Q14 from the question bank (docs/decision_charter_and_question_bank.md).
+  pilot  Q04b, Q10, Q14 from the question bank (docs/archive/decision_charter_and_question_bank.md).
   bank   The question bank v3 (docs/question_bank_v3.md), frozen 2026-10-19, with what each question expects
          (BANK_SPECS, read by failure_modes.py).
   pairs  Same lever, two kinds of target (decided 2026-10-13): an INPUT target — a quantity the lever

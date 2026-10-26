@@ -24,7 +24,7 @@ TECHNICAL = {"exploratory_modeling", "vulnerability_analysis", "scenario_discove
 
 
 def flows(h: Harness) -> list:
-    """The expected flow per category (docs/rdm_tools_design.md), scripted. Returns [(tool, reply)]."""
+    """The expected flow per category (docs/archive/rdm_tools_design.md), scripted. Returns [(tool, reply)]."""
     out = []
     call = lambda n, a: out.append((n, h.call(n, a))) or out[-1][1]
     # A · information

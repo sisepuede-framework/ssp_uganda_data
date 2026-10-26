@@ -16,7 +16,7 @@ Derived metrics, per year (``<metric>_yr<year>``):
 Signs: every cost_* is money spent (> 0 = more spending); every benefit_* and net_benefit is good for the
 country (> 0). Cost and benefit LEVELS are differences against one fixed reference run, so only their change
 against BAU on the same futures is a policy effect; the tools report only that change (for cost_pct_gdp, in
-percentage points of GDP). Audit: docs/review_cost_signs.md.
+percentage points of GDP). Audit: docs/archive/review_cost_signs.md.
 """
 
 import json
@@ -68,7 +68,7 @@ class Surrogate:
         if raw.shape[1] != len(self.targets):
             raise ValueError(f"Surrogate returned {raw.shape[1]} outputs; target list has {len(self.targets)}")
         out = pd.DataFrame(raw, columns=self.targets, index=design.index)
-        # SISEPUEDE's cost-benefit fields are signed "good for the country > 0" (docs/review_cost_signs.md), so a
+        # SISEPUEDE's cost-benefit fields are signed "good for the country > 0" (docs/archive/review_cost_signs.md), so a
         # cost is negative there. Flip the cost types so that every cost_* reads "money spent > 0".
         cost_cols = [f"cost_{c}_yr{y}" for c in self.cost_types for y in self.years]
         out[cost_cols] = -out[cost_cols]

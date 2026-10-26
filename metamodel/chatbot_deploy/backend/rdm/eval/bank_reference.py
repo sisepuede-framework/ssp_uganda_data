@@ -1,5 +1,5 @@
 """
-Answer keys for the draft question bank (docs/question_bank_v1.md) marked "to compute".
+Answer keys for the draft question bank (docs/archive/question_bank_v1.md) marked "to compute".
 
 Surrogate keys: other levers at 0 (BAU), 1,000 futures with all 13 uncertainties sampled, 2050, changes against BAU in
 the same futures. Run-based keys: the cached sample (frame 1: other levers as they varied in the runs).
