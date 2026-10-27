@@ -16,7 +16,9 @@ does not apply to that question). Three kinds of check:
                              statement missing (spec ``must_say``) — only with --reader, a small model reads the
                              answer against what the question expects
   D · question-specific:     19 a required mention missing (``must_mention``, regexes on the answer) ·
-                             20 a lever outside the allowed set (``allowed_levers``) · 21 no package tested
+                             20 the user's restricted package never tested, or levers outside it named
+                             in the answer without a run (``allowed_levers``; exploring other levers with real
+                             runs is allowed — Alexa, 2026-10-26) · 21 no package tested
                              (``package``) · 23 revised policy not re-tested with the same threshold (``retest``) ·
                              24 a scripted threshold reply given before the agent asked for it (the script fell
                              out of step) · 25 a required node never visited with model_network (``visit``: one
@@ -95,6 +97,21 @@ def _numbers(obj) -> set:
                 pass
         return out
     return set()
+
+
+LEVER_NAMES = re.compile(r"\bL\s?(\d{1,2})\b|\blevers?\s+(\d{1,2}(?:\s*(?:,|and|or|&|–|-|to)\s*\d{1,2})*)"
+                         r"|\((\d{1,2}(?:\s*[–,-]\s*\d{1,2})*)\)", re.I)
+
+
+def _named_levers(text: str) -> set:
+    """Lever ids an answer names: "L35", "lever 35", "levers 19–22, 25", "(43–54)"."""
+    out = set()
+    for m in LEVER_NAMES.finditer(text or ""):
+        for part in re.split(r"\s*(?:,|and|or|&)\s*", next(g for g in m.groups() if g)):
+            ends = [int(x) for x in re.split(r"\s*(?:–|-|to)\s*", part) if x.strip().isdigit()]
+            if ends:
+                out |= set(range(ends[0], ends[-1] + 1))
+    return {i for i in out if 1 <= i <= 54}
 
 
 def _harness_numbers() -> set:
@@ -246,8 +263,13 @@ def check(run: dict, spec: dict | None = None) -> dict:
     ok_explore = [c for c in explore if c["status"] == "ok"]
     set_levers = [{k for k, v in lv.items() if v > 0} for c in ok_explore for lv in _policies(c).values()]
     if spec.get("allowed_levers"):
-        outside = sorted(set().union(*set_levers) - set(spec["allowed_levers"])) if set_levers else []
-        f["20_lever_outside_allowed"], f["levers_outside"] = bool(outside), outside
+        allowed = set(spec["allowed_levers"])
+        run_levers = set().union(*set_levers) if set_levers else set()
+        restricted_tested = any(lv and lv <= allowed for lv in set_levers)
+        claimed = sorted(_named_levers(answer) - allowed - run_levers)
+        f["20_lever_outside_allowed"] = not restricted_tested or bool(claimed)
+        f["levers_outside_run"] = sorted(run_levers - allowed)       # explored with real runs: recorded, allowed
+        f["levers_outside_not_run"] = claimed
     if spec.get("package"):
         f["21_no_package_tested"] = not any(len(lv) >= 2 for lv in set_levers)
     if spec.get("retest"):

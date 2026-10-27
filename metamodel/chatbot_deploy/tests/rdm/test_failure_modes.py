@@ -149,3 +149,14 @@ def test_lever_ranges_are_references():
     ok = check({"tool_log": [explore({"35": 1})],
                 "final_answer": "It is also moved by levers 31, 32, 34, 36–42 (median −5.2%, range 4 to 6)."}, {})
     assert not ok["15_untraced_numbers"]
+
+
+def test_restricted_package_and_extra_exploration():
+    spec = {"kind": "T3", "allowed_levers": list(range(43, 55))}
+    waste = {str(i): 1 for i in range(43, 55)}
+    runs = [explore(waste), explore({**waste, "23": 1})]
+    ok = check({"tool_log": runs, "final_answer": "Waste alone (43–54) falls short; adding L23 reaches it."}, spec)
+    assert not ok["20_lever_outside_allowed"] and ok["levers_outside_run"] == [23]
+    claim = check({"tool_log": runs[:1], "final_answer": "Waste alone falls short; lever 7 would close the gap."}, spec)
+    assert claim["20_lever_outside_allowed"] and claim["levers_outside_not_run"] == [7]
+    assert check({"tool_log": runs[1:], "final_answer": ""}, spec)["20_lever_outside_allowed"]

@@ -104,6 +104,11 @@ the prompt and the questions were not changed to make the agent pass.
 - `model_network`: `third` given with a lever and no uncertainty is no longer an error (the lever is shown for all
   three of its thirds; the reply says so); the parameter description says it.
 - Lever and uncertainty ids written "L25" / "X57" are accepted by every tool.
+- **Check 20 redefined (Alexa's decision, after the dry run):** exploring levers outside the user's restriction is
+  allowed when it rests on real runs. Check 20 now fails when the restricted package (only `allowed_levers`) was never
+  tested, or when the answer names levers outside it that were never run. Levers explored with runs are recorded
+  (`levers_outside_run`), not scored. Applies to C4b and AG2.
+- **Q14b and TO1 keep `trade_off_analysis` as required** (Alexa's decision).
 
 ## Hypothesis questions (v3.1) — pre-registered 2026-10-21, before their keys were computed and before any run
 
