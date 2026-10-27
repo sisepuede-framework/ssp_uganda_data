@@ -472,112 +472,13 @@ for i, (cond, tools, ex) in enumerate(guide):
             arrow(s, tx + tw + 0.02, y + gh / 2, tx + tw + tg2 - 0.02, y + gh / 2)
     text(s, ex_x, y, LM + CW - ex_x, gh, ex, 11, color=MUTED, italic=True, anchor=MSO_ANCHOR.MIDDLE)
 
-# 8a · The SISEPUEDE network and what each tool shows of it
-s = new_slide("model_network walks the network one step at a time", "Method · the tools",
-              "Top row: the SISEPUEDE pipeline, left to right. A lever (or uncertainty) is a 0-1 value; it sets "
-              "input trajectories (model_input). SISEPUEDE computes the in-between variables (vehicle-km, crop area, "
-              "fuel demand) and the emissions (505 emission fields); our crosswalk sums them into the 23 inventory "
-              "categories the XGBoost predicts.\n"
-              "\n"
-              "The network behind model_network was read from the SISEPUEDE code (version 1.4.0): one run of the model "
-              "with tagged arrays, so every variable written knows which variables it was computed from. A link means "
-              "'used to compute'. NemoMod, the electricity optimization, is one box: its inputs and outputs are known, "
-              "not the steps inside.\n"
-              "\n"
-              "Rows: what each tool shows the agent at each step. Dark = names and, in v1, values; light = "
-              "names only; empty = not read.\n"
-              "- Forward, from a lever: what it sets (v1: the input at BAU, middle and top of the range run), then one "
-              "step at a time what each variable is used to compute, down to the categories (v1: median and p10-p90 "
-              "by the lever's thirds, optionally within an uncertainty's third).\n"
-              "- Back, from a category or a variable: what it is computed from, and the levers and uncertainties that "
-              "reach it (v1 adds, for a category, each lever's change from its low to its high third). Used in A (what "
-              "drives X?) and as the first step of C (which lever can reach this target?).\n"
-              "- The technical tools never walk the chain: the XGBoost goes straight from the 0-1 levers and "
-              "uncertainties to the 23 categories (plus costs, benefits and GDP).\n"
-              "- country_context reads one run, the BAU baseline.\n"
-              "\n"
-              "Plan, rules and test: metamodel/chatbot_deploy/docs/rdm_network_plan.md. Code: backend/rdm/network/ "
-              "(building it) and backend/rdm/tools/network.py (the tool).")
-stages = [("Levers & uncertainties", "0–1 values"),
-          ("Inputs", "model_input"),
-          ("In-between", "model_output"),
-          ("Emissions", "505 emission fields"),
-          ("Categories", "crosswalk · 23")]
-lab_w = 2.0
-sg = 0.22
-sw = (CW - lab_w - 4 * sg) / 5
-sx = [LM + lab_w + i * (sw + sg) for i in range(5)]
-hy, hh = TOP + 0.55, 0.8
-# SISEPUEDE bracket: from the inputs' outgoing arrow to the end of the emissions
-bx0, bx1 = sx[1] + sw + sg / 2, sx[3] + sw
-rect(s, bx0, TOP - 0.05, bx1 - bx0, 0.42, fill=WHITE, line=TXT, line_w=1.25)
-text(s, bx0, TOP - 0.05, bx1 - bx0, 0.42, "**SISEPUEDE** computes: in-between + emissions", 12, color=TXT,
-     align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE, font=HEAD)
-for x0 in (bx0, bx1 - 0.001):
-    arrow(s, x0, TOP + 0.37, x0, hy - 0.04, color=TXT, head=False)
-text(s, sx[4], TOP - 0.05, sw, 0.42, "ours", 12, color=MUTED, italic=True, align=PP_ALIGN.CENTER,
-     anchor=MSO_ANCHOR.MIDDLE)
-for i, (head, sub) in enumerate(stages):
-    node(s, sx[i], hy, sw, hh, head, sub, fill=FILL, line=BORDER, head_pt=13, sub_pt=10)
-    if i < 4:
-        arrow(s, sx[i] + sw + 0.03, hy + hh / 2, sx[i] + sw + sg - 0.03, hy + hh / 2, color=TXT)
-DARK, LIGHT = "dark", "light"
-trows = [
-    ("model_network", "forward, from a lever",
-     [(LIGHT, "the lever or\nuncertainty"), (DARK, "what it sets\nv1: BAU · middle · top"),
-      (DARK, "one step at a time\nv1: values by thirds"), (DARK, "unit, gas, sector\nv1: values by thirds"),
-      (DARK, "categories reached\nv1: values by thirds")]),
-    ("model_network", "back, from a category",
-     [(DARK, "② the levers and\nuncertainties\nthat reach it"), "back", "start", "start", "start"]),
-    ("4 technical tools", "the XGBoost",
-     [(LIGHT, "policy levels +\nsampled futures"), "skip", "skip", "skip",
-      (LIGHT, "predicted, + costs,\nbenefits, GDP")]),
-    ("country_context", "one run: BAU",
-     [None, (LIGHT, "BAU values: mode\nshares, energy mix"), (LIGHT, "BAU values: GDP,\npopulation, crops"), None, None]),
-]
-ry, rh, rg = hy + hh + 0.25, 0.68, 0.1
-for name, sub, cells in trows:
-    text(s, LM, ry, lab_w - 0.15, rh, f"**{name}**\n{sub}", 13, color=TXT, anchor=MSO_ANCHOR.MIDDLE)
-    for i, c in enumerate(cells):
-        if c in ("skip", "back", "start"):
-            continue
-        if c is None:
-            rect(s, sx[i], ry, sw, rh, fill=None, line=BORDER, dash=True)
-            continue
-        kind, label = c
-        rect(s, sx[i], ry, sw, rh, fill=ACC_LT if kind == DARK else FILL, line=ACC if kind == DARK else BORDER)
-        text(s, sx[i] + 0.08, ry, sw - 0.16, rh, label, 12, color=TXT, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-    if "back" in cells:     # read right to left: ① the agent names a category, ② it gets the levers
-        x0, x1 = sx[2], sx[4] + sw
-        rect(s, x0, ry, x1 - x0, rh, fill=FILL, line=BORDER)
-        text(s, x0 + 0.15, ry, x1 - x0 - 0.3, rh, "① starts here: the agent names a category or a variable\n"
-             "and steps back through what it is computed from", 12, color=TXT, align=PP_ALIGN.CENTER,
-             anchor=MSO_ANCHOR.MIDDLE)
-        arrow(s, x0 - 0.03, ry + rh / 2, sx[0] + sw + 0.03, ry + rh / 2, color=ACC, width=2)
-    if "skip" in cells:
-        x0, x1 = sx[1], sx[3] + sw
-        rect(s, x0, ry + 0.12, x1 - x0, rh - 0.24, fill=None, line=MUTED, dash=True)
-        text(s, x0, ry, x1 - x0, rh, "skips the chain: straight from 0–1 values to categories", 12, color=MUTED,
-             italic=True, align=PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
-        arrow(s, sx[0] + sw + 0.03, ry + rh / 2, sx[1] - 0.03, ry + rh / 2, color=MUTED, head=False)
-        arrow(s, x1 + 0.03, ry + rh / 2, sx[4] - 0.03, ry + rh / 2, color=MUTED)
-    ry += rh + rg
-ly = ry + 0.0
-rect(s, LM, ly + 0.04, 0.3, 0.2, fill=ACC_LT, line=ACC)
-text(s, LM + 0.4, ly, 2.6, 0.3, "names, + values in v1", 12, color=MUTED)
-rect(s, LM + 3.1, ly + 0.04, 0.3, 0.2, fill=FILL, line=BORDER)
-text(s, LM + 3.5, ly, 1.4, 0.3, "names only", 12, color=MUTED)
-rect(s, LM + 4.85, ly + 0.04, 0.3, 0.2, fill=None, line=BORDER, dash=True)
-text(s, LM + 5.25, ly, 1.2, 0.3, "not read", 12, color=MUTED)
-text(s, LM + 6.5, ly, CW - 6.5, 0.3, "Links read from the SISEPUEDE code · NemoMod (electricity) is one box",
-     12, color=ACC, bold=True, align=PP_ALIGN.RIGHT)
-
 # 8a2 · What each arm receives while walking the network (one example, lever 35)
 s = new_slide("Both arms walk the same network; only v1 sees numbers", "Method · the tools",
-              "One example, read left to right. Top: a piece of the real network around lever 35 (shift light-duty "
-              "vehicles to other fuels) and uncertainty X57 (GDP growth), in the five levels of the network. The "
-              "highlighted path is what an agent walks: each numbered step is one model_network call, and the next "
-              "node is a name taken from the previous reply.\n"
+              "One example, read left to right. Top: the path an agent walks from lever 35 (shift light-duty "
+              "vehicles to other fuels) down to the Transportation category, through the five levels of the network. "
+              "Each numbered step is one model_network call, and the next node is a name taken from the previous "
+              "reply. The real network branches at every step (electric vehicle-km, passenger-km demand, GDP, "
+              "NemoMod); only the walked path is drawn.\n"
               "\n"
               "Bottom: what the reply holds at each step. v0 gets the map: names, units, sectors and links (what a "
               "node is computed from and what it computes). v1 gets the same map plus numbers from the 4,989 model "
@@ -586,8 +487,8 @@ s = new_slide("Both arms walk the same network; only v1 sees numbers", "Method �
               "\n"
               "Numbers are 2050, from the tool itself: diesel share 0.174 -> 0.098 and electric share 0.50 -> 0.72 (BAU "
               "-> top of the range run); diesel vehicle-km 8.96 -> 7.36 billion; CO2 from transport 9.70 -> 8.98 Mt; "
-              "Transportation category 9.89 -> 9.10 Mt (p10-p90 7.59-12.99 at lever low), with GDP high 11.49 -> 10.44 "
-              "Mt. The electric chain goes to NemoMod, one box for the electricity system.")
+              "Transportation category 9.89 -> 9.10 Mt (p10-p90 7.59-12.99 at lever low); with GDP growth (X57) in its "
+              "high third, 11.49 -> 10.44 Mt. v0 cells: step 1 also reaches 99 variables.")
 lab = 1.45
 g5 = 0.26
 c5 = (CW - lab - 4 * g5) / 5
@@ -599,79 +500,53 @@ for i, (h, sub) in enumerate(levels):
     text(s, cx[i], TOP + 0.13, c5, 0.25, sub, 10.5, color=MUTED, align=PP_ALIGN.CENTER, font=HEAD)
     if i < 4:
         arrow(s, cx[i] + c5 + 0.04, TOP + 0.05, cx[i + 1] - 0.04, TOP + 0.05, color=BORDER, width=1)
-text(s, LM, TOP + 0.5, lab - 0.15, 1.9, "**The network**\nsame in v0 and v1", 12, color=TXT, font=HEAD,
+text(s, LM, TOP + 0.55, lab - 0.15, 0.6, "**One walk**\nsame in v0 and v1", 12, color=TXT, font=HEAD,
      anchor=MSO_ANCHOR.MIDDLE)
-
-nh = 0.4
-r1, r2, r3 = TOP + 0.55, TOP + 1.12, TOP + 1.75
-nodes_fig = {   # key: (column, row y, label, style)
-    "L35": (0, r1, "L35 · light-duty fuel shift", "path"),
-    "X57": (0, r2, "X57 · GDP growth", "x"),
-    "dsh": (1, r1, "Diesel share of car km", "path"),
-    "esh": (1, r3, "Electric share of car km", "plain"),
-    "gdp": (1, r2, "GDP", "plain"),
-    "dvk": (2, r1, "Diesel vehicle-km", "path"),
-    "evk": (2, r3, "Electric vehicle-km", "plain"),
-    "pkm": (2, r2, "Passenger-km demand", "plain"),
-    "co2": (3, r1, "CO₂ from transport", "path"),
-    "nem": (3, r3, "NemoMod (electricity box)", "box"),
-    "trn": (4, r1, "Transportation", "path"),
-    "ele": (4, r3, "Electricity generation", "plain"),
-}
-for key, (c, y, label, style) in nodes_fig.items():
-    fill, line, col = (ACC_LT, ACC, TXT) if style == "path" else (TXT, TXT, WHITE) if style == "box" else (WHITE, BORDER, TXT)
-    rect(s, cx[c], y, c5, nh, fill=fill, line=line, dash=style == "x", line_w=1.5 if style == "path" else 1.0)
-    text(s, cx[c] + 0.05, y, c5 - 0.1, nh, label, 11, color=col, bold=style == "path", align=PP_ALIGN.CENTER,
+path = ["L35 · car fuel shift", "Diesel share", "Diesel vehicle-km", "CO₂ from transport",
+        "Transportation"]
+ny, nh = TOP + 0.6, 0.55
+for i, label in enumerate(path):
+    rect(s, cx[i], ny, c5, nh, fill=ACC_LT, line=ACC, line_w=1.5)
+    text(s, cx[i] + 0.05, ny, c5 - 0.1, nh, label, 12, color=TXT, bold=True, align=PP_ALIGN.CENTER,
          anchor=MSO_ANCHOR.MIDDLE, font=HEAD)
-links_fig = [("L35", "dsh", True), ("L35", "esh", False), ("dsh", "dvk", True), ("esh", "evk", False),
-             ("X57", "gdp", False), ("gdp", "pkm", False), ("pkm", "dvk", False), ("pkm", "evk", False),
-             ("dvk", "co2", True), ("evk", "nem", False), ("co2", "trn", True), ("nem", "ele", False)]
-for a, b, hot in links_fig:
-    (ca, ya, _, _), (cb, yb, _, _) = nodes_fig[a], nodes_fig[b]
-    if ca == cb:        # within the in-between level: a short vertical arrow
-        x = cx[ca] + c5 / 2
-        arrow(s, x, ya - 0.02 if yb < ya else ya + nh + 0.02, x, yb + nh + 0.02 if yb < ya else yb - 0.02,
-              color=MUTED, width=1.0)
-    else:
-        arrow(s, cx[ca] + c5 + 0.03, ya + nh / 2, cx[cb] - 0.03, yb + nh / 2, color=ACC if hot else MUTED,
-              width=2.25 if hot else 1.0)
-for n, key in enumerate(["L35", "dsh", "dvk", "co2", "trn"], start=1):
-    c, y, _, _ = nodes_fig[key]
-    b = s.shapes.add_shape(MSO_SHAPE.OVAL, Inches(cx[c] - 0.13), Inches(y - 0.13), Inches(0.28), Inches(0.28))
+    if i < 4:
+        arrow(s, cx[i] + c5 + 0.03, ny + nh / 2, cx[i + 1] - 0.03, ny + nh / 2, color=ACC, width=2.25)
+    b = s.shapes.add_shape(MSO_SHAPE.OVAL, Inches(cx[i] - 0.13), Inches(ny - 0.13), Inches(0.28), Inches(0.28))
     b.fill.solid(); b.fill.fore_color.rgb = ACC; b.line.fill.background()
     tf = b.text_frame; tf.margin_left = tf.margin_right = tf.margin_top = tf.margin_bottom = 0
-    p = tf.paragraphs[0]; p.alignment = PP_ALIGN.CENTER
-    run_ = p.add_run(); run_.text = str(n); run_.font.size = Pt(11); run_.font.bold = True
+    pp = tf.paragraphs[0]; pp.alignment = PP_ALIGN.CENTER
+    run_ = pp.add_run(); run_.text = str(i + 1); run_.font.size = Pt(11); run_.font.bold = True
     run_.font.color.rgb = WHITE; run_.font.name = HEAD
     tf.vertical_anchor = MSO_ANCHOR.MIDDLE
-text(s, cx[1], r3 + nh + 0.04, cx[4] + c5 - cx[1], 0.28, "① – ⑤ = one model_network call each; the next node is a "
-     "name from the last reply", 11, color=ACC, italic=True, align=PP_ALIGN.RIGHT, font=HEAD)
+text(s, cx[0], ny + nh + 0.08, cx[4] + c5 - cx[0], 0.28, "Each step is one model_network call; the next node is a "
+     "name from the last reply", 11, color=ACC, italic=True, align=PP_ALIGN.CENTER, font=HEAD)
 
 rows_fig = [
     ("v0 receives", "the map: names, units, links", WHITE, BORDER, [
-        "**①** sets 4 fuel shares\nreaches 99 variables and 5 categories",
-        "**②** fraction (0–1) · Transportation\nused to compute: vehicle-km by fuel …",
-        "**③** vehicle-km\ncomputed from: shares, passenger-km …",
-        "**④** Mt CO₂e · gas CO₂\nused to compute: Transportation",
-        "**⑤** metric emissions_transportation\nlevers that reach it: L31 – L42"]),
+        "sets 4 fuel shares\nreaches 5 categories",
+        "a fraction (0–1)\nused to compute vehicle-km",
+        "vehicle-km\ncomputed from shares and passenger-km",
+        "Mt CO₂e\nused to compute Transportation",
+        "levers that reach it:\nL31 – L42"]),
     ("v1 also receives", "the numbers from the runs", ACC_LT, ACC, [
-        "what a level means:\nelectric share **50% → 72%**\n(BAU → top of the range)",
-        "diesel share\n**17% → 10%**\n(BAU → top of the range)",
-        "**8.96 → 7.36 bn km**\nlever low → high",
-        "**9.70 → 8.98 Mt**\nlever low → high",
-        "**9.9 → 9.1 Mt** (p10–p90 7.6–13.0)\nwith GDP high: **11.5 → 10.4 Mt**"]),
+        "a level in real units:\nelectric share\n**50% → 72%**",
+        "diesel share\n**17% → 10%**",
+        "**8.96 → 7.36 bn km**",
+        "**9.70 → 8.98 Mt**",
+        "**9.9 → 9.1 Mt**\np10–p90 7.6–13.0"]),
 ]
-ry, rh = TOP + 2.72, 1.05
+ry, rh = TOP + 1.85, 1.1
 for head, sub, fill, line, cells in rows_fig:
     text(s, LM, ry, lab - 0.15, rh, f"**{head}**\n{sub}", 12, color=ACC if fill == ACC_LT else TXT, font=HEAD,
          anchor=MSO_ANCHOR.MIDDLE)
     for i, cell in enumerate(cells):
         rect(s, cx[i], ry, c5, rh, fill=fill, line=line)
-        text(s, cx[i] + 0.08, ry, c5 - 0.16, rh, cell, 11.5, color=TXT, align=PP_ALIGN.CENTER,
+        text(s, cx[i] + 0.1, ry, c5 - 0.2, rh, cell, 13, color=TXT, align=PP_ALIGN.CENTER,
              anchor=MSO_ANCHOR.MIDDLE)
-    ry += rh + 0.14
-text(s, LM, ry - 0.08, CW, 0.28, "Same prompt, same tool, same calls in both arms · numbers: 2050, medians from 4,989 "
-     "model runs, lever low (0–⅓) → high (⅔–1)", 11, color=MUTED, italic=True, align=PP_ALIGN.CENTER, font=HEAD)
+    ry += rh + 0.2
+text(s, LM, ry + 0.05, CW, 0.28, "Same prompt, same tool, same calls in both arms · 2050 medians from "
+     "4,989 runs · lever low (0–⅓) → high (⅔–1) · shares: BAU → top of range", 11, color=MUTED,
+     italic=True, align=PP_ALIGN.CENTER, font=HEAD)
 
 # 8b · What each tool reads
 s = new_slide("Tools read the network, the surrogate or the baseline", "Method · the tools",
