@@ -3,7 +3,7 @@
  "tools": [
   {
    "name": "exploratory_modeling",
-   "description": "RDM step 1 — explore and stress-test. Runs one or more policies across many futures (all 13 uncertainties sampled; optionally restricted to a range) on the surrogate, with BAU on the same futures. Returns, per policy, metric and year: median and p10–p90, and the change vs BAU. Returns an ensemble_id for the other technical tools. Use it to evaluate or compare policies, and again after revising a policy. Do not use it to learn what a lever moves (use model_network).",
+   "description": "RDM step 1 — explore and stress-test. Runs one or more policies across many futures (all 13 uncertainties sampled; optionally restricted to a range) on the surrogate, with BAU on the same futures. Returns, per policy, metric and year: median and p10–p90, and the change vs BAU. Returns an ensemble_id for the other technical tools. Use it to evaluate policies, and again after revising a policy. To compare alternatives, run them in one call, then use trade_off_analysis on its ensemble. Do not use it to learn what a lever moves (use model_network).",
    "input_schema": {
     "type": "object",
     "properties": {
@@ -140,7 +140,7 @@
   },
   {
    "name": "trade_off_analysis",
-   "description": "RDM step 3 — trade-offs. Compares the policies of an ensemble on emissions vs costs in the same futures: change vs BAU, cost per tonne abated, how often one has lower emissions, lower cost or both, and which are dominated. Describe trade-offs; do not name a best policy.",
+   "description": "RDM step 3 — trade-offs. Use it whenever the user compares two or more alternatives. Compares the policies of an ensemble on emissions vs costs in the same futures: change vs BAU, cost per tonne abated, how often one has lower emissions, lower cost or both, and which are dominated. Describe trade-offs; do not name a best policy.",
    "input_schema": {
     "type": "object",
     "properties": {
@@ -191,7 +191,7 @@
        "mid",
        "high"
       ],
-      "description": "With uncertainty: low = 0–⅓, mid = ⅓–⅔, high = ⅔–1 of its range."
+      "description": "With uncertainty: low = 0–⅓, mid = ⅓–⅔, high = ⅔–1 of its range. A lever is always shown for all three of its thirds."
      }
     },
     "required": [
@@ -233,47 +233,47 @@
  "tool_errors": [
   {
    "file": "common.py",
-   "line": 37,
+   "line": 39,
    "message": "\"BAD_ID\", f\"{value!r} is not a group id; use the numeric id from the catalogue\""
   },
   {
    "file": "common.py",
-   "line": 43,
+   "line": 45,
    "message": "code, f\"{gid} is not a {what} id; valid {what} ids: {valid[0]}–{valid[-1]}\""
   },
   {
    "file": "context.py",
-   "line": 10,
+   "line": 14,
    "message": "\"BAD_TOPIC\", f\"topic must be one of {TOPICS}\""
   },
   {
    "file": "network.py",
-   "line": 90,
+   "line": 93,
    "message": "\"BAD_ID\", f\"{gid} is not a lever or uncertainty id\""
   },
   {
    "file": "network.py",
-   "line": 94,
+   "line": 97,
    "message": "\"X_AS_LEVER\" if k == \"X\" else \"LEVER_AS_X\",\n                                f\"{gid} is {'an uncertainty' if k == 'X' else 'a lever'} id\""
   },
   {
    "file": "network.py",
-   "line": 103,
+   "line": 106,
    "message": "\"UNKNOWN_NODE\", f\"No node {key!r} in the network.\" +\n                        (f\" Close names: {', '.join(self.name[self.lookup[c]] for c in close)}.\" if close else\n                         \" Give a lever or uncertainty id, a category metric (emissions_<category>), or a variable name as listed in another reply.\")"
   },
   {
    "file": "network.py",
-   "line": 196,
+   "line": 200,
    "message": "\"BAD_ARM\", f\"arm must be one of {VERSIONS}\""
   },
   {
    "file": "network.py",
-   "line": 200,
+   "line": 204,
    "message": "\"BAD_YEAR\", f\"Year {y} not available; use one of {list(run.years)}\""
   },
   {
    "file": "network.py",
-   "line": 211,
+   "line": 216,
    "message": "\"BAD_FILTER\", \"Give both uncertainty (an id) and third (low, mid or high).\""
   },
   {

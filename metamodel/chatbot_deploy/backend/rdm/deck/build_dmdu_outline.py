@@ -388,7 +388,7 @@ text(s, LM, data_y + 0.7, CW, 0.3, "Highlighted: the information tool, where the
 s = new_slide("Each tool has one job, and things it will not do", "Method · the tools",
               "Two families. READ tools describe the 100,000 model runs that already exist; they never compute "
               "anything new. RUN tools compute new results on the surrogate: only exploratory_modeling creates "
-              "results, the other three analyse the ensemble it returns. Examples are from the question bank.")
+              "results, the other three analyze the ensemble it returns. Examples are from the question bank.")
 cols = [("Tool", 1.85), ("The question it answers", 2.15), ("You give it", 2.2),
         ("You get back (example)", 3.6), ("It does NOT", 2.33)]
 rows = [
@@ -398,14 +398,14 @@ rows = [
      "units, e.g. lever 35 takes electric light-duty travel from 50% (BAU) to 72%",
      "run a policy, test across futures, or say how far to push a lever"),
     ("country_context", "What is Uganda like in the model?", "a topic (e.g. agriculture)",
-     "the modelled baseline: about 2.4 M ha of cereals in 2050", "give today's statistics or policy effects"),
+     "the modeled baseline: about 2.4 M ha of cereals in 2050", "give today's statistics or policy effects"),
     ("exploratory_modeling", "What happens if we apply this policy?", "one or more policies as lever levels; "
      "optionally a range for an uncertainty", "emissions and costs in 500 futures: median, range, change vs BAU",
      "report in-between quantities (vehicle-km, hectares) or choose the levels"),
     ("vulnerability_analysis", "How often does it fail?", "a result of exploratory_modeling + the user's "
      "failure threshold", "the share of futures that fail; if no threshold, it asks the user",
      "invent the threshold or say why it fails"),
-    ("scenario_discovery", "Under which conditions does it fail?", "a result already labelled pass / fail",
+    ("scenario_discovery", "Under which conditions does it fail?", "a result already labeled pass / fail",
      "the two uncertainties that best explain failure, e.g. \"fails when GDP grows fast\"",
      "predict which future will happen"),
     ("trade_off_analysis", "What does each policy cost for what it cuts?", "a result with two or more policies",
@@ -429,7 +429,7 @@ for i, row in enumerate(rows):
     y += rh + 0.05 + (0.18 if i == 1 else 0)
 text(s, LM, 6.68, CW, 0.3,
      "Blue = READ tools: describe the model runs (the experiment changes what model_network shows)   ·   "
-     "Grey = RUN tools: new results on the surrogate", 12, color=MUTED, align=PP_ALIGN.CENTER)
+     "Gray = RUN tools: new results on the surrogate", 12, color=MUTED, align=PP_ALIGN.CENTER)
 
 # 8c · Which tool for which question
 s = new_slide("The type of question sets which tools to use", "Method · the tools",
@@ -481,10 +481,10 @@ s = new_slide("model_network walks the network one step at a time", "Method · t
               "\n"
               "The network behind model_network was read from the SISEPUEDE code (version 1.4.0): one run of the model "
               "with tagged arrays, so every variable written knows which variables it was computed from. A link means "
-              "'used to compute'. NemoMod, the electricity optimisation, is one box: its inputs and outputs are known, "
+              "'used to compute'. NemoMod, the electricity optimization, is one box: its inputs and outputs are known, "
               "not the steps inside.\n"
               "\n"
-              "Rows: what each tool shows the agent at each step. Dark = names and, in the v1 arms, values; light = "
+              "Rows: what each tool shows the agent at each step. Dark = names and, in v1, values; light = "
               "names only; empty = not read.\n"
               "- Forward, from a lever: what it sets (v1: the input at BAU, middle and top of the range run), then one "
               "step at a time what each variable is used to compute, down to the categories (v1: median and p10-p90 "
@@ -564,7 +564,7 @@ for name, sub, cells in trows:
     ry += rh + rg
 ly = ry + 0.0
 rect(s, LM, ly + 0.04, 0.3, 0.2, fill=ACC_LT, line=ACC)
-text(s, LM + 0.4, ly, 2.6, 0.3, "names, + values in the v1 arms", 12, color=MUTED)
+text(s, LM + 0.4, ly, 2.6, 0.3, "names, + values in v1", 12, color=MUTED)
 rect(s, LM + 3.1, ly + 0.04, 0.3, 0.2, fill=FILL, line=BORDER)
 text(s, LM + 3.5, ly, 1.4, 0.3, "names only", 12, color=MUTED)
 rect(s, LM + 4.85, ly + 0.04, 0.3, 0.2, fill=None, line=BORDER, dash=True)
@@ -712,7 +712,7 @@ rows9 = [
      "Trained surrogate (.pkl) + its target list", False, 1.0),
     ("country_context", "Context",
      "Uganda's BAU baseline: energy mix, GDP, population, agriculture, transport",
-     "One BAU run (primary_id 0) read from S3", False, 0.7),
+     "The base future (primary_id 0) from S3, labeled as above most runs", False, 0.7),
 ]
 x = LM
 for head, w in cols9:
@@ -789,60 +789,65 @@ text(s, LM, TOP + 3.9, CW, 0.3, "Relations, not causality: a link means a variab
      "rules and full test in the speaker notes", 12, color=MUTED, italic=True, align=PP_ALIGN.CENTER)
 
 # 9 · Questions
-s = new_slide("We test the agent on six types of policy question", "Experiment · questions",
-              "The categories, and for each: what tools we expect the agent to use vs what it actually uses. "
-              "Example questions from the draft question bank. Shown before the flows so the categories are known when "
-              "we walk through how the agent moves. The number in the corner is the RDM component the category "
-              "exercises; A supports all three and F is outside the model.")
-cat_comp = {1: "1", 2: "3", 3: "2", 4: "3"}
-cats = [("A · Information", "\"What drives Uganda's emissions from forest land in 2050?\""),
-        ("B · Evaluate a policy", "\"What if Uganda's landfills recovered 40% of their landfill gas by 2050?\""),
-        ("C · Reach a target", "\"Which policies could cut farming and livestock emissions by a quarter by 2050?\""),
-        ("D · Robustness", "\"Under which conditions does this policy fail, and why?\""),
-        ("E · Compare", "\"Are cleaner cooking fuels better than cutting deforestation?\""),
-        ("F · Outside the model", "\"What if Uganda built three new large hydropower dams?\"")]
+s = new_slide("We test the agent on 31 questions of six types", "Experiment · questions",
+              "Question bank v3 (docs/question_bank_v3.md): 26 questions in six groups plus five hypothesis questions "
+              "(HA1–HE1), asked in 29 conversations (Q10b → D2b → N1 is one conversation). Each question has an answer "
+              "key and the tools we expect, both committed to git before any run. Tags: dev (from the pilots), designed "
+              "(written by us), blind (targets drawn at random); results are reported per tag. The number in the corner "
+              "is the RDM component the group exercises.")
+cat_comp = {0: "1", 2: "1", 3: "2", 4: "3"}
+cats = [("Evaluate a policy · 11", "P50i · \"What if Uganda's landfills captured 40% of the methane … by 2050?\""),
+        ("In-between quantities · 3", "HD1 · \"… how much more electricity would transport use in 2050?\""),
+        ("Reach a target · 3", "AG2 · \"Which policies could cut emissions from farming and livestock by a quarter …?\""),
+        ("Robustness · 3", "Q10b · \"Is a policy with a strong push on renewable electricity and a moderate cut in "
+                           "deforestation robust?\""),
+        ("Trade-offs · 3", "Q14b · \"Is moving homes and businesses to cleaner cooking and heating fuels better than "
+                           "cutting deforestation?\""),
+        ("Outside the model · 3", "B8b · \"What if Uganda built three new large hydropower dams by 2040?\"")]
 cw3 = (CW - 2 * 0.3) / 3
 for i, (head, q) in enumerate(cats):
     r, c = divmod(i, 3)
-    node(s, LM + c * (cw3 + 0.3), TOP + r * 1.2, cw3, 1.0, head, q, fill=WHITE, head_pt=14, sub_pt=12,
+    node(s, LM + c * (cw3 + 0.3), TOP + r * 1.2, cw3, 1.0, head, q, fill=WHITE, head_pt=14, sub_pt=11,
          align=PP_ALIGN.LEFT)
     if i in cat_comp:
         text(s, LM + c * (cw3 + 0.3) + cw3 - 0.4, TOP + r * 1.2 + 0.06, 0.3, 0.25, cat_comp[i], 11, color=ACC,
              bold=True, align=PP_ALIGN.RIGHT, font=HEAD)
 fy = TOP + 2.75
-text(s, LM, fy, CW, 0.3, "For every question", 15, color=TXT, bold=True, font=HEAD)
+text(s, LM, fy, CW, 0.3, "For every question  ·  plus five hypothesis questions (HA1–HE1)", 15, color=TXT, bold=True,
+     font=HEAD)
 fy += 0.45
 bw = 2.6
-node(s, LM, fy + 0.55, bw, 0.9, "Question", "from one category", fill=FILL, head_pt=14, sub_pt=12)
+node(s, LM, fy + 0.55, bw, 0.9, "Question", "asked word for word", fill=FILL, head_pt=14, sub_pt=12)
 ex, ey = LM + bw + 0.6, fy
-node(s, ex, ey, 3.6, 0.9, "Expected", "tools + parameters (set in advance)", fill=WHITE, head_pt=14, sub_pt=12)
-node(s, ex, ey + 1.1, 3.6, 0.9, "Observed", "tools called + parameters (from the log)", fill=WHITE, head_pt=14, sub_pt=12)
+node(s, ex, ey, 3.6, 0.9, "Expected", "answer key + tools (fixed in advance)", fill=WHITE, head_pt=14, sub_pt=12)
+node(s, ex, ey + 1.1, 3.6, 0.9, "Observed", "tools, arguments, answer (from the log)", fill=WHITE, head_pt=14, sub_pt=12)
 arrow(s, LM + bw + 0.05, fy + 1.0, ex - 0.05, ey + 0.45)
 arrow(s, LM + bw + 0.05, fy + 1.0, ex - 0.05, ey + 1.55)
 mx = ex + 3.6 + 0.6
 mw = LM + CW - mx
-node(s, mx, fy + 0.1, mw, 1.8, "Compare",
-     "Routing: expected vs called tools\nParameters: levers, X ranges, thresholds\nAnswer: what it tells the user",
+node(s, mx, fy + 0.1, mw, 1.8, "Compare: 25 automatic checks",
+     "Tool use: levels, uncertainty ranges, steps\nAnswer rules: no forecast, no winner, traced numbers\n"
+     "A reader model: what the answer says",
      fill=ACC_LT, line=ACC, head_pt=14, sub_pt=12, align=PP_ALIGN.LEFT)
 arrow(s, ex + 3.65, ey + 0.45, mx - 0.05, fy + 1.0)
 arrow(s, ex + 3.65, ey + 1.55, mx - 0.05, fy + 1.0)
 
 # 10 · How the agent moves through the tools
 s = new_slide("Each question type has an expected path through tools", "Experiment · questions",
-              "Expected flow per question category, set in advance and compared with the tools the agent actually "
-              "calls. There is no plan step. In D the agent asks the user which value counts as failure before the "
-              "vulnerability analysis. Same rules as the slide 'Which tool for which question'; a question can mix "
-              "rows (e.g. a target in real units: model_network from the lever, then exploratory_modeling).")
+              "Expected flow per question group, set in advance and compared with the tools the agent actually "
+              "calls. In robustness questions the agent asks the user which value counts as failure before the "
+              "vulnerability analysis. In-between quantities (e.g. vehicle-km, PJ) are not reported by the surrogate: "
+              "the agent reads them down the network and says they cannot be tested. A question can mix rows.")
 flows = [   # the same rules as the "Which tool for which question" slide
-    ("A · Information", ["one READ tool", "answer"]),
-    ("B · Evaluate", ["model_network: lever (if real units)", "exploratory_modeling", "answer"]),
-    ("C · Reach target", ["model_network: output", "exploratory_modeling (try levels)", "answer"]),
-    ("D · Robustness", ["exploratory_modeling", "user sets threshold", "vulnerability_analysis", "scenario_discovery"]),
-    ("E · Compare", ["exploratory_modeling", "trade_off_analysis", "answer"]),
-    ("F · Outside", ["decline or clarify"]),
+    ("Evaluate", ["model_network: lever", "exploratory_modeling", "answer"]),
+    ("In-between", ["model_network: lever", "model_network: down the chain", "answer: not testable"]),
+    ("Reach target", ["model_network: output", "exploratory_modeling (try levels)", "answer"]),
+    ("Robustness", ["exploratory_modeling", "user sets threshold", "vulnerability_analysis", "scenario_discovery"]),
+    ("Trade-offs", ["exploratory_modeling", "trade_off_analysis", "answer"]),
+    ("Outside", ["decline or clarify"]),
 ]
-knowledge = {"model_network: output", "one READ tool", "model_network: lever (if real units)"}
-dialogue = {"answer", "user sets threshold", "decline or clarify"}
+knowledge = {"model_network: lever", "model_network: down the chain", "model_network: output"}
+dialogue = {"answer", "answer: not testable", "user sets threshold", "decline or clarify"}
 lw = 1.85
 sx = LM + lw + 0.25
 sw = (LM + CW - sx - 4 * 0.26) / 5
@@ -883,7 +888,7 @@ data = [
     ("Model runs (sample)", "4,989 runs: emissions, variables and inputs", "know"),
     ("Values table", "Per lever third × uncertainty third, every year", "know"),
     ("XGBoost surrogate", "67 L/X → 258 outputs, 6 years", "exp"),
-    ("Country baseline", "Uganda's modelled baseline", "ctx"),
+    ("Country baseline", "Uganda's modeled baseline", "ctx"),
 ]
 dx, dw, dh, dg = LM, 4.1, 0.68, 0.1
 ys = {}
@@ -917,35 +922,127 @@ arrow(s, tx + tw + 0.05, kc, vx - 0.05, TOP + 2.9, color=ACC)
 text(s, vx, TOP + 3.85, vw, 0.9, "Same prompt and same 6 tools in both; only this changes.", 13, color=MUTED,
      align=PP_ALIGN.CENTER)
 
-# 12 · Surrogate interaction
-s = new_slide("We compare the variables and magnitudes v0 and v1 set", "Experiment · interaction",
-              "What variables we expect the agent to select (sectors) vs what it selects; and how the magnitudes "
-              "change when there is more information, i.e. with the treatment.")
-qx, qw = LM, 2.2
-node(s, qx, TOP + 1.55, qw, 1.1, "Same question", "asked to both versions", fill=FILL, head_pt=15, sub_pt=12)
-ax, aw = LM + 2.75, 2.3
-rx, rw = LM + 5.6, 3.0
-for yb, head, sub, hl in [(TOP + 0.3, "v0 agent", "names only", False),
-                          (TOP + 2.8, "v1 agent", "values across L and X", True)]:
-    node(s, ax, yb, aw, 1.0, head, sub, fill=ACC_LT if hl else WHITE, line=ACC if hl else BORDER,
-         head_pt=15, sub_pt=12)
-    arrow(s, qx + qw + 0.05, TOP + 2.1, ax - 0.05, yb + 0.5)
-    node(s, rx, yb, rw, 1.0, "What it chooses", "variables (sectors) selected\nmagnitudes set: lever levels, X ranges",
-         fill=WHITE, head_pt=14, sub_pt=12)
-    arrow(s, ax + aw + 0.05, yb + 0.5, rx - 0.05, yb + 0.5)
-cx2 = rx + rw + 0.6
-cw2 = LM + CW - cx2
-node(s, cx2, TOP + 0.3, cw2, 3.5, "Compare v0 vs v1",
-     "1 · Variables: expected sectors vs the ones it selects\n\n2 · Magnitudes: how they move when the agent has more information",
-     fill=ACC_LT, line=ACC, head_pt=15, sub_pt=13, align=PP_ALIGN.LEFT)
-arrow(s, rx + rw + 0.05, TOP + 0.8, cx2 - 0.05, TOP + 1.6)
-arrow(s, rx + rw + 0.05, TOP + 3.3, cx2 - 0.05, TOP + 2.5)
-node(s, cx2, TOP + 4.35, cw2, 0.8, "Expected selection", "set in advance per question", fill=FILL, head_pt=14, sub_pt=12)
-arrow(s, cx2 + cw2 / 2, TOP + 4.32, cx2 + cw2 / 2, TOP + 3.83)
+# 12 · Run design
+s = new_slide("290 conversations, scored by 25 automatic checks", "Experiment · run design",
+              "Fixed and committed to git before the first conversation (docs/question_bank_v3.md, 'Run design'). "
+              "A dry run of every conversation once per arm (58 conversations) found faults in scoring and tool "
+              "usability only; those were fixed and logged, the questions were not changed. Same model, effort, "
+              "prompt and tools in every conversation; each log records the code commit and fingerprints. "
+              "Repetitions of a question are not independent, so arms are compared with a permutation test that "
+              "shuffles v0/v1 within each question.")
+steps = [("29 conversations", "31 questions"), ("× 2 arms", "v0 · v1"), ("× 5 repetitions", "same settings"),
+         ("290 logs", "calls, arguments, replies,\nreasoning summary, answer")]
+bw, gap = 2.55, 0.62
+for i, (h, sub) in enumerate(steps):
+    x = LM + i * (bw + gap)
+    last = i == len(steps) - 1
+    node(s, x, TOP, bw, 1.05, h, sub, fill=ACC_LT if last else FILL, line=ACC if last else BORDER,
+         head_pt=15, sub_pt=11)
+    if not last:
+        arrow(s, x + bw + 0.05, TOP + 0.52, x + bw + gap - 0.05, TOP + 0.52)
+cw3 = (CW - 2 * 0.35) / 3
+cols = [("25 automatic checks",
+         "**Tool use** · ran without reading first · level off the key · uncertainty fixed or on the wrong side · "
+         "a required step skipped · an invented threshold\n**Answer rules** · forecast language · names a winner · "
+         "numbers no tool gave · one number without a range\n**Per question** · required mentions · nodes visited · "
+         "the user's restriction kept\n**Reader model** · direction, source, required statements"),
+        ("Outcomes",
+         "**RQ1** · the share of conversations with each failure, per arm and question tag\n"
+         "**RQ2 · primary** · level off the key · model_network calls · uncertainty range on the wrong side\n"
+         "Every other check is secondary"),
+        ("Fixed in advance",
+         "Questions, keys, checks and analysis in git before the first conversation\n"
+         "Dry run: 58 conversations, not counted\n"
+         "Reader checked by hand on 20 judgments\n"
+         "No extra repetitions after seeing results")]
+for i, (h, body) in enumerate(cols):
+    x = LM + i * (cw3 + 0.35)
+    text(s, x, TOP + 1.4, cw3, 0.35, h, 15, color=ACC if i == 1 else TXT, bold=True, font=HEAD)
+    rect(s, x, TOP + 1.82, cw3, 2.75, fill=ACC_LT if i == 1 else WHITE, line=ACC if i == 1 else BORDER)
+    text(s, x + 0.18, TOP + 1.95, cw3 - 0.36, 2.5, body, 12.5, color=TXT, space_after=6)
+
+# ═════════════════════════════════════════════════════════════════════════════
+# Pilot findings (before the full run)
+PF = "Pilot findings"
+
+
+def grid(slide, x, y, widths, rows, row_h=0.52, head_pt=12, body_pt=13):
+    """A simple table: first row is the header; columns after the first are centered."""
+    for r, row in enumerate(rows):
+        cx = x
+        yy = y + r * row_h
+        if r:
+            rect(slide, x, yy, sum(widths), row_h, fill=WHITE if r % 2 else FILL, line=None)
+        for c, (w, cell) in enumerate(zip(widths, row)):
+            text(slide, cx + 0.1, yy, w - 0.2, row_h, cell, head_pt if r == 0 else body_pt,
+                 color=MUTED if r == 0 else TXT, bold=r == 0, font=HEAD if r == 0 else BODY,
+                 align=PP_ALIGN.LEFT if c == 0 else PP_ALIGN.CENTER, anchor=MSO_ANCHOR.MIDDLE)
+            cx += w
+
+
+s = new_slide("Unlabeled numbers misled the agent; a label fixed it", PF,
+              "Pre-registered test (docs/preregistration_source_labels.md, results in docs/results_source_labels.md). "
+              "Question HC1, 10 repetitions × v0/v1 in each condition (40 conversations). Both GDP numbers are right: "
+              "country_context reports SISEPUEDE's base future (future 0), which is not one of the experiment's runs "
+              "and lies above their 90th percentile; model_network reports the runs. Nothing told the agent that they "
+              "describe different futures. The 'after' condition only adds that label (no numbers, so v0 still gets "
+              "no values). The first row was defined after the data (exploratory); the last row was added after the "
+              "'before' run. In the literature this is an inter-context conflict (Xu et al., 2024).")
+lx, lw = LM, 4.6
+node(s, lx, TOP - 0.1, lw, 1.25, "HC1", "\"Would moving homes and businesses to cleaner cooking and heating fuels still "
+     "cut emissions in 2050 if Uganda's economy were larger than about 580 billion dollars by then?\"", fill=FILL,
+     head_pt=13, sub_pt=11, align=PP_ALIGN.LEFT)
+node(s, lx, TOP + 1.3, lw, 0.9, "country_context · GDP 2050", "679 bn: the base future, not one of the runs",
+     fill=WHITE, head_pt=13, sub_pt=12, head_font=BODY)
+node(s, lx, TOP + 2.4, lw, 0.9, "model_network (v1) · GDP 2050", "the runs by GDP-growth third: 444 · 540 · 632 bn",
+     fill=ACC_LT, line=ACC, head_pt=13, sub_pt=12, head_font=BODY)
+node(s, lx, TOP + 3.5, lw, 1.1, "Without a label, the agent wrote", "\"… about 679 billion … That is already above "
+     "580, so 'larger than 580' covers most of the baseline range and more.\" Wrong for the runs.", fill=WHITE,
+     line=MUTED, head_pt=13, sub_pt=12, dash=True, italic=True)
+gx = lx + lw + 0.5
+grid(s, gx, TOP, [4.0, 1.55, 1.55],
+     [["Out of 20 conversations", "No label", "Labeled"],
+      ["Concludes \"580 bn covers most futures\"", "10", "**0**"],
+      ["Places 580 bn in the upper GDP third", "10", "**17**"],
+      ["Looks up GDP in the network", "3", "6"],
+      ["Backs the placement with run values", "2", "2"]], row_h=0.62)
+text(s, gx, TOP + 3.3, 7.1, 1.2, "The label removed the wrong conclusion at no cost. It did not send the agent to the "
+     "network for the number: it reasoned from the label instead.", 14, color=TXT)
+text(s, LM, TOP + 4.75, CW, 0.3, "Pre-registered test · 10 repetitions × v0 / v1 per condition · first row exploratory "
+     "· an inter-context conflict (Xu et al., 2024)", 11, color=MUTED, italic=True, align=PP_ALIGN.CENTER)
+
+s = new_slide("Instructions steer which evidence the agent trusts", PF,
+              "HD1: smoke test and dry run, v1. model_network returned total electricity used by transport by lever "
+              "third (56.0 → 59.9 PJ, medians from the runs); the agent's reasoning summary shows it estimated 4–5 PJ, "
+              "then called it unverified because the surrogate does not report PJ. Tool descriptions: before the dry "
+              "run, exploratory_modeling said 'Use it to evaluate or compare policies' and nothing said when to use "
+              "trade_off_analysis. Q14b and TO1, v0 and v1, one conversation each: 0 of 4 used it; after the "
+              "rewording, 1 of 4. The full run measures it with 5 repetitions. The system prompt was not changed further.")
+cw2 = (CW - 0.5) / 2
+panels = [("It trusts the surrogate over the network",
+           "HD1 · \"… how much more electricity would transport use in 2050?\"\n"
+           "v1 walked to the right node and received **56.0 → 59.9 PJ** from the runs.\n"
+           "It told the user: \"The surrogate cannot report electricity use in PJ, so the 4–5 PJ figure from "
+           "before is still an unverified estimate.\""),
+          ("A tool description chose the RDM step",
+           "exploratory_modeling said \"use it to evaluate or **compare** policies\"; nothing said when to use "
+           "trade_off_analysis.\nComparing two policies, the agent used trade_off_analysis **0 of 4** times.\n"
+           "After rewording the two descriptions: **1 of 4**.")]
+for i, (h, body) in enumerate(panels):
+    x = LM + i * (cw2 + 0.5)
+    text(s, x, TOP, cw2, 0.35, h, 16, color=TXT, bold=True, font=HEAD)
+    rect(s, x, TOP + 0.45, cw2, 2.35, fill=WHITE, line=BORDER)
+    text(s, x + 0.2, TOP + 0.6, cw2 - 0.4, 2.1, body, 14, color=TXT, space_after=8)
+node(s, LM, TOP + 3.15, CW, 1.1, "What the agent does follows from what the system shows it, and how",
+     "Consistent, labeled sources and clear tool instructions are the designer's responsibility, and they have to be "
+     "tested.", fill=ACC_LT, line=ACC, head_pt=16, sub_pt=14)
+text(s, LM, TOP + 4.45, CW, 0.3, "Pilot runs, one conversation per arm and question · the full run measures both",
+     11, color=MUTED, italic=True, align=PP_ALIGN.CENTER)
 
 # 13 · Results
 s = new_slide("Results: [one-line finding, after the runs]", "Results",
-              "To fill after the runs: one answer per research question, then what it means for DMDU practice.")
+              "To fill after the full run (290 conversations, launched 2026-10-26): one answer per research question, "
+              "then what it means for DMDU practice.")
 cw3 = (CW - 2 * 0.4) / 3
 for i, (head, body) in enumerate([
         ("RQ1 · The ecosystem", "[Can policy questions be explored through the three RDM components with the system, and how well does the evaluation catch its errors?]"),
@@ -1005,7 +1102,7 @@ src_note = ("Word for word what the agent receives, from the code (snapshot in b
 s = new_slide("Appendix: the text of the harness", APX, src_note)
 text(s, LM, TOP, CW, 0.5, "Not part of the presentation. Everything the agent is told, word for word, for review "
      "of the instructions.", 15, color=ACC, bold=True, font=HEAD)
-parts = [("System prompt", "method, how the model is organised, the tools, the rules, the catalogue · identical "
+parts = [("System prompt", "method, how the model is organized, the tools, the rules, the catalog · identical "
           "in every arm", "harness/prompt.py"),
          ("Tool descriptions", "the 6 tools and their parameters, as the agent sees them · identical in every arm",
           "harness/registry.py"),
@@ -1090,7 +1187,7 @@ flow("Fixed text inside the tool replies", [
     "changes are in percentage points of GDP. cost_fuel holds only biogas and waste-to-energy revenue; fuel spending "
     "is in benefit_sector_specific … Costs and benefits that do not depend on a lever's level cancel out and do not "
     "show.\"",
-    "**model_network from a lever, v1 arms** → \"Chain: inputs the lever sets → in-between variables → emission "
+    "**model_network from a lever, v1** → \"Chain: inputs the lever sets → in-between variables → emission "
     "categories (the metrics exploratory_modeling reports). Values are medians over the model runs with every other "
     "lever and uncertainty varying; lever level low/mid/high = 0–⅓/⅓–⅔/⅔–1; uncertainty low/high = bottom/top third "
     "of its range.\" + in v1: \"Each link's correlation is Spearman ρ across the model runs (−1 to 1; "
