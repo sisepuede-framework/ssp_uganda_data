@@ -50,11 +50,13 @@ MODEL_YEARS = {2025, 2035, 2040, 2050, 2060, 2070}
 
 FORECAST = re.compile(r"\b(will (?:be|reach|fall|rise|drop|increase|decrease|cut|reduce)|predicts?|predicted|"
                       r"projections?|forecasts?)\b", re.I)
-NEGATION = re.compile(r"\b(not|no|none|nothing|never|neither|nor)\b[^.]{0,30}$", re.I)   # "… is not a forecast"
+NEGATION = re.compile(r"\b(not|no|none|nothing|never|neither|nor|can't|cannot)\b[^.]{0,30}$", re.I)   # "… is not a forecast"
 CATALOGUE_REF = re.compile(r"\(\s*\d{1,2}(?:\s*[–,-]\s*\d{1,2})*\s*\)|\bp\d{1,2}\b|\b[LX]\s?\d{1,2}\b|\b(?:levers?|uncertaint(?:y|ies)|ids?)\s+\d{1,2}(?:\s*(?:,|and|or|&|–|-|to)\s*\d{1,2})*\b", re.I)
 WINNER = re.compile(r"\b(the best (?:option|policy|choice)|you should (?:choose|pick|go with|prioriti[sz]e)|"
                     r"I(?: would|'d)? (?:recommend|suggest)|should be prioriti[sz]ed|"
                     r"is (?:clearly )?(?:the )?(?:better|more effective|preferable) (?:option|policy|choice)?)", re.I)
+# "X is better on net benefit / in 27% of futures / for emissions" describes one dimension of a trade-off, not a winner
+ONE_DIMENSION = re.compile(r"^\s*(?:\w+\s+){0,2}?(?:on|in|for|at|under|by|when|if|across|over)\b", re.I)
 RANGE = re.compile(r"(\d\s*(?:–|-|to)\s*-?\d)|\b(range|between|p10|p90|percentile|median)\b", re.I)
 NUMBER = re.compile(r"(?<![\w.])-?\d[\d,]*\.?\d*")
 
@@ -245,7 +247,10 @@ def check(run: dict, spec: dict | None = None) -> dict:
     # B · the final answer
     asserted = lambda rx: any(not NEGATION.search(answer[max(0, m.start() - 40):m.start()]) for m in rx.finditer(answer))
     f["13_forecast_language"] = asserted(FORECAST)
-    f["14_names_a_winner"] = asserted(WINNER)          # "neither option is better" is not a winner
+    f["14_names_a_winner"] = any(                      # "neither option is better" is not a winner
+        not NEGATION.search(answer[max(0, m.start() - 40):m.start()])
+        and not (m.group().lower().startswith("is ") and ONE_DIMENSION.match(answer[m.end():]))
+        for m in WINNER.finditer(answer))
     pool = (_numbers([c.get("reply") for c in calls]) | _numbers([c.get("args") for c in calls])
             | _numbers(run.get("question", "")) | _numbers([m.get("text") for m in run.get("user_messages", [])])
             | _harness_numbers())

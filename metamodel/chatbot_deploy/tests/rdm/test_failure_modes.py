@@ -160,3 +160,11 @@ def test_restricted_package_and_extra_exploration():
     claim = check({"tool_log": runs[:1], "final_answer": "Waste alone falls short; lever 7 would close the gap."}, spec)
     assert claim["20_lever_outside_allowed"] and claim["levers_outside_not_run"] == [7]
     assert check({"tool_log": runs[1:], "final_answer": ""}, spec)["20_lever_outside_allowed"]
+
+
+def test_better_on_one_dimension_is_not_a_winner():
+    win = lambda a: check({"tool_log": [explore({"30": 1})], "final_answer": a}, {})["14_names_a_winner"]
+    assert not win("Cutting deforestation is better on net benefit; heat fuels is better in 27% of futures.")
+    assert not win("I can't say that one is better overall.")
+    assert win("Landfill capture is the better option.")
+    assert win("Landfill capture is better than cutting heat demand.")

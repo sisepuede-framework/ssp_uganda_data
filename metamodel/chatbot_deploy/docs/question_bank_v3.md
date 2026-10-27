@@ -115,6 +115,11 @@ the prompt and the questions were not changed to make the agent pass.
   policy. To compare alternatives, run them in one call, then use trade_off_analysis on its ensemble."
   `trade_off_analysis` starts: "Use it whenever the user compares two or more alternatives." A design fix (the two
   descriptions contradicted the RDM steps), identical in both arms; Q14b and TO1 were re-run once per arm to check.
+  Re-run: `trade_off_analysis` used in 1 of 4 conversations (TO1 v1), 0 of 4 before. The system prompt is left as is
+  (Alexa's decision): insisting further after seeing these questions would tune the agent to the test.
+- Check 14 (names a winner): "X is better on net benefit / in 27% of futures" describes one dimension of a
+  trade-off and no longer counts; "can't / cannot" negates. "X is the better option" and "X is better than Y" still
+  count.
 
 ## Hypothesis questions (v3.1) — pre-registered 2026-10-21, before their keys were computed and before any run
 
