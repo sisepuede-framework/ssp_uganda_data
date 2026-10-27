@@ -314,14 +314,53 @@ tb(sD, 10.3, 7.5, 8.6, 1.8, "Sessions with real users in Uganda · checking the 
 # E · appendix divider
 sE = new_slide("APPENDIX", "Appendix: details for questions", "Appendix")
 
+# W · the wording we changed, word for word, and what it did
+sW = new_slide("DESIGN LESSONS · THE WORDS", "Two wording changes that changed what the agent did", "Findings",
+               "Word for word from the code before and after (registry.py, commit 3497d44; tools/context.py) · the "
+               "rest of the prompt and the tools stayed the same")
+heads = [("Where", 3.0), ("Before", 5.2), ("After (added in bold)", 6.0), ("What changed", 3.05)]
+xs = [1.15]
+for _, wd in heads[:-1]:
+    xs.append(xs[-1] + wd + 0.18)
+for (h, wd), x in zip(heads, xs):
+    tb(sW, x, 2.5, wd, 0.36, h, 16.5, BLUE if h.startswith("After") else MUTED, bold=True)
+    rule(sW, x, 2.92, wd)
+rows_w = [
+    ("**Tool descriptions**\nexploratory_modeling and trade_off_analysis",
+     "exploratory_modeling: \u201cUse it to evaluate or compare policies, and again after revising a policy.\u201d\n"
+     "trade_off_analysis: \u201cRDM step 3 \u2014 trade-offs. Compares the policies of an ensemble \u2026\u201d "
+     "(nothing on when to use it)",
+     "exploratory_modeling: \u201cUse it to evaluate policies, and again after revising a policy. **To compare "
+     "alternatives, run them in one call, then use trade_off_analysis on its ensemble.**\u201d\n"
+     "trade_off_analysis: \u201cRDM step 3 \u2014 trade-offs. **Use it whenever the user compares two or more "
+     "alternatives.**\u201d",
+     "**0 of 4 \u2192 1 of 4**\ncomparisons sent to trade_off_analysis (pilot)\nFull run: 4 of 10 with values, "
+     "0 of 10 without"),
+    ("**A tool reply**\ncountry_context, GDP",
+     "Uganda\u2019s GDP by year, nothing else: 679 bn in 2050.",
+     "The same numbers, then: \u201c**These values are SISEPUEDE\u2019s base future (future 0). It is not one of the "
+     "experiment\u2019s runs, and its GDP is above the 90th percentile of the runs in 2040 and 2050. Do not read it "
+     "as the middle of the futures explored.**\u201d",
+     "**10 of 20 \u2192 0 of 20**\nconversations concluding \u201c580 bn covers most futures\u201d (pre-registered "
+     "test)")]
+for r, cells in enumerate(rows_w):
+    y = 3.15 + r * 3.25
+    fills = [None, PALE, LIGHT, None]
+    for k, ((_, wd), x, cell) in enumerate(zip(heads, xs, cells)):
+        if fills[k]:
+            box(sW, x, y, wd, 2.95, fill=fills[k])
+        pad = 0.22 if fills[k] else 0
+        tb(sW, x + pad, y + 0.18, wd - 2 * pad, 2.6, cell, 18 if k == 3 else 16.5, BLUE if k == 3 else INK,
+           space=6)
+
 # ── order: drop slide 7, move four method slides and slide 20 to the appendix ─
 lst = prs.slides._sldIdLst
 ids = list(lst)
-new = {k: ids[len(S) + i] for i, k in enumerate("ABCDE")}
+new = {k: ids[len(S) + i] for i, k in enumerate("ABCDEW")}
 order = [0, 1, 2, 3, 4,                       # context
          5, 7, 9, 11, 15,                     # method: surrogate, harness, tools, network
          16, 13, 17, 18, 20,                  # experiment: treatment, questions, paths, run design
-         21, "A", 24, "B", "C", 22, 23, "D",  # findings
+         21, "A", 24, "B", "C", 22, 23, "W", "D",  # findings
          "E", 8, 10, 12, 14, 19]              # appendix
 dropped = [6, 25]                             # surrogate placeholder (slide 8 says it) · old RQ1 (replaced by C)
 for el in ids:
