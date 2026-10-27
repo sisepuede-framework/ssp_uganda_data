@@ -151,6 +151,37 @@ reported as exploratory.
   reader is fixed, and that is said.
 - **No extra repetitions** after seeing results, except runs labelled exploratory.
 
+## Check 15 re-scored (2026-10-27, after the full run)
+
+A deviation from the run design: a scoring fault found after the results were seen, while preparing the talk. No
+conversation was re-run and no other check changed; the reader's verdicts are untouched. The table before the fix is
+kept as `pilot_runs/bank_v3_full/failure_modes_before_check15_fix.csv`, and both results are reported.
+
+Reading every flag of check 15 (numbers no tool gave) by hand showed four kinds of false positive:
+
+- **Rounding.** A tool number written to fewer digits: "−12%" for −12.4%, "14 Mt" for 13.6. The 2% tolerance missed
+  them. Now a number also counts as traced if a tool number rounds to it at the precision the answer wrote it.
+- **Scale words.** "28.4 billion" for a reply of 28,410,000,000. Now "thousand / million / billion / bn" is read as
+  a multiplier, as well as the bare number, and the same number written twice is traced if either is.
+- **Lever references.** Lists after the first id ("(L5, 7, 10, 11, 28 …)", "in lever numbers: 1–4, 9, 15–25",
+  "34 (Increase OCCUPANCY LIGHT DUTY)") and counts ("all 12 waste and wastewater levers") are left out, like single
+  ids already were.
+- **Example thresholds.** A threshold the agent offers the user as an example when asking for one ("for example,
+  'failure' could be less than a 30% reduction") is left out: the rule asks the agent to offer, not to report.
+
+What stays flagged is the agent's own arithmetic on tool numbers (HA1 "21 ÷ 33 is about 0.64", HD1 "about 44% more",
+S3's hectare table, AG2 "93% of the total"), which is what the check is meant to find.
+
+| Conversations flagged | v0 before | v0 after | v1 before | v1 after |
+|---|---|---|---|---|
+| All 290 | 8 of 145 | 6 of 145 | 21 of 145 | 12 of 145 |
+| dev | 2% | 0% | 16% (p = 0.02) | 8% (p = 0.09) |
+| designed | 12% | 8% | 8% | 5% |
+| hypothesis | 0% | 0% | 32% (p = 0.001) | 20% (p = 0.05) |
+| blind | 5% | 5% | 10% | 0% |
+
+The direction holds (more of the agent's own numbers with values), the size about halves.
+
 ## Hypothesis questions (v3.1) — pre-registered 2026-10-21, before their keys were computed and before any run
 
 Five questions added on Alexa's request, each to test one hypothesis about agents using these tools. Tag:

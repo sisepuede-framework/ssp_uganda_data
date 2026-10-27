@@ -135,14 +135,53 @@ def _harness_numbers() -> set:
 _HARNESS_NUMBERS = None
 
 
-def _traced(x: float, pool: set) -> bool:
-    """A stated number counts as traced if a tool reply or the question has it, allowing for rounding,
-    a percent written as a share (or the reverse) and a sign dropped in words ("a 5% cut")."""
-    for cand in (x, -x, x / 100, -x / 100, x * 100, -x * 100):
+def _traced(x: float, pool: set, half_step: float = 0.0) -> bool:
+    """A stated number counts as traced if a tool reply or the question has it, allowing for rounding (2%, or the
+    precision the answer wrote it to: "12%" for −12.4), a percent written as a share (or the reverse) and a sign
+    dropped in words ("a 5% cut")."""
+    for scale in (1, 1 / 100, 100):
+        cand = x * scale
+        tol = half_step * scale + 1e-9
         for y in pool:
-            if y == cand or (y != 0 and abs(cand - y) <= max(0.02 * abs(y), 0.051)):
-                return True
+            for c in (cand, -cand):
+                if y == c or abs(c - y) <= tol or (y != 0 and abs(c - y) <= max(0.02 * abs(y), 0.051)):
+                    return True
     return False
+
+
+# Check 15 fix after the full run (docs/question_bank_v3.md, "Check 15 re-scored"): references and offers, not results.
+LEVER_LIST = re.compile(r"\b[LX]\s?\d{1,2}(?:\s*(?:,|and|or|&|–|-|to)\s*[LX]?\s?\d{1,2}\b)+"
+                        r"|\blever numbers?:?\s*\d{1,2}(?:\s*(?:,|and|or|&|–|-|to)\s*\d{1,2}\b)*"
+                        r"|\b\d{1,2}(?=\s*\((?:Increase|Reduce|Shift|Improve|Expand|Capture|Use)\b)"
+                        r"|\b\d{1,2}(?=\s+(?:[\w-]+\s+){0,4}?(?:levers|uncertainties)\b)", re.I)
+EXAMPLE_OFFER = re.compile(r"[^.\n]*\b(?:for example|e\.g\.|such as)\b[^.\n]*\b(?:threshold|fail\w*)\b[^.\n]*"
+                           r"|[^.\n]*\b(?:threshold|fail\w*)\b[^.\n]*\b(?:for example|e\.g\.|such as)\b[^.\n]*", re.I)
+SCALED = re.compile(r"(?<![\w.])(-?\d[\d,]*\.?\d*)\s*(thousand|million|billion|bn)\b", re.I)
+SCALE = {"thousand": 1e3, "million": 1e6, "billion": 1e9, "bn": 1e9}
+
+
+def _stated(answer: str) -> list:
+    """(value, readings) for every number the answer states as a result.
+    readings are (value, half step of its written precision) pairs to trace it by: "28.4 billion" is 28.4 or 28.4e9. Lever ids, lever lists and counts, and
+    example thresholds offered to the user are left out."""
+    text = EXAMPLE_OFFER.sub(" ", answer)
+    text = CATALOGUE_REF.sub(" ", LEVER_LIST.sub(" ", text))
+    out = []
+    for m in NUMBER.finditer(text):
+        s = m.group().replace(",", "").rstrip(".")
+        try:
+            v = float(s)
+        except ValueError:
+            continue
+        dec = len(s.split(".")[1]) if "." in s else 0
+        half = 0.5 * 10 ** -dec
+        readings = [(v, half)]
+        after = SCALED.match(text, m.start())
+        if after:
+            k = SCALE[after.group(2).lower()]
+            readings.append((v * k, half * k))
+        out.append((v, readings))
+    return out
 
 
 def _node_lever(args: dict):
@@ -255,8 +294,10 @@ def check(run: dict, spec: dict | None = None) -> dict:
             | _numbers(run.get("question", "")) | _numbers([m.get("text") for m in run.get("user_messages", [])])
             | _harness_numbers())
     # Lever/uncertainty ids written as "(40)", "L35" or "lever 35", and "p10/p90", are references, not results.
-    stated = [x for x in _numbers(CATALOGUE_REF.sub(" ", answer)) if x not in YEARS and abs(x) > 10]
-    untraced = sorted(x for x in stated if not _traced(x, pool))
+    stated = [(x, rd) for x, rd in _stated(answer) if x not in YEARS and abs(x) > 10]
+    # the same number written twice ("28.4 billion" in the text, "28.4" in a table) is traced if either is
+    traced = {x for x, rd in stated if any(_traced(v, pool, h) for v, h in rd)}
+    untraced = sorted({x for x, _ in stated} - traced)
     f["15_untraced_numbers"] = bool(untraced)
     f["untraced"] = untraced[:10]
     f["16_single_number_no_range"] = bool(explore) and not RANGE.search(answer)
