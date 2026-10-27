@@ -107,7 +107,8 @@ TOOLS = [
          "uncertainty": {"type": "integer", "description": "Optional, with third: look at the node only in futures "
                                                            "where this uncertainty is in that third of its range."},
          "third": {"type": "string", "enum": ["low", "mid", "high"],
-                   "description": "With uncertainty: low = 0–⅓, mid = ⅓–⅔, high = ⅔–1 of its range."}},
+                   "description": "With uncertainty: low = 0–⅓, mid = ⅓–⅔, high = ⅔–1 of its range. "
+                                  "A lever is always shown for all three of its thirds."}},
          "required": ["node", "year"]}},
     {"name": "country_context",
      "description": "Uganda's modelled baseline (2025–2050) for one topic. Modelling assumptions, not present-day "

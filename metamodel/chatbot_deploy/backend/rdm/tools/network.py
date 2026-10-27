@@ -210,13 +210,17 @@ def model_network(run: Run, node, year, version: str = "v1", lever=None, uncerta
     if lever is not None:
         lnode, _ = net.resolve(f"lever {lever}")
         lid = int(lnode[1:])
-    if uncertainty is not None or third is not None:
+    third_ignored = lever is not None and uncertainty is None and third is not None
+    if uncertainty is not None or (third is not None and not third_ignored):
         if uncertainty is None or third not in THIRDS:
             raise ToolError("BAD_FILTER", "Give both uncertainty (an id) and third (low, mid or high).")
         xnode, _ = net.resolve(f"uncertainty {uncertainty}")
         xid = int(xnode[1:])
 
     out = {"arm": version, "year": y, **net.attributes(n)}
+    if third_ignored:
+        out["filter_note"] = ("third filters an uncertainty; with a lever alone, the node is shown for each of the "
+                              "lever's thirds (low, mid, high)")
     if field:
         out["field_asked"] = field
     if k in ("lever", "uncertainty"):

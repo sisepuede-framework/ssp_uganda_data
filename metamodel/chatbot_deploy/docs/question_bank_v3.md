@@ -90,6 +90,21 @@ at 2035; the 24.7% NDC figure confirmed.*
   range (LV1, H2, H3), say where a number comes from (S50, S3, S35), use only the model's years (X2), and call costs
   changes against business as usual (X2, TO1).
 
+## Dry run (2026-10-26) and what it changed
+
+Every bank conversation once in v0 and v1 (58 conversations, US$3.56; `backend/rdm/eval/pilot_runs/bank_dryrun_2026_10_26/`),
+to find faults before the full run. **Not part of the results.** Only faults in scoring and tool usability were fixed;
+the prompt and the questions were not changed to make the agent pass.
+
+- Check 24 (script out of step): the agent's request for a threshold counts when it is anywhere in the answer ("?" or
+  a request naming the threshold / what counts as failure), not only when the answer ends with "?".
+- Check 15 (untraced numbers): the counts the harness gives every agent (54 levers, 13 uncertainties, 500 futures by
+  default) are traced; lever lists with ranges ("levers 31, 32, 34, 36–42") are references. The agent's own
+  calculations stay flagged.
+- `model_network`: `third` given with a lever and no uncertainty is no longer an error (the lever is shown for all
+  three of its thirds; the reply says so); the parameter description says it.
+- Lever and uncertainty ids written "L25" / "X57" are accepted by every tool.
+
 ## Hypothesis questions (v3.1) — pre-registered 2026-10-21, before their keys were computed and before any run
 
 Five questions added on Alexa's request, each to test one hypothesis about agents using these tools. Tag:

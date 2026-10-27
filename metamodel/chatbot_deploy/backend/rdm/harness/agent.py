@@ -112,7 +112,7 @@ def converse(question: str, arm: str, replies: list | None = None, model: str = 
             messages.append({"role": "user", "content": reply})
             h.user_turn += 1
             user_messages.append({"user_turn": h.user_turn, "after_step": step, "kind": kind, "text": reply,
-                                  "agent_asked": text.rstrip().endswith("?")})
+                                  "agent_asked": "?" in text})
             continue
         break
 

@@ -30,7 +30,9 @@ def groups(run: Run) -> dict:
 
 
 def group_id(run: Run, value, kind: str) -> int:
-    """Validate a lever (kind "L") or uncertainty (kind "X") id given by the agent."""
+    """Validate a lever (kind "L") or uncertainty (kind "X") id given by the agent ("25", 25 or "L25")."""
+    if isinstance(value, str) and value.strip()[:1].upper() in ("L", "X") and value.strip()[1:].strip().isdigit():
+        value = value.strip()[1:]
     try:
         gid = int(value)
     except (TypeError, ValueError):

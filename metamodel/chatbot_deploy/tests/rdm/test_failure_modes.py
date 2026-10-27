@@ -129,3 +129,23 @@ def test_required_node_visited():
     assert f["network_calls"] == 2
     log.append(call("model_network", {"node": "lever 12", "year": 2050}))
     assert not check({"tool_log": log, "final_answer": "x"}, spec)["25_required_node_not_visited"]
+
+
+def test_threshold_asked_mid_answer_is_in_step():
+    spec = {"kind": "T0", "needs_threshold": True}
+    log = [explore({"25": 1})]
+    msgs = [{"user_turn": 1, "kind": "question", "text": "q"},
+            {"user_turn": 2, "kind": "scripted", "text": "Count it as a failure if …", "agent_asked": False}]
+    run = {"tool_log": log, "final_answer": "", "user_messages": msgs,
+           "answers": ["What reduction would count as failure for you? With it I can run the analysis."]}
+    assert not check(run, spec)["24_script_out_of_step"]
+    run["answers"] = ["Next step: give me a failure threshold and I will run it."]
+    assert not check(run, spec)["24_script_out_of_step"]
+    run["answers"] = ["Here are the results."]
+    assert check(run, spec)["24_script_out_of_step"]
+
+
+def test_lever_ranges_are_references():
+    ok = check({"tool_log": [explore({"35": 1})],
+                "final_answer": "It is also moved by levers 31, 32, 34, 36–42 (median −5.2%, range 4 to 6)."}, {})
+    assert not ok["15_untraced_numbers"]

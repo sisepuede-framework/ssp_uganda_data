@@ -117,3 +117,18 @@ def test_gdp_units_match_the_other_tools(run):
     from backend.rdm.surrogate import UNITS
     for arm in N.VERSIONS:
         assert N.model_network(run, "GDP", 2050, arm)["units"] == UNITS["gdp"]
+
+
+def test_third_with_a_lever_is_not_an_error(run):
+    r = N.model_network(run, f"L{LIGHT_DUTY}", 2050, "v1", lever=LIGHT_DUTY, third="high")
+    assert "filter_note" in r
+    with pytest.raises(ToolError):
+        N.model_network(run, f"L{LIGHT_DUTY}", 2050, "v1", third="high")
+
+
+def test_ids_written_with_a_letter():
+    from backend.rdm.tools.common import group_id
+    r = get_run()
+    assert group_id(r, "L25", "L") == 25 and group_id(r, "X57", "X") == 57
+    with pytest.raises(ToolError):
+        group_id(r, "X57", "L")

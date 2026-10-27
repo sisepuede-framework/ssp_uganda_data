@@ -49,7 +49,7 @@ MODEL_YEARS = {2025, 2035, 2040, 2050, 2060, 2070}
 FORECAST = re.compile(r"\b(will (?:be|reach|fall|rise|drop|increase|decrease|cut|reduce)|predicts?|predicted|"
                       r"projections?|forecasts?)\b", re.I)
 NEGATION = re.compile(r"\b(not|no|none|nothing|never|neither|nor)\b[^.]{0,30}$", re.I)   # "… is not a forecast"
-CATALOGUE_REF = re.compile(r"\(\s*\d{1,2}(?:\s*[–,-]\s*\d{1,2})*\s*\)|\bp\d{1,2}\b|\b[LX]\s?\d{1,2}\b|\b(?:levers?|uncertaint(?:y|ies)|ids?)\s+\d{1,2}(?:\s*(?:,|and|or|&)\s*\d{1,2})*\b", re.I)
+CATALOGUE_REF = re.compile(r"\(\s*\d{1,2}(?:\s*[–,-]\s*\d{1,2})*\s*\)|\bp\d{1,2}\b|\b[LX]\s?\d{1,2}\b|\b(?:levers?|uncertaint(?:y|ies)|ids?)\s+\d{1,2}(?:\s*(?:,|and|or|&|–|-|to)\s*\d{1,2})*\b", re.I)
 WINNER = re.compile(r"\b(the best (?:option|policy|choice)|you should (?:choose|pick|go with|prioriti[sz]e)|"
                     r"I(?: would|'d)? (?:recommend|suggest)|should be prioriti[sz]ed|"
                     r"is (?:clearly )?(?:the )?(?:better|more effective|preferable) (?:option|policy|choice)?)", re.I)
@@ -95,6 +95,25 @@ def _numbers(obj) -> set:
                 pass
         return out
     return set()
+
+
+def _harness_numbers() -> set:
+    """Counts every agent is told by the harness: how many levers and uncertainties, the default number of futures.
+    Only these: the prompt also lists every lever id, which would trace almost any number below 55."""
+    global _HARNESS_NUMBERS
+    if _HARNESS_NUMBERS is None:
+        try:
+            from backend.rdm.runs import get_run
+            from backend.rdm.tools.common import groups
+            from backend.rdm.tools.technical import DEFAULT_FUTURES
+            kinds = [g["kind"] for g in groups(get_run()).values()]
+            _HARNESS_NUMBERS = {float(kinds.count("L")), float(kinds.count("X")), float(DEFAULT_FUTURES)}
+        except Exception:  # noqa: BLE001 — scoring still works without the run files
+            _HARNESS_NUMBERS = set()
+    return _HARNESS_NUMBERS
+
+
+_HARNESS_NUMBERS = None
 
 
 def _traced(x: float, pool: set) -> bool:
@@ -211,7 +230,8 @@ def check(run: dict, spec: dict | None = None) -> dict:
     f["13_forecast_language"] = asserted(FORECAST)
     f["14_names_a_winner"] = asserted(WINNER)          # "neither option is better" is not a winner
     pool = (_numbers([c.get("reply") for c in calls]) | _numbers([c.get("args") for c in calls])
-            | _numbers(run.get("question", "")) | _numbers([m.get("text") for m in run.get("user_messages", [])]))
+            | _numbers(run.get("question", "")) | _numbers([m.get("text") for m in run.get("user_messages", [])])
+            | _harness_numbers())
     # Lever/uncertainty ids written as "(40)", "L35" or "lever 35", and "p10/p90", are references, not results.
     stated = [x for x in _numbers(CATALOGUE_REF.sub(" ", answer)) if x not in YEARS and abs(x) > 10]
     untraced = sorted(x for x in stated if not _traced(x, pool))
@@ -243,7 +263,12 @@ def check(run: dict, spec: dict | None = None) -> dict:
         # the scripted threshold reply only makes sense after the agent asked for it
         reply = next((m for m in run.get("user_messages", []) if m.get("user_turn") == start + 1), None)
         asked = any((c.get("reply") or {}).get("status") == "needs_threshold" and c.get("user_turn") == start for c in vul)
-        f["24_script_out_of_step"] = reply is not None and not (reply.get("agent_asked") or asked)
+        # a question anywhere in the answer before the reply counts (dry run 2026-10-26: the agent asked for the
+        # threshold mid-answer and went on, so "ends with ?" missed it)
+        answers = run.get("all_answers") or run.get("answers") or []
+        before = answers[start - 1] if len(answers) >= start else ""
+        asked_in_text = "?" in before or bool(re.search(r"\bthreshold\b|counts? as (?:a )?fail", before, re.I))
+        f["24_script_out_of_step"] = reply is not None and not (reply.get("agent_asked") or asked or asked_in_text)
     nodes = [str((c.get("args") or {}).get("node", "")) for c in calls
              if c["tool"] == "model_network" and c["status"] == "ok"]
     f["network_calls"] = len(nodes)
@@ -270,7 +295,7 @@ def _part_runs(run: dict, spec: dict):
             **run, "tool_log": [c for c in calls if inside(c.get("user_turn"))],
             "earlier_calls": [c for c in calls if (c.get("user_turn") or 0) < a],
             "question": part.get("question", run.get("question")),
-            "answers": [], "final_answer": "\n\n".join(answers[a - 1:None if last else b - 1]),
+            "answers": [], "all_answers": answers, "final_answer": "\n\n".join(answers[a - 1:None if last else b - 1]),
             "hit_step_limit": run.get("hit_step_limit") if last else False,
             "final_stop_reason": run.get("final_stop_reason") if last else None,
             "reached": any(m.get("user_turn") == a for m in run.get("user_messages", [])) or a == 1}
