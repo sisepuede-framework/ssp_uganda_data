@@ -121,6 +121,36 @@ the prompt and the questions were not changed to make the agent pass.
   trade-off and no longer counts; "can't / cannot" negates. "X is the better option" and "X is better than Y" still
   count.
 
+## Run design (written 2026-10-26, before the full run)
+
+Fixed before the first conversation; committed to git (the commit date is the proof). Anything not described here is
+reported as exploratory.
+
+- **What runs:** the 29 bank conversations (31 questions; Q10b → D2b → N1 is one conversation) × arms **v0 and v1**
+  (v1_inputs and v1_outputs dropped) × **5 repetitions** = **290 conversations**, with
+  `python -m backend.rdm.eval.run_bank` → `backend/rdm/eval/pilot_runs/bank_v3_full/`.
+- **Fixed in every conversation:** model `claude-sonnet-5-5`, effort `medium`, adaptive thinking with summarized
+  display, the system prompt and tools at the launch commit (each log records commit and fingerprints),
+  `country_context` with the GDP label. The only difference between arms is whether `model_network` shows values.
+- **Order and faults:** repetition by repetition, 5 conversations at a time. A conversation hit by an infrastructure
+  fault (AWS login, API error) is set apart and run again; every re-run is listed. No conversation is dropped for
+  what the agent did.
+- **Scoring:** `python -m backend.rdm.eval.failure_modes bank_v3_full --reader`, with the checks and specs at the
+  launch commit (`BANK_SPECS`, including the dry-run changes above).
+- **Outcomes.**
+  - RQ1 (does the system work): the share of conversations with each failure, per arm and tag.
+  - RQ2 (v0 vs v1), primary: (1) level off the key (check 3, T1 questions); (2) `model_network` calls per conversation;
+    (3) uncertainty range on the wrong side or missing (check 5, where specified). Every other check is secondary.
+- **Analysis:** results per tag (dev, designed), never pooled across tags; the four blind questions and HA1–HE1 are
+  reported apart, the blind ones as examples only (no rates). Repetitions of a question are not independent: the arm
+  difference is tested with a permutation test that shuffles the arm labels within each question (10,000
+  permutations, two-sided). Primary outcomes are named above; p-values on secondary checks are reported without a
+  claim of significance.
+- **Reader check:** Alexa reads 20 reader judgments drawn at random (seed 20261026) against the answers. If she
+  agrees with fewer than 16, the reader's checks (17, 18, 22) are reported as unreliable, or re-scored after the
+  reader is fixed, and that is said.
+- **No extra repetitions** after seeing results, except runs labelled exploratory.
+
 ## Hypothesis questions (v3.1) — pre-registered 2026-10-21, before their keys were computed and before any run
 
 Five questions added on Alexa's request, each to test one hypothesis about agents using these tools. Tag:
