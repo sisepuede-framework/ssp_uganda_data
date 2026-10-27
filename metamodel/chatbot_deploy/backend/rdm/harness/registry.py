@@ -36,8 +36,9 @@ TOOLS = [
      "description": "RDM step 1 — explore and stress-test. Runs one or more policies across many futures (all 13 "
                     "uncertainties sampled; optionally restricted to a range) on the surrogate, with BAU on the same "
                     "futures. Returns, per policy, metric and year: median and p10–p90, and the change vs BAU. "
-                    "Returns an ensemble_id for the other technical tools. Use it to evaluate or compare policies, "
-                    "and again after revising a policy. Do not use it to learn what a lever moves (use "
+                    "Returns an ensemble_id for the other technical tools. Use it to evaluate policies, and again "
+                    "after revising a policy. To compare alternatives, run them in one call, then use "
+                    "trade_off_analysis on its ensemble. Do not use it to learn what a lever moves (use "
                     "model_network).",
      "input_schema": {"type": "object", "properties": {
          "policies": _POLICIES,
@@ -79,8 +80,8 @@ TOOLS = [
          "pair": {"type": "array", "items": {"type": "integer"}, "description": "Optional: two uncertainty ids to show."}},
          "required": ["ensemble_id"]}},
     {"name": "trade_off_analysis",
-     "description": "RDM step 3 — trade-offs. Compares the policies of an ensemble on emissions vs costs in the same "
-                    "futures: change vs BAU, cost per tonne abated, how often one has lower emissions, lower cost or "
+     "description": "RDM step 3 — trade-offs. Use it whenever the user compares two or more alternatives. "
+                    "Compares the policies of an ensemble on emissions vs costs in the same futures: change vs BAU, cost per tonne abated, how often one has lower emissions, lower cost or "
                     "both, and which are dominated. Describe trade-offs; do not name a best policy.",
      "input_schema": {"type": "object", "properties": {
          "ensemble_id": {"type": "string"}, "year": {"type": "integer"},

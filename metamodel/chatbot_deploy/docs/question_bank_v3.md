@@ -109,6 +109,12 @@ the prompt and the questions were not changed to make the agent pass.
   tested, or when the answer names levers outside it that were never run. Levers explored with runs are recorded
   (`levers_outside_run`), not scored. Applies to C4b and AG2.
 - **Q14b and TO1 keep `trade_off_analysis` as required** (Alexa's decision).
+- **Tool descriptions changed (Alexa's decision, after the dry run):** `exploratory_modeling` said "Use it to evaluate
+  or compare policies" and nothing said when to use `trade_off_analysis`, so the agent compared alternatives without
+  it in Q14b and TO1 (both arms). Now `exploratory_modeling`: "Use it to evaluate policies, and again after revising a
+  policy. To compare alternatives, run them in one call, then use trade_off_analysis on its ensemble."
+  `trade_off_analysis` starts: "Use it whenever the user compares two or more alternatives." A design fix (the two
+  descriptions contradicted the RDM steps), identical in both arms; Q14b and TO1 were re-run once per arm to check.
 
 ## Hypothesis questions (v3.1) — pre-registered 2026-10-21, before their keys were computed and before any run
 
