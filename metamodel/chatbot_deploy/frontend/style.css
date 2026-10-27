@@ -487,6 +487,7 @@ body {
 .doc-defs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 26px; margin-top: 10px; }
 .doc-defs dt { font-size: 0.83rem; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
 .doc-defs dd { font-size: 0.8rem; line-height: 1.5; color: var(--text-body); }
+.doc-defs--3 { grid-template-columns: repeat(3, 1fr); }
 .doc-key {
   display: inline-block;
   font-family: var(--font-mono);
@@ -1343,7 +1344,7 @@ body {
 @media (max-width: 900px) {
   .doc-layout { grid-template-columns: 1fr; gap: 14px; }
   .doc-nav { position: static; flex-direction: row; flex-wrap: wrap; }
-  .doc-defs { grid-template-columns: 1fr; }
+  .doc-defs, .doc-defs--3 { grid-template-columns: 1fr; }
   .cat-ask { opacity: 1; }              /* no hover on touch — always show Ask */
 
   /* The launcher stacks rather than squeezing: cards, Explore columns and the

@@ -16,7 +16,7 @@ get_country_context(topic: str) -> str
 
     Supported topics:
         "energy_mix"   — electricity generation technology fractions
-        "gdp"          — GDP (billion USD) at 2025, 2030, 2040, 2050
+        "gdp"          — GDP (billion international $, PPP, constant prices) at 2025, 2030, 2040, 2050
         "population"   — rural/urban population at 2025, 2030, 2040, 2050
         "agriculture"  — key crop areas (ha) and livestock head counts
         "transport"    — passenger and freight mode share fractions
@@ -24,7 +24,7 @@ get_country_context(topic: str) -> str
 
 import logging
 
-from backend.services.s3_lookup import get_model_inputs_row
+from backend.services.s3_lookup import get_model_inputs_row, get_model_outputs_row
 
 logger = logging.getLogger(__name__)
 
@@ -65,7 +65,9 @@ def _baseline_row() -> dict | None:
     if _BASELINE_ROW is not None:
         return _BASELINE_ROW
     try:
-        _BASELINE_ROW = get_model_inputs_row(primary_id=0)
+        # Crop areas, livestock head counts and total population are model OUTPUTS,
+        # absent from the input row; merge the outputs in (inputs win on shared names).
+        _BASELINE_ROW = {**get_model_outputs_row(primary_id=0), **get_model_inputs_row(primary_id=0)}
         _LOAD_ERROR = None
         logger.info(
             "context.py: baseline row loaded (primary_id=0, %d columns)",
@@ -122,11 +124,11 @@ def _fmt_energy_mix(row: dict) -> str:
 
 
 def _fmt_gdp(row: dict) -> str:
-    """GDP trajectory in billion USD at key years."""
+    """GDP trajectory (billion international $, PPP, constant prices) at key years."""
     col = "gdp_mmm_usd"
     lines = [
-        "Uganda Baseline — GDP Trajectory (billion USD):",
-        f"{'Year':<8}  {'GDP (B USD)':>14}",
+        "Uganda Baseline — GDP Trajectory (billion international $, PPP, constant prices):",
+        f"{'Year':<8}  {'GDP (B intl $)':>14}",
         "-" * 24,
     ]
     for yr in _SNAPSHOT_YEARS:
@@ -135,7 +137,7 @@ def _fmt_gdp(row: dict) -> str:
         lines.append(f"{yr:<8}  {s:>14}")
     lines.append(
         "\nNote: Values reflect the SSP-based baseline projection used in SISEPUEDE. "
-        "GDP in purchasing-power parity terms."
+        "GDP is in purchasing-power parity, constant prices (international dollars; growth matches the World Bank constant-price series), not market exchange rates."
     )
     return "\n".join(lines)
 

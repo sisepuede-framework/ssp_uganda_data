@@ -155,14 +155,22 @@ This tab is a reference document: no conversation on it. Every lever, sector and
 
 Nobody can put a defensible probability on Uganda's economy, population or fuel prices in 2070. Informed people disagree — not about the arithmetic, but about the premises. That condition has a name, deep uncertainty, and it defeats the usual method: settle what the future holds, then plan for it. The agreement never arrives, and the planning waits on it.
 
-So this tool takes the other route, Robust Decision Making — one of a family of approaches for deciding under deep uncertainty. Instead of predicting one future and optimising for it, it takes the choices as given and asks how they hold up across many. Parties who cannot agree on 2050 can still agree on what is worth starting now, because they can see it holds in the futures each of them believes in.
+Robust Decision Making (RDM) is one of a family of approaches for deciding under deep uncertainty. Instead of predicting one future and optimising for it, it takes the choices as given and asks how they hold up across many. Parties who cannot agree on 2050 can still agree on what is worth starting now, because they can see it holds in the futures each of them believes in.
+
+This tool is not an RDM analysis in itself. It makes three of RDM's components something you can do in a conversation:
+
+- **1 · Explore and stress-test** — Run the model across many combinations of uncertain assumptions to see how each strategy performs in different plausible futures.
+
+- **2 · Find the vulnerabilities** — Use statistics and charts to identify the combinations of conditions associated with poor performance. These become decision-relevant scenarios — not predictions.
+
+- **3 · Weigh trade-offs and improve** — Compare the benefits and disadvantages of alternative responses, revise a vulnerable plan, and test it again.
 
 Nothing here is a forecast. Every number is conditional on the settings behind it.
 
 
 ### What you can change, and what you cannot
 
-Robust Decision Making starts by separating what a decision-maker controls from what they are merely exposed to. That split — the L and X of an XLRM framework — is the structure of this entire tool:
+All three components rest on separating what a decision-maker controls from what they are merely exposed to. That split — the L and X of an XLRM framework — is the structure of this entire tool:
 
 - **L — what Uganda decides** — The sectoral transitions: how far and how fast each part of the economy changes.
 

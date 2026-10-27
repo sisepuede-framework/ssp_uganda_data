@@ -1,5 +1,103 @@
 # Changelog — chatbot_deploy
 
+## 2026-10-14 — Translation tests, mechanism, draft question bank
+
+- Pilot 3 (pairs, 2 × 2 arms) and pilot 4 (scenario → in-between quantity): inputs translate input targets; outputs
+  translate in-between quantities; emission targets are reached by testing on the XGBoost in every arm.
+- The mechanism (D18) written into the system prompt: information from the run data, validation only through the
+  XGBoost levers. Translation 3 answered from the runs as they are (D19, no extra model).
+- `lever_x_profile` shows each lever's own channel (its most-moved variables, with why each is shown) and, in the arms
+  with inputs, the range from BAU (BAU = lever 0, maximum = lever 1, direction).
+- `backend/rdm/links/drivers.py`: in-between drivers per emission source in each XGBoost category (review file).
+- Store drops runs with rare 1e10 fill values entirely (9 broken runs, one id block); drivers and values rebuilt.
+- `docs/question_bank_v1.md`: 30 draft questions with category (A–F), translation label (T0–T4), expected flow and
+  answer keys (`backend/rdm/eval/questions.py`, `bank_reference.py`). Expected flows in `rdm_tools_design.md` rewritten.
+- `country_context`: agriculture and total population fixed (read from the baseline outputs); GDP relabelled PPP.
+- Pending list consolidated in `docs/rdm_information_layer_plan.md` → "Road to the full experiment".
+
+## 2026-10-13 (later) — Drivers per emission source; values table and agent loop; pilots
+
+- `backend/rdm/links/drivers.py`: per emission source in each XGBoost category, the variable(s) that create it
+  (exact name → group → correlation, at 2070), once per category → `links/<run>_drivers_by_{source,category}.csv`
+  for expert review. `lever_x_profile` now shows these as the in-between variables.
+- `backend/rdm/data/values.py`: values table (lever × year × X bin × lever level → category totals and drivers).
+- `lever_x_profile` rewritten: inputs (from the lever input table) → in-between variables → emission categories with
+  the fields under each; arms v0 / v1 / v1_inputs / v1_outputs. `output_levers` accepts the metric name form.
+- `backend/rdm/harness/prompt.py` (system prompt, identical in every arm) and `harness/agent.py` (manual tool-use loop,
+  scripted user, full logging; no model fallback). Pilot runner and summary in `backend/rdm/eval/`.
+- Pilot 1 on claude-opus-5-5 ($4.73): input values let v1 translate "60% electric" into lever 35 ≈ 0.46 in 3/3 runs;
+  v0 could not. Found and fixed: the scripted user did not answer statements ending without "?", so Q10 never reached
+  the vulnerability step. Pilot rerun on claude-sonnet-5-5.
+
+## 2026-10-13 — Information layer: lever inputs, variable → emission links, plan
+
+- `docs/rdm_information_layer_plan.md`: plan with a decisions log (made / pending) and steps.
+- `country_context`: agriculture and total population were empty (they are model outputs; the service read only
+  inputs) — now merges the baseline's outputs row. GDP relabelled "billion international $, PPP, constant prices"
+  (context, agent tool description, surrogate units).
+- `model_input` registered in Athena (it was missing from the run's Glue database); `backend/rdm/data/inputs.py`
+  caches the lever inputs for the sample (one scan, 145 GB, $0.73). It holds only 291 of the 527 lever input fields.
+- Found and tested: every run sets lever inputs to BASE + L × (HBLE − BASE), exactly (`tests/rdm/test_inputs.py`).
+  `backend/rdm/data/lever_inputs.py` builds all 527 from the two pathway runs → `tables/<run>_lever_inputs.csv`.
+- `backend/rdm/links/subsector.py`: variable → emission links by subsector code + shared specific word, with a review
+  CSV for experts (`expert_ok`, `expert_note` columns) and the list of unlinked variables.
+- `athena.execute()` for DDL and queries whose result is not a CSV.
+
+## 2026-10-12 (evening) — RDM tools v2 built, tested and evaluated
+
+### What
+- `backend/rdm/surrogate.py`: the XGBoost read through the run manifest, batched over futures, with derived
+  totals (emissions, cost, benefit, net, cost % GDP).
+- `backend/rdm/tools/`: `technical.py` (exploratory_modeling, vulnerability_analysis, scenario_discovery,
+  trade_off_analysis), `information.py` (lever_x_profile, output_levers; v0 relations / v1 values),
+  `context.py` (country_context, wraps the deployed service).
+- `backend/rdm/harness/`: the 7 tool schemas, dispatch by version, ensemble state, JSONL log.
+- Run manifest gains `crosswalk` and `surrogate_targets`; `Store.total()` sums several emission fields.
+- Tests: `tests/rdm/test_surrogate.py`, `test_technical.py`, `test_information.py`, `test_harness.py`
+  (37 pass in tests/rdm). Evaluation: `backend/rdm/eval/evaluate_tools.py` → `docs/rdm_tools_evaluation.md`.
+- DMDU talk outline slides 6–11 redrawn for the 7-tool design (no plan step; information vs technical tools;
+  relations vs values).
+
+### Found
+v1 lever_x_profile replies are too large (median ~5,500 tokens); runs and surrogate agree on direction in 85% of
+lever–category pairs, with land-use levers the exception; units missing for 267 of 694 linked variables; cost-type
+signs to confirm with the team.
+
+## 2026-10-12 (later) — RDM tool design v2: 12 tools → 7
+
+### Why
+Review of the v1 tool set: too many tools, overlaps (`search_catalog` vs `get_output_drivers`), and a
+plan-adherence score we no longer want to measure.
+
+### What
+`docs/rdm_tools_design.md` rewritten as draft v2 (v1 stays in git, commit 9e0f6f4):
+- **Technical tools (surrogate, identical in v0/v1):** `exploratory_modeling`, `vulnerability_analysis`
+  (asks the user for the failure threshold), `scenario_discovery`, `trade_off_analysis` (emissions vs costs).
+- **Information tools (runs):** `lever_x_profile` (one profile per (L_i, X_j)), `output_levers` (reverse
+  look-up), `country_context`. Relations in both versions; values, ranges, direction and units in v1 only.
+- Dropped `declare_plan` (only final actions are measured; the harness logs them) and `search_catalog`
+  (catalogue already in `agent.py`). Crosswalk (505 fields → 23 categories) is carried in the replies and
+  the prompt, not a tool. The 133 emission fields outside the crosswalk are not used.
+- DMDU talk slides 6–10 and `study_plan.md` §2 still describe v1 (listed as open items).
+
+## 2026-10-12 — Reframed: the tool facilitates three RDM components
+
+### Why
+The tool was described as an RDM tool ("takes the Robust Decision Making route", "sits inside an RDM
+analysis"). It is more accurate to say it facilitates three components of the RDM methodology, not
+that it is an RDM analysis in itself.
+
+### What
+- **How this works → "The problem this is built for"**: RDM is introduced as the method; the tool is
+  then described as making three of its components possible: (1) exploratory modeling and stress
+  testing, (2) vulnerability analysis and scenario discovery, (3) trade-off analysis and strategy
+  improvement. Shown as a three-column `doc-defs--3` list (one column under 900px).
+  "What you can change" now opens with "All three components rest on…".
+- **System prompt (`agent.py`, METHOD)**: same framing; the agent is told to frame its help by the
+  component the user is working in. The two binding consequences (not prediction; L/X = agency) are
+  unchanged.
+- `docs/ui_text_inventory.md` and `docs/rdm_levers_and_uncertainties.md` §1 updated to match.
+
 ## 2026-07-29 (later) — Reference tab becomes a document; layout and reading fixes
 
 ### Why

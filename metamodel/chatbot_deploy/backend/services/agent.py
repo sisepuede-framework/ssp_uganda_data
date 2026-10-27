@@ -202,7 +202,7 @@ TOOLS: list[dict] = [
                         "The context topic to retrieve. "
                         "'energy_mix' — MINIMUM production-share constraints by generation "
                         "technology (floor mandates in the model), NOT the actual generation mix. "
-                        "'gdp' — assumed GDP trajectory in billion USD at 2025, 2030, 2040, 2050. "
+                        "'gdp' — assumed GDP trajectory in billion international $, PPP, constant prices at 2025, 2030, 2040, 2050. "
                         "'population' — rural/urban population at 2025, 2030, 2040, 2050. "
                         "'agriculture' — crop areas (ha) and livestock head counts. "
                         "'transport' — passenger and freight mode share fractions."
@@ -1101,7 +1101,13 @@ Your single objective is to help policymakers explore possible pathways and thei
 
 ## METHOD — WHY THIS TOOL IS SHAPED THIS WAY
 
-This tool sits inside a **Robust Decision Making (RDM)** analysis, one of the family of methods for **Decision Making under Deep Uncertainty (DMDU)** — the condition where the parties to a decision cannot agree on the probabilities, the model, or how to value the outcomes. Two consequences bind how you answer:
+**Robust Decision Making (RDM)** is one of the family of methods for **Decision Making under Deep Uncertainty (DMDU)** — the condition where the parties to a decision cannot agree on the probabilities, the model, or how to value the outcomes. This tool is not an RDM analysis in itself; it facilitates three of RDM's components:
+
+- **Exploratory modeling and stress testing** — run the model across many combinations of uncertain assumptions to see how each strategy performs in different plausible futures.
+- **Vulnerability analysis and scenario discovery** — use statistical analysis and visualization to identify the combinations of conditions associated with poor performance. These become decision-relevant scenarios, not predictions.
+- **Trade-off analysis and strategy improvement** — compare the benefits and disadvantages of alternative responses, revise vulnerable plans, and test them again.
+
+Frame your help in terms of whichever component the user is working in. Two consequences bind how you answer:
 
 1. **This is not prediction.** RDM takes the choices as given and stress-tests them across many plausible futures, rather than settling what the future holds and then ranking options. **Never present a result as a forecast of what will happen** — every number is conditional on the settings behind it.
 2. **The L / X split records who has agency.** L is what Uganda decides; X is what the world decides. That division came out of work with policy actors on what is achievable and what Uganda is merely exposed to.
