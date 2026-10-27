@@ -1040,19 +1040,42 @@ text(s, LM, TOP + 4.45, CW, 0.3, "Pilot runs, one conversation per arm and quest
      11, color=MUTED, italic=True, align=PP_ALIGN.CENTER)
 
 # 13 · Results
-s = new_slide("Results: [one-line finding, after the runs]", "Results",
-              "To fill after the full run (290 conversations, launched 2026-10-26): one answer per research question, "
-              "then what it means for DMDU practice.")
-cw3 = (CW - 2 * 0.4) / 3
-for i, (head, body) in enumerate([
-        ("RQ1 · The ecosystem", "[Can policy questions be explored through the three RDM components with the system, and how well does the evaluation catch its errors?]"),
-        ("RQ2 · Information given", "[How seeing values (v1) changes tool use, policy levels and uncertainty ranges compared with relations only (v0)]"),
-        ("For DMDU practice", "[What this means for putting AI between models and decision makers]")]):
-    x = LM + i * (cw3 + 0.4)
-    text(s, x, TOP + 0.2, cw3, 0.4, head, 16, color=TXT, bold=True, font=HEAD)
-    placeholder(s, x, TOP + 0.75, cw3, 3.6, body, 14)
-    if i < 2:
-        arrow(s, x + cw3 + 0.06, TOP + 2.55, x + cw3 + 0.34, TOP + 2.55)
+s = new_slide("With values, the agent set levels right in fewer calls", "Results",
+              "Full run, 2026-10-26: 29 conversations × v0/v1 × 5 repetitions = 290, 0 infrastructure faults, "
+              "US$20.05 (backend/rdm/eval/analyze_bank.py → pilot_runs/bank_v3_full/analysis_*.csv). Ranges are "
+              "across the question groups (dev, designed, hypothesis, blind); blind is descriptive only. Level off "
+              "the key: dev 80 → 7%, designed 83 → 0%, hypothesis 50 → 0%, blind 87 → 0%. model_network calls: dev "
+              "2.0 → 1.1, designed 2.3 → 1.2, hypothesis 3.1 → 1.9, blind 2.5 → 1.1. Permutation test within question "
+              "(10,000, seed 20261026): p < 0.01 for both in dev, designed and hypothesis. Uncertainty range: no "
+              "failures in either arm, so the third primary outcome is uninformative. Literal translation: designed "
+              "63 → 0% (p < 0.001). Untraced numbers in v1 are mostly the agent's own arithmetic on the values it "
+              "received: dev 2 → 16% (p = 0.02), hypothesis 0 → 32% (p = 0.001). trade_off_analysis: Q14b 0/5 → "
+              "1/5, TO1 0/5 → 3/5. Reader checks (17, 18, 22) are reported only after the hand check of 20 "
+              "judgments (rule: 16 or more agreements).")
+tw = [4.5, 1.3, 1.3]
+grid(s, LM, TOP - 0.1, tw,
+     [["RQ2 · share of answers, or calls", "v0 · links", "v1 · values"],
+      ["Policy level off the key", "50–87%", "**0–7%**"],
+      ["model_network calls per conversation", "2.0–3.1", "**1.1–1.9**"],
+      ["Level translated literally (designed)", "63%", "**0%**"],
+      ["Comparison sent to trade_off_analysis", "0 of 10", "4 of 10"],
+      ["Numbers no tool gave (hypothesis)", "0%", "32%"],
+      ["Uncertainty range on the wrong side", "0", "0"]], row_h=0.56)
+text(s, LM, TOP + 4.0, sum(tw), 0.7, "v1 read the levels right and walked the network less. It also did its own "
+     "arithmetic on the values, so more numbers came from no tool.", 13.5, color=TXT)
+rx = LM + sum(tw) + 0.45
+rw = CW - sum(tw) - 0.45
+node(s, rx, TOP - 0.1, rw, 2.15, "RQ1 · The system works within its rules",
+     "290 of 290 conversations finished. No loops, no invented thresholds, no uncertainty used as a lever. "
+     "Forecast language in 1, a named winner in 3. The checks caught the errors above on their own.",
+     fill=WHITE, head_pt=15, sub_pt=12.5, align=PP_ALIGN.LEFT)
+node(s, rx, TOP + 2.3, rw, 2.3, "For DMDU practice",
+     "Give the agent values, not only links: it sets policies right and searches less. Then trace every number it "
+     "computes before it reaches a decision maker. Tool wording chooses the RDM step, so test it.",
+     fill=ACC_LT, line=ACC, head_pt=15, sub_pt=12.5, align=PP_ALIGN.LEFT)
+text(s, LM, TOP + 4.75, CW, 0.3, "290 conversations · 5 repetitions per arm · ranges across question groups · first "
+     "three rows p < 0.01 · reader checks pending the hand check", 11, color=MUTED, italic=True,
+     align=PP_ALIGN.CENTER)
 
 # ═════════════════════════════════════════════════════════════════════════════
 # Appendix · the harness text, word for word (not presented; for review of the instructions)
