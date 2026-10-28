@@ -3,7 +3,7 @@ Reader check for the full run (docs/question_bank_v3.md, "Run design"): 20 reade
 (seed 20261026) and written to a Word file for Alexa to mark agree / disagree against the agent's answer.
 
     /opt/miniconda3/bin/python -m backend.rdm.eval.reader_check      (an environment with python-docx)
-        → docs/reader_check_2026-10-26.docx, backend/rdm/eval/pilot_runs/bank_v3_full/reader_check_sample.csv
+        → docs/reader_check_2026-10-28.docx, backend/rdm/eval/pilot_runs/bank_v3_full/reader_check_sample.csv
 
 A judgment is one conversation (or one part of the Q10b → D2b → N1 conversation) that the reader scored: the
 required statements it says are present or missing, and, where the question expects one, the direction of an
@@ -23,10 +23,10 @@ from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Cm, Pt, RGBColor
 
-from backend.rdm.eval.failure_modes import _part_runs
+from backend.rdm.eval.failure_modes import _next_part, transcript
 from backend.rdm.eval.questions import BANK_SPECS
 D = Path(__file__).parent / "pilot_runs" / "bank_v3_full"     # (no harness import: runs where python-docx is)
-OUT = Path(__file__).parents[3] / "docs" / "reader_check_2026-10-26.docx"
+OUT = Path(__file__).parents[3] / "docs" / "reader_check_2026-10-28.docx"
 N, SEED = 20, 20261026
 BOX = "☐ agree    ☐ disagree"
 
@@ -50,19 +50,19 @@ def judgments() -> list:
                         "rep": int(r["rep"]), "part": pre[:-1] or None,
                         "wrong_direction": r.get(f"{pre}17_wrong_direction"),
                         "wrong_source": r.get(f"{pre}18_wrong_source"),
-                        "missing": r.get(f"{pre}missing_statements"), "note": note})
+                        "missing": r.get(f"{pre}missing_statements"), "note": note,
+                        "forecast": r.get(f"{pre}13_forecast_language"), "winner": r.get(f"{pre}14_names_a_winner")})
     return out
 
 
 def answer_and_question(j: dict) -> tuple:
+    """The question and what the reader read: the whole conversation (every answer, with the user's turns)."""
     run = json.loads((D / j["file"]).read_text())
     if not j["part"]:
-        return run["question"], run["final_answer"]
+        return run["question"], transcript(run)
     spec = BANK_SPECS[run["question_id"]]
-    for part, sub in _part_runs(run, spec):
-        if part["id"] == j["part"]:
-            return sub["question"], sub["final_answer"]
-    raise KeyError(j["part"])
+    part = next(p for p in spec["parts"] if p["id"] == j["part"])
+    return part.get("question", run["question"]), transcript(run, part["from_user_turn"], _next_part(spec, part))
 
 
 def _font(doc):
@@ -134,18 +134,19 @@ def build(sample: list):
     for m in ("left_margin", "right_margin", "top_margin", "bottom_margin"):
         setattr(sec, m, Cm(2.0))
     _font(doc)
-    doc.add_heading("Reader check — full bank run (2026-10-26)", level=1)
+    doc.add_heading("Reader check — full bank run (re-scored 2026-10-28)", level=1)
     for s in [
-        "The reader is a small model (Claude Haiku 5.5) that reads each final answer and judges what it says against "
-        "what the question expects. Its judgments feed checks 17 (wrong direction), 18 (wrong source) and 22 "
-        "(a required statement missing). These 20 judgments were drawn at random (seed 20261026) from the "
+        "The reader is a small model (Claude Haiku 5.5) that reads each conversation (the user's turns and every "
+        "answer of the agent, in order; since 2026-10-28, before only the final answer) and judges it against "
+        "what the question expects. Its judgments feed checks 13 (forecast language), 14 (names a winner), 17 (wrong "
+        "direction), 18 (wrong source) and 22 (a required statement missing). These 20 judgments were drawn at random (seed 20261026) from the "
         f"{len(judgments())} judgments of the full run, as fixed in the run design.",
-        "**What to do:** for each judgment, read the agent's answer and mark whether you agree with each verdict of "
+        "**What to do:** for each judgment, read the conversation and mark whether you agree with each verdict of "
         "the reader. At the end, mark whether you agree with the judgment as a whole. **Rule fixed in advance:** if "
         "you agree with fewer than 16 of the 20, the reader's checks are reported as unreliable, or re-scored after "
         "the reader is fixed.",
         "You judge the reader, not the agent: a verdict is right if it describes the answer correctly, whether or not "
-        "the answer is good."]:
+        "the agent did well."]:
         _runs(doc.add_paragraph(), s)
     for n, j in enumerate(sample, 1):
         q, ans = answer_and_question(j)
@@ -157,7 +158,7 @@ def build(sample: list):
         doc.add_heading("The reader's verdicts", level=3)
         missing = set(ast.literal_eval(j["missing"])) if isinstance(j["missing"], str) else set()
         for st in s.get("must_say", []):
-            v = "MISSING from the answer" if st in missing else "present in the answer"
+            v = "MISSING from the conversation" if st in missing else "present in the conversation"
             _runs(doc.add_paragraph(style="List Bullet"), f"Required: \"{st}\" → reader: **{v}**    {BOX}")
         if s.get("expected_direction"):
             v = {True: "goes the WRONG way", False: "goes the expected way"}.get(j["wrong_direction"], "not stated")
@@ -168,10 +169,14 @@ def build(sample: list):
                 j["wrong_source"], "no source stated")
             _runs(doc.add_paragraph(style="List Bullet"),
                   f"Expected source: {s['expected_source']} → reader: the number is **{v}**    {BOX}")
+        for key, label, yes, no in (("forecast", "Forecast language (13)", "presents a result as a forecast",
+                                     "no forecast"), ("winner", "Names a winner (14)", "names a winner", "no winner")):
+            v = {True: yes, False: no, "True": yes, "False": no}.get(j.get(key), "not judged")
+            _runs(doc.add_paragraph(style="List Bullet"), f"{label} → reader: **{v}**    {BOX}")
         _runs(doc.add_paragraph(), f"**Reader's note:** {j['note']}")
         _runs(doc.add_paragraph(), f"**Overall, I agree with this judgment:**    ☐ yes    ☐ no")
         _runs(doc.add_paragraph(), "**Comment:** ______________________________________________")
-        doc.add_heading("The agent's answer", level=3)
+        doc.add_heading("The conversation the reader read", level=3)
         _markdown(doc, ans)
     doc.add_page_break()
     doc.add_heading("Summary", level=2)

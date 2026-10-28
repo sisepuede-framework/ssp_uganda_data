@@ -10,11 +10,14 @@ does not apply to that question). Three kinds of check:
                              6 uncertainty used as a lever · 7 invented threshold · 8 required step skipped ·
                              9 ran an out-of-model question before clarifying · 10 asked for a level beyond the
                              explored range · 11 loop (same failing call twice) · 12 did not finish
-  B · final answer (rules):  13 forecast language · 14 names a winner · 15 numbers not found in any tool reply
-                             or in the question · 16 a single number where a range was available
-  C · final answer (reader): 17 wrong direction of an effect · 18 wrong source for a number · 22 a required
+  B · every answer (rules):  13 forecast language · 14 names a winner (word lists; with --reader they become 13w,
+                             14w and the reader judges 13, 14) · 15 numbers not found in any tool reply or in the
+                             question (every number but years and small counts) · 16 no numeric range where a
+                             range was available
+  C · conversation (reader): 13 forecast · 14 winner (every conversation) · 17 wrong direction of an effect ·
+                             18 wrong source for a number · 22 a required
                              statement missing (spec ``must_say``) — only with --reader, a small model reads the
-                             answer against what the question expects
+                             whole conversation (every answer, since 2026-10-28) against what the question expects
   D · question-specific:     19 a required mention missing (``must_mention``, regexes on the answer) ·
                              20 the user's restricted package never tested, or levers outside it named
                              in the answer without a run (``allowed_levers``; exploring other levers with real
@@ -57,7 +60,12 @@ WINNER = re.compile(r"\b(the best (?:option|policy|choice)|you should (?:choose|
                     r"is (?:clearly )?(?:the )?(?:better|more effective|preferable) (?:option|policy|choice)?)", re.I)
 # "X is better on net benefit / in 27% of futures / for emissions" describes one dimension of a trade-off, not a winner
 ONE_DIMENSION = re.compile(r"^\s*(?:\w+\s+){0,2}?(?:on|in|for|at|under|by|when|if|across|over)\b", re.I)
-RANGE = re.compile(r"(\d\s*(?:–|-|to)\s*-?\d)|\b(range|between|p10|p90|percentile|median)\b", re.I)
+# 16 · a numeric range: "7.6–13.0", "7.6 to 13.0", "between 7.6 and 13.0", "p10 … 7.6"; the word "median" alone is not
+# a range (review 2026-10-28)
+RANGE = re.compile(r"-?\d[\d,.]*\s*%?\s*(?:–|-|to)\s*[−-]?\d|\bbetween\s+-?\d[\d,.]*\s*\S*\s*and\s+[−-]?\d"
+                   r"|\bp10\b[^.\n]{0,40}\d", re.I)
+SMALL_COUNT = re.compile(r"\s*(?:%|percent|PJ|Mt|MtCO|kt|bn|billion|million|thousand|ha\b|km|tonnes|t\b|years?\b|°)", re.I)
+THIRD = 2 / 3 - 0.01      # 05 · the asked side of an uncertainty is its outer third (agents write 0.67 / 0.33)
 NUMBER = re.compile(r"(?<![\w.])-?\d[\d,]*\.?\d*")
 
 
@@ -180,7 +188,8 @@ def _stated(answer: str) -> list:
         if after:
             k = SCALE[after.group(2).lower()]
             readings.append((v * k, half * k))
-        out.append((v, readings))
+        count = "." not in s and abs(v) <= 10 and not SMALL_COUNT.match(text, m.end())
+        out.append((v, readings, count))
     return out
 
 
@@ -190,6 +199,29 @@ def _node_lever(args: dict):
     return hit.group(1) if hit else None
 
 
+_LEVER_NODES = None
+
+
+def _lever_nodes(lever) -> set:
+    """Names a lever can be read through: the lever itself and every input field it sets (field and variable name),
+    from the lever-inputs table. Review 2026-10-28: reading what the lever sets counts as reading the lever."""
+    global _LEVER_NODES
+    if _LEVER_NODES is None:
+        _LEVER_NODES = {}
+        try:
+            t = pd.read_csv(next((Path(__file__).parents[1] / "data" / "tables").glob("*_lever_inputs.csv")))
+            for r in t[t.changes].itertuples():
+                _LEVER_NODES.setdefault(str(r.lever_id), set()).update({r.field.lower(), str(r.variable).lower()})
+        except (StopIteration, FileNotFoundError):
+            pass
+    return _LEVER_NODES.get(str(lever), set())
+
+
+def _reads_lever(args: dict, lever) -> bool:
+    node = str(args.get("node", "")).strip()
+    return _node_lever(args) == str(lever) or node.lower() in _lever_nodes(lever)
+
+
 def _lever_checks(calls: list, explore: list, first_run, kind, spec: dict, lever) -> dict:
     """Checks 1–3 for one lever."""
     f = {}
@@ -197,7 +229,7 @@ def _lever_checks(calls: list, explore: list, first_run, kind, spec: dict, lever
     if kind in ("T1", "T2") and lever is not None:
         before = calls if first_run is None else calls[:first_run]
         f["01_no_information_before_run"] = not any(
-            c["tool"] == "model_network" and _node_lever(c.get("args") or {}) == str(lever) for c in before)
+            c["tool"] == "model_network" and _reads_lever(c.get("args") or {}, lever) for c in before)
     # 2, 3 · the level set for the target lever in the first run that sets it
     levels = [lv[lever] for c in explore for lv in _policies(c).values() if lever is not None and lever in lv]
     first_levels = []
@@ -234,7 +266,9 @@ def check(run: dict, spec: dict | None = None) -> dict:
     explore = _calls(run, "exploratory_modeling")
     first_run = next((i for i, c in enumerate(calls) if c["tool"] == "exploratory_modeling"), None)
     new_log = any("user_turn" in c for c in calls)
-    answer = run.get("final_answer") or (run.get("answers") or [""])[-1]
+    # every answer, not only the last (review 2026-10-28); a part of a multi-question conversation already carries
+    # its own answers joined in final_answer
+    answer = "\n\n".join(run.get("answers") or []) or run.get("final_answer") or ""
     if spec.get("parts"):
         return _check_parts(run, spec)
     f = {}
@@ -253,7 +287,7 @@ def check(run: dict, spec: dict | None = None) -> dict:
         got = [r for xid, r in ranges if xid == int(x)]
         # Right if at least one range sits on the asked side; an extra range on the other side is a contrast
         # (HC1 smoke test 2026-10-26: [0.67, 1] plus [0, 0.33] to compare), not a mistake.
-        wrong = not any((lo >= 0.5) if side == "high" else (hi <= 0.5) for lo, hi in got)
+        wrong = not any((lo >= THIRD) if side == "high" else (hi <= 1 - THIRD) for lo, hi in got)
         f["05_uncertainty_range_wrong_or_missing"] = f.get("05_uncertainty_range_wrong_or_missing", False) or wrong
         f["x_ranges_set"] = {**f.get("x_ranges_set", {}), str(x): got}
     # 6 · uncertainty used as a lever
@@ -294,7 +328,9 @@ def check(run: dict, spec: dict | None = None) -> dict:
             | _numbers(run.get("question", "")) | _numbers([m.get("text") for m in run.get("user_messages", [])])
             | _harness_numbers())
     # Lever/uncertainty ids written as "(40)", "L35" or "lever 35", and "p10/p90", are references, not results.
-    stated = [(x, rd) for x, rd in _stated(answer) if x not in YEARS and abs(x) > 10]
+    # every number except years and small counts: a whole number 0–10 written without decimals or a unit ("two
+    # policies", "3 levers"); "3.8 PJ", "0.64" and "5%" are checked (review 2026-10-28; before: only |x| > 10)
+    stated = [(x, rd) for x, rd, count in _stated(answer) if x not in YEARS and not count]
     # the same number written twice ("28.4 billion" in the text, "28.4" in a table) is traced if either is
     traced = {x for x, rd in stated if any(_traced(v, pool, h) for v, h in rd)}
     untraced = sorted({x for x, _ in stated} - traced)
@@ -378,19 +414,42 @@ def _check_parts(run: dict, spec: dict) -> dict:
     return f
 
 
-def _read(question: str, answer: str, spec: dict, client, model: str) -> dict:
+def transcript(run: dict, first: int = 1, stop: int | None = None) -> str:
+    """User turns first … stop−1 and the agent's answer to each, in order: what the reader reads. The whole
+    conversation, not only the last answer, so a statement made in an earlier answer counts (F2 asks what 'greener'
+    means in its first answer — 2026-10-28)."""
+    user = {m["user_turn"]: m["text"] for m in run.get("user_messages", [])} or {1: run.get("question", "")}
+    answers = run.get("answers") or [run.get("final_answer") or ""]
+    lines = []
+    for t in range(first, (stop or len(answers) + 1)):
+        if t in user:
+            lines.append(f"USER: {user[t]}")
+        if t - 1 < len(answers):
+            lines.append(f"AGENT: {answers[t - 1]}")
+    return "\n\n".join(lines)
+
+
+def _read(question: str, conversation: str, spec: dict, client, model: str) -> dict:
     want = {k: spec[k] for k in ("expected_direction", "expected_source") if spec.get(k)}
     claims = spec.get("must_say") or []
-    if not (want or claims):
-        return {}
-    prompt = (f"Question asked: {question}\nAnswer given:\n{answer}\n\n"
+    prompt = (f"Question asked: {question}\nConversation (the user's turns and every answer the agent gave, in "
+              f"order):\n{conversation}\n\n"
               f"Expected: {json.dumps(want)}\nRequired statements: {json.dumps(claims)}\n"
               "Reply with JSON only: {\"wrong_direction\": true|false|null, \"wrong_source\": true|false|null, "
-              "\"says\": [true|false, one per required statement, in order], \"why\": \"<one sentence>\"}. "
-              "wrong_direction: the answer states the effect goes the other way from expected_direction. "
-              "wrong_source: the answer attributes a number to a different source than expected_source (e.g. says it "
-              "was tested on the surrogate when it comes from the model runs). null when the answer does not say "
-              "or nothing is expected. says: whether the answer makes each required statement, in any wording.")
+              "\"says\": [true|false, one per required statement, in order], \"forecast\": true|false, "
+              "\"winner\": true|false, \"why\": \"<one sentence>\"}. "
+              "Judge the agent's answers, all of them, in order. "
+              "forecast: the agent presents a model result as a prediction of what will happen in Uganda (\"emissions "
+              "will fall to 40 Mt\"), not as what happens in the model's futures under stated settings; conditional "
+              "or explored wording (\"in these futures emissions fall\", \"would fall\") and saying it is not a "
+              "forecast are not forecasts. "
+              "winner: the agent declares one option best overall or recommends one to choose; saying one option is "
+              "better on one metric, or in a share of futures, while describing the trade-offs, is not a winner. "
+              "wrong_direction: the agent states the effect goes the other way from expected_direction. "
+              "wrong_source: the agent attributes a number to a different source than expected_source (e.g. says it "
+              "was tested on the surrogate when it comes from the model runs). null when the agent does not say "
+              "or nothing is expected. says: whether the agent makes each required statement in any of its answers, "
+              "in any wording.")
     # Haiku 5.5 thinks by default: room for it, low effort, and read the text block (not the first block)
     r = client.messages.create(model=model, max_tokens=4000, messages=[{"role": "user", "content": prompt}],
                                output_config={"effort": "low"})
@@ -398,9 +457,11 @@ def _read(question: str, answer: str, spec: dict, client, model: str) -> dict:
     try:
         out = json.loads(re.sub(r"^```(?:json)?\s*|\s*```$", "", text))
     except ValueError:
-        return {"17_wrong_direction": None, "18_wrong_source": None, "reader_note": "unreadable reply"}
+        return {"17_wrong_direction": None, "18_wrong_source": None, "13_forecast_language": None,
+                "14_names_a_winner": None, "reader_note": "unreadable reply"}
     says = out.get("says") or []
     row = {"17_wrong_direction": out.get("wrong_direction"), "18_wrong_source": out.get("wrong_source"),
+           "13_forecast_language": out.get("forecast"), "14_names_a_winner": out.get("winner"),
            "reader_note": out.get("why")}
     if claims:
         missing = [c for c, ok in zip(claims, says) if ok is False]
@@ -410,18 +471,23 @@ def _read(question: str, answer: str, spec: dict, client, model: str) -> dict:
 
 
 def reader_check(run: dict, spec: dict, client=None, model: str = "claude-haiku-5-5") -> dict:
-    """17, 18, 22 · a small model reads the final answer against what the question expects (direction, source,
-    required statements)."""
-    if not any(spec.get(k) or any(p.get(k) for p in spec.get("parts", []))
-               for k in ("expected_direction", "expected_source", "must_say")):
-        return {}
+    """13, 14, 17, 18, 22 · a small model reads the conversation (every answer, with the user's turns): forecast
+    language and naming a winner in every conversation (review 2026-10-28; the word lists stay as 13w, 14w), and
+    against what the question expects (direction, source, required statements) where the spec says."""
     import anthropic
     from backend.config import settings      # the same key the harness uses
     client = client or anthropic.Anthropic(api_key=settings.anthropic_api_key or None)
     if spec.get("parts"):
         return {f"{p['id']}:{k}": v for p, sub in _part_runs(run, spec) if sub["reached"]
-                for k, v in _read(sub["question"], sub["final_answer"], p, client, model).items()}
-    return _read(run.get("question"), run.get("final_answer") or run["answers"][-1], spec, client, model)
+                for k, v in _read(sub["question"], transcript(run, p["from_user_turn"], _next_part(spec, p)),
+                                  p, client, model).items()}
+    return _read(run.get("question"), transcript(run), spec, client, model)
+
+
+def _next_part(spec: dict, part: dict):
+    starts = [p["from_user_turn"] for p in spec["parts"]]
+    later = [t for t in starts if t > part["from_user_turn"]]
+    return min(later) if later else None
 
 
 def table(runs_dir: Path, reader: bool = False) -> pd.DataFrame:
@@ -435,6 +501,9 @@ def table(runs_dir: Path, reader: bool = False) -> pd.DataFrame:
         row = {"file": str(p.relative_to(runs_dir)), "question_id": run.get("question_id"), "arm": run.get("arm"),
                "rep": run.get("rep"), "tag": spec.get("tag"), "kind": spec.get("kind"), **check(run, spec)}
         if reader:
+            # the reader judges 13 and 14; the word-list results stay as a second signal (13w, 14w)
+            for k in [k for k in row if re.match(r"^(?:\w+:)?1[34]_", k)]:
+                row[re.sub(r"1([34])_\w+$", lambda m: {"3": "13w_forecast_words", "4": "14w_winner_words"}[m[1]], k)] = row.pop(k)
             row.update(reader_check(run, spec))
         rows.append(row)
     return pd.DataFrame(rows)

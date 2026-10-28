@@ -319,3 +319,54 @@ Costs are scored on caution (changes vs BAU, provisional) rather than on their v
 ## Still to do
 
 1. ~~Confirm X1's key against forest loss in hectares; compute X2's key after freezing; check the 24.7% NDC figure.~~ Done 2026-10-21 (rows above).
+
+## Reader re-scored on the whole conversation (2026-10-28, after the full run)
+
+A deviation from the run design, found by Alexa while reading the process document. The reader (checks 17, 18, 22)
+read only the final answer, but a required statement can be made in an earlier answer: F2 ("Make Uganda greener")
+requires "asks what 'greener' means before running anything", and the agent asks in its first answer, before the
+scripted reply. The reader marked it missing in 10 of 10 while check 9 (from the tool calls) showed the agent asked
+first. Fix: the reader now reads the whole conversation (the user's turns and every answer, in order; for the
+Q10b → D2b → N1 conversation, the turns of each part) — `failure_modes.transcript`. No conversation was re-run and
+no rule check changed. The table before the fix is kept as `pilot_runs/bank_v3_full/failure_modes_before_reader_fix.csv`
+(and `analysis_*_before_reader_fix.csv`); both results are reported.
+
+| Check (all 290 conversations) | before | after |
+|---|---|---|
+| 22 required statement missing | 81 | 62 (18 missing → present: F2 10, HA1 4, S35 2, C4b 1, TO1 1; 0 the other way; 1 now unreadable) |
+| 18 wrong source | 9 | 4 |
+| 17 wrong direction | 0 | 0 |
+
+The reader-check sample (seed 20261026) draws the same 20 conversations; the document shows the conversation the
+reader read (`docs/reader_check_2026-10-28.docx`).
+
+## Scoring rules revised after Alexa's review (2026-10-28, after the full run)
+
+A deviation from the run design: Alexa reviewed every rule (docs/evaluation_rules_2026-10-28.docx with her notes; answers in evaluation_rules_2026-10-28_v2.docx and the
+answers are in its section 6). No conversation was re-run. Scores before are kept as
+`pilot_runs/bank_v3_full/failure_modes_before_review_fixes.csv` (and `analysis_*_before_review_fixes.csv`).
+
+- **Every answer is read** by the text rules (15, 16, 19), as by the reader, not only the final answer.
+- **01** counts reading the lever or any input it sets (lever-inputs table).
+- **05** the asked side is the outer third (lower end ≥ 0.66 for high, upper end ≤ 0.34 for low), not 0.5.
+- **13, 14** are judged by the reader (definitions in its prompt) in every conversation; the word lists stay as
+  13w, 14w.
+- **15** checks every number except years and small counts (whole numbers 0–10 without decimals or a unit).
+- **16** needs a numeric range ("a–b", "between a and b", "p10 … n"); the word "median" alone no longer passes.
+- **03** unchanged; sensitivity reported: v0 off the key 59/75 (pre-registered tolerances), 62/75 at ±0.05, 52/75 at
+  ±0.10; v1 1/75, 6/75, 1/75. New test `tests/rdm/test_answer_keys.py` recomputes the policy keys, the run-based keys
+  (S50, S3, S35, HD1, HC1) and X2 from local data: all match. X1 and HA1 are not yet covered.
+
+| Check | v0 before | v0 after | v1 before | v1 after |
+|---|---|---|---|---|
+| 13 forecast (reader) | 0/155 (words) | 0/153 | 1/155 (words) | 0/155 |
+| 14 winner (reader) | 1/155 (words) | 0/153 | 3/155 (words) | 0/155 |
+| 15 untraced numbers | 6/155 | 11/155 | 12/155 | 17/155 |
+| 18 wrong source | 2/16 | 3/16 | 2/20 | 2/26 |
+| 19 mention missing | 27/40 | 27/40 | 6/40 | 4/40 |
+| 22 statement missing | 44/94 | 43/93 | 20/95 | 20/95 |
+
+01, 05 and 16 did not change any result. The word lists' 5 winner flags (13w/14w) were all "I would suggest next
+steps" or "the total is the better measure"; the reader judged none a winner. New check-15 flags are mostly the
+agent's own sums ("about 40 of 168 Mt", "a 20% cut is about 33 Mt", "about 7.66 million" ha); one is a false positive
+(LV1 v0 offers example levels "about 0.33"). Primary results (03, 02, network calls) unchanged.
