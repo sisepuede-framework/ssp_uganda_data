@@ -370,3 +370,12 @@ answers are in its section 6). No conversation was re-run. Scores before are kep
 steps" or "the total is the better measure"; the reader judged none a winner. New check-15 flags are mostly the
 agent's own sums ("about 40 of 168 Mt", "a 20% cut is about 33 Mt", "about 7.66 million" ha); one is a false positive
 (LV1 v0 offers example levels "about 0.33"). Primary results (03, 02, network calls) unchanged.
+
+## Reader-check sample drawn by question (2026-10-30, before any mark)
+
+A deviation from the run design ("20 reader judgments drawn at random"), decided by Alexa before marking any judgment:
+the draw is by question, so each question is read in both arms. 10 questions are drawn at random (seed 20261026)
+from the questions the reader judges, and for each one repetition at random; its v0 and v1 conversations are shown
+one after the other. Still 20 judgments, same rule (16 or more agreed = reader reliable). The 2026-10-28 sample was
+9 v0 / 11 v1 and seldom had both arms of a question. New document: `docs/reader_check_2026-10-30.docx` (clickable
+checkboxes); sample in `bank_v3_full/reader_check_sample_paired.csv`. The 2026-10-28 document and sample are kept.

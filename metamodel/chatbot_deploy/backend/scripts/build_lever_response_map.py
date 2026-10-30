@@ -4,7 +4,8 @@ build_lever_response_map.py
 What each input of the surrogate moves among the surrogate's outputs, and by how
 much, with EVERY other input varying at the same time.
 
-This is the response-side counterpart of Object 1 (build_lever_digest.py). Object 1
+This is the response-side counterpart of Object 1 (build_lever_digest.py, removed 2026-10-30:
+nothing read its output; the agent gets a lever's inputs from model_network). Object 1
 says which SISEPUEDE input fields a lever sets; this map says which surrogate outputs
 (sector emissions, costs, benefits, GDP) respond when the lever moves, and how
 strongly. It covers the 13 X groups too, which Object 1 cannot: an X group has no

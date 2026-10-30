@@ -1,9 +1,11 @@
 """
-Reader check for the full run (docs/question_bank_v3.md, "Run design"): 20 reader judgments drawn at random
-(seed 20261026) and written to a Word file for Alexa to mark agree / disagree against the agent's answer.
+Reader check for the full run (docs/question_bank_v3.md, "Run design"): 20 reader judgments written to a Word file
+for Alexa to mark agree / disagree against the agent's answer. Since 2026-10-30 the draw is by question (Alexa's
+call, before any mark): 10 questions at random (seed 20261026), and for each one repetition at random with both its
+v0 and its v1 conversation, shown side by side.
 
     /opt/miniconda3/bin/python -m backend.rdm.eval.reader_check      (an environment with python-docx)
-        → docs/reader_check_2026-10-28.docx, backend/rdm/eval/pilot_runs/bank_v3_full/reader_check_sample.csv
+        → docs/reader_check_2026-10-30.docx, backend/rdm/eval/pilot_runs/bank_v3_full/reader_check_sample_paired.csv
 
 A judgment is one conversation (or one part of the Q10b → D2b → N1 conversation) that the reader scored: the
 required statements it says are present or missing, and, where the question expects one, the direction of an
@@ -19,16 +21,23 @@ import numpy as np
 import pandas as pd
 from docx import Document
 from docx.enum.section import WD_ORIENT
-from docx.oxml import OxmlElement
+from docx.oxml import OxmlElement, parse_xml
 from docx.oxml.ns import qn
 from docx.shared import Cm, Pt, RGBColor
 
 from backend.rdm.eval.failure_modes import _next_part, transcript
 from backend.rdm.eval.questions import BANK_SPECS
 D = Path(__file__).parent / "pilot_runs" / "bank_v3_full"     # (no harness import: runs where python-docx is)
-OUT = Path(__file__).parents[3] / "docs" / "reader_check_2026-10-28.docx"
-N, SEED = 20, 20261026
+OUT = Path(__file__).parents[3] / "docs" / "reader_check_2026-10-30.docx"
+N_QUESTIONS, SEED = 10, 20261026
 BOX = "☐ agree    ☐ disagree"
+# A clickable Word checkbox (content control); "☐" in any text written by _runs becomes one.
+CHECKBOX = ('<w:sdt xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" '
+            'xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml"><w:sdtPr><w14:checkbox>'
+            '<w14:checked w14:val="0"/><w14:checkedState w14:val="2612" w14:font="MS Gothic"/>'
+            '<w14:uncheckedState w14:val="2610" w14:font="MS Gothic"/></w14:checkbox></w:sdtPr><w:sdtContent><w:r>'
+            '<w:rPr><w:rFonts w:ascii="MS Gothic" w:eastAsia="MS Gothic" w:hAnsi="MS Gothic"/></w:rPr>'
+            '<w:t>\u2610</w:t></w:r></w:sdtContent></w:sdt>')
 
 
 def judgments() -> list:
@@ -81,11 +90,14 @@ def _font(doc):
 
 def _runs(par, text, size=None):
     for i, seg in enumerate(re.split(r"\*\*", text)):
-        if seg:
-            r = par.add_run(seg)
-            r.bold = i % 2 == 1
-            if size:
-                r.font.size = Pt(size)
+        for k, piece in enumerate(seg.split("☐")):
+            if k:
+                par._p.append(parse_xml(CHECKBOX))
+            if piece:
+                r = par.add_run(piece)
+                r.bold = i % 2 == 1
+                if size:
+                    r.font.size = Pt(size)
 
 
 def _table(doc, rows, size=9.5):
@@ -139,8 +151,9 @@ def build(sample: list):
         "The reader is a small model (Claude Haiku 5.5) that reads each conversation (the user's turns and every "
         "answer of the agent, in order; since 2026-10-28, before only the final answer) and judges it against "
         "what the question expects. Its judgments feed checks 13 (forecast language), 14 (names a winner), 17 (wrong "
-        "direction), 18 (wrong source) and 22 (a required statement missing). These 20 judgments were drawn at random (seed 20261026) from the "
-        f"{len(judgments())} judgments of the full run, as fixed in the run design.",
+        "direction), 18 (wrong source) and 22 (a required statement missing). The 20 judgments are 10 questions drawn at "
+        "random (seed 20261026) from the questions the reader judges, and for each one repetition drawn at random with "
+        "both its v0 and its v1 conversation, one after the other.",
         "**What to do:** for each judgment, read the conversation and mark whether you agree with each verdict of "
         "the reader. At the end, mark whether you agree with the judgment as a whole. **Rule fixed in advance:** if "
         "you agree with fewer than 16 of the 20, the reader's checks are reported as unreliable, or re-scored after "
@@ -153,6 +166,9 @@ def build(sample: list):
         spec = BANK_SPECS[j["file"].split("_")[0]]
         s = next((p for p in spec.get("parts", []) if p["id"] == j["part"]), None) if j["part"] else spec
         doc.add_page_break()
+        if j["arm"] == "v0":
+            doc.add_heading(f"Question {(n + 1) // 2} of {len(sample) // 2} · {j['question_id']} · "
+                            f"repetition {j['rep'] + 1}", level=1)
         doc.add_heading(f"{n} of {len(sample)} · {j['question_id']} · {j['arm']} · repetition {j['rep'] + 1}", level=2)
         _runs(doc.add_paragraph(), f"**Question:** {q}")
         doc.add_heading("The reader's verdicts", level=3)
@@ -186,7 +202,7 @@ def build(sample: list):
     for n, j in enumerate(sample, 1):
         t.rows[n].cells[0].text = str(n)
         t.rows[n].cells[1].text = f"{j['question_id']} · {j['arm']} · rep {j['rep'] + 1}"
-        t.rows[n].cells[2].text = "☐ yes   ☐ no"
+        _runs(t.rows[n].cells[2].paragraphs[0], "☐ yes   ☐ no")
     t.style = "Table Grid"
     _runs(doc.add_paragraph(), "**Agreed with ___ of 20** (16 or more: the reader's checks are reported as reliable).")
     doc.save(OUT)
@@ -194,8 +210,14 @@ def build(sample: list):
 
 if __name__ == "__main__":
     js = judgments()
-    idx = np.random.default_rng(SEED).choice(len(js), size=N, replace=False)
-    sample = [js[i] for i in idx]
-    pd.DataFrame(sample).to_csv(D / "reader_check_sample.csv", index=False)
+    by = {(j["question_id"], j["arm"], j["rep"]): j for j in js}
+    units = sorted({j["question_id"] for j in js})
+    rng = np.random.default_rng(SEED)
+    sample = []
+    for q in rng.choice(units, size=N_QUESTIONS, replace=False):
+        reps = sorted(r for (qq, a, r) in by if qq == q and a == "v0" and (q, "v1", r) in by)
+        r = int(rng.choice(reps))
+        sample += [by[(q, "v0", r)], by[(q, "v1", r)]]
+    pd.DataFrame(sample).to_csv(D / "reader_check_sample_paired.csv", index=False)
     build(sample)
-    print(f"{len(js)} judgments; {N} drawn → {OUT}")
+    print(f"{len(js)} judgments; {N_QUESTIONS} questions × v0/v1 drawn → {OUT}")
