@@ -123,12 +123,13 @@ TOOL_NAMES = [t["name"] for t in TOOLS]
 ON_REQUEST_DESCRIPTION = ("A lever's reply does not show what its levels mean. To translate the user's words into a "
                           "lever level, call it with meaning=true: you get the lever's input settings at BAU, the "
                           "middle and the range maximum.")
-ON_REQUEST_PROPS = {
+LOOKING_FOR_PROP = {
     "looking_for": {"type": "string", "description": "Required: what you are looking for, with its unit, as the user "
                                                      "asked it (e.g. \"food lost, tonnes per year, 2050\"), or what a "
                                                      "lever level should mean (e.g. \"L35 level for half of cars "
                                                      "electric\"). Decide it before your first call and keep it while "
-                                                     "you search."},
+                                                     "you search."}}
+MEANING_PROP = {
     "meaning": {"type": "boolean", "description": "With a lever: true returns only what the lever's levels mean (its "
                                                   "input settings). Use it to translate the user's words into a lever "
                                                   "level."}}
@@ -137,14 +138,18 @@ ON_REQUEST_PROPS = {
 def tools_for(arm: str) -> list:
     """The tool list the agent sees in an arm. Identical in every arm except E3's v5 ("T"), where the role sentence is
     appended to the model_network description (the instruction counterpart of v4's sentence in the reply), and E4's
-    v6 ("C"), where model_network takes meaning (the calibration on request) and a required looking_for."""
-    from backend.rdm.tools.network import ON_REQUEST, ROLE_IN_DESCRIPTION, ROLE_SENTENCE
-    if arm in ON_REQUEST:
+    arms: ON_REQUEST (v6 C, v7 R) add meaning (the calibration on request) and a sentence to the description;
+    LOOKING_FOR (v6 C, v8 F) add a required looking_for."""
+    from backend.rdm.tools.network import LOOKING_FOR, ON_REQUEST, ROLE_IN_DESCRIPTION, ROLE_SENTENCE
+    if arm in ON_REQUEST or arm in LOOKING_FOR:
         def c(t):
-            sch = t["input_schema"]
-            return {**t, "description": f"{t['description']} {ON_REQUEST_DESCRIPTION}",
-                    "input_schema": {**sch, "properties": {**sch["properties"], **ON_REQUEST_PROPS},
-                                     "required": sch["required"] + ["looking_for"]}}
+            sch, desc = t["input_schema"], t["description"]
+            props, req = dict(sch["properties"]), list(sch["required"])
+            if arm in LOOKING_FOR:
+                props, req = {**props, **LOOKING_FOR_PROP}, req + ["looking_for"]
+            if arm in ON_REQUEST:
+                props, desc = {**props, **MEANING_PROP}, f"{desc} {ON_REQUEST_DESCRIPTION}"
+            return {**t, "description": desc, "input_schema": {**sch, "properties": props, "required": req}}
         return [c(t) if t["name"] == "model_network" else t for t in TOOLS]
     if arm not in ROLE_IN_DESCRIPTION:
         return TOOLS

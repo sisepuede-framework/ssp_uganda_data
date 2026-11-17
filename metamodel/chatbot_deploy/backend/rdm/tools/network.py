@@ -20,11 +20,15 @@ a lever's thirds if a lever is given, within one uncertainty's third if one is g
   v3   "H": v1 without the lever's calibration (no input values at the lever); values everywhere else as in v1
   v4   "L": v1 + ROLE_SENTENCE in the lever's reply, next to the calibration (information)
   v5   "T": v1 + ROLE_SENTENCE in the model_network tool description (instruction; harness/registry.py tools_for)
-  E4 (docs/run_design_E4_*.md):
-  v6   "C": calibration on request. As v3 (no input values in a lever's reply; values everywhere else as in v1), but
-       the calibration is one call away: model_network(lever, meaning=true) returns only what the lever's levels
-       mean. And every call states looking_for (the quantity and unit sought), echoed at the top of the reply.
-       Schema changes are in harness/registry.py tools_for; v0–v5 are unchanged.
+  E4 (docs/run_design_E4_2026-11-17.md), a 2×2 of two changes to v1 (Map+):
+    calibration ON REQUEST: no input values in a lever's reply (as v3); model_network(lever, meaning=true) returns
+      only what the lever's levels mean
+    LOOKING_FOR: every model_network call must state looking_for (the quantity sought, with its unit), echoed at the
+      top of the reply
+  v6   "C": both changes
+  v7   "R": calibration on request only
+  v8   "F": looking_for only (calibration in the lever's reply, as v1)
+  Schema changes are in harness/registry.py tools_for; v0–v5 are unchanged.
 """
 
 import difflib
@@ -44,14 +48,15 @@ ATTRIBUTE_OVERRIDES = {"GDP": {"units": UNITS["gdp"], "information": f"GDP in {U
 NET = Path(__file__).parents[1] / "network" / "out"
 INPUTS = Path(__file__).parents[1] / "data" / "tables"
 ARMS = {"v0": (False, False), "v1": (True, True), "v2": (True, False),   # (show_inputs, show_values)
-        "v3": (False, True), "v4": (True, True), "v5": (True, True), "v6": (False, True)}
+        "v3": (False, True), "v4": (True, True), "v5": (True, True),
+        "v6": (False, True), "v7": (False, True), "v8": (True, True)}
 # E3: the same words in the lever's reply (v4) and in the tool description (v5)
 ROLE_SENTENCE = ("A lever's input values are its settings: what each lever level means. They are not results. "
                  "Quantities the lever changes, such as amounts of energy, food, waste or biogas, are further along "
                  "the network.")
 ROLE_IN_REPLY, ROLE_IN_DESCRIPTION = {"v4"}, {"v5"}
-# E4: calibration only when asked for (meaning=true), and the target stated in every call (looking_for)
-ON_REQUEST = {"v6"}
+# E4: calibration only when asked for (meaning=true); the target stated in every call (looking_for)
+ON_REQUEST, LOOKING_FOR = {"v6", "v7"}, {"v6", "v8"}
 VERSIONS = tuple(ARMS)
 THIRDS = {"low": "0–⅓", "mid": "⅓–⅔", "high": "⅔–1"}
 NEMOMOD = "NemoMod (electricity optimisation)"
@@ -230,18 +235,13 @@ def model_network(run: Run, node, year, version: str = "v1", lever=None, uncerta
                   meaning=None, looking_for=None) -> dict:
     if version not in ARMS:
         raise ToolError("BAD_ARM", f"arm must be one of {VERSIONS}")
-    if version in ON_REQUEST:
-        out = _on_request(run, node, year, version, lever, uncertainty, third, meaning, looking_for)
-        return out
-    return _model_network(run, node, year, version, lever, uncertainty, third)
-
-
-def _on_request(run, node, year, version, lever, uncertainty, third, meaning, looking_for) -> dict:
-    if not looking_for or not str(looking_for).strip():
-        raise ToolError("MISSING_LOOKING_FOR", "State looking_for: the quantity you are looking for and its unit "
-                                               "(or what a lever level should mean).")
-    head = {"looking_for": str(looking_for).strip()}
-    if meaning:
+    head = {}
+    if version in LOOKING_FOR:
+        if not looking_for or not str(looking_for).strip():
+            raise ToolError("MISSING_LOOKING_FOR", "State looking_for: the quantity you are looking for and its unit "
+                                                   "(or what a lever level should mean).")
+        head = {"looking_for": str(looking_for).strip()}
+    if version in ON_REQUEST and meaning:
         net = network(run)
         n, _ = net.resolve(node)
         if net.kind.get(n) != "lever":

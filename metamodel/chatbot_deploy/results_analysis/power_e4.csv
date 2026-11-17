@@ -1,0 +1,13 @@
+contrast,rate A,rate B,repetitions per arm,power alpha 0.05,power alpha 0.01
+"R vs P (on request helps a lot, as H)",0.15,0.7,5,1.0,0.995
+"R vs P (on request helps a lot, as H)",0.15,0.7,10,1.0,1.0
+R vs P (on request helps half as much),0.15,0.4,5,0.7866666666666666,0.5516666666666666
+R vs P (on request helps half as much),0.15,0.4,10,0.965,0.89
+"F vs P (target statement, as SX)",0.15,0.3,5,0.4066666666666667,0.23
+"F vs P (target statement, as SX)",0.15,0.3,10,0.7366666666666667,0.535
+C vs R (target adds a moderate amount),0.4,0.65,5,0.5916666666666667,0.34
+C vs R (target adds a moderate amount),0.4,0.65,10,0.855,0.6883333333333334
+C vs R (target adds a little near the ceiling),0.7,0.85,5,0.295,0.145
+C vs R (target adds a little near the ceiling),0.7,0.85,10,0.62,0.4066666666666667
+R vs H (on request loses part of H's gain),0.5,0.73,5,0.5166666666666667,0.295
+R vs H (on request loses part of H's gain),0.5,0.73,10,0.7916666666666666,0.6233333333333333

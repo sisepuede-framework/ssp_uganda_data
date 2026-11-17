@@ -1,18 +1,19 @@
 """
-E4 run (docs/run_design_E4_2026-11-17.md): the calibration-on-request arm C and a concurrent Map+ control P, on the
-E3 questions. Same machinery as run_e3.py (preflight, interleaving, resume, _infra retries, credit stop).
+E4 run (docs/run_design_E4_2026-11-17.md): a 2×2 of two changes to Map+ (calibration on request; a stated target)
+plus calibration hidden, all run together on the E3 questions. Same machinery as run_e3.py (preflight, interleaving, resume, _infra retries, credit stop).
 
-    AWS_PROFILE=alexa python -m backend.rdm.eval.run_e4          (all 258 conversations)
+    AWS_PROFILE=alexa python -m backend.rdm.eval.run_e4          (all 945 conversations)
     AWS_PROFILE=alexa python -m backend.rdm.eval.run_e4 --dry    (prints the plan, runs nothing)
         → backend/rdm/eval/pilot_runs/e4_{S,O,G}/<qid>_<arm>_r<rep>.json
 
-Arms: v1 P (Map+, control, run again alongside C), v6 C (calibration on request + looking_for; tools/network.py).
+Arms (tools/network.py): v1 P (Map+, control), v3 H (calibration hidden), v7 R (calibration on request),
+v8 F (looking_for, calibration shown), v6 C (calibration on request + looking_for).
 
 | Set | Questions | Arms | Repetitions |
 |---|---|---|---|
-| e4_S (share-type, general; = E3 set S) | 12 | P, C | 5 |
-| e4_O (other-type, general; = E3 set O) | 8  | P, C | 3 |
-| e4_G (T1 translation guard; = E3 set G) | 15 | P, C | 3 |
+| e4_S (share-type, general; = E3 set S) | 12 | P, H, R, F, C | 10 |
+| e4_O (other-type, general; = E3 set O) | 8  | P, H, R, F, C | 3 |
+| e4_G (T1 translation guard; = E3 set G) | 15 | P, H, R, F, C | 3 |
 """
 import argparse
 
@@ -21,10 +22,11 @@ from backend.rdm.eval.questions import E3_G, SETS
 from backend.rdm.eval.run_bank import OutOfCredit, preflight
 from backend.rdm.harness.agent import RUNS_DIR
 
+E4_ARMS = ["v1", "v3", "v7", "v8", "v6"]   # P, H, R, F, C
 PLAN = [  # (folder, question set, question ids, arms, repetitions)
-    ("e4_S", "e3_S", list(SETS["e3_S"]), ["v1", "v6"], 5),
-    ("e4_O", "e3_O", list(SETS["e3_O"]), ["v1", "v6"], 3),
-    ("e4_G", "bank", E3_G, ["v1", "v6"], 3),
+    ("e4_S", "e3_S", list(SETS["e3_S"]), E4_ARMS, 10),
+    ("e4_O", "e3_O", list(SETS["e3_O"]), E4_ARMS, 3),
+    ("e4_G", "bank", E3_G, E4_ARMS, 3),
 ]
 
 

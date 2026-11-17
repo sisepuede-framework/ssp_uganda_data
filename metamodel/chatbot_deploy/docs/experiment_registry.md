@@ -3,7 +3,7 @@
 One row per test, kept up to date. **Start here** to find a test's design, the code it ran, its data, its analysis,
 its status and its deviations. Created 2026-11-16 (Alexa: "keep a very good version control of all the tests").
 Paths are relative to `metamodel/chatbot_deploy/`. Arms: v0 **Map** (relations), v1 **Map+** (lever calibration +
-values of every variable), v2 **Map+lever** (lever calibration only); E3: v3 **H**, v4 **L**, v5 **T**; E4: v6 **C** (calibration on request + `looking_for`).
+values of every variable), v2 **Map+lever** (lever calibration only); E3: v3 **H**, v4 **L**, v5 **T**; E4: v6 **C** (calibration on request + `looking_for`), v7 **R** (on request), v8 **F** (`looking_for`).
 
 ## Rules (how every test is version-controlled)
 
@@ -42,9 +42,9 @@ values of every variable), v2 **Map+lever** (lever calibration only); E3: v3 **H
 | E3a | planned | Does an answer-like number at the lever make the agent stop? P (Map+) vs H (calibration hidden), 12 share-type questions × 5; check on 8 other-type × 3 | `docs/run_design_E3_2026-11-17.md` (draft v2; v1 superseded); power `results_analysis/code/power_e3.py` | `e3_S`, `e3_O` | 168 (P shared) | — | **done 2026-11-17** (393/393; results `docs/results_E3_2026-11-17.md`, `results_analysis/e3_analysis.xlsx`; **hand check pending**) |
 | E3b | planned | Does one role sentence keep it searching, as information (L, in the lever's reply) or instruction (T, in the tool description)? 12 share-type × 5; translation guard 15 × 1 | same | `e3_S`, `e3_G` | 165 | `analyze_e3.py` | **done 2026-11-17; hand check pending** |
 | E3c | planned | Does naming the unit ("how many tonnes") stop it answering with a share? P, general vs explicit wording, 12 share-type × 5 | same | `e3_SX` | 60 | `analyze_e3.py` | **done 2026-11-17; hand check pending** |
-| P7 | 2026-11-17 | Smoke test of arm C (calibration on request): S50, R6, P50i | — | `smoke_e4_2026_11_17` | 3 | — | done (code uncommitted at the time; not analysed): translation right (L50 = 0.69); R6 reached and answered; S50 reached the node without the lever filter |
-| E4a | planned | Does keeping the calibration one call away (plus a stated target) keep the agent searching? P vs C, 12 share-type × 5; other-type 8 × 3 | `docs/run_design_E4_DRAFT_2026-11-17.md` (draft) | `e4_S`, `e4_O` | 168 | `analyze_e4.py` | **draft, awaiting approval** |
-| E4b | planned | Does C still translate the user's words into the right lever level? P vs C, 15 T1 × 3 | same | `e4_G` | 90 | `analyze_e4.py` | **draft, awaiting approval** |
+| P7 | 2026-11-17 | Smoke test of arms C, R, F: S50, R6, P50i | — | `smoke_e4_2026_11_17` | 7 | — | done (code uncommitted at the time; not analysed): translation right in every arm (L50 = 0.69); C R6 reached and answered; R R6 answered with the share |
+| E4a | 2026-11-17 | 2×2 + H: calibration on request (R), stated target `looking_for` (F), both (C) vs Map+ (P) and hidden (H). Which change keeps the agent searching? 12 share-type × 10; other-type 8 × 3 | `docs/run_design_E4_2026-11-17.md`; power `results_analysis/code/power_e4.py` | `e4_S`, `e4_O` | 720 | AC: `analyze_e4.py` (6 contrasts, Holm) | frozen |
+| E4b | 2026-11-17 | Do R, F, C still translate the user's words into the right lever level (and does H fail)? 15 T1 × 3, all five arms | same | `e4_G` | 225 | `analyze_e4.py` | frozen |
 
 ## Headline results (details in each analysis)
 
