@@ -45,6 +45,7 @@ values of every variable), v2 **Map+lever** (lever calibration only); E3: v3 **H
 | P7 | 2026-11-17 | Smoke test of arms C, R, F: S50, R6, P50i | — | `smoke_e4_2026_11_17` | 7 | — | done (code uncommitted at the time; not analysed): translation right in every arm (L50 = 0.69); C R6 reached and answered; R R6 answered with the share |
 | E4a | 2026-11-17 | 2×2 + H: calibration on request (R), stated target `looking_for` (F), both (C) vs Map+ (P) and hidden (H). Which change keeps the agent searching? 12 share-type × 10; other-type 8 × 3 | `docs/run_design_E4_2026-11-17.md`; power `results_analysis/code/power_e4.py` | `e4_S`, `e4_O` | 720 | AC: `analyze_e4.py` (6 contrasts, Holm) | **done 2026-11-17** (945/945; results `docs/results_E4_2026-11-17.md`, `results_analysis/e4_analysis.xlsx`; **hand check pending**) |
 | E4b | 2026-11-17 | Do R, F, C still translate the user's words into the right lever level (and does H fail)? 15 T1 × 3, all five arms | same | `e4_G` | 225 | `analyze_e4.py` | **done 2026-11-17; hand check pending** |
+| A5 | planned | Rescoring of E2–E4 after the independent review: number parsing, source of each value, keys at L = 1, stop reasons from the whole answer, question-level tests | `docs/plan_A5_rescoring_2026-11-17.md` (rules to be committed before computing) | E2–E4 folders | — | AX (exploratory) | **planned; waiting for Alexa's go** |
 
 ## Headline results (details in each analysis)
 
