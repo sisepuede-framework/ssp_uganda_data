@@ -38,7 +38,7 @@ values of every variable), v2 **Map+lever** (lever calibration only).
 | P5 | 2026-11-16 | Smoke test of Map+lever (WW1) | — | `smoke_v2_2026_11_16` | 1 | — | done (code uncommitted at the time; not analysed) |
 | E2 | 2026-11-16 | Run v4: A Map+lever on the bank; B 8 held-out retrieval questions × 3 arms; C drift check | `docs/run_design_v4_2026-11-16.md`, `498c254`; analysis `5ba8aa7` | `bank_v4`, `retrieval_v4`, `bank_v4_drift` | 323 | AC: `backend/rdm/eval/analyze_v4.py` → `run_v4_analysis.xlsx` | done; **hand check of 12 matched values pending** |
 | A4 | 2026-11-16 | Why did the agent not reach the answer? Is it the question wording? | — | `retrieval_v4` (+ `bank_v3_full`) | — | AX: `stop_coding_v4.py` → `run_v4_stop_coding.xlsx`; `question_pattern_v4.py` → `question_pattern_v4.xlsx` | done; **hand check pending** |
-| E3 | planned | Navigation of the network: question framing × information at the lever (redesign of the v5 draft) | `docs/run_design_v5_DRAFT_2026-11-16.md` (superseded draft) | — | — | — | **waiting**: Elicit search, then redesign for Alexa's approval |
+| E3 | planned | Does an answer-like number at the lever make the agent stop? Calibration hidden / shown / role sentence in the reply (information) / same sentence in the tool description (instruction) × general vs explicit wording × 16 targets (8 share-type, 4 new) | `docs/run_design_E3_DRAFT_2026-11-17.md` (draft; v5 draft superseded). Informed by Elicit report 2026-11-17 (premature stopping) | — | 429 planned | — | **draft, awaiting Alexa's approval** |
 
 ## Headline results (details in each analysis)
 
@@ -72,7 +72,8 @@ values of every variable), v2 **Map+lever** (lever calibration only).
 
 ## Where things are
 
-- Designs: `docs/question_bank_v3.md`, `docs/run_design_v4_2026-11-16.md`, `docs/run_design_v5_DRAFT_2026-11-16.md`
+- Designs: `docs/question_bank_v3.md`, `docs/run_design_v4_2026-11-16.md`, `docs/run_design_v5_DRAFT_2026-11-16.md` (superseded), `docs/run_design_E3_DRAFT_2026-11-17.md`
+- Literature: Elicit reports in `~/Downloads/` (innovation assessment 2026-11-16; premature stopping 2026-11-17)
 - Questions and keys: `backend/rdm/eval/questions.py`, `bank_reference.json`, `retrieval_v4_reference.json`
 - Runner and scoring: `backend/rdm/eval/run_bank.py`, `failure_modes.py`
 - Data manifests: `backend/rdm/eval/run_manifests/` (`index.csv` lists every folder)
