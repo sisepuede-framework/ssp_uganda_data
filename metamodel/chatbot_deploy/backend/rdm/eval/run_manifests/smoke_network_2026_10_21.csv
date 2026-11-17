@@ -1,0 +1,6 @@
+file,bytes,sha256,question_id,arm,rep,question_set,condition,model,effort,git_commit,uncommitted_code,system_prompt_sha,tools_sha,started,error
+AG2_v0.json,33401,e28ac9e12770e28acfb0cd2b2ce9965cba6f6d991295b8530d19f1b7b8636bcc,AG2,v0,0.0,smoke,,claude-sonnet-5-5,medium,cef7c191d7,True,7370289f01831677,0cc17de60364f93f,2026-10-21T18:43:23.915078+00:00,False
+AG2_v1.json,33301,457f8507ddef221a7e3c1a8503bb96bcc310e36f8d640a6919dd460f78731880,AG2,v1,0.0,smoke,,claude-sonnet-5-5,medium,cef7c191d7,True,7370289f01831677,0cc17de60364f93f,2026-10-21T18:43:39.371743+00:00,False
+P50i_v0.json,38614,0f6226e6e51dd5716b56139397f4f89816608e9d1e38727da0f70d9977ccf8fd,P50i,v0,0.0,smoke,,claude-sonnet-5-5,medium,cef7c191d7,True,7370289f01831677,0cc17de60364f93f,2026-10-21T18:42:48.372883+00:00,False
+P50i_v1.json,32773,a6e630f4e076245ad731de565a9e4b1a49c07428e453f166eb5e1db2ac641435,P50i,v1,0.0,smoke,,claude-sonnet-5-5,medium,cef7c191d7,True,7370289f01831677,0cc17de60364f93f,2026-10-21T18:43:07.587720+00:00,False
+failure_modes.csv,744,998c2ebc56257fd1a335e7d31eea277cf3a0a04d4d63cde19e799cf1409ae2ac,,,,,,,,,,,,,

@@ -239,3 +239,6 @@ metamodel/chatbot_deploy/model.pkl
 
 # Paper 1 working documents (drafts, protocol, .docx for review) — kept local for now.
 paper1/
+
+# Office lock files (open Excel/Word documents)
+~$*

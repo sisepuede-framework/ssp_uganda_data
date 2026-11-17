@@ -1,0 +1,2 @@
+file,bytes,sha256,question_id,arm,rep,question_set,condition,model,effort,git_commit,uncommitted_code,system_prompt_sha,tools_sha,started,error
+WW1_v2_r0.json,33721,b5d02aac093369bea74f3dc19f2717bc4ad10c45ce3b8d01616eee62f3270ae7,WW1,v2,0,bank,smoke,claude-sonnet-5-5,medium,8162ae042c,True,7370289f01831677,8a39a215c5125f15,2026-11-17T02:22:14.735076+00:00,False

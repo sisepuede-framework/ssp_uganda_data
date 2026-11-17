@@ -1,0 +1,6 @@
+file,bytes,sha256,question_id,arm,rep,question_set,condition,model,effort,git_commit,uncommitted_code,system_prompt_sha,tools_sha,started,error
+Q14b_v0_r0.json,44244,d016ecf681b0cd09202d03df6578fda460172f6f491b0b4d57f8d950a8ec5961,Q14b,v0,0.0,bank,dryrun,claude-sonnet-5-5,medium,3497d44185,False,7370289f01831677,8a39a215c5125f15,2026-10-27T00:22:49.426596+00:00,False
+Q14b_v1_r0.json,26869,a5c1e92bf583c2dfdcf37b698d793122fedc90ac14dd7f9877ecd7cbbcbe0ec4,Q14b,v1,0.0,bank,dryrun,claude-sonnet-5-5,medium,3497d44185,False,7370289f01831677,8a39a215c5125f15,2026-10-27T00:22:49.421664+00:00,False
+TO1_v0_r0.json,51836,437e727af49caef604c60974c7918766f1cdf22a9469ff392980a4bd17d86b4f,TO1,v0,0.0,bank,dryrun,claude-sonnet-5-5,medium,3497d44185,False,7370289f01831677,8a39a215c5125f15,2026-10-27T00:22:49.396670+00:00,False
+TO1_v1_r0.json,47226,86ec1b53f5da1ad6b660a7897a72882a194f3a296f14257e20668c1cf1eb825e,TO1,v1,0.0,bank,dryrun,claude-sonnet-5-5,medium,3497d44185,False,7370289f01831677,8a39a215c5125f15,2026-10-27T00:22:49.314589+00:00,False
+failure_modes.csv,1449,977cbc95a6a63fe57a4b5a59579e7110bfb6f1d0699155bce89ee14a798bea92,,,,,,,,,,,,,
