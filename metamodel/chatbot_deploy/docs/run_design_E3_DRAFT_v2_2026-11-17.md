@@ -1,6 +1,6 @@
 # E3 (DRAFT v2): three focused experiments on navigating the network
 
-**Status: DRAFT v2, 2026-11-17, for Alexa's review. Nothing implemented or run.** Supersedes
+**Status: PLAN APPROVED by Alexa 2026-11-17 (full plan, 393 conversations; cost estimate ≈ $25, up to ≈ $30, from the token use of E2 at Sonnet 5.5 list prices). Questions awaiting approval (`docs/E3_questions_2026-11-17.docx`, keys in `backend/rdm/eval/e3_reference.json`). Nothing implemented or run.** Supersedes
 `run_design_E3_DRAFT_2026-11-17.md` (one combined design). Registry IDs **E3a, E3b, E3c**. Each becomes pre-registered
 when approved, committed and tagged `exp/E3-frozen` before the first conversation.
 
