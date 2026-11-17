@@ -1,6 +1,8 @@
 # E3 (DRAFT): Does an answer-like number at the lever make the agent stop? Instructions or information?
 
-**Status: DRAFT, 2026-11-17, for Alexa's review. Nothing implemented or run.** Registry ID **E3**
+**Status: SUPERSEDED (2026-11-17) by `run_design_E3_DRAFT_v2_2026-11-17.md`. Never approved or run.** Alexa asked for a question set per experiment and a power analysis.
+
+_Original status:_ DRAFT, for Alexa's review. Registry ID **E3**
 (`docs/experiment_registry.md`). It becomes the pre-registration when approved, committed and tagged
 `exp/E3-frozen` before the first conversation. Replaces the superseded v5 draft.
 
