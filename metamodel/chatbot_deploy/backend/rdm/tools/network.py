@@ -16,6 +16,10 @@ a lever's thirds if a lever is given, within one uncertainty's third if one is g
        emissions and categories (v1_inputs / v1_outputs, one half each, were dropped 2026-10-26)
   v2   "Map+lever" (added 2026-11-16, working paper v2): v0 + what a lever sets (its inputs at BAU, middle and top of
        the range run), no values of variables, emissions or categories. Separates Map+'s two parts.
+  E3 (docs/run_design_E3_2026-11-17.md), each one change from v1 (Map+):
+  v3   "H": v1 without the lever's calibration (no input values at the lever); values everywhere else as in v1
+  v4   "L": v1 + ROLE_SENTENCE in the lever's reply, next to the calibration (information)
+  v5   "T": v1 + ROLE_SENTENCE in the model_network tool description (instruction; harness/registry.py tools_for)
 """
 
 import difflib
@@ -34,7 +38,13 @@ ATTRIBUTE_OVERRIDES = {"GDP": {"units": UNITS["gdp"], "information": f"GDP in {U
 
 NET = Path(__file__).parents[1] / "network" / "out"
 INPUTS = Path(__file__).parents[1] / "data" / "tables"
-ARMS = {"v0": (False, False), "v1": (True, True), "v2": (True, False)}   # (show_inputs, show_values)
+ARMS = {"v0": (False, False), "v1": (True, True), "v2": (True, False),   # (show_inputs, show_values)
+        "v3": (False, True), "v4": (True, True), "v5": (True, True)}
+# E3: the same words in the lever's reply (v4) and in the tool description (v5)
+ROLE_SENTENCE = ("A lever's input values are its settings: what each lever level means. They are not results. "
+                 "Quantities the lever changes, such as amounts of energy, food, waste or biogas, are further along "
+                 "the network.")
+ROLE_IN_REPLY, ROLE_IN_DESCRIPTION = {"v4"}, {"v5"}
 VERSIONS = tuple(ARMS)
 THIRDS = {"low": "0–⅓", "mid": "⅓–⅔", "high": "⅔–1"}
 NEMOMOD = "NemoMod (electricity optimisation)"
@@ -245,6 +255,8 @@ def model_network(run: Run, node, year, version: str = "v1", lever=None, uncerta
                 "fields": [{"field": r.field, "unit": r.unit,
                             "bau": _sig(r.at_0), "middle": _sig(r["at_0.5"]), "top_of_range": _sig(r.at_1)}
                            for _, r in li[li.year == yy].iterrows()]} if yy else None
+            if version in ROLE_IN_REPLY and out["input_values"]:
+                out["input_values"]["role"] = ROLE_SENTENCE
         if k == "lever" and show_values and cats:
             r = ranges(run, y)
             out["category_values"] = {c: (_cell(r, int(n[1:]), xid, third, c) if xid else {}) or

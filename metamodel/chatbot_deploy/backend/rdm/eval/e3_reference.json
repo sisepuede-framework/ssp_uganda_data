@@ -22,7 +22,7 @@
   "key_rule": "value inside p10–p90 of the lever's top third",
   "new": false,
   "visit": "Biogas Recovered from Landfills",
-  "status": "draft, awaiting Alexa's approval (2026-11-17)"
+  "status": "approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md"
  },
  "S3": {
   "set": "S",
@@ -47,7 +47,7 @@
   "key_rule": "value inside p10–p90 of the lever's top third",
   "new": false,
   "visit": "Area of Improved Land",
-  "status": "draft, awaiting Alexa's approval (2026-11-17)"
+  "status": "approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md"
  },
  "R1": {
   "set": "S",
@@ -72,7 +72,7 @@
   "key_rule": "value inside p10–p90 of the lever's top third",
   "new": false,
   "visit": "Biogas Recovered from Wastewater Treatment Plants",
-  "status": "draft, awaiting Alexa's approval (2026-11-17)"
+  "status": "approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md"
  },
  "R3": {
   "set": "S",
@@ -97,7 +97,7 @@
   "key_rule": "value inside p10–p90 of the lever's top third",
   "new": false,
   "visit": "Electrical Transmission Loss",
-  "status": "draft, awaiting Alexa's approval (2026-11-17)"
+  "status": "approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md"
  },
  "R6": {
   "set": "S",
@@ -122,7 +122,7 @@
   "key_rule": "value inside p10–p90 of the lever's top third",
   "new": false,
   "visit": "Total Food Produced Lost Before Consumption",
-  "status": "draft, awaiting Alexa's approval (2026-11-17)"
+  "status": "approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md"
  },
  "R8": {
   "set": "S",
@@ -147,7 +147,7 @@
   "key_rule": "value inside p10–p90 of the lever's top third",
   "new": false,
   "visit": "Total MSW Recovered for Energy",
-  "status": "draft, awaiting Alexa's approval (2026-11-17)"
+  "status": "approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md"
  },
  "N1": {
   "set": "S",
@@ -172,7 +172,7 @@
   "key_rule": "value inside p10–p90 of the lever's top third",
   "new": true,
   "visit": "Total ISW Recovered for Energy",
-  "status": "draft, awaiting Alexa's approval (2026-11-17)"
+  "status": "approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md"
  },
  "N2": {
   "set": "S",
@@ -197,7 +197,7 @@
   "key_rule": "value inside p10–p90 of the lever's top third",
   "new": true,
   "visit": "LSMM Biogas Recovered from Anaerobic Digesters",
-  "status": "draft, awaiting Alexa's approval (2026-11-17)"
+  "status": "approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md"
  },
  "N3": {
   "set": "S",
@@ -222,7 +222,7 @@
   "key_rule": "value inside p10–p90 of the lever's top third",
   "new": true,
   "visit": "Dung Incinerated",
-  "status": "draft, awaiting Alexa's approval (2026-11-17)"
+  "status": "approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md"
  },
  "N4": {
   "set": "S",
@@ -247,7 +247,7 @@
   "key_rule": "value inside p10–p90 of the lever's top third",
   "new": true,
   "visit": "Total Waste Recycled",
-  "status": "draft, awaiting Alexa's approval (2026-11-17)"
+  "status": "approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md"
  },
  "N5": {
   "set": "S",
@@ -272,7 +272,7 @@
   "key_rule": "value inside p10–p90 of the lever's top third",
   "new": true,
   "visit": "Total Waste Composted",
-  "status": "draft, awaiting Alexa's approval (2026-11-17)"
+  "status": "approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md"
  },
  "N6": {
   "set": "S",
@@ -297,7 +297,7 @@
   "key_rule": "value inside p10–p90 of the lever's top third",
   "new": true,
   "visit": "Total Waste Anaerobic Biogas",
-  "status": "draft, awaiting Alexa's approval (2026-11-17)"
+  "status": "approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md"
  },
  "R4": {
   "set": "O",
@@ -322,7 +322,7 @@
   "key_rule": "value inside p10–p90 of the lever's top third",
   "new": false,
   "visit": "Total Electrical Energy Consumption from Industrial Energy",
-  "status": "draft, awaiting Alexa's approval (2026-11-17)"
+  "status": "approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md"
  },
  "R5": {
   "set": "O",
@@ -347,7 +347,7 @@
   "key_rule": "value inside p10–p90 of the lever's top third",
   "new": false,
   "visit": "Total Electrical Energy Consumption from SCOE",
-  "status": "draft, awaiting Alexa's approval (2026-11-17)"
+  "status": "approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md"
  },
  "R7": {
   "set": "O",
@@ -372,7 +372,7 @@
   "key_rule": "value inside p10–p90 of the lever's top third",
   "new": false,
   "visit": "Total Energy Consumption from Transportation",
-  "status": "draft, awaiting Alexa's approval (2026-11-17)"
+  "status": "approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md"
  },
  "S35": {
   "set": "O",
@@ -397,7 +397,7 @@
   "key_rule": "value inside p10–p90 of the lever's top third",
   "new": false,
   "visit": "Vehicle Distance Traveled from Electricity",
-  "status": "draft, awaiting Alexa's approval (2026-11-17)"
+  "status": "approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md"
  },
  "HD1": {
   "set": "O",
@@ -422,7 +422,7 @@
   "key_rule": "an increase of about 3 to 5 PJ (bottom third 56.0 PJ → top third 59.9 PJ); a level of 59–60.5 PJ also counts",
   "new": false,
   "visit": "Total Electrical Energy Consumption from Transportation",
-  "status": "draft, awaiting Alexa's approval (2026-11-17)"
+  "status": "approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md"
  },
  "O1": {
   "set": "O",
@@ -447,7 +447,7 @@
   "key_rule": "value inside p10–p90 of the lever's top third",
   "new": true,
   "visit": "Total Energy Consumption from SCOE",
-  "status": "draft, awaiting Alexa's approval (2026-11-17)"
+  "status": "approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md"
  },
  "O2": {
   "set": "O",
@@ -472,7 +472,7 @@
   "key_rule": "value inside p10–p90 of the lever's top third",
   "new": true,
   "visit": "Total Nitrogen Removed in Treatment",
-  "status": "draft, awaiting Alexa's approval (2026-11-17)"
+  "status": "approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md"
  },
  "O3": {
   "set": "O",
@@ -497,6 +497,6 @@
   "key_rule": "value inside p10–p90 of the lever's top third",
   "new": true,
   "visit": "Total Energy Consumption from Industrial Energy",
-  "status": "draft, awaiting Alexa's approval (2026-11-17)"
+  "status": "approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md"
  }
 }

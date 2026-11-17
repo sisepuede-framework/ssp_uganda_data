@@ -38,9 +38,10 @@ values of every variable), v2 **Map+lever** (lever calibration only).
 | P5 | 2026-11-16 | Smoke test of Map+lever (WW1) | — | `smoke_v2_2026_11_16` | 1 | — | done (code uncommitted at the time; not analysed) |
 | E2 | 2026-11-16 | Run v4: A Map+lever on the bank; B 8 held-out retrieval questions × 3 arms; C drift check | `docs/run_design_v4_2026-11-16.md`, `498c254`; analysis `5ba8aa7` | `bank_v4`, `retrieval_v4`, `bank_v4_drift` | 323 | AC: `backend/rdm/eval/analyze_v4.py` → `run_v4_analysis.xlsx` | done; **hand check of 12 matched values pending** |
 | A4 | 2026-11-16 | Why did the agent not reach the answer? Is it the question wording? | — | `retrieval_v4` (+ `bank_v3_full`) | — | AX: `stop_coding_v4.py` → `run_v4_stop_coding.xlsx`; `question_pattern_v4.py` → `question_pattern_v4.xlsx` | done; **hand check pending** |
-| E3a | planned | Does an answer-like number at the lever make the agent stop? P (Map+) vs H (calibration hidden), 12 share-type questions × 5; check on 8 other-type × 3 | `docs/run_design_E3_DRAFT_v2_2026-11-17.md` (draft v2; v1 superseded); power `results_analysis/code/power_e3.py` | — | 168 planned (P shared) | — | **plan approved 2026-11-17; questions awaiting approval** (`e3_questions.py` → `e3_reference.json`, Word table `docs/E3_questions_2026-11-17.docx`) |
-| E3b | planned | Does one role sentence keep it searching, as information (L, in the lever's reply) or instruction (T, in the tool description)? 12 share-type × 5; translation guard 15 × 1 | same | — | 165 planned | — | **plan approved; questions awaiting approval** |
-| E3c | planned | Does naming the unit ("how many tonnes") stop it answering with a share? P, general vs explicit wording, 12 share-type × 5 | same | — | 60 planned | — | **plan approved; questions awaiting approval** |
+| P6 | 2026-11-17 | Smoke test of arms H, L, T (WW1) | — | `smoke_e3_2026_11_17` | 3 | — | done (code uncommitted at the time; not analysed): H shows no calibration and ran no policy; L and T set L46 = 0.72 |
+| E3a | planned | Does an answer-like number at the lever make the agent stop? P (Map+) vs H (calibration hidden), 12 share-type questions × 5; check on 8 other-type × 3 | `docs/run_design_E3_2026-11-17.md` (draft v2; v1 superseded); power `results_analysis/code/power_e3.py` | — | 168 planned (P shared) | — | **frozen and running 2026-11-17** (questions approved; `e3_questions.py` → `e3_reference.json`; runner `run_e3.py`; analysis `analyze_e3.py`; data `e3_S`, `e3_SX`, `e3_O`, `e3_G`) |
+| E3b | planned | Does one role sentence keep it searching, as information (L, in the lever's reply) or instruction (T, in the tool description)? 12 share-type × 5; translation guard 15 × 1 | same | `e3_S`, `e3_G` | 165 planned | `analyze_e3.py` | **frozen and running 2026-11-17** |
+| E3c | planned | Does naming the unit ("how many tonnes") stop it answering with a share? P, general vs explicit wording, 12 share-type × 5 | same | `e3_SX` | 60 planned | `analyze_e3.py` | **frozen and running 2026-11-17** |
 
 ## Headline results (details in each analysis)
 
@@ -74,7 +75,7 @@ values of every variable), v2 **Map+lever** (lever calibration only).
 
 ## Where things are
 
-- Designs: `docs/question_bank_v3.md`, `docs/run_design_v4_2026-11-16.md`, `docs/run_design_v5_DRAFT_2026-11-16.md` (superseded), `docs/run_design_E3_DRAFT_2026-11-17.md` (superseded), `docs/run_design_E3_DRAFT_v2_2026-11-17.md`
+- Designs: `docs/question_bank_v3.md`, `docs/run_design_v4_2026-11-16.md`, `docs/run_design_v5_DRAFT_2026-11-16.md` (superseded), `docs/run_design_E3_DRAFT_2026-11-17.md` (superseded), `docs/run_design_E3_2026-11-17.md`
 - Literature: Elicit reports in `~/Downloads/` (innovation assessment 2026-11-16; premature stopping 2026-11-17)
 - Questions and keys: `backend/rdm/eval/questions.py`, `bank_reference.json`, `retrieval_v4_reference.json`
 - Runner and scoring: `backend/rdm/eval/run_bank.py`, `failure_modes.py`

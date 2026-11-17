@@ -120,6 +120,16 @@ TOOLS = [
 TOOL_NAMES = [t["name"] for t in TOOLS]
 
 
+def tools_for(arm: str) -> list:
+    """The tool list the agent sees in an arm. Identical in every arm except E3's v5 ("T"), where the role sentence is
+    appended to the model_network description (the instruction counterpart of v4's sentence in the reply)."""
+    from backend.rdm.tools.network import ROLE_IN_DESCRIPTION, ROLE_SENTENCE
+    if arm not in ROLE_IN_DESCRIPTION:
+        return TOOLS
+    return [{**t, "description": f"{t['description']} {ROLE_SENTENCE}"} if t["name"] == "model_network" else t
+            for t in TOOLS]
+
+
 def _ids(d: dict) -> dict:
     out = {}
     for k, v in (d or {}).items():

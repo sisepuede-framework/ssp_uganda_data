@@ -242,7 +242,28 @@ RETRIEVAL_V4_SPECS = {
                        f"{r['unit']}", "says this is the most ambitious level explored in the model runs"]}
     for qid, r in _R4_REF.items()}
 
-SETS = {"pilot": PILOT, "pairs": PAIRS, "scenario": SCENARIO, "bank": BANK, "retrieval_v4": RETRIEVAL_V4}
+# ── E3 question sets (docs/run_design_E3_2026-11-17.md), approved by Alexa 2026-11-17 as written ───────────
+# Read from e3_reference.json (e3_questions.py). S: 12 share-type, general wording; SX: the same 12, explicit wording
+# (unit named); O: 8 other-type, general. G (translation guard) is the bank's T1 questions, run with set "bank".
+_E3 = Path(__file__).parent / "e3_reference.json"
+_E3_REF = json.loads(_E3.read_text()) if _E3.exists() else {}
+E3_S = {q: {"question": r["question_general"], "replies": []} for q, r in _E3_REF.items() if r["set"] == "S"}
+E3_SX = {q: {"question": r["question_explicit"], "replies": []} for q, r in _E3_REF.items() if r["set"] == "S"}
+E3_O = {q: {"question": r["question_general"], "replies": []} for q, r in _E3_REF.items() if r["set"] == "O"}
+E3_SPECS = {
+    q: {"tag": "e3_share" if r["share_type"] else "e3_other", "kind": "T2", "lever": r["lever"], "run_expected": False,
+        "expected_source": T2_SOURCE, "visit": [rf"^{re.escape(r['node'])}$|{re.escape(r['field'])}"],
+        "key": {"field": r["field"], "unit": r["unit"], "median": r["key_median"], "p10": r["key_p10"],
+                "p90": r["key_p90"], "rule": r["key_rule"]},
+        "must_say": ([f"gives a value from the model runs between {r['key_p10']:.4g} and {r['key_p90']:.4g} {r['unit']}"]
+                     if q != "HD1" else ["gives an increase of about 3 to 5 PJ (about 56 to 60 PJ) from the model runs, "
+                                         "not the surrogate"])
+                    + ["says this is the most ambitious level explored in the model runs"]}
+    for q, r in _E3_REF.items()}
+E3_G = ["P50i", "P12i", "B6", "AG1", "LV1", "BLD1", "WW1", "H1", "H2", "H3", "X1", "D3b", "HA1", "HE1", "TO1"]
+
+SETS = {"pilot": PILOT, "pairs": PAIRS, "scenario": SCENARIO, "bank": BANK, "retrieval_v4": RETRIEVAL_V4,
+        "e3_S": E3_S, "e3_SX": E3_SX, "e3_O": E3_O}
 SCENARIO_REFERENCE = Path(__file__).parent / "scenario_reference.json"
 REFERENCE = Path(__file__).parent / "pairs_reference.json"
 

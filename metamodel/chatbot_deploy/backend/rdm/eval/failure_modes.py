@@ -491,8 +491,9 @@ def _next_part(spec: dict, part: dict):
 
 
 def table(runs_dir: Path, reader: bool = False) -> pd.DataFrame:
-    from backend.rdm.eval.questions import BANK_SPECS, RETRIEVAL_V4_SPECS, SPECS
-    by_set = {"bank": BANK_SPECS, "retrieval_v4": RETRIEVAL_V4_SPECS}
+    from backend.rdm.eval.questions import BANK_SPECS, E3_SPECS, RETRIEVAL_V4_SPECS, SPECS
+    by_set = {"bank": BANK_SPECS, "retrieval_v4": RETRIEVAL_V4_SPECS, "e3_S": E3_SPECS, "e3_SX": E3_SPECS,
+              "e3_O": E3_SPECS}
     rows = []
     for p in sorted(runs_dir.rglob("*.json")):
         run = json.loads(p.read_text())

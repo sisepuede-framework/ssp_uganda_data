@@ -124,7 +124,7 @@ def main():
         setattr(sec, side, Cm(1.3))
 
     para(doc, "E3 questions — for your approval", 14, True)
-    para(doc, "17 November 2026. Plan approved (docs/run_design_E3_DRAFT_v2_2026-11-17, 393 conversations). Nothing "
+    para(doc, "17 November 2026. Plan approved (docs/run_design_E3_2026-11-17, 393 conversations). Nothing "
               "has been run on these questions. When you approve (or edit) them, they are frozen in git with the run "
               "design before the first conversation.")
     para(doc, "How to read the table", 11, True)

@@ -1,5 +1,5 @@
 """
-E3 question sets (docs/run_design_E3_DRAFT_v2_2026-11-17.md), drafted 2026-11-17: DRAFT, awaiting Alexa's approval.
+E3 question sets (docs/run_design_E3_2026-11-17.md), approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md.
 
 Sets
   S   12 share-type targets, general wording ("how much ...")          E3a, E3b, E3c
@@ -156,7 +156,7 @@ def main():
             "question_general": general, "question_explicit": explicit,
             "key_rule": CHANGE_KEY.get(qid, "value inside p10–p90 of the lever's top third"),
             "new": qid not in REUSED, "visit": node_id,
-            "status": "draft, awaiting Alexa's approval (2026-11-17)"}
+            "status": "approved by Alexa 2026-11-17 as written; frozen with docs/run_design_E3_2026-11-17.md"}
         print(f"{qid:4s} {'S' if share else 'O'} L{lever:<3} {node[:48]:48s} {out[qid]['steps_from_lever']} steps  key "
               f"{v['high']['median']:.4g} ({v['high']['p10_p90'][0]:.4g}–{v['high']['p10_p90'][1]:.4g}) {f['unit']}")
     OUT.write_text(json.dumps(out, indent=1, ensure_ascii=False))

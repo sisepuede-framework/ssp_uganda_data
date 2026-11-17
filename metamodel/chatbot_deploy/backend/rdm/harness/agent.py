@@ -24,7 +24,7 @@ import anthropic
 
 from backend.config import settings
 from backend.rdm.harness.prompt import system_prompt
-from backend.rdm.harness.registry import TOOLS, Harness
+from backend.rdm.harness.registry import Harness, tools_for
 
 MODEL = "claude-sonnet-5-5"     # decided 2026-10-13: the newest and cheapest; the same in every arm
 EFFORT = "medium"
@@ -57,7 +57,7 @@ def versions(h: Harness, system_text: str) -> dict:
         commit, dirty = None, None
     tables = Path(__file__).parents[1] / "data" / "tables"
     return {"git_commit": commit, "rdm_code_uncommitted_changes": dirty,
-            "system_prompt_sha": _sha(system_text.encode()), "tools_sha": _sha(TOOLS),
+            "system_prompt_sha": _sha(system_text.encode()), "tools_sha": _sha(tools_for(h.version)),
             "tables_sha": {f.name: _sha(f.read_bytes()) for f in sorted(tables.glob(f"{h.run.name}_*"))},
             "surrogate_sha": _sha(h.run.surrogate_path.read_bytes()) if getattr(h.run, "surrogate_path", None) else None}
 
@@ -76,7 +76,7 @@ def converse(question: str, arm: str, replies: list | None = None, model: str = 
     t0, started = time.time(), datetime.now(timezone.utc).isoformat()
 
     for step in range(MAX_STEPS):
-        r = client.messages.create(model=model, max_tokens=MAX_TOKENS, system=system, tools=TOOLS,
+        r = client.messages.create(model=model, max_tokens=MAX_TOKENS, system=system, tools=tools_for(arm),
                                    messages=messages, output_config={"effort": effort},
                                    # display only: thinking is billed the same, the summary is kept in the log
                                    thinking={"type": "adaptive", "display": "summarized"})
