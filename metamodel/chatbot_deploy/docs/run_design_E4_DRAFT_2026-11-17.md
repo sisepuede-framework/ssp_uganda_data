@@ -42,7 +42,7 @@ P is run again, not reused from E3, because:
 - E3 already showed a day-to-day difference: P on other-type questions reached 8 of 24 vs 17 of 25 in E1/E2;
 - it costs about $5.
 
-E3's H, L, T and SX are reported next to C as counts only, with no test, since they ran on another day.
+E3's H, L, T and SX are reported next to C as counts only, with no test, since they ran separately (hours earlier).
 
 | Set | Questions (unchanged from E3) | Arms | Repetitions | Conversations |
 |---|---|---|---|---|

@@ -21,7 +21,7 @@ Secondary
   set O (8 other-type × 3): C vs P on reached and valid; S old vs new targets; S without N1, N6; stop codes by arm;
   meaning use (share of conversations that asked; asked before the first walk step); in G, off-key by whether the
   agent asked for the meaning.
-Historical (descriptive, no p: other day): C against E3's H, L, T and SX on set S; E4's P against E3's P (drift).
+Historical (descriptive, no p: run separately): C against E3's H, L, T and SX on set S; E4's P against E3's P (drift).
 """
 import json
 import re
@@ -98,7 +98,7 @@ def secondary(s: pd.DataFrame, o: pd.DataFrame, rng) -> tuple:
 
 
 def historical(s: pd.DataFrame) -> pd.DataFrame:
-    """Counts only: E4 against E3 (another day; no test)."""
+    """Counts only: E4 against E3 (run separately; no test)."""
     e3 = pd.read_excel(OUT.parent / "e3_analysis.xlsx", sheet_name="Conversations (hand check)")
     rows = []
     for name, d in [("E4 C", s[s.arm == "C"]), ("E4 P", s[s.arm == "P"])] + \
