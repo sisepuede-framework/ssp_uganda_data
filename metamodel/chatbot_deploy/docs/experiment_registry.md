@@ -84,6 +84,8 @@ values of every variable), v2 **Map+lever** (lever calibration only); E3: v3 **H
 | 2026-11-17 | E3 | The stop-code table for the explicit wording (SX) was added after the results (`e3_stop_table.py`); `analyze_e3.py` listed stop codes for S and O only | descriptive; same coding rules |
 | 2026-11-17 | E4 | The workbook label of the interaction row reads "does the target help more when the calibration is shown?"; the computed value is (C − R) − (F − P), so a positive value means it helps more when the calibration is on request | none: value as pre-registered; label corrected in `results_E4_2026-11-17.md` |
 | 2026-11-17 | E4 | First launch stopped at preflight (AWS login expired); no conversation ran; relaunched after login, same commit | none |
+| 2026-11-17 | E4 | The freeze commit was amended (bcc3b73 → b032692, 6 s apart; the first commit held only the design rename after a failed `git add`); tag set on b032692 | none: before the first conversation; every log records b032692 (found by the independent review) |
+| 2026-11-17 | E3–E4 | Independent review (`docs/review_E2-E4_2026-11-17.md`) found measurement problems: the valid rule counts all-runs values and misses "Mt"; stop codes depend on a 400-character window; some keys do not discriminate; the `looking_for` example matches R6's target | to be addressed: corrected-rule sensitivity analysis and question-level tests reported next to the pre-registered results; claims reworded |
 | 2026-11-16 | A4 | `question_pattern_v4.xlsx` first built with hand-typed counts (one miscount found and fixed); replaced by `question_pattern_v4.py`, computed from the data | same numbers |
 
 ## Where things are
