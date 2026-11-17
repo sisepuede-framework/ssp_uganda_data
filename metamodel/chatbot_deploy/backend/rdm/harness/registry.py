@@ -120,10 +120,32 @@ TOOLS = [
 TOOL_NAMES = [t["name"] for t in TOOLS]
 
 
+ON_REQUEST_DESCRIPTION = ("A lever's reply does not show what its levels mean. To translate the user's words into a "
+                          "lever level, call it with meaning=true: you get the lever's input settings at BAU, the "
+                          "middle and the range maximum.")
+ON_REQUEST_PROPS = {
+    "looking_for": {"type": "string", "description": "Required: what you are looking for, with its unit, as the user "
+                                                     "asked it (e.g. \"food lost, tonnes per year, 2050\"), or what a "
+                                                     "lever level should mean (e.g. \"L35 level for half of cars "
+                                                     "electric\"). Decide it before your first call and keep it while "
+                                                     "you search."},
+    "meaning": {"type": "boolean", "description": "With a lever: true returns only what the lever's levels mean (its "
+                                                  "input settings). Use it to translate the user's words into a lever "
+                                                  "level."}}
+
+
 def tools_for(arm: str) -> list:
     """The tool list the agent sees in an arm. Identical in every arm except E3's v5 ("T"), where the role sentence is
-    appended to the model_network description (the instruction counterpart of v4's sentence in the reply)."""
-    from backend.rdm.tools.network import ROLE_IN_DESCRIPTION, ROLE_SENTENCE
+    appended to the model_network description (the instruction counterpart of v4's sentence in the reply), and E4's
+    v6 ("C"), where model_network takes meaning (the calibration on request) and a required looking_for."""
+    from backend.rdm.tools.network import ON_REQUEST, ROLE_IN_DESCRIPTION, ROLE_SENTENCE
+    if arm in ON_REQUEST:
+        def c(t):
+            sch = t["input_schema"]
+            return {**t, "description": f"{t['description']} {ON_REQUEST_DESCRIPTION}",
+                    "input_schema": {**sch, "properties": {**sch["properties"], **ON_REQUEST_PROPS},
+                                     "required": sch["required"] + ["looking_for"]}}
+        return [c(t) if t["name"] == "model_network" else t for t in TOOLS]
     if arm not in ROLE_IN_DESCRIPTION:
         return TOOLS
     return [{**t, "description": f"{t['description']} {ROLE_SENTENCE}"} if t["name"] == "model_network" else t
@@ -155,7 +177,8 @@ def _params(name: str, a: dict, result: dict) -> dict:
         return {"ensemble": a.get("ensemble_id"), "policies": a.get("policies")}
     if name == "model_network":
         return {"node": a.get("node"), "year": a.get("year"), "lever": a.get("lever"),
-                "uncertainty": a.get("uncertainty"), "third": a.get("third"), "node_kind": result.get("kind")}
+                "uncertainty": a.get("uncertainty"), "third": a.get("third"), "node_kind": result.get("kind"),
+                "meaning": a.get("meaning"), "looking_for": a.get("looking_for")}
     return dict(a)
 
 
@@ -200,7 +223,8 @@ class Harness:
                                                 a.get("policies"))
         if name == "model_network":
             return information.model_network(self.run, a["node"], a["year"], self.version, a.get("lever"),
-                                             a.get("uncertainty"), a.get("third"))
+                                             a.get("uncertainty"), a.get("third"), a.get("meaning"),
+                                             a.get("looking_for"))
         if name == "country_context":
             return country_context(a["topic"])
         raise ToolError("UNKNOWN_TOOL", f"Unknown tool {name!r}; tools: {TOOL_NAMES}")

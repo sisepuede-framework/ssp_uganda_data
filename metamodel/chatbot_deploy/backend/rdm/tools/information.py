@@ -66,8 +66,9 @@ def unit(field: str) -> str:
 
 # ── model_network ────────────────────────────────────────────────────────────
 
-def model_network(run: Run, node, year, version: str = "v1", lever=None, uncertainty=None, third=None) -> dict:
+def model_network(run: Run, node, year, version: str = "v1", lever=None, uncertainty=None, third=None,
+                  meaning=None, looking_for=None) -> dict:
     """One node of the SISEPUEDE network, what it is computed from and what it is used to compute; values in the
     v1 arms. See tools/network.py."""
     from backend.rdm.tools.network import model_network as navigate
-    return navigate(run, node, year, version, lever, uncertainty, third)
+    return navigate(run, node, year, version, lever, uncertainty, third, meaning, looking_for)

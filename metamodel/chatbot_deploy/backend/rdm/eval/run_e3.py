@@ -70,7 +70,7 @@ def one(folder: str, qset: str, qid: str, arm: str, rep: int) -> str:
         return _infra(folder, path.stem, {**base, "error": f"{type(e).__name__}: {e}"})
     except anthropic.APIConnectionError as e:
         return _infra(folder, path.stem, {**base, "error": f"{type(e).__name__}: {e}"})
-    run.update(question_id=qid, rep=rep, question_set=qset, condition="e3")
+    run.update(question_id=qid, rep=rep, question_set=qset, condition=folder.split("_")[0])  # "e3", "e4"
     faults = sorted({c.get("error_code") for c in run["tool_log"]} & INFRA_CODES)
     if faults:
         return _infra(folder, path.stem, {**run, "error": f"infrastructure fault in a tool: {faults}"})
