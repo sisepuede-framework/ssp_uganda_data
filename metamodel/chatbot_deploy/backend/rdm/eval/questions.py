@@ -13,6 +13,7 @@ Question sets for the pilots, with the reference answer each one is scored again
 """
 
 import json
+import re
 from pathlib import Path
 
 import numpy as np
@@ -227,7 +228,21 @@ BANK_SPECS = {
             "must_say": ["says GDP growth is an uncertainty Uganda does not choose, not a policy"]},
 }
 
-SETS = {"pilot": PILOT, "pairs": PAIRS, "scenario": SCENARIO, "bank": BANK}
+# ── Held-out retrieval questions R1–R8 (docs/run_design_v4_2026-11-16.md) ────────────────────────────────────────
+# Read from retrieval_v4_reference.json (written by retrieval_v4.py with the keys). Approved and frozen 2026-11-16; the key is model_network's value for the lever's top third, 2050, p10–p90 (as the S questions).
+_R4 = Path(__file__).parent / "retrieval_v4_reference.json"
+_R4_REF = json.loads(_R4.read_text()) if _R4.exists() else {}
+RETRIEVAL_V4 = {qid: {"question": r["question"], "replies": []} for qid, r in _R4_REF.items()}
+RETRIEVAL_V4_SPECS = {
+    qid: {"tag": "heldout", "kind": "T2", "lever": r["lever"], "run_expected": False, "expected_source": T2_SOURCE,
+          "visit": [rf"^{re.escape(r['node'])}$|{re.escape(r['field'])}"],
+          "key": {"field": r["field"], "unit": r["unit"], "median": r["key_median"], "p10": r["key_p10"],
+                  "p90": r["key_p90"]},
+          "must_say": [f"gives a value from the model runs between {r['key_p10']:.4g} and {r['key_p90']:.4g} "
+                       f"{r['unit']}", "says this is the most ambitious level explored in the model runs"]}
+    for qid, r in _R4_REF.items()}
+
+SETS = {"pilot": PILOT, "pairs": PAIRS, "scenario": SCENARIO, "bank": BANK, "retrieval_v4": RETRIEVAL_V4}
 SCENARIO_REFERENCE = Path(__file__).parent / "scenario_reference.json"
 REFERENCE = Path(__file__).parent / "pairs_reference.json"
 

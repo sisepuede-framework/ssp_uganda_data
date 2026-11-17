@@ -14,6 +14,8 @@ a lever's thirds if a lever is given, within one uncertainty's third if one is g
   v0   relations only: nodes, attributes, links
   v1   + what a lever sets (its inputs at BAU, middle and top of the range run) and the values of the variables,
        emissions and categories (v1_inputs / v1_outputs, one half each, were dropped 2026-10-26)
+  v2   "Map+lever" (added 2026-11-16, working paper v2): v0 + what a lever sets (its inputs at BAU, middle and top of
+       the range run), no values of variables, emissions or categories. Separates Map+'s two parts.
 """
 
 import difflib
@@ -32,7 +34,7 @@ ATTRIBUTE_OVERRIDES = {"GDP": {"units": UNITS["gdp"], "information": f"GDP in {U
 
 NET = Path(__file__).parents[1] / "network" / "out"
 INPUTS = Path(__file__).parents[1] / "data" / "tables"
-ARMS = {"v0": (False, False), "v1": (True, True)}
+ARMS = {"v0": (False, False), "v1": (True, True), "v2": (True, False)}   # (show_inputs, show_values)
 VERSIONS = tuple(ARMS)
 THIRDS = {"low": "0–⅓", "mid": "⅓–⅔", "high": "⅔–1"}
 NEMOMOD = "NemoMod (electricity optimisation)"

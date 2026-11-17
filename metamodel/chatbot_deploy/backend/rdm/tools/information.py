@@ -1,6 +1,6 @@
 """
 Information tool: model_network navigates the SISEPUEDE network read from the model code (tools/network.py).
-Relations in every arm; values only in the v1 arms.
+Relations in every arm; lever inputs in v1 and v2; values of variables only in v1.
 
 This module keeps the shared helpers other modules use (the crosswalk, units read from field names, the
 lever → output mapping measured in the runs) and hands model_network to tools/network.py.

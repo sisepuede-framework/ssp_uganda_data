@@ -491,13 +491,14 @@ def _next_part(spec: dict, part: dict):
 
 
 def table(runs_dir: Path, reader: bool = False) -> pd.DataFrame:
-    from backend.rdm.eval.questions import BANK_SPECS, SPECS
+    from backend.rdm.eval.questions import BANK_SPECS, RETRIEVAL_V4_SPECS, SPECS
+    by_set = {"bank": BANK_SPECS, "retrieval_v4": RETRIEVAL_V4_SPECS}
     rows = []
     for p in sorted(runs_dir.rglob("*.json")):
         run = json.loads(p.read_text())
         if "tool_log" not in run:
             continue
-        spec = (BANK_SPECS if run.get("question_set") == "bank" else SPECS).get(run.get("question_id"), {})
+        spec = by_set.get(run.get("question_set"), SPECS).get(run.get("question_id"), {})
         row = {"file": str(p.relative_to(runs_dir)), "question_id": run.get("question_id"), "arm": run.get("arm"),
                "rep": run.get("rep"), "tag": spec.get("tag"), "kind": spec.get("kind"), **check(run, spec)}
         if reader:

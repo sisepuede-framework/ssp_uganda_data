@@ -4,6 +4,11 @@ Full bank run (docs/question_bank_v3.md, "Run design"): every bank conversation 
     AWS_PROFILE=alexa python -m backend.rdm.eval.run_bank                 (v0 v1, 5 repetitions)
         → backend/rdm/eval/pilot_runs/bank_v3_full/<qid>_<arm>_r<rep>.json
 
+Run design v4 (docs/run_design_v4_2026-11-16.md), each part in its own folder:
+    A  ... run_bank --arms v2 --out bank_v4                                (bank × Map+lever × 5)
+    B  ... run_bank --set retrieval_v4 --arms v0 v1 v2 --out retrieval_v4  (R1–R8 × 3 arms × 5)
+    C  ... run_bank --arms v0 v1 --reps 1 --out bank_v4_drift              (drift check)
+
 Before it starts: the RDM code and backend/services are committed, the AWS login works and country_context returns
 the labelled GDP reply, and the API key answers. Conversations run 5 at a time, repetition by repetition, so a
 stopped run is balanced across arms. Runs that already exist are skipped, so a stopped run resumes.
@@ -27,7 +32,8 @@ from backend.rdm.eval.run_source_labels import pinned_reply
 from backend.rdm.harness.agent import MODEL, RUNS_DIR, converse
 from backend.rdm.tools.context import country_context
 
-OUT = RUNS_DIR / "bank_v3_full"
+OUT = RUNS_DIR / "bank_v3_full"      # set from --out in __main__
+SET = "bank"                          # set from --set in __main__
 INFRA_CODES = {"CONTEXT_UNAVAILABLE"}
 ROOT = Path(__file__).parents[3]
 
@@ -53,7 +59,7 @@ def one(qid: str, arm: str, rep: int) -> str:
     path = OUT / f"{qid}_{arm}_r{rep}.json"
     if path.exists():
         return f"skip {path.name}"
-    q = SETS["bank"][qid]
+    q = SETS[SET][qid]
     try:
         run = converse(q["question"], arm, q["replies"])
     except anthropic.APIStatusError as e:
@@ -62,7 +68,7 @@ def one(qid: str, arm: str, rep: int) -> str:
         return _infra(path, {"question_id": qid, "arm": arm, "rep": rep, "error": f"{type(e).__name__}: {e}"})
     except anthropic.APIConnectionError as e:
         return _infra(path, {"question_id": qid, "arm": arm, "rep": rep, "error": f"{type(e).__name__}: {e}"})
-    run.update(question_id=qid, rep=rep, question_set="bank", condition="full")
+    run.update(question_id=qid, rep=rep, question_set=SET, condition="full")
     faults = sorted({c.get("error_code") for c in run["tool_log"]} & INFRA_CODES)
     if faults:
         return _infra(path, {**run, "error": f"infrastructure fault in a tool: {faults}"})
@@ -93,10 +99,15 @@ if __name__ == "__main__":
     a = argparse.ArgumentParser()
     a.add_argument("--reps", type=int, default=5)
     a.add_argument("--arms", nargs="+", default=["v0", "v1"])
+    a.add_argument("--set", default="bank", choices=["bank", "retrieval_v4"])
+    a.add_argument("--out", default="bank_v3_full", help="folder under pilot_runs/")
     args = a.parse_args()
+    SET, OUT = args.set, RUNS_DIR / args.out
+    if not SETS[SET]:
+        raise SystemExit(f"question set {SET!r} is empty (retrieval_v4_reference.json missing?)")
     preflight()
     OUT.mkdir(parents=True, exist_ok=True)
-    jobs = [(qid, arm, rep) for rep in range(args.reps) for qid in SETS["bank"] for arm in args.arms]
+    jobs = [(qid, arm, rep) for rep in range(args.reps) for qid in SETS[SET] for arm in args.arms]
     try:
         failed = run_all(jobs)
         for attempt in (1, 2):
