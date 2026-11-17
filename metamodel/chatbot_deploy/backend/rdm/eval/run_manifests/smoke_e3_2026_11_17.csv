@@ -1,0 +1,4 @@
+file,bytes,sha256,question_id,arm,rep,question_set,condition,model,effort,git_commit,uncommitted_code,system_prompt_sha,tools_sha,started,error
+WW1_v3_r0.json,32772,c133e390031f5abbbc60406af38b2532eea166379079aaa38e921ccb48302fbe,WW1,v3,0,bank,smoke,claude-sonnet-5-5,medium,b47ff36037,True,7370289f01831677,8a39a215c5125f15,2026-11-17T04:31:25.217139+00:00,False
+WW1_v4_r0.json,44207,99c70fb669f371070b6cea9e0946a2fc86cc4bf4f5adf20584cb0e5759a246d1,WW1,v4,0,bank,smoke,claude-sonnet-5-5,medium,b47ff36037,True,7370289f01831677,8a39a215c5125f15,2026-11-17T04:31:25.198406+00:00,False
+WW1_v5_r0.json,42712,45349dd95e49966f56b51263b9da29c5b74e9d6c46d3af8ac413049cda789e2c,WW1,v5,0,bank,smoke,claude-sonnet-5-5,medium,b47ff36037,True,7370289f01831677,34d0cd382e76fd95,2026-11-17T04:31:25.154984+00:00,False

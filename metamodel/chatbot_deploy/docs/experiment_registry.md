@@ -39,9 +39,9 @@ values of every variable), v2 **Map+lever** (lever calibration only).
 | E2 | 2026-11-16 | Run v4: A Map+lever on the bank; B 8 held-out retrieval questions × 3 arms; C drift check | `docs/run_design_v4_2026-11-16.md`, `498c254`; analysis `5ba8aa7` | `bank_v4`, `retrieval_v4`, `bank_v4_drift` | 323 | AC: `backend/rdm/eval/analyze_v4.py` → `run_v4_analysis.xlsx` | done; **hand check of 12 matched values pending** |
 | A4 | 2026-11-16 | Why did the agent not reach the answer? Is it the question wording? | — | `retrieval_v4` (+ `bank_v3_full`) | — | AX: `stop_coding_v4.py` → `run_v4_stop_coding.xlsx`; `question_pattern_v4.py` → `question_pattern_v4.xlsx` | done; **hand check pending** |
 | P6 | 2026-11-17 | Smoke test of arms H, L, T (WW1) | — | `smoke_e3_2026_11_17` | 3 | — | done (code uncommitted at the time; not analysed): H shows no calibration and ran no policy; L and T set L46 = 0.72 |
-| E3a | planned | Does an answer-like number at the lever make the agent stop? P (Map+) vs H (calibration hidden), 12 share-type questions × 5; check on 8 other-type × 3 | `docs/run_design_E3_2026-11-17.md` (draft v2; v1 superseded); power `results_analysis/code/power_e3.py` | — | 168 planned (P shared) | — | **frozen and running 2026-11-17** (questions approved; `e3_questions.py` → `e3_reference.json`; runner `run_e3.py`; analysis `analyze_e3.py`; data `e3_S`, `e3_SX`, `e3_O`, `e3_G`) |
-| E3b | planned | Does one role sentence keep it searching, as information (L, in the lever's reply) or instruction (T, in the tool description)? 12 share-type × 5; translation guard 15 × 1 | same | `e3_S`, `e3_G` | 165 planned | `analyze_e3.py` | **frozen and running 2026-11-17** |
-| E3c | planned | Does naming the unit ("how many tonnes") stop it answering with a share? P, general vs explicit wording, 12 share-type × 5 | same | `e3_SX` | 60 planned | `analyze_e3.py` | **frozen and running 2026-11-17** |
+| E3a | planned | Does an answer-like number at the lever make the agent stop? P (Map+) vs H (calibration hidden), 12 share-type questions × 5; check on 8 other-type × 3 | `docs/run_design_E3_2026-11-17.md` (draft v2; v1 superseded); power `results_analysis/code/power_e3.py` | `e3_S`, `e3_O` | 168 (P shared) | — | **done 2026-11-17** (393/393; results `docs/results_E3_2026-11-17.md`, `results_analysis/e3_analysis.xlsx`; **hand check pending**) |
+| E3b | planned | Does one role sentence keep it searching, as information (L, in the lever's reply) or instruction (T, in the tool description)? 12 share-type × 5; translation guard 15 × 1 | same | `e3_S`, `e3_G` | 165 | `analyze_e3.py` | **done 2026-11-17; hand check pending** |
+| E3c | planned | Does naming the unit ("how many tonnes") stop it answering with a share? P, general vs explicit wording, 12 share-type × 5 | same | `e3_SX` | 60 | `analyze_e3.py` | **done 2026-11-17; hand check pending** |
 
 ## Headline results (details in each analysis)
 
@@ -59,6 +59,8 @@ values of every variable), v2 **Map+lever** (lever calibration only).
   Two forms of stopping: "nearby quantity" (answers with the lever's share; R3, R6, R8) and "said unavailable"
   (R1, R2, R7).
 
+- **E3 (2026-11-17; `docs/results_E3_2026-11-17.md`; before the hand check):** hiding the lever's calibration (H) raised reaching the answer from 9 to 44 of 60 and valid answers from 8 to 44 (p < 0.001), also on the 6 new targets (6 → 19 of 30) and on other-type questions (8 → 18 of 24). The role sentence helped less: valid 8 → 18 of 60 both in the reply (L) and in the instructions (T); placement made no difference (18 vs 18). Naming the unit: valid 8 → 17, answering with the lever's share 20 → 4, but "said unavailable" 20 → 30. Translation unharmed (1–2 of 15 off key).
+
 ## Deviations and version notes
 
 | Date | Test | What happened | Effect |
@@ -71,10 +73,14 @@ values of every variable), v2 **Map+lever** (lever calibration only).
 | 2026-11-16 | A2 | The walk-to-answer measure (16 vs 7 of 20) was defined on 10-28, after E1's results | labelled exploratory; tested prospectively in E2 part B |
 | 2026-11-16 | E2 | `analyze_v4.py` committed during part A (needed by the preflight of parts B and C): part A logs record `498c254`, B and C `5ba8aa7` | none: the commits differ only by the analysis file |
 | 2026-11-16 | E2 | Network calls in the drift check fell slightly outside October's spread | per design, calls compared with part C, not October; same conclusions |
+| 2026-11-17 | E3 | The first freeze commit `4cd5de4` held only the rename of the design file (a failed `git add`); completed in `3a66a2d` and the tag `exp/E3-frozen` moved there | none: before the first conversation; every E3 log records `3a66a2d` |
+| 2026-11-17 | E3 | Control P on other-type questions reached the answer less often than Map+ did in E1/E2 on similar targets (8/24 vs 17/25) | within-E3 comparisons use the concurrent control; reported as a caveat |
+| 2026-11-17 | E3 | The stop-code table for the explicit wording (SX) was added after the results (`e3_stop_table.py`); `analyze_e3.py` listed stop codes for S and O only | descriptive; same coding rules |
 | 2026-11-16 | A4 | `question_pattern_v4.xlsx` first built with hand-typed counts (one miscount found and fixed); replaced by `question_pattern_v4.py`, computed from the data | same numbers |
 
 ## Where things are
 
+- Results: `docs/results_E3_2026-11-17.md`
 - Designs: `docs/question_bank_v3.md`, `docs/run_design_v4_2026-11-16.md`, `docs/run_design_v5_DRAFT_2026-11-16.md` (superseded), `docs/run_design_E3_DRAFT_2026-11-17.md` (superseded), `docs/run_design_E3_2026-11-17.md`
 - Literature: Elicit reports in `~/Downloads/` (innovation assessment 2026-11-16; premature stopping 2026-11-17)
 - Questions and keys: `backend/rdm/eval/questions.py`, `bank_reference.json`, `retrieval_v4_reference.json`
