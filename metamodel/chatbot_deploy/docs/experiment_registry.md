@@ -43,8 +43,8 @@ values of every variable), v2 **Map+lever** (lever calibration only); E3: v3 **H
 | E3b | planned | Does one role sentence keep it searching, as information (L, in the lever's reply) or instruction (T, in the tool description)? 12 share-type × 5; translation guard 15 × 1 | same | `e3_S`, `e3_G` | 165 | `analyze_e3.py` | **done 2026-11-17; hand check pending** |
 | E3c | planned | Does naming the unit ("how many tonnes") stop it answering with a share? P, general vs explicit wording, 12 share-type × 5 | same | `e3_SX` | 60 | `analyze_e3.py` | **done 2026-11-17; hand check pending** |
 | P7 | 2026-11-17 | Smoke test of arms C, R, F: S50, R6, P50i | — | `smoke_e4_2026_11_17` | 7 | — | done (code uncommitted at the time; not analysed): translation right in every arm (L50 = 0.69); C R6 reached and answered; R R6 answered with the share |
-| E4a | 2026-11-17 | 2×2 + H: calibration on request (R), stated target `looking_for` (F), both (C) vs Map+ (P) and hidden (H). Which change keeps the agent searching? 12 share-type × 10; other-type 8 × 3 | `docs/run_design_E4_2026-11-17.md`; power `results_analysis/code/power_e4.py` | `e4_S`, `e4_O` | 720 | AC: `analyze_e4.py` (6 contrasts, Holm) | frozen |
-| E4b | 2026-11-17 | Do R, F, C still translate the user's words into the right lever level (and does H fail)? 15 T1 × 3, all five arms | same | `e4_G` | 225 | `analyze_e4.py` | frozen |
+| E4a | 2026-11-17 | 2×2 + H: calibration on request (R), stated target `looking_for` (F), both (C) vs Map+ (P) and hidden (H). Which change keeps the agent searching? 12 share-type × 10; other-type 8 × 3 | `docs/run_design_E4_2026-11-17.md`; power `results_analysis/code/power_e4.py` | `e4_S`, `e4_O` | 720 | AC: `analyze_e4.py` (6 contrasts, Holm) | **done 2026-11-17** (945/945; results `docs/results_E4_2026-11-17.md`, `results_analysis/e4_analysis.xlsx`; **hand check pending**) |
+| E4b | 2026-11-17 | Do R, F, C still translate the user's words into the right lever level (and does H fail)? 15 T1 × 3, all five arms | same | `e4_G` | 225 | `analyze_e4.py` | **done 2026-11-17; hand check pending** |
 
 ## Headline results (details in each analysis)
 
@@ -63,6 +63,9 @@ values of every variable), v2 **Map+lever** (lever calibration only); E3: v3 **H
   (R1, R2, R7).
 
 - **E3 (2026-11-17; `docs/results_E3_2026-11-17.md`; before the hand check):** hiding the lever's calibration (H) raised reaching the answer from 9 to 44 of 60 and valid answers from 8 to 44 (p < 0.001), also on the 6 new targets (6 → 19 of 30) and on other-type questions (8 → 18 of 24). The role sentence helped less: valid 8 → 18 of 60 both in the reply (L) and in the instructions (T); placement made no difference (18 vs 18). Naming the unit: valid 8 → 17, answering with the lever's share 20 → 4, but "said unavailable" 20 → 30. Translation unharmed (1–2 of 15 off key).
+- **E4 (before hand check):** valid of 120: P 15, R (calibration on request) 17, F (stated target) 33, C (both) 61,
+  H 90. R = P because the agent always asks for the meaning first. C reduces both forms of stopping. Translation off
+  the key of 45: P 5, R 4, F 4, C 3, **H 31**.
 
 ## Deviations and version notes
 
@@ -79,6 +82,8 @@ values of every variable), v2 **Map+lever** (lever calibration only); E3: v3 **H
 | 2026-11-17 | E3 | The first freeze commit `4cd5de4` held only the rename of the design file (a failed `git add`); completed in `3a66a2d` and the tag `exp/E3-frozen` moved there | none: before the first conversation; every E3 log records `3a66a2d` |
 | 2026-11-17 | E3 | Control P on other-type questions reached the answer less often than Map+ did in E1/E2 on similar targets (8/24 vs 17/25) | within-E3 comparisons use the concurrent control; reported as a caveat |
 | 2026-11-17 | E3 | The stop-code table for the explicit wording (SX) was added after the results (`e3_stop_table.py`); `analyze_e3.py` listed stop codes for S and O only | descriptive; same coding rules |
+| 2026-11-17 | E4 | The workbook label of the interaction row reads "does the target help more when the calibration is shown?"; the computed value is (C − R) − (F − P), so a positive value means it helps more when the calibration is on request | none: value as pre-registered; label corrected in `results_E4_2026-11-17.md` |
+| 2026-11-17 | E4 | First launch stopped at preflight (AWS login expired); no conversation ran; relaunched after login, same commit | none |
 | 2026-11-16 | A4 | `question_pattern_v4.xlsx` first built with hand-typed counts (one miscount found and fixed); replaced by `question_pattern_v4.py`, computed from the data | same numbers |
 
 ## Where things are
